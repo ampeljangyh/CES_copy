@@ -3,7 +3,8 @@
     /* 도트 기본 상태: 회색 */
     .dot {
       fill: #696969ff;
-      animation: dotColor 0.25s ease-out forwards;
+      /* 더 빠른 색 전환 */
+      animation: dotColor 0.18s ease-out forwards;
       animation-delay: var(--delay);
       animation-iteration-count: 1;
     }
@@ -26,9 +27,9 @@
       stroke-dasharray: 40;
       stroke-dashoffset: 40;
 
-      /* 프로그레스 끝나고 0.75s 동안 그려짐 → 총 약 3s */
-      animation: checkDraw 0.75s ease-out forwards;
-      animation-delay: 2.25s;
+      /* 도트 애니 끝나고 경쾌하게 짧게 그려짐 */
+      animation: checkDraw 0.22s ease-out forwards;
+      animation-delay: 1.20s;
       animation-iteration-count: 1;
     }
 
@@ -40,21 +41,21 @@
   </style>
 
   <!-- 도트 12개: 위(12시)에서 시작해서 시계방향으로 30도 간격 배치 -->
-  <!-- 원 반지름 약 28, 도트 반지름 4.2 -->
+  <!-- 전체 딜레이를 0 ~ 1.1초 안으로 압축 -->
 
   <circle class="dot" cx="36.0" cy="8.0"   r="4.2" style="--delay:0.00s" />
-  <circle class="dot" cx="50.0" cy="11.75" r="4.2" style="--delay:0.20s" />
-  <circle class="dot" cx="60.25" cy="22.0" r="4.2" style="--delay:0.40s" />
-  <circle class="dot" cx="64.0" cy="36.0"  r="4.2" style="--delay:0.60s" />
-  <circle class="dot" cx="60.25" cy="50.0" r="4.2" style="--delay:0.80s" />
-  <circle class="dot" cx="50.0" cy="60.25" r="4.2" style="--delay:1.00s" />
-  <circle class="dot" cx="36.0" cy="64.0"  r="4.2" style="--delay:1.20s" />
-  <circle class="dot" cx="22.0" cy="60.25" r="4.2" style="--delay:1.40s" />
-  <circle class="dot" cx="11.75" cy="50.0" r="4.2" style="--delay:1.60s" />
-  <circle class="dot" cx="8.0"  cy="36.0"  r="4.2" style="--delay:1.80s" />
-  <circle class="dot" cx="11.75" cy="22.0" r="4.2" style="--delay:2.00s" />
-  <circle class="dot" cx="22.0" cy="11.75" r="4.2" style="--delay:2.20s" />
+  <circle class="dot" cx="50.0" cy="11.75" r="4.2" style="--delay:0.10s" />
+  <circle class="dot" cx="60.25" cy="22.0" r="4.2" style="--delay:0.20s" />
+  <circle class="dot" cx="64.0" cy="36.0"  r="4.2" style="--delay:0.30s" />
+  <circle class="dot" cx="60.25" cy="50.0" r="4.2" style="--delay:0.40s" />
+  <circle class="dot" cx="50.0" cy="60.25" r="4.2" style="--delay:0.50s" />
+  <circle class="dot" cx="36.0" cy="64.0"  r="4.2" style="--delay:0.60s" />
+  <circle class="dot" cx="22.0" cy="60.25" r="4.2" style="--delay:0.70s" />
+  <circle class="dot" cx="11.75" cy="50.0" r="4.2" style="--delay:0.80s" />
+  <circle class="dot" cx="8.0"  cy="36.0"  r="4.2" style="--delay:0.90s" />
+  <circle class="dot" cx="11.75" cy="22.0" r="4.2" style="--delay:1.00s" />
+  <circle class="dot" cx="22.0" cy="11.75" r="4.2" style="--delay:1.10s" />
 
-  <!-- 체크: 점들이 거의 다 파랗게 바뀐 후(2.25s 근처) 0.75s 동안 그려짐 -->
+  <!-- 체크: 도트가 거의 다 파랗게 바뀐 후(1.2s) 짧게 '탁' 그려짐 -->
   <path class="check" d="M24 36 L32 44 L48 28" />
 </svg>

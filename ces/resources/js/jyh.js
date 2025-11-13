@@ -886,7 +886,7 @@ $(document).on('click', '.inve_btn_sub', function () {
 
                 }, 200); // CSS transition 0.6s와 맞춤
 
-            }, 3000); // 아이콘이 3초 동안 화면에 있다가 사라짐
+            }, 1500); // 아이콘이 1.5초 동안 화면에 있다가 사라짐
 
         }, startTime); // 2초 후 + (1~1.5초 * index) 마다 순차 실행
     });
@@ -1089,138 +1089,135 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // -----------------------------
-    // 커서 & confirm/examine & movie_closed 시퀀스
-    // -----------------------------
-    function moveFinalCursor(percent){
-        percent=Math.max(0,Math.min(100,percent));
-        cursor.style.left=percent+'%';
+// -----------------------------
+// 커서 & confirm/examine & movie_closed 시퀀스
+// -----------------------------
+function moveFinalCursor(percent){
+    percent = Math.max(0, Math.min(100, percent));
+    cursor.style.left = percent + '%';
+}
+window.moveFinalCursor = moveFinalCursor;
+
+cursor.style.left = '0%';
+if (examineBoxWrap) { examineBoxWrap.style.display = 'none'; }
+
+setTimeout(function () {
+    if (cursorText) {
+        setTimeout(function () { cursorText.style.opacity = 1; }, 1500);
     }
-    window.moveFinalCursor=moveFinalCursor;
 
-    cursor.style.left='0%';
-    if(examineBoxWrap){examineBoxWrap.style.display='none';}
+    var step = 0;
+    var maxStep = 4;
 
-    setTimeout(function(){
-        if(cursorText){
-            setTimeout(function(){cursorText.style.opacity=1;},1500);
-        }
+    var intervalId = setInterval(function () {
+        step++;
 
-        var step=0;
-        var maxStep=4;
+        if (step < maxStep) {
+            var randomPercent = 60 + Math.random() * 50;
+            moveFinalCursor(randomPercent - 20);
+        } else {
+            moveFinalCursor(85);
+            clearInterval(intervalId);
 
-        var intervalId=setInterval(function(){
-            step++;
+            setTimeout(function () {
+                if (confirmBoxWrap) {
+                    confirmBoxWrap.classList.add('fade-out-up');
+                    setTimeout(function () { confirmBoxWrap.style.display = 'none'; }, 600);
+                }
 
-            if(step<maxStep){
-                var randomPercent=60+Math.random()*50;
-                moveFinalCursor(randomPercent-20);
-            }else{
-                moveFinalCursor(85);
-                clearInterval(intervalId);
+                if (examineBoxWrap) {
+                    examineBoxWrap.style.display = 'block';
+                    examineBoxWrap.getBoundingClientRect();
+                    examineBoxWrap.classList.add('fade-in-up');
 
-                setTimeout(function(){
-                    if(confirmBoxWrap){
-                        confirmBoxWrap.classList.add('fade-out-up');
-                        setTimeout(function(){confirmBoxWrap.style.display='none';},600);
-                    }
+                    setTimeout(function () {
+                        var steps = document.querySelectorAll('.step_examine_list [class^="step_examine_"]');
+                        steps.forEach(function (el, idx) {
+                            setTimeout(function () {
+                                el.classList.add('on');
 
-                    if(examineBoxWrap){
-                        examineBoxWrap.style.display='block';
-                        examineBoxWrap.getBoundingClientRect();
-                        examineBoxWrap.classList.add('fade-in-up');
-
-                        setTimeout(function(){
-                            var steps=document.querySelectorAll('.step_examine_list [class^="step_examine_"]');
-                            steps.forEach(function(el,idx){
-                                setTimeout(function(){
-                                    el.classList.add('on');
-
-                                    if(idx===steps.length-1){
-                                        steps.forEach(function(item,j){
-                                            var li=item.closest('li');
-                                            if(li) li.classList.add('done');
-                                            if(j!==idx){
-                                                item.classList.remove('on');
-                                                item.classList.add('done');
-                                            }
-                                        });
-
-                                        // ★ 모든 step 처리 완료 후, confirm_wrap → movie_closed → (2초 후 사라짐) → inve_result → 숫자 애니
-                                        if (confirmWrap) {
-                                            confirmWrap.classList.add('fade-out-up');
-
-                                            var handler = function (e) {
-                                                if (e.propertyName !== 'opacity') return;
-                                                confirmWrap.removeEventListener('transitionend', handler);
-
-                                                // confirm_wrap 애니 끝나고 1초 뒤 처리
-                                                setTimeout(function () {
-                                                    confirmWrap.style.display = 'none';
-
-                                                    // 1) movie_closed 먼저 등장
-                                                    if (movieClosed) {
-                                                        movieClosed.style.display = 'flex';       // 혹시 모를 display:none 대비
-                                                        movieClosed.classList.remove('fade-out-up');
-                                                        movieClosed.classList.add('fade-in-up');
-
-                                                        // 2) movie_closed가 2초 동안 보였다가 사라짐
-                                                        setTimeout(function () {
-                                                            movieClosed.classList.remove('fade-in-up');
-                                                            movieClosed.classList.add('fade-out-up');
-
-                                                            var closedHandler = function (ev) {
-                                                                if (ev.propertyName !== 'opacity') return;
-                                                                movieClosed.removeEventListener('transitionend', closedHandler);
-
-                                                                // movie_closed 완전히 사라진 뒤 display:none
-                                                                movieClosed.style.display = 'none';
-
-                                                                // 3) 그 다음 inve_result 등장 + 애니 끝나면 숫자 시작
-                                                                if (inveResult) {
-                                                                    inveResult.classList.add('fade-in-up');
-
-                                                                    var resultHandler = function (rv) {
-                                                                        if (rv.propertyName !== 'opacity') return;
-                                                                        inveResult.removeEventListener('transitionend', resultHandler);
-                                                                        // inve_result 등장 애니 끝난 시점에 숫자/스텝 시퀀스 시작
-                                                                        startInveInfoAnimation();
-                                                                    };
-                                                                    inveResult.addEventListener('transitionend', resultHandler);
-                                                                } else {
-                                                                    // 안전망
-                                                                    startInveInfoAnimation();
-                                                                }
-                                                            };
-
-                                                            movieClosed.addEventListener('transitionend', closedHandler);
-                                                        }, 2000); // ★ movie_closed가 2초 동안 화면에 있다가 사라짐
-                                                    } else {
-                                                        // movie_closed가 없으면 바로 결과 애니로
-                                                        if (inveResult) {
-                                                            inveResult.classList.add('fade-in-up');
-                                                            var resultHandler2 = function (rv2) {
-                                                                if (rv2.propertyName !== 'opacity') return;
-                                                                inveResult.removeEventListener('transitionend', resultHandler2);
-                                                                startInveInfoAnimation();
-                                                            };
-                                                            inveResult.addEventListener('transitionend', resultHandler2);
-                                                        } else {
-                                                            startInveInfoAnimation();
-                                                        }
-                                                    }
-                                                }, 1000); // confirm_wrap fade-out 끝나고 1초 딜레이
-                                            };
-
-                                            confirmWrap.addEventListener('transitionend', handler);
+                                if (idx === steps.length - 1) {
+                                    steps.forEach(function (item, j) {
+                                        var li = item.closest('li');
+                                        if (li) li.classList.add('done');
+                                        if (j !== idx) {
+                                            item.classList.remove('on');
+                                            item.classList.add('done');
                                         }
+                                    });
+
+                                    // ★ 모든 step 처리 완료 후, confirm_wrap → movie_closed → (2초 후 사라짐) → inve_result → 숫자 애니
+                                    if (confirmWrap) {
+                                        confirmWrap.classList.add('fade-out-up');
+
+                                        var handler = function (e) {
+                                            if (e.propertyName !== 'opacity') return;
+                                            confirmWrap.removeEventListener('transitionend', handler);
+
+                                            // confirm_wrap 애니 끝나고 1초 뒤 처리
+                                            setTimeout(function () {
+                                                confirmWrap.style.display = 'none';
+
+                                                // 1) movie_closed 먼저 등장
+                                                if (movieClosed) {
+                                                    movieClosed.style.display = 'flex';
+                                                    movieClosed.classList.remove('fade-out-up');
+                                                    movieClosed.classList.add('fade-in-up');
+
+                                                    // 2) movie_closed가 2초 동안 보였다가 사라짐
+                                                    setTimeout(function () {
+                                                        movieClosed.classList.remove('fade-in-up');
+                                                        movieClosed.classList.add('fade-out-up');
+
+                                                        var closedHandler = function (ev) {
+                                                            if (ev.propertyName !== 'opacity') return;
+                                                            movieClosed.removeEventListener('transitionend', closedHandler);
+
+                                                            movieClosed.style.display = 'none';
+
+                                                            // 3) 그 다음 inve_result 등장 + 애니 끝나면 숫자 시작
+                                                            if (inveResult) {
+                                                                inveResult.classList.add('fade-in-up');
+
+                                                                var resultHandler = function (rv) {
+                                                                    if (rv.propertyName !== 'opacity') return;
+                                                                    inveResult.removeEventListener('transitionend', resultHandler);
+                                                                    startInveInfoAnimation();
+                                                                };
+                                                                inveResult.addEventListener('transitionend', resultHandler);
+                                                            } else {
+                                                                startInveInfoAnimation();
+                                                            }
+                                                        };
+
+                                                        movieClosed.addEventListener('transitionend', closedHandler);
+                                                    }, 2000); // movie_closed가 2초 동안 화면에 있다가 사라짐
+                                                } else {
+                                                    if (inveResult) {
+                                                        inveResult.classList.add('fade-in-up');
+                                                        var resultHandler2 = function (rv2) {
+                                                            if (rv2.propertyName !== 'opacity') return;
+                                                            inveResult.removeEventListener('transitionend', resultHandler2);
+                                                            startInveInfoAnimation();
+                                                        };
+                                                        inveResult.addEventListener('transitionend', resultHandler2);
+                                                    } else {
+                                                        startInveInfoAnimation();
+                                                    }
+                                                }
+                                            }, 1000); // confirm_wrap fade-out 끝나고 1초 딜레이
+                                        };
+
+                                        confirmWrap.addEventListener('transitionend', handler);
                                     }
-                                },idx*1000);
-                            });
-                        },1000);
-                    }
-                },1000); // 커서 애니 끝난 뒤 1초
-            }
-        },1200);
-    },3000);
+                                }
+                            }, idx * 1000);
+                        });
+                    }, 1000);
+                }
+            }, 1000); // 커서 애니 끝난 뒤 1초
+        }
+    }, 1200);
+
+}, 1500);
 });
