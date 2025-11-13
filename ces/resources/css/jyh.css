@@ -520,7 +520,7 @@ body {font-family: 'Pretendard', "StackSansText", "Apple SD Gothic Neo", "Malgun
         transform: translateY(0);
     }
     50% {
-        transform: translateY(-20px);
+        transform: translateY(-40px);
     }
     100% {
         transform: translateY(0);
@@ -1728,12 +1728,12 @@ body.kcon-pop-lock {
 .gate_02.sub .gate_02_01 .inve_confirm_list .item .tit > strong {font-size:1.248vw;font-weight:500;letter-spacing:-0.025vw;}
 .gate_02.sub .gate_02_01 .inve_confirm_list .item .tit > span {font-size:1.248vw;font-weight:300;letter-spacing:-0.025vw;margin-top:0.16vw;display:inline-block;}
 .gate_02.sub .gate_02_01 .inve_confirm_list .confirm {display:flex;align-items:center;justify-content:center;width:7.228vw;}
-.gate_02.sub .gate_02_01 .inve_confirm_list .confirm > button {border-radius:0.780vw;background:#0064e1;color:#FFF;text-align:center;font-size:1.664vw;font-weight:600;line-height:normal;letter-spacing:-0.033vw;padding:0.38vw 2.158vw;}
+.gate_02.sub .gate_02_01 .inve_confirm_list .confirm > button {border-radius:0.780vw;background:#0064e1;color:#FFF;text-align:center;font-size:1.664vw;font-weight:600;line-height:normal;letter-spacing:-0.033vw;padding:0.38vw 2.158vw;white-space:nowrap; }
 .gate_02.sub .gate_02_01 .inve_confirm_list .item .confirm .ico {width:2.964vw;height:2.964vw;}
 .gate_02.sub .gate_02_01 .inve_confirm_list .item .confirm .btn,
-.gate_02.sub .gate_02_01 .inve_confirm_list .item .confirm .ico {opacity:0;display:none;transition:opacity .6s ease;}
+.gate_02.sub .gate_02_01 .inve_confirm_list .item .confirm .ico {opacity:0;display:inline-flex;transition:opacity .6s ease;pointer-events:none;}
 .gate_02.sub .gate_02_01 .inve_confirm_list .item .confirm .ico.active,
-.gate_02.sub .gate_02_01 .inve_confirm_list .item .confirm .btn.active {display:inline-flex;opacity:1;}
+.gate_02.sub .gate_02_01 .inve_confirm_list .item .confirm .btn.active {opacity:1;pointer-events:auto;}
 .final_gp {margin-top:1.872vw;margin-bottom:1.300vw;display:flex;align-items:center;color:#FFF;gap:0.624vw;}
 .final_gp .final_label {color:#FFF;font-size:1.560vw;font-weight:700;line-height:normal;letter-spacing:-0.031vw;}
 .final_gp .final_bar {position:relative;flex:1;height:0.598vw;border-radius:25.974vw;background:linear-gradient(90deg,#D8DDE5 0%,#0071FE 100%);overflow:visible;}
