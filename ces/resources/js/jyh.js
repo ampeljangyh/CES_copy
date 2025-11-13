@@ -121,7 +121,7 @@ $(function () {
 /* floatin icon 생성 */
   const floatArea = document.querySelector('.float-img-area');
   const ICON_COUNT = 138; // 총 아이콘 개수
-  const maxVisible = 20;  // 한 번에 노출할 개수 (랜덤)
+  const maxVisible = 70;  // 한 번에 노출할 개수 (랜덤)
 
   /* ===========================
    * 1. HTML 동적 생성
@@ -238,114 +238,116 @@ $(function () {
 
     // .btn_search 버튼 클릭 시 .contents_01에 processing 클래스 추가
 $('.hero-text .btn_search button').on('click', function () {
-    // 메인 -> 검색 프로세스 상태 전환
     $('.contents_01').addClass('processing');
 
-    const $step1 = $('.search_txt_step .step01');
-    const $step2 = $('.search_txt_step .step02');
-    const $step3 = $('.search_txt_step .step03');
+    const $step1 = $('.search_txt_step .step01'); // IBK 데이터베이스 등록 기업 검색 중...
+    const $step2 = $('.search_txt_step .step02'); // 창업 7년 이내 스타트업 검색 중...
+    const $step3 = $('.search_txt_step .step03'); // 성장 가능 스타트업 검색 중...
     const $count = $('.search_txt_step .counting');
     const $countWrap = $('.search_txt_step > ul > li > span');
 
-    // 초기 상태 리셋
-    $step1.addClass('active').removeClass('enter');
-    $step2.removeClass('active enter');
-    $step3.removeClass('active enter');
-    $count.text('00');
-
-    // 깜빡임 시작
+    // 초기 상태
+    $step1.addClass('active');
+    $step2.removeClass('active');
+    $step3.removeClass('active');
+    $count.text('0');
     $countWrap.addClass('blink');
 
-    /* -------------------------
-       1) 카운팅: 00 → 20
-          랜덤 속도 + 총 6초
-       ------------------------- */
-    let current    = 0;
-    const target   = 20;
-    let tick       = 0;
-    const maxTicks = 20;    // 20번 틱
-    const interval = 500;   // 0.3초 간격 → 6초
+    /* 공통 카운트 함수 */
+    function animateCount($el, from, to, duration, onComplete) {
+        const startTime = Date.now();
+        const diff = to - from;
 
-    const counterTimer = setInterval(function () {
-        tick++;
+        function tick() {
+            const now = Date.now();
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const value = Math.round(from + diff * progress);
 
-        if (tick >= maxTicks) {
-            current = target;  // 마지막 틱에서 정확히 20
-        } else {
-            const remaining = target - current;
-            let step = Math.floor(Math.random() * 3) + 1; // 1~3 랜덤 증가
-            if (step > remaining) step = remaining;
-            current += step;
+            $el.text(value);
+
+            if (progress < 1) {
+                requestAnimationFrame(tick);
+            } else if (typeof onComplete === 'function') {
+                onComplete();
+            }
         }
+        requestAnimationFrame(tick);
+    }
 
-        const display = current.toString().padStart(2, '0');
-        $count.text(display);
+    /* 단계별 목표 값 + 시간 + 딜레이 */
+    const phase1Start    = 0;
+    const phase1End      = 12391;
+    const phase2End      = 2487;
+    const phase3End      = 10;
 
-        if (current >= target) {
-            clearInterval(counterTimer);
-        }
-    }, interval);
+    const phase1Duration = 1200; // 0 → 12391 (조금 더 빠르게)
+    const phase2Duration = 1200; // 12391 → 2487
+    const phase3Duration = 900;  // 2487 → 10
+    const phaseDelay     = 500;  // 각 단계 사이 0.5초 쉬기
+
+    /* 1단계: 0 → 12391 */
+    function startPhase1() {
+        $step1.addClass('active');
+        $step2.removeClass('active');
+        $step3.removeClass('active');
+
+        animateCount($count, phase1Start, phase1End, phase1Duration, function () {
+            // 0.5초 후 2단계 시작
+            setTimeout(startPhase2, phaseDelay);
+        });
+    }
+
+    /* 2단계: 12391 → 2487 */
+    function startPhase2() {
+        $step1.removeClass('active');
+        $step2.addClass('active');
+        $step3.removeClass('active');
+
+        animateCount($count, phase1End, phase2End, phase2Duration, function () {
+            // 0.5초 후 3단계 시작
+            setTimeout(startPhase3, phaseDelay);
+        });
+    }
+
+    /* 3단계: 2487 → 10 */
+    function startPhase3() {
+        $step1.removeClass('active');
+        $step2.removeClass('active');
+        $step3.addClass('active');
+
+        animateCount($count, phase2End, phase3End, phase3Duration, function () {
+        });
+    }
+
+    // 시퀀스 시작
+    startPhase1(); 
 
     /* -------------------------
-       2) step 텍스트 전환
-          0초 : step01 (기본 active)
-          3초 : step02
-          6초 : step03
+       아래는 기존 float-img 제거 / processing_end 
+       그대로 유지하면 됨
        ------------------------- */
-
-    // 3초 후: step02 등장, step01은 서서히 사라짐(제자리)
-    setTimeout(function () {
-        $step1.removeClass('active');     // opacity 0으로
-        $step2.addClass('active');        // 표시
-    }, 3000);
-
-    // 6초 후: step03 등장, step02는 제자리에서 서서히 사라짐
-    setTimeout(function () {
-        $step2.removeClass('active');     // opacity 0으로
-        $step3.addClass('active');        // 표시
-        // 원하시면 이 시점에 깜빡임 종료도 가능
-        $countWrap.removeClass('blink');
-    }, 6000);
-
-    /* -------------------------
-       3) 플로팅 아이콘 7개 랜덤 제거
-          6초 동안 서서히 사라지기
-       ------------------------- */
-
-    const removeCount   = 90;      // 총 90개 제거
-    const totalDuration = 6000;   // 6초 안에
-    const stepDelay     = totalDuration / removeCount;  // 한 개당 간격
+    const removeCount   = 110;
+    const totalDuration = 6000;
+    const stepDelay     = totalDuration / removeCount;
 
     for (let i = 0; i < removeCount; i++) {
         setTimeout(function () {
-            // 아직 제거되지 않은 아이콘들만 대상으로
             const $remaining = $('.float-img-area .float-img-wrap').not('.removed');
             if (!$remaining.length) return;
 
             const randomIndex = Math.floor(Math.random() * $remaining.length);
             const $target = $($remaining[randomIndex]);
 
-            // 중복 제거 방지용 플래그 클래스
             $target.addClass('removed');
 
-            // 서서히 사라지는 애니메이션 (css 없이 jQuery로)
             $target.animate({ opacity: 0 }, 700, function () {
                 $(this).css('display', 'none');
             });
-
-        }, stepDelay * (i + 1)); // 6초 / 7개 간격으로 순차 실행
+        }, stepDelay * (i + 1));
     }
 
-    /* -------------------------
-       4) 모든 동작이 끝난 뒤
-          processing → processing_end로 교체
-          (.hero / .search_process 위로 사라지고,
-           .search_complete 위로 슬라이드 인)
-       ------------------------- */
-
-    // step03, 아이콘 제거까지 고려해서 여유를 조금 줌 (약 7초 후)
     const endDelay = 7000;
-
     setTimeout(function () {
         $('.contents_01')
             .removeClass('processing')
@@ -889,146 +891,6 @@ $(document).on('click', '.inve_btn_sub', function () {
         }, startTime); // 2초 후 + (1~1.5초 * index) 마다 순차 실행
     });
 });
-document.addEventListener('DOMContentLoaded', function () {
-    var cursor = document.querySelector('.final_gp .final_cursor');
-    var cursorText = document.querySelector('.final_gp .cursor_text');
-    if (!cursor) return;
-
-    // 박스 영역
-    var confirmBoxWrap  = document.querySelector('.gate_02.sub .gate_02_01 .inve_confirm_box');
-    var examineBoxWrap  = document.querySelector('.gate_02.sub .gate_02_01 .inve_examine_box');
-
-    // 퍼센트(0~100) 기준으로 커서 위치 이동
-    function moveFinalCursor(percent) {
-        percent = Math.max(0, Math.min(100, percent)); // 0~100으로 제한
-        cursor.style.left = percent + '%';
-    }
-
-    // 외부 다른 스크립트에서도 사용 가능하게 전역으로 노출
-    window.moveFinalCursor = moveFinalCursor;
-
-    // 시작 위치 0%
-    cursor.style.left = '0%';
-
-    // examine 박스 초기 상태(안 보이게)
-    if (examineBoxWrap) {
-        examineBoxWrap.style.display = 'none';
-    }
-
-    // 3초 뒤에 애니메이션 시작
-    setTimeout(function () {
-        // ▶ 이 타이밍에 텍스트 노출 (1.5초 지연)
-        if (cursorText) {
-            setTimeout(function () {
-                cursorText.style.opacity = 1;
-            }, 1500); // 1.5초 후
-        }
-
-        var step = 0;
-        var maxStep = 4; // 총 4번 이동 (1~3 랜덤, 4번째는 85%)
-
-        var intervalId = setInterval(function () {
-            step++;
-
-            if (step < maxStep) {
-                // 1~3번째: 랜덤 위치 (60~100% → -20 해서 40~80%대)
-                var randomPercent = 60 + Math.random() * 50; // 60~110 이지만 아래에서 -20
-                moveFinalCursor(randomPercent - 20);
-            } else {
-                // 4번째: 85%로 이동 후 종료
-                moveFinalCursor(85);
-                clearInterval(intervalId);
-
-                // ★ 커서 애니 끝나고 1초 뒤에 박스 전환
-                setTimeout(function () {
-                    // inve_confirm_box 위로 스르륵 사라짐
-                    if (confirmBoxWrap) {
-                        confirmBoxWrap.classList.add('fade-out-up');
-
-                        // 트랜지션 끝난 후 display:none 처리
-                        setTimeout(function () {
-                            confirmBoxWrap.style.display = 'none';
-                        }, 600); // CSS transition 시간과 맞추기
-                    }
-
-                    // inve_examine_box 위로 스르륵 올라오면서 노출
-                    if (examineBoxWrap) {
-                        examineBoxWrap.style.display = 'block';
-
-                        // 강제 리플로우로 transition 적용 보장
-                        examineBoxWrap.getBoundingClientRect();
-
-                        examineBoxWrap.classList.add('fade-in-up');
-
-                        // ★ fade-in-up 적용 후 1초 뒤에 step_examine 순차 on
-setTimeout(function () {
-    var steps = document.querySelectorAll(
-        '.step_examine_list [class^="step_examine_"]'
-    );
-
-    steps.forEach(function (el, idx) {
-        setTimeout(function () {
-            // 순차적으로 on 적용
-            el.classList.add('on');
-
-            // 마지막 on이 적용되는 순간 처리
-            if (idx === steps.length - 1) {
-                steps.forEach(function (item, j) {
-                    var li = item.closest('li');
-                    if (li) {
-                        li.classList.add('done');
-                    }
-
-                    if (j !== idx) {
-                        item.classList.remove('on');
-                        item.classList.add('done');
-                    }
-                });
-
-                // ★ 모든 step 처리 완료 후, confirm_wrap 사라지고 movie_closed 등장
-                var confirmWrap = document.querySelector(
-                    '.gate_02.sub .gate_02_01 .inve_confirm_wrap'
-                );
-                var movieClosed = document.querySelector(
-                    '.gate_02.sub .gate_02_01 .movie_closed'
-                );
-
-                if (confirmWrap) {
-                    // confirm_wrap 위로 + 투명
-                    confirmWrap.classList.add('fade-out-up');
-
-                    // 트랜지션 끝난 뒤 처리
-                    var handler = function (e) {
-                        // opacity 트랜지션 끝났을 때만
-                        if (e.propertyName !== 'opacity') return;
-
-                        // 더 이상 중복 호출 안 되게 리스너 제거
-                        confirmWrap.removeEventListener('transitionend', handler);
-
-                        // ★ confirm_wrap 애니 끝나고 1초 뒤에 처리
-                        setTimeout(function () {
-                            // 1) confirm_wrap 영역 제거
-                            confirmWrap.style.display = 'none';
-
-                            // 2) movie_closed 등장
-                            if (movieClosed) {
-                                movieClosed.classList.add('fade-in-up');
-                            }
-                        }, 1000); // 1초 딜레이
-                    };
-
-                    confirmWrap.addEventListener('transitionend', handler);
-                }
-            }
-        }, idx * 1000); // 2초 간격으로 순차 적용
-    });
-}, 1000);
-                    }
-                }, 1000); // 커서 애니 끝난 뒤 1초
-            }
-        }, 1200); // 1.2초마다 실행
-    }, 3000); // 3초 뒤에 시작
-});
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -1106,4 +968,259 @@ document.addEventListener('DOMContentLoaded', function () {
 
 $(document).on('click', '.pop_btn', function () {
   window.location.href = './html/gate02/gate_02_01.html';
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    var cursor      = document.querySelector('.final_gp .final_cursor');
+    var cursorText  = document.querySelector('.final_gp .cursor_text');
+    if (!cursor) return;
+
+    var confirmBoxWrap  = document.querySelector('.gate_02.sub .gate_02_01 .inve_confirm_box');
+    var examineBoxWrap  = document.querySelector('.gate_02.sub .gate_02_01 .inve_examine_box');
+    var confirmWrap     = document.querySelector('.gate_02.sub .gate_02_01 .inve_confirm_wrap');
+    var movieClosed     = document.querySelector('.gate_02.sub .gate_02_01 .movie_closed');
+    var inveResult      = document.querySelector('.gate_02.sub .gate_02_01 .inve_result');
+
+    // -----------------------------
+    // 숫자 유틸 & 카운트 함수
+    // -----------------------------
+    function parseNumber(str){const num=parseInt(str.replace(/[^\d\-]/g,''),10);return isNaN(num)?0:num;}
+    function formatNumber(num){return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g,",");}
+    function countUp($el,from,to,duration,formatter,onComplete){
+        const startTime=Date.now();const diff=to-from;
+        function tick(){
+            const now=Date.now();const elapsed=now-startTime;
+            const progress=Math.min(elapsed/duration,1);
+            const value=Math.round(from+diff*progress);
+            $el.text(formatter?formatter(value):value);
+            if(progress<1){requestAnimationFrame(tick);}else if(typeof onComplete==="function"){onComplete();}
+        }
+        requestAnimationFrame(tick);
+    }
+
+    // -----------------------------
+    // 결과 숫자/스텝 애니 시작 함수
+    // -----------------------------
+    function startInveInfoAnimation(){
+        const $wrap=$('.gate_02.sub .gate_02_01 .inve_info_list');
+        if(!$wrap.length) return;
+
+        const $step01=$wrap.find('.step_01');
+        const $step02=$wrap.find('.step_02');
+        const $step03=$wrap.find('.step_03');
+        const $step04=$wrap.find('.step_04');
+        const $step05=$wrap.find('.step_05');
+        const $step06=$wrap.find('.step_06');
+
+        const $s1_d1=$step01.find('.data_01');
+        const $s1_d2=$step01.find('.data_02');
+        const $s3_d3=$step03.find('.data_03');
+        const $s4_d5=$step04.find('.data_05');
+        const $s4_d4=$step04.find('.data_04');
+
+        const s1_d1_target=parseNumber($s1_d1.text());
+        const s1_d2_target=parseNumber($s1_d2.text());
+        const s3_d3_target=parseNumber($s3_d3.text());
+        const s4_d5_target=parseNumber($s4_d5.text());
+
+        const d4_raw=$s4_d4.text().trim();
+        const d4_prefix=(d4_raw.match(/^[^\d\-]*/)||[''])[0];
+        const d4_suffix=(d4_raw.match(/[^\d]*$/)||[''])[0];
+        const d4_num=parseNumber(d4_raw);
+
+        $s1_d1.text('0');
+        $s1_d2.text('0');
+        $s3_d3.text('0');
+        $s4_d5.text('0');
+        $s4_d4.text(d4_prefix+'0'+d4_suffix);
+
+        const $steps=$wrap.children('div');
+        $steps.addClass('step-hidden').removeClass('step-visible step-hide-up');
+        $step01.removeClass('step-hidden').addClass('step-visible');
+
+        const DURATION_S1_NUM=2000;
+        const DURATION_S3_NUM=2000;
+        const DURATION_S4_D5=2000;
+        const DURATION_S4_D4=2000;
+        const DELAY_BETWEEN=500;
+        const DELAY_AFTER_S3=500;
+        const DELAY_AFTER_S1=1000;
+
+        setTimeout(startStep1,500);
+
+        function startStep1(){
+            let doneCount=0;
+            function done(){doneCount++;if(doneCount===2){setTimeout(nextFromStep1,DELAY_AFTER_S1);}}
+            countUp($s1_d1,0,s1_d1_target,DURATION_S1_NUM,formatNumber,done);
+            countUp($s1_d2,0,s1_d2_target,DURATION_S1_NUM,formatNumber,done);
+        }
+
+        function nextFromStep1(){
+            $step01.removeClass('step-visible step-hidden').addClass('step-hide-up');
+            $step02.removeClass('step-hidden step-hide-up').addClass('step-visible');
+            setTimeout(startStep3,DELAY_BETWEEN);
+        }
+
+        function startStep3(){
+            $step03.removeClass('step-hidden step-hide-up').addClass('step-visible');
+            countUp($s3_d3,0,s3_d3_target,DURATION_S3_NUM,formatNumber,function(){
+                setTimeout(startStep4,DELAY_AFTER_S3);
+            });
+        }
+
+        function startStep4(){
+            $step04.removeClass('step-hidden step-hide-up').addClass('step-visible');
+            $step05.removeClass('step-hidden step-hide-up').addClass('step-visible');
+
+            setTimeout(function(){
+              countUp($s4_d5,0,s4_d5_target,DURATION_S4_D5,formatNumber,function(){
+                setTimeout(function(){
+                  countUp($s4_d4,0,d4_num,DURATION_S4_D4,function(val){return d4_prefix+val+d4_suffix;},function(){
+                    setTimeout(showStep6,DELAY_BETWEEN);
+                  });
+                },DELAY_BETWEEN);
+              });
+            },DELAY_BETWEEN);
+        }
+
+        function showStep6(){
+            $step06.removeClass('step-hidden step-hide-up').addClass('step-visible');
+        }
+    }
+
+    // -----------------------------
+    // 커서 & confirm/examine & movie_closed 시퀀스
+    // -----------------------------
+    function moveFinalCursor(percent){
+        percent=Math.max(0,Math.min(100,percent));
+        cursor.style.left=percent+'%';
+    }
+    window.moveFinalCursor=moveFinalCursor;
+
+    cursor.style.left='0%';
+    if(examineBoxWrap){examineBoxWrap.style.display='none';}
+
+    setTimeout(function(){
+        if(cursorText){
+            setTimeout(function(){cursorText.style.opacity=1;},1500);
+        }
+
+        var step=0;
+        var maxStep=4;
+
+        var intervalId=setInterval(function(){
+            step++;
+
+            if(step<maxStep){
+                var randomPercent=60+Math.random()*50;
+                moveFinalCursor(randomPercent-20);
+            }else{
+                moveFinalCursor(85);
+                clearInterval(intervalId);
+
+                setTimeout(function(){
+                    if(confirmBoxWrap){
+                        confirmBoxWrap.classList.add('fade-out-up');
+                        setTimeout(function(){confirmBoxWrap.style.display='none';},600);
+                    }
+
+                    if(examineBoxWrap){
+                        examineBoxWrap.style.display='block';
+                        examineBoxWrap.getBoundingClientRect();
+                        examineBoxWrap.classList.add('fade-in-up');
+
+                        setTimeout(function(){
+                            var steps=document.querySelectorAll('.step_examine_list [class^="step_examine_"]');
+                            steps.forEach(function(el,idx){
+                                setTimeout(function(){
+                                    el.classList.add('on');
+
+                                    if(idx===steps.length-1){
+                                        steps.forEach(function(item,j){
+                                            var li=item.closest('li');
+                                            if(li) li.classList.add('done');
+                                            if(j!==idx){
+                                                item.classList.remove('on');
+                                                item.classList.add('done');
+                                            }
+                                        });
+
+                                        // ★ 모든 step 처리 완료 후, confirm_wrap → movie_closed → (2초 후 사라짐) → inve_result → 숫자 애니
+                                        if (confirmWrap) {
+                                            confirmWrap.classList.add('fade-out-up');
+
+                                            var handler = function (e) {
+                                                if (e.propertyName !== 'opacity') return;
+                                                confirmWrap.removeEventListener('transitionend', handler);
+
+                                                // confirm_wrap 애니 끝나고 1초 뒤 처리
+                                                setTimeout(function () {
+                                                    confirmWrap.style.display = 'none';
+
+                                                    // 1) movie_closed 먼저 등장
+                                                    if (movieClosed) {
+                                                        movieClosed.style.display = 'flex';       // 혹시 모를 display:none 대비
+                                                        movieClosed.classList.remove('fade-out-up');
+                                                        movieClosed.classList.add('fade-in-up');
+
+                                                        // 2) movie_closed가 2초 동안 보였다가 사라짐
+                                                        setTimeout(function () {
+                                                            movieClosed.classList.remove('fade-in-up');
+                                                            movieClosed.classList.add('fade-out-up');
+
+                                                            var closedHandler = function (ev) {
+                                                                if (ev.propertyName !== 'opacity') return;
+                                                                movieClosed.removeEventListener('transitionend', closedHandler);
+
+                                                                // movie_closed 완전히 사라진 뒤 display:none
+                                                                movieClosed.style.display = 'none';
+
+                                                                // 3) 그 다음 inve_result 등장 + 애니 끝나면 숫자 시작
+                                                                if (inveResult) {
+                                                                    inveResult.classList.add('fade-in-up');
+
+                                                                    var resultHandler = function (rv) {
+                                                                        if (rv.propertyName !== 'opacity') return;
+                                                                        inveResult.removeEventListener('transitionend', resultHandler);
+                                                                        // inve_result 등장 애니 끝난 시점에 숫자/스텝 시퀀스 시작
+                                                                        startInveInfoAnimation();
+                                                                    };
+                                                                    inveResult.addEventListener('transitionend', resultHandler);
+                                                                } else {
+                                                                    // 안전망
+                                                                    startInveInfoAnimation();
+                                                                }
+                                                            };
+
+                                                            movieClosed.addEventListener('transitionend', closedHandler);
+                                                        }, 2000); // ★ movie_closed가 2초 동안 화면에 있다가 사라짐
+                                                    } else {
+                                                        // movie_closed가 없으면 바로 결과 애니로
+                                                        if (inveResult) {
+                                                            inveResult.classList.add('fade-in-up');
+                                                            var resultHandler2 = function (rv2) {
+                                                                if (rv2.propertyName !== 'opacity') return;
+                                                                inveResult.removeEventListener('transitionend', resultHandler2);
+                                                                startInveInfoAnimation();
+                                                            };
+                                                            inveResult.addEventListener('transitionend', resultHandler2);
+                                                        } else {
+                                                            startInveInfoAnimation();
+                                                        }
+                                                    }
+                                                }, 1000); // confirm_wrap fade-out 끝나고 1초 딜레이
+                                            };
+
+                                            confirmWrap.addEventListener('transitionend', handler);
+                                        }
+                                    }
+                                },idx*1000);
+                            });
+                        },1000);
+                    }
+                },1000); // 커서 애니 끝난 뒤 1초
+            }
+        },1200);
+    },3000);
 });
