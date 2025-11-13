@@ -961,57 +961,68 @@ document.addEventListener('DOMContentLoaded', function () {
                         examineBoxWrap.classList.add('fade-in-up');
 
                         // ★ fade-in-up 적용 후 1초 뒤에 step_examine 순차 on
+setTimeout(function () {
+    var steps = document.querySelectorAll(
+        '.step_examine_list [class^="step_examine_"]'
+    );
+
+    steps.forEach(function (el, idx) {
+        setTimeout(function () {
+            // 순차적으로 on 적용
+            el.classList.add('on');
+
+            // 마지막 on이 적용되는 순간 처리
+            if (idx === steps.length - 1) {
+                steps.forEach(function (item, j) {
+                    var li = item.closest('li');
+                    if (li) {
+                        li.classList.add('done');
+                    }
+
+                    if (j !== idx) {
+                        item.classList.remove('on');
+                        item.classList.add('done');
+                    }
+                });
+
+                // ★ 모든 step 처리 완료 후, confirm_wrap 사라지고 movie_closed 등장
+                var confirmWrap = document.querySelector(
+                    '.gate_02.sub .gate_02_01 .inve_confirm_wrap'
+                );
+                var movieClosed = document.querySelector(
+                    '.gate_02.sub .gate_02_01 .movie_closed'
+                );
+
+                if (confirmWrap) {
+                    // confirm_wrap 위로 + 투명
+                    confirmWrap.classList.add('fade-out-up');
+
+                    // 트랜지션 끝난 뒤 처리
+                    var handler = function (e) {
+                        // opacity 트랜지션 끝났을 때만
+                        if (e.propertyName !== 'opacity') return;
+
+                        // 더 이상 중복 호출 안 되게 리스너 제거
+                        confirmWrap.removeEventListener('transitionend', handler);
+
+                        // ★ confirm_wrap 애니 끝나고 1초 뒤에 처리
                         setTimeout(function () {
-                            var steps = document.querySelectorAll(
-                                '.step_examine_list [class^="step_examine_"]'
-                            );
+                            // 1) confirm_wrap 영역 제거
+                            confirmWrap.style.display = 'none';
 
-                            steps.forEach(function (el, idx) {
-                                setTimeout(function () {
-                                    // 순차적으로 on 적용
-                                    el.classList.add('on');
+                            // 2) movie_closed 등장
+                            if (movieClosed) {
+                                movieClosed.classList.add('fade-in-up');
+                            }
+                        }, 1000); // 1초 딜레이
+                    };
 
-                                    // 마지막 on이 적용되는 순간 처리
-                                    if (idx === steps.length - 1) {
-                                        steps.forEach(function (item, j) {
-                                            var li = item.closest('li');
-                                            if (li) {
-                                                // 👉 모든 li에 done 붙여서 선은 전체 회색
-                                                li.classList.add('done');
-                                            }
-
-                                            if (j !== idx) {
-                                                // 이전 단계: on 제거 + done 적용 → 회색 아이콘/텍스트
-                                                item.classList.remove('on');
-                                                item.classList.add('done');
-                                            }
-                                            // j === idx (마지막):
-                                            // - item: on 유지 (파란 텍스트/아이콘)
-                                            // - li: done 붙어서 선은 회색
-                                        });
-
-                                        // ★ 모든 step 처리 완료 후, inve_confirm_wrap 위로 사라지기
-                                        var confirmWrap = document.querySelector(
-                                            '.gate_02.sub .gate_02_01 .inve_confirm_wrap'
-                                        );
-                                        if (confirmWrap) {
-                                            // 애니메이션 시작 (위로 + opacity 0)
-                                            confirmWrap.classList.add('fade-out-up');
-
-                                            // 트랜지션 끝난 뒤 영역 자체 제거
-                                            var handler = function (e) {
-                                                // opacity 트랜지션 끝났을 때만 처리
-                                                if (e.propertyName === 'opacity') {
-                                                    confirmWrap.style.display = 'none';
-                                                    confirmWrap.removeEventListener('transitionend', handler);
-                                                }
-                                            };
-                                            confirmWrap.addEventListener('transitionend', handler);
-                                        }
-                                    }
-                                }, idx * 2000); // 2초 간격으로 순차 적용
-                            });
-                        }, 1000);
+                    confirmWrap.addEventListener('transitionend', handler);
+                }
+            }
+        }, idx * 1000); // 2초 간격으로 순차 적용
+    });
+}, 1000);
                     }
                 }, 1000); // 커서 애니 끝난 뒤 1초
             }
