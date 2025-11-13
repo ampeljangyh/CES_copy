@@ -64,7 +64,7 @@
         </div>
  
         <div class="contents gate_02_01">
-            <div class="inve_confirm_wrap">
+            <div class="inve_confirm_wrap" style="display: none;">
                 <div class="inve_inner">
                     <div class="pg_tit">
                         <strong>영화 상영 중</strong>
@@ -345,13 +345,83 @@
                 </div>
             </div>
 
-            <div class="movie_closed">
+            <div class="movie_closed"  style="display: none;">
                 <div class="txt">
                     <strong>영화 상영 기간 종료</strong>
                     <p>
                         <span class="ing_01">누적 관관객 수 집계 중...</span>
                         <span class="ing_02">누적 매출액 집계 중...</span>
                     </p>
+                </div>
+            </div>
+
+            <div class="inve_result">
+                <div class="inner">
+                    <div class="inve_mv_bg">
+                        <span class="bg"></span>
+                        <span class="logo"></span>
+                    </div>
+                    <div class="desc">
+                        <strong>투자 결과</strong>
+                        <p>
+                            관객 수 및 매출액 집계가 완료되었습니다.<br>
+                            지금 투자 수익률을 확인하세요.
+                        </p>
+                    </div>
+                    <div class="inve_info_list">
+                        <div class="step_01">
+                            <div class="step_01_item">
+                                <div class="ico_01">
+                                    <span>누적 관객 수</span>
+                                </div>
+                                <div class="num_box">
+                                    <span class="num data_01">3,222,222</span>
+                                    <span>명</span>
+                                </div>
+                            </div>
+                            <div class="step_01_item">
+                                <div class="ico_02">
+                                    <span>누적 매출액</span>
+                                </div>
+                                <div class="num_box">
+                                    <span class="num data_02">31,982,365,230</span>
+                                    <span>원</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step_02">
+                            <div class="sm_num">
+                                <span class="ico_01">누적 관객 수</span>
+                                <span class="box"><span class="num data_01">3,375,882</span>명</span>
+                            </div>
+                            <div class="sm_num">
+                                <span class="ico_01">누적 매출액</span>
+                                <span class="box"><span class="num data_02">31,982,365,230</span>원</span>
+                            </div>
+                        </div>
+                        <div class="step_03">
+                            <div class="box_item">
+                                <span class="tit">투자원금</span>
+                                <span class="data">
+                                    <span class="data_03">500,000,000</span>원
+                                </span>
+                            </div>
+                        </div>
+                        <div class="step_04">
+                            <div class="box_item">
+                                <span class="tit">수익</span>
+                                <span class="per data_04">125%</span>
+                                <span class="data">
+                                    <span class="data_05">500,000,000</span>원
+                                </span>
+                            </div>
+                        </div>
+                        <div class="step_05">
+                            <div class="chc_mv_btn">
+                                <button type="button">다른 영화 투자 하기</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
