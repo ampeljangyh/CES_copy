@@ -119,97 +119,102 @@ $(function () {
 
     
 /* floatin icon 생성 */
-  const floatArea = document.querySelector('.float-img-area');
-  const ICON_COUNT = 138; // 총 아이콘 개수
-  const maxVisible = 70;  // 한 번에 노출할 개수 (랜덤)
+const floatArea = document.querySelector('.float-img-area');
+const ICON_COUNT = 70; // 총 아이콘 개수
+const maxVisible = 70;  // 한 번에 노출할 개수 (랜덤)
 
-  /* ===========================
-   * 1. HTML 동적 생성
-   * ===========================
-   */
-  for (let i = 1; i <= ICON_COUNT; i++) {
-    const wrap = document.createElement('div');
-    wrap.classList.add('float-img-wrap');
+/* ===========================
+ * 1. HTML 동적 생성
+ * ===========================
+ */
+for (let i = 1; i <= ICON_COUNT; i++) {
+  const wrap = document.createElement('div');
+  wrap.classList.add('float-img-wrap');
 
-    const img = document.createElement('img');
+  const img = document.createElement('img');
 
-    // 파일명 규칙: 01~09, 10~99, 100~138
-    const numStr = String(i).padStart(2, '0');
-    img.src = `../../resources/images/floatin_img_${numStr}.jpg`;
-    img.alt = `floating icon ${i}`;
+  // 파일명 규칙: 01~09, 10~99, 100~138
+  const numStr = String(i).padStart(2, '0');
+  img.src = `../../resources/images/floatin_img_${numStr}.jpg`;
+  img.alt = `floating icon ${i}`;
 
-    const ico = document.createElement('span');
-    ico.classList.add('ico_fillter');
+  const ico = document.createElement('span');
+  ico.classList.add('ico_fillter');
 
-    wrap.appendChild(img);
-    wrap.appendChild(ico);
-    floatArea.appendChild(wrap);
+  wrap.appendChild(img);
+  wrap.appendChild(ico);
+  floatArea.appendChild(wrap);
+}
+
+/* ===========================
+ * 2. 랜덤 노출 + 플로팅 효과
+ * ===========================
+ */
+const floatWraps = floatArea.querySelectorAll('.float-img-wrap');
+const total = floatWraps.length;
+
+if (total < 10) {
+  console.warn(`⚠️ 이미지 개수가 ${total}개입니다. 최소 10개 이상 권장!`);
+}
+
+const shuffled = Array.from(floatWraps).sort(() => Math.random() - 0.5);
+const visibleWraps = shuffled.slice(0, Math.min(maxVisible, total));
+
+// 전부 숨김
+floatWraps.forEach(wrap => {
+  wrap.style.display = 'none';
+});
+
+// 선택된 개수에만 랜덤 속성 부여 + 노출
+visibleWraps.forEach(wrap => {
+  let x, y;
+
+  // 중앙 25~75% 영역 피해서 랜덤 배치
+  do {
+    x = Math.random() * 100;
+    y = Math.random() * 100;
+  } while (x > 25 && x < 75 && y > 25 && y < 75);
+
+  const orbitSize = 5 + Math.random() * 10;   // 회전 궤도 (vmin)
+  const duration  = 15 + Math.random() * 10;  // 회전 속도 (s)
+  const delay     = Math.random() * 3;        // 딜레이 (s)
+
+  const maxSize = 5.2865;
+  const minSize = 2;
+  const imgSize = minSize + Math.random() * (maxSize - minSize);
+
+  wrap.style.display = 'block';
+  wrap.style.left = `${x}%`;
+  wrap.style.top  = `${y}%`;
+  wrap.style.position = 'absolute';
+  wrap.style.opacity = '0.6';                 // ★ float-img-wrap 전체 투명도
+  wrap.style.setProperty('--orbit-size', `${orbitSize}vmin`);
+  wrap.style.setProperty('--duration', `${duration}s`);
+  wrap.style.setProperty('--delay', `${delay}s`);
+
+  const img = wrap.querySelector('img');
+  img.style.width  = `${imgSize}vw`;
+  img.style.height = `${imgSize}vw`;
+
+  if (imgSize <= 3.5) {
+    img.style.filter = 'blur(0.2vmin) brightness(0.8)';
+  } else {
+    img.style.filter = 'none';
   }
 
-  /* ===========================
-   * 2. 랜덤 노출 + 플로팅 효과
-   * ===========================
-   */
-  const floatWraps = floatArea.querySelectorAll('.float-img-wrap');
-  const total = floatWraps.length;
-
-  if (total < 10) {
-    console.warn(`⚠️ 이미지 개수가 ${total}개입니다. 최소 10개 이상 권장!`);
+  const ico = wrap.querySelector('.ico_fillter');
+  if (ico) {
+    // 이미지와 동시에 필터 아이콘 노출
+    ico.classList.add('show');
   }
 
-  const shuffled = Array.from(floatWraps).sort(() => Math.random() - 0.5);
-  const visibleWraps = shuffled.slice(0, Math.min(maxVisible, total));
 
-  // 전부 숨김
-  floatWraps.forEach(wrap => {
-    wrap.style.display = 'none';
-  });
-
-  // 선택된 20개에만 랜덤 속성 부여 + 노출
-  visibleWraps.forEach(wrap => {
-    let x, y;
-
-    // 중앙 25~75% 영역 피해서 랜덤 배치
-    do {
-      x = Math.random() * 100;
-      y = Math.random() * 100;
-    } while (x > 25 && x < 75 && y > 25 && y < 75);
-
-    const orbitSize = 5 + Math.random() * 10;   // 회전 궤도 (vmin)
-    const duration  = 15 + Math.random() * 10;  // 회전 속도 (s)
-    const delay     = Math.random() * 3;        // 딜레이 (s)
-
-    const maxSize = 5.2865;
-    const minSize = 2;
-    const imgSize = minSize + Math.random() * (maxSize - minSize);
-
-    wrap.style.display = "block";
-    wrap.style.left = `${x}%`;
-    wrap.style.top  = `${y}%`;
-    wrap.style.position = 'absolute';
-    wrap.style.setProperty('--orbit-size', `${orbitSize}vmin`);
-    wrap.style.setProperty('--duration', `${duration}s`);
-    wrap.style.setProperty('--delay', `${delay}s`);
-
-    const img = wrap.querySelector('img');
-    img.style.width  = `${imgSize}vw`;
-    img.style.height = `${imgSize}vw`;
-
-    if (imgSize <= 3.5) {
-      img.style.filter = 'blur(0.2vmin) brightness(0.8)';
-    } else {
-      img.style.filter = 'none';
-    }
-
-    const ico = wrap.querySelector('.ico_fillter');
-    if (ico) {
-      setTimeout(() => {
-        ico.classList.add('show');
-      }, delay * 1000);
-    }
-
-
-
+// ★ 아이콘 세팅이 끝난 뒤 1초 후 전체 영역을 보이게
+setTimeout(() => {
+  if (floatArea) {
+    floatArea.style.opacity = '1';
+  }
+}, 1500); // 2초 뒤에 등장
 
 
 
@@ -236,7 +241,7 @@ $(function () {
 
 
 
-    // .btn_search 버튼 클릭 시 .contents_01에 processing 클래스 추가
+// .btn_search 버튼 클릭 시 .contents_01에 processing 클래스 추가
 $('.hero-text .btn_search button').on('click', function () {
     $('.contents_01').addClass('processing');
 
@@ -245,6 +250,32 @@ $('.hero-text .btn_search button').on('click', function () {
     const $step3 = $('.search_txt_step .step03'); // 성장 가능 스타트업 검색 중...
     const $count = $('.search_txt_step .counting');
     const $countWrap = $('.search_txt_step > ul > li > span');
+    const $li = $('.search_txt_step > ul > li');
+    const $allSteps = $li.find('> p');
+
+    // 🔹 현재 노출되는 step의 높이로 span 위치 맞추기
+    function setSpanPositionByStep($step) {
+        if (!$step || !$step.length) return;
+
+        // display가 0, opacity 0이어도 height를 정확히 재기 위해 잠시 강제 표시
+        const wasHidden = $step.css('display') === 'none';
+        let originalDisplay;
+
+        if (wasHidden) {
+            originalDisplay = $step[0].style.display;
+            $step.css({ display: 'block', visibility: 'hidden' });
+        }
+
+        const h = $step.outerHeight(true); // margin 포함 높이
+
+        if (wasHidden) {
+            // 원래 상태로 복원
+            $step.css({ display: originalDisplay || '', visibility: '' });
+        }
+
+        // span을 step 영역 바로 아래로 내리기
+        $countWrap.css('margin-top', h + 'px');
+    }
 
     // 초기 상태
     $step1.addClass('active');
@@ -252,6 +283,9 @@ $('.hero-text .btn_search button').on('click', function () {
     $step3.removeClass('active');
     $count.text('0');
     $countWrap.addClass('blink');
+
+    // 처음에는 step1 기준으로 margin-top 세팅
+    setSpanPositionByStep($step1);
 
     /* 공통 카운트 함수 */
     function animateCount($el, from, to, duration, onComplete) {
@@ -278,45 +312,61 @@ $('.hero-text .btn_search button').on('click', function () {
     /* 단계별 목표 값 + 시간 + 딜레이 */
     const phase1Start    = 0;
     const phase1End      = 12391;
-    const phase2End      = 2487;
+    const phase2End      = 3784;  // 12,750 → 3,784 느낌이면 여기 값 조정
     const phase3End      = 10;
 
-    const phase1Duration = 1200; // 0 → 12391 (조금 더 빠르게)
-    const phase2Duration = 1200; // 12391 → 2487
-    const phase3Duration = 900;  // 2487 → 10
-    const phaseDelay     = 500;  // 각 단계 사이 0.5초 쉬기
+    const phase1Duration = 1200; // 0 → 12391
+    const phase2Duration = 1200; // 12391 → 3784
+    const phase3Duration = 1200; // 3784 → 10
+    const phaseDelay     = 1200; // 각 단계 사이 1초 쉬기
 
-    /* 1단계: 0 → 12391 */
-    function startPhase1() {
-        $step1.addClass('active');
+    // step 표시 공통 함수 (active 토글 + span margin-top 갱신)
+    function showStep(num) {
+        $step1.removeClass('active');
         $step2.removeClass('active');
         $step3.removeClass('active');
 
+        if (num === 1) {
+            $step1.addClass('active');
+            setSpanPositionByStep($step1);
+        }
+        if (num === 2) {
+            $step2.addClass('active');
+            setSpanPositionByStep($step2);
+        }
+        if (num === 3) {
+            $step3.addClass('active');
+            setSpanPositionByStep($step3);
+        }
+    }
+
+    /* 1단계: 0 → 12391 */
+    function startPhase1() {
+        showStep(1);
+
         animateCount($count, phase1Start, phase1End, phase1Duration, function () {
-            // 0.5초 후 2단계 시작
+            // 1초 후 2단계 시작
             setTimeout(startPhase2, phaseDelay);
         });
     }
 
-    /* 2단계: 12391 → 2487 */
+    /* 2단계: 12391 → 3784 */
     function startPhase2() {
-        $step1.removeClass('active');
-        $step2.addClass('active');
-        $step3.removeClass('active');
+        showStep(2);
 
         animateCount($count, phase1End, phase2End, phase2Duration, function () {
-            // 0.5초 후 3단계 시작
+            // 1초 후 3단계 시작
             setTimeout(startPhase3, phaseDelay);
         });
     }
 
-    /* 3단계: 2487 → 10 */
+    /* 3단계: 3784 → 10 */
     function startPhase3() {
-        $step1.removeClass('active');
-        $step2.removeClass('active');
-        $step3.addClass('active');
+        showStep(3);
 
         animateCount($count, phase2End, phase3End, phase3Duration, function () {
+            // 마지막 단계 완료 후 추가 액션 있으면 여기서
+            // $countWrap.removeClass('blink');
         });
     }
 
@@ -325,7 +375,7 @@ $('.hero-text .btn_search button').on('click', function () {
 
     /* -------------------------
        아래는 기존 float-img 제거 / processing_end 
-       그대로 유지하면 됨
+       float-img-wrap 최소 10개 남기기
        ------------------------- */
     const removeCount   = 110;
     const totalDuration = 6000;
@@ -334,7 +384,11 @@ $('.hero-text .btn_search button').on('click', function () {
     for (let i = 0; i < removeCount; i++) {
         setTimeout(function () {
             const $remaining = $('.float-img-area .float-img-wrap').not('.removed');
-            if (!$remaining.length) return;
+
+            // ⚠️ 최소 10개는 남겨두기
+            if ($remaining.length <= 10) {
+                return;
+            }
 
             const randomIndex = Math.floor(Math.random() * $remaining.length);
             const $target = $($remaining[randomIndex]);
@@ -347,13 +401,16 @@ $('.hero-text .btn_search button').on('click', function () {
         }, stepDelay * (i + 1));
     }
 
-    const endDelay = 7000;
+    const endDelay = 9000;
     setTimeout(function () {
         $('.contents_01')
             .removeClass('processing')
             .addClass('processing_end');
     }, endDelay);
 });
+
+
+
 
 
 
@@ -972,38 +1029,61 @@ $(document).on('click', '.pop_btn', function () {
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    var cursor      = document.querySelector('.final_gp .final_cursor');
-    var cursorText  = document.querySelector('.final_gp .cursor_text');
-    if (!cursor) return;
-
+    // --------------------------------------------------------------------
+    // 공통 엘리먼트
+    // --------------------------------------------------------------------
     var confirmBoxWrap  = document.querySelector('.gate_02.sub .gate_02_01 .inve_confirm_box');
     var examineBoxWrap  = document.querySelector('.gate_02.sub .gate_02_01 .inve_examine_box');
     var confirmWrap     = document.querySelector('.gate_02.sub .gate_02_01 .inve_confirm_wrap');
     var movieClosed     = document.querySelector('.gate_02.sub .gate_02_01 .movie_closed');
     var inveResult      = document.querySelector('.gate_02.sub .gate_02_01 .inve_result');
 
-    // -----------------------------
+    // 추가: inve_adj_box
+    var adjBoxWrap      = document.querySelector('.gate_02.sub .gate_02_01 .inve_adj_box');
+
+    // 커서: confirm / examine / adj 각각 별도
+    var confirmCursor   = document.querySelector('.gate_02.sub .gate_02_01 .inve_confirm_box .final_cursor');
+    var examineCursor   = document.querySelector('.gate_02.sub .gate_02_01 .inve_examine_box .final_cursor');
+    var adjCursor       = document.querySelector('.gate_02.sub .gate_02_01 .inve_adj_box .final_cursor');
+
+    // 커서 텍스트 (공통)
+    var cursorText      = document.querySelector('.final_gp .cursor_text');
+
+    if (!confirmCursor && !examineCursor && !adjCursor) return;
+
+    // --------------------------------------------------------------------
     // 숫자 유틸 & 카운트 함수
-    // -----------------------------
-    function parseNumber(str){const num=parseInt(str.replace(/[^\d\-]/g,''),10);return isNaN(num)?0:num;}
-    function formatNumber(num){return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g,",");}
+    // --------------------------------------------------------------------
+    function parseNumber(str){
+        const num = parseInt(str.replace(/[^\d\-]/g,''),10);
+        return isNaN(num)?0:num;
+    }
+    function formatNumber(num){
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g,",");
+    }
     function countUp($el,from,to,duration,formatter,onComplete){
-        const startTime=Date.now();const diff=to-from;
+        const startTime = Date.now();
+        const diff = to-from;
         function tick(){
-            const now=Date.now();const elapsed=now-startTime;
-            const progress=Math.min(elapsed/duration,1);
-            const value=Math.round(from+diff*progress);
+            const now = Date.now();
+            const elapsed = now-startTime;
+            const progress = Math.min(elapsed/duration,1);
+            const value = Math.round(from+diff*progress);
             $el.text(formatter?formatter(value):value);
-            if(progress<1){requestAnimationFrame(tick);}else if(typeof onComplete==="function"){onComplete();}
+            if(progress<1){
+                requestAnimationFrame(tick);
+            }else if(typeof onComplete==="function"){
+                onComplete();
+            }
         }
         requestAnimationFrame(tick);
     }
 
-    // -----------------------------
+    // --------------------------------------------------------------------
     // 결과 숫자/스텝 애니 시작 함수
-    // -----------------------------
+    // --------------------------------------------------------------------
     function startInveInfoAnimation(){
-        const $wrap=$('.gate_02.sub .gate_02_01 .inve_info_list');
+        const $wrap = $('.gate_02.sub .gate_02_01 .inve_info_list');
         if(!$wrap.length) return;
 
         const $step01=$wrap.find('.step_01');
@@ -1051,7 +1131,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
         function startStep1(){
             let doneCount=0;
-            function done(){doneCount++;if(doneCount===2){setTimeout(nextFromStep1,DELAY_AFTER_S1);}}
+            function done(){
+                doneCount++;
+                if(doneCount===2){
+                    setTimeout(nextFromStep1,DELAY_AFTER_S1);
+                }
+            }
             countUp($s1_d1,0,s1_d1_target,DURATION_S1_NUM,formatNumber,done);
             countUp($s1_d2,0,s1_d2_target,DURATION_S1_NUM,formatNumber,done);
         }
@@ -1074,13 +1159,15 @@ document.addEventListener('DOMContentLoaded', function () {
             $step05.removeClass('step-hidden step-hide-up').addClass('step-visible');
 
             setTimeout(function(){
-              countUp($s4_d5,0,s4_d5_target,DURATION_S4_D5,formatNumber,function(){
-                setTimeout(function(){
-                  countUp($s4_d4,0,d4_num,DURATION_S4_D4,function(val){return d4_prefix+val+d4_suffix;},function(){
-                    setTimeout(showStep6,DELAY_BETWEEN);
-                  });
-                },DELAY_BETWEEN);
-              });
+                countUp($s4_d5,0,s4_d5_target,DURATION_S4_D5,formatNumber,function(){
+                    setTimeout(function(){
+                        countUp($s4_d4,0,d4_num,DURATION_S4_D4,function(val){
+                            return d4_prefix+val+d4_suffix;
+                        },function(){
+                            setTimeout(showStep6,DELAY_BETWEEN);
+                        });
+                    },DELAY_BETWEEN);
+                });
             },DELAY_BETWEEN);
         }
 
@@ -1089,135 +1176,892 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-// -----------------------------
-// 커서 & confirm/examine & movie_closed 시퀀스
-// -----------------------------
-function moveFinalCursor(percent){
-    percent = Math.max(0, Math.min(100, percent));
-    cursor.style.left = percent + '%';
-}
-window.moveFinalCursor = moveFinalCursor;
-
-cursor.style.left = '0%';
-if (examineBoxWrap) { examineBoxWrap.style.display = 'none'; }
-
-setTimeout(function () {
-    if (cursorText) {
-        setTimeout(function () { cursorText.style.opacity = 1; }, 1500);
+    // --------------------------------------------------------------------
+    // 커서 이동 헬퍼 (confirm / examine / adj)
+    // --------------------------------------------------------------------
+    function clampPercent(p){
+        return Math.max(0, Math.min(100, p));
     }
 
-    var step = 0;
-    var maxStep = 4;
+    function moveConfirmCursor(percent){
+        if (!confirmCursor) return;
+        confirmCursor.style.left = clampPercent(percent) + '%';
+    }
 
-    var intervalId = setInterval(function () {
-        step++;
+    function moveExamineCursor(percent){
+        if (!examineCursor) return;
+        examineCursor.style.left = clampPercent(percent) + '%';
+    }
 
-        if (step < maxStep) {
-            var randomPercent = 60 + Math.random() * 50;
-            moveFinalCursor(randomPercent - 20);
-        } else {
-            moveFinalCursor(85);
-            clearInterval(intervalId);
+    function moveAdjCursor(percent){
+        if (!adjCursor) return;
+        adjCursor.style.left = clampPercent(percent) + '%';
+    }
 
-            setTimeout(function () {
-                if (confirmBoxWrap) {
-                    confirmBoxWrap.classList.add('fade-out-up');
-                    setTimeout(function () { confirmBoxWrap.style.display = 'none'; }, 600);
+    // 외부에서 같이 움직일 수 있게
+    window.moveFinalCursor = function(percent){
+        moveConfirmCursor(percent);
+        moveExamineCursor(percent);
+        moveAdjCursor(percent);
+    };
+
+    // 초기 상태
+    if (examineBoxWrap) { examineBoxWrap.style.display = 'none'; }
+    if (adjBoxWrap)     { adjBoxWrap.style.display     = 'none'; }
+    if (confirmCursor)  { confirmCursor.style.left = '0.4vw'; }
+    if (examineCursor)  { examineCursor.style.left = '0.4vw'; }
+    if (adjCursor)      { adjCursor.style.left     = '0.4vw'; }
+
+    // --------------------------------------------------------------------
+    // Chart.js 레이더 차트: 그리드만 먼저, 마지막 단계에서 폴리곤
+    // --------------------------------------------------------------------
+    var movieRadar = null;
+
+    function initMovieRadarBase(){
+        if (movieRadar) return;
+
+        var canvas = document.getElementById('movieRadar');
+        if (!canvas) return;
+
+        var ctx = canvas.getContext('2d');
+
+        movieRadar = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['시나리오', '감독', '배우', '제작사 역량', '배급', '투자'],
+                datasets: [{
+                    label: '평가',
+                    data: [0, 0, 0, 0, 0, 0],
+                    borderColor: 'rgba(0,0,0,0)',
+                    backgroundColor: 'rgba(0,0,0,0)',
+                    borderWidth: 0,
+                    pointBackgroundColor: 'rgba(0,0,0,0)',
+                    pointBorderColor: 'rgba(0,0,0,0)',
+                    pointRadius: 0,
+                    pointHoverRadius: 0,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: false }
+                },
+                layout: { padding: 10 },
+                scales: {
+                    r: {
+                        min: 0,
+                        max: 100,
+                        ticks: {
+                            display: false,
+                            stepSize: 20
+                        },
+                        grid: {
+                            color: 'rgba(241, 241, 241, 1)'
+                        },
+                        angleLines: {
+                            color: 'rgba(241, 241, 241, 1)'
+                        },
+                        pointLabels: {
+                            color: '#ffffff',
+                            font: {
+                                size: 25,
+                                family: 'Pretendard, Noto Sans KR, sans-serif'
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function animateMovieRadar(){
+        if (!movieRadar) return;
+
+        var ds = movieRadar.data.datasets[0];
+
+        ds.data = [70, 55, 95, 80, 50, 75];
+
+        ds.borderColor = '#1d7bff';
+        ds.backgroundColor = 'rgba(29, 123, 255, 0.35)';
+        ds.borderWidth = 4;
+        ds.pointBackgroundColor = '#1d7bff';
+        ds.pointBorderColor = '#1d7bff';
+        ds.pointRadius = 8;
+        ds.pointHoverRadius = 8;
+
+        movieRadar.options.animation = {
+            duration: 800,
+            easing: 'easeOutQuad'
+        };
+
+        movieRadar.update();
+    }
+
+    // DOM 로드 시점에 그리드만 보이는 차트 준비
+    initMovieRadarBase();
+
+    // --------------------------------------------------------------------
+    // adj_box 끝난 후 confirm_wrap → movie_closed → inve_result
+    // --------------------------------------------------------------------
+    function runConfirmWrapSequence() {
+        if (!confirmWrap) {
+            if (inveResult) {
+                inveResult.classList.add('fade-in-up');
+                var resultHandler2 = function (rv2) {
+                    if (rv2.propertyName !== 'opacity') return;
+                    inveResult.removeEventListener('transitionend', resultHandler2);
+                    startInveInfoAnimation();
+                };
+                inveResult.addEventListener('transitionend', resultHandler2);
+            } else {
+                startInveInfoAnimation();
+            }
+            return;
+        }
+
+        // adj 애니 끝난 시점에서 2초 유지
+        setTimeout(function () {
+            confirmWrap.classList.add('fade-out-up');
+
+            var handler = function (e) {
+                if (e.propertyName !== 'opacity') return;
+                confirmWrap.removeEventListener('transitionend', handler);
+
+                setTimeout(function () {
+                    confirmWrap.style.display = 'none';
+
+                    // movie_closed → inve_result
+                    if (movieClosed) {
+                        movieClosed.style.display = 'flex';
+                        movieClosed.classList.remove('fade-out-up');
+                        movieClosed.classList.add('fade-in-up');
+
+                        setTimeout(function () {
+                            movieClosed.classList.remove('fade-in-up');
+                            movieClosed.classList.add('fade-out-up');
+
+                            var closedHandler = function (ev) {
+                                if (ev.propertyName !== 'opacity') return;
+                                movieClosed.removeEventListener('transitionend', closedHandler);
+
+                                movieClosed.style.display = 'none';
+
+                                if (inveResult) {
+                                    inveResult.classList.add('fade-in-up');
+
+                                    var resultHandler = function (rv) {
+                                        if (rv.propertyName !== 'opacity') return;
+                                        inveResult.removeEventListener('transitionend', resultHandler);
+                                        startInveInfoAnimation();
+                                    };
+                                    inveResult.addEventListener('transitionend', resultHandler);
+                                } else {
+                                    startInveInfoAnimation();
+                                }
+                            };
+
+                            movieClosed.addEventListener('transitionend', closedHandler);
+                        }, 2000);
+                    } else {
+                        if (inveResult) {
+                            inveResult.classList.add('fade-in-up');
+                            var resultHandler2 = function (rv2) {
+                                if (rv2.propertyName !== 'opacity') return;
+                                inveResult.removeEventListener('transitionend', resultHandler2);
+                                startInveInfoAnimation();
+                            };
+                            inveResult.addEventListener('transitionend', resultHandler2);
+                        } else {
+                            startInveInfoAnimation();
+                        }
+                    }
+                }, 1000);
+            };
+
+            confirmWrap.addEventListener('transitionend', handler);
+
+        }, 2000);
+    }
+
+    // --------------------------------------------------------------------
+    // examine_box → fade-out-up 넣으면서 동시에 adj_box fade-in-up
+    //  + adj_box display:block 은 fade-in-up 넣고 0.3초 뒤에 적용
+    // --------------------------------------------------------------------
+    function endExamineAndStartAdj(){
+        if (!examineBoxWrap) {
+            // examine 박스가 없으면 바로 adj 시퀀스
+            runAdjBoxSequence();
+            return;
+        }
+
+        // 1) examine_box 위로 사라지는 애니
+        examineBoxWrap.classList.remove('fade-in-up');
+        examineBoxWrap.classList.add('fade-out-up');
+
+        // 2) adj_box에 fade-in-up을 동시에 넣고
+        if (adjBoxWrap) {
+            adjBoxWrap.classList.remove('fade-out-up');
+            adjBoxWrap.classList.add('fade-in-up');
+        }
+
+        // 3) adj_box 내부 시퀀스 시작
+        runAdjBoxSequence();
+
+        // 4) examine_box는 애니 조금 여유 두고 display:none
+        setTimeout(function(){
+            examineBoxWrap.style.display = 'none';
+        }, 700); // 전환 여유
+    }
+
+    // --------------------------------------------------------------------
+    // inve_adj_box 시퀀스
+    //  - fade-in-up 먼저 넣고 0.3초 뒤 display:block
+    //  - 버튼 span.on 진행 + 자동 스크롤
+    //  - final_cursor 7초 타임라인 + p01~p04 전환
+    // --------------------------------------------------------------------
+    function runAdjBoxSequence(){
+        if (!adjBoxWrap) {
+            // adj_box 없으면 바로 confirm_wrap 시퀀스
+            runConfirmWrapSequence();
+            return;
+        }
+
+        var ADJ_DISPLAY_DELAY = 300; // fade-in-up 넣은 뒤 0.3초 후 display:block
+
+        // fade-in-up 클래스 세팅
+        adjBoxWrap.classList.remove('fade-out-up');
+        adjBoxWrap.classList.add('fade-in-up');
+
+        setTimeout(function () {
+            adjBoxWrap.style.display = 'block';
+
+            // 내부 애니는 살짝 뒤에 시작
+            setTimeout(function(){
+                var btnSets = adjBoxWrap.querySelectorAll('.inve_adj_list .btn_set');
+                var maxIdx  = btnSets.length;
+
+                if (!maxIdx) {
+                    runConfirmWrapSequence();
+                    return;
                 }
 
-                if (examineBoxWrap) {
-                    examineBoxWrap.style.display = 'block';
-                    examineBoxWrap.getBoundingClientRect();
-                    examineBoxWrap.classList.add('fade-in-up');
+                // 스크롤 컨테이너
+                var adjList = document.querySelector('.gate_02.sub .gate_02_01 .inve_adj_list');
 
-                    setTimeout(function () {
-                        var steps = document.querySelectorAll('.step_examine_list [class^="step_examine_"]');
-                        steps.forEach(function (el, idx) {
-                            setTimeout(function () {
-                                el.classList.add('on');
+                // adj_box 안 p01~p04 수집
+                var adjTexts = [];
+                for (var i = 1; i <= 4; i++) {
+                    var t = adjBoxWrap.querySelector('.p0' + i);
+                    if (t) adjTexts.push(t);
+                }
 
-                                if (idx === steps.length - 1) {
-                                    steps.forEach(function (item, j) {
-                                        var li = item.closest('li');
-                                        if (li) li.classList.add('done');
-                                        if (j !== idx) {
-                                            item.classList.remove('on');
-                                            item.classList.add('done');
+                // p01~p04 초기 세팅 (p01만 보이게)
+                if (adjTexts.length) {
+                    adjTexts.forEach(function(el, idx){
+                        el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                        if (idx === 0) {
+                            el.style.display   = 'block';
+                            el.style.opacity   = 1;
+                            el.style.transform = 'translateY(0)';
+                        } else {
+                            el.style.display   = 'none';
+                            el.style.opacity   = 0;
+                            el.style.transform = 'translateY(10px)';
+                        }
+                    });
+                }
+
+                // p01~p04 전환 함수
+                function showAdjText(targetIdx) {
+                    if (!adjTexts.length || !adjTexts[targetIdx]) return;
+
+                    adjTexts.forEach(function(el, idx){
+                        if (idx === targetIdx) return;
+                        if (el.style.display !== 'none') {
+                            el.style.opacity   = 0;
+                            el.style.transform = 'translateY(-10px)';
+                            (function(node){
+                                setTimeout(function(){
+                                    node.style.display = 'none';
+                                }, 400);
+                            })(el);
+                        }
+                    });
+
+                    var showTarget = adjTexts[targetIdx];
+                    setTimeout(function(){
+                        showTarget.style.display   = 'block';
+                        showTarget.getBoundingClientRect();
+                        showTarget.style.opacity   = 1;
+                        showTarget.style.transform = 'translateY(0)';
+                    }, 420);
+                }
+
+                var targetMap = [1, 1, 1, 0, 1, 1, 1];
+
+                // 버튼 span.on 애니 (1초 간격) + 자동 스크롤
+                for (let i = 0; i < maxIdx && i < targetMap.length; i++) {
+                    (function(index){
+                        setTimeout(function(){
+                            var btn   = btnSets[index];
+                            var spans = btn.querySelectorAll('span');
+                            if (!spans.length) return;
+
+                            spans.forEach(function(s){ s.classList.remove('on'); });
+
+                            var tIdx = targetMap[index];
+                            if (spans[tIdx]) {
+                                spans[tIdx].classList.add('on');
+
+                                // 자동 스크롤
+                                if (adjList) {
+                                    var li = btn.closest('li');
+                                    if (li) {
+                                        var listRect = adjList.getBoundingClientRect();
+                                        var liRect   = li.getBoundingClientRect();
+
+                                        if (liRect.bottom > listRect.bottom) {
+                                            var delta = liRect.bottom - listRect.bottom;
+                                            var newScrollTop = adjList.scrollTop + delta + 25;
+
+                                            adjList.scrollTo({
+                                                top: newScrollTop,
+                                                behavior: 'smooth'
+                                            });
                                         }
-                                    });
-
-                                    // ★ 모든 step 처리 완료 후, confirm_wrap → movie_closed → (2초 후 사라짐) → inve_result → 숫자 애니
-                                    if (confirmWrap) {
-                                        confirmWrap.classList.add('fade-out-up');
-
-                                        var handler = function (e) {
-                                            if (e.propertyName !== 'opacity') return;
-                                            confirmWrap.removeEventListener('transitionend', handler);
-
-                                            // confirm_wrap 애니 끝나고 1초 뒤 처리
-                                            setTimeout(function () {
-                                                confirmWrap.style.display = 'none';
-
-                                                // 1) movie_closed 먼저 등장
-                                                if (movieClosed) {
-                                                    movieClosed.style.display = 'flex';
-                                                    movieClosed.classList.remove('fade-out-up');
-                                                    movieClosed.classList.add('fade-in-up');
-
-                                                    // 2) movie_closed가 2초 동안 보였다가 사라짐
-                                                    setTimeout(function () {
-                                                        movieClosed.classList.remove('fade-in-up');
-                                                        movieClosed.classList.add('fade-out-up');
-
-                                                        var closedHandler = function (ev) {
-                                                            if (ev.propertyName !== 'opacity') return;
-                                                            movieClosed.removeEventListener('transitionend', closedHandler);
-
-                                                            movieClosed.style.display = 'none';
-
-                                                            // 3) 그 다음 inve_result 등장 + 애니 끝나면 숫자 시작
-                                                            if (inveResult) {
-                                                                inveResult.classList.add('fade-in-up');
-
-                                                                var resultHandler = function (rv) {
-                                                                    if (rv.propertyName !== 'opacity') return;
-                                                                    inveResult.removeEventListener('transitionend', resultHandler);
-                                                                    startInveInfoAnimation();
-                                                                };
-                                                                inveResult.addEventListener('transitionend', resultHandler);
-                                                            } else {
-                                                                startInveInfoAnimation();
-                                                            }
-                                                        };
-
-                                                        movieClosed.addEventListener('transitionend', closedHandler);
-                                                    }, 2000); // movie_closed가 2초 동안 화면에 있다가 사라짐
-                                                } else {
-                                                    if (inveResult) {
-                                                        inveResult.classList.add('fade-in-up');
-                                                        var resultHandler2 = function (rv2) {
-                                                            if (rv2.propertyName !== 'opacity') return;
-                                                            inveResult.removeEventListener('transitionend', resultHandler2);
-                                                            startInveInfoAnimation();
-                                                        };
-                                                        inveResult.addEventListener('transitionend', resultHandler2);
-                                                    } else {
-                                                        startInveInfoAnimation();
-                                                    }
-                                                }
-                                            }, 1000); // confirm_wrap fade-out 끝나고 1초 딜레이
-                                        };
-
-                                        confirmWrap.addEventListener('transitionend', handler);
                                     }
                                 }
-                            }, idx * 1000);
-                        });
-                    }, 1000);
+                            }
+                        }, index * 1000);
+                    })(i);
                 }
-            }, 1000); // 커서 애니 끝난 뒤 1초
-        }
-    }, 1200);
 
-}, 1500);
+                // 커서 + 텍스트 + p01~p04 전환 (총 7초 시나리오)
+                var labels          = ['비적합','기준충족','적합','매우적합'];
+                var cursorPositions = [0, 30, 60, 85]; // moveAdjCursor는 % 기준
+
+                var CURSOR_TOTAL = 7000; // 7초
+
+                // 0~4초: left 0.4vw, 비적합 + p01
+                if (adjCursor)    adjCursor.style.left = '0.4vw';
+                if (cursorText)   cursorText.textContent = labels[0];
+                if (adjTexts.length) showAdjText(0);
+
+                // 5초: 기준충족 + p02, 첫 번째 이동
+                setTimeout(function(){
+                    moveAdjCursor(cursorPositions[1]);   // 30% 쪽으로 이동
+                    if (cursorText) cursorText.textContent = labels[1];
+                    if (adjTexts.length) showAdjText(1);
+                }, 4000);
+
+                // 6초: 적합 + p03, 두 번째 이동
+                setTimeout(function(){
+                    moveAdjCursor(cursorPositions[2]);   // 60%
+                    if (cursorText) cursorText.textContent = labels[2];
+                    if (adjTexts.length) showAdjText(2);
+                }, 5000);
+
+                // 7초: 매우적합 + p04, 세 번째 이동
+                setTimeout(function(){
+                    moveAdjCursor(cursorPositions[3]);   // 85%
+                    if (cursorText) cursorText.textContent = labels[3];
+                    if (adjTexts.length) showAdjText(3);
+                }, 6000);
+
+                // 버튼 애니 전체 시간
+                var totalBtnDuration = (Math.min(maxIdx, targetMap.length) - 1) * 1000;
+                if (totalBtnDuration < 0) totalBtnDuration = 0;
+
+                // 커서/텍스트 7초 연출이 끝난 뒤 + 버튼 애니 둘 다 끝난 다음 confirm_wrap 시퀀스로
+                var endDelay = Math.max(totalBtnDuration, CURSOR_TOTAL) + 500;
+                setTimeout(function(){
+                    runConfirmWrapSequence();
+                }, endDelay);
+
+            }, 400); // fade-in-up 끝난 느낌으로 내부 애니 시작
+
+        }, ADJ_DISPLAY_DELAY);
+    }
+
+    // --------------------------------------------------------------------
+    // 커서 & confirm/examine 시퀀스
+    // --------------------------------------------------------------------
+    setTimeout(function () {
+        if (cursorText) {
+            setTimeout(function () { cursorText.style.opacity = 1; }, 1300);
+        }
+
+        // 1) inve_confirm_box 구간 커서 (0 → 85%)
+        var step        = 0;
+        var maxStep     = 4;
+        var maxPercent  = 85;
+
+        var intervalId = setInterval(function () {
+            step++;
+
+            if (step <= maxStep) {
+                var percent = (step / maxStep) * maxPercent;
+                moveConfirmCursor(percent);
+            }
+
+            if (step === maxStep) {
+                clearInterval(intervalId);
+
+                // 커서 애니 끝난 뒤 2초 후부터 시퀀스 시작
+                setTimeout(function () {
+                    // confirmBoxWrap만 사라짐
+                    if (confirmBoxWrap) {
+                        confirmBoxWrap.classList.add('fade-out-up');
+                        setTimeout(function () { confirmBoxWrap.style.display = 'none'; }, 600);
+                    }
+
+                    // 2) inve_examine_box 등장
+                    if (examineBoxWrap) {
+                        examineBoxWrap.style.display = 'block';
+                        examineBoxWrap.getBoundingClientRect();
+                        examineBoxWrap.classList.add('fade-in-up');
+
+                        // p01~p04 텍스트 초기 세팅 (p01만 노출)
+                        var examineTexts = [];
+                        for (var i = 1; i <= 4; i++) {
+                            var t = examineBoxWrap.querySelector('.p0' + i);
+                            if (t) examineTexts.push(t);
+                        }
+
+                        examineTexts.forEach(function (el, idx) {
+                            el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                            if (idx === 0) {
+                                el.style.display = 'block';
+                                el.style.opacity = 1;
+                                el.style.transform = 'translateY(0)';
+                            } else {
+                                el.style.display = 'none';
+                                el.style.opacity = 0;
+                                el.style.transform = 'translateY(10px)';
+                            }
+                        });
+
+                        // p01~p04 전환 (총 6단계)
+                        function showProgressText(stepIndex) {
+                            if (!examineTexts.length) return;
+
+                            var targetIdx;
+                            if (stepIndex <= 2)      targetIdx = 0;
+                            else if (stepIndex === 3) targetIdx = 1;
+                            else if (stepIndex === 4) targetIdx = 2;
+                            else                      targetIdx = 3;
+
+                            examineTexts.forEach(function (el, idx) {
+                                if (idx === targetIdx) return;
+                                if (el.style.display !== 'none') {
+                                    el.style.opacity = 0;
+                                    el.style.transform = 'translateY(-10px)';
+                                    (function (node) {
+                                        setTimeout(function () {
+                                            node.style.display = 'none';
+                                        }, 400);
+                                    })(el);
+                                }
+                            });
+
+                            var showTarget = examineTexts[targetIdx];
+                            if (!showTarget) return;
+
+                            setTimeout(function () {
+                                showTarget.style.display = 'block';
+                                showTarget.getBoundingClientRect();
+                                showTarget.style.opacity = 1;
+                                showTarget.style.transform = 'translateY(0)';
+                            }, 420);
+                        }
+
+                        // examineBox 올라온 뒤 2초 후 단계 시퀀스 시작
+                        setTimeout(function () {
+
+                            var STEP_DURATION = 1500;
+
+                            var steps = document.querySelectorAll('.step_examine_list [class^="step_examine_"]');
+                            var examineGroups = document.querySelectorAll('[class^="inve_examine_step_"]');
+
+                            if (!steps.length || !examineGroups.length) {
+                                // 예외: 단계 구조가 없으면 바로 examine 닫고 adj로
+                                endExamineAndStartAdj();
+                                return;
+                            }
+
+                            var totalSteps  = steps.length; // 기대: 6
+                            var examineMax  = 85;          // 0 → 85%
+
+                            // 모든 단계 컨텐츠 초기화
+                            examineGroups.forEach(function (grp) {
+                                grp.style.display = 'none';
+                                grp.classList.remove('fade-in-up', 'fade-out-up');
+
+                                var gauges = grp.querySelectorAll('.inve_examine_gp_item .bar .gauge');
+                                gauges.forEach(function (g) {
+                                    g.style.transition = 'none';
+                                    g.style.width = '0%';
+                                });
+                            });
+
+                            // 게이지 애니
+                            function animateGauges(group) {
+                                var bars = group.querySelectorAll('.inve_examine_gp_item .bar');
+                                var barCount = bars.length;
+                                if (!barCount) return;
+
+                                var perTime = STEP_DURATION / barCount;
+
+                                bars.forEach(function (bar, idx) {
+                                    var gauge = bar.querySelector('.gauge');
+                                    if (!gauge) return;
+
+                                    var target = parseFloat(gauge.getAttribute('data-percent')) || 100;
+
+                                    gauge.style.transition = 'none';
+                                    gauge.style.width = '0%';
+                                    gauge.getBoundingClientRect();
+
+                                    setTimeout(function () {
+                                        gauge.style.transition = 'width ' + (perTime / 1000) + 's ease';
+                                        gauge.style.width = target + '%';
+                                    }, idx * perTime);
+                                });
+                            }
+
+                            // 단계별 실행 (총 6단계, 0~5 index)
+                            function showStep(stepIndex) {
+                                var lastIndex = totalSteps - 1;
+
+                                if (stepIndex > lastIndex || stepIndex >= examineGroups.length) {
+                                    // 모든 단계 끝 → examine 박스 닫고 adj 시작
+                                    endExamineAndStartAdj();
+                                    return;
+                                }
+
+                                // 동그라미 상태 처리
+                                steps.forEach(function (el, i) {
+                                    el.classList.remove('done');
+
+                                    if (stepIndex === lastIndex) {
+                                        if (i < lastIndex) {
+                                            el.classList.remove('on');
+                                            el.classList.add('done');
+                                        } else if (i === lastIndex) {
+                                            el.classList.add('on');
+                                        }
+                                    } else {
+                                        if (i <= stepIndex) {
+                                            el.classList.add('on');
+                                        } else {
+                                            el.classList.remove('on');
+                                        }
+                                    }
+                                });
+
+                                // examine 커서: 0 → 85% (0~5)
+                                var cursorTarget = (stepIndex / lastIndex) * examineMax;
+                                moveExamineCursor(cursorTarget);
+
+                                // p01~p04 텍스트 전환
+                                showProgressText(stepIndex);
+
+                                var currentGroup = examineGroups[stepIndex];
+
+                                currentGroup.style.display = 'flex';
+                                currentGroup.classList.remove('fade-out-up');
+                                currentGroup.classList.add('fade-in-up');
+
+                                // 게이지 애니
+                                animateGauges(currentGroup);
+
+                                if (stepIndex === lastIndex) {
+                                    // 마지막 단계: 레이더 차트 그리고
+                                    animateMovieRadar();
+
+                                    // 마지막 그룹 애니 끝난 뒤 examine_box 자체 fade-out-up → adj
+                                    setTimeout(function () {
+                                        endExamineAndStartAdj();
+                                    }, STEP_DURATION);
+                                } else {
+                                    setTimeout(function () {
+                                        currentGroup.classList.remove('fade-in-up');
+                                        currentGroup.classList.add('fade-out-up');
+
+                                        var hideHandler = function (ev) {
+                                            if (ev.propertyName !== 'opacity') return;
+                                            currentGroup.removeEventListener('transitionend', hideHandler);
+
+                                            currentGroup.style.display = 'none';
+                                            showStep(stepIndex + 1);
+                                        };
+
+                                        currentGroup.addEventListener('transitionend', hideHandler);
+                                    }, STEP_DURATION);
+                                }
+                            }
+
+                            // 첫 단계 시작
+                            showStep(0);
+
+                        }, 1000); // examineBoxWrap 올라온 후 2초 대기
+                    }
+                }, 2000); // 커서 애니 끝난 뒤 2초
+            }
+        }, 1100);
+
+    }, 2000); // 최초 지연
 });
+
+
+
+
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    // .inve_btn_main 클릭 → 대응하는 .kcon_pop 열기
+    var btns = document.querySelectorAll('.inve_btn_main');
+
+    btns.forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            // 1) 부모 .kcon_bg_wrap 찾기
+            var wrap = btn.closest('.kcon_bg_wrap');
+            if (!wrap || !wrap.id) return;
+
+            // 2) bg01 → 01 이런 식으로 번호만 추출
+            var bgId = wrap.id;              // 예: 'bg01'
+            var num  = bgId.replace('bg', ''); // '01'
+
+            // 3) 같은 번호의 popxx 찾기
+            var targetPopId = 'pop' + num;   // 'pop01'
+            var targetPop   = document.getElementById(targetPopId);
+            if (!targetPop) return;
+
+            // 4) 모든 팝업에서 is-show 제거
+            var allPop = document.querySelectorAll('.kcon_pop');
+            allPop.forEach(function (pop) {
+                pop.classList.remove('is-show');
+            });
+
+            // 5) 해당 팝업에 is-show 추가
+            targetPop.classList.add('is-show');
+        });
+    });
+
+    // 선택: 팝업 닫기 버튼(.close_pop) 처리
+    var closeBtns = document.querySelectorAll('.kcon_pop .close_pop');
+    closeBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var pop = btn.closest('.kcon_pop');
+            if (pop) {
+                pop.classList.remove('is-show');
+            }
+        });
+    });
+});
+
+
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    // ----------------------------------------------------
+    // 1) 슬라이더 실제 값 매핑
+    //    - 첫 번째: 예상 관람객 (명 단위)
+    //    - 두 번째: 투자금액 (억 단위 숫자 그대로)
+    // ----------------------------------------------------
+    var VISITOR_VALUES = [1000000, 5000000, 10000000]; // 100만, 500만, 1000만
+    var VISITOR_DISPLAY = [100, 500, 1000];            // 화면에 "100 / 500 / 1000" 노출
+
+    var AMOUNT_VALUES  = [1, 5, 10];                   // 1, 5, 10억
+
+    function formatNumber(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    // ----------------------------------------------------
+    // 2) 각 팝업(kcon_pop) 기준으로 처리 (pop01, pop02 ... 확장 가능)
+    // ----------------------------------------------------
+    document.querySelectorAll('.kcon_pop').forEach(function (pop) {
+
+        var scrollWraps = pop.querySelectorAll('.con_r .scroll_wrap');
+        if (scrollWraps.length < 2) return; // 예상 2개 없으면 스킵
+
+        // 첫 번째 스크롤 박스 (예상 관람객 수)
+        var visitorWrap   = scrollWraps[0];
+        var visitorRange  = visitorWrap.querySelector('.k-range');
+        var visitorNumEl  = visitorWrap.querySelector('.tit .in_num span:first-child'); // "100" 부분
+        var visitorLabels = visitorWrap.querySelectorAll('.k-slider-labels span');
+
+        // 두 번째 스크롤 박스 (투자금액)
+        var amountWrap   = scrollWraps[1];
+        var amountRange  = amountWrap.querySelector('.k-range');
+        var amountNumEl  = amountWrap.querySelector('.tit .in_num span:first-child'); // "5" 부분
+        var amountLabels = amountWrap.querySelectorAll('.k-slider-labels span');
+
+        // "투자하기" 버튼
+        var popBtn = pop.querySelector('.btn .pop_btn');
+
+        if (!visitorRange || !amountRange || !visitorNumEl || !amountNumEl || !popBtn) {
+            return;
+        }
+
+        // ------------------------------------------------
+        // 3) range 기본 옵션 세팅 (0,1,2)
+        // ------------------------------------------------
+        visitorRange.min = 0;
+        visitorRange.max = VISITOR_VALUES.length - 1;
+        visitorRange.step = 1;
+        if (visitorRange.value === "" || visitorRange.value == null) {
+            visitorRange.value = 0;
+        }
+
+        amountRange.min = 0;
+        amountRange.max = AMOUNT_VALUES.length - 1;
+        amountRange.step = 1;
+        if (amountRange.value === "" || amountRange.value == null) {
+            amountRange.value = 0;
+        }
+
+        // ------------------------------------------------
+        // 4) 표시 값 / 라벨 상태 업데이트 함수 + 콘솔 로그
+        // ------------------------------------------------
+        function updateVisitorDisplay(isInit) {
+            var idx = parseInt(visitorRange.value, 10) || 0;
+            if (idx < 0) idx = 0;
+            if (idx >= VISITOR_VALUES.length) idx = VISITOR_VALUES.length - 1;
+
+            // 화면 표시는 100 / 500 / 1000 (만 단위)
+            visitorNumEl.textContent = VISITOR_DISPLAY[idx];
+
+            // 실제 값(명 단위)을 data-*에 저장
+            var realVal = VISITOR_VALUES[idx];
+            visitorRange.dataset.realValue = realVal;
+
+            // 라벨 하이라이트
+            visitorLabels.forEach(function (lbl) {
+                var liIdx = parseInt(lbl.getAttribute('data-index'), 10);
+                if (liIdx === idx) {
+                    lbl.classList.add('is-active');
+                } else {
+                    lbl.classList.remove('is-active');
+                }
+            });
+
+            // 콘솔 로그
+            if (isInit) {
+                console.log('[초기] 예상 관람객 선택 값:', realVal, '(index:', idx + ')');
+            } else {
+                console.log('[변경] 예상 관람객 선택 값:', realVal, '(index:', idx + ')');
+            }
+        }
+
+        function updateAmountDisplay(isInit) {
+            var idx = parseInt(amountRange.value, 10) || 0;
+            if (idx < 0) idx = 0;
+            if (idx >= AMOUNT_VALUES.length) idx = AMOUNT_VALUES.length - 1;
+
+            // 화면 표시는 1 / 5 / 10 (억)
+            var realVal = AMOUNT_VALUES[idx];
+            amountNumEl.textContent = realVal;
+
+            // 실제 값 저장
+            amountRange.dataset.realValue = realVal;
+
+            // 라벨 하이라이트
+            amountLabels.forEach(function (lbl) {
+                var liIdx = parseInt(lbl.getAttribute('data-index'), 10);
+                if (liIdx === idx) {
+                    lbl.classList.add('is-active');
+                } else {
+                    lbl.classList.remove('is-active');
+                }
+            });
+
+            // 콘솔 로그
+            if (isInit) {
+                console.log('[초기] 투자금액 선택 값:', realVal, '억 (index:', idx + ')');
+            } else {
+                console.log('[변경] 투자금액 선택 값:', realVal, '억 (index:', idx + ')');
+            }
+        }
+
+        // ------------------------------------------------
+        // 5) 최초 1회 초기 디스플레이 & 콘솔 로그
+        // ------------------------------------------------
+        updateVisitorDisplay(true); // 초기 호출 → [초기] 로그
+        updateAmountDisplay(true);  // 초기 호출 → [초기] 로그
+
+        // 슬라이더 움직일 때마다 표시/로그 업데이트
+        visitorRange.addEventListener('input', function () {
+            updateVisitorDisplay(false);
+        });
+        amountRange.addEventListener('input', function () {
+            updateAmountDisplay(false);
+        });
+
+        // ------------------------------------------------
+        // 6) "투자하기" 클릭 시 선택 값만 넘기기 (URL은 그대로)
+        //    - href는 ../gate02/gate_02_01.html 그대로 사용
+        //    - 값은 sessionStorage 에 저장해서 다음 페이지에서 꺼내 씀
+        // ------------------------------------------------
+        popBtn.addEventListener('click', function (e) {
+            // a 태그의 href는 그대로 쓰되, 그 전에 값만 저장
+            var vIdx = parseInt(visitorRange.value, 10) || 0;
+            var aIdx = parseInt(amountRange.value, 10) || 0;
+
+            if (vIdx < 0) vIdx = 0;
+            if (vIdx >= VISITOR_VALUES.length) vIdx = VISITOR_VALUES.length - 1;
+            if (aIdx < 0) aIdx = 0;
+            if (aIdx >= AMOUNT_VALUES.length) aIdx = AMOUNT_VALUES.length - 1;
+
+            var visitorVal = VISITOR_VALUES[vIdx]; // 1000000 / 5000000 / 10000000
+            var amountVal  = AMOUNT_VALUES[aIdx];  // 1 / 5 / 10
+
+            // 콘솔로 최종 값 확인
+            console.log('▶ 투자하기 클릭 - 최종 선택 값');
+            console.log('   예상 관람객:', visitorVal);
+            console.log('   투자금액:', amountVal, '억');
+
+            // sessionStorage에 저장 (다음 페이지에서 사용)
+            try {
+                sessionStorage.setItem('kcon_visitor', String(visitorVal));
+                sessionStorage.setItem('kcon_amount', String(amountVal));
+            } catch (err) {
+                console.warn('sessionStorage 저장 실패:', err);
+            }
+            // 여기서는 e.preventDefault() 안 걸고,
+            // a 태그 href 그대로 이동
+            // (필요하면 SPA면 막고 ajax 등으로 처리하면 됨)
+        });
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -19,6 +19,8 @@
 <script src="../../resources/js/jquery-3.7.1.min.js"></script>
 <script src="../../resources/js/jquery-ui.js"></script>
 <script src="../../resources/js/swiper-bundle.min.js"></script>
+<script src="../../resources/js/chart.js"></script>
+<script src="../../resources/js/chartjs-plugin-datalabel.js"></script>
 <script src="../../resources/js/jyh.js"></script>
 <!-- //퍼블리싱 -->
 </head>
@@ -64,7 +66,7 @@
         </div>
  
         <div class="contents gate_02_01">
-            <div class="inve_confirm_wrap">
+            <div iv class="inve_confirm_wrap">
                 <div class="inve_inner">
                     <div class="pg_tit">
                         <strong>영화 상영 중</strong>
@@ -79,6 +81,19 @@
                     </div>
 
                     <div class="inve_confirm_box">
+                        <div class="shiny_step">
+                            <ul>
+                                <li class="on">
+                                    <img src="../../resources/images/gate_02/ico_star_shi_on.png">
+                                </li>
+                                <li>
+                                    <img src="../../resources/images/gate_02/ico_star_shi.svg">
+                                </li>
+                                <li>
+                                    <img src="../../resources/images/gate_02/ico_star_shi.svg">
+                                </li>
+                            </ul>
+                        </div>
                         <div class="inve_confirm_tit">
                             <strong>투자 적격 여부</strong>
                             <p>
@@ -146,179 +161,261 @@
 
                     <div class="inve_examine_box">
                         <div class="inve_examine_inner">
+                            <div class="shiny_step">
+                                <ul>
+                                    <li>
+                                        <img src="../../resources/images/gate_02/ico_star_shi.svg">
+                                    </li>
+                                    <li class="on">
+                                        <img src="../../resources/images/gate_02/ico_star_shi_on.png">
+                                    </li>
+                                    <li>
+                                        <img src="../../resources/images/gate_02/ico_star_shi.svg">
+                                    </li>
+                                </ul>
+                            </div>
                             <div class="inve_examine_tit">
-                                <strong>투자 여부 검토</strong>
+                                <strong>투자 적격 여부</strong>
                                 <p>
                                     투자 적격 여부를 통과한 영화는<br>
                                     세부적인 평가 요소들을 검토하여 최종 투자 여부 및 투자금액을 산정합니다.
                                 </p>
                             </div>
 
-                            <div class="inve_examine_content">
-                                <div class="inve_examine_step">
-                                    <div class="step_examine_list">
-                                        <ul>
-                                            <li>
-                                                <div class="step_examine_01" data-target="examine01">
-                                                    <span class="step_num">01</span>
-                                                    <span>시나리오</span>
+                            <div class="inve_gp_set">
+                                <div class="inve_examine_content">
+                                    <div class="inve_examine_step">
+                                        <div class="step_examine_list">
+                                            <ul>
+                                                <li>
+                                                    <div class="step_examine_01" data-target="examine01">
+                                                        <span class="step_num">01</span>
+                                                        <span>시나리오</span>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="step_examine_02">
+                                                        <span class="step_num">02</span>
+                                                        <span>감독</span>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="step_examine_03">
+                                                        <span class="step_num">03</span>
+                                                        <span>배우</span>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="step_examine_04">
+                                                        <span class="step_num">04</span>
+                                                        <span>제작사 역량</span>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="step_examine_05">
+                                                        <span class="step_num">05</span>
+                                                        <span>배급</span>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="step_examine_06">
+                                                        <span class="step_num">06</span>
+                                                        <span>투자</span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="inve_examine_gp">
+                                        <div class="inve_examine_step_01" id="examine01">
+                                            <div class="inve_examine_gp_item">
+                                                <div class="txt">
+                                                    <strong>시나리오 내용</strong>
+                                                    <p>시나리오 회의 결과</p>
                                                 </div>
-                                            </li>
-                                            <li>
-                                                <div class="step_examine_02">
-                                                    <span class="step_num">02</span>
-                                                    <span>감독</span>
+                                                <div class="gp_item">
+                                                    <div class="bar">
+                                                        <span class="gauge" data-percent="80"></span>
+                                                    </div>
                                                 </div>
-                                            </li>
-                                            <li>
-                                                <div class="step_examine_03">
-                                                    <span class="step_num">03</span>
-                                                    <span>배우</span>
+                                            </div>
+                                            <div class="inve_examine_gp_item">
+                                                <div class="txt">
+                                                    <strong>관람 등급</strong>
+                                                    <p>12세 관람등급 등</p>
                                                 </div>
-                                            </li>
-                                            <li>
-                                                <div class="step_examine_04">
-                                                    <span class="step_num">04</span>
-                                                    <span>제작사 역량</span>
+                                                <div class="gp_item">
+                                                    <div class="bar">
+                                                        <span class="gauge" data-percent="100"></span>
+                                                    </div>
                                                 </div>
-                                            </li>
-                                            <li>
-                                                <div class="step_examine_05">
-                                                    <span class="step_num">05</span>
-                                                    <span>배급</span>
+                                            </div> 
+                                            <div class="inve_examine_gp_item">
+                                                <div class="txt">
+                                                    <strong>장르</strong>
+                                                    <p>코미디, 액션 등</p>
                                                 </div>
-                                            </li>
-                                            <li>
-                                                <div class="step_examine_06">
-                                                    <span class="step_num">06</span>
-                                                    <span>투자</span>
+                                                <div class="gp_item">
+                                                    <div class="bar">
+                                                        <span class="gauge" data-percent="80"></span>
+                                                    </div>
                                                 </div>
-                                            </li>
-                                        </ul>
+                                            </div> 
+                                        </div>
+                                        
+                                        <div class="inve_examine_step_02" id="examine02">
+                                            <div class="inve_examine_gp_item">
+                                                <div class="txt">
+                                                    <strong>감독경력(흥행성)</strong>
+                                                    <p>최근 3개 작품 관객수</p>
+                                                </div>
+                                                <div class="gp_item">
+                                                    <div class="bar">
+                                                        <span class="gauge" data-percent="70"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="inve_examine_gp_item">
+                                                <div class="txt">
+                                                    <strong>동 장르 연출경험</strong>
+                                                    <p>관객 동원 능력</p>
+                                                </div>
+                                                <div class="gp_item">
+                                                    <div class="bar">
+                                                        <span class="gauge" data-percent="80"></span>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                        
+                                        <div class="inve_examine_step_03" id="examine03">
+                                            <div class="inve_examine_gp_item">
+                                                <div class="txt">
+                                                    <strong>주연배루 흥행성</strong>
+                                                    <p>최근 3개 작품의 관객 동원치</p>
+                                                </div>
+                                                <div class="gp_item">
+                                                    <div class="bar">
+                                                        <span class="gauge" data-percent="100"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="inve_examine_gp_item">
+                                                <div class="txt">
+                                                    <strong>조연배우 흥행성</strong>
+                                                    <p>출연 영화 관객수</p>
+                                                </div>
+                                                <div class="gp_item">
+                                                    <div class="bar">
+                                                        <span class="gauge" data-percent="100"></span>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                        </div>
+
+                                        <div class="inve_examine_step_04" id="examine04">
+                                            <div class="inve_examine_gp_item">
+                                                <div class="txt">
+                                                    <strong>제작사 흥행실력</strong>
+                                                    <p>최근 3년간 작품 관객수</p>
+                                                </div>
+                                                <div class="gp_item">
+                                                    <div class="bar">
+                                                        <span class="gauge" data-percent="100"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="inve_examine_gp_item">
+                                                <div class="txt">
+                                                    <strong>PD 등 주요인력</strong>
+                                                    <p>6개 분야 감독의 평균점수</p>
+                                                </div>
+                                                <div class="gp_item">
+                                                    <div class="bar">
+                                                        <span class="gauge" data-percent="100"></span>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                        </div>
+
+                                        <div class="inve_examine_step_05" id="examine05">
+                                            <div class="inve_examine_gp_item">
+                                                <div class="txt">
+                                                    <strong>배급시가</strong>
+                                                    <p>배급사의 개봉시기 선택</p>
+                                                </div>
+                                                <div class="gp_item">
+                                                    <div class="bar">
+                                                        <span class="gauge" data-percent="100"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="inve_examine_gp_item">
+                                                <div class="txt">
+                                                    <strong>배급사 경험치</strong>
+                                                    <p>배급사의 전년도 관객점유율</p>
+                                                </div>
+                                                <div class="gp_item">
+                                                    <div class="bar">
+                                                        <span class="gauge" data-percent="80"></span>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                            <div class="inve_examine_gp_item">
+                                                <div class="txt">
+                                                    <strong>경쟁작품 현황</strong>
+                                                    <p>경쟁작춤 분석</p>
+                                                </div>
+                                                <div class="gp_item">
+                                                    <div class="bar">
+                                                        <span class="gauge" data-percent="100"></span>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                        </div>
+
+                                        <div class="inve_examine_step_06" id="examine06">
+                                            <div class="inve_examine_gp_item">
+                                                <div class="txt">
+                                                    <strong>총제작비</strong>
+                                                    <p>총제작비 수준</p>
+                                                </div>
+                                                <div class="gp_item">
+                                                    <div class="bar">
+                                                        <span class="gauge" data-percent="100"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="inve_examine_gp_item">
+                                                <div class="txt">
+                                                    <strong>투자시기</strong>
+                                                    <p>작품 진행 현황에 따른 시기</p>
+                                                </div>
+                                                <div class="gp_item">
+                                                    <div class="bar">
+                                                        <span class="gauge" data-percent="100"></span>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                            <div class="inve_examine_gp_item">
+                                                <div class="txt">
+                                                    <strong>투자비중 현황</strong>
+                                                    <p>주요 관계사 투자비중</p>
+                                                </div>
+                                                <div class="gp_item">
+                                                    <div class="bar">
+                                                        <span class="gauge" data-percent="80"></span>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="inve_examine_gp">
-                                    <div class="inve_examine_step_01" id="examine01">
-                                        <div class="inve_examine_gp_item">
-                                            <div class="txt">
-                                                <strong>시나리오 내용</strong>
-                                                <p>시나리오 회의 결과</p>
-                                            </div>
-                                            <div class="gp_item"></div>
+                                <div class="chart_radar">
+                                    <div class="chart_radar_inner">
+                                        <div class="radar_wrap">
+                                            <canvas id="movieRadar"></canvas>
                                         </div>
-                                        <div class="inve_examine_gp_item">
-                                            <div class="txt">
-                                                <strong>관람 등급</strong>
-                                                <p>12세 관람등급 등</p>
-                                            </div>
-                                            <div class="gp_item"></div>
-                                        </div> 
-                                        <div class="inve_examine_gp_item">
-                                            <div class="txt">
-                                                <strong>장르</strong>
-                                                <p>코미디, 액션 등</p>
-                                            </div>
-                                            <div class="gp_item"></div>
-                                        </div> 
-                                    </div>
-                                    
-                                    <div class="inve_examine_step_02" id="examine02">
-                                        <div class="inve_examine_gp_item">
-                                            <div class="txt">
-                                                <strong>감독경력(흥행성)</strong>
-                                                <p>최근 3개 작품 관객수</p>
-                                            </div>
-                                            <div class="gp_item"></div>
-                                        </div>
-                                        <div class="inve_examine_gp_item">
-                                            <div class="txt">
-                                                <strong>동 장르 연출경험</strong>
-                                                <p>관객 동원 능력</p>
-                                            </div>
-                                            <div class="gp_item"></div>
-                                        </div> 
-                                    </div>
-                                    
-                                    <div class="inve_examine_step_03" id="examine03">
-                                        <div class="inve_examine_gp_item">
-                                            <div class="txt">
-                                                <strong>주연배루 흥행성</strong>
-                                                <p>최근 3개 작품의 관객 동원치</p>
-                                            </div>
-                                            <div class="gp_item"></div>
-                                        </div>
-                                        <div class="inve_examine_gp_item">
-                                            <div class="txt">
-                                                <strong>조연배우 흥행성</strong>
-                                                <p>출연 영화 관객수</p>
-                                            </div>
-                                            <div class="gp_item"></div>
-                                        </div> 
-                                    </div>
-
-                                    <div class="inve_examine_step_04" id="examine04">
-                                        <div class="inve_examine_gp_item">
-                                            <div class="txt">
-                                                <strong>제작사 흥행실력</strong>
-                                                <p>최근 3년간 작품 관객수</p>
-                                            </div>
-                                            <div class="gp_item"></div>
-                                        </div>
-                                        <div class="inve_examine_gp_item">
-                                            <div class="txt">
-                                                <strong>PD 등 주요인력</strong>
-                                                <p>6개 분야 감독의 평균점수</p>
-                                            </div>
-                                            <div class="gp_item"></div>
-                                        </div> 
-                                    </div>
-
-                                    <div class="inve_examine_step_05" id="examine05">
-                                        <div class="inve_examine_gp_item">
-                                            <div class="txt">
-                                                <strong>배급시가</strong>
-                                                <p>배급사의 개봉시기 선택</p>
-                                            </div>
-                                            <div class="gp_item"></div>
-                                        </div>
-                                        <div class="inve_examine_gp_item">
-                                            <div class="txt">
-                                                <strong>배급사 경험치</strong>
-                                                <p>배급사의 전년도 관객점유율</p>
-                                            </div>
-                                            <div class="gp_item"></div>
-                                        </div> 
-                                        <div class="inve_examine_gp_item">
-                                            <div class="txt">
-                                                <strong>경쟁작품 현황</strong>
-                                                <p>경쟁작춤 분석</p>
-                                            </div>
-                                            <div class="gp_item"></div>
-                                        </div> 
-                                    </div>
-
-                                    <div class="inve_examine_step_06" id="examine06">
-                                        <div class="inve_examine_gp_item">
-                                            <div class="txt">
-                                                <strong>총제작비</strong>
-                                                <p>총제작비 수준</p>
-                                            </div>
-                                            <div class="gp_item"></div>
-                                        </div>
-                                        <div class="inve_examine_gp_item">
-                                            <div class="txt">
-                                                <strong>투자시기</strong>
-                                                <p>작품 진행 현황에 따른 시기</p>
-                                            </div>
-                                            <div class="gp_item"></div>
-                                        </div> 
-                                        <div class="inve_examine_gp_item">
-                                            <div class="txt">
-                                                <strong>투자비중 현황</strong>
-                                                <p>주요 관계사 투자비중</p>
-                                            </div>
-                                            <div class="gp_item"></div>
-                                        </div> 
                                     </div>
                                 </div>
                             </div>
@@ -333,8 +430,151 @@
                                         <div class="final_cursor">
                                             <div class="cursor_knob"></div>
                                             <div class="cursor_line"></div>
-                                            <div class="cursor_text">적합</div>
+                                            <div class="cursor_text p01">비적합</div>
+                                            <div class="cursor_text p02">기준 충족</div>
+                                            <div class="cursor_text p03">적합</div>
+                                            <div class="cursor_text p04 ">매우 적합</div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="inve_adj_box">
+                        <div class="shiny_step">
+                            <ul>
+                                <li>
+                                    <img src="../../resources/images/gate_02/ico_star_shi.svg">
+                                </li>
+                                <li>
+                                    <img src="../../resources/images/gate_02/ico_star_shi.svg">
+                                </li> 
+                                <li class="on">
+                                    <img src="../../resources/images/gate_02/ico_star_shi_on.svg">
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="inve_adj_tit">
+                            <strong>조정계수 반영</strong>
+                            <p>
+                                마지막으로 조건 및 상황 등 조정계수를 반영하여<br>
+                                최종 투자 여부 및 투자금액을 산정합니다.
+                            </p>
+                        </div>
+                        <div class="inve_adj_list">
+                            <ul>
+                                <li>
+                                    <div class="item">
+                                        <div class="tit">
+                                            <strong>입봉작 여부</strong>
+                                            <span>감독이 30대, 40대에 해당하는 경우</span>
+                                        </div>
+                                        <div class="confirm">
+                                            <div class="btn_set">
+                                                <span>YES</span>
+                                                <span>NO</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item">
+                                        <div class="tit">
+                                            <strong>직전작 흥행 여부</strong>
+                                            <span>감독의 직전작이 흥행에 크게 실패한 경우</span>
+                                        </div>
+                                        <div class="confirm">
+                                            <div class="btn_set">
+                                                <span>YES</span>
+                                                <span>NO</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item">
+                                        <div class="tit">
+                                            <strong>감독 나이</strong>
+                                            <span>감독이 60세 이상인 경우</span>
+                                        </div>
+                                        <div class="confirm">
+                                            <div class="btn_set">
+                                                <span>YES</span>
+                                                <span>NO</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item">
+                                        <div class="tit">
+                                            <strong>크랭크업 시기</strong>
+                                            <span>크랭크업 후 1년 이상의 기간이 경과한 경우</span>
+                                        </div>
+                                        <div class="confirm">
+                                            <div class="btn_set">
+                                                <span>YES</span>
+                                                <span>NO</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item">
+                                        <div class="tit">
+                                            <strong>연속 흥행 여부</strong>
+                                            <span>배우‧감독이 연속 3편 이상 흥행한 경우</span>
+                                        </div>
+                                        <div class="confirm">
+                                            <div class="btn_set">
+                                                <span>YES</span>
+                                                <span>NO</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item">
+                                        <div class="tit">
+                                            <strong>특정 영화관 단독 개봉 여부</strong>
+                                            <span>특정 영화관에서 단독 개봉하는 경우</span>
+                                        </div>
+                                        <div class="confirm">
+                                            <div class="btn_set">
+                                                <span>YES</span>
+                                                <span>NO</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item">
+                                        <div class="tit">
+                                            <strong>특수관계 여부</strong>
+                                            <span>배우‧감독‧제작사가 혈연‧학연 등 특수관계가 있는 경우</span>
+                                        </div>
+                                        <div class="confirm">
+                                            <div class="btn_set">
+                                                <span>YES</span>
+                                                <span>NO</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="final_confirm">
+                            <div class="final_gp">
+                                <div class="final_label">최종평가</div>
+                                <div class="final_bar">
+                                    <div class="final_cursor">
+                                        <div class="cursor_knob"></div>
+                                        <div class="cursor_line"></div>
+                                        <div class="cursor_text p01">비적합</div>
+                                        <div class="cursor_text p02">기준 충족</div>
+                                        <div class="cursor_text p03">적합</div>
+                                        <div class="cursor_text p04 ">매우 적합</div>
                                     </div>
                                 </div>
                             </div>
@@ -345,6 +585,7 @@
 
             <div class="movie_closed">
                 <div class="txt">
+                    <video src="../../resources/images/gate_02/close.mp4" autoplay muted loop playsinline></video>
                     <strong>영화 상영 기간 종료</strong>
                     <p>
                         <span class="ing_01">누적 관관객 수 집계 중...</span>
@@ -421,7 +662,7 @@
                         </div>
                         <div class="step_06">
                             <div class="chc_mv_btn">
-                                <button type="button"><span>다른 영화 투자 하기</span></button>
+                                <a href="../gate02/gate_02.html"><span>다른 영화 투자 하기</span></a>
                             </div>
                         </div>
                     </div>
@@ -437,5 +678,49 @@
     <!-- //Footer -->
 </div>
 <!-- //wrap -->
+
+
+
+
+<script>
+    // gate_02_01.html 에 넣어줄 스크립트
+document.addEventListener('DOMContentLoaded', function () {
+    console.log('▶ gate_02_01 페이지 진입');
+
+    // 1) sessionStorage 에서 값 꺼내기
+    var rawVisitor = sessionStorage.getItem('kcon_visitor'); // 1000000 / 5000000 / 10000000
+    var rawAmount  = sessionStorage.getItem('kcon_amount');  // 1 / 5 / 10
+
+    console.log('sessionStorage.kcon_visitor:', rawVisitor);
+    console.log('sessionStorage.kcon_amount :', rawAmount);
+
+    // 2) 값이 없을 때 대비
+    if (rawVisitor === null || rawAmount === null) {
+        console.warn('⚠ kcon_visitor / kcon_amount 값이 없습니다. 이전 페이지에서 세팅됐는지 확인 필요');
+        return;
+    }
+
+    // 3) 숫자로 변환
+    var visitor = Number(rawVisitor);
+    var amount  = Number(rawAmount);
+
+    if (Number.isNaN(visitor) || Number.isNaN(amount)) {
+        console.warn('⚠ 숫자 변환 실패 visitor:', rawVisitor, 'amount:', rawAmount);
+        return;
+    }
+
+    // 4) 최종 값 콘솔 확인
+    console.log('✅ 전달받은 예상 관람객(명):', visitor);      // ex) 1000000
+    console.log('✅ 전달받은 투자금액(억):', amount);         // ex) 5
+
+    // 5) 보기 좋게 가공한 버전도 한 번 출력 (옵션)
+    var visitorDisplayMan = visitor / 10000; // 1000000 → 100만
+    console.log('   → 표시용: 예상 관람객', visitorDisplayMan + '만 명');
+    console.log('   → 표시용: 투자금액', amount + '억');
+
+    // 여기서부터는 실제 계산/화면 출력 등에 사용하면 됨
+    // 예) document.querySelector('.some_selector').textContent = visitorDisplayMan + '만 명';
+});
+</script>
 </body>
 </html>
