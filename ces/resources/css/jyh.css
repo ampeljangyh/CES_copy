@@ -1543,6 +1543,7 @@ body.kcon-pop-lock {
 .gate_02.sub [class*="gate_02"] .inve_adj_list {box-sizing:border-box;height:24.3620vw;border-radius:0.780vw;background:#141926;padding:1.820vw 1.560vw 0.988vw;overflow-y:auto;margin-top:1.7680vw;-ms-overflow-style:none;scrollbar-width:none;}
 .gate_02.sub [class*="gate_02"] .inve_adj_list::-webkit-scrollbar {display:none;}
 .inve_adj_list .confirm .btn_set {display:flex;gap:0.4940vw;height:100%;align-items:center;}
-.inve_adj_list .confirm .btn_set > span {border-radius:2.6000vw;border:0.0260vw solid #2C88FB;background:rgba(0,113,254,0.17);color:#2C88FB;font-size:1.1700vw;font-weight:500;line-height:150%;letter-spacing:-0.0234vw;padding:0.3120vw 1.4560vw;}
-.inve_adj_list .confirm .btn_set > span.on {background:#0071FE;color:#FFF;font-weight:700;}
+.inve_adj_list .confirm .btn_set > span {border-radius:2.6000vw;border:0.0260vw solid #2C88FB;background:rgba(0,113,254,0.17);color:#2C88FB;font-size:1.1700vw;font-weight:500;line-height:150%;letter-spacing:-0.0234vw;padding:0.3120vw 1.4560vw;transition:background-color .3s ease,color .3s ease,border-color .3s ease,transform .3s ease;}
+.inve_adj_list .confirm .btn_set > span.on {background:#0071FE;color:#FFF;font-weight:700;transform:translateY(-0.0521vw);}
+
 
