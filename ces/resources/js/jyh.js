@@ -1531,7 +1531,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         showTarget.getBoundingClientRect();
                         showTarget.style.opacity   = 1;
                         showTarget.style.transform = 'translateY(0)';
-                    }, 1500);
+                    }, 1000);
                 }
 
                 var targetMap = [1, 1, 1, 0, 1, 1, 1];
