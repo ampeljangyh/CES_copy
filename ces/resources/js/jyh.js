@@ -214,7 +214,7 @@ setTimeout(() => {
   if (floatArea) {
     floatArea.style.opacity = '1';
   }
-}, 1500); // 2초 뒤에 등장
+}, 1000); // 1초 뒤에 등장
 
 
 
@@ -243,6 +243,10 @@ setTimeout(() => {
 
 // .btn_search 버튼 클릭 시 .contents_01에 processing 클래스 추가
 $('.hero-text .btn_search button').on('click', function () {
+
+    // 이미 처리 중이면 중복 실행 방지
+    if ($('.contents_01').hasClass('processing')) return;
+
     $('.contents_01').addClass('processing');
 
     const $step1 = $('.search_txt_step .step01'); // IBK 데이터베이스 등록 기업 검색 중...
@@ -257,7 +261,6 @@ $('.hero-text .btn_search button').on('click', function () {
     function setSpanPositionByStep($step) {
         if (!$step || !$step.length) return;
 
-        // display가 0, opacity 0이어도 height를 정확히 재기 위해 잠시 강제 표시
         const wasHidden = $step.css('display') === 'none';
         let originalDisplay;
 
@@ -266,15 +269,13 @@ $('.hero-text .btn_search button').on('click', function () {
             $step.css({ display: 'block', visibility: 'hidden' });
         }
 
-        const h = $step.outerHeight(true); // margin 포함 높이
+        const h = $step.outerHeight(true);
 
         if (wasHidden) {
-            // 원래 상태로 복원
             $step.css({ display: originalDisplay || '', visibility: '' });
         }
 
-        // span을 step 영역 바로 아래로 내리기
-        $countWrap.css('margin-top', h + 'px');
+        $countWrap.css('margin-top', h + 20 + 'px');
     }
 
     // 초기 상태
@@ -312,13 +313,13 @@ $('.hero-text .btn_search button').on('click', function () {
     /* 단계별 목표 값 + 시간 + 딜레이 */
     const phase1Start    = 0;
     const phase1End      = 12391;
-    const phase2End      = 3784;  // 12,750 → 3,784 느낌이면 여기 값 조정
+    const phase2End      = 3784;
     const phase3End      = 10;
 
-    const phase1Duration = 1200; // 0 → 12391
-    const phase2Duration = 1200; // 12391 → 3784
-    const phase3Duration = 1200; // 3784 → 10
-    const phaseDelay     = 1200; // 각 단계 사이 1초 쉬기
+    const phase1Duration = 1200;
+    const phase2Duration = 1200;
+    const phase3Duration = 1200;
+    const phaseDelay     = 1200;
 
     // step 표시 공통 함수 (active 토글 + span margin-top 갱신)
     function showStep(num) {
@@ -340,12 +341,18 @@ $('.hero-text .btn_search button').on('click', function () {
         }
     }
 
+    // 🔹 검색 완료 팝업 노출 + processing 영역에 pop_on 추가
+    function showResultPopup() {
+        $('.search_process_pop').addClass('is-active');
+        // processing 상태인 컨텐츠에 pop_on 다중 클래스 추가
+        $('.contents_01.processing').addClass('pop_on');
+    }
+
     /* 1단계: 0 → 12391 */
     function startPhase1() {
         showStep(1);
 
         animateCount($count, phase1Start, phase1End, phase1Duration, function () {
-            // 1초 후 2단계 시작
             setTimeout(startPhase2, phaseDelay);
         });
     }
@@ -355,7 +362,6 @@ $('.hero-text .btn_search button').on('click', function () {
         showStep(2);
 
         animateCount($count, phase1End, phase2End, phase2Duration, function () {
-            // 1초 후 3단계 시작
             setTimeout(startPhase3, phaseDelay);
         });
     }
@@ -365,17 +371,21 @@ $('.hero-text .btn_search button').on('click', function () {
         showStep(3);
 
         animateCount($count, phase2End, phase3End, phase3Duration, function () {
-            // 마지막 단계 완료 후 추가 액션 있으면 여기서
-            // $countWrap.removeClass('blink');
+            // 마지막 단계 완료 후: 깜빡임 제거 + 팝업 노출
+            $countWrap.removeClass('blink');
+            // 🔻 여기에서 1초 뒤에 팝업/클래스 적용
+            setTimeout(function () {
+                showResultPopup();
+            }, 1500);
         });
     }
 
     // 시퀀스 시작
-    startPhase1(); 
+    startPhase1();
 
     /* -------------------------
-       아래는 기존 float-img 제거 / processing_end 
-       float-img-wrap 최소 10개 남기기
+       아래는 기존 float-img 제거
+       (처리 로직은 그대로 사용)
        ------------------------- */
     const removeCount   = 110;
     const totalDuration = 6000;
@@ -385,7 +395,7 @@ $('.hero-text .btn_search button').on('click', function () {
         setTimeout(function () {
             const $remaining = $('.float-img-area .float-img-wrap').not('.removed');
 
-            // ⚠️ 최소 10개는 남겨두기
+            // 최소 10개는 남겨두기
             if ($remaining.length <= 10) {
                 return;
             }
@@ -401,13 +411,27 @@ $('.hero-text .btn_search button').on('click', function () {
         }, stepDelay * (i + 1));
     }
 
-    const endDelay = 9000;
-    setTimeout(function () {
-        $('.contents_01')
-            .removeClass('processing')
-            .addClass('processing_end');
-    }, endDelay);
+    // 🔸 더 이상 여기서 processing_end를 넣지 않음
+    // const endDelay = 9000;
+    // setTimeout(function () {
+    //     $('.contents_01')
+    //         .removeClass('processing')
+    //         .addClass('processing_end');
+    // }, endDelay);
 });
+
+/* ------------------------------------
+   팝업 내 "기업 보기" 버튼 클릭 시
+   팝업 닫고 processing_end 적용
+   ------------------------------------ */
+$('.search_process_pop .btn_card_list').on('click', function () {
+    $('.search_process_pop').removeClass('is-active');
+
+    $('.contents_01')
+        .removeClass('processing pop_on') // pop_on도 같이 제거
+        .addClass('processing_end');
+});
+
 
 
 
@@ -878,7 +902,7 @@ $(document).on('click', '.inve_btn_sub', function () {
 
     // 대상 item들
     var items = Array.prototype.slice.call(
-        document.querySelectorAll('.gate_02.sub .gate_02_01 .inve_confirm_list .item')
+        document.querySelectorAll('.gate_02.sub [class*="gate_02"] .inve_confirm_list .item')
     );
     if (!items.length) return;
 
@@ -1032,22 +1056,26 @@ document.addEventListener('DOMContentLoaded', function () {
     // --------------------------------------------------------------------
     // 공통 엘리먼트
     // --------------------------------------------------------------------
-    var confirmBoxWrap  = document.querySelector('.gate_02.sub .gate_02_01 .inve_confirm_box');
-    var examineBoxWrap  = document.querySelector('.gate_02.sub .gate_02_01 .inve_examine_box');
-    var confirmWrap     = document.querySelector('.gate_02.sub .gate_02_01 .inve_confirm_wrap');
-    var movieClosed     = document.querySelector('.gate_02.sub .gate_02_01 .movie_closed');
-    var inveResult      = document.querySelector('.gate_02.sub .gate_02_01 .inve_result');
+    var confirmBoxWrap  = document.querySelector('.gate_02.sub [class*="gate_02"] .inve_confirm_box');
+    var examineBoxWrap  = document.querySelector('.gate_02.sub [class*="gate_02"] .inve_examine_box');
+    var confirmWrap     = document.querySelector('.gate_02.sub [class*="gate_02"] .inve_confirm_wrap');
+    var movieClosed     = document.querySelector('.gate_02.sub [class*="gate_02"] .movie_closed');
+    var inveResult      = document.querySelector('.gate_02.sub [class*="gate_02"] .inve_result');
 
     // 추가: inve_adj_box
-    var adjBoxWrap      = document.querySelector('.gate_02.sub .gate_02_01 .inve_adj_box');
+    var adjBoxWrap      = document.querySelector('.gate_02.sub [class*="gate_02"] .inve_adj_box');
 
     // 커서: confirm / examine / adj 각각 별도
-    var confirmCursor   = document.querySelector('.gate_02.sub .gate_02_01 .inve_confirm_box .final_cursor');
-    var examineCursor   = document.querySelector('.gate_02.sub .gate_02_01 .inve_examine_box .final_cursor');
-    var adjCursor       = document.querySelector('.gate_02.sub .gate_02_01 .inve_adj_box .final_cursor');
+    var confirmCursor   = document.querySelector('.gate_02.sub [class*="gate_02"] .inve_confirm_box .final_cursor');
+    var examineCursor   = document.querySelector('.gate_02.sub [class*="gate_02"] .inve_examine_box .final_cursor');
+    var adjCursor       = document.querySelector('.gate_02.sub [class*="gate_02"] .inve_adj_box .final_cursor');
 
     // 커서 텍스트 (공통)
     var cursorText      = document.querySelector('.final_gp .cursor_text');
+
+    // 팝업
+    var pop01           = document.querySelector('.gate_02.sub [class*="gate_02"] .inve_pop.pop_01');
+    var pop02           = document.querySelector('.gate_02.sub [class*="gate_02"] .inve_pop.pop_02');
 
     if (!confirmCursor && !examineCursor && !adjCursor) return;
 
@@ -1083,7 +1111,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // 결과 숫자/스텝 애니 시작 함수
     // --------------------------------------------------------------------
     function startInveInfoAnimation(){
-        const $wrap = $('.gate_02.sub .gate_02_01 .inve_info_list');
+        const $wrap = $('.gate_02.sub [class*="gate_02"] .inve_info_list');
         if(!$wrap.length) return;
 
         const $step01=$wrap.find('.step_01');
@@ -1365,7 +1393,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             };
 
                             movieClosed.addEventListener('transitionend', closedHandler);
-                        }, 2000);
+                        }, 2100);
                     } else {
                         if (inveResult) {
                             inveResult.classList.add('fade-in-up');
@@ -1379,12 +1407,12 @@ document.addEventListener('DOMContentLoaded', function () {
                             startInveInfoAnimation();
                         }
                     }
-                }, 1000);
+                }, 500);
             };
 
             confirmWrap.addEventListener('transitionend', handler);
 
-        }, 2000);
+        }, 500);
     }
 
     // --------------------------------------------------------------------
@@ -1450,7 +1478,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
 
                 // 스크롤 컨테이너
-                var adjList = document.querySelector('.gate_02.sub .gate_02_01 .inve_adj_list');
+                var adjList = document.querySelector('.gate_02.sub [class*="gate_02"] .inve_adj_list');
 
                 // adj_box 안 p01~p04 수집
                 var adjTexts = [];
@@ -1498,7 +1526,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         showTarget.getBoundingClientRect();
                         showTarget.style.opacity   = 1;
                         showTarget.style.transform = 'translateY(0)';
-                    }, 420);
+                    }, 1500);
                 }
 
                 var targetMap = [1, 1, 1, 0, 1, 1, 1];
@@ -1576,10 +1604,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 var totalBtnDuration = (Math.min(maxIdx, targetMap.length) - 1) * 1000;
                 if (totalBtnDuration < 0) totalBtnDuration = 0;
 
-                // 커서/텍스트 7초 연출이 끝난 뒤 + 버튼 애니 둘 다 끝난 다음 confirm_wrap 시퀀스로
+                // 커서/텍스트 7초 연출이 끝난 뒤 + 버튼 애니 둘 다 끝난 다음 → pop_02
                 var endDelay = Math.max(totalBtnDuration, CURSOR_TOTAL) + 500;
                 setTimeout(function(){
-                    runConfirmWrapSequence();
+                    showPop02();
                 }, endDelay);
 
             }, 400); // fade-in-up 끝난 느낌으로 내부 애니 시작
@@ -1588,7 +1616,259 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // --------------------------------------------------------------------
-    // 커서 & confirm/examine 시퀀스
+    // inve_examine_box 시퀀스 (팝업 01에서 시작)
+    // --------------------------------------------------------------------
+    function startExamineSequence() {
+        // confirmBoxWrap 사라지기
+        if (confirmBoxWrap) {
+            confirmBoxWrap.classList.add('fade-out-up');
+            setTimeout(function () {
+                confirmBoxWrap.style.display = 'none';
+            }, 600);
+        }
+
+        // examine 박스가 없으면 바로 adj로
+        if (!examineBoxWrap) {
+            endExamineAndStartAdj();
+            return;
+        }
+
+        // 2) inve_examine_box 등장
+        examineBoxWrap.style.display = 'block';
+        examineBoxWrap.getBoundingClientRect();
+        examineBoxWrap.classList.add('fade-in-up');
+
+        // p01~p04 텍스트 초기 세팅 (p01만 노출)
+        var examineTexts = [];
+        for (var i = 1; i <= 4; i++) {
+            var t = examineBoxWrap.querySelector('.p0' + i);
+            if (t) examineTexts.push(t);
+        }
+
+        examineTexts.forEach(function (el, idx) {
+            el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+            if (idx === 0) {
+                el.style.display = 'block';
+                el.style.opacity = 1;
+                el.style.transform = 'translateY(0)';
+            } else {
+                el.style.display = 'none';
+                el.style.opacity = 0;
+                el.style.transform = 'translateY(10px)';
+            }
+        });
+
+        // p01~p04 전환 (총 6단계)
+        function showProgressText(stepIndex) {
+            if (!examineTexts.length) return;
+
+            var targetIdx;
+            if (stepIndex <= 2)          targetIdx = 0;
+            else if (stepIndex === 3)    targetIdx = 1;
+            else if (stepIndex === 4)    targetIdx = 2;
+            else                         targetIdx = 3;
+
+            examineTexts.forEach(function (el, idx) {
+                if (idx === targetIdx) return;
+                if (el.style.display !== 'none') {
+                    el.style.opacity = 0;
+                    el.style.transform = 'translateY(-10px)';
+                    (function (node) {
+                        setTimeout(function () {
+                            node.style.display = 'none';
+                        }, 400);
+                    })(el);
+                }
+            });
+
+            var showTarget = examineTexts[targetIdx];
+            if (!showTarget) return;
+
+            setTimeout(function () {
+                showTarget.style.display = 'block';
+                showTarget.getBoundingClientRect();
+                showTarget.style.opacity = 1;
+                showTarget.style.transform = 'translateY(0)';
+            }, 420);
+        }
+
+        // examineBox 올라온 뒤 1초 후 단계 시퀀스 시작
+        setTimeout(function () {
+
+            var STEP_DURATION = 1500;
+
+            var steps = document.querySelectorAll('.step_examine_list [class^="step_examine_"]');
+            var examineGroups = document.querySelectorAll('[class^="inve_examine_step_"]');
+
+            if (!steps.length || !examineGroups.length) {
+                // 예외: 단계 구조가 없으면 바로 examine 닫고 adj로
+                endExamineAndStartAdj();
+                return;
+            }
+
+            var totalSteps  = steps.length; // 기대: 6
+            var examineMax  = 85;          // 0 → 85%
+
+            // 모든 단계 컨텐츠 초기화
+            examineGroups.forEach(function (grp) {
+                grp.style.display = 'none';
+                grp.classList.remove('fade-in-up', 'fade-out-up');
+
+                var gauges = grp.querySelectorAll('.inve_examine_gp_item .bar .gauge');
+                gauges.forEach(function (g) {
+                    g.style.transition = 'none';
+                    g.style.width = '0%';
+                });
+            });
+
+            // 게이지 애니
+            function animateGauges(group) {
+                var bars = group.querySelectorAll('.inve_examine_gp_item .bar');
+                var barCount = bars.length;
+                if (!barCount) return;
+
+                var perTime = STEP_DURATION / barCount;
+
+                bars.forEach(function (bar, idx) {
+                    var gauge = bar.querySelector('.gauge');
+                    if (!gauge) return;
+
+                    var target = parseFloat(gauge.getAttribute('data-percent')) || 100;
+
+                    gauge.style.transition = 'none';
+                    gauge.style.width = '0%';
+                    gauge.getBoundingClientRect();
+
+                    setTimeout(function () {
+                        gauge.style.transition = 'width ' + (perTime / 1000) + 's ease';
+                        gauge.style.width = target + '%';
+                    }, idx * perTime);
+                });
+            }
+
+            // 단계별 실행 (총 6단계, 0~5 index)
+            function showStep(stepIndex) {
+                var lastIndex = totalSteps - 1;
+
+                if (stepIndex > lastIndex || stepIndex >= examineGroups.length) {
+                    // 모든 단계 끝 → examine 박스 닫고 adj 시작
+                    endExamineAndStartAdj();
+                    return;
+                }
+
+                // 동그라미 상태 처리
+                steps.forEach(function (el, i) {
+                    el.classList.remove('done');
+
+                    if (stepIndex === lastIndex) {
+                        if (i < lastIndex) {
+                            el.classList.remove('on');
+                            el.classList.add('done');
+                        } else if (i === lastIndex) {
+                            el.classList.add('on');
+                        }
+                    } else {
+                        if (i <= stepIndex) {
+                            el.classList.add('on');
+                        } else {
+                            el.classList.remove('on');
+                        }
+                    }
+                });
+
+                // examine 커서: 0 → 85% (0~5)
+                var cursorTarget = (stepIndex / lastIndex) * examineMax;
+                moveExamineCursor(cursorTarget);
+
+                // p01~p04 텍스트 전환
+                showProgressText(stepIndex);
+
+                var currentGroup = examineGroups[stepIndex];
+
+                currentGroup.style.display = 'flex';
+                currentGroup.classList.remove('fade-out-up');
+                currentGroup.classList.add('fade-in-up');
+
+                // 게이지 애니
+                animateGauges(currentGroup);
+
+                if (stepIndex === lastIndex) {
+                    // 마지막 단계: 레이더 차트 그리고
+                    animateMovieRadar();
+
+                    // 마지막 그룹 애니 끝난 뒤 examine_box 자체 fade-out-up → adj
+                    setTimeout(function () {
+                        endExamineAndStartAdj();
+                    }, STEP_DURATION);
+                } else {
+                    setTimeout(function () {
+                        currentGroup.classList.remove('fade-in-up');
+                        currentGroup.classList.add('fade-out-up');
+
+                        var hideHandler = function (ev) {
+                            if (ev.propertyName !== 'opacity') return;
+                            currentGroup.removeEventListener('transitionend', hideHandler);
+
+                            currentGroup.style.display = 'none';
+                            showStep(stepIndex + 1);
+                        };
+
+                        currentGroup.addEventListener('transitionend', hideHandler);
+                    }, STEP_DURATION);
+                }
+            }
+
+            // 첫 단계 시작
+            showStep(0);
+
+        }, 1000); // examineBoxWrap 올라온 후 대기
+    }
+
+    // --------------------------------------------------------------------
+    // pop_01 / pop_02 제어
+    // --------------------------------------------------------------------
+    function showPop01() {
+        if (!pop01) {
+            // 팝업이 없으면 기존처럼 바로 진행
+            startExamineSequence();
+            return;
+        }
+        pop01.classList.add('is-active');
+    }
+
+    function showPop02() {
+        if (!pop02) {
+            // 팝업이 없으면 바로 기존 시퀀스
+            runConfirmWrapSequence();
+            return;
+        }
+        pop02.classList.add('is-active');
+    }
+
+    // 팝업 버튼 이벤트: pop_01 → examine, pop_02 → movie_closed + inve_result
+    if (pop01) {
+        var pop01Btn = pop01.querySelector('.btn_next');
+        if (pop01Btn) {
+            pop01Btn.addEventListener('click', function () {
+                pop01.classList.remove('is-active');
+                startExamineSequence();
+            });
+        }
+    }
+
+    if (pop02) {
+        var pop02Btn = pop02.querySelector('.btn_next');
+        if (pop02Btn) {
+            pop02Btn.addEventListener('click', function () {
+                pop02.classList.remove('is-active');
+                runConfirmWrapSequence();
+            });
+        }
+    }
+
+    // --------------------------------------------------------------------
+    // 커서 & confirm/examine 시퀀스 시작
+    //   - inve_confirm_box 커서 애니 끝 → pop_01 노출
     // --------------------------------------------------------------------
     setTimeout(function () {
         if (cursorText) {
@@ -1611,211 +1891,16 @@ document.addEventListener('DOMContentLoaded', function () {
             if (step === maxStep) {
                 clearInterval(intervalId);
 
-                // 커서 애니 끝난 뒤 2초 후부터 시퀀스 시작
+                // 커서 애니 끝난 후 1초 뒤 → pop_01 띄우기
                 setTimeout(function () {
-                    // confirmBoxWrap만 사라짐
-                    if (confirmBoxWrap) {
-                        confirmBoxWrap.classList.add('fade-out-up');
-                        setTimeout(function () { confirmBoxWrap.style.display = 'none'; }, 600);
-                    }
-
-                    // 2) inve_examine_box 등장
-                    if (examineBoxWrap) {
-                        examineBoxWrap.style.display = 'block';
-                        examineBoxWrap.getBoundingClientRect();
-                        examineBoxWrap.classList.add('fade-in-up');
-
-                        // p01~p04 텍스트 초기 세팅 (p01만 노출)
-                        var examineTexts = [];
-                        for (var i = 1; i <= 4; i++) {
-                            var t = examineBoxWrap.querySelector('.p0' + i);
-                            if (t) examineTexts.push(t);
-                        }
-
-                        examineTexts.forEach(function (el, idx) {
-                            el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-                            if (idx === 0) {
-                                el.style.display = 'block';
-                                el.style.opacity = 1;
-                                el.style.transform = 'translateY(0)';
-                            } else {
-                                el.style.display = 'none';
-                                el.style.opacity = 0;
-                                el.style.transform = 'translateY(10px)';
-                            }
-                        });
-
-                        // p01~p04 전환 (총 6단계)
-                        function showProgressText(stepIndex) {
-                            if (!examineTexts.length) return;
-
-                            var targetIdx;
-                            if (stepIndex <= 2)      targetIdx = 0;
-                            else if (stepIndex === 3) targetIdx = 1;
-                            else if (stepIndex === 4) targetIdx = 2;
-                            else                      targetIdx = 3;
-
-                            examineTexts.forEach(function (el, idx) {
-                                if (idx === targetIdx) return;
-                                if (el.style.display !== 'none') {
-                                    el.style.opacity = 0;
-                                    el.style.transform = 'translateY(-10px)';
-                                    (function (node) {
-                                        setTimeout(function () {
-                                            node.style.display = 'none';
-                                        }, 400);
-                                    })(el);
-                                }
-                            });
-
-                            var showTarget = examineTexts[targetIdx];
-                            if (!showTarget) return;
-
-                            setTimeout(function () {
-                                showTarget.style.display = 'block';
-                                showTarget.getBoundingClientRect();
-                                showTarget.style.opacity = 1;
-                                showTarget.style.transform = 'translateY(0)';
-                            }, 420);
-                        }
-
-                        // examineBox 올라온 뒤 2초 후 단계 시퀀스 시작
-                        setTimeout(function () {
-
-                            var STEP_DURATION = 1500;
-
-                            var steps = document.querySelectorAll('.step_examine_list [class^="step_examine_"]');
-                            var examineGroups = document.querySelectorAll('[class^="inve_examine_step_"]');
-
-                            if (!steps.length || !examineGroups.length) {
-                                // 예외: 단계 구조가 없으면 바로 examine 닫고 adj로
-                                endExamineAndStartAdj();
-                                return;
-                            }
-
-                            var totalSteps  = steps.length; // 기대: 6
-                            var examineMax  = 85;          // 0 → 85%
-
-                            // 모든 단계 컨텐츠 초기화
-                            examineGroups.forEach(function (grp) {
-                                grp.style.display = 'none';
-                                grp.classList.remove('fade-in-up', 'fade-out-up');
-
-                                var gauges = grp.querySelectorAll('.inve_examine_gp_item .bar .gauge');
-                                gauges.forEach(function (g) {
-                                    g.style.transition = 'none';
-                                    g.style.width = '0%';
-                                });
-                            });
-
-                            // 게이지 애니
-                            function animateGauges(group) {
-                                var bars = group.querySelectorAll('.inve_examine_gp_item .bar');
-                                var barCount = bars.length;
-                                if (!barCount) return;
-
-                                var perTime = STEP_DURATION / barCount;
-
-                                bars.forEach(function (bar, idx) {
-                                    var gauge = bar.querySelector('.gauge');
-                                    if (!gauge) return;
-
-                                    var target = parseFloat(gauge.getAttribute('data-percent')) || 100;
-
-                                    gauge.style.transition = 'none';
-                                    gauge.style.width = '0%';
-                                    gauge.getBoundingClientRect();
-
-                                    setTimeout(function () {
-                                        gauge.style.transition = 'width ' + (perTime / 1000) + 's ease';
-                                        gauge.style.width = target + '%';
-                                    }, idx * perTime);
-                                });
-                            }
-
-                            // 단계별 실행 (총 6단계, 0~5 index)
-                            function showStep(stepIndex) {
-                                var lastIndex = totalSteps - 1;
-
-                                if (stepIndex > lastIndex || stepIndex >= examineGroups.length) {
-                                    // 모든 단계 끝 → examine 박스 닫고 adj 시작
-                                    endExamineAndStartAdj();
-                                    return;
-                                }
-
-                                // 동그라미 상태 처리
-                                steps.forEach(function (el, i) {
-                                    el.classList.remove('done');
-
-                                    if (stepIndex === lastIndex) {
-                                        if (i < lastIndex) {
-                                            el.classList.remove('on');
-                                            el.classList.add('done');
-                                        } else if (i === lastIndex) {
-                                            el.classList.add('on');
-                                        }
-                                    } else {
-                                        if (i <= stepIndex) {
-                                            el.classList.add('on');
-                                        } else {
-                                            el.classList.remove('on');
-                                        }
-                                    }
-                                });
-
-                                // examine 커서: 0 → 85% (0~5)
-                                var cursorTarget = (stepIndex / lastIndex) * examineMax;
-                                moveExamineCursor(cursorTarget);
-
-                                // p01~p04 텍스트 전환
-                                showProgressText(stepIndex);
-
-                                var currentGroup = examineGroups[stepIndex];
-
-                                currentGroup.style.display = 'flex';
-                                currentGroup.classList.remove('fade-out-up');
-                                currentGroup.classList.add('fade-in-up');
-
-                                // 게이지 애니
-                                animateGauges(currentGroup);
-
-                                if (stepIndex === lastIndex) {
-                                    // 마지막 단계: 레이더 차트 그리고
-                                    animateMovieRadar();
-
-                                    // 마지막 그룹 애니 끝난 뒤 examine_box 자체 fade-out-up → adj
-                                    setTimeout(function () {
-                                        endExamineAndStartAdj();
-                                    }, STEP_DURATION);
-                                } else {
-                                    setTimeout(function () {
-                                        currentGroup.classList.remove('fade-in-up');
-                                        currentGroup.classList.add('fade-out-up');
-
-                                        var hideHandler = function (ev) {
-                                            if (ev.propertyName !== 'opacity') return;
-                                            currentGroup.removeEventListener('transitionend', hideHandler);
-
-                                            currentGroup.style.display = 'none';
-                                            showStep(stepIndex + 1);
-                                        };
-
-                                        currentGroup.addEventListener('transitionend', hideHandler);
-                                    }, STEP_DURATION);
-                                }
-                            }
-
-                            // 첫 단계 시작
-                            showStep(0);
-
-                        }, 1000); // examineBoxWrap 올라온 후 2초 대기
-                    }
-                }, 2000); // 커서 애니 끝난 뒤 2초
+                    showPop01();
+                }, 1000);
             }
         }, 1100);
 
     }, 2000); // 최초 지연
 });
+
 
 
 
