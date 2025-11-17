@@ -117,7 +117,12 @@ $(function () {
 
 
 
-    
+$(window).on('load', function () {
+  setTimeout(function () {
+    $('.hero-text').addClass('is-show');
+  }, 500);
+});
+
 /* floatin icon 생성 */
 const floatArea = document.querySelector('.float-img-area');
 const ICON_COUNT = 70; // 총 아이콘 개수
