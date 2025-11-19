@@ -2163,7 +2163,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 /* -----------------------------
-   공통 카드 초기/시퀀스
+   공통 카드 초기/시퀀스 (주로 step_box_01용)
 ------------------------------*/
 function initCardDetailAnimation(card) {
   if (!card) return;
@@ -2190,61 +2190,70 @@ function initCardDetailAnimation(card) {
 }
 
 function resetCardDetailState(card) {
-  var span = card.querySelector('.per_ing span');
-  if (span) span.textContent = '0';
+  // ★ step_box_01 범위만 초기화 (step_box_02는 건드리지 않음)
+  var stepBox1 = card.querySelector('.as_step_box.step_box_01');
+  if (stepBox1) {
+    var span = stepBox1.querySelector('.per_ing span');
+    if (span) span.textContent = '0';
 
-  var checks = card.querySelectorAll('.credit_rating_list .inner > ul > li .ch');
-  checks.forEach(function (ch) { ch.classList.remove('on'); });
+    var checks = stepBox1.querySelectorAll('.credit_rating_list .inner > ul > li .ch');
+    checks.forEach(function (ch) { ch.classList.remove('on'); });
 
-  var container = card.querySelector('.credit_rating_list');
-  if (container) container.scrollTop = 0;
+    var container = stepBox1.querySelector('.credit_rating_list');
+    if (container) container.scrollTop = 0;
 
-  var s1 = card.querySelector('.as_card_detail_cont .s1');
-  var s2 = card.querySelector('.as_card_detail_cont .s2');
+    var s1 = stepBox1.querySelector('.as_card_detail_cont .s1');
+    var s2 = stepBox1.querySelector('.as_card_detail_cont .s2');
 
-  if (s1) {
-    s1.style.display = '';
-    s1.style.opacity = '1';
-    s1.style.transform = 'translateY(0)';
-    s1.style.pointerEvents = 'auto';
-    s1.style.transition = '';
-  }
-  if (s2) {
-    s2.style.display = 'none';
-    s2.style.opacity = '0';
-    s2.style.transform = 'translateY(0.52vw)';
-    s2.style.pointerEvents = 'none';
-    s2.style.transition = '';
-  }
+    if (s1) {
+      s1.style.display = '';
+      s1.style.opacity = '1';
+      s1.style.transform = 'translateY(0)';
+      s1.style.pointerEvents = 'auto';
+      s1.style.transition = '';
+    }
+    if (s2) {
+      s2.style.display = 'none';
+      s2.style.opacity = '0';
+      s2.style.transform = 'translateY(0.52vw)';
+      s2.style.pointerEvents = 'none';
+      s2.style.transition = '';
+      s2.classList.remove('on');
+      s2.dataset.step02Done = '0';
+    }
 
-  var gradeFill = card.querySelector('.credit_rating_re .grade_fill');
-  var gradeThumb = card.querySelector('.credit_rating_re .grade_thumb');
-  if (gradeFill) gradeFill.style.width = '0%';
-  if (gradeThumb) gradeThumb.style.left = '0%';
+    var gradeFill = stepBox1.querySelector('.credit_rating_re .grade_fill');
+    var gradeThumb = stepBox1.querySelector('.credit_rating_re .grade_thumb');
+    if (gradeFill) gradeFill.style.width = '0%';
+    if (gradeThumb) gradeThumb.style.left = '0%';
 
-  var possiBars = card.querySelectorAll('.credit_rating_possi .gp_bar');
-  var possiPer = card.querySelectorAll('.credit_rating_possi .per span');
-  possiBars.forEach(function (bar) { bar.style.width = '0%'; });
-  possiPer.forEach(function (el) { el.textContent = '0'; });
+    var possiBars = stepBox1.querySelectorAll('.credit_rating_possi .gp_bar');
+    var possiPer = stepBox1.querySelectorAll('.credit_rating_possi .per span');
+    possiBars.forEach(function (bar) { bar.style.width = '0%'; });
+    possiPer.forEach(function (el) { el.textContent = '0'; });
 
-  var info = card.querySelector('.credit_rating_re .grade_slider_info');
-  if (info) info.classList.remove('is-show');
+    var info = stepBox1.querySelector('.credit_rating_re .grade_slider_info');
+    if (info) info.classList.remove('is-show');
 
-  var reConfirm = card.querySelector('.re_confirm');
-  if (reConfirm) {
-    reConfirm.classList.remove('is-show');
-    reConfirm.style.display = 'none';
+    // ★ step_box_01 의 re_confirm는 is-show만 제어 (display/opacity/transform은 CSS)
+    var reConfirms = stepBox1.querySelectorAll('.re_confirm');
+    reConfirms.forEach(function (box) {
+      box.classList.remove('is-show');
+    });
   }
 }
 
 function runCardDetailSequence(card) {
-  animatePercent(card);
-  animateChecklist(card);
+  // ★ step_box_01 기준으로만 실행
+  var stepBox1 = card.querySelector('.as_step_box.step_box_01');
+  if (!stepBox1) return;
+  animatePercent(stepBox1);
+  animateChecklist(stepBox1);
 }
 
-// 0 → 100, 5초 (카드 기준)
-function animatePercent(card) {
-  var span = card.querySelector('.per_ing span');
+// 0 → 100, 5초 (step_box_01 기준)
+function animatePercent(container) {
+  var span = container.querySelector('.per_ing span');
   if (!span) return;
   animatePercentOnSpan(span, 5000);
 }
@@ -2266,11 +2275,11 @@ function animatePercentOnSpan(span, duration, onComplete) {
   requestAnimationFrame(step);
 }
 
-// 체크리스트 + 스크롤(5초) 후 s1→s2
-function animateChecklist(card) {
-  var checks = card.querySelectorAll('.credit_rating_list .inner > ul > li .ch');
-  var container = card.querySelector('.credit_rating_list');
-  if (!checks.length || !container) return;
+// 체크리스트 + 스크롤(5초) 후 s1→s2 (step_box_01용)
+function animateChecklist(container) {
+  var checks = container.querySelectorAll('.credit_rating_list .inner > ul > li .ch');
+  var scrollBox = container.querySelector('.credit_rating_list');
+  if (!checks.length || !scrollBox) return;
 
   var totalDuration = 5000;
   var count = checks.length;
@@ -2284,12 +2293,12 @@ function animateChecklist(card) {
       ch.classList.add('on');
 
       if (index >= 6) {
-        smoothScrollByPx(container, scrollStepPx, scrollDuration);
+        smoothScrollByPx(scrollBox, scrollStepPx, scrollDuration);
       }
 
       if (index === lastIndex) {
         setTimeout(function () {
-          switchToStep2(card);
+          switchToStep2(container);
         }, scrollDuration + 100);
       }
     }, delay * index);
@@ -2312,10 +2321,10 @@ function smoothScrollByPx(el, px, duration) {
   requestAnimationFrame(step);
 }
 
-// s1 위로 사라지고 s2 위로 등장 + (신용평가 카드용) 결과 애니 시작
-function switchToStep2(card) {
-  var s1 = card.querySelector('.as_card_detail_cont .s1');
-  var s2 = card.querySelector('.as_card_detail_cont .s2');
+// s1 위로 사라지고 s2 위로 등장 + (신용평가 카드용) 결과 애니 시작 (step_box_01용)
+function switchToStep2(container) {
+  var s1 = container.querySelector('.as_card_detail_cont .s1');
+  var s2 = container.querySelector('.as_card_detail_cont .s2');
   if (!s1 || !s2) return;
 
   s1.style.transition = 'opacity 0.8s ease,transform 0.8s ease';
@@ -2332,7 +2341,7 @@ function switchToStep2(card) {
     s2.style.pointerEvents = 'auto';
 
     setTimeout(function () {
-      startResultAnimations(card);
+      startResultAnimations(container);
     }, 300);
   });
 
@@ -2366,15 +2375,15 @@ function animateValue(start, end, duration, onUpdate, onComplete) {
   requestAnimationFrame(step);
 }
 
-// 신용평가 결과(슬라이더+바) – 기존 카드용 (step_box_01쪽)
-function startResultAnimations(card) {
-  var gradeFill  = card.querySelector('.credit_rating_re .grade_fill');
-  var gradeThumb = card.querySelector('.credit_rating_re .grade_thumb');
-  var gradeInfo  = card.querySelector('.credit_rating_re .grade_slider_info');
+// 신용평가 결과(슬라이더+바) – step_box_01용
+function startResultAnimations(container) {
+  var gradeFill  = container.querySelector('.credit_rating_re .grade_fill');
+  var gradeThumb = container.querySelector('.credit_rating_re .grade_thumb');
+  var gradeInfo  = container.querySelector('.credit_rating_re .grade_slider_info');
 
-  var possiBars  = card.querySelectorAll('.credit_rating_possi .gp_bar');
-  var possiPer   = card.querySelectorAll('.credit_rating_possi .per span');
-  var reConfirm  = card.querySelector('.re_confirm');
+  var possiBars  = container.querySelectorAll('.credit_rating_possi .gp_bar');
+  var possiPer   = container.querySelectorAll('.credit_rating_possi .per span');
+  var reConfirm  = container.querySelector('.re_confirm');
 
   var gradeTarget = 40;
   var barTarget   = 30;
@@ -2414,11 +2423,9 @@ function startResultAnimations(card) {
       }, function () {
         if (gradeInfo) gradeInfo.classList.add('is-show');
         if (reConfirm) {
+          // ★ step_box_01 : CSS에서 .re_confirm / .re_confirm.is-show로 제어
           setTimeout(function () {
-            reConfirm.style.display = 'block';
-            requestAnimationFrame(function () {
-              reConfirm.classList.add('is-show');
-            });
+            reConfirm.classList.add('is-show');
           }, 500);
         }
       });
@@ -2431,14 +2438,19 @@ function startResultAnimations(card) {
    기술평가 팝업 & step_box_02 연동
 ------------------------------*/
 document.addEventListener('DOMContentLoaded', function () {
-  // data-target="tec01" 팝업 오픈
+  // data-target 팝업 오픈 공통
   document.addEventListener('click', function (e) {
     var trigger = e.target.closest('[data-target]');
-    if (trigger) {
-      var targetId = trigger.getAttribute('data-target');
-      var pop = document.getElementById(targetId);
-      if (pop && pop.classList.contains('as_expec_pop')) {
-        pop.classList.add('is-show');
+    if (!trigger) return;
+
+    var targetId = trigger.getAttribute('data-target');
+    var pop = document.getElementById(targetId);
+    if (pop && pop.classList.contains('as_expec_pop')) {
+      pop.classList.add('is-show');
+
+      // ★ tec02 전용 시퀀스 시작
+      if (targetId === 'tec02') {
+        startTec02Sequence(pop);
       }
     }
   });
@@ -2469,8 +2481,8 @@ document.addEventListener('DOMContentLoaded', function () {
       techBtn.addEventListener('click', function () {
         techPop.classList.remove('is-show');
 
-        var stepBox1 = document.querySelector('.step_box_01');
-        var stepBox2 = document.querySelector('.step_box_02');
+        var stepBox1 = document.querySelector('.as_step_box.step_box_01');
+        var stepBox2 = document.querySelector('.as_step_box.step_box_02');
         if (!stepBox1 || !stepBox2) return;
 
         stepBox1.style.transition = 'opacity 0.8s ease,transform 0.8s ease';
@@ -2509,13 +2521,37 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // step_box_02 내부 s1의 "평가 진행하기" 버튼 → s2 노출 + 등급 슬라이더 + 상품 지원 가능성
-  var stepBox2Inner = document.querySelector('.step_box_02');
+  var stepBox2Inner = document.querySelector('.as_step_box.step_box_02');
   if (stepBox2Inner) {
     var innerBtn = stepBox2Inner.querySelector('.s1 .st_02_btn .btn');
     if (innerBtn) {
       innerBtn.addEventListener('click', function () {
         showTechDetailStep(stepBox2Inner);
       });
+    }
+
+    // s2 내부 step_02 / re_confirm 초기 숨김 세팅 (step_box_02 전용)
+    var s2 = stepBox2Inner.querySelector('.as_card_detail_cont > .s2');
+    if (s2) {
+      var step2Re = s2.querySelector('.credit_rating_re.step_02');
+      var re2 = s2.querySelector('.re_confirm');
+
+      if (step2Re) {
+        step2Re.style.opacity = '0';
+        step2Re.style.transform = 'translateY(0)'; // 제자리
+        step2Re.style.display = 'none';
+        step2Re.style.pointerEvents = 'none';
+        step2Re.style.transition = 'opacity 0.8s ease,transform 0.8s ease';
+      }
+      if (re2) {
+        // step_box_02 에서는 is-show 사용 안함, inline 스타일로만 제어
+        re2.style.opacity = '0';
+        re2.style.transform = 'translateY(0.52vw)';
+        re2.style.display = 'none';
+        re2.style.pointerEvents = 'none';
+        re2.style.transition = 'opacity 0.8s ease,transform 0.8s ease';
+        re2.classList.remove('is-show');
+      }
     }
   }
 });
@@ -2538,7 +2574,7 @@ function startTechStepAnimations(stepBox) {
   var span      = stepBox.querySelector('.per_ing span');
   var perEl     = stepBox.querySelector('.per_ing');
   var descBlock = stepBox.querySelector('.as_card_detail_cont > div > .desc');
-  var possiBox  = stepBox.querySelector('.credit_rating_possi');
+  var possiBox  = stepBox.querySelector('.s1 .credit_rating_possi');
 
   // 1) 퍼센트 0→100 (5초)
   if (span) {
@@ -2584,12 +2620,7 @@ function startTechStepAnimations(stepBox) {
   });
 }
 
-/* 퍼센트 100% 도달 후 비주얼 교체 (step_box_02 s1)
-   - cen_01 : 위로 올라가면서 사라짐
-   - cen_02 : 아래쪽에서 위로 올라오면서 나타남
-   - desc_01 : opacity 0 + display:none 후
-   - desc_02 : 자리에서 opacity 1로 등장
-*/
+/* 퍼센트 100% 도달 후 비주얼 교체 (step_box_02 s1) */
 function switchTechVisuals(stepBox) {
   var cen1 = stepBox.querySelector('.prog_mp_item .cen_01');
   var cen2 = stepBox.querySelector('.prog_mp_item .cen_02');
@@ -2688,8 +2719,8 @@ function showTechDetailStep(stepBox) {
     s2.style.transform = 'translateY(0)';
   });
 
-  // s2 등급 슬라이더 초기화
-  var tracks = s2.querySelectorAll('.grade_slider .grade_track');
+  // s2 등급 슬라이더(step_01) 초기화
+  var tracks = s2.querySelectorAll('.credit_rating_re.step_01 .grade_slider .grade_track');
   tracks.forEach(function (track) {
     var fill = track.querySelector('.grade_fill');
     var thumb = track.querySelector('.grade_thumb');
@@ -2711,9 +2742,9 @@ function showTechDetailStep(stepBox) {
   });
 }
 
-// s2 등급 슬라이더: 70,60,80,70,50% 순으로 0.2초 간격으로 채우기
+// s2 등급 슬라이더(step_01): 70,60,80,70,50% 순으로 0.2초 간격으로 채우기
 function animateTechGradeSliders(container, onComplete) {
-  var tracks = container.querySelectorAll('.grade_slider .grade_track');
+  var tracks = container.querySelectorAll('.credit_rating_re.step_01 .grade_slider .grade_track');
   if (!tracks.length) {
     if (typeof onComplete === 'function') onComplete();
     return;
@@ -2779,11 +2810,531 @@ function animateTechPossiFromS2(s2) {
   });
 }
 
+/* -----------------------------
+   2차 단계: s2.on 상태에서 "결과받기" → step_02 + re_confirm 노출
+------------------------------*/
+
+// 이벤트 위임으로 결과 버튼 처리 (step_box_02 안)
+document.addEventListener('click', function (e) {
+  var btn = e.target.closest('.as_step_box.step_box_02 .btn_result_report .btn_report');
+  if (!btn) return;
+
+  var s2 = btn.closest('.s2');
+  if (!s2) return;
+
+  // s2.on 상태일 때만 작동
+  if (!s2.classList.contains('on')) return;
+
+  showStep02AndConfirm(s2);
+});
+
+function showStep02AndConfirm(s2) {
+  if (!s2) return;
+  if (s2.dataset.step02Done === '1') return; // 중복실행 방지
+  s2.dataset.step02Done = '1';
+
+  var step1Re = s2.querySelector('.credit_rating_re.step_01');
+  var step2Re = s2.querySelector('.credit_rating_re.step_02');
+  var possi   = s2.querySelector('.credit_rating_possi');
+  var re2     = s2.querySelector('.re_confirm');
+
+  // step_01 + 상품 지원 가능성 위로 사라짐
+  if (step1Re) {
+    step1Re.style.transition = 'opacity 0.8s ease,transform 0.8s ease';
+    requestAnimationFrame(function () {
+      step1Re.style.opacity = '0';
+      step1Re.style.transform = 'translateY(-0.52vw)';
+      step1Re.style.pointerEvents = 'none';
+    });
+    step1Re.addEventListener('transitionend', function h1(e) {
+      if (e.target !== step1Re || e.propertyName !== 'opacity') return;
+      step1Re.removeEventListener('transitionend', h1);
+      step1Re.style.display = 'none';
+
+      // ★ step_01 완전히 사라지고 0.2초 뒤에 step_02 노출 애니 시작
+      setTimeout(function () {
+        startStep02Block();
+      }, 200);
+    });
+  } else {
+    // step_01이 없으면 바로 step_02 쪽으로
+    startStep02Block();
+  }
+
+  if (possi) {
+    possi.style.transition = 'opacity 0.8s ease,transform 0.8s ease';
+    requestAnimationFrame(function () {
+      possi.style.opacity = '0';
+      possi.style.transform = 'translateY(-0.52vw)';
+      possi.style.pointerEvents = 'none';
+    });
+    possi.addEventListener('transitionend', function h2(e) {
+      if (e.target !== possi || e.propertyName !== 'opacity') return;
+      possi.removeEventListener('transitionend', h2);
+      possi.style.display = 'none';
+    });
+  }
+
+  // step_02 노출 + 슬라이더 채우기 + re_confirm 순차 실행
+  function startStep02Block() {
+    if (!step2Re) {
+      // step_02가 없으면 re_confirm만
+      if (re2) showReConfirmFromStep2(re2);
+      return;
+    }
+
+    // step_02 제자리에서 페이드 인 준비
+    step2Re.style.display = 'block';
+    step2Re.style.opacity = '0';
+    step2Re.style.transform = 'translateY(0)'; // 이동 없음
+    step2Re.style.pointerEvents = 'none';
+    step2Re.style.transition = 'opacity 0.8s ease';
+
+    // step_02의 grade_slider 기본 표시
+    var step2Slider = step2Re.querySelector('.grade_slider');
+    if (step2Slider) {
+      step2Slider.style.opacity = '1';
+      step2Slider.style.display = 'inline-block';
+    }
+
+    // ★ 컨테이너 opacity 트랜지션 끝난 뒤 슬라이더 애니 시작
+    var fired = false;
+    function step2Handler(e) {
+      if (e.target !== step2Re || e.propertyName !== 'opacity') return;
+      if (fired) return;
+      fired = true;
+      step2Re.removeEventListener('transitionend', step2Handler);
+
+      animateStep02Grade(step2Re, function () {
+        if (re2) showReConfirmFromStep2(re2);
+      });
+    }
+    step2Re.addEventListener('transitionend', step2Handler);
+
+    // opacity 변경 트리거
+    requestAnimationFrame(function () {
+      step2Re.style.opacity = '1';
+      step2Re.style.pointerEvents = 'auto';
+    });
+  }
+}
+
+/* step_02 슬라이더 내부 grade_fill / grade_thumb 애니 (0 → target%) */
+function animateStep02Grade(step2Re, onComplete) {
+  if (!step2Re) {
+    if (typeof onComplete === 'function') onComplete();
+    return;
+  }
+
+  var track = step2Re.querySelector('.grade_slider .grade_track');
+  if (!track) {
+    if (typeof onComplete === 'function') onComplete();
+    return;
+  }
+
+  var fill  = track.querySelector('.grade_fill');
+  var thumb = track.querySelector('.grade_thumb');
+
+  if (fill)  fill.style.width = '0%';
+  if (thumb) thumb.style.left = '0%';
+
+  var target   = 40;     // 필요하면 이 값만 수정
+  var duration = 2000;
+
+  animateValue(0, target, duration, function (v) {
+    var val = Math.round(v * 10) / 10;
+    if (fill)  fill.style.width = val + '%';
+    if (thumb) thumb.style.left = val + '%';
+  }, function () {
+    // 슬라이더 애니 끝난 뒤 grade_slider_info on
+    var info2 = step2Re.querySelector('.grade_slider_info');
+    if (info2) info2.classList.add('is-show');
+
+    if (typeof onComplete === 'function') onComplete();
+  });
+}
+
+/* step_box_02의 re_confirm를 부드럽게 노출 */
+function showReConfirmFromStep2(re2) {
+  if (!re2) return;
+
+  re2.style.display = 'block';
+  re2.style.opacity = '0';
+  re2.style.transform = 'translateY(0.52vw)';
+  re2.style.pointerEvents = 'none';
+
+  requestAnimationFrame(function () {
+    re2.style.opacity = '1';
+    re2.style.transform = 'translateY(0)';
+    re2.style.pointerEvents = 'auto';
+  });
+}
 
 
 
 
 
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.ga_item.js-ga').forEach(initGauge);
+});
+
+function initGauge(root) {
+  var arc = root.querySelector('.ga_arc');
+  if (!arc) return;
+
+  var TOTAL_TICKS = 20;         // 막대 개수 (스크린샷 느낌 값)
+  var START_ANGLE = -90;       // 시작 각도
+  var END_ANGLE   = 90;        // 끝 각도
+  var STEP = (END_ANGLE - START_ANGLE) / (TOTAL_TICKS - 1);
+
+  // 막대 생성
+  for (var i = 0; i < TOTAL_TICKS; i++) {
+    var tick = document.createElement('span');
+    tick.className = 'ga_tick';
+    tick.style.setProperty('--rot', (START_ANGLE + STEP * i) + 'deg');
+    arc.appendChild(tick);
+  }
+
+  var ticks = arc.querySelectorAll('.ga_tick');
+
+  // 마지막 2개를 제외한 막대만 애니메이션
+  var lastActiveIndex = ticks.length - 3; // 마지막에서 3개째까지
+  var totalAnimTime = 1000;               // 전체 1초
+  var delayPer = totalAnimTime / lastActiveIndex; // 막대당 딜레이
+
+  ticks.forEach(function (tick, idx) {
+    if (idx > lastActiveIndex) return; // 마지막 2개는 회색 유지
+
+    tick.classList.add('is-anim');
+    tick.style.setProperty('--delay', (idx * delayPer / 1000) + 's');
+  });
+}
+
+
+/* =============================
+   tec02 : 기술신용평가서 팝업 시퀀스
+   ============================= */
+
+// tec02 열릴 때 전체 흐름 시작
+function startTec02Sequence(pop) {
+  if (!pop) return;
+
+  // 이전에 돌던 타이머 있으면 정리
+  if (pop._tec02Timers) {
+    pop._tec02Timers.forEach(clearTimeout);
+  }
+  pop._tec02Timers = [];
+
+  // 상태 초기화
+  resetTec02State(pop);
+
+  // 상단 inner(로딩 영역)는 보이게 초기화
+  var header = pop.querySelector('.inner'); // tec_02 바로 아래 inner
+  if (header) {
+    header.style.display = 'block';
+    header.style.opacity = '1';
+    header.style.transform = 'translateY(0)';
+    header.style.pointerEvents = 'auto';
+  }
+
+  // 5초 동안 상단 로딩 화면만 보이게 두고,
+  // 5초 뒤 inner를 위로 사라지게 한 다음 0.2초 뒤 form 등장
+  var t1 = setTimeout(function () {
+    fadeOutTec02Header(pop);
+  }, 5000);
+  pop._tec02Timers.push(t1);
+}
+
+// tec02 상단 inner 사라지기 (위로 + 투명)
+function fadeOutTec02Header(pop) {
+  var header = pop.querySelector('.inner');
+  if (!header) {
+    // 예외적으로 없으면 그냥 form 바로 노출
+    showTec02Form(pop);
+    return;
+  }
+
+  header.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+
+  requestAnimationFrame(function () {
+    header.style.opacity = '0';
+    header.style.transform = 'translateY(-0.52vw)';
+    header.style.pointerEvents = 'none';
+  });
+
+  var done = false;
+  var onEnd = function (e) {
+    if (e.propertyName !== 'opacity' || done) return;
+    done = true;
+    header.removeEventListener('transitionend', onEnd);
+    header.style.display = 'none';
+
+    // 완전히 사라지고 0.2초 뒤 form 노출
+    var t = setTimeout(function () {
+      showTec02Form(pop);
+    }, 200);
+    if (!pop._tec02Timers) pop._tec02Timers = [];
+    pop._tec02Timers.push(t);
+  };
+  header.addEventListener('transitionend', onEnd);
+}
+
+// tec02 내부 요소 초기화
+function resetTec02State(pop) {
+  var form = pop.querySelector('.tec_credit_form');
+  if (form) {
+    form.style.display = 'none';
+    form.style.opacity = '0';
+    form.style.transform = 'translateY(0.52vw)';
+    form.style.pointerEvents = 'auto';
+  }
+
+  // 반원 게이지 막대 초기화
+  var arcWrap = pop.querySelector('.ga_item.js-ga .ga_arc');
+  if (arcWrap) {
+    arcWrap.innerHTML = '';
+  }
+
+  // 위쪽 2개의 슬라이더 초기화
+  var creditBlocks = pop.querySelectorAll('.gp .credit_rating_re');
+  creditBlocks.forEach(function (block) {
+    var track = block.querySelector('.grade_track');
+    if (!track) return;
+    var fill = track.querySelector('.grade_fill');
+    var thumb = track.querySelector('.grade_thumb');
+    if (fill) fill.style.width = '0%';
+    if (thumb) thumb.style.left = '0%';
+  });
+
+  // 상품 지원 가능성 영역 초기화
+  var possi = pop.querySelector('.possi_item .credit_rating_possi');
+  if (possi) {
+    possi.style.display = 'none';
+    possi.style.opacity = '0';
+    possi.style.transform = 'translateY(0.52vw)';
+    possi.style.pointerEvents = 'none';
+
+    var bars  = possi.querySelectorAll('.gp_bar');
+    var spans = possi.querySelectorAll('.per span');
+    bars.forEach(function (b) { b.style.width = '0%'; });
+    spans.forEach(function (s) { s.textContent = '0'; });
+  }
+
+  // 하단 re_confirm 초기화
+  var reConfirm = pop.querySelector('.confirm_item .re_confirm');
+  if (reConfirm) {
+    reConfirm.style.display = 'none';
+    reConfirm.style.opacity = '0';
+    reConfirm.style.transform = 'translateY(0.52vw)';
+    reConfirm.style.pointerEvents = 'none';
+  }
+}
+
+// inner 사라진 뒤 tec_credit_form 위로 스르륵 등장
+function showTec02Form(pop) {
+  var form = pop.querySelector('.tec_credit_form');
+  if (!form) return;
+
+  form.style.display = 'block';
+  // form.style.pointerEvents = 'none';  // ← 이 줄은 지우거나
+
+  requestAnimationFrame(function () {
+    form.style.opacity = '1';
+    form.style.transform = 'translateY(0)';
+    form.style.pointerEvents = 'auto';  // ★ 이렇게 바로 활성화
+  });
+
+  var t2 = setTimeout(function () {
+    startTec02Gauge(pop);
+  }, 500);
+  pop._tec02Timers.push(t2);
+}
+
+/* -----------------------------
+   1) 반원 게이지(ga_item) 애니
+------------------------------*/
+function startTec02Gauge(pop) {
+  var ga  = pop.querySelector('.ga_item.js-ga');
+  if (!ga) return;
+  var arc = ga.querySelector('.ga_arc');
+  if (!arc) return;
+
+  arc.innerHTML = '';
+
+  var count = 20;          // 막대 개수
+  var start = -90;         // 시작 각도
+  var end   = 90;          // 끝 각도
+  var step  = (end - start) / (count - 1);
+
+  for (var i = 0; i < count; i++) {
+    var tick = document.createElement('div');
+    tick.className = 'ga_tick';
+
+    var angle = start + step * i;
+    tick.style.setProperty('--rot', angle + 'deg');
+
+    // 마지막 2개는 항상 회색으로 남겨두고,
+    // 그 전까지는 순차적으로 파란 그라데이션 채움
+    if (i <= count - 3) {
+      var delay = (i * 0.03).toFixed(2) + 's'; // 전체 1초 정도
+      tick.style.setProperty('--delay', delay);
+      tick.classList.add('is-anim');
+    }
+
+    arc.appendChild(tick);
+  }
+
+  // 게이지 시작 0.5초 뒤 → 슬라이더 애니 시작
+  var t3 = setTimeout(function () {
+    animateTec02Sliders(pop);
+  }, 500);
+  pop._tec02Timers.push(t3);
+}
+
+/* -----------------------------
+   2) 위쪽 2개 슬라이더 채우기
+------------------------------*/
+function animateTec02Sliders(pop) {
+  var form   = pop.querySelector('.tec_credit_form');
+  if (!form) return;
+
+  var blocks = form.querySelectorAll('.gp .credit_rating_re');
+  if (!blocks.length) return;
+
+  var first  = blocks[0];
+  var second = blocks[1];
+
+  // 첫 번째 : 80%
+  animateSingleGrade(first, 80, 1200, function () {
+    // 0.2초 뒤 두 번째 : 75%
+    var t4 = setTimeout(function () {
+      animateSingleGrade(second, 75, 1200, function () {
+        // 두 번째까지 끝나면 상품 지원 가능성 영역 노출
+        showTec02Possi(pop);
+      });
+    }, 200);
+    pop._tec02Timers.push(t4);
+  });
+}
+
+// 공통 슬라이더 채우기
+function animateSingleGrade(block, target, duration, onComplete) {
+  if (!block) {
+    if (typeof onComplete === 'function') onComplete();
+    return;
+  }
+
+  var track = block.querySelector('.grade_track');
+  if (!track) {
+    if (typeof onComplete === 'function') onComplete();
+    return;
+  }
+
+  var fill  = track.querySelector('.grade_fill');
+  var thumb = track.querySelector('.grade_thumb');
+
+  if (fill)  fill.style.width = '0%';
+  if (thumb) thumb.style.left = '0%';
+
+  animateValue(0, target, duration, function (v) {
+    var val = Math.round(v * 10) / 10;
+    if (fill)  fill.style.width = val + '%';
+    if (thumb) thumb.style.left = val + '%';
+  }, onComplete);
+}
+
+/* -----------------------------
+   3) 상품 지원 가능성 + 게이지
+------------------------------*/
+function showTec02Possi(pop) {
+  var possi = pop.querySelector('.possi_item .credit_rating_possi');
+  if (!possi) return;
+
+  possi.style.display = 'block';
+  possi.style.pointerEvents = 'none';
+
+  requestAnimationFrame(function () {
+    possi.style.opacity = '1';
+    possi.style.transform = 'translateY(0)';
+  });
+
+  // 0.2초 뒤 내부 막대 채우기 시작
+  var t5 = setTimeout(function () {
+    animateTec02PossiBars(pop);
+  }, 200);
+  pop._tec02Timers.push(t5);
+}
+
+function animateTec02PossiBars(pop) {
+  var possi = pop.querySelector('.possi_item .credit_rating_possi');
+  if (!possi) return;
+
+  var bars  = possi.querySelectorAll('.gp_bar');
+  var spans = possi.querySelectorAll('.per span');
+  var targets  = [70, 75];      // 금융 / 비금융
+  var duration = 1500;
+
+  // 막대 채우기 (두 번째는 0.2초 늦게 시작)
+  bars.forEach(function (bar, idx) {
+    var target = targets[idx] != null ? targets[idx] : 0;
+    var delay  = (idx === 1 ? 200 : 0);
+
+    setTimeout(function () {
+      animateValue(0, target, duration, function (v) {
+        var val = Math.round(v * 10) / 10;
+        bar.style.width = val + '%';
+      });
+    }, delay);
+  });
+
+  // 숫자 카운트
+  spans.forEach(function (span, idx) {
+    var target = targets[idx] != null ? targets[idx] : 0;
+    var delay  = (idx === 1 ? 200 : 0);
+
+    setTimeout(function () {
+      animateValue(0, target, duration, function (v) {
+        span.textContent = Math.round(v);
+      });
+    }, delay);
+  });
+
+  // 모든 게이지가 다 찬 뒤 re_confirm 도 위로 스르륵 노출 + 스크롤 맨 아래
+  var reConfirm = pop.querySelector('.confirm_item .re_confirm');
+  var form      = pop.querySelector('.tec_credit_form');
+
+  if (reConfirm) {
+    var totalTime = 200 + duration + 200; // 시작 딜레이 + 애니 + 여유
+    var t6 = setTimeout(function () {
+      reConfirm.style.display = 'block';
+      reConfirm.style.pointerEvents = 'none';
+
+      requestAnimationFrame(function () {
+        reConfirm.style.opacity = '1';
+        reConfirm.style.transform = 'translateY(0)';
+        reConfirm.style.pointerEvents = 'auto';
+
+        // ★ credit_rating_possi와 re_confirm 노출 시점에
+        //   tec_credit_form 스크롤을 맨 아래로 이동
+        if (form) {
+          if (typeof form.scrollTo === 'function') {
+            form.scrollTo({ top: form.scrollHeight, behavior: 'smooth' });
+          } else {
+            form.scrollTop = form.scrollHeight;
+          }
+        }
+      });
+    }, totalTime);
+    if (!pop._tec02Timers) pop._tec02Timers = [];
+    pop._tec02Timers.push(t6);
+  }
+}
 
 
 
