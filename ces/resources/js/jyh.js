@@ -120,7 +120,7 @@ $(function () {
 $(window).on('load', function () {
   setTimeout(function () {
     $('.hero-text').addClass('is-show');
-  }, 500);
+  }, 200);
 });
 
 /* floatin icon 생성 */
@@ -219,7 +219,7 @@ setTimeout(() => {
   if (floatArea) {
     floatArea.style.opacity = '1';
   }
-}, 1000); // 1초 뒤에 등장
+}, 300); // 1초 뒤에 등장
 
 
 
@@ -389,32 +389,42 @@ $('.hero-text .btn_search button').on('click', function () {
     startPhase1();
 
     /* -------------------------
-       아래는 기존 float-img 제거
-       (처리 로직은 그대로 사용)
-       ------------------------- */
-    const removeCount   = 110;
-    const totalDuration = 6000;
-    const stepDelay     = totalDuration / removeCount;
+   아래는 기존 float-img 제거 + 필터 opacity 연동
+   ------------------------- */
+const removeCount   = 110;
+const totalDuration = 6000;
+const stepDelay     = totalDuration / removeCount;
 
-    for (let i = 0; i < removeCount; i++) {
-        setTimeout(function () {
-            const $remaining = $('.float-img-area .float-img-wrap').not('.removed');
+// 필터 요소는 시작 시 opacity 0으로 초기화
+const $filters = $('.float-img-area .float-img-wrap .ico_fillter.show');
+$filters.css('opacity', 0);
 
-            // 최소 10개는 남겨두기
-            if ($remaining.length <= 10) {
-                return;
-            }
+for (let i = 0; i < removeCount; i++) {
+    setTimeout(function () {
+        // 1) 진행률 기준으로 필터 opacity 업데이트 (0 → 0.6)
+        const progress = (i + 1) / removeCount;      // 0 ~ 1
+        const opacity  = 0.6 * Math.min(progress, 1); // 0 ~ 0.6
+        $filters.css('opacity', opacity);
 
-            const randomIndex = Math.floor(Math.random() * $remaining.length);
-            const $target = $($remaining[randomIndex]);
+        // 2) float-img 제거 로직
+        const $remaining = $('.float-img-area .float-img-wrap').not('.removed');
 
-            $target.addClass('removed');
+        // 최소 10개는 남겨두기
+        if ($remaining.length <= 10) {
+            return;
+        }
 
-            $target.animate({ opacity: 0 }, 700, function () {
-                $(this).css('display', 'none');
-            });
-        }, stepDelay * (i + 1));
-    }
+        const randomIndex = Math.floor(Math.random() * $remaining.length);
+        const $target = $($remaining[randomIndex]);
+
+        $target.addClass('removed');
+
+        $target.animate({ opacity: 0 }, 700, function () {
+            $(this).css('display', 'none');
+        });
+
+    }, stepDelay * (i + 1));
+}
 
     // 🔸 더 이상 여기서 processing_end를 넣지 않음
     // const endDelay = 9000;
@@ -2920,6 +2930,138 @@ function showStep02AndConfirm(s2) {
   }
 }
 
+/* -----------------------------
+   step_box_02 : 결과받기 버튼 → step_02 + re_confirm
+------------------------------*/
+
+// 공용: transitionend + fallback 한 번만 호출
+function addOnceTransitionEnd(el, propName, cb, fallbackDelay) {
+  if (!el) {
+    if (typeof cb === 'function') cb();
+    return;
+  }
+
+  var called = false;
+
+  function done() {
+    if (called) return;
+    called = true;
+    el.removeEventListener('transitionend', handler);
+    if (typeof cb === 'function') cb();
+  }
+
+  function handler(e) {
+    if (e.target !== el) return;
+    if (propName && e.propertyName !== propName) return;
+    done();
+  }
+
+  el.addEventListener('transitionend', handler);
+
+  // 혹시 transitionend가 안 오는 경우 대비 fallback
+  if (fallbackDelay && fallbackDelay > 0) {
+    setTimeout(done, fallbackDelay);
+  }
+}
+
+// 이벤트 위임으로 결과 버튼 처리 (step_box_02 안)
+document.addEventListener('click', function (e) {
+  var btn = e.target.closest('.as_step_box.step_box_02 .btn_result_report .btn_report');
+  if (!btn) return;
+
+  var s2 = btn.closest('.s2');
+  if (!s2) return;
+
+  // s2.on 상태일 때만 작동
+  if (!s2.classList.contains('on')) return;
+
+  showStep02AndConfirm(s2);
+});
+
+function showStep02AndConfirm(s2) {
+  if (!s2) return;
+  if (s2.dataset.step02Done === '1') return; // 중복실행 방지
+  s2.dataset.step02Done = '1';
+
+  var step1Re = s2.querySelector('.credit_rating_re.step_01');
+  var step2Re = s2.querySelector('.credit_rating_re.step_02');
+  var possi   = s2.querySelector('.credit_rating_possi');
+  var re2     = s2.querySelector('.re_confirm');
+
+  // -----------------------------
+  // 1) step_01 + 상품 지원 가능성 위로 사라짐
+  // -----------------------------
+  if (step1Re) {
+    step1Re.style.transition = 'opacity 0.8s ease,transform 0.8s ease';
+    requestAnimationFrame(function () {
+      step1Re.style.opacity = '0';
+      step1Re.style.transform = 'translateY(-0.52vw)';
+      step1Re.style.pointerEvents = 'none';
+    });
+
+    // opacity 트랜지션 종료 + fallback(1초) 후 호출
+    addOnceTransitionEnd(step1Re, 'opacity', function () {
+      step1Re.style.display = 'none';
+      // ★ step_01 완전히 사라지고 0.2초 뒤에 step_02 노출 시도
+      setTimeout(startStep02Block, 200);
+    }, 1000);
+  } else {
+    // step_01이 없으면 바로 0.2초 뒤에 step_02 쪽으로
+    setTimeout(startStep02Block, 200);
+  }
+
+  if (possi) {
+    possi.style.transition = 'opacity 0.8s ease,transform 0.8s ease';
+    requestAnimationFrame(function () {
+      possi.style.opacity = '0';
+      possi.style.transform = 'translateY(-0.52vw)';
+      possi.style.pointerEvents = 'none';
+    });
+
+    addOnceTransitionEnd(possi, 'opacity', function () {
+      possi.style.display = 'none';
+    }, 1000);
+  }
+
+  // -----------------------------
+  // 2) step_02 노출 + 슬라이더 채우기 + re_confirm 순차 실행
+  // -----------------------------
+  function startStep02Block() {
+    if (!step2Re) {
+      // step_02가 없으면 re_confirm만
+      if (re2) showReConfirmFromStep2(re2);
+      return;
+    }
+
+    // 이미 opacity 1 상태일 수도 있으니까 초기값 강제로 세팅
+    step2Re.style.display = 'block';
+    step2Re.style.opacity = '0';
+    step2Re.style.transform = 'translateY(0)'; // 제자리
+    step2Re.style.pointerEvents = 'none';
+    step2Re.style.transition = 'opacity 0.8s ease';
+
+    // step_02의 grade_slider 기본 표시
+    var step2Slider = step2Re.querySelector('.grade_slider');
+    if (step2Slider) {
+      step2Slider.style.opacity = '1';
+      step2Slider.style.display = 'inline-block';
+    }
+
+    // 컨테이너 opacity 트랜지션 끝난 뒤 슬라이더 애니 시작
+    addOnceTransitionEnd(step2Re, 'opacity', function () {
+      animateStep02Grade(step2Re, function () {
+        if (re2) showReConfirmFromStep2(re2);
+      });
+    }, 1000);
+
+    // opacity 변경 트리거
+    requestAnimationFrame(function () {
+      step2Re.style.opacity = '1';
+      step2Re.style.pointerEvents = 'auto';
+    });
+  }
+}
+
 /* step_02 슬라이더 내부 grade_fill / grade_thumb 애니 (0 → target%) */
 function animateStep02Grade(step2Re, onComplete) {
   if (!step2Re) {
@@ -2939,7 +3081,7 @@ function animateStep02Grade(step2Re, onComplete) {
   if (fill)  fill.style.width = '0%';
   if (thumb) thumb.style.left = '0%';
 
-  var target   = 40;     // 필요하면 이 값만 수정
+  var target   = 40;   // 필요하면 이 값만 수정
   var duration = 2000;
 
   animateValue(0, target, duration, function (v) {
@@ -3338,4 +3480,52 @@ function animateTec02PossiBars(pop) {
 }
 
 
+
+
+document.addEventListener('click', function (e) {
+  // #tec02 팝업 안의 btn_box > button 클릭 잡기
+  var btn = e.target.closest('#tec02.as_expec_pop.tec_02 .btn_box .btn');
+  if (!btn) return;
+
+  // 1) 팝업 닫기 (원하면 유지해도 됨)
+  var pop = document.getElementById('tec02');
+  if (pop) {
+    pop.classList.remove('is-show');
+  }
+
+  // 2) 화면 본문에 있는 step_box_02 / step_box_03 찾기
+  var stepBox2 = document.querySelector('.as_step_box.step_box_02');
+  var stepBox3 = document.querySelector('.as_step_box.step_box_03');
+  if (!stepBox2 || !stepBox3) return;
+
+  // 안전하게 트랜지션 세팅
+  stepBox2.style.transition = 'opacity 0.8s ease,transform 0.8s ease';
+  stepBox3.style.transition = 'opacity 2s ease,transform 2s ease';
+
+  // step_box_03 초기 상태 세팅 (아래에서 올라오도록)
+  stepBox3.style.opacity = '0';
+  stepBox3.style.transform = 'translateY(0.52vw)';
+  stepBox3.style.pointerEvents = 'none';
+
+  // 리플로우 후 애니 시작
+  requestAnimationFrame(function () {
+    // step_box_02 : 위로 사라짐
+    stepBox2.style.opacity = '0';
+    stepBox2.style.transform = 'translateY(-0.52vw)';
+    stepBox2.style.pointerEvents = 'none';
+
+    // step_box_03 : 아래에서 위로 스르륵 등장
+    stepBox3.style.opacity = '1';
+    stepBox3.style.transform = 'translateY(0)';
+    stepBox3.style.pointerEvents = 'auto';
+  });
+
+  // step_box_02 트랜지션 끝나면 display:none 처리
+  var hideHandler = function (ev) {
+    if (ev.propertyName !== 'opacity') return;
+    stepBox2.removeEventListener('transitionend', hideHandler);
+    stepBox2.style.display = 'none';
+  };
+  stepBox2.addEventListener('transitionend', hideHandler);
+});
 
