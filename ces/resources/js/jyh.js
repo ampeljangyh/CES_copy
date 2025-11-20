@@ -2590,7 +2590,7 @@ function startTechStepAnimations(stepBox) {
 
       // desc / 상품 지원 가능성 간격 조정 (margin-top 애니)
       if (descBlock) { descBlock.style.marginTop = '-2.5vw'; }
-      if (possiBox) { possiBox.style.marginTop = '4.8698vw'; }
+      if (possiBox) { possiBox.style.marginTop = '3.8698vw'; }
 
       // cen_01 ↔ cen_02 / desc_01 ↔ desc_02 / 버튼 노출
       switchTechVisuals(stepBox);
@@ -2671,6 +2671,7 @@ function switchTechVisuals(stepBox) {
       btnWrap.style.opacity = '1';
       btnWrap.style.transform = 'translateY(0)';
       btnWrap.style.pointerEvents = 'auto';
+      btnWrap.style.display = 'block';
     });
   }
 }
