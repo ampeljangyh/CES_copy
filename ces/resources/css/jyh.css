@@ -270,10 +270,10 @@ body {font-family: 'Pretendard', "TWKEverett", "Apple SD Gothic Neo", "Malgun Go
 .main .tit {text-align: center;padding-top: 6.172vw;display: flex;flex-flow: column;gap: 0.625vw;}
 .main .tit > strong {color: #FFF;text-align: center;font-family: "Stack Sans Text";font-size: 3.385vw;font-style: normal;font-weight: 500;line-height: normal;letter-spacing: -0.068vwZ;}
 .main .tit > p {color: #FFF;text-align: center;font-size: 1.823vw;font-style: normal;font-weight: 500;line-height: normal;letter-spacing: -0.036vw;text-transform: uppercase;}
-.main .start {margin-top: 2.839vw;text-align: center;}
+.main .start {margin-top: 2.839vw;text-align: center;z-index: 1;position: relative;}
 .main .start > button {padding: 1.068vw 2.760vw 1.068vw 2.786vw;border-radius: 2.604vw;background: #202B44;box-shadow: 0 0 0.521vw 0.117vw rgba(217, 229, 254, 0.10), 0 0 1.380vw 0 rgba(217, 229, 254, 0.10), 0 0 1.432vw 0 rgba(217, 229, 254, 0.10), 0 0 0.625vw 0 rgba(217, 229, 254, 0.10), 0 0 0.339vw 0 rgba(217, 229, 254, 0.10), 0 0 1.198vw 0 rgba(217, 229, 254, 0.10);color: #FFF;text-align: center;font-size: 1.667vw;font-weight: 500;line-height: normal;letter-spacing: 0.033vw;text-transform: uppercase;border: 0.130vw solid transparent;background-image: linear-gradient(#182133, #182133), linear-gradient(90deg, #D9E5FE, #2f86ff);background-origin: border-box;background-clip: padding-box, border-box;}
 .main .img_vis_01 {text-align: center;}
-.main .img_vis_01 > video {mix-blend-mode: screen;width: 26.875vw;height: 26.875vw;margin-top: 2.526vw;}
+.main .img_vis_01 > video {mix-blend-mode: screen;width: 35.875vw;height: 35.875vw;margin-top: -3.474vw;}
 .lang {color: #FFF;font-size: 0.833vw;font-style: normal;font-weight: 500;letter-spacing: 0.025vw;position: absolute;left: 4.1667vw;bottom: 3.4896vw;z-index: 999;}
 .btn_lang .kr {display: none;}
 .sub_tit {color: #FFF;text-align: center;font-size: 1.563vw;font-weight: 500;line-height: normal;letter-spacing: -0.031vw;text-transform: uppercase;margin-top: 0.417vw;}
@@ -387,7 +387,7 @@ body {font-family: 'Pretendard', "TWKEverett", "Apple SD Gothic Neo", "Malgun Go
   margin-top: 1.094vw;
 }
 #container.started .img_vis_01 > video {
-  width: 8.594vw; 
+  width: 13.594vw; 
   height: 8.594vw;
   margin-top: 1.042vw; 
   transform: translateY(-1.042vw);
