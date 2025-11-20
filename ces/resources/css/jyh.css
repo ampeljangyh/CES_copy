@@ -309,9 +309,8 @@ body {font-family: 'Pretendard', "TWKEverett", "Apple SD Gothic Neo", "Malgun Go
 .gate_txt .desc_sub {
   color: #FFF;
   text-align: center;
-  
   line-height: normal;
-  margin-top: 8.151vw;
+  margin-top: 5.5vw;
   opacity: 0;
   transform: translateY(1.042vw);
   transition: opacity 0.4s ease, transform 0.4s ease;
