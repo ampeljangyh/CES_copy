@@ -246,7 +246,7 @@ setTimeout(() => {
 
 
 
-// .btn_search 버튼 클릭 시 .contents_01에 processing 클래스 추가
+// .btn_search 버튼 클릭 시 .contents_01에 processing 클래스 추가 
 $('.hero-text .btn_search button').on('click', function () {
 
     // 이미 처리 중이면 중복 실행 방지
@@ -254,13 +254,18 @@ $('.hero-text .btn_search button').on('click', function () {
 
     $('.contents_01').addClass('processing');
 
-    const $step1 = $('.search_txt_step .step01'); // IBK 데이터베이스 등록 기업 검색 중...
-    const $step2 = $('.search_txt_step .step02'); // 창업 7년 이내 스타트업 검색 중...
-    const $step3 = $('.search_txt_step .step03'); // 성장 가능 스타트업 검색 중...
-    const $count = $('.search_txt_step .counting');
+    const $li        = $('.search_txt_step > ul > li');
+    const $allSteps  = $li.find('> p');                // step01 ~ step07
+    const $count     = $('.search_txt_step .counting');
     const $countWrap = $('.search_txt_step > ul > li > span');
-    const $li = $('.search_txt_step > ul > li');
-    const $allSteps = $li.find('> p');
+
+    const $step01 = $li.find('.step01');
+    const $step02 = $li.find('.step02');
+    const $step03 = $li.find('.step03');
+    const $step04 = $li.find('.step04');
+    const $step05 = $li.find('.step05');
+    const $step06 = $li.find('.step06');
+    const $step07 = $li.find('.step07');
 
     // 🔹 현재 노출되는 step의 높이로 span 위치 맞추기
     function setSpanPositionByStep($step) {
@@ -284,14 +289,13 @@ $('.hero-text .btn_search button').on('click', function () {
     }
 
     // 초기 상태
-    $step1.addClass('active');
-    $step2.removeClass('active');
-    $step3.removeClass('active');
+    $allSteps.removeClass('active');
+    $step01.addClass('active');
     $count.text('0');
     $countWrap.addClass('blink');
 
-    // 처음에는 step1 기준으로 margin-top 세팅
-    setSpanPositionByStep($step1);
+    // 첫 시작은 step01 기준으로 margin-top 세팅
+    setSpanPositionByStep($step01);
 
     /* 공통 카운트 함수 */
     function animateCount($el, from, to, duration, onComplete) {
@@ -304,7 +308,7 @@ $('.hero-text .btn_search button').on('click', function () {
             const progress = Math.min(elapsed / duration, 1);
             const value = Math.round(from + diff * progress);
 
-            $el.text(value);
+            $el.text(value.toLocaleString ? value.toLocaleString() : value);
 
             if (progress < 1) {
                 requestAnimationFrame(tick);
@@ -315,70 +319,97 @@ $('.hero-text .btn_search button').on('click', function () {
         requestAnimationFrame(tick);
     }
 
-    /* 단계별 목표 값 + 시간 + 딜레이 */
-    const phase1Start    = 0;
-    const phase1End      = 12391;
-    const phase2End      = 3784;
-    const phase3End      = 10;
+    /* 단계별 목표 값 */
+    const phase1Start = 0;
+    const phase1End   = 1111243; // step01
+    const phase2End   = 952705;  // step02
+    const phase3End   = 323531;  // step03
+    const phase4End   = 320988;  // step04
+    const phase5End   = 230266;  // step05
+    const phase6End   = 105379;  // step06
+    const phase7End   = 7;       // step07 (TOP 7)
 
-    const phase1Duration = 1200;
-    const phase2Duration = 1200;
-    const phase3Duration = 1200;
-    const phaseDelay     = 1200;
+    const phase1Duration = 1000;
+    const phase2Duration = 1000;
+    const phase3Duration = 1000;
+    const phase4Duration = 1000;
+    const phase5Duration = 1000;
+    const phase6Duration = 1000;
+    const phase7Duration = 1000;
+    const phaseDelay     = 1000;
 
     // step 표시 공통 함수 (active 토글 + span margin-top 갱신)
     function showStep(num) {
-        $step1.removeClass('active');
-        $step2.removeClass('active');
-        $step3.removeClass('active');
+        $allSteps.removeClass('active');
 
-        if (num === 1) {
-            $step1.addClass('active');
-            setSpanPositionByStep($step1);
-        }
-        if (num === 2) {
-            $step2.addClass('active');
-            setSpanPositionByStep($step2);
-        }
-        if (num === 3) {
-            $step3.addClass('active');
-            setSpanPositionByStep($step3);
+        var cls = '.step' + ('0' + num).slice(-2); // 1 → step01, 7 → step07
+        var $step = $li.find(cls);
+        if ($step.length) {
+            $step.addClass('active');
+            setSpanPositionByStep($step);
         }
     }
 
     // 🔹 검색 완료 팝업 노출 + processing 영역에 pop_on 추가
     function showResultPopup() {
         $('.search_process_pop').addClass('is-active');
-        // processing 상태인 컨텐츠에 pop_on 다중 클래스 추가
         $('.contents_01.processing').addClass('pop_on');
     }
 
-    /* 1단계: 0 → 12391 */
+    /* 1단계: 0 → 1,111,243 (step01) */
     function startPhase1() {
         showStep(1);
-
         animateCount($count, phase1Start, phase1End, phase1Duration, function () {
             setTimeout(startPhase2, phaseDelay);
         });
     }
 
-    /* 2단계: 12391 → 3784 */
+    /* 2단계: 1,111,243 → 952,705 (step02) */
     function startPhase2() {
         showStep(2);
-
         animateCount($count, phase1End, phase2End, phase2Duration, function () {
             setTimeout(startPhase3, phaseDelay);
         });
     }
 
-    /* 3단계: 3784 → 10 */
+    /* 3단계: 952,705 → 323,531 (step03) */
     function startPhase3() {
         showStep(3);
-
         animateCount($count, phase2End, phase3End, phase3Duration, function () {
+            setTimeout(startPhase4, phaseDelay);
+        });
+    }
+
+    /* 4단계: 323,531 → 320,988 (step04) */
+    function startPhase4() {
+        showStep(4);
+        animateCount($count, phase3End, phase4End, phase4Duration, function () {
+            setTimeout(startPhase5, phaseDelay);
+        });
+    }
+
+    /* 5단계: 320,988 → 230,266 (step05) */
+    function startPhase5() {
+        showStep(5);
+        animateCount($count, phase4End, phase5End, phase5Duration, function () {
+            setTimeout(startPhase6, phaseDelay);
+        });
+    }
+
+    /* 6단계: 230,266 → 105,379 (step06) */
+    function startPhase6() {
+        showStep(6);
+        animateCount($count, phase5End, phase6End, phase6Duration, function () {
+            setTimeout(startPhase7, phaseDelay);
+        });
+    }
+
+    /* 7단계: 105,379 → 7 (TOP 7, step07) */
+    function startPhase7() {
+        showStep(7);
+        animateCount($count, phase6End, phase7End, phase7Duration, function () {
             // 마지막 단계 완료 후: 깜빡임 제거 + 팝업 노출
             $countWrap.removeClass('blink');
-            // 🔻 여기에서 1초 뒤에 팝업/클래스 적용
             setTimeout(function () {
                 showResultPopup();
             }, 1500);
@@ -387,52 +418,6 @@ $('.hero-text .btn_search button').on('click', function () {
 
     // 시퀀스 시작
     startPhase1();
-
-    /* -------------------------
-   아래는 기존 float-img 제거 + 필터 opacity 연동
-   ------------------------- */
-const removeCount   = 110;
-const totalDuration = 6000;
-const stepDelay     = totalDuration / removeCount;
-
-// 필터 요소는 시작 시 opacity 0으로 초기화
-const $filters = $('.float-img-area .float-img-wrap .ico_fillter.show');
-$filters.css('opacity', 0);
-
-for (let i = 0; i < removeCount; i++) {
-    setTimeout(function () {
-        // 1) 진행률 기준으로 필터 opacity 업데이트 (0 → 0.6)
-        const progress = (i + 1) / removeCount;      // 0 ~ 1
-        const opacity  = 0.6 * Math.min(progress, 1); // 0 ~ 0.6
-        $filters.css('opacity', opacity);
-
-        // 2) float-img 제거 로직
-        const $remaining = $('.float-img-area .float-img-wrap').not('.removed');
-
-        // 최소 10개는 남겨두기
-        if ($remaining.length <= 10) {
-            return;
-        }
-
-        const randomIndex = Math.floor(Math.random() * $remaining.length);
-        const $target = $($remaining[randomIndex]);
-
-        $target.addClass('removed');
-
-        $target.animate({ opacity: 0 }, 700, function () {
-            $(this).css('display', 'none');
-        });
-
-    }, stepDelay * (i + 1));
-}
-
-    // 🔸 더 이상 여기서 processing_end를 넣지 않음
-    // const endDelay = 9000;
-    // setTimeout(function () {
-    //     $('.contents_01')
-    //         .removeClass('processing')
-    //         .addClass('processing_end');
-    // }, endDelay);
 });
 
 /* ------------------------------------
@@ -483,9 +468,9 @@ function layoutCards() {
   const total = itemEls.length;
   if (!total) return;
 
-  const radius   = 24;   // 도넛 반지름 (vw)
+  const radius   = 26;   // 도넛 반지름 (vw)
   const minScale = 0.8; // 가장 뒤쪽 카드 크기
-  const maxScale = 1.1;  // 정면 카드 크기
+  const maxScale = 1.0;  // 정면 카드 크기
   const maxYOffset = 12;  // 옆으로 갈수록 위로 올라가는 최대 값 (vw)
 
   itemEls.forEach((li, index) => {

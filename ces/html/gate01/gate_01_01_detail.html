@@ -119,7 +119,7 @@
                                 </div>
                             </li>
                             <li>
-                                <button type="button" class="btn_grade_item">
+                                <button type="button" class="btn_grade_item thec_grade_btn">
                                     <div class="grade_item">
                                         <div class="tit">
                                             <span>기술 등급</span>
@@ -132,7 +132,7 @@
                                 </button>
                             </li>
                             <li>
-                                <button type="button" class="btn_grade_item">
+                                <button type="button" class="btn_grade_item thec_go_btn">
                                     <div class="grade_item">
                                         <div class="tit">
                                             <span>성장성 점수</span>
@@ -189,7 +189,7 @@
                                         <img src="../../resources/images/search_result_02.jpg">
                                     </div>
                                     <div class="apply_text">
-                                        <span>지원된 상품</span>
+                                        <span>추천 지원 상품</span>
                                     </div>
                                 </div>
                                 <div class="apply_prd_list">
@@ -291,45 +291,375 @@
 
 
 
+<!-- 상세정보 팝업 -->
+<div class="detail_info_pop is-open">
+    <div class="pop_inner">
+        <button type="button" class="pop_close">
+            <span></span>
+        </button>
 
-
-<div class="as_expec_pop cardDetailPop01" id="tec01">
-    <div class="inner">
-        <div class="txt">
-            <span class="sub">IBK 기술 평가 시스템</span>
-            <strong class="tit">기술 평가 예상 결과</strong>
-        </div>
-        <div class="com_pu">
-            <div class="com_ico">
-                <img src="../../resources/images/search_result_01.jpg">
+        <div class="detail_info_tit">
+            <div class="detail_info_logo">
+                <div class="logo_box">
+                    <img src="../../resources/images/floatin_img_07.jpg">
+                </div>
+                <div class="detail_info_txt">
+                    <span class="top">듀셀바이오테라퓨틱스</span>
+                    <span class="bot">바이오·의료</span>
+                </div>
             </div>
-            <span class="text">기술력 분석 시 아래와 같은 결과가 예상됩니다.</span>
-        </div>
-        <div class="context">
-            <div class="inner">
-                <div class="con_txt">
-                    <span>기술 평가</span>
-                </div>
-                <div class="con_mp">
-                    <video src="../../resources/images/one_1.mp4" autoplay muted loop playsinline></video>
-                </div>
-                <div class="con_re">
-                    <span class="tit">예상 등급</span>
-                    <div class="con_re_content">
-                        <p>
-                            <span>T3</span>(양호)
-                        </p>
+
+            <div class="detail_tab">
+                <button type="button" class="detail_tab_btn tab_item_01 on">
+                    <span>기업 개요</span>
+                </button>
+                <button type="button" class="detail_tab_btn tab_item_02">
+                    <span>재무 정보</span>
+                </button>
+                <button type="button" class="detail_tab_btn tab_item_03">
+                    <span>투자 정보</span>
+                </button>
+                <button type="button" class="detail_tab_btn tab_item_04">
+                    <span>제품·서비스</span>
+                </button>
+                <button type="button" class="detail_tab_btn tab_item_05">
+                    <span>기술 정보</span>
+                </button>
+            </div>
+
+            <div class="detail_tab_cont">
+                <div class="inner">
+                    <div class="tab_cont cs_01 on">
+                        <div class="inner">
+                            <div class="corp_desc_item">
+                                <div class="tit">
+                                    <span>대표이사</span>
+                                </div>
+                                <div class="desc">
+                                    <p>이대승</p>
+                                </div>
+                            </div>
+                            <div class="corp_desc_item">
+                                <div class="tit">
+                                    <span>설립일자</span>
+                                </div>
+                                <div class="desc">
+                                    <p>2021-07-22(4년 1개월)</p>
+                                </div>
+                            </div>
+                            <div class="corp_desc_item">
+                                <div class="tit">
+                                    <span>사업영역</span>
+                                </div>
+                                <div class="desc">
+                                    <p>바이오·의료</p>
+                                </div>
+                            </div>
+                            <div class="corp_desc_item ty_02">
+                                <div class="tit">
+                                    <span>회사소개</span>
+                                </div>
+                                <div class="desc">
+                                    <p>
+                                        포트래이는 공간전사체(ST)와 인공지능을 활용하여 높은 정밀도와 효율성으로 신약 개발 프로세스를 가속화합니다. 생명공학 및 제약회사와 전략적 파트너십을 구축하여 연구 개발을 위한 기술을 공유하고 있습니다. 또한 포트래이는 고객의 개별적인 필요에 맞게 설계된 맞춤형 분석 서비스도 제공합니다.<br><br>
+                                        여러 고형암에 대한 ST 및 임상 이력 데이터를 쌓아나가고 있습니다. Petabyte 수준의 데이터를 AI/ML을 활용하여 다양한 인사이트를 도출하고, wet lab 실험을 통해 도출된 결과를 검증합니다.<br><br>
+                                        조직 내 모든 분자의 공간적 맥락을 분석하여 1) 가장 유망한 타겟을 찾고 검증하며(PortraiTARGET), 2) 약물의 조직 내 분포를 분석하며(PortraiDRUG), 3) 약물이 조직 내의 각 위치에서 어떻게 작용(mode of action)하는지 추적하며(PortraiMOA), 4) 신약에 가장 적합한 바이오마커를 찾아(PortraiTME)내기 위한 다양한 연구를 진행합니다.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="corp_desc_item ty_02">
+                                <div class="tit">
+                                    <span>대표상품</span>
+                                </div>
+                                <div class="desc">
+                                    <p>AI기반 신약 개발</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab_cont cs_02">
+                        <div class="inner">
+                            <div class="tab_round_ty">
+                                <button type="button" class="tab_btn rd_tab_01 on">
+                                    <span>전체</span>
+                                </button>
+                                <button type="button" class="tab_btn rd_tab_02">
+                                    <span>재무상태표</span>
+                                </button>
+                                <button type="button" class="tab_btn rd_tab_03">
+                                    <span>손익계산서</span>
+                                </button>
+                            </div>
+                            <div class="tab_round_cont rd_tab_cont_01 on">
+                                <div class="inner">
+                                    <div class="fin_grp_box">
+                                        <div class="fin_grp_inner">
+                                            <div class="fin_grp_item">
+                                                <div class="fin_chart">
+                                                    <canvas id="finChart2022"></canvas>
+                                                </div>
+                                                <div class="fin_year">2024</div>
+                                            </div>
+
+                                            <div class="fin_grp_item">
+                                                <div class="fin_chart">
+                                                    <canvas id="finChart2023"></canvas>
+                                                </div>
+                                                <div class="fin_year">2023</div>
+                                            </div>
+
+                                            <div class="fin_grp_item">
+                                                <div class="fin_chart">
+                                                    <canvas id="finChart2024"></canvas>
+                                                </div>
+                                                <div class="fin_year">2022</div>
+                                            </div>
+                                        </div>
+                                        <div class="lg_list">
+                                            <div class="lg_item">
+                                                <span class="cl_cir cl_01"></span>
+                                                <span class="lg_tit">자산</span>
+                                            </div>
+                                            <div class="lg_item">
+                                                <span class="cl_cir cl_02"></span>
+                                                <span class="lg_tit">부채</span>
+                                            </div>
+                                            <div class="lg_item">
+                                                <span class="cl_cir cl_03"></span>
+                                                <span class="lg_tit">자본</span>
+                                            </div>
+                                            <div class="lg_item">
+                                                <span class="cl_cir cl_04"></span>
+                                                <span class="lg_tit">매출</span>
+                                            </div>
+                                            <div class="lg_item">
+                                                <span class="cl_cir cl_05"></span>
+                                                <span class="lg_tit">영업이익</span>
+                                            </div>
+                                            <div class="lg_item">
+                                                <span class="cl_cir cl_06"></span>
+                                                <span class="lg_tit">당기순이익</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="fin_table_box">
+                                        <div class="fin_table_inner">
+                                            <div class="table_sub">
+                                                <span>(단위:백만원)</span>
+                                            </div>
+                                            <div class="table_line">
+                                                <div class="t_line year">
+                                                    <div class="t_tit">
+                                                        <span>년도</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>2024</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>2023</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>2022</span>
+                                                    </div>
+                                                </div>
+                                                <div class="t_line fin">
+                                                    <div class="t_tit">
+                                                        <span>자산</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>100</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>100</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>100</span>
+                                                    </div>
+                                                </div>
+                                                <div class="t_line fin">
+                                                    <div class="t_tit">
+                                                        <span>부채</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>100</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>100</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>100</span>
+                                                    </div>
+                                                </div>
+                                                <div class="t_line fin">
+                                                    <div class="t_tit">
+                                                        <span>자본</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>100</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>100</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>100</span>
+                                                    </div>
+                                                </div>
+                                                <div class="t_line income">
+                                                    <div class="t_tit">
+                                                        <span>매출</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>100</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>100</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>100</span>
+                                                    </div>
+                                                </div>
+                                                <div class="t_line income">
+                                                    <div class="t_tit">
+                                                        <span>영업이익</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>100</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>100</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>100</span>
+                                                    </div>
+                                                </div>
+                                                <div class="t_line income">
+                                                    <div class="t_tit">
+                                                        <span>당기순이익</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>100</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>100</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>100</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab_cont cs_03">
+                        <div class="inner">
+                            <div class="inve_tab_tit">
+                                <strong>투자유치 현황</strong>
+                            </div>
+                            <div class="inve_tab_item">
+                                <span class="tit">최근 단계</span>
+                                <strong class="desc">최근 단계</strong>
+                            </div>
+                            <div class="inve_tab_list">
+                                <div class="inve_tab_item ty_fl">
+                                    <span class="tit">총 유치 금액</span>
+                                    <span class="desc">
+                                        약 154억원 이상 (추정)
+                                    </span>
+                                </div>
+                                <div class="inve_tab_item ty_fl">
+                                    <span class="tit">당행 총 투자 금액</span>
+                                    <span class="desc">
+                                        약 10억원
+                                    </span>
+                                </div>
+                                <div class="inve_tab_item ty_fl">
+                                    <span class="tit">총 유치 건수</span>
+                                    <span class="desc">
+                                        2건
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="inve_tab_chart">
+                                <div class="year_bar_wrap">
+                                    <canvas id="yearBarChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="inve_detail">
+                                <div class="inve_detail_tit">
+                                    <strong class="tit">상세투자내역</strong>
+                                    <span class="desc">시리즈 D (2025-02)</span>
+                                </div>
+                            </div>
+                             
+                            <div class="inve_tab_item">
+                                <span class="tit">투자 유치액</span>
+                                <strong class="desc">8,500 백만 원</strong>
+                            </div>
+                            <div class="inve_tab_item">
+                                <span class="tit">주요 투자자</span>
+                                <strong class="desc">디쓰리쥬빌리파트너스, 한국투자파트너스</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab_cont cs_04">
+                        <div class="inner">
+                            <div class="tab_scroll_l">
+                                <div class="tab_round_ty wid_ty">
+                                    <button type="button" class="tab_btn rd_tab_01 on">
+                                        <span>PortraiDISCOVERY</span>
+                                    </button>
+                                    <button type="button" class="tab_btn rd_tab_02">
+                                        <span>PortraiTARGET</span>
+                                    </button>
+                                    <button type="button" class="tab_btn rd_tab_03">
+                                        <span>PortraiMIX</span>
+                                    </button>
+                                    <button type="button" class="tab_btn rd_tab_04">
+                                        <span>PortraiMOA</span>
+                                    </button>
+                                    <button type="button" class="tab_btn rd_tab_05">
+                                        <span>PortraiTME</span>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="tab_round_cont rd_tab_cont_01 on">
+                                <div class="inner"> 
+                                </div>
+                            </div>
+                            <div class="tab_round_cont rd_tab_cont_02">
+                                <div class="inner"> 
+                                </div>
+                            </div>
+                            <div class="tab_round_cont rd_tab_cont_03">
+                                <div class="inner"> 
+                                </div>
+                            </div>
+                            <div class="tab_round_cont rd_tab_cont_04">
+                                <div class="inner"> 
+                                </div>
+                            </div>
+                            <div class="tab_round_cont rd_tab_cont_05">
+                                <div class="inner"> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab_cont cs_05">
+
                     </div>
                 </div>
-            </div>
-            <div class="btn_pop_box">
-                <button type="button" class="btn_pop">기술평가 진행</button>
             </div>
         </div>
     </div>
 </div>
 
 
+
+<!-- 기술등급 팝업 -->
 <div class="tech_ra_pop">
     <div class="pop_inner">
         <button type="button" class="pop_close">
@@ -389,7 +719,8 @@
             <div class="inner">
                 <div class="radial_box">
                     <div class="radial_inner">
-                        <div class="radial_wrap">
+                        <!-- 기술 사업 역량 5각형 그래프 -->
+                        <div class="radial_wrap on te_01">
                             <div class="radial_inner">
                                 <canvas id="abilityRadar"></canvas>
                             </div>
@@ -408,6 +739,24 @@
                                 </button>
                                 <button type="button" class="radial_btn">
                                     <span>수익 전망</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 기술 경쟁력 3각형 그래프 -->
+                        <div class="radial_wrap on te_02">
+                            <div class="radial_inner">
+                                <canvas id="abilityRadar02"></canvas>
+                            </div>
+                            <div class="radial_btn_list">
+                                <button type="button" class="radial_btn on">
+                                    <span>기술혁신성</span>
+                                </button>
+                                <button type="button" class="radial_btn">
+                                    <span>시장현황</span>
+                                </button>
+                                <button type="button" class="radial_btn">
+                                    <span>제품우위성</span>
                                 </button>
                             </div>
                         </div>
@@ -507,9 +856,303 @@
         </div>
     </div>
 </div>
+
+
+
+<!-- 성장성 점수 팝업 -->
+<div class="tech_go_pop">
+    <div class="pop_inner">
+        <button type="button" class="pop_close">
+            <span></span>
+        </button>
+
+        <div class="tech_ra_tit">
+            <div class="svg_wrap">
+                <div class="svg_box">
+                    <img src="../../resources/images/credit_ga.png">
+                </div>
+                <div class="ga_item_info">
+                    <span class="top">98.4408</span>
+                    <!-- <span class="bot">(우수)</span> -->
+                    <span class="dot_b"></span>
+                </div>
+            </div>
+            <div class="cop_pop_tit">
+                <div class="logo_tit">
+                    <div class="logo_box">
+                        <img src="../../resources/images/search_result_01.jpg">
+                    </div>
+                    <div class="tit_box">
+                        <span>성장성 점수</span>
+                    </div>
+                </div>
+                <div class="logo_desc">
+                    <p>IBK 기술 평가 시스템을 통해 해당 기업의 기술 가치를 평가합니다.</p>
+                </div>
+            </div>
+        </div> 
+
+        <div class="grp_tab_content">
+            <div class="inner">
+                <div class="radial_box">
+                    <div class="radial_inner">
+                        <div class="radial_wrap">
+                            <div class="radial_inner">
+                                <canvas id="abilityRadar03"></canvas>
+                            </div>
+                            <div class="radial_btn_list ty_02">
+                                <button type="button" class="radial_btn on">
+                                    <span>초기 투자금 <br>유치</span>
+                                </button>
+                                <button type="button" class="radial_btn">
+                                    <span>정부 출연금 <br>확보</span>
+                                </button>
+                                <button type="button" class="radial_btn">
+                                    <span>브랜드 <br>홍보 전략</span>
+                                </button>
+                                <button type="button" class="radial_btn">
+                                    <span>다양한<br>제휴 체결</span>
+                                </button>
+                                <button type="button" class="radial_btn">
+                                    <span>외형 지표<br>가시화</span>
+                                </button>
+                                <button type="button" class="radial_btn">
+                                    <span>해외 진출<br>활성화
+                                </button>
+                                <button type="button" class="radial_btn">
+                                    <span>우수한<br>인재 유치</span>
+                                </button>
+                                <button type="button" class="radial_btn">
+                                    <span>높은 기술<br>준비도</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="grp_lg_info_wrap">
+                            <div class="grp_tit_box">
+                                <span>외형 지표 가시화</span>
+                            </div>
+                            <div class="grp_lg_box">
+                                <div class="lg_item case_01">
+                                    <span>당사</span>
+                                </div>
+                                <div class="lg_item case_02">
+                                    <span>상위기업</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grp_btn_list ty_02">
+                            <div class="list_item">
+                                <div class="tit"><span>항목</span></div>
+                                <ul>
+                                    <li>
+                                        <button type="button" class="list_btn arrow on" data-target="link01">
+                                            <span>추가 투자금 유치</span>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="list_btn arrow" data-target="link02">
+                                            <span>정부 출연금 확보</span>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="list_btn arrow" data-target="link03">
+                                            <span>브랜드 홍보 전략</span>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="list_btn arrow" data-target="link04">
+                                            <span>다양한 제휴 체결</span>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="list_btn arrow" data-target="link05">
+                                            <span>외형지표 가시화</span>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="list_btn arrow" data-target="link05">
+                                            <span>해외 진출 활성화</span>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="list_btn arrow" data-target="link05">
+                                            <span>우수한 인재 유치</span>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="list_btn arrow" data-target="link05">
+                                            <span>높은 기술 준비도</span>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="list_item">
+                                <div class="tit"><span>점수</span></div>
+                                <ul>
+                                    <li>
+                                        <div class="btn on" data-target="link01">
+                                            <span>0</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="btn" data-target="link02">
+                                            <span>97.3</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="btn" data-target="link03">
+                                            <span>97.3</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="btn" data-target="link04">
+                                            <span>97.3</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="btn" data-target="link05">
+                                            <span>97.3</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="btn" data-target="link06">
+                                            <span>97.3</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="btn" data-target="link07">
+                                            <span>97.3</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="btn" data-target="link08">
+                                            <span>97.3</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bar_grp_wrap">
+                    <div class="bar_grp_box">
+                        <div class="tit_inner">
+                            <div class="bar_grp_box_tit">
+                                <span class="tit">정부 출연금 확보</span>
+                            </div>
+                            <div class="badge_box">
+                                <span class="l">0</span>
+                                <span class="r">(점)</span>
+                            </div>
+                        </div>
+                        <div class="desc_inner">
+                            <p>정부의 지원으로 연구개발에 따른 재정적 부담을 완화하여 지속적인 혁신 활동에 중요한 동력을 제공합니다.</p>
+                        </div>
+                        <div class="bar_grp_inner">
+                            <div class="skill-bar-wrap">
+                                <canvas id="skillBarChart02"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- 부스위치 팝업 -->
+<div class="loca_pop">
+    <div class="loca_pop_inner">
+        <button type="button" class="pop_close">
+            <span></span>
+        </button>
+        <div class="tit">
+            <strong>부스 위치</strong>
+            <p>기술 평가 시스템을 통해 지원받은 업체의 현재와 미래를 직접 확인해보세요.</p>
+        </div>
+        <div class="loca_map">
+            <div class="map_inner">
+                <div class="img_box">
+                    <img src="../../resources/images/map.png">
+                </div>
+                <div class="pin">
+                    <img src="../../resources/images/ico_detail_05.svg">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- 성장 자세히보기 프로세스 팝업 -->
+<div class="grow_pop_process step_01">
+    <div class="grow_pop_inner grow_pop_process_01">
+        <div class="tit">
+            <strong>부스 위치</strong>
+            <p>기술 평가 시스템을 통해 지원받은 업체의 현재와 미래를 직접 확인해보세요.</p>
+        </div>
+        <div class="loca_map">
+            <div class="map_inner">
+                <div class="img_box">
+                    <img src="../../resources/images/map.png">
+                </div>
+                <div class="pin">
+                    <img src="../../resources/images/ico_detail_05.svg">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="grow_pop_process step_02">
+    <div class="mp_bg">
+        <video src="../../resources/images/bg_pop.mp4" autoplay muted loop playsinline></video>
+    </div>
+    <div class="grow_pop_process_02">
+        <div class="logo_img">
+            <video src="../../resources/images/loading_img2.mp4" autoplay muted loop playsinline></video>
+        </div>
+        <div class="box_list">
+            <div class="text_box box_01 box-open">
+                <div class="text_01">
+                    <strong>IBK 기술평가시스템 업데이트 중</strong>
+                    <p>
+                        <span class="img"><img src="../../resources/images/search_result_01.jpg"></span>
+                        성장 데이터 축적 중...
+                    </p>
+                </div>
+                <div class="bot_item ty_01">
+                    <div class="img">
+                        <video src="../../resources/images/chart.mp4" autoplay muted loop playsinline></video>
+                    </div>
+                </div>
+            </div>
+            <div class="text_box box_02">
+                <div class="text_01">
+                    <strong>IBK 기술평가시스템<br>업데이트 완료</strong>
+                    <p>
+                        지원받은 기업의 성장 데이터는<br>
+                        또 다른 기업을 더욱 성장시킬 수 있는 IBK 기술평가시스템의 중요 데이터가 됩니다.
+                    </p>
+                </div>
+                <div class="bot_item ty_02">
+                    <div class="img">
+                        <video src="../../resources/images/grow.mp4" autoplay muted loop playsinline></video>
+                    </div>
+                    <div class="rst_btn">
+                        <button type="button" class="btn_item loca_pop_open"><span>부스 위치 다시보기</span></button>
+                        <a href="../gate01/gate_01.html" target="_self" class="btn_item"><span>다른 기업 지원하러 가기</span></a>
+                        <a href="../main.html" target="_self" class="btn_item"><span>처음으로 가기</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
-
 
 
 <!-- 상세페이지 미래 성장성 예측 차트 -->
@@ -541,13 +1184,13 @@ const dataBase      = [10, 10, 10, 10, 10, 10, 10, 10, 10]; // 기준선 (fill�
 // 업종 평균 : 시작은 같고, 전체적으로 평평하지만 굴곡은 많게
 const dataIndustry  = [10,  5, 11.5,  8.5, 15.5,  5.5, 13,  5, 10];
 
-// 지원 전 : 굴곡 크게, 항상 벤치마크보다 아래
+// 상품 적용 전 : 굴곡 크게, 항상 벤치마크보다 아래
 const dataBefore    = [10, 16, 22, 19, 27, 25, 33, 30, 60];
 
-// 지원 후 : 굴곡 크게 + 더 많이 성장, 역시 벤치마크보다 아래
+// 상품 적용 후 : 굴곡 크게 + 더 많이 성장, 역시 벤치마크보다 아래
 const dataAfter     = [10, 16, 40, 45, 80, 75, 70, 90, 140];
 
-// 벤치마크 : 선형 증가, 기울기 더 가파르게 (최대 160)
+// 롤모델 : 선형 증가, 기울기 더 가파르게 (최대 160)
 const dataBenchmark = [10, 32, 53, 73, 93, 112, 130, 148, 165];
 
 window.addEventListener('load', function () {
@@ -557,8 +1200,8 @@ window.addEventListener('load', function () {
   const fontSize  = getFontSizePx();
 
   // 색감 (요청안 유지)
-  const COLOR_AFTER    = '#0071FE';  // 지원 후
-  const COLOR_BEFORE   = '#BEBEBE';  // 지원 전
+  const COLOR_AFTER    = '#0071FE';  // 상품 적용 후
+  const COLOR_BEFORE   = '#BEBEBE';  // 상품 적용 전
   const COLOR_BENCH    = '#5be6be';  // 벤치마크
   const COLOR_INDUSTRY = '#ffffff';  // 업종 평균
 
@@ -592,9 +1235,9 @@ window.addEventListener('load', function () {
           tension: 0,
           fill: false
         },
-        // 2. 지원 전 (면은 baseline까지, 시작점 동일)
+        // 2. 상품 적용 전 (면은 baseline까지, 시작점 동일)
         {
-          label: '지원 전',
+          label: '상품 적용 전',
           data: dataBefore,
           borderColor: COLOR_BEFORE,
           borderWidth: lineWidth,
@@ -604,9 +1247,9 @@ window.addEventListener('load', function () {
           pointHoverRadius: 0,
           tension: 0
         },
-        // 3. 지원 후 (면은 baseline까지, 굴곡 더 크게)
+        // 3. 상품 적용 후 (면은 baseline까지, 굴곡 더 크게)
         {
-          label: '지원 후',
+          label: '상품 적용 후',
           data: dataAfter,
           borderColor: COLOR_AFTER,
           borderWidth: lineWidth,
@@ -616,9 +1259,9 @@ window.addEventListener('load', function () {
           pointHoverRadius: 0,
           tension: 0
         },
-        // 4. 벤치마크 (가장 위, 선형 증가, 선만)
+        // 4. 롤모델 (가장 위, 선형 증가, 선만)
         {
-          label: '벤치마크',
+          label: '롤모델',
           data: dataBenchmark,
           borderColor: COLOR_BENCH,
           borderWidth: lineWidth,
@@ -670,7 +1313,7 @@ window.addEventListener('load', function () {
           top:    fontSize * 2.8,  // 위쪽 조금 더
           bottom: fontSize * 2.4,  // 아래쪽도 여유
           left:   fontSize * 1.2,
-          right:  fontSize * 4.8   // 오른쪽 라벨 공간 확보
+          right:  fontSize * 6   // 오른쪽 라벨 공간 확보
         }
       }
     },
@@ -680,7 +1323,7 @@ window.addEventListener('load', function () {
         id: 'rightLabels',
         afterDraw(chart, args, opts) {
           const { ctx, chartArea } = chart;
-          const labelsRight = ['벤치마크', '지원 후', '지원 전', '업종평균'];
+          const labelsRight = ['롤모델', '상품 적용 후', '상품 적용 전', '업종평균'];
 
           ctx.save();
           ctx.font = `${getFontSizePx()}px Pretendard, Noto Sans KR, sans-serif`;
@@ -697,9 +1340,9 @@ window.addEventListener('load', function () {
 
           labelsRight.forEach((txt, idx) => {
             const y = top + (bottom - top) * pos[idx];
-            if (txt === '벤치마크')      ctx.fillStyle = COLOR_BENCH;
-            else if (txt === '지원 후')  ctx.fillStyle = COLOR_AFTER;
-            else if (txt === '지원 전')  ctx.fillStyle = COLOR_BEFORE;
+            if (txt === '롤모델')      ctx.fillStyle = COLOR_BENCH;
+            else if (txt === '상품 적용 후')  ctx.fillStyle = COLOR_AFTER;
+            else if (txt === '상품 적용 전')  ctx.fillStyle = COLOR_BEFORE;
             else                         ctx.fillStyle = COLOR_INDUSTRY;
             ctx.fillText(txt, x, y);
           });
@@ -736,17 +1379,16 @@ window.addEventListener('load', function () {
 </script>
 
 
-
 <!-- 상세페이지 기술 등급 팝업 내 > 기술 사업 역량 방사형, 바 그래프 차트 -->
 <script>
 ////////////  방사형 차트  ////////////
 // 2px 두께를 실제 px로
 function getLineWidthPx() {
-  return designPxToRealPx(2); // 2px = 0.0521vw
+  return designPxToRealPx(3); // 2px = 0.0521vw
 }
 
 // ----------------------
-// 데이터(숫자만)
+// 데이터 5개 짜리 (숫자만)
 // ----------------------
 const radarValues = [40, 70, 65, 60, 35]; // [경영주, 관리, 개발, 제품화, 수익]
 
@@ -805,6 +1447,79 @@ window.addEventListener('load', function () {
   window.addEventListener('resize', function () {
     const newWidth = getLineWidthPx();
     const chart = window.abilityRadarChart;
+    chart.data.datasets[0].borderWidth = newWidth;
+    chart.options.scales.r.grid.lineWidth = newWidth;
+    chart.options.scales.r.angleLines.lineWidth = newWidth;
+    chart.update();
+  });
+});
+
+// 데이터 세개짜리 //
+// 3각 레이더용 데이터 (예시 값)  [기술혁신성, 시장현황, 제품우위성]
+const radarValues02 = [40, 70, 60];
+
+window.addEventListener('load', function () {
+  const canvas = document.getElementById('abilityRadar02');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+
+  let lineWidth = getLineWidthPx();
+
+  // 3각 레이더 차트 생성
+  window.abilityRadarChart02 = new Chart(ctx, {
+    type: 'radar',
+    data: {
+      // 라벨은 실제 축 이름으로 넣되, pointLabels에서 숨김
+      labels: ['기술혁신성', '시장현황', '제품우위성'],
+      datasets: [{
+        label: 'ability02',
+        data: radarValues02,
+        borderColor: '#247CFF',                // 기존 파란색 그대로
+        backgroundColor: 'rgba(36,124,255,0.35)',
+        borderWidth: lineWidth,
+        pointRadius: 0,
+        pointHoverRadius: 0,
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: false }
+      },
+      scales: {
+        r: {
+          min: 0,
+          max: 100,
+          ticks: {
+            display: false,
+            stepSize: 20
+          },
+          grid: {
+            color: 'rgba(241, 241, 241, 0.39)',
+            lineWidth: lineWidth
+          },
+          angleLines: {
+            color: 'rgba(241, 241, 241, 0.39)',
+            lineWidth: lineWidth
+          },
+          pointLabels: {
+            display: false   // ★ 라벨은 표시 안 함
+          }
+        }
+      }
+    }
+  });
+
+  // 리사이즈 시 두께 재계산(반응형)
+  window.addEventListener('resize', function () {
+    const newWidth = getLineWidthPx();
+    const chart = window.abilityRadarChart02;
+    if (!chart) return;
+
     chart.data.datasets[0].borderWidth = newWidth;
     chart.options.scales.r.grid.lineWidth = newWidth;
     chart.options.scales.r.angleLines.lineWidth = newWidth;
@@ -992,6 +1707,885 @@ window.addEventListener('load', function(){
 </script>
 
 
-
-
 <!-- 상세페이지 기술 등급 팝업 내 > 기술 경쟁력 방사형, 바 그래프 차트 -->
+<script>
+////////////  방사형 차트  ////////////
+// 8각 레이더용 데이터
+// 라벨 (표시는 안 하지만 scale용으로 사용)
+const radarLabels8 = [
+  '초기 투자금 유지',
+  '정부 출연금 확보',
+  '브랜드 홍보 전략',
+  '다양한 제휴 체결',
+  '외형 지표 가시화',
+  '해외 진출 활성화',
+  '우수한 인재 유지',
+  '높은 기술 준비도'
+];
+
+// 당사 / 상위기업 값 (0~100) — 실제 값으로 교체해서 사용
+const radarValuesCompany8 = [80, 75, 70, 65, 60, 68, 72, 78]; // 당사
+const radarValuesTop8     = [95, 90, 88, 85, 82, 89, 92, 94]; // 상위기업
+
+window.addEventListener('load', function () {
+  const canvas = document.getElementById('abilityRadar03'); // ★ 캔버스 id
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  let lineWidth = getLineWidthPx(); // 너가 쓰는 함수 그대로 사용
+
+  window.growthRadarChart = new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: radarLabels8,
+      datasets: [
+        {
+          // 당사
+          label: 'company',
+          data: radarValuesCompany8,
+          borderColor: '#0071FE',                     // 기존 파란색
+          backgroundColor: 'rgba(36,124,255,0.35)',   // 당사 배경
+          borderWidth: lineWidth,
+          pointRadius: 0,
+          pointHoverRadius: 0,
+          fill: true
+        },
+        {
+          // 상위기업
+          label: 'topCompany',
+          data: radarValuesTop8,
+          borderColor: '#66FFD3',                    // 초록색(이미지 느낌)
+          backgroundColor: 'rgba(64,225,193,0.28)',  // 초록 배경
+          borderWidth: lineWidth,
+          pointRadius: 0,
+          pointHoverRadius: 0,
+          fill: false
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },   // 범례 숨김(필요하면 true)
+        tooltip: { enabled: false }
+      },
+      scales: {
+        r: {
+          min: 0,
+          max: 100,
+          ticks: {
+            display: false,
+            stepSize: 20
+          },
+          grid: {
+            color: 'rgba(241, 241, 241, 0.39)',
+            lineWidth: lineWidth
+          },
+          angleLines: {
+            color: 'rgba(241, 241, 241, 0.39)',
+            lineWidth: lineWidth
+          },
+          pointLabels: {
+            display: false   // ★ 라벨은 보여주지 않음
+          }
+        }
+      }
+    }
+  });
+
+  // 리사이즈 시 두께 재계산 (두 데이터셋 모두 적용)
+  window.addEventListener('resize', function () {
+    const newWidth = getLineWidthPx();
+    const chart = window.growthRadarChart;
+    if (!chart) return;
+
+    chart.data.datasets.forEach(ds => {
+      ds.borderWidth = newWidth;
+    });
+    chart.options.scales.r.grid.lineWidth = newWidth;
+    chart.options.scales.r.angleLines.lineWidth = newWidth;
+
+    chart.update();
+  });
+});
+
+
+////////////  바형 차트  ////////////
+/*************************
+ * 2번 차트 (skillBarChart02)
+ * 5개 + 가운데 금액 라벨
+ *************************/
+const skillLabels2  = [
+  '4년차 R&D 금액',
+  '4-7년차 R&D\n수행건수',
+  '4-7년차 연구비\n카드 사용건수',
+  '5년차차 R&D 금액',
+  '특허 출원 건수'
+];
+const skillValues2  = [100,0,0,0,0]; // 바 길이 퍼센트
+const skillAmounts2 = ['10.5억','0건','0건','0억','0건']; // 가운데 숫자 라벨
+
+// 2번 차트용 라벨 플러그인 (제목 + 금액, 제목 개행 처리)
+const labelCenterPlugin2 = {
+  id: 'labelCenterPlugin2',
+  afterDraw(chart) {
+    const {ctx, scales:{y}} = chart;
+    const labels = chart.data.labels;
+
+    const titleFontSize  = designPxToRealPx(33);
+    const amountFontSize = designPxToRealPx(28);
+    const titleX  = designPxToRealPx(0);
+    const amountX = designPxToRealPx(260); // 제목과 금액 사이 + 금액과 바 사이 간격
+
+    ctx.save();
+    ctx.textBaseline = 'middle';
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#FFFFFF';
+
+    labels.forEach((label, idx) => {
+      const cy = y.getPixelForValue(label);
+
+      // ----- 제목(멀티라인) -----
+      const lines = String(label).split('\n');
+      const lineHeight = titleFontSize * 1.25;          // 줄 간격
+      const totalHeight = lineHeight * lines.length;
+      let startY = cy - totalHeight / 2 + lineHeight / 2;
+
+      ctx.font = `${titleFontSize}px Pretendard, "Noto Sans KR", sans-serif`;
+
+      lines.forEach((line, lineIdx) => {
+        const lineY = startY + lineIdx * lineHeight;
+        ctx.fillText(line, titleX, lineY);
+      });
+
+      // ----- 금액/건수 -----
+      const amount = skillAmounts2[idx] || '';
+      if (amount) {
+        ctx.font = `${amountFontSize}px Pretendard, "Noto Sans KR", sans-serif`;
+        ctx.fillText(amount, amountX, cy);
+      }
+    });
+
+    ctx.restore();
+  }
+};
+
+window.addEventListener('load', function(){
+  const canvas = document.getElementById('skillBarChart02');
+  if (!canvas) return;
+
+  // ★★ 개행 수만큼 한 항목 높이 늘리기 ★★
+  const linesPerLabel = skillLabels2.map(lbl => String(lbl).split('\n').length);
+  const maxLines      = Math.max.apply(null, linesPerLabel);
+
+  // 디자인 기준 한 줄당 높이(px) – 필요하면 숫자 조절
+  const baseRowDesignPx  = 60;             // 1줄짜리 기준 높이
+  const rowDesignPx      = baseRowDesignPx * maxLines;
+  const totalDesignPx    = rowDesignPx * skillLabels2.length;
+  const canvasHeightReal = designPxToRealPx(totalDesignPx);
+
+  // 실제 캔버스 높이 지정 (row 높이 확장)
+  canvas.style.height = canvasHeightReal + 'px';
+
+  const ctx = canvas.getContext('2d');
+  const barThickness = designPxToRealPx(18);
+
+  new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels: skillLabels2,
+      datasets:[{
+        data: skillValues2,
+        borderWidth: 0,
+        backgroundColor(context){
+          const {chart} = context;
+          const {ctx, chartArea} = chart;
+          if(!chartArea) return '#0071FE';
+          const g = ctx.createLinearGradient(chartArea.left,0,chartArea.right,0);
+          g.addColorStop(0,   '#252D3E');
+          g.addColorStop(0.4, '#005ED8');
+          g.addColorStop(1,   '#008DFF');
+          return g;
+        },
+        borderRadius: Number.MAX_VALUE,
+        borderSkipped:false,
+        barThickness:barThickness,
+        barPercentage:0.82,
+        categoryPercentage:0.7
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      indexAxis:'y',
+      plugins:{
+        legend:{display:false},
+        tooltip:{enabled:false}
+      },
+      scales:{
+        x:{min:0,max:100,grid:{display:false},ticks:{display:false}},
+        y:{grid:{display:false},ticks:{display:false,padding:0}}
+      },
+      layout:{
+        padding:{
+          top:designPxToRealPx(6),
+          bottom:designPxToRealPx(6),
+          left:designPxToRealPx(420), // 제목 + 금액 영역 전체 확보
+          right:designPxToRealPx(8)
+        }
+      }
+    },
+    plugins:[separatorLinesPlugin, trackPlugin, labelCenterPlugin2]
+  });
+});
+
+</script>
+
+
+<!-- tech_ra_pop팝업 열기 닫기 기능 -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    var popup = document.querySelector('.tech_ra_pop');
+    if (!popup) return;
+
+    var openBtns = document.querySelectorAll('.grade_box .thec_grade_btn');
+    var closeBtn = popup.querySelector('.pop_close');
+
+    function openPopup() {
+        popup.classList.add('is-open');
+    }
+
+    function closePopup() {
+        popup.classList.remove('is-open');
+    }
+
+    // grade_box 안의 thec_grade_btn 클릭 시 오픈
+    openBtns.forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            openPopup();
+        });
+    });
+
+    // X 버튼으로 닫기
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            closePopup();
+        });
+    }
+
+    // 배경 딤드 클릭 시 닫기 (내용 영역 클릭은 무시)
+    popup.addEventListener('click', function (e) {
+        if (e.target === popup) {
+            closePopup();
+        }
+    });
+
+    // ESC로 닫기 (선택)
+    document.addEventListener('keyup', function (e) {
+        if (e.key === 'Escape' && popup.classList.contains('is-open')) {
+            closePopup();
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    var popup = document.querySelector('.tech_go_pop');
+    if (!popup) return;
+
+    var openBtns = document.querySelectorAll('.grade_box .thec_go_btn');
+    var closeBtn = popup.querySelector('.pop_close');
+
+    function openPopup() {
+        popup.classList.add('is-open');
+    }
+
+    function closePopup() {
+        popup.classList.remove('is-open');
+    }
+
+    // grade_box 안의 thec_grade_btn 클릭 시 오픈
+    openBtns.forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            openPopup();
+        });
+    });
+
+    // X 버튼으로 닫기
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            closePopup();
+        });
+    }
+
+    // 배경 딤드 클릭 시 닫기 (내용 영역 클릭은 무시)
+    popup.addEventListener('click', function (e) {
+        if (e.target === popup) {
+            closePopup();
+        }
+    });
+
+    // ESC로 닫기 (선택)
+    document.addEventListener('keyup', function (e) {
+        if (e.key === 'Escape' && popup.classList.contains('is-open')) {
+            closePopup();
+        }
+    });
+});
+</script>
+
+
+<!-- 부스위치 열고 닫기 -->
+ <script>
+    document.addEventListener('DOMContentLoaded', function () {
+  var locaPop = document.querySelector('.loca_pop');
+  if (!locaPop) return;
+
+  var openBtns   = document.querySelectorAll('.btn_cop_loca');          // 기존 열기 버튼들
+  var closeBtn   = locaPop.querySelector('.pop_close');
+  var rstLocaBtn = document.querySelector('.rst_btn .btn_item');        // "부스 위치 다시보기" 버튼
+  var growStep02 = document.querySelector('.grow_pop_process.step_02'); // step_02 래퍼
+
+  function openLocaPop() {
+    // ★ loca_pop 열리기 전에 step_02 닫기
+    if (growStep02) {
+      growStep02.classList.remove('is-open');
+    }
+    locaPop.classList.add('is-open');
+  }
+
+  function closeLocaPop() {
+    locaPop.classList.remove('is-open');
+  }
+
+  // 열기 버튼들 (.btn_cop_loca)
+  openBtns.forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      openLocaPop();
+    });
+  });
+
+  // rst_btn 안 "부스 위치 다시보기" 버튼으로도 열기
+  if (rstLocaBtn) {
+    rstLocaBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      openLocaPop();
+    });
+  }
+
+  // 닫기 버튼
+  if (closeBtn) {
+    closeBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      closeLocaPop();
+    });
+  }
+
+  // 딤드 영역 클릭 시 닫기
+  locaPop.addEventListener('click', function (e) {
+    if (e.target === locaPop) {
+      closeLocaPop();
+    }
+  });
+
+  // ESC 키로 닫기
+  document.addEventListener('keyup', function (e) {
+    if (e.key === 'Escape' && locaPop.classList.contains('is-open')) {
+      closeLocaPop();
+    }
+  });
+});
+
+ </script>
+
+
+<!-- 성장 자세히보기 버튼 클릭 후 > 동반성장 기업 부스 상세, 동반성장 팝업 프로세스 -->
+ <script>
+document.addEventListener('DOMContentLoaded', function () {
+  var detailBtns = document.querySelectorAll('.btn_grp_detail .btn_detail');
+  var step1 = document.querySelector('.grow_pop_process.step_01');
+  var step2 = document.querySelector('.grow_pop_process.step_02');
+  var box1 = step2 ? step2.querySelector('.text_box.box_01') : null;
+  var box2 = step2 ? step2.querySelector('.text_box.box_02') : null;
+
+  if (!detailBtns.length || !step1 || !step2 || !box1 || !box2) return;
+
+  var timerStepChange = null;
+  var timerBoxChange = null;
+
+  function resetTimers() {
+    if (timerStepChange) { clearTimeout(timerStepChange); timerStepChange = null; }
+    if (timerBoxChange) { clearTimeout(timerBoxChange); timerBoxChange = null; }
+  }
+
+  function resetState() {
+    step1.classList.remove('is-open');
+    step2.classList.remove('is-open');
+    box1.classList.remove('box-open');
+    box2.classList.remove('box-open');
+  }
+
+  function startGrowProcess() {
+    resetTimers();
+    resetState();
+
+    // 1단계 팝업 오픈
+    step1.classList.add('is-open');
+
+    // 2초 후 1단계 닫고 2단계 오픈
+    timerStepChange = setTimeout(function () {
+      step1.classList.remove('is-open');
+      step2.classList.add('is-open');
+
+      // 2단계 처음에는 box_01만 열기
+      box1.classList.add('box-open');
+      box2.classList.remove('box-open');
+
+      // 5초 뒤 box_01 닫고 box_02 열기
+      timerBoxChange = setTimeout(function () {
+        box1.classList.remove('box-open');
+        box2.classList.add('box-open');
+      }, 5000);
+    }, 3000);
+  }
+
+  detailBtns.forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      startGrowProcess();
+    });
+  });
+});
+ </script>
+
+
+<!-- 탭 기능 -->
+ <script>
+document.addEventListener('DOMContentLoaded', function () {
+  /* ===============================
+     1) 상단 detail 탭 (기업 개요 / 재무 정보 / ...)
+  =============================== */
+  document.querySelectorAll('.detail_tab').forEach(function (tabWrap) {
+    // 이 탭이 속한 카드(또는 가장 가까운 래퍼) 기준으로 스코프 고정
+    var wrapper = tabWrap.closest('.card_detail') || tabWrap.parentElement || document;
+
+    // 같은 wrapper 안에서만 detail_tab_cont 찾기
+    var cont = wrapper.querySelector('.detail_tab_cont');
+    if (!cont) return;
+
+    var buttons = tabWrap.querySelectorAll('.detail_tab_btn');
+    var panels  = cont.querySelectorAll('.tab_cont');
+
+    // 초기 display 세팅: on 있는 것만 보이게
+    panels.forEach(function (panel) {
+      panel.style.display = panel.classList.contains('on') ? 'inline-block' : 'none';
+    });
+
+    function handleDetailTabClick(e) {
+      var btn = e.currentTarget;
+
+      // tab_item_01 ~ tab_item_XX 추출
+      var tabClass = Array.prototype.find.call(btn.classList, function (cls) {
+        return cls.indexOf('tab_item_') === 0;
+      });
+      if (!tabClass) return;
+
+      var m = tabClass.match(/tab_item_(\d+)/);
+      if (!m) return;
+      var num = m[1]; // "01", "02", ...
+
+      // 버튼 on 토글 (이 detail_tab 안에서만)
+      buttons.forEach(function (b) { b.classList.remove('on'); });
+      btn.classList.add('on');
+
+      // 이 wrapper 안의 해당 컨텐츠들만 제어
+      panels.forEach(function (panel) {
+        panel.classList.remove('on');
+        panel.style.display = 'none';
+      });
+
+      // 같은 번호의 패널만 노출: .tab_cont.cs_01 이런 식
+      var targetPanel = cont.querySelector('.tab_cont.cs_' + num);
+      if (targetPanel) {
+        targetPanel.classList.add('on');
+        targetPanel.style.display = 'inline-block';
+      }
+    }
+
+    buttons.forEach(function (btn) {
+      btn.addEventListener('click', handleDetailTabClick);
+    });
+  });
+});
+
+/* ===============================
+   동그란 탭 (.tab_round_ty ↔ .tab_round_cont)
+=============================== */
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.tab_round_ty').forEach(function (roundWrap) {
+    var btns = roundWrap.querySelectorAll('.tab_btn');
+
+    // ▼ tab_round_ty를 감싸는 .tab_scroll_l 기준으로 컨텐츠 찾기
+    var wrapper = roundWrap.closest('.tab_scroll_l') || roundWrap;
+
+    // 이 wrapper(.tab_scroll_l) 바로 뒤에 이어지는 .tab_round_cont 들만 묶기
+    var roundCons = [];
+    var el = wrapper.nextElementSibling;
+
+    while (el) {
+      if (el.classList && el.classList.contains('tab_round_cont')) {
+        roundCons.push(el);
+        el = el.nextElementSibling;
+      } else {
+        // 다른 타입 형제가 나오면 이 그룹 끝
+        break;
+      }
+    }
+
+    if (!roundCons.length) return;
+
+    // 초기 상태: .on 있는 것만 보이게
+    roundCons.forEach(function (box) {
+      box.style.display = box.classList.contains('on') ? 'block' : 'none';
+    });
+
+    function handleRoundTabClick(e) {
+      var btn = e.currentTarget;
+
+      // rd_tab_01 ~ rd_tab_XX 추출
+      var tabClass = Array.prototype.find.call(btn.classList, function (cls) {
+        return cls.indexOf('rd_tab_') === 0;
+      });
+      if (!tabClass) return;
+
+      var m = tabClass.match(/rd_tab_(\d+)/);
+      if (!m) return;
+      var num = m[1]; // "01", "02", ...
+
+      var targetClass = 'rd_tab_cont_' + num;
+
+      // 1) 버튼 on 토글 (이 그룹 안에서만)
+      btns.forEach(function (b) { b.classList.remove('on'); });
+      btn.classList.add('on');
+
+      // 2) 컨텐츠 on 제거 + 숨기기 (이 그룹의 컨텐츠만)
+      roundCons.forEach(function (box) {
+        box.classList.remove('on');
+        box.style.display = 'none';
+      });
+
+      // 3) 번호 매칭되는 컨텐츠에 on + 보이기
+      var targetBox = roundCons.find(function (box) {
+        return box.classList.contains(targetClass);
+      });
+
+      if (targetBox) {
+        targetBox.classList.add('on');
+        targetBox.style.display = 'block';
+      }
+    }
+
+    // 각 버튼에 클릭 이벤트 연결
+    btns.forEach(function (btn) {
+      btn.addEventListener('click', handleRoundTabClick);
+    });
+  });
+});
+
+ </script>
+
+
+<!-- 재무정보 그래프 -->
+ <script>
+function vwToPx(vw) {
+  return window.innerWidth * (vw / 100);
+}
+
+function designPxToRealPx(px) {
+  const vw = px * PX_TO_VW;
+  return vwToPx(vw);
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  if (typeof Chart === 'undefined') return;
+
+  // 공통 라벨 / 색상 (범례 색이랑 맞춰서 설정)
+  const labels = ['자산','부채','자본','매출','영업이익','당기순이익'];
+  const barColors = [
+    '#E4EDFF', // 자산
+    '#A9C6FF', // 부채
+    '#6FAEFF', // 자본
+    '#2B7CFF', // 매출
+    '#0071FE', // 영업이익
+    '#0B4EA9'  // 당기순이익
+  ];
+
+  // 표 데이터 그대로 입력 (단위: 백만원)
+  const yearData = [
+    {
+      year: 2022,
+      canvasId: 'finChart2022',
+      values: [590, 160, 420, 350, -210, 230]
+    },
+    {
+      year: 2023,
+      canvasId: 'finChart2023',
+      values: [840, 670, 170, 870, -120, 100]
+    },
+    {
+      year: 2024,
+      canvasId: 'finChart2024',
+      values: [870, 690, 150, 670, -420, -250]
+    }
+  ];
+
+  yearData.forEach(function (item) {
+    const canvas = document.getElementById(item.canvasId);
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    createFinYearChart(ctx, labels, item.values, barColors);
+  });
+
+  // 공통 차트 생성 함수
+  function createFinYearChart(ctx, labels, data, colors) {
+    // 양/음수 둘 다 있는 값에서, 위아래 여유 있는 y 범위 계산
+    const absVals = data.map(v => Math.abs(v));
+    const maxVal  = Math.max.apply(null, absVals);
+    const margin  = maxVal * 0.2;           // 여유값
+    const axisMax = Math.ceil((maxVal + margin) / 45) * 45;
+    const axisMin = -axisMax;               // 위/아래 대칭
+
+    // px → vw 비율 적용된 값들
+    const padTop    = designPxToRealPx(20);
+    const padRight  = designPxToRealPx(20);
+    const padLeft   = designPxToRealPx(20);
+    const padBottom = designPxToRealPx(40);
+    const zeroLineWidth = designPxToRealPx(1);
+
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          data: data,
+          backgroundColor: colors,
+          borderRadius: 0,
+          borderSkipped: false
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: false }
+        },
+        layout: {
+          padding: {
+            top:    padTop,
+            right:  padRight,
+            left:   padLeft,
+            bottom: padBottom   // x축 아래 여백 (연도 텍스트용)
+          }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { display: false }
+          },
+          y: {
+            min: axisMin,
+            max: axisMax,
+            ticks: { display: false },
+            grid: {
+              drawBorder: false,
+              // 0 기준선만 흰색으로 표시 (이미지의 가로 흰 선)
+              color: function (ctx) {
+                return ctx.tick.value === 0 ? '#FFFFFF' : 'transparent';
+              },
+              lineWidth: function (ctx) {
+                return ctx.tick.value === 0 ? zeroLineWidth : 0;
+              }
+            }
+          }
+        },
+        animation: {
+          duration: 800
+        }
+      }
+    });
+  }
+});
+ </script>
+
+
+<!-- 투자정보 그래프 -->
+ <script>
+// vw → 실제 px
+function vwToPx(vw) {
+  return window.innerWidth * (vw / 100);
+}
+
+// 디자인 px → 현재 해상도 기준 실제 px
+function designPxToRealPx(px) {
+  const vw = px * PX_TO_VW; // PX_TO_VW = 0.0260 전역에 선언돼 있어야 함
+  return vwToPx(vw);
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  if(typeof Chart === 'undefined') return;
+
+  const ctx = document.getElementById('yearBarChart').getContext('2d');
+
+  // 연도 / 값 / 레이블(비공개)
+  const labels  = ['2019','2020','2021','2022','2023','2024','2025'];
+  const values  = [1, 8, 10, 18, 40, 0, 85];          // 2020은 시각적 높이용
+  const isPrivate = [false,true,false,false,false,false,false];
+
+  // 🔹 배경 투명하게 만드는 플러그인
+  const transparentBgPlugin = {
+    id: 'transparentBg',
+    beforeDraw(chart) {
+      const {ctx, width, height} = chart;
+      ctx.save();
+      ctx.clearRect(0, 0, width, height); // 캔버스 전체 클리어 → 배경색 없음
+      ctx.restore();
+    }
+  };
+
+  // 막대 위 텍스트(숫자 or "비공개")
+  const valueLabelPlugin = {
+    id: 'valueLabelPlugin',
+    afterDatasetsDraw(chart){
+      const {ctx} = chart;
+      const meta = chart.getDatasetMeta(0);
+      const dataset = chart.data.datasets[0];
+
+      const fontSize    = designPxToRealPx(36);
+      const offsetSmall = designPxToRealPx(70);
+      const offsetZero  = designPxToRealPx(30);
+      const safeTop     = fontSize + designPxToRealPx(10);
+
+      ctx.save();
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'bottom';
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold ' + fontSize + 'px Pretendard, "Noto Sans KR", sans-serif';
+
+      meta.data.forEach((bar, index) => {
+        if (!bar || typeof dataset.data[index] !== 'number') return;
+
+        const isP = isPrivate[index];
+        const val = dataset.data[index];
+
+        let labelText = isP ? '비공개' : String(val);
+
+        const x = bar.x;
+        let y = (val === 0) ? bar.y - offsetZero : bar.y - offsetSmall;
+        if (y < safeTop) y = safeTop; // 위로 잘리지 않게 보정
+
+        ctx.fillText(labelText, x, y);
+      });
+
+      ctx.restore();
+    }
+  };
+
+  // 패딩 / 폰트 / radius 등 디자인값을 실제 px로 변환
+  const padTop    = designPxToRealPx(40);
+  const padRight  = designPxToRealPx(0);
+  const padBottom = designPxToRealPx(20);
+  const padLeft   = designPxToRealPx(0);
+  const xFontSize = designPxToRealPx(32);
+  const xTickPad  = designPxToRealPx(40);
+  const barRadius = designPxToRealPx(0);
+
+  new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels: labels,
+      datasets:[{
+        data: values,
+        borderWidth: 0,
+        backgroundColor: function(context){
+          const {chart, dataIndex} = context;
+          const {ctx, chartArea} = chart;
+          if (!chartArea) return '#1A65FF';
+
+          // 2020년은 회색
+          if (isPrivate[dataIndex]) {
+            return '#D3D5DB';
+          }
+
+          const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+          gradient.addColorStop(0, '#0A498C'); // 아래 진한 파랑
+          gradient.addColorStop(1, '#60BAF5'); // 위 연한 파랑
+          return gradient;
+        },
+        borderRadius: barRadius,
+        borderSkipped: false,
+        barPercentage: 0.9,
+        categoryPercentage: 0.7
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{enabled:false}
+      },
+      layout:{
+        padding:{
+          top: padTop,
+          right: padRight,
+          bottom: padBottom,
+          left: padLeft
+        }
+      },
+      scales:{
+        x:{
+          grid:{display:false},
+          ticks:{
+            color:'#FFFFFF',
+            padding: xTickPad,
+            font:{
+              size: xFontSize,
+              weight:'500'
+            }
+          }
+        },
+        y:{
+          beginAtZero:true,
+          min:0,
+          max:100,
+          ticks:{display:false},
+          grid:{
+            drawBorder:false,
+            color:'transparent'
+          }
+        }
+      },
+      animation:{
+        duration:800
+      }
+    },
+    // 🔹 여기서 두 플러그인 같이 사용
+    plugins:[transparentBgPlugin, valueLabelPlugin]
+  });
+});
+
+ </script>
+
+
+
+<!-- 라운드 탭이 길어질 경우 스크롤 생기는 기능 -->
+ <script>
+    
+ </script>

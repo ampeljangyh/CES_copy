@@ -238,7 +238,7 @@
                                         <div class="ico_inner">
                                             <div class="prog_mp_item">
                                             <!-- <video class="cir" src="../../resources/images/circle_01.mp4" autoplay muted loop playsinline></video> -->
-                                            <video class="cen cen_01 cen_sz_02" src="../../resources/images/cer2_02.mp4" autoplay muted loop playsinline></video>
+                                            <video class="cen cen_01 cen_sz_02" src="../../resources/images/logo2.mp4" autoplay muted loop playsinline></video>
                                             <video class="cen cen_02 cen_sz_02" src="../../resources/images/check_1_02.mp4" autoplay muted loop playsinline></video>
                                             </div>
                                             <div class="per_ing">
@@ -252,7 +252,8 @@
                                                 <img src="../../resources/images/search_result_01.jpg">
                                             </div>
                                             <span class="desc_01">의 기술 평가를 위해 특허청 정보를 확인하고 있습니다.</span>
-                                            <span class="desc_02">정보 수집 완료</span>
+                                            <span class="desc_02">의 기술 평가를 위해 국세청 정보를 확인하고 있습니다.</span>
+                                            <span class="desc_03">정보 수집 완료</span>
                                         </div>
 
                                         <div class="st_02_btn">
@@ -1398,21 +1399,25 @@ function startTechStepAnimations(stepBox) {
 
 /* 퍼센트 100% 도달 후 비주얼 교체 (step_box_02 s1) */
 function switchTechVisuals(stepBox) {
-  var cen1 = stepBox.querySelector('.prog_mp_item .cen_01');
-  var cen2 = stepBox.querySelector('.prog_mp_item .cen_02');
-  var desc1 = stepBox.querySelector('.desc .desc_01');
-  var desc2 = stepBox.querySelector('.desc .desc_02');
+  var cen1   = stepBox.querySelector('.prog_mp_item .cen_01');
+  var cen2   = stepBox.querySelector('.prog_mp_item .cen_02');
+  var desc1  = stepBox.querySelector('.desc .desc_01');
+  var desc2  = stepBox.querySelector('.desc .desc_02');
+  var desc3  = stepBox.querySelector('.desc .desc_03');
   var btnWrap = stepBox.querySelector('.st_02_btn');
 
-  if (cen1 && cen2) {
-    cen2.style.display = 'block';
-    cen2.style.opacity = '0';
+  // cen_01 → cen_02 전환 로직을 함수로 분리
+  function runCenSwitch() {
+    if (!cen1 || !cen2) return;
+
+    cen2.style.display  = 'block';
+    cen2.style.opacity  = '0';
     cen2.style.transform = 'translate(-50%,-40%)';
 
     requestAnimationFrame(function () {
-      cen1.style.opacity = '0';
+      cen1.style.opacity   = '0';
       cen1.style.transform = 'translate(-50%,-60%)';
-      cen2.style.opacity = '1';
+      cen2.style.opacity   = '1';
       cen2.style.transform = 'translate(-50%,-50%)';
     });
 
@@ -1424,30 +1429,88 @@ function switchTechVisuals(stepBox) {
     cen1.addEventListener('transitionend', vHandler);
   }
 
-  if (desc1 && desc2) {
-    var dHandler = function (e) {
+  // -----------------------------
+  // desc_01 → desc_02 → desc_03
+  // desc_03 페이드인 시작 시점에 cen 전환도 같이 시작
+  // -----------------------------
+  if (desc1 && desc2 && desc3) {
+    // 1) desc_01 → desc_02
+    var dHandler1 = function (e) {
       if (e.propertyName !== 'opacity') return;
+      desc1.removeEventListener('transitionend', dHandler1);
       desc1.style.display = 'none';
-      desc1.removeEventListener('transitionend', dHandler);
 
+      // desc_02 등장
       desc2.style.display = 'inline-block';
       desc2.style.opacity = '0';
       requestAnimationFrame(function () {
         desc2.style.opacity = '1';
       });
+
+      // 2) desc_02 → desc_03
+      var dHandler2 = function (e2) {
+        if (e2.propertyName !== 'opacity') return;
+
+        var op = parseFloat(window.getComputedStyle(desc2).opacity || '1');
+        if (op > 0) return; // 완전히 사라졌을 때만 처리
+
+        desc2.removeEventListener('transitionend', dHandler2);
+        desc2.style.display = 'none';
+
+        // desc_03 등장 + cen 전환을 동시에 시작
+        desc3.style.display = 'inline-block';
+        desc3.style.opacity = '0';
+        requestAnimationFrame(function () {
+          desc3.style.opacity = '1';  // desc_03 페이드인
+          runCenSwitch();            // ★ 같은 타이밍에 cen_01 → cen_02 전환 시작
+        });
+      };
+      desc2.addEventListener('transitionend', dHandler2);
+
+      // desc_02 잠깐 보여준 뒤 사라지게 (딜레이 조절 가능)
+      setTimeout(function () {
+        desc2.style.opacity = '0'; // opacity 트랜지션 → dHandler2 호출
+      }, 2000); // 2초 뒤 desc_02 fade-out
     };
-    desc1.addEventListener('transitionend', dHandler);
+
+    // desc_01부터 서서히 사라지기 시작
+    desc1.addEventListener('transitionend', dHandler1);
     requestAnimationFrame(function () {
       desc1.style.opacity = '0';
     });
+
+  // desc_03이 없을 땐 기존 01 → 02 + cen 전환 동시
+  } else {
+    if (cen1 && cen2) {
+      runCenSwitch();
+    }
+
+    if (desc1 && desc2) {
+      var dHandler = function (e) {
+        if (e.propertyName !== 'opacity') return;
+        desc1.style.display = 'none';
+        desc1.removeEventListener('transitionend', dHandler);
+
+        desc2.style.display = 'inline-block';
+        desc2.style.opacity = '0';
+        requestAnimationFrame(function () {
+          desc2.style.opacity = '1';
+        });
+      };
+      desc1.addEventListener('transitionend', dHandler);
+      requestAnimationFrame(function () {
+        desc1.style.opacity = '0';
+      });
+    }
   }
 
+  // 버튼 노출 (기존 그대로)
   if (btnWrap) {
     requestAnimationFrame(function () {
-      btnWrap.style.opacity = '1';
-      btnWrap.style.transform = 'translateY(0)';
+      btnWrap.style.opacity       = '1';
+      btnWrap.style.transform     = 'translateY(0)';
       btnWrap.style.pointerEvents = 'auto';
-      btnWrap.style.display = 'block';
+      btnWrap.style.display       = 'block';
     });
   }
 }
