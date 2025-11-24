@@ -1,0 +1,156 @@
+<!DOCType html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, user-scalable=0">
+<meta name="msapplication-TileColor" content="#4D6EDB">
+<meta property="og:title" content="">
+<meta property="og:description" content="">
+<meta property="og:Type" content="website">
+<meta property="og:image" content="../../resources/images/">
+<title></title>
+<link rel="shortcut icon" href="../../resources/images/" type="image/x-icon">
+<link rel="apple-touch-icon" href="../../resources/images/">
+<link rel="stylesheet" href="../../resources/css/style.css">
+
+<!-- 퍼블리싱 -->
+<script src="../../resources/js/jquery-3.7.1.min.js"></script>
+<script src="../../resources/js/jquery-ui.js"></script>
+<script src="../../resources/js/swiper-bundle.min.js"></script>
+<script src="../../resources/js/chart.js"></script>
+<script src="../../resources/js/siy.js"></script>
+<!-- //퍼블리싱 -->
+</head>
+
+<body>
+<!-- wrap -->
+<div id="wrap" class="com_bg gate_01_main ">
+    <!-- Header -->
+    <header>
+    </header>
+    <!-- //Header -->
+
+    <!-- Container -->
+    <section id="container" class="esg_ty">
+        <div class="snb">
+            <div class="snb_inner">
+                <a href="../main.html" class="logo">
+                    <img src="../../resources/images/logo.png">
+                </a>
+                <div class="menu">
+                    <ul>
+                        <li>
+                            <a href="../main.html" class="menu_item ico_01">메인</a>
+                        </li>
+                        <li>
+                            <a href="../gate01/gate_01_01.html" class="menu_item ico_02">기술 금융 시스템</a>
+                        </li>
+                        <li>
+                            <a href="../gate02/gate_02.html" class="menu_item ico_03">K-콘텐츠 투자</a>
+                        </li>
+                        <li>
+                            <a href="../gate03/gate_03.html" class="menu_item ico_04 active">ESG 정밀진단 시스템</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lang">
+                    <button type="button" class="btn_lang">
+                        <span class="en">English</span>
+                        <span class="kr">한국어</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="contents esg_cont" style="visibility: hidden;">
+            <div class="esg_cont_inner">
+                <div class="esg_tit">
+                    <p>기업 경영활동에 특화된 지표를 생성합니다.</p>
+                    <strong><span id="selPrdName">NexDrive</span> 특화형 지표 생성</strong>
+                </div>
+
+                <div class="chk_panel">
+                    <strong class="tit">ESG 평가 지표</strong>
+
+                    <ul class="chk_li">
+                        <li></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- //Container -->
+
+    <!-- Footer -->
+    <footer>
+    </footer>
+    <!-- //Footer -->
+</div>
+<!-- //wrap -->
+
+
+<!-- esg_dim -->
+<div class="esg_dim" style="display:none;"></div>
+<!-- //esg_dim -->
+
+
+<!-- panel_side -->
+<div class="panel_side" style="display:none;">
+    <div class="top">
+        <strong>기업 기초정보</strong>
+        <p>당신의 기업 NexDrive의 정보를 선택해주세요.</p>
+
+        <button type="button" class="btn_panel_close"><span class="blind">닫기</span></button>
+    </div>
+    <div class="cnt">
+        <div class="cnt_inner">
+            
+        </div>
+    </div>
+</div>
+<!-- //panel_side -->
+
+
+<!-- esg_modal -->
+<div class="esg_modal" style="display:none;"></div>
+<!-- //esg_modal -->
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        //로드 후 esg_cont 활성화
+        getHashOfName();
+        $('.esg_cont').css('visibility','');
+    });
+
+    window.addEventListener("hashchange", () => {
+        getHashOfName();
+    });
+
+    // hash 값으로 처리
+    function getHashOfName(){
+        const fragment = window.location.hash.substring(1);
+        let selPrdText = '';
+
+        switch(fragment){
+            case '1':
+                selPrdText = 'NexDrive';
+                break;
+            case '2':
+                selPrdText = 'Qstack';
+                break;
+            case '3':
+                selPrdText = 'ApexBio';
+                break;
+            case '4':
+                selPrdText = 'Dataverse';
+                break;
+        }
+
+        $('#selPrdName').text(selPrdText);
+    }
+</script>
+</body>
+</html>
