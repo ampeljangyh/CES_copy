@@ -338,6 +338,12 @@ $('.hero-text .btn_search button').on('click', function () {
     const phase7Duration = 1000;
     const phaseDelay     = 1000;
 
+    // 🔹 전체 검색 카운트 시간 (step01 ~ step07 끝나는 시점까지)
+    const totalCountTime =
+        phase1Duration + phase2Duration + phase3Duration +
+        phase4Duration + phase5Duration + phase6Duration +
+        phase7Duration + phaseDelay * 6;
+
     // step 표시 공통 함수 (active 토글 + span margin-top 갱신)
     function showStep(num) {
         $allSteps.removeClass('active');
@@ -355,6 +361,57 @@ $('.hero-text .btn_search button').on('click', function () {
         $('.search_process_pop').addClass('is-active');
         $('.contents_01.processing').addClass('pop_on');
     }
+
+    /* ===========================
+ * 플로팅 이미지 점점 줄이기
+ * ===========================
+ */
+function startFloatFadeSequence() {
+    // visibleWraps 는 랜덤 노출 시 만든 배열 그대로 사용
+    if (typeof visibleWraps === 'undefined' || !visibleWraps.length) return;
+
+    const wraps     = Array.from(visibleWraps);
+    const keepCount = 10;                      // 마지막에 남길 개수
+    const fadeSec   = totalCountTime / 1000;   // 전체 1~7단계 동안의 시간(s)
+    const removeFadeMs = 500;                  // 개별 제거 페이드 시간(0.5초)
+
+    // 1) 전체를 0.6 → 0.3 으로 천천히 (7단계 끝까지 스르륵)
+    wraps.forEach(wrap => {
+        const baseTransition = wrap.style.transition || '';
+        wrap.style.transition = baseTransition
+            ? baseTransition + `, opacity ${fadeSec}s ease`
+            : `opacity ${fadeSec}s ease`;
+
+        // 다음 프레임에 목표 opacity 0.3 지정 → 긴 트랜지션으로 서서히
+        requestAnimationFrame(function () {
+            wrap.style.opacity = '0.3';
+        });
+    });
+
+    // 10개 이하라면 개별 제거 없이 전체 서서히 어둡게만
+    if (wraps.length <= keepCount) return;
+
+    // 2) 일부는 중간중간 개별로 사라지게 (opacity 0 → display:none)
+    const removeCount = wraps.length - keepCount;
+    const interval    = totalCountTime / removeCount;  // 하나씩 사라질 간격(ms)
+
+    wraps.forEach((wrap, idx) => {
+        if (idx >= removeCount) return; // 뒤쪽 keepCount 개는 남김
+
+        const t = Math.round(idx * interval);
+
+        setTimeout(function () {
+            // 개별 제거는 0.5초 안에 스르륵 opacity 0
+            wrap.style.transition = `opacity ${removeFadeMs / 1000}s ease`;
+            wrap.style.opacity    = '0';
+
+            // 0.5초 페이드 끝난 뒤 display:none 처리
+            setTimeout(function () {
+                wrap.style.display = 'none';
+            }, removeFadeMs + 50);
+        }, t);
+    });
+}
 
     /* 1단계: 0 → 1,111,243 (step01) */
     function startPhase1() {
@@ -415,6 +472,9 @@ $('.hero-text .btn_search button').on('click', function () {
             }, 1500);
         });
     }
+
+    // 🔹 플로팅 이미지 줄이기 시퀀스도 같이 시작
+    startFloatFadeSequence();
 
     // 시퀀스 시작
     startPhase1();

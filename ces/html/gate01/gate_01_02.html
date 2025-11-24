@@ -263,7 +263,7 @@
                                         </div>
 
                                         <!-- 하단 상품 지원 가능성 -->
-                                        <div class="credit_rating_possi">
+                                        <!-- <div class="credit_rating_possi">
                                             <div class="inner">
                                                 <div class="tit">
                                                 <strong>상품 지원 가능성</strong>
@@ -291,7 +291,7 @@
                                                 </ul>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
 
                                     <!-- STEP 2 -->
@@ -582,7 +582,7 @@
                                         </div> 
 
                                         <!-- 하단 상품 지원 가능성 -->
-                                        <div class="credit_rating_possi">
+                                        <!-- <div class="credit_rating_possi">
                                             <div class="inner">
                                                 <div class="tit">
                                                 <strong>상품 지원 가능성</strong>
@@ -610,7 +610,7 @@
                                                 </ul>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <!-- 안내 박스 -->
                                         <div class="re_confirm">
                                             <div class="inner">
@@ -1399,19 +1399,19 @@ function startTechStepAnimations(stepBox) {
 
 /* 퍼센트 100% 도달 후 비주얼 교체 (step_box_02 s1) */
 function switchTechVisuals(stepBox) {
-  var cen1   = stepBox.querySelector('.prog_mp_item .cen_01');
-  var cen2   = stepBox.querySelector('.prog_mp_item .cen_02');
-  var desc1  = stepBox.querySelector('.desc .desc_01');
-  var desc2  = stepBox.querySelector('.desc .desc_02');
-  var desc3  = stepBox.querySelector('.desc .desc_03');
+  var cen1    = stepBox.querySelector('.prog_mp_item .cen_01');
+  var cen2    = stepBox.querySelector('.prog_mp_item .cen_02');
+  var desc1   = stepBox.querySelector('.desc .desc_01');
+  var desc2   = stepBox.querySelector('.desc .desc_02');
+  var desc3   = stepBox.querySelector('.desc .desc_03');
   var btnWrap = stepBox.querySelector('.st_02_btn');
 
-  // cen_01 → cen_02 전환 로직을 함수로 분리
+  // cen_01 → cen_02 전환 로직
   function runCenSwitch() {
     if (!cen1 || !cen2) return;
 
-    cen2.style.display  = 'block';
-    cen2.style.opacity  = '0';
+    cen2.style.display   = 'block';
+    cen2.style.opacity   = '0';
     cen2.style.transform = 'translate(-50%,-40%)';
 
     requestAnimationFrame(function () {
@@ -1429,10 +1429,26 @@ function switchTechVisuals(stepBox) {
     cen1.addEventListener('transitionend', vHandler);
   }
 
+  // 버튼 노출 공통 함수
+  function showBtn() {
+    if (!btnWrap) return;
+    btnWrap.style.display       = 'block';
+    btnWrap.style.opacity       = '0';
+    btnWrap.style.transform     = 'translateY(0.52vw)';
+    btnWrap.style.pointerEvents = 'none';
+    btnWrap.style.transition    = 'opacity 0.8s ease,transform 0.8s ease';
+
+    requestAnimationFrame(function () {
+      btnWrap.style.opacity       = '1';
+      btnWrap.style.transform     = 'translateY(0)';
+      btnWrap.style.pointerEvents = 'auto';
+    });
+  }
+
   // -----------------------------
   // desc_01 → desc_02 → desc_03
-  // desc_03 페이드인 시작 시점에 cen 전환도 같이 시작
-  // -----------------------------
+  // desc_03 페이드인 시작 시점에
+  // cen 전환 + 버튼 노출 동시에
   if (desc1 && desc2 && desc3) {
     // 1) desc_01 → desc_02
     var dHandler1 = function (e) {
@@ -1452,25 +1468,27 @@ function switchTechVisuals(stepBox) {
         if (e2.propertyName !== 'opacity') return;
 
         var op = parseFloat(window.getComputedStyle(desc2).opacity || '1');
-        if (op > 0) return; // 완전히 사라졌을 때만 처리
+        if (op > 0) return; // 완전히 사라졌을 때만
 
         desc2.removeEventListener('transitionend', dHandler2);
         desc2.style.display = 'none';
 
-        // desc_03 등장 + cen 전환을 동시에 시작
+        // ★ desc_03 등장 + cen 전환 + 버튼 동시 시작
         desc3.style.display = 'inline-block';
         desc3.style.opacity = '0';
+
         requestAnimationFrame(function () {
-          desc3.style.opacity = '1';  // desc_03 페이드인
-          runCenSwitch();            // ★ 같은 타이밍에 cen_01 → cen_02 전환 시작
+          desc3.style.opacity = '1';   // desc_03 페이드인
+          runCenSwitch();             // cen_01 → cen_02 전환
+          showBtn();                  // st_02_btn 노출
         });
       };
       desc2.addEventListener('transitionend', dHandler2);
 
       // desc_02 잠깐 보여준 뒤 사라지게 (딜레이 조절 가능)
       setTimeout(function () {
-        desc2.style.opacity = '0'; // opacity 트랜지션 → dHandler2 호출
-      }, 2000); // 2초 뒤 desc_02 fade-out
+        desc2.style.opacity = '0';
+      }, 3000); // 예: 3초 후 desc_02 fade-out
     };
 
     // desc_01부터 서서히 사라지기 시작
@@ -1479,7 +1497,7 @@ function switchTechVisuals(stepBox) {
       desc1.style.opacity = '0';
     });
 
-  // desc_03이 없을 땐 기존 01 → 02 + cen 전환 동시
+  // desc_03이 없을 때: 기존 01→02 + cen 전환, 버튼은 cen 전환 시점에 노출
   } else {
     if (cen1 && cen2) {
       runCenSwitch();
@@ -1496,22 +1514,18 @@ function switchTechVisuals(stepBox) {
         requestAnimationFrame(function () {
           desc2.style.opacity = '1';
         });
+
+        // desc_02로 넘어가는 시점에 버튼도 노출
+        showBtn();
       };
       desc1.addEventListener('transitionend', dHandler);
       requestAnimationFrame(function () {
         desc1.style.opacity = '0';
       });
+    } else {
+      // 텍스트가 없을 때는 바로 버튼만
+      showBtn();
     }
-  }
-
-  // 버튼 노출 (기존 그대로)
-  if (btnWrap) {
-    requestAnimationFrame(function () {
-      btnWrap.style.opacity       = '1';
-      btnWrap.style.transform     = 'translateY(0)';
-      btnWrap.style.pointerEvents = 'auto';
-      btnWrap.style.display       = 'block';
-    });
   }
 }
 
@@ -1519,19 +1533,20 @@ function switchTechVisuals(stepBox) {
    step_box_02 내부 s1 → s2 상세 단계
 ------------------------------*/
 
-// s1의 "평가 진행하기" 버튼 클릭 시: s1 위로 사라지고 s2 노출 + 등급 슬라이더 + 상품 지원 가능성
+// s1의 "평가 진행하기" 버튼 클릭 시: s1 위로 사라지고
+// s2는 화면 아래(카드 밖)에서 위로 등장 + 등급 슬라이더 + 상품 지원 가능성
 function showTechDetailStep(stepBox) {
   if (!stepBox) return;
-  if (stepBox.dataset.techDetailDone === '1') return; // 중복 실행 방지
+  if (stepBox.dataset.techDetailDone === '1') return; // 중복실행 방지
   stepBox.dataset.techDetailDone = '1';
 
   var s1 = stepBox.querySelector('.as_card_detail_cont > .s1');
   var s2 = stepBox.querySelector('.as_card_detail_cont > .s2');
   if (!s2) return;
 
-  // s1 위로 스르륵 사라짐
+  // -------- s1 먼저 위로 사라지게 --------
   if (s1) {
-    s1.style.transition = 'opacity 0.8s ease,transform 0.8s ease';
+    s1.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
     requestAnimationFrame(function () {
       s1.style.opacity = '0';
       s1.style.transform = 'translateY(-0.52vw)';
@@ -1542,24 +1557,30 @@ function showTechDetailStep(stepBox) {
     var s1Handler = function (e) {
       if (e.propertyName !== 'opacity' || s1Done) return;
       s1Done = true;
-      s1.style.display = 'none';
       s1.removeEventListener('transitionend', s1Handler);
+      s1.style.display = 'none';
+
+      // ★ s1이 완전히 사라진 "뒤에" s2를 화면 밖(아래)에서부터 등장시킴
+      showS2FromBottom(stepBox, s2);
     };
     s1.addEventListener('transitionend', s1Handler);
+  } else {
+    // s1이 없으면 바로 s2 등장
+    showS2FromBottom(stepBox, s2);
   }
+}
 
-  // s2 아래에서 위로 등장
+// s2를 화면 아래에서 위로 등장시키는 함수
+function showS2FromBottom(stepBox, s2) {
+  // s2 초기 상태: 화면(카드) 아래로 충분히 내려놓기
   s2.style.display = 'block';
   s2.style.opacity = '0';
-  s2.style.transform = 'translateY(0.52vw)';
-  s2.style.transition = 'opacity 0.8s ease,transform 0.8s ease';
+  s2.style.transform = 'translateY(10vh)'; 
+  // ↑ 필요하면 10vh 대신 5vh / 15vh 등 조절 가능
+  s2.style.pointerEvents = 'none';
+  s2.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
 
-  requestAnimationFrame(function () {
-    s2.style.opacity = '1';
-    s2.style.transform = 'translateY(0)';
-  });
-
-  // s2 등급 슬라이더(step_01) 초기화
+  // 슬라이더/바 초기화
   var tracks = s2.querySelectorAll('.credit_rating_re.step_01 .grade_slider .grade_track');
   tracks.forEach(function (track) {
     var fill = track.querySelector('.grade_fill');
@@ -1568,13 +1589,19 @@ function showTechDetailStep(stepBox) {
     if (thumb) thumb.style.left = '0%';
   });
 
-  // s2 상품 지원 가능성 초기화
   var possi2Bars = s2.querySelectorAll('.credit_rating_possi .gp_bar');
   var possi2Per  = s2.querySelectorAll('.credit_rating_possi .per span');
   possi2Bars.forEach(function (bar) { bar.style.width = '0%'; });
   possi2Per.forEach(function (el) { el.textContent = '0'; });
 
-  // 등급 슬라이더 애니 → 끝나고 0.5초 뒤 상품 지원 가능성 애니
+  // ★ 아래에서 위로 슬라이드 + 페이드인
+  requestAnimationFrame(function () {
+    s2.style.opacity = '1';
+    s2.style.transform = 'translateY(0)';
+    s2.style.pointerEvents = 'auto';
+  });
+
+  // 등급 슬라이더 → 끝난 뒤 상품 지원 가능성 애니
   animateTechGradeSliders(s2, function () {
     setTimeout(function () {
       animateTechPossiFromS2(s2);

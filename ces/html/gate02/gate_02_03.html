@@ -284,7 +284,7 @@
                                         <div class="inve_examine_step_03" id="examine03">
                                             <div class="inve_examine_gp_item">
                                                 <div class="txt">
-                                                    <strong>주연배루 흥행성</strong>
+                                                    <strong>주연배우 흥행성</strong>
                                                     <p>최근 3개 작품의 관객 동원치</p>
                                                 </div>
                                                 <div class="gp_item">
@@ -589,7 +589,7 @@
                     <div class="inve_mv_bg">
                         <span class="bg"></span>
                         <span class="logo">
-                            <img src="../../resources/images/gate_02/k_con_list_03_logo.png">
+                            <img src="../../resources/images/gate_02/k_con_list_04_logo.png">
                         </span>
                     </div>
                     <div class="desc">
@@ -641,7 +641,7 @@
                         <div class="step_04">
                             <div class="box_item">
                                 <span class="tit">수익(수익률)</span>
-                                <span class="per">▲<span class="data_04">125</span>%</span>
+                                <span class="per">▲<span class="data_04">361</span>%</span>
                                 <span class="data">
                                     <span class="data_05">500,000,000</span>원
                                 </span>
@@ -716,9 +716,8 @@
 
 
 <script>
-    // gate_02_03.html 에 넣어줄 스크립트
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('▶ gate_02_03 페이지 진입');
+    console.log('▶ gate_02_01 페이지 진입');
 
     // 1) sessionStorage 에서 값 꺼내기
     var rawVisitor = sessionStorage.getItem('kcon_visitor'); // 1000000 / 5000000 / 10000000
@@ -742,17 +741,63 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
-    // 4) 최종 값 콘솔 확인
-    console.log('✅ 전달받은 예상 관람객(명):', visitor);      // ex) 1000000
-    console.log('✅ 전달받은 투자금액(억):', amount);         // ex) 5
+    console.log('✅ 전달받은 예상 관람객(명):', visitor);
+    console.log('✅ 전달받은 투자금액(억):', amount);
 
-    // 5) 보기 좋게 가공한 버전도 한 번 출력 (옵션)
-    var visitorDisplayMan = visitor / 10000; // 1000000 → 100만
+    // 보기용
+    var visitorDisplayMan = visitor / 10000;
     console.log('   → 표시용: 예상 관람객', visitorDisplayMan + '만 명');
     console.log('   → 표시용: 투자금액', amount + '억');
 
-    // 여기서부터는 실제 계산/화면 출력 등에 사용하면 됨
-    // 예) document.querySelector('.some_selector').textContent = visitorDisplayMan + '만 명';
+    /* ===============================
+       1. 투자원금 → .data_03 에 세팅
+       =============================== */
+
+    // 투자원금 (억 → 원) : 1 = 100,000,000
+    var principalWon = amount * 100000000;
+
+    // .data_03 요소에 텍스트로 세팅
+    var principalEls = document.querySelectorAll('.data_03');
+    principalEls.forEach(function (el) {
+        // 보기 좋게 콤마 찍어서 넣기
+        el.textContent = principalWon.toLocaleString('ko-KR');
+        // 필요하면 원시값도 data 속성으로 보관
+        el.dataset.value = principalWon;
+    });
+
+    /* ==========================================
+       2. .data_04 값을 읽어서 → .data_05 에 세팅
+          - .data_04: 수익률 % (예: "800%" → 800)
+          - 계산식: (수익률 + 1) / 100 배
+                    예) 800% → (800 + 1) / 100 = 8.01배
+          - .data_05 = 투자원금 × (수익률 + 1) / 100
+       ========================================== */
+
+    var data04Els = document.querySelectorAll('.data_04');
+    var data05Els = document.querySelectorAll('.data_05');
+
+    data04Els.forEach(function (el, idx) {
+        // 예: "800%", "800 %", "800" 등
+        var rawText = (el.textContent || el.innerText || '').trim();
+        var num = parseFloat(rawText.replace(/[%,\s]/g, ''));
+
+        if (isNaN(num)) {
+            console.warn('⚠ .data_04 텍스트에서 숫자 파싱 실패:', rawText);
+            return;
+        }
+
+        // 👉 (수익률 + 1) / 100 배
+        // 예: num = 800 → (800 + 1) / 100 = 8.01
+        var multiplier = (num + 1) / 100;
+
+        var result = principalWon * multiplier;
+
+        var target05 = data05Els[idx];
+        if (!target05) return;
+
+        target05.textContent = result.toLocaleString('ko-KR');
+        target05.dataset.value = result;
+    });
 });
 </script>
 </body>
