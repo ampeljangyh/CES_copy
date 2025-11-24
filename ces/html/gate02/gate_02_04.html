@@ -435,7 +435,7 @@
                     </div>
 
                     <div class="inve_adj_box">
-                        <div class="shiny_step">
+                        <div class="shiny_step dot_cs">
                             <ul>
                                 <li>
                                 </li>
@@ -459,20 +459,6 @@
                                         <div class="tit">
                                             <strong>입봉작 여부</strong>
                                             <span>감독이 30대, 40대에 해당하는 경우</span>
-                                        </div>
-                                        <div class="confirm">
-                                            <div class="btn_set">
-                                                <span>YES</span>
-                                                <span>NO</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="item">
-                                        <div class="tit">
-                                            <strong>직전작 흥행 여부</strong>
-                                            <span>감독의 직전작이 흥행에 크게 실패한 경우</span>
                                         </div>
                                         <div class="confirm">
                                             <div class="btn_set">
@@ -1455,7 +1441,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     }, 420); // 0.4s 트랜지션랑 거의 맞춰줌
                 }
 
-                var targetMap = [1, 1, 1, 0, 1, 1, 1];
+                var targetMap = [1, 1, 0, 1, 1, 1];
 
                 // 버튼 span.on 애니 (1초 간격) + 자동 스크롤
                 for (let i = 0; i < maxIdx && i < targetMap.length; i++) {

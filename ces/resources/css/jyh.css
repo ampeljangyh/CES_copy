@@ -412,7 +412,7 @@ body {font-family: 'Pretendard', "TWKEverett", "Apple SD Gothic Neo", "Malgun Go
 }
 .gate_01_main {display: flex;}
 .gate_01_main .snb {position: relative; width: 16.2760vw;height: 100%;padding: 2.7344vw 1.8750vw 3.4896vw;box-sizing: border-box;background: #09142F;}
-.gate_01_main .contents {width: calc(100% - 16.2760vw);}
+.gate_01_main .contents {width: calc(100% - 16.1vw);}
 .gate_01_main .logo {display: inline-block; width: 9.6354vw; height: 2.5781vw;}
 .gate_01_main .logo > img {width: 100%;}
 .gate_01_main .menu {margin-top: 3.3854vw;}
@@ -885,7 +885,7 @@ body.kcon-pop-lock {
   display: inline-block;
   width: 100%;
   height: 100%;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #284486 150%);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 45%, #284486 75%);
 }
 
 .gate_02 .kcon_list_swiper {
@@ -1041,7 +1041,7 @@ body.kcon-pop-lock {
 .gate_02 .kcon_bg_wrap.on {opacity: 1; display: inline-block;}
 .gate_02 .kcon_bg {height: 100%;}
 .gate_02 .kcon_bg > img {width: 100%; height: 100%; object-fit: cover;}
-.gate_02 .kcon_bg > video {width: 100%; height: 105%; object-fit: cover;}
+.gate_02 .kcon_bg > video {width: 100%; height: 100%; object-fit: cover;}
 
 .kcon_bg .video-poster,
 .kcon_bg .video-el {
@@ -1609,12 +1609,12 @@ body.kcon-pop-lock {
 .inve_examine_box .p04 {font-size:0.9360vw;opacity:0;transform:translateY(0.2600vw);transition:opacity .4s ease,transform .4s ease;}
 
 .step_examine_01 {position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;}
-.gate_02.sub .gate_02_01 .inve_result .inve_mv_bg .bg {width:100%;height:100%;display:inline-block;background:url(../images/gate_02/k_con_list_03_still.jpg) center center/cover no-repeat;}
+.gate_02.sub .gate_02_01 .inve_result .inve_mv_bg .bg {width:100%;height:100%;display:inline-block;background:url(../images/gate_02/k_con_list_03_still_02.jpg) center center/cover no-repeat;}
 .gate_02.sub .gate_02_02 .inve_result .inve_mv_bg .bg {width:100%;height:100%;display:inline-block;background:url(../images/gate_02/k_con_list_01_still_02.jpg) center center/cover no-repeat;}
 .gate_02.sub .gate_02_03 .inve_result .inve_mv_bg .bg {width:100%;height:100%;display:inline-block;background:url(../images/gate_02/k_con_list_04_still_02.jpg) center center/cover no-repeat;}
-.gate_02.sub .gate_02_04 .inve_result .inve_mv_bg .bg {width:100%;height:100%;display:inline-block;background:url(../images/gate_02/k_con_list_09_still_02.jpg) center center/cover no-repeat;}
-.gate_02.sub .gate_02_05 .inve_result .inve_mv_bg .bg {width:100%;height:100%;display:inline-block;background:url(../images/gate_02/k_con_list_10_still_02.jpg) center center/cover no-repeat;}
-.gate_02.sub .gate_02_06 .inve_result .inve_mv_bg .bg {width:100%;height:100%;display:inline-block;background:url(../images/gate_02/k_con_list_11_still_02.jpg) center center/cover no-repeat;}
+.gate_02.sub .gate_02_04 .inve_result .inve_mv_bg .bg {width:100%;height:100%;display:inline-block;background:url(../images/gate_02/k_con_list_09_still.jpg) center center/cover no-repeat;}
+.gate_02.sub .gate_02_05 .inve_result .inve_mv_bg .bg {width:100%;height:100%;display:inline-block;background:url(../images/gate_02/k_con_list_10_still.jpg) center center/cover no-repeat;}
+.gate_02.sub .gate_02_06 .inve_result .inve_mv_bg .bg {width:100%;height:100%;display:inline-block;background:url(../images/gate_02/k_con_list_11_still.jpg) center center/cover no-repeat;}
 
 .gate_02.sub [class*="gate_02"] .inve_confirm_wrap {mix-blend-mode:screen;opacity:1;transform:translateY(0);transition:opacity .6s ease,transform .6s ease;}
 .gate_02.sub [class*="gate_02"] .inve_confirm_wrap.fade-out-up {opacity:0;transform:translateY(-1.040vw);}
