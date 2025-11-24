@@ -327,7 +327,7 @@ $('.hero-text .btn_search button').on('click', function () {
     const phase4End   = 320988;  // step04
     const phase5End   = 230266;  // step05
     const phase6End   = 105379;  // step06
-    const phase7End   = 7;       // step07 (TOP 7)
+    const phase7End   = 6;       // step07 (TOP 7)
 
     const phase1Duration = 1000;
     const phase2Duration = 1000;
