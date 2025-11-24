@@ -128,29 +128,6 @@
     window.addEventListener("hashchange", () => {
         getHashOfName();
     });
-
-    // hash 값으로 처리
-    function getHashOfName(){
-        const fragment = window.location.hash.substring(1);
-        let selPrdText = '';
-
-        switch(fragment){
-            case '1':
-                selPrdText = 'NexDrive';
-                break;
-            case '2':
-                selPrdText = 'Qstack';
-                break;
-            case '3':
-                selPrdText = 'ApexBio';
-                break;
-            case '4':
-                selPrdText = 'Dataverse';
-                break;
-        }
-
-        $('#selPrdName').text(selPrdText);
-    }
 </script>
 </body>
 </html>
