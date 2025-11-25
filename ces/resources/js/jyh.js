@@ -528,9 +528,9 @@ function layoutCards() {
   const total = itemEls.length;
   if (!total) return;
 
-  const radius   = 26;   // 도넛 반지름 (vw)
-  const minScale = 0.8; // 가장 뒤쪽 카드 크기
-  const maxScale = 1.0;  // 정면 카드 크기
+  const radius   = 24;   // 도넛 반지름 (vw)
+  const minScale = 0.9; // 가장 뒤쪽 카드 크기
+  const maxScale = 1.2;  // 정면 카드 크기
   const maxYOffset = 12;  // 옆으로 갈수록 위로 올라가는 최대 값 (vw)
 
   itemEls.forEach((li, index) => {
