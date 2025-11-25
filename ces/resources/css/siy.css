@@ -151,6 +151,18 @@
 .btn_round {height:156px;padding:0 120px;border: 1px solid #BEBEBE;border-radius: 100px;background:#383C45;font-size: 64px;font-weight: 500;line-height: 1.5;letter-spacing: -1.92px;color:#757575;}
 .btn_round.confirm {border:5px solid transparent;color:#FFF;background: linear-gradient(#202B44, #202B44) padding-box, linear-gradient(100deg, #D9E5FE 0%, #CADAFC 40%, #0071FE 100%) border-box;box-shadow: 0 0 20px 4.5px rgba(217, 229, 254, 0.10), 0 0 53.4px 0 rgba(217, 229, 254, 0.10), 0 0 55.5px 0 rgba(217, 229, 254, 0.10), 0 0 24.1px 0 rgba(217, 229, 254, 0.10), 0 0 13.3px 0 rgba(217, 229, 254, 0.10), 0 0 45.9px 0 rgba(217, 229, 254, 0.10);}
 
+
+.chk_panel {
+    box-sizing:border-box;
+    width:1345px;
+    margin:108px auto 0;
+    padding:90px 110px 124px;
+    border: 5px solid transparent;border-radius:45px;
+    background: linear-gradient(#081020, #081020) padding-box, linear-gradient(100deg, #D9E5FE 0%, #CADAFC 40%, #0071FE 100%) border-box;
+    box-shadow: 0 0 20px 4.5px rgba(217, 229, 254, 0.10), 0 0 53.4px 0 rgba(217, 229, 254, 0.10), 0 0 55.5px 0 rgba(217, 229, 254, 0.10), 0 0 24.1px 0 rgba(217, 229, 254, 0.10), 0 0 13.3px 0 rgba(217, 229, 254, 0.10), 0 0 45.9px 0 rgba(217, 229, 254, 0.10);
+}
+
+
 /* --- 애니메이션 --- */
 @keyframes panelIn {
   from { transform: translateX(100%); }
