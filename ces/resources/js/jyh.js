@@ -267,6 +267,34 @@ $('.hero-text .btn_search button').on('click', function () {
     const $step06 = $li.find('.step06');
     const $step07 = $li.find('.step07');
 
+    // 🔹 progress_dot & progress_num 세팅
+    const $progressDots    = $('.progress_dot .item_dot');                 // 모든 점
+    const $progressNum     = $('.progress_dot .progress_num_counting');    // 숫자 span (1~7)
+    const $progressNumBox  = $('.progress_dot .progress_num');             // "1 / 7" 전체 박스
+
+    // 현재 단계에 맞춰 점/숫자 갱신
+    function updateProgressStep(step) {
+        if (!$progressDots.length) return;
+
+        // 1) 지금까지의 단계는 모두 on 추가 (누적)
+        for (let i = 1; i <= step; i++) {
+            const cls = '.progress_dot_step_0' + i;
+            $(cls).addClass('on');
+        }
+
+        // 2) 모든 점의 "현재 단계 깜빡임 클래스" 제거
+        $progressDots.removeClass('is-current');
+
+        // 3) 이번 단계 점에만 깜빡임 클래스 추가
+        const curCls = '.progress_dot_step_0' + step;
+        $(curCls).addClass('is-current');
+
+        // 4) 숫자 1~7 변경
+        if ($progressNum.length) {
+            $progressNum.text(step);
+        }
+    }
+
     // 🔹 현재 노출되는 step의 높이로 span 위치 맞추기
     function setSpanPositionByStep($step) {
         if (!$step || !$step.length) return;
@@ -293,6 +321,11 @@ $('.hero-text .btn_search button').on('click', function () {
     $step01.addClass('active');
     $count.text('0');
     $countWrap.addClass('blink');
+
+    // progress_num 깜빡임 시작
+    if ($progressNumBox.length) {
+        $progressNumBox.addClass('blink');
+    }
 
     // 첫 시작은 step01 기준으로 margin-top 세팅
     setSpanPositionByStep($step01);
@@ -363,59 +396,59 @@ $('.hero-text .btn_search button').on('click', function () {
     }
 
     /* ===========================
- * 플로팅 이미지 점점 줄이기
- * ===========================
- */
-function startFloatFadeSequence() {
-    // visibleWraps 는 랜덤 노출 시 만든 배열 그대로 사용
-    if (typeof visibleWraps === 'undefined' || !visibleWraps.length) return;
+     * 플로팅 이미지 점점 줄이기
+     * =========================== */
+    function startFloatFadeSequence() {
+        // visibleWraps 는 랜덤 노출 시 만든 배열 그대로 사용
+        if (typeof visibleWraps === 'undefined' || !visibleWraps.length) return;
 
-    const wraps     = Array.from(visibleWraps);
-    const keepCount = 10;                      // 마지막에 남길 개수
-    const fadeSec   = totalCountTime / 1000;   // 전체 1~7단계 동안의 시간(s)
-    const removeFadeMs = 500;                  // 개별 제거 페이드 시간(0.5초)
+        const wraps     = Array.from(visibleWraps);
+        const keepCount = 10;                      // 마지막에 남길 개수
+        const fadeSec   = totalCountTime / 1000;   // 전체 1~7단계 동안의 시간(s)
+        const removeFadeMs = 500;                  // 개별 제거 페이드 시간(0.5초)
 
-    // 1) 전체를 0.6 → 0.3 으로 천천히 (7단계 끝까지 스르륵)
-    wraps.forEach(wrap => {
-        const baseTransition = wrap.style.transition || '';
-        wrap.style.transition = baseTransition
-            ? baseTransition + `, opacity ${fadeSec}s ease`
-            : `opacity ${fadeSec}s ease`;
+        // 1) 전체를 0.6 → 0.3 으로 천천히 (7단계 끝까지 스르륵)
+        wraps.forEach(wrap => {
+            const baseTransition = wrap.style.transition || '';
+            wrap.style.transition = baseTransition
+                ? baseTransition + `, opacity ${fadeSec}s.ease`
+                : `opacity ${fadeSec}s ease`;
 
-        // 다음 프레임에 목표 opacity 0.3 지정 → 긴 트랜지션으로 서서히
-        requestAnimationFrame(function () {
-            wrap.style.opacity = '0.3';
+            // 다음 프레임에 목표 opacity 0.3 지정 → 긴 트랜지션으로 서서히
+            requestAnimationFrame(function () {
+                wrap.style.opacity = '0.3';
+            });
         });
-    });
 
-    // 10개 이하라면 개별 제거 없이 전체 서서히 어둡게만
-    if (wraps.length <= keepCount) return;
+        // 10개 이하라면 개별 제거 없이 전체 서서히 어둡게만
+        if (wraps.length <= keepCount) return;
 
-    // 2) 일부는 중간중간 개별로 사라지게 (opacity 0 → display:none)
-    const removeCount = wraps.length - keepCount;
-    const interval    = totalCountTime / removeCount;  // 하나씩 사라질 간격(ms)
+        // 2) 일부는 중간중간 개별로 사라지게 (opacity 0 → display:none)
+        const removeCount = wraps.length - keepCount;
+        const interval    = totalCountTime / removeCount;  // 하나씩 사라질 간격(ms)
 
-    wraps.forEach((wrap, idx) => {
-        if (idx >= removeCount) return; // 뒤쪽 keepCount 개는 남김
+        wraps.forEach((wrap, idx) => {
+            if (idx >= removeCount) return; // 뒤쪽 keepCount 개는 남김
 
-        const t = Math.round(idx * interval);
+            const t = Math.round(idx * interval);
 
-        setTimeout(function () {
-            // 개별 제거는 0.5초 안에 스르륵 opacity 0
-            wrap.style.transition = `opacity ${removeFadeMs / 1000}s ease`;
-            wrap.style.opacity    = '0';
-
-            // 0.5초 페이드 끝난 뒤 display:none 처리
             setTimeout(function () {
-                wrap.style.display = 'none';
-            }, removeFadeMs + 50);
-        }, t);
-    });
-}
+                // 개별 제거는 0.5초 안에 스르륵 opacity 0
+                wrap.style.transition = `opacity ${removeFadeMs / 1000}s ease`;
+                wrap.style.opacity    = '0';
+
+                // 0.5초 페이드 끝난 뒤 display:none 처리
+                setTimeout(function () {
+                    wrap.style.display = 'none';
+                }, removeFadeMs + 50);
+            }, t);
+        });
+    }
 
     /* 1단계: 0 → 1,111,243 (step01) */
     function startPhase1() {
         showStep(1);
+        updateProgressStep(1);   // progress_dot 1단계
         animateCount($count, phase1Start, phase1End, phase1Duration, function () {
             setTimeout(startPhase2, phaseDelay);
         });
@@ -424,6 +457,7 @@ function startFloatFadeSequence() {
     /* 2단계: 1,111,243 → 952,705 (step02) */
     function startPhase2() {
         showStep(2);
+        updateProgressStep(2);
         animateCount($count, phase1End, phase2End, phase2Duration, function () {
             setTimeout(startPhase3, phaseDelay);
         });
@@ -432,6 +466,7 @@ function startFloatFadeSequence() {
     /* 3단계: 952,705 → 323,531 (step03) */
     function startPhase3() {
         showStep(3);
+        updateProgressStep(3);
         animateCount($count, phase2End, phase3End, phase3Duration, function () {
             setTimeout(startPhase4, phaseDelay);
         });
@@ -440,6 +475,7 @@ function startFloatFadeSequence() {
     /* 4단계: 323,531 → 320,988 (step04) */
     function startPhase4() {
         showStep(4);
+        updateProgressStep(4);
         animateCount($count, phase3End, phase4End, phase4Duration, function () {
             setTimeout(startPhase5, phaseDelay);
         });
@@ -448,6 +484,7 @@ function startFloatFadeSequence() {
     /* 5단계: 320,988 → 230,266 (step05) */
     function startPhase5() {
         showStep(5);
+        updateProgressStep(5);
         animateCount($count, phase4End, phase5End, phase5Duration, function () {
             setTimeout(startPhase6, phaseDelay);
         });
@@ -456,6 +493,7 @@ function startFloatFadeSequence() {
     /* 6단계: 230,266 → 105,379 (step06) */
     function startPhase6() {
         showStep(6);
+        updateProgressStep(6);
         animateCount($count, phase5End, phase6End, phase6Duration, function () {
             setTimeout(startPhase7, phaseDelay);
         });
@@ -464,9 +502,14 @@ function startFloatFadeSequence() {
     /* 7단계: 105,379 → 7 (TOP 7, step07) */
     function startPhase7() {
         showStep(7);
+        updateProgressStep(7);
         animateCount($count, phase6End, phase7End, phase7Duration, function () {
             // 마지막 단계 완료 후: 깜빡임 제거 + 팝업 노출
             $countWrap.removeClass('blink');
+            if ($progressNumBox.length) {
+                $progressNumBox.removeClass('blink');
+            }
+
             setTimeout(function () {
                 showResultPopup();
             }, 1500);
@@ -479,6 +522,7 @@ function startFloatFadeSequence() {
     // 시퀀스 시작
     startPhase1();
 });
+
 
 /* ------------------------------------
    팝업 내 "기업 보기" 버튼 클릭 시
