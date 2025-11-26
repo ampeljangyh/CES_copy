@@ -6,9 +6,10 @@ $(function () {
 
 // hash 값으로 처리
 function getHashOfName(){
-    const fragment = window.location.hash.substring(1);
+    let fragment = window.location.hash.substring(1);
     let selPrdText = '';
-
+    
+    fragment = fragment ? fragment : '1';
     switch(fragment){
         case '1':
             selPrdText = 'NexDrive';
@@ -25,6 +26,15 @@ function getHashOfName(){
     }
 
     $('#selPrdName').text(selPrdText);
+}
+
+// gate0301Init
+function gate0301Init(){
+    let fragment = window.location.hash.substring(1);
+    
+    fragment = fragment ? fragment : '1';
+    $("[data-visible]").hide();
+    $("[data-visible='" + fragment + "']").show();
 }
 
 // openPanel
