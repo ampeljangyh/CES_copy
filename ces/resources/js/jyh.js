@@ -1,3 +1,35 @@
+document.addEventListener('DOMContentLoaded', function () {
+  var langBtn = document.querySelector('.btn_lang');
+  if (!langBtn) return;
+
+  var body = document.body;
+
+  // 1) localStorage에 저장된 언어 상태 불러오기
+  var savedLang = localStorage.getItem('siteLang'); // 'lang_kr' or 'lang_en'
+
+  if (savedLang === 'lang_kr' || savedLang === 'lang_en') {
+    // 저장된 언어가 있으면 그걸로 body id 세팅
+    body.id = savedLang;
+  } else {
+    // 저장된 값이 없으면: 기존 id 유지, 없으면 기본 lang_kr
+    if (!body.id) {
+      body.id = 'lang_kr';
+    }
+  }
+
+  // 2) 버튼 클릭 시 토글 + localStorage 저장
+  langBtn.addEventListener('click', function () { 
+    var currentId = body.id || 'lang_kr';
+    var nextId    = currentId === 'lang_kr' ? 'lang_en' : 'lang_kr';
+
+    body.id = nextId;                  // 실제 DOM 적용
+    localStorage.setItem('siteLang', nextId); // 다음 페이지에서도 유지
+  });
+});
+
+
+
+  
 $(function () {
     /* main의 start 버튼 클릭 시 활성화 */
     $('.btn_main').on('click', function () {
@@ -272,6 +304,31 @@ $('.hero-text .btn_search button').on('click', function () {
     const $progressNum     = $('.progress_dot .progress_num_counting');    // 숫자 span (1~7)
     const $progressNumBox  = $('.progress_dot .progress_num');             // "1 / 7" 전체 박스
 
+    // 🔹 blink on/off 공통 함수 (부드럽게 시작/종료)
+    const BLINK_PAUSE = 1500; // 각 단계 끝날 때 깜빡이는 시간(ms)
+    const FADE_TIME   = 300;  // blink 켜고 끌 때 페이드 시간(ms)
+
+    function setBlink(active) {
+        if (active) {
+            // 1) 먼저 숫자를 1 → 0.3 으로 부드럽게 0.3초 페이드
+            $countWrap.stop(true, true).animate({ opacity: 0.3 }, FADE_TIME, function () {
+                $countWrap.addClass('blink');         // 여기서부터 CSS 애니 시작
+            });
+
+            if ($progressNumBox.length) {
+                $progressNumBox.stop(true, true).animate({ opacity: 0.3 }, FADE_TIME, function () {
+                    $progressNumBox.addClass('blink');
+                });
+            }
+        } else {
+            // 2) blink 클래스를 먼저 제거하고 0.3 → 1로 부드럽게 복귀
+            $countWrap.removeClass('blink').stop(true, true).animate({ opacity: 1 }, FADE_TIME);
+            if ($progressNumBox.length) {
+                $progressNumBox.removeClass('blink').stop(true, true).animate({ opacity: 1 }, FADE_TIME);
+            }
+        }
+    }
+
     // 현재 단계에 맞춰 점/숫자 갱신
     function updateProgressStep(step) {
         if (!$progressDots.length) return;
@@ -320,12 +377,9 @@ $('.hero-text .btn_search button').on('click', function () {
     $allSteps.removeClass('active');
     $step01.addClass('active');
     $count.text('0');
-    $countWrap.addClass('blink');
 
-    // progress_num 깜빡임 시작
-    if ($progressNumBox.length) {
-        $progressNumBox.addClass('blink');
-    }
+    // 🔹 시작 시에는 blink OFF 상태로
+    setBlink(false);
 
     // 첫 시작은 step01 기준으로 margin-top 세팅
     setSpanPositionByStep($step01);
@@ -360,7 +414,7 @@ $('.hero-text .btn_search button').on('click', function () {
     const phase4End   = 320988;  // step04
     const phase5End   = 230266;  // step05
     const phase6End   = 105379;  // step06
-    const phase7End   = 6;       // step07 (TOP 7)
+    const phase7End   = 500;     // step07
 
     const phase1Duration = 1000;
     const phase2Duration = 1000;
@@ -369,7 +423,7 @@ $('.hero-text .btn_search button').on('click', function () {
     const phase5Duration = 1000;
     const phase6Duration = 1000;
     const phase7Duration = 1000;
-    const phaseDelay     = 1000;
+    const phaseDelay     = BLINK_PAUSE; // 한 단계 끝난 후 머무는 시간 = blink 시간
 
     // 🔹 전체 검색 카운트 시간 (step01 ~ step07 끝나는 시점까지)
     const totalCountTime =
@@ -389,6 +443,19 @@ $('.hero-text .btn_search button').on('click', function () {
         }
     }
 
+    // 🔹 한 단계 카운트가 끝난 후: BLINK_PAUSE 동안 부드러운 blink → 다음 단계 시작
+    function afterPhaseComplete(nextPhaseFn) {
+        setBlink(true);  // 부드럽게 blink 시작
+
+        setTimeout(function () {
+            setBlink(false); // 다시 부드럽게 원상복귀
+
+            if (typeof nextPhaseFn === 'function') {
+                nextPhaseFn();
+            }
+        }, BLINK_PAUSE);
+    }
+
     // 🔹 검색 완료 팝업 노출 + processing 영역에 pop_on 추가
     function showResultPopup() {
         $('.search_process_pop').addClass('is-active');
@@ -403,41 +470,36 @@ $('.hero-text .btn_search button').on('click', function () {
         if (typeof visibleWraps === 'undefined' || !visibleWraps.length) return;
 
         const wraps     = Array.from(visibleWraps);
-        const keepCount = 10;                      // 마지막에 남길 개수
-        const fadeSec   = totalCountTime / 1000;   // 전체 1~7단계 동안의 시간(s)
-        const removeFadeMs = 500;                  // 개별 제거 페이드 시간(0.5초)
+        const keepCount = 10;
+        const fadeSec   = totalCountTime / 1000;
+        const removeFadeMs = 500;
 
-        // 1) 전체를 0.6 → 0.3 으로 천천히 (7단계 끝까지 스르륵)
+        // 1) 전체를 0.6 → 0.3 으로 천천히
         wraps.forEach(wrap => {
             const baseTransition = wrap.style.transition || '';
             wrap.style.transition = baseTransition
-                ? baseTransition + `, opacity ${fadeSec}s.ease`
+                ? baseTransition + `, opacity ${fadeSec}s ease`
                 : `opacity ${fadeSec}s ease`;
 
-            // 다음 프레임에 목표 opacity 0.3 지정 → 긴 트랜지션으로 서서히
             requestAnimationFrame(function () {
                 wrap.style.opacity = '0.3';
             });
         });
 
-        // 10개 이하라면 개별 제거 없이 전체 서서히 어둡게만
         if (wraps.length <= keepCount) return;
 
-        // 2) 일부는 중간중간 개별로 사라지게 (opacity 0 → display:none)
         const removeCount = wraps.length - keepCount;
-        const interval    = totalCountTime / removeCount;  // 하나씩 사라질 간격(ms)
+        const interval    = totalCountTime / removeCount;
 
         wraps.forEach((wrap, idx) => {
-            if (idx >= removeCount) return; // 뒤쪽 keepCount 개는 남김
+            if (idx >= removeCount) return;
 
             const t = Math.round(idx * interval);
 
             setTimeout(function () {
-                // 개별 제거는 0.5초 안에 스르륵 opacity 0
                 wrap.style.transition = `opacity ${removeFadeMs / 1000}s ease`;
                 wrap.style.opacity    = '0';
 
-                // 0.5초 페이드 끝난 뒤 display:none 처리
                 setTimeout(function () {
                     wrap.style.display = 'none';
                 }, removeFadeMs + 50);
@@ -448,9 +510,11 @@ $('.hero-text .btn_search button').on('click', function () {
     /* 1단계: 0 → 1,111,243 (step01) */
     function startPhase1() {
         showStep(1);
-        updateProgressStep(1);   // progress_dot 1단계
+        updateProgressStep(1);
+        setBlink(false);
+
         animateCount($count, phase1Start, phase1End, phase1Duration, function () {
-            setTimeout(startPhase2, phaseDelay);
+            afterPhaseComplete(startPhase2);
         });
     }
 
@@ -458,8 +522,10 @@ $('.hero-text .btn_search button').on('click', function () {
     function startPhase2() {
         showStep(2);
         updateProgressStep(2);
+        setBlink(false);
+
         animateCount($count, phase1End, phase2End, phase2Duration, function () {
-            setTimeout(startPhase3, phaseDelay);
+            afterPhaseComplete(startPhase3);
         });
     }
 
@@ -467,8 +533,10 @@ $('.hero-text .btn_search button').on('click', function () {
     function startPhase3() {
         showStep(3);
         updateProgressStep(3);
+        setBlink(false);
+
         animateCount($count, phase2End, phase3End, phase3Duration, function () {
-            setTimeout(startPhase4, phaseDelay);
+            afterPhaseComplete(startPhase4);
         });
     }
 
@@ -476,8 +544,10 @@ $('.hero-text .btn_search button').on('click', function () {
     function startPhase4() {
         showStep(4);
         updateProgressStep(4);
+        setBlink(false);
+
         animateCount($count, phase3End, phase4End, phase4Duration, function () {
-            setTimeout(startPhase5, phaseDelay);
+            afterPhaseComplete(startPhase5);
         });
     }
 
@@ -485,8 +555,10 @@ $('.hero-text .btn_search button').on('click', function () {
     function startPhase5() {
         showStep(5);
         updateProgressStep(5);
+        setBlink(false);
+
         animateCount($count, phase4End, phase5End, phase5Duration, function () {
-            setTimeout(startPhase6, phaseDelay);
+            afterPhaseComplete(startPhase6);
         });
     }
 
@@ -494,25 +566,26 @@ $('.hero-text .btn_search button').on('click', function () {
     function startPhase6() {
         showStep(6);
         updateProgressStep(6);
+        setBlink(false);
+
         animateCount($count, phase5End, phase6End, phase6Duration, function () {
-            setTimeout(startPhase7, phaseDelay);
+            afterPhaseComplete(startPhase7);
         });
     }
 
-    /* 7단계: 105,379 → 7 (TOP 7, step07) */
+    /* 7단계: 105,379 → 500 (step07) */
     function startPhase7() {
         showStep(7);
         updateProgressStep(7);
-        animateCount($count, phase6End, phase7End, phase7Duration, function () {
-            // 마지막 단계 완료 후: 깜빡임 제거 + 팝업 노출
-            $countWrap.removeClass('blink');
-            if ($progressNumBox.length) {
-                $progressNumBox.removeClass('blink');
-            }
+        setBlink(false);
 
+        animateCount($count, phase6End, phase7End, phase7Duration, function () {
+            // 마지막 단계: 한 번 더 blink → 결과 팝업
+            setBlink(true);
             setTimeout(function () {
+                setBlink(false);
                 showResultPopup();
-            }, 1500);
+            }, BLINK_PAUSE);
         });
     }
 
@@ -522,6 +595,8 @@ $('.hero-text .btn_search button').on('click', function () {
     // 시퀀스 시작
     startPhase1();
 });
+
+
 
 
 /* ------------------------------------
