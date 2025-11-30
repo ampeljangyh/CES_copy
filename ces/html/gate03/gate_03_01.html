@@ -1395,10 +1395,11 @@ function runAutoCheckSequence() {
             if (input) input.checked = true;
 
             index++;
-            const isLast = i === autoLis.length - 6;
+            const isLast = i >= autoLis.length - 6;
 
             if (isLast) {
                 if (!state.isUserScrolling) {
+                    gsap.killTweensOf(container);
                     gsap.to(container, {
                         scrollTop: container.scrollHeight - container.clientHeight,
                         duration: 0.75,
