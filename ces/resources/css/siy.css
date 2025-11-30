@@ -225,6 +225,23 @@
 .eval_grid > li[data-finished=TRUE] {opacity: 0.5;}
 .eval_grid > li[data-finished=TRUE] .btn_eval {border-color: #BEBEBE;background: rgba(190, 190, 190, 0.17);color:#757575;}
 
+.btn_eval.is-pressed {
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.25);
+}
+
+/* Ripple element */
+.autoRipple {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    top: 40%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    opacity: 0;
+}
 
 /* --- 애니메이션 --- */
 @keyframes panelIn {
