@@ -166,7 +166,7 @@
 .chk_panel .tit_box.tit02 {overflow:hidden;left:auto;right:0;width:0;}
 .chk_panel .tit {display: block;font-size: 60px;font-weight: 700;letter-spacing: -1.2px;color:#fff;white-space:nowrap;}
 
-.chk_li {overflow-x:hidden;overflow-y:auto;box-sizing:border-box;height:880px;margin-top:140px;}
+.chk_li {overflow-x:hidden;overflow-y:auto;box-sizing:border-box;height:880px;margin-top:140px;scrollbar-width: none;}
 .chk_li li + li {margin-top:28px;}
 
 .chk_li label {display:block;position:relative;max-width:fit-content;}
