@@ -159,6 +159,7 @@ $(window).on('load', function () {
 const floatArea = document.querySelector('.float-img-area');
 const ICON_COUNT = 70; // 총 아이콘 개수
 const maxVisible = 70;  // 한 번에 노출할 개수 (랜덤)
+const requiredNums = [2, 4, 5, 7, 9, 10]; // 꼭 포함할 아이콘 번호
 
 /* ===========================
  * 1. HTML 동적 생성
@@ -167,12 +168,14 @@ const maxVisible = 70;  // 한 번에 노출할 개수 (랜덤)
 for (let i = 1; i <= ICON_COUNT; i++) {
   const wrap = document.createElement('div');
   wrap.classList.add('float-img-wrap');
+  wrap.dataset.index = String(i);
 
   const img = document.createElement('img');
 
   // 파일명 규칙: 01~09, 10~99, 100~138
   const numStr = String(i).padStart(2, '0');
-  img.src = `../../resources/images/floatin_img_${numStr}.jpg`;
+  const ext = requiredNums.includes(i) ? 'png' : 'jpg';
+  img.src = `../../resources/images/floatin_img_${numStr}.${ext}`;
   img.alt = `floating icon ${i}`;
 
   const ico = document.createElement('span');
@@ -194,8 +197,15 @@ if (total < 10) {
   console.warn(`⚠️ 이미지 개수가 ${total}개입니다. 최소 10개 이상 권장!`);
 }
 
-const shuffled = Array.from(floatWraps).sort(() => Math.random() - 0.5);
-const visibleWraps = shuffled.slice(0, Math.min(maxVisible, total));
+const allWraps = Array.from(floatWraps);
+const requiredWraps = allWraps.filter(wrap => requiredNums.includes(parseInt(wrap.dataset.index, 10)));
+const remainingWraps = allWraps.filter(wrap => !requiredWraps.includes(wrap));
+const shuffled = remainingWraps.sort(() => Math.random() - 0.5);
+const limit = Math.min(maxVisible, total);
+let visibleWraps = requiredWraps.slice(0);
+if (visibleWraps.length < limit) {
+  visibleWraps = visibleWraps.concat(shuffled.slice(0, limit - visibleWraps.length));
+}
 
 // 전부 숨김
 floatWraps.forEach(wrap => {
@@ -258,6 +268,7 @@ setTimeout(() => {
 
 
 
+
     var $range  = $('#visitorRange');
   var $labels = $('.k-slider-labels span');
 
@@ -278,6 +289,7 @@ setTimeout(() => {
 
 
 
+
 // .btn_search 버튼 클릭 시 .contents_01에 processing 클래스 추가 
 $('.hero-text .btn_search button').on('click', function () {
 
@@ -286,33 +298,62 @@ $('.hero-text .btn_search button').on('click', function () {
 
     $('.contents_01').addClass('processing');
 
-    const $li        = $('.search_txt_step > ul > li');
-    const $allSteps  = $li.find('> p');                // step01 ~ step07
-    const $count     = $('.search_txt_step .counting');
-    const $countWrap = $('.search_txt_step > ul > li > span');
+    /* ============================================
+     *  공통 헬퍼들: 항상 "현재 DOM" 기준으로 찾기
+     * ============================================ */
 
-    const $step01 = $li.find('.step01');
-    const $step02 = $li.find('.step02');
-    const $step03 = $li.find('.step03');
-    const $step04 = $li.find('.step04');
-    const $step05 = $li.find('.step05');
-    const $step06 = $li.find('.step06');
-    const $step07 = $li.find('.step07');
+    // search_txt_step 전체 래퍼
+    function getSearchStep() {
+        return $('.search_txt_step');
+    }
 
-    // 🔹 progress_dot & progress_num 세팅
-    const $progressDots    = $('.progress_dot .item_dot');                 // 모든 점
-    const $progressNum     = $('.progress_dot .progress_num_counting');    // 숫자 span (1~7)
-    const $progressNumBox  = $('.progress_dot .progress_num');             // "1 / 7" 전체 박스
+    // KR/EN 컨테이너 (ul.kr_t, ul.en_t / dl.kr_t, dl.en_t 등)
+    function getLangContainers() {
+        const $searchStep = getSearchStep();
+        let $containers = $searchStep.find('.kr_t, .en_t');
 
-    // 🔹 blink on/off 공통 함수 (부드럽게 시작/종료)
-    const BLINK_PAUSE = 1500; // 각 단계 끝날 때 깜빡이는 시간(ms)
-    const FADE_TIME   = 300;  // blink 켜고 끌 때 페이드 시간(ms)
+        // kr_t/en_t 로 안 나뉜 경우 전체를 하나의 컨테이너로 취급 (하위 호환)
+        if (!$containers.length) {
+            return $searchStep;
+        }
+        return $containers;
+    }
+
+    // 각 언어 컨테이너 안의 li/dd 의 span (카운트 박스들)
+    function getCountWraps() {
+        return getLangContainers().find('> li > span, > dd > span, li > span, dd > span');
+    }
+
+    // 숫자 카운트 텍스트(.counting) (KR/EN 모두)
+    function getCountingEls() {
+        return getSearchStep().find('.counting');
+    }
+
+    // progress 영역
+    function getProgressDots() {
+        return $('.progress_dot .item_dot');
+    }
+    function getProgressNum() {
+        return $('.progress_dot .progress_num_counting');
+    }
+    function getProgressNumBox() {
+        return $('.progress_dot .progress_num');
+    }
+
+    /* ============================================
+     *  blink (카운트/프로그레스 숫자 깜빡임)
+     * ============================================ */
+    const BLINK_PAUSE = 1500; // 단계 끝날 때 깜빡임 유지 시간(ms)
+    const FADE_TIME   = 300;  // blink on/off 페이드 시간(ms)
 
     function setBlink(active) {
+        const $countWraps     = getCountWraps();
+        const $progressNumBox = getProgressNumBox();
+
         if (active) {
-            // 1) 먼저 숫자를 1 → 0.3 으로 부드럽게 0.3초 페이드
-            $countWrap.stop(true, true).animate({ opacity: 0.3 }, FADE_TIME, function () {
-                $countWrap.addClass('blink');         // 여기서부터 CSS 애니 시작
+            // 1) opacity 1 → 0.3 으로 부드럽게 줄이고 blink 클래스 부여
+            $countWraps.stop(true, true).animate({ opacity: 0.3 }, FADE_TIME, function () {
+                $countWraps.addClass('blink');
             });
 
             if ($progressNumBox.length) {
@@ -321,81 +362,118 @@ $('.hero-text .btn_search button').on('click', function () {
                 });
             }
         } else {
-            // 2) blink 클래스를 먼저 제거하고 0.3 → 1로 부드럽게 복귀
-            $countWrap.removeClass('blink').stop(true, true).animate({ opacity: 1 }, FADE_TIME);
+            // 2) blink 클래스 제거 후 opacity 0.3 → 1 복귀
+            $countWraps.removeClass('blink').stop(true, true).animate({ opacity: 1 }, FADE_TIME);
+
             if ($progressNumBox.length) {
                 $progressNumBox.removeClass('blink').stop(true, true).animate({ opacity: 1 }, FADE_TIME);
             }
         }
     }
 
-    // 현재 단계에 맞춰 점/숫자 갱신
+    /* ============================================
+     *  progress 점/숫자 갱신
+     * ============================================ */
     function updateProgressStep(step) {
-        if (!$progressDots.length) return;
+        const $dots = getProgressDots();
+        const $num  = getProgressNum();
+
+        if (!$dots.length) return;
 
         // 1) 지금까지의 단계는 모두 on 추가 (누적)
         for (let i = 1; i <= step; i++) {
-            const cls = '.progress_dot_step_0' + i;
-            $(cls).addClass('on');
+            $('.progress_dot_step_0' + i).addClass('on');
         }
 
-        // 2) 모든 점의 "현재 단계 깜빡임 클래스" 제거
-        $progressDots.removeClass('is-current');
+        // 2) 모든 점의 "현재 단계" 깜빡임 클래스 제거
+        $dots.removeClass('is-current');
 
         // 3) 이번 단계 점에만 깜빡임 클래스 추가
-        const curCls = '.progress_dot_step_0' + step;
-        $(curCls).addClass('is-current');
+        $('.progress_dot_step_0' + step).addClass('is-current');
 
         // 4) 숫자 1~7 변경
-        if ($progressNum.length) {
-            $progressNum.text(step);
+        if ($num.length) {
+            $num.text(step);
         }
     }
 
-    // 🔹 현재 노출되는 step의 높이로 span 위치 맞추기
-    function setSpanPositionByStep($step) {
-        if (!$step || !$step.length) return;
+    /* ============================================
+     *  step별 span 위치 조정 (KR/EN 모두)
+     * ============================================ */
 
-        const wasHidden = $step.css('display') === 'none';
-        let originalDisplay;
+    // 해당 step 번호에 맞춰 각 언어 컨테이너의 span margin-top 맞추기
+    function setSpanPositionByStepAll(stepNum) {
+        const stepClass   = '.step' + ('0' + stepNum).slice(-2); // ".step01" ~ ".step07"
+        const $containers = getLangContainers();
 
-        if (wasHidden) {
-            originalDisplay = $step[0].style.display;
-            $step.css({ display: 'block', visibility: 'hidden' });
-        }
+        $containers.each(function () {
+            const $box = $(this);
+            const $li  = $box.find('> li, > dd');
+            const $step = $li.find(stepClass).first();
+            if (!$step.length) return;
 
-        const h = $step.outerHeight(true);
+            const $parent    = $step.closest('li, dd');
+            const $countWrap = $parent.children('span').first();
+            if (!$countWrap.length) return;
 
-        if (wasHidden) {
-            $step.css({ display: originalDisplay || '', visibility: '' });
-        }
+            const wasHidden = $step.css('display') === 'none';
+            let originalDisplay;
 
-        $countWrap.css('margin-top', h + 20 + 'px');
+            // step 이 display:none 이면, 잠깐 보여서 높이 측정
+            if (wasHidden) {
+                originalDisplay = $step[0].style.display;
+                $step.css({ display: 'block', visibility: 'hidden' });
+            }
+
+            const h = $step.outerHeight(true);
+
+            if (wasHidden) {
+                $step.css({ display: originalDisplay || '', visibility: '' });
+            }
+
+            $countWrap.css('margin-top', (h + 20) + 'px');
+        });
     }
 
-    // 초기 상태
-    $allSteps.removeClass('active');
-    $step01.addClass('active');
-    $count.text('0');
+    // step01~step07 활성화 (KR/EN 둘 다에 적용)
+    function showStep(num) {
+        const stepClass   = '.step' + ('0' + num).slice(-2);
+        const $containers = getLangContainers();
 
-    // 🔹 시작 시에는 blink OFF 상태로
-    setBlink(false);
+        $containers.each(function () {
+            const $box = $(this);
+            const $li  = $box.find('> li, > dd');
 
-    // 첫 시작은 step01 기준으로 margin-top 세팅
-    setSpanPositionByStep($step01);
+            // 이 컨테이너 안의 모든 step p 비활성화
+            const $allSteps = $li.find('> p');
+            $allSteps.removeClass('active');
 
-    /* 공통 카운트 함수 */
-    function animateCount($el, from, to, duration, onComplete) {
+            // 이번 step만 active
+            const $step = $li.find(stepClass);
+            if ($step.length) {
+                $step.addClass('active');
+            }
+        });
+
+        // 활성 step 기준으로 각 언어별 span 위치 조정
+        setSpanPositionByStepAll(num);
+    }
+
+    /* ============================================
+     *  숫자 카운트 (KR/EN 전체 .counting 동시 갱신)
+     * ============================================ */
+    function animateCount(from, to, duration, onComplete) {
         const startTime = Date.now();
-        const diff = to - from;
+        const diff      = to - from;
 
         function tick() {
-            const now = Date.now();
-            const elapsed = now - startTime;
+            const now      = Date.now();
+            const elapsed  = now - startTime;
             const progress = Math.min(elapsed / duration, 1);
-            const value = Math.round(from + diff * progress);
+            const value    = Math.round(from + diff * progress);
+            const text     = value.toLocaleString ? value.toLocaleString() : value;
 
-            $el.text(value.toLocaleString ? value.toLocaleString() : value);
+            getCountingEls().text(text); // KR/EN 모두 동일 숫자 노출
 
             if (progress < 1) {
                 requestAnimationFrame(tick);
@@ -406,7 +484,67 @@ $('.hero-text .btn_search button').on('click', function () {
         requestAnimationFrame(tick);
     }
 
-    /* 단계별 목표 값 */
+    /* ============================================
+     *  결과 팝업
+     * ============================================ */
+    function showResultPopup() {
+        $('.search_process_pop').addClass('is-active');
+        $('.contents_01.processing').addClass('pop_on');
+        $('.contents_01 .hero').css('z-index', 0);
+    }
+
+    /* ============================================
+     *  플로팅 이미지 점점 줄이기
+     * ============================================ */
+    function startFloatFadeSequence() {
+        // visibleWraps 는 랜덤 노출 시 만든 전역 배열이라고 가정
+        if (typeof visibleWraps === 'undefined' || !visibleWraps.length) return;
+
+        const wraps    = Array.from(visibleWraps);
+        const mustKeep = [2, 4, 5, 7, 9, 10]; // 최종에 남길 아이콘 번호
+        const fadeSec  = totalCountTime / 1000;
+        const removeFadeMs = 500;
+
+        // 전체를 0.6 → 0.3 으로 길게 페이드
+        wraps.forEach(wrap => {
+            const baseTransition = wrap.style.transition || '';
+            wrap.style.transition = baseTransition
+                ? baseTransition + `, opacity ${fadeSec}s ease`
+                : `opacity ${fadeSec}s ease`;
+
+            requestAnimationFrame(function () {
+                wrap.style.opacity = '0.3';
+            });
+        });
+
+        // 제거 대상만 골라서 순차 제거
+        const removeWraps = wraps.filter(wrap => {
+            const idx = parseInt(wrap.dataset.index, 10);
+            return !mustKeep.includes(idx);
+        });
+
+        if (!removeWraps.length) return;
+
+        const removeCount = removeWraps.length;
+        const interval    = totalCountTime / removeCount;
+
+        removeWraps.forEach((wrap, idx) => {
+            const t = Math.round(idx * interval);
+
+            setTimeout(function () {
+                wrap.style.transition = `opacity ${removeFadeMs / 1000}s ease`;
+                wrap.style.opacity = '0';
+
+                setTimeout(function () {
+                    wrap.style.display = 'none';
+                }, removeFadeMs + 50);
+            }, t);
+        });
+    }
+
+    /* ============================================
+     *  단계별 목표 값 / 시간 세팅
+     * ============================================ */
     const phase1Start = 0;
     const phase1End   = 1111243; // step01
     const phase2End   = 952705;  // step02
@@ -423,27 +561,15 @@ $('.hero-text .btn_search button').on('click', function () {
     const phase5Duration = 1000;
     const phase6Duration = 1000;
     const phase7Duration = 1000;
-    const phaseDelay     = BLINK_PAUSE; // 한 단계 끝난 후 머무는 시간 = blink 시간
+    const phaseDelay     = BLINK_PAUSE; // 각 단계 끝난 후 머무는 시간 = blink 시간
 
-    // 🔹 전체 검색 카운트 시간 (step01 ~ step07 끝나는 시점까지)
+    // 전체 검색 카운트 시간 (step01 ~ step07 + 중간 딜레이 합산)
     const totalCountTime =
         phase1Duration + phase2Duration + phase3Duration +
         phase4Duration + phase5Duration + phase6Duration +
         phase7Duration + phaseDelay * 6;
 
-    // step 표시 공통 함수 (active 토글 + span margin-top 갱신)
-    function showStep(num) {
-        $allSteps.removeClass('active');
-
-        var cls = '.step' + ('0' + num).slice(-2); // 1 → step01, 7 → step07
-        var $step = $li.find(cls);
-        if ($step.length) {
-            $step.addClass('active');
-            setSpanPositionByStep($step);
-        }
-    }
-
-    // 🔹 한 단계 카운트가 끝난 후: BLINK_PAUSE 동안 부드러운 blink → 다음 단계 시작
+    // 한 단계 끝난 후 blink 타임 → 다음 단계 시작
     function afterPhaseComplete(nextPhaseFn) {
         setBlink(true);  // 부드럽게 blink 시작
 
@@ -456,130 +582,83 @@ $('.hero-text .btn_search button').on('click', function () {
         }, BLINK_PAUSE);
     }
 
-    // 🔹 검색 완료 팝업 노출 + processing 영역에 pop_on 추가
-    function showResultPopup() {
-        $('.search_process_pop').addClass('is-active');
-        $('.contents_01.processing').addClass('pop_on');
-    }
+    /* ============================================
+     *  단계별 실제 동작
+     * ============================================ */
 
-    /* ===========================
-     * 플로팅 이미지 점점 줄이기
-     * =========================== */
-    function startFloatFadeSequence() {
-        // visibleWraps 는 랜덤 노출 시 만든 배열 그대로 사용
-        if (typeof visibleWraps === 'undefined' || !visibleWraps.length) return;
-
-        const wraps     = Array.from(visibleWraps);
-        const keepCount = 10;
-        const fadeSec   = totalCountTime / 1000;
-        const removeFadeMs = 500;
-
-        // 1) 전체를 0.6 → 0.3 으로 천천히
-        wraps.forEach(wrap => {
-            const baseTransition = wrap.style.transition || '';
-            wrap.style.transition = baseTransition
-                ? baseTransition + `, opacity ${fadeSec}s ease`
-                : `opacity ${fadeSec}s ease`;
-
-            requestAnimationFrame(function () {
-                wrap.style.opacity = '0.3';
-            });
-        });
-
-        if (wraps.length <= keepCount) return;
-
-        const removeCount = wraps.length - keepCount;
-        const interval    = totalCountTime / removeCount;
-
-        wraps.forEach((wrap, idx) => {
-            if (idx >= removeCount) return;
-
-            const t = Math.round(idx * interval);
-
-            setTimeout(function () {
-                wrap.style.transition = `opacity ${removeFadeMs / 1000}s ease`;
-                wrap.style.opacity    = '0';
-
-                setTimeout(function () {
-                    wrap.style.display = 'none';
-                }, removeFadeMs + 50);
-            }, t);
-        });
-    }
-
-    /* 1단계: 0 → 1,111,243 (step01) */
+    // 1단계: 0 → 1,111,243 (step01)
     function startPhase1() {
-        showStep(1);
+        showStep(1);             // KR/EN 모두 step01 active + span 위치
         updateProgressStep(1);
         setBlink(false);
 
-        animateCount($count, phase1Start, phase1End, phase1Duration, function () {
+        animateCount(phase1Start, phase1End, phase1Duration, function () {
             afterPhaseComplete(startPhase2);
         });
     }
 
-    /* 2단계: 1,111,243 → 952,705 (step02) */
+    // 2단계: 1,111,243 → 952,705 (step02)
     function startPhase2() {
         showStep(2);
         updateProgressStep(2);
         setBlink(false);
 
-        animateCount($count, phase1End, phase2End, phase2Duration, function () {
+        animateCount(phase1End, phase2End, phase2Duration, function () {
             afterPhaseComplete(startPhase3);
         });
     }
 
-    /* 3단계: 952,705 → 323,531 (step03) */
+    // 3단계: 952,705 → 323,531 (step03)
     function startPhase3() {
         showStep(3);
         updateProgressStep(3);
         setBlink(false);
 
-        animateCount($count, phase2End, phase3End, phase3Duration, function () {
+        animateCount(phase2End, phase3End, phase3Duration, function () {
             afterPhaseComplete(startPhase4);
         });
     }
 
-    /* 4단계: 323,531 → 320,988 (step04) */
+    // 4단계: 323,531 → 320,988 (step04)
     function startPhase4() {
         showStep(4);
         updateProgressStep(4);
         setBlink(false);
 
-        animateCount($count, phase3End, phase4End, phase4Duration, function () {
+        animateCount(phase3End, phase4End, phase4Duration, function () {
             afterPhaseComplete(startPhase5);
         });
     }
 
-    /* 5단계: 320,988 → 230,266 (step05) */
+    // 5단계: 320,988 → 230,266 (step05)
     function startPhase5() {
         showStep(5);
         updateProgressStep(5);
         setBlink(false);
 
-        animateCount($count, phase4End, phase5End, phase5Duration, function () {
+        animateCount(phase4End, phase5End, phase5Duration, function () {
             afterPhaseComplete(startPhase6);
         });
     }
 
-    /* 6단계: 230,266 → 105,379 (step06) */
+    // 6단계: 230,266 → 105,379 (step06)
     function startPhase6() {
         showStep(6);
         updateProgressStep(6);
         setBlink(false);
 
-        animateCount($count, phase5End, phase6End, phase6Duration, function () {
+        animateCount(phase5End, phase6End, phase6Duration, function () {
             afterPhaseComplete(startPhase7);
         });
     }
 
-    /* 7단계: 105,379 → 500 (step07) */
+    // 7단계: 105,379 → 500 (step07)
     function startPhase7() {
         showStep(7);
         updateProgressStep(7);
         setBlink(false);
 
-        animateCount($count, phase6End, phase7End, phase7Duration, function () {
+        animateCount(phase6End, phase7End, phase7Duration, function () {
             // 마지막 단계: 한 번 더 blink → 결과 팝업
             setBlink(true);
             setTimeout(function () {
@@ -589,12 +668,32 @@ $('.hero-text .btn_search button').on('click', function () {
         });
     }
 
-    // 🔹 플로팅 이미지 줄이기 시퀀스도 같이 시작
+    /* ============================================
+     *  클릭 시 초기화 & 시퀀스 시작
+     * ============================================ */
+
+    // 1) 각 언어 컨테이너의 step 초기화
+    getLangContainers().each(function () {
+        const $box      = $(this);
+        const $li       = $box.find('> li, > dd');
+        const $allSteps = $li.find('> p');
+        $allSteps.removeClass('active');
+    });
+
+    // 2) .counting 숫자 0으로 초기화
+    getCountingEls().text('0');
+
+    // 3) blink OFF / step1 활성화 + span 위치
+    setBlink(false);
+    showStep(1);
+
+    // 4) 플로팅 이미지 줄이기 시퀀스도 같이 시작
     startFloatFadeSequence();
 
-    // 시퀀스 시작
+    // 5) 카운트 & 텍스트 시퀀스 시작
     startPhase1();
 });
+
 
 
 
@@ -610,6 +709,7 @@ $('.search_process_pop .btn_card_list').on('click', function () {
         .removeClass('processing pop_on') // pop_on도 같이 제거
         .addClass('processing_end');
 });
+
 
 
 
@@ -2153,173 +2253,315 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener('DOMContentLoaded', function () {
     // ----------------------------------------------------
-    // 1) 슬라이더 실제 값 매핑
+    // 1) 슬라이더 실제 값 매핑 (KR 전용)
     //    - 첫 번째: 예상 관람객 (명 단위)
     //    - 두 번째: 투자금액 (억 단위 숫자 그대로)
     // ----------------------------------------------------
     var VISITOR_VALUES = [1000000, 5000000, 10000000]; // 100만, 500만, 1000만
     var VISITOR_DISPLAY = [100, 500, 1000];            // 화면에 "100 / 500 / 1000" 노출
-
     var AMOUNT_VALUES  = [1, 5, 10];                   // 1, 5, 10억
 
     function formatNumber(num) {
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
+    // 라벨 텍스트에서 숫자만 뽑기 (EN용: "100M" → 100, "68K" → 68)
+    function extractNumberFromLabel(text) {
+        var num = parseFloat(String(text).replace(/[^0-9.]/g, ''));
+        return isNaN(num) ? 0 : num;
+    }
+
     // ----------------------------------------------------
-    // 2) 각 팝업(kcon_pop) 기준으로 처리 (pop01, pop02 ... 확장 가능)
+    // 2) 각 팝업(kcon_pop) 기준으로 처리
     // ----------------------------------------------------
     document.querySelectorAll('.kcon_pop').forEach(function (pop) {
+        /* =========================
+         * KR 영역(.scroll_wrap.kr_t)
+         * ========================= */
+        (function setupKR(pop) {
+            var scrollWraps = pop.querySelectorAll('.con_r .scroll_wrap.kr_t');
+            if (scrollWraps.length < 2) return; // 예상 2개 없으면 스킵
 
-        var scrollWraps = pop.querySelectorAll('.con_r .scroll_wrap');
-        if (scrollWraps.length < 2) return; // 예상 2개 없으면 스킵
+            // 첫 번째 스크롤 박스 (예상 관람객 수)
+            var visitorWrap   = scrollWraps[0];
+            var visitorRange  = visitorWrap.querySelector('.k-range');
+            var visitorNumEl  = visitorWrap.querySelector('.tit .in_num span:first-child'); // "100" 부분
+            var visitorLabels = visitorWrap.querySelectorAll('.k-slider-labels span');
 
-        // 첫 번째 스크롤 박스 (예상 관람객 수)
-        var visitorWrap   = scrollWraps[0];
-        var visitorRange  = visitorWrap.querySelector('.k-range');
-        var visitorNumEl  = visitorWrap.querySelector('.tit .in_num span:first-child'); // "100" 부분
-        var visitorLabels = visitorWrap.querySelectorAll('.k-slider-labels span');
+            // 두 번째 스크롤 박스 (투자금액)
+            var amountWrap   = scrollWraps[1];
+            var amountRange  = amountWrap.querySelector('.k-range');
+            var amountNumEl  = amountWrap.querySelector('.tit .in_num span:first-child'); // "5" 부분
+            var amountLabels = amountWrap.querySelectorAll('.k-slider-labels span');
 
-        // 두 번째 스크롤 박스 (투자금액)
-        var amountWrap   = scrollWraps[1];
-        var amountRange  = amountWrap.querySelector('.k-range');
-        var amountNumEl  = amountWrap.querySelector('.tit .in_num span:first-child'); // "5" 부분
-        var amountLabels = amountWrap.querySelectorAll('.k-slider-labels span');
+            // "투자하기" 버튼
+            var popBtn = pop.querySelector('.btn .pop_btn');
 
-        // "투자하기" 버튼
-        var popBtn = pop.querySelector('.btn .pop_btn');
+            if (!visitorRange || !amountRange || !visitorNumEl || !amountNumEl || !popBtn) {
+                return;
+            }
 
-        if (!visitorRange || !amountRange || !visitorNumEl || !amountNumEl || !popBtn) {
-            return;
-        }
+            // range 기본 옵션 세팅 (0,1,2)
+            visitorRange.min = 0;
+            visitorRange.max = VISITOR_VALUES.length - 1;
+            visitorRange.step = 1;
+            if (visitorRange.value === "" || visitorRange.value == null) {
+                visitorRange.value = 0;
+            }
 
-        // ------------------------------------------------
-        // 3) range 기본 옵션 세팅 (0,1,2)
-        // ------------------------------------------------
-        visitorRange.min = 0;
-        visitorRange.max = VISITOR_VALUES.length - 1;
-        visitorRange.step = 1;
-        if (visitorRange.value === "" || visitorRange.value == null) {
-            visitorRange.value = 0;
-        }
+            amountRange.min = 0;
+            amountRange.max = AMOUNT_VALUES.length - 1;
+            amountRange.step = 1;
+            if (amountRange.value === "" || amountRange.value == null) {
+                amountRange.value = 0;
+            }
 
-        amountRange.min = 0;
-        amountRange.max = AMOUNT_VALUES.length - 1;
-        amountRange.step = 1;
-        if (amountRange.value === "" || amountRange.value == null) {
-            amountRange.value = 0;
-        }
+            // 표시 값 / 라벨 상태 업데이트 함수 + 콘솔 로그
+            function updateVisitorDisplay(isInit) {
+                var idx = parseInt(visitorRange.value, 10) || 0;
+                if (idx < 0) idx = 0;
+                if (idx >= VISITOR_VALUES.length) idx = VISITOR_VALUES.length - 1;
 
-        // ------------------------------------------------
-        // 4) 표시 값 / 라벨 상태 업데이트 함수 + 콘솔 로그
-        // ------------------------------------------------
-        function updateVisitorDisplay(isInit) {
-            var idx = parseInt(visitorRange.value, 10) || 0;
-            if (idx < 0) idx = 0;
-            if (idx >= VISITOR_VALUES.length) idx = VISITOR_VALUES.length - 1;
+                visitorNumEl.textContent = VISITOR_DISPLAY[idx];
 
-            // 화면 표시는 100 / 500 / 1000 (만 단위)
-            visitorNumEl.textContent = VISITOR_DISPLAY[idx];
+                var realVal = VISITOR_VALUES[idx];
+                visitorRange.dataset.realValue = realVal;
 
-            // 실제 값(명 단위)을 data-*에 저장
-            var realVal = VISITOR_VALUES[idx];
-            visitorRange.dataset.realValue = realVal;
+                visitorLabels.forEach(function (lbl) {
+                    var liIdx = parseInt(lbl.getAttribute('data-index'), 10);
+                    if (liIdx === idx) {
+                        lbl.classList.add('is-active');
+                    } else {
+                        lbl.classList.remove('is-active');
+                    }
+                });
 
-            // 라벨 하이라이트
-            visitorLabels.forEach(function (lbl) {
-                var liIdx = parseInt(lbl.getAttribute('data-index'), 10);
-                if (liIdx === idx) {
-                    lbl.classList.add('is-active');
+                if (isInit) {
+                    console.log('[초기][KR] 예상 관람객 선택 값:', realVal, '(index:', idx + ')');
                 } else {
-                    lbl.classList.remove('is-active');
+                    console.log('[변경][KR] 예상 관람객 선택 값:', realVal, '(index:', idx + ')');
                 }
+            }
+
+            function updateAmountDisplay(isInit) {
+                var idx = parseInt(amountRange.value, 10) || 0;
+                if (idx < 0) idx = 0;
+                if (idx >= AMOUNT_VALUES.length) idx = AMOUNT_VALUES.length - 1;
+
+                var realVal = AMOUNT_VALUES[idx];
+                amountNumEl.textContent = realVal;
+
+                amountRange.dataset.realValue = realVal;
+
+                amountLabels.forEach(function (lbl) {
+                    var liIdx = parseInt(lbl.getAttribute('data-index'), 10);
+                    if (liIdx === idx) {
+                        lbl.classList.add('is-active');
+                    } else {
+                        lbl.classList.remove('is-active');
+                    }
+                });
+
+                if (isInit) {
+                    console.log('[초기][KR] 투자금액 선택 값:', realVal, '억 (index:', idx + ')');
+                } else {
+                    console.log('[변경][KR] 투자금액 선택 값:', realVal, '억 (index:', idx + ')');
+                }
+            }
+
+            // 최초 1회 초기 디스플레이
+            updateVisitorDisplay(true);
+            updateAmountDisplay(true);
+
+            // 슬라이더 움직일 때마다 표시/로그 업데이트
+            visitorRange.addEventListener('input', function () {
+                updateVisitorDisplay(false);
+            });
+            amountRange.addEventListener('input', function () {
+                updateAmountDisplay(false);
             });
 
-            // 콘솔 로그
-            if (isInit) {
-                console.log('[초기] 예상 관람객 선택 값:', realVal, '(index:', idx + ')');
-            } else {
-                console.log('[변경] 예상 관람객 선택 값:', realVal, '(index:', idx + ')');
-            }
-        }
+            // "투자하기" 클릭 시 선택 값만 넘기기 (URL은 그대로)
+            popBtn.addEventListener('click', function () {
+                var vIdx = parseInt(visitorRange.value, 10) || 0;
+                var aIdx = parseInt(amountRange.value, 10) || 0;
 
-        function updateAmountDisplay(isInit) {
-            var idx = parseInt(amountRange.value, 10) || 0;
-            if (idx < 0) idx = 0;
-            if (idx >= AMOUNT_VALUES.length) idx = AMOUNT_VALUES.length - 1;
+                if (vIdx < 0) vIdx = 0;
+                if (vIdx >= VISITOR_VALUES.length) vIdx = VISITOR_VALUES.length - 1;
+                if (aIdx < 0) aIdx = 0;
+                if (aIdx >= AMOUNT_VALUES.length) aIdx = AMOUNT_VALUES.length - 1;
 
-            // 화면 표시는 1 / 5 / 10 (억)
-            var realVal = AMOUNT_VALUES[idx];
-            amountNumEl.textContent = realVal;
+                var visitorVal = VISITOR_VALUES[vIdx];
+                var amountVal  = AMOUNT_VALUES[aIdx];
 
-            // 실제 값 저장
-            amountRange.dataset.realValue = realVal;
+                console.log('▶ [KR] 투자하기 클릭 - 최종 선택 값');
+                console.log('   예상 관람객:', visitorVal);
+                console.log('   투자금액:', amountVal, '억');
 
-            // 라벨 하이라이트
-            amountLabels.forEach(function (lbl) {
-                var liIdx = parseInt(lbl.getAttribute('data-index'), 10);
-                if (liIdx === idx) {
-                    lbl.classList.add('is-active');
-                } else {
-                    lbl.classList.remove('is-active');
+                try {
+                    // KR 기본값
+                    sessionStorage.setItem('kcon_visitor', String(visitorVal));
+                    sessionStorage.setItem('kcon_amount', String(amountVal));
+                    // KR 전용 키
+                    sessionStorage.setItem('kcon_visitor_kr', String(visitorVal));
+                    sessionStorage.setItem('kcon_amount_kr', String(amountVal));
+                } catch (err) {
+                    console.warn('sessionStorage 저장 실패(KR):', err);
                 }
             });
+        })(pop);
 
-            // 콘솔 로그
-            if (isInit) {
-                console.log('[초기] 투자금액 선택 값:', realVal, '억 (index:', idx + ')');
-            } else {
-                console.log('[변경] 투자금액 선택 값:', realVal, '억 (index:', idx + ')');
+        /* =========================
+         * EN 영역(.scroll_wrap.en_t)
+         * ========================= */
+        (function setupEN(pop) {
+            var scrollWrapsEn = pop.querySelectorAll('.con_r .scroll_wrap.en_t');
+            if (scrollWrapsEn.length < 2) return;
+
+            // 첫 번째 (예상 관람객 EN)
+            var visitorWrapEn   = scrollWrapsEn[0];
+            var visitorRangeEn  = visitorWrapEn.querySelector('.k-range');
+            var visitorNumElEn  = visitorWrapEn.querySelector('.tit .in_num span:first-child');
+            var visitorLabelsEn = visitorWrapEn.querySelectorAll('.k-slider-labels span');
+
+            // 두 번째 (투자금액 EN, 달러)
+            var amountWrapEn   = scrollWrapsEn[1];
+            var amountRangeEn  = amountWrapEn.querySelector('.k-range');
+            var amountNumElEn  = amountWrapEn.querySelector('.tit .in_num span:first-child');
+            var amountLabelsEn = amountWrapEn.querySelectorAll('.k-slider-labels span');
+
+            // KR과 동일 버튼 사용
+            var popBtn = pop.querySelector('.btn .pop_btn');
+
+            if (!visitorRangeEn || !amountRangeEn || !visitorNumElEn || !amountNumElEn || !popBtn) {
+                return;
             }
-        }
 
-        // ------------------------------------------------
-        // 5) 최초 1회 초기 디스플레이 & 콘솔 로그
-        // ------------------------------------------------
-        updateVisitorDisplay(true); // 초기 호출 → [초기] 로그
-        updateAmountDisplay(true);  // 초기 호출 → [초기] 로그
-
-        // 슬라이더 움직일 때마다 표시/로그 업데이트
-        visitorRange.addEventListener('input', function () {
-            updateVisitorDisplay(false);
-        });
-        amountRange.addEventListener('input', function () {
-            updateAmountDisplay(false);
-        });
-
-        // ------------------------------------------------
-        // 6) "투자하기" 클릭 시 선택 값만 넘기기 (URL은 그대로)
-        //    - href는 ../gate02/gate_02_01.html 그대로 사용
-        //    - 값은 sessionStorage 에 저장해서 다음 페이지에서 꺼내 씀
-        // ------------------------------------------------
-        popBtn.addEventListener('click', function (e) {
-            // a 태그의 href는 그대로 쓰되, 그 전에 값만 저장
-            var vIdx = parseInt(visitorRange.value, 10) || 0;
-            var aIdx = parseInt(amountRange.value, 10) || 0;
-
-            if (vIdx < 0) vIdx = 0;
-            if (vIdx >= VISITOR_VALUES.length) vIdx = VISITOR_VALUES.length - 1;
-            if (aIdx < 0) aIdx = 0;
-            if (aIdx >= AMOUNT_VALUES.length) aIdx = AMOUNT_VALUES.length - 1;
-
-            var visitorVal = VISITOR_VALUES[vIdx]; // 1000000 / 5000000 / 10000000
-            var amountVal  = AMOUNT_VALUES[aIdx];  // 1 / 5 / 10
-
-            // 콘솔로 최종 값 확인
-            console.log('▶ 투자하기 클릭 - 최종 선택 값');
-            console.log('   예상 관람객:', visitorVal);
-            console.log('   투자금액:', amountVal, '억');
-
-            // sessionStorage에 저장 (다음 페이지에서 사용)
-            try {
-                sessionStorage.setItem('kcon_visitor', String(visitorVal));
-                sessionStorage.setItem('kcon_amount', String(amountVal));
-            } catch (err) {
-                console.warn('sessionStorage 저장 실패:', err);
+            // range 기본 세팅
+            visitorRangeEn.min  = 0;
+            visitorRangeEn.max  = visitorLabelsEn.length - 1;
+            visitorRangeEn.step = 1;
+            if (visitorRangeEn.value === "" || visitorRangeEn.value == null) {
+                visitorRangeEn.value = 0;
             }
-            // 여기서는 e.preventDefault() 안 걸고,
-            // a 태그 href 그대로 이동
-            // (필요하면 SPA면 막고 ajax 등으로 처리하면 됨)
-        });
+
+            amountRangeEn.min  = 0;
+            amountRangeEn.max  = amountLabelsEn.length - 1;
+            amountRangeEn.step = 1;
+            if (amountRangeEn.value === "" || amountRangeEn.value == null) {
+                amountRangeEn.value = 0;
+            }
+
+            // 라벨 텍스트 기반 숫자 배열 생성
+            //   예: "1M"  → 1
+            //       "68K" → 68
+            var VISITOR_VALUES_EN = [];
+            visitorLabelsEn.forEach(function (lbl) {
+                VISITOR_VALUES_EN.push(extractNumberFromLabel(lbl.textContent || ''));
+            });
+
+            var AMOUNT_VALUES_EN = [];
+            amountLabelsEn.forEach(function (lbl) {
+                AMOUNT_VALUES_EN.push(extractNumberFromLabel(lbl.textContent || ''));
+            });
+
+            function updateVisitorDisplayEn(isInit) {
+                var idx = parseInt(visitorRangeEn.value, 10) || 0;
+                if (idx < 0) idx = 0;
+                if (idx >= VISITOR_VALUES_EN.length) idx = VISITOR_VALUES_EN.length - 1;
+
+                var realVal = VISITOR_VALUES_EN[idx];
+                visitorNumElEn.textContent = realVal;
+
+                visitorRangeEn.dataset.realValue = realVal;
+
+                visitorLabelsEn.forEach(function (lbl) {
+                    var liIdx = parseInt(lbl.getAttribute('data-index'), 10);
+                    if (liIdx === idx) {
+                        lbl.classList.add('is-active');
+                    } else {
+                        lbl.classList.remove('is-active');
+                    }
+                });
+
+                if (isInit) {
+                    console.log('[초기][EN] 예상 관람객:', realVal, '(index:', idx + ')');
+                } else {
+                    console.log('[변경][EN] 예상 관람객:', realVal, '(index:', idx + ')');
+                }
+            }
+
+            function updateAmountDisplayEn(isInit) {
+                var idx = parseInt(amountRangeEn.value, 10) || 0;
+                if (idx < 0) idx = 0;
+                if (idx >= AMOUNT_VALUES_EN.length) idx = AMOUNT_VALUES_EN.length - 1;
+
+                var realVal = AMOUNT_VALUES_EN[idx];
+                amountNumElEn.textContent = realVal;
+
+                amountRangeEn.dataset.realValue = realVal;
+
+                amountLabelsEn.forEach(function (lbl) {
+                    var liIdx = parseInt(lbl.getAttribute('data-index'), 10);
+                    if (liIdx === idx) {
+                        lbl.classList.add('is-active');
+                    } else {
+                        lbl.classList.remove('is-active');
+                    }
+                });
+
+                if (isInit) {
+                    console.log('[초기][EN] 투자금액(표시값):', realVal, '(index:', idx + ')');
+                } else {
+                    console.log('[변경][EN] 투자금액(표시값):', realVal, '(index:', idx + ')');
+                }
+            }
+
+            // 초기 표시
+            updateVisitorDisplayEn(true);
+            updateAmountDisplayEn(true);
+
+            // 슬라이더 이벤트
+            visitorRangeEn.addEventListener('input', function () {
+                updateVisitorDisplayEn(false);
+            });
+            amountRangeEn.addEventListener('input', function () {
+                updateAmountDisplayEn(false);
+            });
+
+            // "투자하기" 클릭 시 EN 값도 따로 sessionStorage에 저장
+            popBtn.addEventListener('click', function () {
+                var vIdx = parseInt(visitorRangeEn.value, 10) || 0;
+                var aIdx = parseInt(amountRangeEn.value, 10) || 0;
+
+                if (vIdx < 0) vIdx = 0;
+                if (vIdx >= VISITOR_VALUES_EN.length) vIdx = VISITOR_VALUES_EN.length - 1;
+                if (aIdx < 0) aIdx = 0;
+                if (aIdx >= AMOUNT_VALUES_EN.length) aIdx = AMOUNT_VALUES_EN.length - 1;
+
+                var visitorValEnBase = VISITOR_VALUES_EN[vIdx]; // 예: 1, 50, 100
+                var amountValEnBase  = AMOUNT_VALUES_EN[aIdx];  // 예: 68, 340, 680
+
+                // ★ 달러 실제 값: "340M" 같은 표기에서 340 → 340,000 달러로 넘기기
+                //   → 베이스 값에 1000 곱해서 세션에 저장
+                var amountValEnReal = amountValEnBase * 1000;
+
+                console.log('▶ [EN] 투자하기 클릭 - 최종 선택 값(표시 기준)');
+                console.log('   예상 관람객(EN base):', visitorValEnBase);
+                console.log('   투자금액(EN base):', amountValEnBase);
+                console.log('   투자금액(EN 실제 달러):', amountValEnReal);
+
+                try {
+                    // 필요하면 관람객도 그대로 저장
+                    sessionStorage.setItem('kcon_visitor_en', String(visitorValEnBase));
+                    // 달러는 1000배 한 실제값으로 저장
+                    sessionStorage.setItem('kcon_amount_en', String(amountValEnReal));
+                } catch (err) {
+                    console.warn('sessionStorage 저장 실패(EN):', err);
+                }
+            });
+        })(pop);
     });
 });
+
+
