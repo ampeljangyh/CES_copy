@@ -89,7 +89,7 @@
                                 <input type="checkbox" name="esg_auto" disabled>
                                 <span>
                                     <span class="ic_chk"></span>
-                                    <span class="txt">환경 경영 관리</span>
+                                    <span class="txt">환경 경영 체계</span>
                                     <span class="ico_esg ty_e"></span>
                                 </span>
                             </label>
@@ -155,7 +155,7 @@
                                 <input type="checkbox" name="esg_auto" disabled>
                                 <span>
                                     <span class="ic_chk"></span>
-                                    <span class="txt">온실가스 배출량관리축</span>
+                                    <span class="txt">온실가스 배출량 감축</span>
                                     <span class="ico_esg ty_e"></span>
                                 </span>
                             </label>
@@ -309,7 +309,7 @@
                                 <input type="checkbox" name="esg_auto" disabled>
                                 <span>
                                     <span class="ic_chk"></span>
-                                    <span class="txt">Scope3 온실가스관리출량 산정 체계</span>
+                                    <span class="txt">Scope3 온실가스 배출량 산정 체계</span>
                                     <span class="ico_esg ty_e"></span>
                                 </span>
                             </label>
@@ -883,7 +883,7 @@
 
                         
                         <!-- data-visible : 2 -->
-                         <li data-visible="2" style="display:none;">
+                        <li data-visible="2" style="display:none;">
                             <label>
                                 <input type="checkbox" name="esg_self">
                                 <span>
@@ -1205,6 +1205,7 @@
                                 <span>
                                     <span class="ic_chk"></span>
                                     <span class="txt">개인정보 수집 동의</span>
+                                    <span class="ico_esg ty_s"></span>
                                 </span>
                             </label>
 
@@ -1278,7 +1279,6 @@
 //------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
     gate0301Init();
-    $(".esg_cont").css("visibility", "");
 
     runAutoCheckSequence();
 

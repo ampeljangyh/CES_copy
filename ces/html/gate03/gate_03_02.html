@@ -67,1167 +67,239 @@
         <div class="contents esg_cont" style="visibility: hidden;">
             <div class="esg_cont_inner">
                 <div class="esg_tit">
-                    <p>기업 경영활동에 특화된 지표를 생성합니다.</p>
-                    <strong><span id="selPrdName">NexDrive</span> 특화형 지표 생성</strong>
+                    <p>수집된 데이터를 바탕으로 ESG 상태 평가를 진행합니다.</p>
+                    <strong><span id="selPrdName">NexDrive</span>의 ESG 지표 평가</strong>
                 </div>
 
-                <div class="chk_panel">
-                    <div class="tit_box_area">
-                        <div class="tit_box tit01">
-                            <strong class="tit">ESG 평가 지표</strong>
-                        </div>
+                <!-- eval_grid_area -->
+                <div class="eval_grid_area">
+                    <!-- eval_grid -->
+                    <ul class="eval_grid">
+                        <li>
+                            <span class="ico_esg ty_e"></span>
+                            <span class="txt">환경 경영 체계</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_e"></span>
+                            <span class="txt">환경 인허가 관리</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_e"></span>
+                            <span class="txt">온실가스 및 에너관리관리</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_e"></span>
+                            <span class="txt">온실가스 배출량 감축</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_e"></span>
+                            <span class="txt">에너지 사용량 감축</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_e"></span>
+                            <span class="txt">폐기물 관리</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_e"></span>
+                            <span class="txt">용수 관리</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_e"></span>
+                            <span class="txt">유해화학물질 관리</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_e"></span>
+                            <span class="txt">대기오염물질 관리</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_e"></span>
+                            <span class="txt">수질오염물질 관리</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_e"></span>
+                            <span class="txt">Scope3 온실가스 배출량 산정 체계</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_e"></span>
+                            <span class="txt">잔류성오염물질 관리</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_s"></span>
+                            <span class="txt">인권관리</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_s"></span>
+                            <span class="txt">고충처리제도</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_s"></span>
+                            <span class="txt">괴롭힘, 차별 금지</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_s"></span>
+                            <span class="txt">근로조건</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_s"></span>
+                            <span class="txt">복리후생</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_s"></span>
+                            <span class="txt">강제노동 금지</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_s"></span>
+                            <span class="txt">아동노동 금지</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_s"></span>
+                            <span class="txt">노사관계 수준</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_s"></span>
+                            <span class="txt">안전보건 관리체계</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_s"></span>
+                            <span class="txt">안전보건 관리활동</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_s"></span>
+                            <span class="txt">지역사회 공헌</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_s"></span>
+                            <span class="txt">외국인근로자 근로 관리</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_g"></span>
+                            <span class="txt">윤리경영 정책</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_g"></span>
+                            <span class="txt">부패 및 불공정거래 방지 활동</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_g"></span>
+                            <span class="txt">윤리준법 신고제도</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_g"></span>
+                            <span class="txt">ESG정보공시</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_g"></span>
+                            <span class="txt">경영 안정성</span>
+                        </li>
+                        <li>
+                            <span class="ico_esg ty_g"></span>
+                            <span class="txt">주주 권리</span>
+                        </li>
     
-                        <div class="tit_box tit02">
-                            <strong class="tit">데이터 수집</strong>
-                        </div>
-                    </div>
-
-                    <!-- chk_li -->
-                    <ul class="chk_li">
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">환경 경영 관리</span>
-                                    <span class="ico_esg ty_e"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">환경 인허가 관리</span>
-                                    <span class="ico_esg ty_e"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">온실가스 및 에너관리관리</span>
-                                    <span class="ico_esg ty_e"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">온실가스 배출량관리축</span>
-                                    <span class="ico_esg ty_e"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">에너지 사용량 관리</span>
-                                    <span class="ico_esg ty_e"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">폐기물 관리</span>
-                                    <span class="ico_esg ty_e"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">용수 관리</span>
-                                    <span class="ico_esg ty_e"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">유해화학물질 관리</span>
-                                    <span class="ico_esg ty_e"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">대기오염물질 관리</span>
-                                    <span class="ico_esg ty_e"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">수질오염물질 관리</span>
-                                    <span class="ico_esg ty_e"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">Scope3 온실가스관리출량 산정 체계</span>
-                                    <span class="ico_esg ty_e"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">잔류성오염물질 관리</span>
-                                    <span class="ico_esg ty_e"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">인권관리</span>
-                                    <span class="ico_esg ty_s"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">고충처리제도</span>
-                                    <span class="ico_esg ty_s"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">괴롭힘, 차별 금지</span>
-                                    <span class="ico_esg ty_s"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">근로조건</span>
-                                    <span class="ico_esg ty_s"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">복리후생</span>
-                                    <span class="ico_esg ty_s"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">강제노동 금지</span>
-                                    <span class="ico_esg ty_s"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">아동노동 금지</span>
-                                    <span class="ico_esg ty_s"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">노사관계 수준</span>
-                                    <span class="ico_esg ty_s"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">안전보건 관리체계</span>
-                                    <span class="ico_esg ty_s"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">안전보건 관리활동</span>
-                                    <span class="ico_esg ty_s"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">지역사회 공헌</span>
-                                    <span class="ico_esg ty_s"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">외국인근로자 근로 관리</span>
-                                    <span class="ico_esg ty_s"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">윤리경영 정책</span>
-                                    <span class="ico_esg ty_g"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">부패 및 불공정거래 방지 활동</span>
-                                    <span class="ico_esg ty_g"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">윤리준법 신고제도</span>
-                                    <span class="ico_esg ty_g"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">ESG정보공시</span>
-                                    <span class="ico_esg ty_g"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">경영 안정성</span>
-                                    <span class="ico_esg ty_g"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-                        <li>
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">주주 권리</span>
-                                    <span class="ico_esg ty_g"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
-                        </li>
-
-
+    
                         <!-- data-visible : 1 -->
                         <li data-visible="1" style="display:none;">
-                            <label>
-                                <input type="checkbox" name="esg_self">
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">배터리규제 대상 원료 재활용</span>
-                                    <span class="ico_esg ty_e"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
+                            <span class="ico_esg ty_e"></span>
+                            <span class="txt">배터리규제 대상 원료 재활용</span>
                         </li>
                         <li data-visible="1" style="display:none;">
-                            <label>
-                                <input type="checkbox" name="esg_self">
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">제품 단위 온실가스 배출량 산정 체계</span>
-                                    <span class="ico_esg ty_e"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
+                            <span class="ico_esg ty_e"></span>
+                            <span class="txt">제품 단위 온실가스 배출량 산정 체계</span>
                         </li>
                         <li data-visible="1" style="display:none;">
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">포장재 감축 및 대체</span>
-                                    <span class="ico_esg ty_e"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
+                            <span class="ico_esg ty_e"></span>
+                            <span class="txt">포장재 감축 및 대체</span>
                         </li>
                         <li data-visible="1" style="display:none;">
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">제품 내 유해물질 관리</span>
-                                    <span class="ico_esg ty_e"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
+                            <span class="ico_esg ty_e"></span>
+                            <span class="txt">제품 내 유해물질 관리</span>
                         </li>
                         <li data-visible="1" style="display:none;">
-                            <label>
-                                <input type="checkbox" name="esg_auto" disabled>
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">책임있는 원부자재 조달 정책</span>
-                                    <span class="ico_esg ty_s"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
+                            <span class="ico_esg ty_s"></span>
+                            <span class="txt">책임있는 원부자재 조달 정책</span>
                         </li>
                         <li data-visible="1" style="display:none;">
-                            <label>
-                                <input type="checkbox" name="esg_self">
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">협력사 및 공급망 관리</span>
-                                    <span class="ico_esg ty_s"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
+                            <span class="ico_esg ty_s"></span>
+                            <span class="txt">협력사 및 공급망 관리</span>
                         </li>
                         <!-- //data-visible : 1 -->
-
+    
                         
                         <!-- data-visible : 2 -->
-                         <li data-visible="2" style="display:none;">
-                            <label>
-                                <input type="checkbox" name="esg_self">
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">분쟁광물 관리</span>
-                                    <span class="ico_esg ty_e"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
+                        <li data-visible="2" style="display:none;">
+                            <span class="ico_esg ty_e"></span>
+                            <span class="txt">분쟁광물 관리</span>
                         </li>
                         <li data-visible="2" style="display:none;">
-                            <label>
-                                <input type="checkbox" name="esg_self">
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">제품 내 유해물질 관리</span>
-                                    <span class="ico_esg ty_e"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
+                            <span class="ico_esg ty_e"></span>
+                            <span class="txt">제품 내 유해물질 관리</span>
                         </li>
                         <li data-visible="2" style="display:none;">
-                            <label>
-                                <input type="checkbox" name="esg_auto">
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">오존층 관련 규제대상물질 관리</span>
-                                    <span class="ico_esg ty_e"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
+                            <span class="ico_esg ty_e"></span>
+                            <span class="txt">오존층 관련 규제대상물질 관리</span>
                         </li>
                         <li data-visible="2" style="display:none;">
-                            <label>
-                                <input type="checkbox" name="esg_auto">
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">수은 또는 수은 화합물 관리</span>
-                                    <span class="ico_esg ty_e"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
+                            <span class="ico_esg ty_e"></span>
+                            <span class="txt">수은 또는 수은 화합물 관리</span>
                         </li>
                         <li data-visible="2" style="display:none;">
-                            <label>
-                                <input type="checkbox" name="esg_auto">
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">잔류성오염물질 함유 기기 관리</span>
-                                    <span class="ico_esg ty_e"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
+                            <span class="ico_esg ty_e"></span>
+                            <span class="txt">잔류성오염물질 함유 기기 관리</span>
                         </li>
                         <li data-visible="2" style="display:none;">
-                            <label>
-                                <input type="checkbox" name="esg_self">
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">협력사 및 공급망 관리</span>
-                                    <span class="ico_esg ty_s"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
+                            <span class="ico_esg ty_s"></span>
+                            <span class="txt">협력사 및 공급망 관리</span>
                         </li>
                         <!-- //data-visible : 2 -->
-
-
+    
+    
                         <!-- data-visible : 3 -->
                         <li data-visible="3" style="display:none;">
-                            <label>
-                                <input type="checkbox" name="esg_self">
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">동물실험 축소 및 대체</span>
-                                    <span class="ico_esg ty_e"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
+                            <span class="ico_esg ty_e"></span>
+                            <span class="txt">동물실험 축소 및 대체</span>
                         </li>
                         <li data-visible="3" style="display:none;">
-                            <label>
-                                <input type="checkbox" name="esg_self">
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">생태계교란 생물 반입·반출 관리</span>
-                                    <span class="ico_esg ty_e"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
+                            <span class="ico_esg ty_e"></span>
+                            <span class="txt">생태계교란 생물 반입·반출 관리</span>
                         </li>
                         <li data-visible="3" style="display:none;">
-                            <label>
-                                <input type="checkbox" name="esg_self">
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">해외 유전자원 관리</span>
-                                    <span class="ico_esg ty_e"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
+                            <span class="ico_esg ty_e"></span>
+                            <span class="txt">해외 유전자원 관리</span>
                         </li>
                         <li data-visible="3" style="display:none;">
-                            <label>
-                                <input type="checkbox" name="esg_auto">
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">유전자변형생물체 관리</span>
-                                    <span class="ico_esg ty_e"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
+                            <span class="ico_esg ty_e"></span>
+                            <span class="txt">유전자변형생물체 관리</span>
                         </li>
                         <li data-visible="3" style="display:none;">
-                            <label>
-                                <input type="checkbox" name="esg_auto">
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">멸종위기종 관리</span>
-                                    <span class="ico_esg ty_e"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
+                            <span class="ico_esg ty_e"></span>
+                            <span class="txt">멸종위기종 관리</span>
                         </li>
                         <!-- //data-visible : 3 -->
-
-
+    
+    
                         <!-- data-visible : 4 -->
                         <li data-visible="4" style="display:none;">
-                            <label>
-                                <input type="checkbox" name="esg_self">
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">도급·용역·위탁 안전관리</span>
-                                    <span class="ico_esg ty_s"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
+                            <span class="ico_esg ty_s"></span>
+                            <span class="txt">도급·용역·위탁 안전관리</span>
                         </li>
                         <li data-visible="4" style="display:none;">
-                            <label>
-                                <input type="checkbox" name="esg_self">
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">정보보호 관리체계</span>
-                                    <span class="ico_esg ty_s"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
+                            <span class="ico_esg ty_s"></span>
+                            <span class="txt">정보보호 관리체계</span>
                         </li>
                         <li data-visible="4" style="display:none;">
-                            <label>
-                                <input type="checkbox" name="esg_self">
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">근로시간 준수</span>
-                                    <span class="ico_esg ty_s"></span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
+                            <span class="ico_esg ty_s"></span>
+                            <span class="txt">근로시간 준수</span>
                         </li>
                         <li data-visible="4" style="display:none;">
-                            <label>
-                                <input type="checkbox" name="esg_auto">
-                                <span>
-                                    <span class="ic_chk"></span>
-                                    <span class="txt">개인정보 수집 동의</span>
-                                </span>
-                            </label>
-
-                            <!-- progress_wrap -->
-                            <div class="progress_wrap" style="display:none;">
-                                <div class="progress_track">
-                                    <span class="bar"></span>
-                                </div>
-                                <span class="progress_txt">
-                                    <span class="t1">upload</span>
-                                    <strong class="percent">100%</strong>
-                                </span>
-                            </div>
-                            <!-- //progress_wrap -->
+                            <span class="ico_esg ty_s"></span>
+                            <span class="txt">개인정보 수집 동의</span>
                         </li>
                         <!-- //data-visible : 4 -->
                     </ul>
-                    <!-- //chk_li -->
+                    <!-- //eval_grid -->
                 </div>
+                <!-- //eval_grid_area -->
 
-                <div class="esg_btns" id="btns01" style="display:none;">
-                    <button type="button" class="btn_esg">데이터 수집 시작</button>
-                </div>
                 <div class="esg_btns" id="btns02" style="display:none;">
                     <button type="button" class="btn_esg">평가진행</button>
                 </div>
