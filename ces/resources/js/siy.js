@@ -1,79 +1,90 @@
 // siy.js
 $(function () {
-    
+    // 필요 시 초기화 코드 추가
 });
 // End of siy.js
 
-// hash 값으로 처리
-function getHashOfName(){
-    let fragment = window.location.hash.substring(1);
-    let selPrdText = '';
-    
-    fragment = fragment ? fragment : '1';
-    switch(fragment){
-        case '1':
-            selPrdText = 'NexDrive';
-            break;
-        case '2':
-            selPrdText = 'Qstack';
-            break;
-        case '3':
-            selPrdText = 'ApexBio';
-            break;
-        case '4':
-            selPrdText = 'Dataverse';
-            break;
-    }
 
-    $('#selPrdName').text(selPrdText);
+/* ---------------------------------------------------------
+   공통 유틸
+--------------------------------------------------------- */
+
+// hash fragment 가져오기
+function getFragment() {
+    return window.location.hash.substring(1) || '1';
 }
 
-// gate0301Init
-function gate0301Init(){
-    let fragment = window.location.hash.substring(1);
-    
-    fragment = fragment ? fragment : '1';
-    $("[data-visible]").hide();
-    $("[data-visible='" + fragment + "']").show();
+// hash → 제품명 변환
+function getHashOfName(fragment) {
+    fragment = fragment ? fragment : getFragment();
+    const map = {
+        '1': 'NexDrive',
+        '2': 'Qstack',
+        '3': 'ApexBio',
+        '4': 'Dataverse'
+    };
+    return map[fragment] || '';
 }
 
-// openPanel
-function openPanel(id){
-    const panel = document.getElementById(id);
-    const overlay = document.querySelector(".esg_dim");
+// panel & overlay DOM 조회
+function getPanelElements(id) {
+    return {
+        panel: document.getElementById(id),
+        overlay: document.querySelector(".esg_dim")
+    };
+}
 
-    panel.style.display = "block";
-    overlay.style.display = "block";
 
+/* ---------------------------------------------------------
+   패널 열기/닫기
+--------------------------------------------------------- */
+
+// panel open
+function openPanel(id) {
+    const { panel, overlay } = getPanelElements(id);
+
+    [panel, overlay].forEach(el => el.style.display = "block");
     panel.style.animationName = "panelIn";
     overlay.style.animationName = "overlayIn";
-};
+}
 
-// closePanel
-function closePanel(id){
-    const panel = document.getElementById(id);
-    const overlay = document.querySelector(".esg_dim");
+// panel close
+function closePanel(id) {
+    const { panel, overlay } = getPanelElements(id);
 
     panel.style.animationName = "panelOut";
     overlay.style.animationName = "overlayOut";
 
-    panel.addEventListener(
-        "animationend",
-        () => {
-        if (panel.style.animationName === "panelOut") {
-            panel.style.display = "none";
-        }
-        },
-        { once: true }
-    );
+    const hideAfterAnimation = (el, name) => {
+        el.addEventListener(
+            "animationend",
+            () => {
+                if (el.style.animationName === name) el.style.display = "none";
+            },
+            { once: true }
+        );
+    };
 
-    overlay.addEventListener(
-        "animationend",
-        () => {
-        if (overlay.style.animationName === "overlayOut") {
-            overlay.style.display = "none";
-        }
-        },
-        { once: true }
-    );
-};
+    hideAfterAnimation(panel, "panelOut");
+    hideAfterAnimation(overlay, "overlayOut");
+}
+
+
+/* ---------------------------------------------------------
+   Gate 초기화
+--------------------------------------------------------- */
+
+// gate0301Init
+function gate0301Init() {
+    const fragment = getFragment();
+
+    $('#selPrdName').text(getHashOfName());
+    const $visibleItems = $("[data-visible]");
+    $visibleItems.hide();
+    $visibleItems.filter(`[data-visible="${fragment}"]`).show();
+}
+
+// gate0302Init
+function gate0302Init() {
+    const fragment = getFragment();
+}

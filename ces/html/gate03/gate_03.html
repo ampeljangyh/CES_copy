@@ -275,22 +275,7 @@
     $('[data-select]').on('click', function(e){
         e.preventDefault();
         var dataSelect = $(this).attr('data-select');
-        var selPrdText = '';
-
-        switch(dataSelect){
-            case '1':
-                selPrdText = 'NexDrive';
-                break;
-            case '2':
-                selPrdText = 'Qstack';
-                break;
-            case '3':
-                selPrdText = 'ApexBio';
-                break;
-            case '4':
-                selPrdText = 'Dataverse';
-                break;
-        }
+        var selPrdText = getHashOfName(dataSelect);
 
         $('#selPrd').text(selPrdText);
         $('#selPrdCode').val(dataSelect);
