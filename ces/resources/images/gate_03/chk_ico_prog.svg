@@ -1,0 +1,53 @@
+<svg width="72" height="72" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    /* --- 도트: 더 빠르고 리듬감 있게 --- */
+    .dot {
+      fill: #696969;
+      animation: dotColor 0.10s ease-out forwards;   /* 기존 0.12 → 0.10 */
+      animation-delay: var(--delay);
+    }
+
+    @keyframes dotColor {
+      to {
+        fill: #0071FE;
+      }
+    }
+
+    /* --- 체크: 더 빠르게 + 도트 끝나기 직전에 시작 --- */
+    .check {
+      fill: none;
+      stroke: #0071FE;
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 40;
+      stroke-dashoffset: 40;
+
+      animation: checkDraw 0.12s ease-out forwards;  /* 기존 0.15 → 0.12 */
+      animation-delay: 0.54s;                        /* ★ 전체에 정확히 맞춘 최적 딜레이 */
+    }
+
+    @keyframes checkDraw {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+  </style>
+
+  <!-- 도트: delay 증분을 0.05 → 0.04로 줄여서 더 빠른 순환 -->
+  <circle class="dot" cx="36"   cy="8"    r="4.2" style="--delay:0.00s" />
+  <circle class="dot" cx="50"   cy="11.75" r="4.2" style="--delay:0.04s" />
+  <circle class="dot" cx="60.25" cy="22"   r="4.2" style="--delay:0.08s" />
+  <circle class="dot" cx="64"   cy="36"   r="4.2" style="--delay:0.12s" />
+  <circle class="dot" cx="60.25" cy="50"   r="4.2" style="--delay:0.16s" />
+  <circle class="dot" cx="50"   cy="60.25" r="4.2" style="--delay:0.20s" />
+  <circle class="dot" cx="36"   cy="64"   r="4.2" style="--delay:0.24s" />
+  <circle class="dot" cx="22"   cy="60.25" r="4.2" style="--delay:0.28s" />
+  <circle class="dot" cx="11.75" cy="50"   r="4.2" style="--delay:0.32s" />
+  <circle class="dot" cx="8"    cy="36"   r="4.2" style="--delay:0.36s" />
+  <circle class="dot" cx="11.75" cy="22"   r="4.2" style="--delay:0.40s" />
+  <circle class="dot" cx="22"   cy="11.75" r="4.2" style="--delay:0.44s" />
+
+  <!-- 체크 -->
+  <path class="check" d="M24 36 L32 44 L48 28" />
+</svg>

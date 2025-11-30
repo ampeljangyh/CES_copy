@@ -396,40 +396,27 @@
 
 
 <script>
-//------------------------------------------------------------
-// DOM Ready
-//------------------------------------------------------------
-document.addEventListener("DOMContentLoaded", () => {
-    getHashOfName();
-    gate0302Init();
+let autoTL = null;
+let currentIndex = 0;
+let pausedAtSelf = false;
 
-    autoTL = autoClickSequence(".btn_eval", 1);
-    autoTL.play();
-});
+const rippleDuration = 0.6;
 
-//------------------------------------------------------------
-// Hash Change
-//------------------------------------------------------------
-window.addEventListener("hashchange", () => {
-    getHashOfName();
-    gate0302Init();
-});
+// ★ 미리 로딩한 SVG 텍스트 저장소
+let preloadedSvgText = null;
 
-
-let autoTL = null;        // 타임라인 객체
-let currentIndex = 0;     // 멈춘 버튼 index 기억
-let pausedAtSelf = false; // self에서 멈춘 상태 플래그
-
-const rippleDuration = 0.6; 
-
+// ------------------------------------------------------------
+// Ripple 생성
+// ------------------------------------------------------------
 function createRipple(el) {
-    if (el.dataset.ripple !== "TRUE") return;
+    if (el.dataset.ripple !== "TRUE") return null;
 
     const ripple = document.createElement("span");
     ripple.className = "autoRipple";
     el.appendChild(ripple);
 
-    gsap.fromTo(ripple,
+    return gsap.fromTo(
+        ripple,
         { scale: 0, opacity: 0.6 },
         {
             scale: 6,
@@ -441,34 +428,70 @@ function createRipple(el) {
     );
 }
 
+// ------------------------------------------------------------
+// 버튼 클릭 애니 + ripple → SVG 완료까지 대기
+// ------------------------------------------------------------
 function autoClickEffect(el, isFirst = false) {
     const tl = gsap.timeline({
         onStart: () => createRipple(el)
     });
 
     const scaleDown = isFirst ? 0.85 : 0.92;
-    const moveDown  = isFirst ? 4 : 2;
+    const moveDown = isFirst ? 4 : 2;
 
     tl.to(el, {
         scale: scaleDown,
         y: moveDown,
-        duration: 0.12,
+        duration: 0.10,
         ease: "power2.out",
         onStart: () => el.classList.add("is-pressed")
     })
-    .to(el, {
-        scale: 1,
-        y: 0,
-        duration: 0.18,
-        ease: "power2.out",
-        onComplete: () => el.classList.remove("is-pressed")
-    });
+        .to(el, {
+            scale: 1,
+            y: 0,
+            duration: 0.14,
+            ease: "power2.out",
+            onComplete: () => el.classList.remove("is-pressed")
+        })
+        .add(() => {
+            autoTL.pause();
+            loadSvgLoading(el).then(() => {
+                autoTL.resume();
+            });
+        });
 
     return tl;
 }
 
-// 자동 클릭 & self 처리
-function autoClickSequence(selector, delay = 1.5) {
+// ------------------------------------------------------------
+// 첫 번째 버튼 ripple 2회 → 자동 시퀀스 시작
+// ------------------------------------------------------------
+function startWithFirstRipple(selector, delay = 0.75) {
+    const buttons = gsap.utils.toArray(selector);
+    const firstBtn = buttons[0];
+
+    const tl = gsap.timeline({
+        onComplete: () => {
+            autoTL = autoClickSequence(selector, delay);
+            autoTL.play();
+        }
+    });
+
+    if (!firstBtn) return tl;
+
+    const r1 = createRipple(firstBtn);
+    if (r1) tl.add(r1);
+
+    const r2 = createRipple(firstBtn);
+    if (r2) tl.add(r2, "+=0.15");
+
+    return tl;
+}
+
+// ------------------------------------------------------------
+// 자동 클릭 시퀀스
+// ------------------------------------------------------------
+function autoClickSequence(selector, delay = 0.75) {
     const buttons = gsap.utils.toArray(selector);
     const tl = gsap.timeline({ paused: true });
 
@@ -482,32 +505,96 @@ function autoClickSequence(selector, delay = 1.5) {
             tl.call(() => {
                 pausedAtSelf = true;
                 currentIndex = index;
-
-                // ★ self 버튼을 실제로 클릭 이벤트 실행 (모달은 여기서 네가 처리)
                 btn.click();
-
-                // ★ timeline 멈춤
                 tl.pause();
             }, null, at);
 
-            return; // 클릭 애니메이션(add) 추가 X
+            return;
         }
 
-        // 정상 버튼은 클릭 애니메이션 추가
         tl.add(autoClickEffect(btn, isFirst), at);
     });
 
     return tl;
 }
 
+// ------------------------------------------------------------
+// self 이후 재개
+// ------------------------------------------------------------
 function resumeAutoClick() {
     if (!pausedAtSelf) return;
-
     pausedAtSelf = false;
-
-    // timeline 이어서 실행
     if (autoTL) autoTL.resume();
 }
+
+// ------------------------------------------------------------
+// SVG 로딩 + 체크 애니 종료 기다리기 (완전 안전 보장)
+// ------------------------------------------------------------
+function loadSvgLoading(btn) {
+    return new Promise((resolve) => {
+
+        if (!preloadedSvgText) {
+            const wait = setInterval(() => {
+                if (preloadedSvgText) {
+                    clearInterval(wait);
+                    resolve(loadSvgLoading(btn));
+                }
+            }, 10);
+            return;
+        }
+
+        const container = btn;
+        const li = btn.closest("li");
+
+        container.innerHTML = preloadedSvgText;
+
+        const svg = container.querySelector("svg");
+        const check = svg?.querySelector(".check");
+
+        if (!svg || !check) {
+            resolve();
+            return;
+        }
+
+        check.addEventListener("animationend", () => {
+
+            // ★ 0.35초 기다렸다가 완료로 전환
+            setTimeout(() => {
+                container.textContent = "완료";
+                li.dataset.finished = "TRUE";
+            }, 300);
+            resolve();
+        }, { once: true });
+
+    });
+}
+
+// ------------------------------------------------------------
+// DOM Ready (SVG preload 끝난 뒤 자동 클릭 시작 보장)
+// ------------------------------------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+
+    // ★ SVG 완전히 preload — 이후 100% 안전
+    fetch("../../resources/images/gate_03/chk_ico_prog.svg")
+        .then(r => r.text())
+        .then(text => {
+            preloadedSvgText = text;
+
+            // preload 완료 후 시작 (중요!)
+            autoTL = startWithFirstRipple(".btn_eval", 0.5);
+            autoTL.play();
+        });
+
+    getHashOfName();
+    gate0302Init();
+});
+
+// ------------------------------------------------------------
+window.addEventListener("hashchange", () => {
+    getHashOfName();
+    gate0302Init();
+});
+
 </script>
 </body>
 </html>
