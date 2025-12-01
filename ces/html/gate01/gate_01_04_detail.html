@@ -83,7 +83,8 @@
                 <div class="contents_detail_inner">
                     <div class="list_cop_box">
                         <button type="button" class="btn_list_cop">
-                            <span>기업 목록 보기</span>
+                            <span class="kr_t">기업 목록 보기</span>
+                            <span class="en_t">View the List of Companies</span>
                         </button>
                     </div>
 
@@ -171,8 +172,7 @@
                             </div>
                             <div class="cop_cont_desc">
                                 <p>
-해당 업체의 현재 성장 위치 및 상황에 적합한 지원 상품들을 제공함으로써 해당 업체의 미래 성장 결과가 변화합니다.<br>
-지원 상품을 선택하고 미래 성장 모형이 어떻게 변화하는지 확인해보세요.
+IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 수 있도록 현재 성장 위치 및 상황에 적합한 지원 상품들을 제공합니다.
                                 </p>
                             </div>
                             <div class="cop_cont_grp_wrap">
@@ -1224,8 +1224,12 @@
 
 <!-- 상세페이지 미래 성장성 예측 차트 -->
 <script>
-// 1px → 0.0260vw
-const PX_TO_VW = 0.0260;
+
+
+/****************************
+ * 공통 유틸 (px → vw 환산)
+ ****************************/
+const PX_TO_VW = 0.0260; // 1px → 0.0260vw
 
 function vwToPx(vw) {
   return window.innerWidth * (vw / 100);
@@ -1239,45 +1243,96 @@ function designPxToRealPx(px) {
 function getFontSizePx()   { return designPxToRealPx(38); }
 function getLineWidthPx()  { return designPxToRealPx(5); }
 
-// ★ X축은 9포인트(굴곡 9개), 실제 텍스트는 콜백에서 처리
+/****************************
+ * 데이터 정의 (공통)
+ ****************************/
 const labels = ['1','2','3','4','5','6','7','8','9'];
 
-// X축에 표시할 4개 스테이지 라벨
-const stageLabels = ['초기', '성장기', '성숙·안정기', '지속성장'];
+const dataBase      = [10,10,10,10,10,10,10,10,10];
+const dataIndustry  = [10,10,10,10,10,10,10,10,10];
+const dataBefore    = [10,16.25,22.5,28.75,35,41.25,47.5,53.75,60];
+const dataAfter     = [10,16.25,22.5,42.08,61.67,81.25,100.83,120.42,140];
+const dataBenchmark = [10,32,53,73,93,112,130,148,165];
 
-// ★ 모든 그래프의 시작값(초기)은 10으로 통일
-const dataBase      = [10, 10, 10, 10, 10, 10, 10, 10, 10]; // 기준선 (fill용)
+// 차트 인스턴스
+window.growthChartKrInstance = null;
+window.growthChartEnInstance = null;
 
-// 업종 평균 : 시작(10)과 마지막(10) 유지, 중간은 선형
-const dataIndustry  = [10, 10, 10, 10, 10, 10, 10, 10, 10];
+/****************************
+ * 언어 관련
+ ****************************/
+function getCurrentLangFromBody() {
+  const id = (document.body.id || '').toLowerCase();
+  if (id.indexOf('lang_en') !== -1) return 'en';
+  return 'kr';
+}
 
-// 상품 적용 전 : 시작 10, 마지막 60 유지 + 중간 선형 증가
-const dataBefore    = [10, 16.25, 22.5, 28.75, 35, 41.25, 47.5, 53.75, 60];
+function getStageLabels(lang) {
+  if (lang === 'en') {
+    return [
+      'Early Stage',
+      'Growth Stage',
+      'Mature / Stable Stage',
+      'Sustainable Growth'
+    ];
+  } else {
+    return [
+      '초기',
+      '성장기',
+      '성숙·안정기',
+      '지속성장'
+    ];
+  }
+}
 
-// 상품 적용 후 : 시작 10, 마지막 140 유지 + 중간 선형 증가
-const dataAfter     = [10, 16.25, 22.5, 42.08, 61.67, 81.25, 100.83, 120.42, 140 ];
+function getRightLabels(lang) {
+  if (lang === 'en') {
+    return [
+      'Growth Model',
+      'After Applying the Product',
+      'Before Applying the Product',
+      'Industry Average'
+    ];
+  } else {
+    return [
+      '롤모델',
+      '상품 적용 후',
+      '상품 적용 전',
+      '업종평균'
+    ];
+  }
+}
 
-// 롤모델 : 기존 값 그대로 사용
-const dataBenchmark = [10, 32, 53, 73, 93, 112, 130, 148, 165];
+/****************************
+ * 차트 생성 공통 함수
+ ****************************/
+function createGrowthChart(canvasId, lang) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return null;
 
-window.addEventListener('load', function () {
-  const ctx = document.getElementById('growthChart').getContext('2d');
+  const ctx = canvas.getContext('2d');
 
   const lineWidth = getLineWidthPx();
   const fontSize  = getFontSizePx();
 
-  // 색감 (요청안 유지)
-  const COLOR_AFTER    = '#0071FE';  // 상품 적용 후
-  const COLOR_BEFORE   = '#BEBEBE';  // 상품 적용 전
-  const COLOR_BENCH    = '#5be6be';  // 벤치마크
-  const COLOR_INDUSTRY = '#ffffff';  // 업종 평균
+  // 차트(그래프) 영역 패딩 – 오른쪽을 더 키워서 라벨 전용 여백 확보
+  const leftPaddingFactor  = 0.8;
+  const rightPaddingFactor = (lang === 'en') ? 9 : 7;
+
+  // 색상
+  const COLOR_AFTER    = '#0071FE';
+  const COLOR_BEFORE   = '#BEBEBE';
+  const COLOR_BENCH    = '#5be6be';
+  const COLOR_INDUSTRY = '#ffffff';
+
+  const stageLabels = getStageLabels(lang);
+  const rightLabels = getRightLabels(lang);
 
   const chart = new Chart(ctx, {
     type: 'line',
     data: {
       labels,
       datasets: [
-        // 0. 기준선(면 채우기용, 화면에는 안 보임)
         {
           label: 'baseline',
           data: dataBase,
@@ -1289,46 +1344,42 @@ window.addEventListener('load', function () {
           tension: 0,
           fill: false
         },
-        // 1. 업종 평균 (맨 아래, 점선 + 굴곡 많음)
         {
-          label: '업종평균',
+          label: 'industry',
           data: dataIndustry,
           borderColor: COLOR_INDUSTRY,
           borderWidth: lineWidth,
-          borderDash: [ designPxToRealPx(12), designPxToRealPx(12) ],
+          borderDash: [designPxToRealPx(12), designPxToRealPx(12)],
           backgroundColor: 'rgba(0,0,0,0)',
           pointRadius: 0,
           pointHoverRadius: 0,
           tension: 0,
           fill: false
         },
-        // 2. 상품 적용 전 (면은 baseline까지, 시작점 동일)
         {
-          label: '상품 적용 전',
+          label: 'before',
           data: dataBefore,
           borderColor: COLOR_BEFORE,
           borderWidth: lineWidth,
-          backgroundColor: 'rgba(190, 190, 190, 0.17)',
-          fill: 0, // baseline까지
-          pointRadius: 0,
-          pointHoverRadius: 0,
-          tension: 0
-        },
-        // 3. 상품 적용 후 (면은 baseline까지, 굴곡 더 크게)
-        {
-          label: '상품 적용 후',
-          data: dataAfter,
-          borderColor: COLOR_AFTER,
-          borderWidth: lineWidth,
-          backgroundColor: 'rgba(0, 113, 254, 0.17)',
+          backgroundColor: 'rgba(190,190,190,0.17)',
           fill: 0,
           pointRadius: 0,
           pointHoverRadius: 0,
           tension: 0
         },
-        // 4. 롤모델 (가장 위, 선형 증가, 선만)
         {
-          label: '롤모델',
+          label: 'after',
+          data: dataAfter,
+          borderColor: COLOR_AFTER,
+          borderWidth: lineWidth,
+          backgroundColor: 'rgba(0,113,254,0.17)',
+          fill: 0,
+          pointRadius: 0,
+          pointHoverRadius: 0,
+          tension: 0
+        },
+        {
+          label: 'benchmark',
           data: dataBenchmark,
           borderColor: COLOR_BENCH,
           borderWidth: lineWidth,
@@ -1354,11 +1405,13 @@ window.addEventListener('load', function () {
             color: '#c4cad6',
             font: {
               size: fontSize,
-              family: 'Pretendard, Noto Sans KR, sans-serif'
+              family: 'Pretendard, "Noto Sans KR", sans-serif'
             },
-            // 그래프와 라벨 간 간격 ↑
             padding: designPxToRealPx(24),
-            // 9개 포인트 중 4개 위치에만 텍스트 표시
+            minRotation: 0,
+            maxRotation: 0,
+            autoSkip: false,
+            maxTicksLimit: labels.length,
             callback: function (value, index) {
               if (index === 0) return stageLabels[0];
               if (index === 2) return stageLabels[1];
@@ -1374,75 +1427,161 @@ window.addEventListener('load', function () {
           max: 170
         }
       },
-      // ★ 캔버스 안쪽 패딩 증가 (텍스트/그래프 여유)
       layout: {
         padding: {
-          top:    fontSize * 2.8,  // 위쪽 조금 더
-          bottom: fontSize * 2.4,  // 아래쪽도 여유
-          left:   fontSize * 1.2,
-          right:  fontSize * 6   // 오른쪽 라벨 공간 확보
+          top:    fontSize * 2.8,
+          bottom: fontSize * 2.4,
+          left:   fontSize * leftPaddingFactor,
+          right:  fontSize * rightPaddingFactor   // ← 차트만 왼쪽으로 더 줄어듦
         }
       }
     },
     plugins: [
-      // 오른쪽 라벨
-      {
-        id: 'rightLabels',
-        afterDraw(chart, args, opts) {
-          const { ctx, chartArea } = chart;
-          const labelsRight = ['롤모델', '상품 적용 후', '상품 적용 전', '업종평균'];
+  {
+    id: 'rightLabels',
+    afterDraw(chart) {
+      const { ctx, chartArea } = chart;
 
-          ctx.save();
-          ctx.font = `${getFontSizePx()}px Pretendard, Noto Sans KR, sans-serif`;
-          ctx.textAlign = 'left';
-          ctx.textBaseline = 'middle';
+      ctx.save();
+      ctx.font = `${getFontSizePx()}px Pretendard, "Noto Sans KR", sans-serif`;
+      ctx.textBaseline = 'middle';
+      ctx.textAlign = 'right';
 
-          // 라벨을 조금 더 오른쪽으로
-          const x = chartArea.right + getFontSizePx() * 0.6;
+      const canvasWidth = chart.width;
 
-          const top = chartArea.top;
-          const bottom = chartArea.bottom;
-          // ★ y 위치 간격을 더 넓게
-          const pos = [0.03, 0.2, 0.65, 0.94];
+      // 🔽 여기가 포인트
+      //    캔버스 오른쪽에서 디자인 기준 40px 정도 여백을 두고 안쪽에 그리기
+      const edgeMargin = designPxToRealPx(40); // 필요하면 48, 56 등 더 키워도 됨
+      const x = canvasWidth - edgeMargin;
 
-          labelsRight.forEach((txt, idx) => {
-            const y = top + (bottom - top) * pos[idx];
-            if (txt === '롤모델')      ctx.fillStyle = COLOR_BENCH;
-            else if (txt === '상품 적용 후')  ctx.fillStyle = COLOR_AFTER;
-            else if (txt === '상품 적용 전')  ctx.fillStyle = COLOR_BEFORE;
-            else                         ctx.fillStyle = COLOR_INDUSTRY;
-            ctx.fillText(txt, x, y);
-          });
+      const top = chartArea.top;
+      const bottom = chartArea.bottom;
+      const pos = [0.03, 0.2, 0.65, 0.94];
 
-          ctx.restore();
+      const COLOR_AFTER    = '#0071FE';
+      const COLOR_BEFORE   = '#BEBEBE';
+      const COLOR_BENCH    = '#5be6be';
+      const COLOR_INDUSTRY = '#ffffff';
+
+      const colorsRight = [
+        COLOR_BENCH,
+        COLOR_AFTER,
+        COLOR_BEFORE,
+        COLOR_INDUSTRY
+      ];
+
+      const rightLabels = getRightLabels(chart.$lang || 'kr');
+      const lineGap = getFontSizePx() * 0.9;
+
+      rightLabels.forEach((txt, idx) => {
+        const y = top + (bottom - top) * pos[idx];
+        ctx.fillStyle = colorsRight[idx];
+
+        if (
+          (chart.$lang === 'en') &&
+          (txt === 'After Applying the Product' || txt === 'Before Applying the Product')
+        ) {
+          const firstLine  = txt.startsWith('After') ? 'After Applying' : 'Before Applying';
+          const secondLine = 'the Product';
+
+          ctx.fillText(firstLine,  x, y - lineGap / 2);
+          ctx.fillText(secondLine, x, y + lineGap / 2);
+        } else {
+          ctx.fillText(txt, x, y);
         }
-      }
-    ]
+      });
+
+      ctx.restore();
+    }
+  }
+]
   });
 
-  // 리사이즈 시 선두께/폰트 재계산
-  window.addEventListener('resize', function () {
-    const newLineWidth = getLineWidthPx();
-    const newFontSize  = getFontSizePx();
+  chart.$lang = lang; // 리사이즈용
+  return chart;
+}
 
-    chart.data.datasets.forEach(ds => {
-      if (ds.label !== 'baseline') {
-        ds.borderWidth = newLineWidth;
-      }
-    });
+/****************************
+ * 생성 보장 함수
+ ****************************/
+function ensureKrChart() {
+  if (!window.growthChartKrInstance) {
+    window.growthChartKrInstance = createGrowthChart('growthChartKr', 'kr');
+  }
+}
 
-    chart.options.scales.x.ticks.font.size = newFontSize;
-    chart.options.scales.x.ticks.padding   = designPxToRealPx(24);
-    chart.options.layout.padding = {
-      top:    newFontSize * 2.8,
-      bottom: newFontSize * 2.4,
-      left:   newFontSize * 1.2,
-      right:  newFontSize * 4.8
-    };
+function ensureEnChart() {
+  if (!window.growthChartEnInstance) {
+    window.growthChartEnInstance = createGrowthChart('growthChartEn', 'en');
+  }
+}
 
-    chart.update();
+/****************************
+ * 리사이즈
+ ****************************/
+function resizeGrowthChart(chart) {
+  if (!chart) return;
+
+  const lang = chart.$lang || 'kr';
+  const newLineWidth = getLineWidthPx();
+  const newFontSize  = getFontSizePx();
+  const leftPaddingFactor  = 0.8;
+  const rightPaddingFactor = (lang === 'en') ? 9 : 7;
+
+  chart.data.datasets.forEach(ds => {
+    if (ds.label !== 'baseline') {
+      ds.borderWidth = newLineWidth;
+    }
+  });
+
+  chart.options.scales.x.ticks.font.size   = newFontSize;
+  chart.options.scales.x.ticks.padding     = designPxToRealPx(24);
+  chart.options.scales.x.ticks.minRotation = 0;
+  chart.options.scales.x.ticks.maxRotation = 0;
+  chart.options.scales.x.ticks.autoSkip    = false;
+  chart.options.scales.x.ticks.maxTicksLimit = labels.length;
+
+  chart.options.layout.padding = {
+    top:    newFontSize * 2.8,
+    bottom: newFontSize * 2.4,
+    left:   newFontSize * leftPaddingFactor,
+    right:  newFontSize * rightPaddingFactor
+  };
+
+  chart.update();
+}
+
+/****************************
+ * 초기 로드 & 언어 토글
+ ****************************/
+window.addEventListener('load', function () {
+  const lang = getCurrentLangFromBody();
+  if (lang === 'en') ensureEnChart();
+  else ensureKrChart();
+});
+
+window.addEventListener('resize', function () {
+  resizeGrowthChart(window.growthChartKrInstance);
+  resizeGrowthChart(window.growthChartEnInstance);
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  const langBtn = document.querySelector('.btn_lang');
+  if (!langBtn) return;
+
+  langBtn.addEventListener('click', function () {
+    setTimeout(function () {
+      const lang = getCurrentLangFromBody();
+      if (lang === 'en') ensureEnChart();
+      else ensureKrChart();
+    }, 0);
   });
 });
+
+
+
+
+
 </script>
 
 
