@@ -1180,83 +1180,111 @@ $(document).on('click', '.inve_btn_sub', function () {
 
 
 
-  /* Gate02 sub */
-  document.addEventListener('DOMContentLoaded', function () {
-    // 공통 SVG 경로
-    var SVG_PATH = '../../resources/images/chk_ico_prog.svg';
+/* Gate02 sub */
+document.addEventListener('DOMContentLoaded', function () {
+  // 공통 SVG 경로
+  var SVG_PATH = '../../resources/images/chk_ico_prog.svg';
 
-    // 대상 item들
-    var items = Array.prototype.slice.call(
-        document.querySelectorAll('.gate_02.sub [class*="gate_02"] .inve_confirm_list .item')
-    );
-    if (!items.length) return;
+  // 대상 item들
+  var items = Array.prototype.slice.call(
+    document.querySelectorAll('.gate_02.sub [class*="gate_02"] .inve_confirm_list .item')
+  );
+  if (!items.length) return;
 
-    // 1초 뒤에 시작
-    var baseDelay = 1000;
+  // 1초 뒤에 시작
+  var baseDelay = 1000;
 
-    // item들을 랜덤 순서로 섞기
-    var shuffledItems = items.slice().sort(function () {
-        return Math.random() - 0.5;
-    });
+  // item들을 랜덤 순서로 섞기
+  var shuffledItems = items.slice().sort(function () {
+    return Math.random() - 0.5;
+  });
 
-    shuffledItems.forEach(function (item, index) {
-        var confirmBox = item.querySelector('.confirm');
-        if (!confirmBox) return;
+  shuffledItems.forEach(function (item, index) {
+    var confirmBox = item.querySelector('.confirm');
+    if (!confirmBox) return;
 
-        // 각 아이템 사이 간격 1~1.5초 랜덤
-        var interval = 1000 + Math.random() * 500; // 1000~1500ms
-        var startTime = baseDelay + index * interval;
+    // 각 아이템 사이 간격 1~1.5초 랜덤
+    var interval = 1000 + Math.random() * 500; // 1000~1500ms
+    var startTime = baseDelay + index * interval;
 
+    setTimeout(function () {
+
+      // 1) 체크 아이콘 "새 인스턴스"로 생성 + 삽입
+      var ico = document.createElement('img');
+      ico.className = 'ico';
+      ico.src = SVG_PATH + '?t=' + Date.now() + '_' + Math.random(); 
+      confirmBox.appendChild(ico);
+
+      // 먼저 display 보이게 하고
+      ico.style.display = 'inline-block';
+
+      // 다음 프레임에 opacity transition 적용
+      requestAnimationFrame(function () {
+        ico.classList.add('active'); // opacity 1
+      });
+
+      // 3초 후 아이콘 서서히 사라짐
+      setTimeout(function () {
+        ico.classList.remove('active');  // opacity 0으로
+
+        // 아이콘이 사라지는 transition 시간(0.6초) 이후에 버튼 등장
         setTimeout(function () {
+          ico.style.display = 'none';
 
-            // 1) 체크 아이콘 "새 인스턴스"로 생성 + 삽입
-            //    → 쿼리스트링을 붙여서 매번 다른 URL처럼 보이게 해서
-            //      SVG 애니메이션이 각각 개별로 재생되도록 함
-            var ico = document.createElement('img');
-            ico.className = 'ico';
-            ico.src = SVG_PATH + '?t=' + Date.now() + '_' + Math.random(); 
-            // 위 ?t=... 부분이 포인트
+          // 2) 버튼 생성/표시
+          var btn = confirmBox.querySelector('button.btn.case_01');
+          if (!btn) {
+            btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'btn case_01';
 
-            confirmBox.appendChild(ico);
+            // 한글 span
+            var spanKr = document.createElement('span');
+            spanKr.className = 'kr_t';
+            spanKr.textContent = '적합';
 
-            // 먼저 display 보이게 하고
-            ico.style.display = 'inline-block';
+            // 영문 span
+            var spanEn = document.createElement('span');
+            spanEn.className = 'en_t';
+            spanEn.textContent = 'Eligible';
 
-            // 다음 프레임에 opacity transition 적용
-            requestAnimationFrame(function () {
-                ico.classList.add('active'); // opacity 1
-            });
+            btn.appendChild(spanKr);
+            btn.appendChild(spanEn);
 
-            // 3초 후 아이콘 서서히 사라짐
-            setTimeout(function () {
-                ico.classList.remove('active');  // opacity 0으로
+            confirmBox.appendChild(btn);
+          } else {
+            // 이미 있는 버튼이면 내부 span 구조 보정
+            var spanKr = btn.querySelector('span.kr_t');
+            var spanEn = btn.querySelector('span.en_t');
 
-                // 아이콘이 사라지는 transition 시간(0.6초) 이후에 버튼 등장
-                setTimeout(function () {
-                    ico.style.display = 'none';
+            if (!spanKr) {
+              spanKr = document.createElement('span');
+              spanKr.className = 'kr_t';
+              btn.appendChild(spanKr);
+            }
+            if (!spanEn) {
+              spanEn = document.createElement('span');
+              spanEn.className = 'en_t';
+              btn.appendChild(spanEn);
+            }
 
-                    // 2) 버튼 생성/표시
-                    var btn = confirmBox.querySelector('button.btn.case_01');
-                    if (!btn) {
-                        btn = document.createElement('button');
-                        btn.type = 'button';
-                        btn.className = 'btn case_01';
-                        btn.textContent = '적합';
-                        confirmBox.appendChild(btn);
-                    }
+            spanKr.textContent = '적합';
+            spanEn.textContent = 'Eligible';
+          }
 
-                    btn.style.display = 'inline-flex';
-                    requestAnimationFrame(function () {
-                        btn.classList.add('active'); // opacity 1
-                    });
+          btn.style.display = 'inline-flex';
+          requestAnimationFrame(function () {
+            btn.classList.add('active'); // opacity 1
+          });
 
-                }, 200); // CSS transition 0.6s와 맞춤
+        }, 200); // CSS transition 0.6s와 맞춤
 
-            }, 1500); // 아이콘이 1.5초 동안 화면에 있다가 사라짐
+      }, 1500); // 아이콘이 1.5초 동안 화면에 있다가 사라짐
 
-        }, startTime); // 2초 후 + (1~1.5초 * index) 마다 순차 실행
-    });
+    }, startTime); // 1초 후 + (1~1.5초 * index) 마다 순차 실행
+  });
 });
+
 
 
 document.addEventListener('DOMContentLoaded', function () {

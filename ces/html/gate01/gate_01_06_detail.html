@@ -19,6 +19,7 @@
 <script src="../../resources/js/jquery-ui.js"></script>
 <script src="../../resources/js/swiper-bundle.min.js"></script>
 <script src="../../resources/js/chart.js"></script>
+<script src="../../resources/js/lang_toggle.js"></script>
 <!-- //퍼블리싱 -->
 </head>
 
@@ -88,7 +89,7 @@
                         </button>
                     </div>
 
-                    <div class="cop_tit_wrap">
+                    <div class="cop_tit_wrap kr_t">
                         <div class="cop_logo">
                             <div class="logo_inner">
                                 <div class="logo">
@@ -117,14 +118,48 @@
                             </div>
                         </div>
                     </div>
+                    <div class="cop_tit_wrap en_t">
+                        <div class="cop_logo">
+                            <div class="logo_inner">
+                                <div class="logo">
+                                    <img src="../../resources/images/floatin_img_05.png">
+                                </div>
+                                <div class="cop_name_box">
+                                    <div class="tit">
+                                        <span>Watervation</span>
+                                    </div>
+                                    <div class="sub">
+                                        <span>E&M Equipment</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cop_info_btn">
+                            <div class="cop_detail">
+                                <button type="button" class="btn_cop_detail">
+                                    <span>Detailed Information</span>
+                                </button>
+                            </div>
+                            <div class="cop_loca">
+                                <button type="button" class="btn_cop_loca">
+                                    <span>Booth Location</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
 
-                    <div class="cop_desc_wrap">
+                    <div class="cop_desc_wrap text_ellipsis_02 kr_t">
                         <p>
                             워터베이션은 기존의 필터 방식 대신 '물필터' 기술을 활용해 친환경 공기 청정 및 온실가스 저감 솔루션을 제공하는 한국 기업입니다. 이 회사는 수증기 펌프 없이 기압차로 물을 순환시키고, 물을 잘게 쪼개 원심력으로 분사하는 독자 기술을 통해 에너지 소비를 줄이고 필터 폐기물 문제를 해결하는 것을 목표로 합니다. 
                         </p>
                     </div>
+                    <div class="cop_desc_wrap text_ellipsis_02 en_t">
+                        <p>
+                            Watervation is a Korean company that provides eco-friendly air-purification and greenhouse-gas reduction solutions using a water-filter technology, instead of conventional filter-based systems.The company circulates water using pressure differences rather than steam pumps, and employs a proprietary technology that atomizes water and sprays it through centrifugal force. Through this approach, Watervation aims to reduce energy consumption and eliminate filter-waste issues.
+                        </p>
+                    </div>
 
-                    <div class="grade_box">
+                    <div class="grade_box kr_t">
                         <ul>
                             <li>
                                 <div class="grade_item">
@@ -164,8 +199,48 @@
                             </li>
                         </ul>
                     </div>
+                    <div class="grade_box en_t">
+                        <ul>
+                            <li>
+                                <div class="grade_item">
+                                    <div class="tit">
+                                        <span>Credit Rating</span>
+                                    </div>
+                                    <div class="desc">
+                                        <strong>B+</strong>
+                                        <span>Average</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <button type="button" class="btn_grade_item thec_grade_btn">
+                                    <div class="grade_item">
+                                        <div class="tit">
+                                            <span>Technology Rating</span>
+                                        </div>
+                                        <div class="desc">
+                                            <strong>T6</strong>
+                                            <span>Average</span>
+                                        </div>
+                                    </div>
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button" class="btn_grade_item thec_go_btn">
+                                    <div class="grade_item">
+                                        <div class="tit">
+                                            <span>Growth Score</span>
+                                        </div>
+                                        <div class="desc">
+                                            <strong>98.92</strong>
+                                        </div>
+                                    </div>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
 
-                    <div class="cop_cont_wrap">
+                    <div class="cop_cont_wrap kr_t">
                         <div class="cop_cont_inner">
                             <div class="cop_cont_tit">
                                 <span>미래 성장성 예측</span>
@@ -179,7 +254,7 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
                                 <div class="cop_cont_grp_inner">
                                     <div class="cop_cont_grp">
 <div class="growth-chart-wrap">
-  <canvas id="growthChart"></canvas>
+  <canvas id="growthChartKr"></canvas>
 </div>
                                     </div>
                                     <div class="cop_cont_grp_detail">
@@ -287,6 +362,129 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
                             </div>
                         </div>
                     </div>
+                    <div class="cop_cont_wrap en_t">
+                        <div class="cop_cont_inner">
+                            <div class="cop_cont_tit">
+                                <span>Growth Potential Forecast</span>
+                            </div>
+                            <div class="cop_cont_desc">
+                                <p>
+                                    IBK provides support products tailored to the company’s current growth stage and situation, <br>
+                                    helping it similarly to the growth models of successful benchmark companies.
+                                </p>
+                            </div>
+                            <div class="cop_cont_grp_wrap">
+                                <div class="cop_cont_grp_inner">
+                                    <div class="cop_cont_grp">
+<div class="growth-chart-wrap">
+  <canvas id="growthChartEn"></canvas>
+</div>
+                                    </div>
+                                    <div class="cop_cont_grp_detail">
+                                        <div class="btn_grp_detail">
+                                            <button type="button" class="btn_detail">
+                                                <span>View Details</span>
+                                            </button>
+                                        </div>
+                                        <div class="cop_logo">
+                                            <img src="../../resources/images/search_result_08.jpg">
+                                        </div>
+                                        <div class="grp_tg_bar">
+                                            <div class="grd_bar"></div>
+                                            <div class="point">
+                                                <span class="dotd"></span>
+                                                <span class="line"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="apply_prd">
+                                <div class="apply_prd_tit"> 
+                                    <div class="apply_img">
+                                        <img src="../../resources/images/search_result_08.jpg">
+                                    </div>
+                                    <div class="apply_text">
+                                        <span>Recommended Support Products</span>
+                                    </div>
+                                </div>
+                                <div class="apply_prd_list">
+                                    <div class="step_03_resilt">
+                                        <div class="step_03_resilt_list">
+                                            <div class="logo_box">
+                                                <div class="logo_item">
+                                                    <img src="../../resources/images/dollar_3d.png">
+                                                </div>
+                                                <div class="logo_text">
+                                                    <span>Financial Products</span> 
+                                                </div>
+                                            </div>
+                                            <div class="step_resilt_list">
+                                                <ul>
+                                                    <li>
+                                                        <div class="item">
+                                                            <span>Small Business Operating<br>Capital Loans</span>
+                                                            <p>A loan provided to help small and medium-sized enterprises (SMEs) or small business owners secure short-term funds necessary for business operations.</p>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="item">
+                                                            <span>IBK IP Growth<br>Guarantee Loan</span>
+                                                            <p>Guarantee-backed loan to promote small-scale IP financing</p>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="item">
+                                                            <span>Technology Finance<br>Special Program</span>
+                                                            <p>A program developed to enhance growth support for promising, technology-driven companies</p>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="item">
+                                                            <span>IBK venture<br>loan</span>
+                                                            <p>A bridge loan integrating a credit loan and bonds with warrants.</p>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="item">
+                                                            <span>IBK Successful Startup Loan</span>
+                                                            <p>A loan supporting technology development and growth for high-potential, technology-driven startups.</p>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="step_03_resilt_list">
+                                            <div class="logo_box">
+                                                <div class="logo_item">
+                                                    <img src="../../resources/images/gift_3d.png">
+                                                </div>
+                                                <div class="logo_text">
+                                                    <span>Non-Financial Products</span>
+                                                </div>
+                                            </div>
+                                            <div class="step_resilt_list">
+                                                <ul>
+                                                    <li>
+                                                        <div class="item">
+                                                            <span>Management<br>Consulting</span>
+                                                            <p>Assists Small to Medium Business with task-specific solutions in key areas such as strategy, HR/organization, management, and production.</p>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="item">
+                                                            <span>Patent<br>Consulting</span>
+                                                            <p>Provides patent consulting, including diagnostics and improvement recommendations.</p>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -315,34 +513,43 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
                 <div class="logo_box">
                     <img src="../../resources/images/floatin_img_05.png">
                 </div>
-                <div class="detail_info_txt">
+                <div class="detail_info_txt kr_t">
                     <span class="top">워터베이션</span>
                     <span class="bot">전기·기계·장비</span>
+                </div>
+                <div class="detail_info_txt en_t">
+                    <span class="top">Watervation</span>
+                    <span class="bot">E&M Equipment</span>
                 </div>
             </div>
 
             <div class="detail_tab">
                 <button type="button" class="detail_tab_btn tab_item_01 on">
-                    <span>기업 개요</span>
+                    <span class="kr_t">기업 개요</span>
+                    <span class="en_t">Company Overview</span>
                 </button>
                 <button type="button" class="detail_tab_btn tab_item_02">
-                    <span>재무 정보</span>
+                    <span class="kr_t">재무 정보</span>
+                    <span class="en_t">Financial Information</span>
                 </button>
                 <button type="button" class="detail_tab_btn tab_item_03">
-                    <span>투자 정보</span>
+                    <span class="kr_t">투자 정보</span>
+                    <span class="en_t">Investment Information</span>
                 </button>
                 <button type="button" class="detail_tab_btn tab_item_04">
-                    <span>제품·서비스</span>
+                    <span class="kr_t">제품·서비스</span>
+                    <span class="en_t">Products/Services</span>
                 </button>
                 <button type="button" class="detail_tab_btn tab_item_05">
-                    <span>기술 정보</span>
+                    <span class="kr_t">기술 정보</span>
+                    <span class="en_t">Technology Information</span>
                 </button>
             </div>
 
             <div class="detail_tab_cont">
                 <div class="inner">
                     <div class="tab_cont cs_01 on">
-                        <div class="inner">
+                        <div class="inner kr_t">
                             <div class="corp_desc_item">
                                 <div class="tit">
                                     <span>대표이사</span>
@@ -386,18 +593,65 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
                                 </div>
                             </div>
                         </div>
+                        <div class="inner en_t">
+                            <div class="corp_desc_item">
+                                <div class="tit">
+                                    <span>CEO</span>
+                                </div>
+                                <div class="desc">
+                                    <p>Jang Yoon-young</p>
+                                </div>
+                            </div>
+                            <div class="corp_desc_item">
+                                <div class="tit">
+                                    <span>Date of Est.</span>
+                                </div>
+                                <div class="desc">
+                                    <p>2022-03-03</p>
+                                </div>
+                            </div>
+                            <div class="corp_desc_item">
+                                <div class="tit">
+                                    <span>Business Areas</span>
+                                </div>
+                                <div class="desc">
+                                    <p>E&M Equipment</p>
+                                </div>
+                            </div>
+                            <div class="corp_desc_item ty_02">
+                                <div class="tit">
+                                    <span>Company Profile</span>
+                                </div>
+                                <div class="desc">
+                                    <p>
+                                        Watervation is a Korean company that provides eco-friendly air-purification and greenhouse-gas reduction solutions using a water-filter technology, instead of conventional filter-based systems.The company circulates water using pressure differences rather than steam pumps, and employs a proprietary technology that atomizes water and sprays it through centrifugal force. Through this approach, Watervation aims to reduce energy consumption and eliminate filter-waste issues.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="corp_desc_item ty_02">
+                                <div class="tit">
+                                    <span>Main Products</span>
+                                </div>
+                                <div class="desc">
+                                    <p>Air sterilzation device using water spray</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="tab_cont cs_02">
                         <div class="inner">
                             <div class="tab_round_ty">
                                 <button type="button" class="tab_btn rd_tab_01 on">
-                                    <span>전체</span>
+                                    <span class="kr_t">전체</span>
+                                    <span class="en_t">Total</span>
                                 </button>
                                 <button type="button" class="tab_btn rd_tab_02">
-                                    <span>재무상태표</span>
+                                    <span class="kr_t">재무상태표</span>
+                                    <span class="en_t">Balance Sheet</span>
                                 </button>
                                 <button type="button" class="tab_btn rd_tab_03">
-                                    <span>손익계산서</span>
+                                    <span class="kr_t">손익계산서</span>
+                                    <span class="en_t">Income Statement</span>
                                 </button>
                             </div>
                             <div class="tab_round_cont rd_tab_cont_01 on">
@@ -425,7 +679,7 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
                                                 <div class="fin_year">2022</div>
                                             </div>
                                         </div>
-                                        <div class="lg_list">
+                                        <div class="lg_list kr_t">
                                             <div class="lg_item">
                                                 <span class="cl_cir cl_01"></span>
                                                 <span class="lg_tit">자산</span>
@@ -451,9 +705,35 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
                                                 <span class="lg_tit">당기순이익</span>
                                             </div>
                                         </div>
+                                        <div class="lg_list en_t">
+                                            <div class="lg_item">
+                                                <span class="cl_cir cl_01"></span>
+                                                <span class="lg_tit">assets</span>
+                                            </div>
+                                            <div class="lg_item">
+                                                <span class="cl_cir cl_02"></span>
+                                                <span class="lg_tit">liabilities</span>
+                                            </div>
+                                            <div class="lg_item">
+                                                <span class="cl_cir cl_03"></span>
+                                                <span class="lg_tit">capital</span>
+                                            </div>
+                                            <div class="lg_item">
+                                                <span class="cl_cir cl_04"></span>
+                                                <span class="lg_tit">sales</span>
+                                            </div>
+                                            <div class="lg_item">
+                                                <span class="cl_cir cl_05"></span>
+                                                <span class="lg_tit">operating profit</span>
+                                            </div>
+                                            <div class="lg_item">
+                                                <span class="cl_cir cl_06"></span>
+                                                <span class="lg_tit">net profit</span>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="fin_table_box">
-                                        <div class="fin_table_inner">
+                                        <div class="fin_table_inner kr_t">
                                             <div class="table_sub">
                                                 <span>(단위:백만원)</span>
                                             </div>
@@ -558,13 +838,118 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="fin_table_inner en_t">
+                                            <div class="table_sub">
+                                                <span>(USD, Million)</span>
+                                            </div>
+                                            <div class="table_line">
+                                                <div class="t_line year">
+                                                    <div class="t_tit">
+                                                        <span>Year</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>2024</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>2023</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>2022</span>
+                                                    </div>
+                                                </div>
+                                                <div class="t_line fin">
+                                                    <div class="t_tit">
+                                                        <span>assets</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>1,088</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>470</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>174</span>
+                                                    </div>
+                                                </div>
+                                                <div class="t_line fin">
+                                                    <div class="t_tit">
+                                                        <span>liabilities</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>805</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>334</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>160</span>
+                                                    </div>
+                                                </div>
+                                                <div class="t_line fin">
+                                                    <div class="t_tit">
+                                                        <span>capital</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>283</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>136</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>14</span>
+                                                    </div>
+                                                </div>
+                                                <div class="t_line income">
+                                                    <div class="t_tit">
+                                                        <span>sales</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>58</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>0</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>0</span>
+                                                    </div>
+                                                </div>
+                                                <div class="t_line income">
+                                                    <div class="t_tit">
+                                                        <span>operating profit</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>-161</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>-218</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>-91</span>
+                                                    </div>
+                                                </div>
+                                                <div class="t_line income">
+                                                    <div class="t_tit">
+                                                        <span>net profit</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>147</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>-136</span>
+                                                    </div>
+                                                    <div class="t_cont">
+                                                        <span>-54</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="tab_cont cs_03">
-                        <div class="inner">
+                        <div class="inner kr_t">
                             <div class="inve_tab_tit">
                                 <strong>투자유치 현황</strong>
                             </div>
@@ -588,7 +973,7 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
                             </div>
                             <div class="inve_tab_chart">
                                 <div class="year_bar_wrap">
-                                    <canvas id="yearBarChart"></canvas>
+                                    <canvas id="yearBarChartKr"></canvas>
                                 </div>
                             </div>
 
@@ -635,19 +1020,93 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
                                 <strong class="desc">TIPS</strong>
                             </div>
                         </div>
+                        <div class="inner en_t">
+                            <div class="inve_tab_tit">
+                                <strong>Funding Overview</strong>
+                            </div>
+                            <div class="inve_tab_item">
+                                <span class="tit">Latest Funding Stage</span>
+                                <strong class="desc">Seed</strong>
+                            </div>
+                            <div class="inve_tab_list">
+                                <div class="inve_tab_item ty_fl">
+                                    <span class="tit">Total Funding Raised</span>
+                                    <span class="desc">
+                                        $0.54M+
+                                    </span>
+                                </div>
+                                <div class="inve_tab_item ty_fl">
+                                    <span class="tit">Total Investment Rounds</span>
+                                    <span class="desc">
+                                        3
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="inve_tab_chart">
+                                <div class="year_bar_wrap">
+                                    <canvas id="yearBarChartEn"></canvas>
+                                </div>
+                            </div>
+
+                            <div class="inve_detail">
+                                <div class="inve_detail_tit">
+                                    <strong class="tit">Detailed Investment Information</strong>
+                                    <span class="desc">seed (2023-11)</span>
+                                </div>
+                            </div>
+                            <div class="inve_tab_item">
+                                <span class="tit">Amount Raised</span>
+                                <strong class="desc">$0.14M</strong>
+                            </div>
+                            <div class="inve_tab_item">
+                                <span class="tit">Key Investors</span>
+                                <strong class="desc">Korea Social Investment, Hana Financial Group</strong>
+                            </div>
+
+                            <div class="inve_detail">
+                                <div class="inve_detail_tit">
+                                    <span class="desc">seed (2023-09)</span>
+                                </div>
+                            </div>
+                            <div class="inve_tab_item">
+                                <span class="tit">Amount Raised</span>
+                                <strong class="desc">$0.07M</strong>
+                            </div>
+                            <div class="inve_tab_item">
+                                <span class="tit">Key Investors</span>
+                                <strong class="desc">JB Venture</strong>
+                            </div>
+
+                            <div class="inve_detail">
+                                <div class="inve_detail_tit">
+                                    <span class="desc">seed (2023-09)</span>
+                                </div>
+                            </div>
+                            <div class="inve_tab_item">
+                                <span class="tit">Amount Raised</span>
+                                <strong class="desc">$0.34M</strong>
+                            </div>
+                            <div class="inve_tab_item">
+                                <span class="tit">Key Investors</span>
+                                <strong class="desc">TIPS</strong>
+                            </div>
+                        </div>
                     </div>
                     <div class="tab_cont cs_04">
                         <div class="inner">
                             <div class="tab_scroll_l">
                                 <div class="tab_round_ty wid_ty mg_int ">
                                     <button type="button" class="tab_btn rd_tab_01 on">
-                                        <span>모델Z1</span>
+                                        <span class="kr_t">모델Z1</span>
+                                        <span class="en_t">Model Z1</span>
                                     </button>
                                     <button type="button" class="tab_btn rd_tab_02">
-                                        <span>모델ZT1</span>
+                                        <span class="kr_t">모델ZT1</span>
+                                        <span class="en_t">Model ZT1</span>
                                     </button>
                                     <button type="button" class="tab_btn rd_tab_03">
-                                        <span>모델 WT-Scrubber</span>
+                                        <span class="kr_t">모델 WT-Scrubber</span>
+                                        <span class="en_t">Model WT-Scrubber</span>
                                     </button>
                                 </div>
                             </div>
@@ -659,11 +1118,18 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
                                             <div class="img">
                                                 <img src="../../resources/images/corp_detail_img/detail_06/1.png">
                                             </div>
-                                            <div class="text">
+                                            <div class="text kr_t">
                                                 <strong>실내 공기 청정 모델 (소형)</strong>
                                                 <p>
                                                     · 사이즈 : 73*38*38cm<br>
                                                     · 커버 : 15평 기준
+                                                </p>
+                                            </div>
+                                            <div class="text en_t">
+                                                <strong>Indoor Air Purifier System (Small)</strong>
+                                                <p>
+                                                    · Size : 73*38*38cm<br>
+                                                    · Coverage : 50m2
                                                 </p>
                                             </div>
                                         </div>
@@ -677,11 +1143,18 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
                                             <div class="img">
                                                 <img src="../../resources/images/corp_detail_img/detail_06/2.png">
                                             </div>
-                                            <div class="text">
+                                            <div class="text kr_t">
                                                 <strong>산업용 공기 청정 모델1</strong>
                                                 <p>
                                                     · 사이즈 : 150*80*80cm<br>
                                                     · 커버 : 40평 기준
+                                                </p>
+                                            </div>
+                                            <div class="text en_t">
+                                                <strong>Indoor Air Purifier System<br>(Industrial/Barns)</strong>
+                                                <p>
+                                                    · Size : 150*80*80cm<br>
+                                                    · Coverage : 331m2
                                                 </p>
                                             </div>
                                         </div>
@@ -695,13 +1168,22 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
                                             <div class="img">
                                                 <img src="../../resources/images/corp_detail_img/detail_06/3.png">
                                             </div>
-                                            <div class="text">
+                                            <div class="text kr_t">
                                                 <strong>
                                                     산업용 공기 청정 모델2<br>
                                                     <span>친환경 스크러버 적용 모델</span>
                                                 </strong>
                                                 <p>
                                                     · 사이즈 : 120*50*50cm
+                                                </p>
+                                            </div>
+                                            <div class="text en_t">
+                                                <strong>
+                                                    Industrial Model<br>(Scrubbers/ Wet Tower)<br>
+                                                    <span>Wet tower solutions applied in High-emitting Facilities</span>
+                                                </strong>
+                                                <p>
+                                                    · Size : 120*50*50cm (Customization Available) 
                                                 </p>
                                             </div>
                                         </div>
@@ -711,10 +1193,13 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
                         </div>
                     </div>
                     <div class="tab_cont cs_05">
-                        <div class="inve_tab_tit">
+                        <div class="inve_tab_tit kr_t">
                             <strong>특허</strong>
                         </div>
-                        <div class="inve_tab_list">
+                        <div class="inve_tab_tit en_t">
+                            <strong>Patent</strong>
+                        </div>
+                        <div class="inve_tab_list kr_t">
                             <div class="inve_tab_item ty_fl ty_sz_s">
                                 <span class="tit">등록 특허</span>
                                 <span class="desc">
@@ -746,6 +1231,38 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
                                 </span>
                             </div>
                         </div>
+                        <div class="inve_tab_list en_t">
+                            <div class="inve_tab_item ty_fl ty_sz_s">
+                                <span class="tit">Registered Patent</span>
+                                <span class="desc">
+                                    5
+                                </span>
+                            </div>
+                            <div class="inve_tab_item ty_fl ty_sz_s">
+                                <span class="tit">Patent Application</span>
+                                <span class="desc">
+                                    6
+                                </span>
+                            </div>
+                            <div class="inve_tab_item ty_fl ty_sz_s">
+                                <span class="tit">Design·Trademark Patent</span>
+                                <span class="desc">
+                                    2
+                                </span>
+                            </div>
+                            <div class="inve_tab_item ty_fl ty_sz_s">
+                                <span class="tit">Technology development</span>
+                                <span class="desc">
+                                    1
+                                </span>
+                            </div>
+                            <div class="inve_tab_item ty_fl ty_sz_s">
+                                <span class="tit">Certification</span>
+                                <span class="desc">
+                                    1
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -762,7 +1279,7 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
             <span></span>
         </button>
 
-        <div class="tech_ra_tit">
+        <div class="tech_ra_tit kr_t">
             <div class="svg_wrap">
                 <div class="svg_box">
                     <img src="../../resources/images/credit_ga.png">
@@ -787,26 +1304,56 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
                 </div>
             </div>
         </div>
+        <div class="tech_ra_tit en_t">
+            <div class="svg_wrap">
+                <div class="svg_box">
+                    <img src="../../resources/images/credit_ga.png">
+                </div>
+                <div class="ga_item_info">
+                    <span class="top">T6</span>
+                    <span class="bot">(Average)</span>
+                    <span class="dot_b"></span>
+                </div>
+            </div>
+            <div class="cop_pop_tit">
+                <div class="logo_tit">
+                    <div class="logo_box">
+                        <img src="../../resources/images/search_result_08.jpg">
+                    </div>
+                    <div class="tit_box">
+                        <span>Technology Rating</span>
+                    </div>
+                </div>
+                <div class="logo_desc">
+                    <p>Through the IBK Technology Assessment System, we assess the company’s technological value.</p>
+                </div>
+            </div>
+        </div>
 
         <div class="grp_tab_box">
             <button type="button" class="grp_tab_item on">
                 <div class="grp_tab_btn">
-                    <span>기술 사업 역량</span>
+                    <span class="kr_t">기술 사업 역량</span>
+                    <span class="en_t">Technical Business capability</span>
                 </div>
 
                 <div class="grade">
                     <span class="top">D</span>
-                    <span class="bott">(미흡)</span>
+                    
+                    <span class="bott kr_t">(미흡)</span>
+                    <span class="bott en_t">(Insufficient)</span>
                 </div>
             </button>
             <button type="button" class="grp_tab_item">
                 <div class="grp_tab_btn">
-                    <span>기술 경쟁력</span>
+                    <span class="kr_t">기술 경쟁력</span>
+                    <span class="en_t">technlogy competivness</span>
                 </div>
 
                 <div class="grade">
                     <span class="top">B</span>
-                    <span class="bott">(양호)</span>
+                    <span class="bott kr_t">(양호)</span>
+                    <span class="bott en_t">(Good)</span>
                 </div>
             </button>
         </div>
@@ -822,19 +1369,24 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
                             </div>
                             <div class="radial_btn_list">
                                 <button type="button" class="radial_btn on">
-                                    <span>경영주 역량</span>
+                                    <span class="kr_t">경영주 역량</span>
+                                    <span class="en_t">CEO capabiity</span>
                                 </button>
                                 <button type="button" class="radial_btn">
-                                    <span>관리 능력</span>
+                                    <span class="kr_t">관리 능력</span>
+                                    <span class="en_t">skills<br>managment</span>
                                 </button>
                                 <button type="button" class="radial_btn">
-                                    <span>기술 개발 능력</span>
+                                    <span class="kr_t">기술 개발 능력</span>
+                                    <span class="en_t">Technology<br>development<br>capability</span>
                                 </button>
                                 <button type="button" class="radial_btn">
-                                    <span>제품화 역량</span>
+                                    <span class="kr_t">제품화 역량</span>
+                                    <span class="en_t">commercialization<br>capability</span>
                                 </button>
                                 <button type="button" class="radial_btn">
-                                    <span>수익 전망</span>
+                                    <span class="kr_t">수익 전망</span>
+                                    <span class="en_t">Profit<br>outlook</span>
                                 </button>
                             </div>
                         </div>
@@ -846,13 +1398,16 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
                             </div>
                             <div class="radial_btn_list">
                                 <button type="button" class="radial_btn on">
-                                    <span>기술혁신성</span>
+                                    <span class="kr_t">기술혁신성</span>
+                                    <span class="en_t">technological<br>innovativeness</span>
                                 </button>
                                 <button type="button" class="radial_btn">
-                                    <span>시장현황</span>
+                                    <span class="kr_t">시장현황</span>
+                                    <span class="en_t">Market<br>status</span>
                                 </button>
                                 <button type="button" class="radial_btn">
-                                    <span>제품우위성</span>
+                                    <span class="kr_t">제품우위성</span>
+                                    <span class="en_t">Product<br>superiority</span>
                                 </button>
                             </div>
                         </div>
@@ -979,11 +1534,13 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
                         <img src="../../resources/images/search_result_08.jpg">
                     </div>
                     <div class="tit_box">
-                        <span>성장성 점수</span>
+                        <span class="kr_t">성장성 점수</span>
+                        <span class="en_t">Growth Potential Score</span>
                     </div>
                 </div>
                 <div class="logo_desc">
-                    <p>IBK 기술 평가 시스템을 통해 해당 기업의 기술 가치를 평가합니다.</p>
+                    <p class="kr_t">IBK 기술 평가 시스템을 통해 해당 기업의 기술 가치를 평가합니다.</p>
+                    <p class="en_t">IBK asseses the company’s future growth value through its Technology Assessment System</p>
                 </div>
             </div>
         </div> 
@@ -998,41 +1555,52 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
                             </div>
                             <div class="radial_btn_list ty_02">
                                 <button type="button" class="radial_btn on">
-                                    <span>초기 투자금 <br>유치</span>
+                                    <span class="kr_t">추가 투자금 <br>유치</span>
+                                    <span class="en_t">Attract additional<br>investment</span>
                                 </button>
                                 <button type="button" class="radial_btn">
-                                    <span>정부 출연금 <br>확보</span>
+                                    <span class="kr_t">정부 출연금 <br>확보</span>
+                                    <span class="en_t">Secure government<br>funded support</span>
                                 </button>
                                 <button type="button" class="radial_btn">
-                                    <span>브랜드 <br>홍보 전략</span>
+                                    <span class="kr_t">브랜드 <br>홍보 전략</span>
+                                    <span class="en_t">Brand promotion<br>strategy</span>
                                 </button>
                                 <button type="button" class="radial_btn">
-                                    <span>다양한<br>제휴 체결</span>
+                                    <span class="kr_t">다양한<br>제휴 체결</span>
+                                    <span class="en_t">Establish diverse<br>strategic partnerships</span>
                                 </button>
                                 <button type="button" class="radial_btn">
-                                    <span>외형 지표<br>가시화</span>
+                                    <span class="kr_t">외형 지표<br>가시화</span>
+                                    <span class="en_t">Visualize growth<br>metrics</span>
                                 </button>
                                 <button type="button" class="radial_btn">
-                                    <span>해외 진출<br>활성화
+                                    <span class="kr_t">해외 진출<br>활성화</span>
+                                    <span class="en_t">Accelerate global<br>market expansion</span>
                                 </button>
                                 <button type="button" class="radial_btn">
-                                    <span>우수한<br>인재 유치</span>
+                                    <span class="kr_t">우수한<br>인재 유치</span>
+                                    <span class="en_t">Attracting top-tier<br>professionals</span>
                                 </button>
                                 <button type="button" class="radial_btn">
-                                    <span>높은 기술<br>준비도</span>
+                                    <span class="kr_t">높은 기술<br>준비도</span>
+                                    <span class="en_t">High technology<br>readiness</span>
                                 </button>
                             </div>
                         </div>
                         <div class="grp_lg_info_wrap">
                             <div class="grp_tit_box">
-                                <span>외형 지표 가시화</span>
+                                <span class="kr_t">외형 지표 가시화</span>
+                                <span class="en_t">Visualizing Key Performance Indicators (KPIs)</span>
                             </div>
                             <div class="grp_lg_box">
                                 <div class="lg_item case_01">
-                                    <span>당사</span>
+                                    <span class="kr_t">당사</span>
+                                    <span class="en_t">Company</span>
                                 </div>
                                 <div class="lg_item case_02">
-                                    <span>상위기업</span>
+                                    <span class="kr_t">상위기업</span>
+                                    <span class="en_t">Top Companies</span>
                                 </div>
                             </div>
                         </div>
@@ -1164,9 +1732,13 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
         <button type="button" class="pop_close">
             <span></span>
         </button>
-        <div class="tit">
+        <div class="tit kr_t">
             <strong>부스 위치</strong>
             <p>기술 평가 시스템을 통해 지원받은 업체의 현재와 미래를 직접 확인해보세요.</p>
+        </div>
+        <div class="tit en_t">
+            <strong>Booth Location</strong>
+            <p>View the present and future of companies supported <br>through the Technology Assessment System.</p>
         </div>
         <div class="loca_map">
             <div class="map_inner">
@@ -1186,9 +1758,13 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
 <!-- 성장 자세히보기 프로세스 팝업 -->
 <div class="grow_pop_process step_01">
     <div class="grow_pop_inner grow_pop_process_01">
-        <div class="tit">
+        <div class="tit kr_t">
             <strong>부스 위치</strong>
             <p>기술 평가 시스템을 통해 지원받은 업체의 현재와 미래를 직접 확인해보세요.</p>
+        </div>
+        <div class="tit en_t">
+            <strong>Booth Location</strong>
+            <p>View the present and future of companies supported <br>through the Technology Assessment System.</p>
         </div>
         <div class="loca_map">
             <div class="map_inner">
@@ -1213,10 +1789,15 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
         <div class="box_list">
             <div class="text_box box_01 box-open">
                 <div class="text_01">
-                    <strong>IBK 기술평가시스템 업데이트 중</strong>
-                    <p>
+                    <strong class="kr_t">IBK 기술평가시스템 업데이트 중</strong>
+                    <strong class="en_t">IBK Technology Evaluation System Updating</strong>
+                    <p class="kr_t">
                         <span class="img"><img src="../../resources/images/search_result_08.jpg"></span>
                         성장 데이터 축적 중...
+                    </p>
+                    <p class="en_t">
+                        <span class="img"><img src="../../resources/images/search_result_08.jpg"></span>
+                        Collecting growth data…
                     </p>
                 </div>
                 <div class="bot_item ty_01">
@@ -1226,11 +1807,18 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
                 </div>
             </div>
             <div class="text_box box_02">
-                <div class="text_01">
+                <div class="text_01 kr_t">
                     <strong>IBK 기술평가시스템<br>업데이트 완료</strong>
                     <p>
                         지원받은 기업의 성장 데이터는<br>
                         또 다른 기업을 더욱 성장시킬 수 있는 IBK 기술평가시스템의 중요 데이터가 됩니다.
+                    </p>
+                </div>
+                <div class="text_01 en_t">
+                    <strong>IBK Technology Assessment System<br>has been successfully updated</strong>
+                    <p>
+                        The data of supported companies serves as essential input for the <br>
+                        IBK Technology Assessment System, helping the growth of even more businesses.
                     </p>
                 </div>
                 <div class="bot_item ty_02">
@@ -1238,9 +1826,18 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
                         <video src="../../resources/images/grow.mp4" autoplay muted loop playsinline></video>
                     </div>
                     <div class="rst_btn">
-                        <button type="button" class="btn_item loca_pop_open"><span>부스 위치 다시보기</span></button>
-                        <a href="../gate01/gate_01.html" target="_self" class="btn_item"><span>다른 기업 지원하러 가기</span></a>
-                        <a href="../main.html" target="_self" class="btn_item"><span>처음으로 가기</span></a>
+                        <button type="button" class="btn_item loca_pop_open">
+                            <span class="kr_t">부스 위치 다시보기</span>
+                            <span class="en_t">View Booth Location Again</span>
+                        </button>
+                        <a href="../gate01/gate_01.html" target="_self" class="btn_item">
+                            <span class="kr_t">다른 기업 지원하러 가기</span>
+                            <span class="en_t">Support Another Company</span>
+                        </a>
+                        <a href="../main.html" target="_self" class="btn_item">
+                            <span class="kr_t">처음으로 가기</span>
+                            <span class="en_t">Return to Home</span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -2708,6 +3305,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
 <!-- 투자정보 그래프 -->
  <script>
+/*****************************************
+ * px ↔ vw 유틸 (전역 PX_TO_VW 필요)
+ *****************************************/
+if (typeof PX_TO_VW === 'undefined') {
+  // 다른 곳에서 이미 선언했으면 이 부분은 무시됨
+  window.PX_TO_VW = 0.0260; // 1px -> 0.0260vw
+}
+
 // vw → 실제 px
 function vwToPx(vw) {
   return window.innerWidth * (vw / 100);
@@ -2715,32 +3320,90 @@ function vwToPx(vw) {
 
 // 디자인 px → 현재 해상도 기준 실제 px
 function designPxToRealPx(px) {
-  const vw = px * PX_TO_VW; // PX_TO_VW = 0.0260 전역에 선언돼 있어야 함
+  const vw = px * PX_TO_VW;
   return vwToPx(vw);
 }
 
-document.addEventListener('DOMContentLoaded', function(){
-  if(typeof Chart === 'undefined') return;
+/*****************************************
+ * 언어 판별 (body id: lang_kr / lang_en)
+ *****************************************/
+function getCurrentLangFromBody() {
+  const id = (document.body.id || '').toLowerCase();
+  if (id.indexOf('lang_en') !== -1) return 'en';
+  return 'kr';
+}
 
-  const ctx = document.getElementById('yearBarChart').getContext('2d');
+/*****************************************
+ * 전역 인스턴스(언어별 1개씩)
+ *****************************************/
+window.yearBarChartKrInstance = null;
+window.yearBarChartEnInstance = null;
 
-  // 연도 / 값 / 레이블(비공개)
-  const labels  = ['2019','2020','2021','2022','2023','2024','2025'];
-  const values  = [0, 0, 0, 0, 8, 0, 0];          // 2020은 시각적 높이용
-  const isPrivate = [false,false,false,false,false,false,false];
+/*****************************************
+ * 공통 연도 라벨
+ *****************************************/
+const YEAR_BAR_LABELS = ['2019','2020','2021','2022','2023','2024','2025'];
 
-  // 🔹 배경 투명하게 만드는 플러그인
+/*****************************************
+ * 🔹 언어별 값 / 비공개 여부 / y축 범위 분리
+ *****************************************/
+// 👉 실제 값으로 교체해서 사용하세요
+const YEAR_BAR_VALUES_KR   = [0, 0, 0, 0, 8, 0, 0];
+const YEAR_BAR_VALUES_EN   = [0, 0, 0, 0, 0.55, 0, 0];
+
+const YEAR_BAR_PRIVATE_KR  = [false,false,false,false,false,false,false];
+const YEAR_BAR_PRIVATE_EN  = [false,false,false,false,false,false,false];
+
+// 👉 y축 범위도 언어별로 다르게
+const YEAR_BAR_Y_MIN_KR = 0;
+const YEAR_BAR_Y_MAX_KR = 10;
+
+const YEAR_BAR_Y_MIN_EN = 0;
+const YEAR_BAR_Y_MAX_EN = 0.8; // 예시값, 필요에 맞게 수정
+
+/*****************************************
+ * 차트 생성 함수 (언어별)
+ *****************************************/
+function createYearBarChart(canvasId, lang) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return null;
+  if (typeof Chart === 'undefined') return null;
+
+  /************************************
+   * 🔸 높이 고정: 815px → 21.19vw
+   ************************************/
+  const DESIGN_HEIGHT_PX = 815;
+  const heightVw = DESIGN_HEIGHT_PX * PX_TO_VW; // 815 * 0.0260 = 21.19
+  canvas.style.height = heightVw.toFixed(2) + 'vw';
+
+  // responsive + maintainAspectRatio:false 일 때 CSS height 기준으로 잡히지만,
+  // 혹시 모를 상황 대비해서 attribute도 한 번 맞춰 줌
+  requestAnimationFrame(() => {
+    if (!canvas.height) {
+      canvas.height = canvas.clientHeight;
+    }
+  });
+
+  const ctx = canvas.getContext('2d');
+
+  // 🔸 언어별 데이터 / 비공개 / y축 범위 선택
+  const values = (lang === 'en') ? YEAR_BAR_VALUES_EN   : YEAR_BAR_VALUES_KR;
+  const priv   = (lang === 'en') ? YEAR_BAR_PRIVATE_EN  : YEAR_BAR_PRIVATE_KR;
+  const yMin   = (lang === 'en') ? YEAR_BAR_Y_MIN_EN    : YEAR_BAR_Y_MIN_KR;
+  const yMax   = (lang === 'en') ? YEAR_BAR_Y_MAX_EN    : YEAR_BAR_Y_MAX_KR;
+
+  // 🔹 배경 투명 플러그인
   const transparentBgPlugin = {
     id: 'transparentBg',
     beforeDraw(chart) {
       const {ctx, width, height} = chart;
       ctx.save();
-      ctx.clearRect(0, 0, width, height); // 캔버스 전체 클리어 → 배경색 없음
+      ctx.clearRect(0, 0, width, height);
       ctx.restore();
     }
   };
 
-  // 막대 위 텍스트(숫자 or "비공개")
+  // 🔹 막대 위 텍스트(숫자 or 비공개/Private)
   const valueLabelPlugin = {
     id: 'valueLabelPlugin',
     afterDatasetsDraw(chart){
@@ -2762,14 +3425,19 @@ document.addEventListener('DOMContentLoaded', function(){
       meta.data.forEach((bar, index) => {
         if (!bar || typeof dataset.data[index] !== 'number') return;
 
-        const isP = isPrivate[index];
+        const isP = priv[index];
         const val = dataset.data[index];
 
-        let labelText = isP ? '비공개' : String(val);
+        let labelText;
+        if (isP) {
+          labelText = (lang === 'en') ? 'Private' : '비공개';
+        } else {
+          labelText = String(val);
+        }
 
         const x = bar.x;
         let y = (val === 0) ? bar.y - offsetZero : bar.y - offsetSmall;
-        if (y < safeTop) y = safeTop; // 위로 잘리지 않게 보정
+        if (y < safeTop) y = safeTop;
 
         ctx.fillText(labelText, x, y);
       });
@@ -2787,10 +3455,10 @@ document.addEventListener('DOMContentLoaded', function(){
   const xTickPad  = designPxToRealPx(40);
   const barRadius = designPxToRealPx(0);
 
-  new Chart(ctx,{
+  const chart = new Chart(ctx,{
     type:'bar',
     data:{
-      labels: labels,
+      labels: YEAR_BAR_LABELS,
       datasets:[{
         data: values,
         borderWidth: 0,
@@ -2799,14 +3467,13 @@ document.addEventListener('DOMContentLoaded', function(){
           const {ctx, chartArea} = chart;
           if (!chartArea) return '#1A65FF';
 
-          // 2020년은 회색
-          if (isPrivate[dataIndex]) {
+          if (priv[dataIndex]) {
             return '#D3D5DB';
           }
 
           const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
-          gradient.addColorStop(0, '#0A498C'); // 아래 진한 파랑
-          gradient.addColorStop(1, '#60BAF5'); // 위 연한 파랑
+          gradient.addColorStop(0, '#0A498C');
+          gradient.addColorStop(1, '#60BAF5');
           return gradient;
         },
         borderRadius: barRadius,
@@ -2844,8 +3511,8 @@ document.addEventListener('DOMContentLoaded', function(){
         },
         y:{
           beginAtZero:true,
-          min:0,
-          max:10,
+          min: yMin,
+          max: yMax,
           ticks:{display:false},
           grid:{
             drawBorder:false,
@@ -2857,10 +3524,57 @@ document.addEventListener('DOMContentLoaded', function(){
         duration:800
       }
     },
-    // 🔹 여기서 두 플러그인 같이 사용
     plugins:[transparentBgPlugin, valueLabelPlugin]
   });
+
+  chart.$lang = lang;
+  return chart;
+}
+
+/*****************************************
+ * 언어별 1번만 생성하는 래퍼
+ *****************************************/
+function ensureYearBarChartKr() {
+  if (window.yearBarChartKrInstance) return;
+  window.yearBarChartKrInstance = createYearBarChart('yearBarChartKr', 'kr');
+}
+
+function ensureYearBarChartEn() {
+  if (window.yearBarChartEnInstance) return;
+  window.yearBarChartEnInstance = createYearBarChart('yearBarChartEn', 'en');
+}
+
+/*****************************************
+ * 초기 로드 + 언어 토글 연동
+ *****************************************/
+document.addEventListener('DOMContentLoaded', function(){
+  if (typeof Chart === 'undefined') return;
+
+  // 현재 body id 기준으로 해당 언어 차트만 먼저 1번 그림
+  const initialLang = getCurrentLangFromBody();
+  if (initialLang === 'en') {
+    ensureYearBarChartEn();
+  } else {
+    ensureYearBarChartKr();
+  }
+
+  // 언어 토글 버튼 클릭 시, 아직 안 그려진 언어만 생성
+  const langBtn = document.querySelector('.btn_lang');
+  if (!langBtn) return;
+
+  langBtn.addEventListener('click', function () {
+    setTimeout(function () {
+      const lang = getCurrentLangFromBody();
+      if (lang === 'en') {
+        ensureYearBarChartEn();
+      } else {
+        ensureYearBarChartKr();
+      }
+    }, 0);
+  });
 });
+
+
 
  </script>
 
