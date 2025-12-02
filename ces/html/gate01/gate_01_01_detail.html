@@ -1530,7 +1530,7 @@ Dewcell Biotherapeutics is a compound word formed from “dew,” the smallest u
                         </div>
 
                         <!-- 2가지인 경우 방사형 대신 바로 대체 -->
-                        <div class="radial_wrap on te_03">
+                        <div class="radial_wrap te_03">
                             <div class="radial_inner">
                                 <canvas id="abilityRadar03"></canvas>
                             </div>
@@ -1846,9 +1846,9 @@ Dewcell Biotherapeutics is a compound word formed from “dew,” the smallest u
                                 <span class="r">(점)</span>
                             </div>
                         </div>
-                        <div class="desc_inner">
+                        <!-- <div class="desc_inner">
                             <p>정부의 지원으로 연구개발에 따른 재정적 부담을 완화하여 지속적인 혁신 활동에 중요한 동력을 제공합니다.</p>
-                        </div>
+                        </div> -->
                         <div class="bar_grp_inner">
                             <div class="skill-bar-wrap">
                                 <canvas id="skillBarChart02"></canvas>
@@ -1988,6 +1988,8 @@ Dewcell Biotherapeutics is a compound word formed from “dew,” the smallest u
 <!-- 상세페이지 미래 성장성 예측 차트 -->
 <script>
 
+let language = "kor";
+let currentCompany = "듀셀바이오테라퓨틱스";
 
 /****************************
  * 공통 유틸 (px → vw 환산)
@@ -2359,7 +2361,7 @@ function getLineWidthPx() {
 // ----------------------
 // 데이터 5개 짜리 (숫자만)
 // ----------------------
-const radarValues = [40, 70, 65, 60, 35]; // [경영주, 관리, 개발, 제품화, 수익]
+let radarValues = []; // [경영주, 관리, 개발, 제품화, 수익]
 
 window.addEventListener('load', function () {
   const ctx = document.getElementById('abilityRadar').getContext('2d');
@@ -2579,8 +2581,8 @@ function vwToPx(vw){return window.innerWidth*(vw/100);}
 function designPxToRealPx(px){const vw=px*PX_TO_VW;return vwToPx(vw);}
 
 // 데이터
-const skillLabels = ['동업종 경험 수준','기술지식 수준','기술경영 관리 능력'];
-const skillValues = [20,70,95]; // 0~100
+let skillLabels = [];
+let skillValues = []; // 0~100
 
 // 리스트별 회색 구분선
 const separatorLinesPlugin = {
@@ -2686,7 +2688,7 @@ window.addEventListener('load', function(){
 
   const barThickness = designPxToRealPx(18);
 
-  new Chart(ctx,{
+  window.skillBarChart = new Chart(ctx,{
     type:'bar',
     data:{
       labels: skillLabels,
@@ -2768,8 +2770,8 @@ const radarLabels8 = [
 ];
 
 // 당사 / 상위기업 값 (0~100) — 실제 값으로 교체해서 사용
-const radarValuesCompany8 = [80, 75, 70, 65, 60, 68, 72, 78]; // 당사
-const radarValuesTop8     = [95, 90, 88, 85, 82, 89, 92, 94]; // 상위기업
+let radarValuesCompany8 = []; // 당사
+let radarValuesTop8     = []; // 상위기업
 
 window.addEventListener('load', function () {
   const canvas = document.getElementById('abilityRadar04'); // ★ 캔버스 id
@@ -2867,15 +2869,18 @@ const skillLabels2  = [
   '5년차차 R&D 금액',
   '특허 출원 건수'
 ];
-const skillValues2  = [100,0,0,0,0]; // 바 길이 퍼센트
-const skillAmounts2 = ['10.5억','0건','0건','0억','0건']; // 가운데 숫자 라벨
+let skillValues2  = [100,0,0,0,0]; // 바 길이 퍼센트
+let skillAmounts2 = ['10.5억','0건','0건','0억','0건']; // 가운데 숫자 라벨
 
+// 2번 차트용 라벨 플러그인 (제목 + 금액, 제목 개행 처리)
 // 2번 차트용 라벨 플러그인 (제목 + 금액, 제목 개행 처리)
 const labelCenterPlugin2 = {
   id: 'labelCenterPlugin2',
   afterDraw(chart) {
-    const {ctx, scales:{y}} = chart;
-    const labels = chart.data.labels;
+    const { ctx, scales: { y } } = chart;
+    const labels  = chart.data.labels || [];
+    const ds      = chart.data.datasets[0] || {};
+    const amounts = ds.amounts || [];   // ★ 여기서 amounts 배열 읽기
 
     const titleFontSize  = designPxToRealPx(33);
     const amountFontSize = designPxToRealPx(28);
@@ -2904,7 +2909,7 @@ const labelCenterPlugin2 = {
       });
 
       // ----- 금액/건수 -----
-      const amount = skillAmounts2[idx] || '';
+      const amount = amounts[idx] || '';   // ★ 여기서 detail 사용
       if (amount) {
         ctx.font = `${amountFontSize}px Pretendard, "Noto Sans KR", sans-serif`;
         ctx.fillText(amount, amountX, cy);
@@ -2935,12 +2940,13 @@ window.addEventListener('load', function(){
   const ctx = canvas.getContext('2d');
   const barThickness = designPxToRealPx(18);
 
-  new Chart(ctx,{
+  window.growthBarChart = new Chart(ctx,{
     type:'bar',
     data:{
       labels: skillLabels2,
       datasets:[{
         data: skillValues2,
+        amounts: skillAmounts2,
         borderWidth: 0,
         backgroundColor(context){
           const {chart} = context;
@@ -3796,3 +3802,9 @@ document.addEventListener('DOMContentLoaded', function(){
  <script>
     
  </script>
+
+ <!-- 프론트 -->
+ <script src="../../resources/js/data.js"></script>
+<script src="../../resources/js/service.js"></script>
+<script src="../../resources/js/view.js"></script>
+<!-- //프론트 -->
