@@ -1882,3 +1882,6 @@ body.kcon-pop-lock{position:fixed;width:100%;overflow:hidden;}
 #lang_en .inve_pop .result span {font-size: 1.12vw;font-weight: 700;}
 #lang_en .inve_pop .q {font-size: 1vw;font-weight: 600;margin-top: 1.5vw;margin-bottom: 2vw;}
 #lang_en .new_pop_l .sp_prod_list .prod_item {padding: 0 0.5vw;}
+#lang_en .kcon_pop .con_l .bot {width: 30.094vw;left: 2.38vw;bottom: 2.302vw;}
+#lang_en .kcon_pop .con_l .info {margin-top: 1.3vw;}
+#lang_en .gate_02.sub [class*="gate_02"] .pg_tit {margin-top: 2vw;}
