@@ -1,0 +1,222 @@
+<!DOCType html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, user-scalable=0">
+<meta name="msapplication-TileColor" content="#4D6EDB">
+<meta property="og:title" content="">
+<meta property="og:description" content="">
+<meta property="og:Type" content="website">
+<meta property="og:image" content="../../resources/images/">
+<title></title>
+<link rel="shortcut icon" href="../../resources/images/" type="image/x-icon">
+<link rel="apple-touch-icon" href="../../resources/images/">
+<link rel="stylesheet" href="../../resources/css/style.css">
+
+<!-- 퍼블리싱 -->
+<script src="../../resources/js/jquery-3.7.1.min.js"></script>
+<script src="../../resources/js/jquery-ui.js"></script>
+<script src="../../resources/js/swiper-bundle.min.js"></script>
+<script src="../../resources/js/chart.js"></script>
+<script src="../../resources/js/gsap.min.js"></script>
+<script src="../../resources/js/siy.js"></script>
+<!-- //퍼블리싱 -->
+</head>
+
+<body>
+<!-- wrap -->
+<div id="wrap" class="com_bg gate_01_main ">
+    <!-- Header -->
+    <header>
+    </header>
+    <!-- //Header -->
+
+    <!-- Container -->
+    <section id="container" class="esg_ty">
+        <div class="snb">
+            <div class="snb_inner">
+                <a href="../main.html" class="logo">
+                    <img src="../../resources/images/logo.png">
+                </a>
+                <div class="menu">
+                    <ul>
+                        <li>
+                            <a href="../main.html" class="menu_item ico_01">메인</a>
+                        </li>
+                        <li>
+                            <a href="../gate01/gate_01_01.html" class="menu_item ico_02">기술 금융 시스템</a>
+                        </li>
+                        <li>
+                            <a href="../gate02/gate_02.html" class="menu_item ico_03">K-콘텐츠 투자</a>
+                        </li>
+                        <li>
+                            <a href="../gate03/gate_03.html" class="menu_item ico_04 active">ESG 정밀진단 시스템</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lang">
+                    <button type="button" class="btn_lang">
+                        <span class="en">English</span>
+                        <span class="kr">한국어</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="contents esg_cont step05" style="visibility: hidden;">
+            <div class="esg_cont_inner">
+                <div class="esg_tit">
+                    <p><span id="selPrdName">NexDrive</span> (<span id="selPrdCategory">자동차</span>)</p>
+                    <strong>ESG 정밀밀진단 최종 보고서</strong>
+                </div>
+
+                <!-- report_panel -->
+                <div class="report_panel">
+                    <!-- data-report : 1 -->
+                    <div data-report="1">
+                        <!-- top -->
+                        <div class="top">
+                            <p class="tit">1. ESG정밀진단 결과</p>
+
+                            <!-- tab_btns -->
+                            <ul class="tab_btns">
+                                <li><button type="button" class="active">종합결과</button></li>
+                                <li><button type="button">분야별 결과</button></li>
+                            </ul>
+                            <!-- //tab_btns -->
+
+                            <!-- current -->
+                            <ul class="current">
+                                <li class="active"></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                            </ul>
+                            <!-- //current -->
+                        </div>
+                        <!-- //top -->
+
+                        <!-- tab_cnts -->
+                        <div class="tab_cnts">
+                            <!-- tab_cnt -->
+                            <div>
+
+                            </div>
+                            <!-- //tab_cnt -->
+                             
+                            <!-- tab_cnt -->
+                            <div>
+
+                            </div>
+                            <!-- //tab_cnt -->
+                        </div>
+                        <!-- //tab_cnts -->
+                    </div>
+                    <!-- //data-report : 1 -->
+
+                    <!-- data-report : 2 -->
+                    <div data-report="2">
+                        <!-- top -->
+                        <div class="top">
+                            <p class="tit">2. ESG 규제 대응 수준 평가 결과</p>
+
+                            <!-- current -->
+                            <ul class="current">
+                                <li></li>
+                                <li class="active"></li>
+                                <li></li>
+                                <li></li>
+                            </ul>
+                            <!-- //current -->
+                        </div>
+                        <!-- //top -->
+
+                    </div>
+                    <!-- //data-report : 2 -->
+
+                    <!-- data-report : 3 -->
+                    <div data-report="3">
+                        <!-- top -->
+                        <div class="top">
+                            <p class="tit">3. TO-BE 이행 가이드</p>
+
+                            <!-- current -->
+                            <ul class="current">
+                                <li></li>
+                                <li></li>
+                                <li class="active"></li>
+                                <li></li>
+                            </ul>
+                            <!-- //current -->
+                        </div>
+                        <!-- //top -->
+
+                    </div>
+                    <!-- //data-report : 3 -->
+                </div>
+                <!-- //report_panel -->
+            </div>
+        </div>
+    </section>
+    <!-- //Container -->
+
+    <!-- Footer -->
+    <footer>
+    </footer>
+    <!-- //Footer -->
+</div>
+<!-- //wrap -->
+
+
+<!-- esg_dim -->
+<div class="esg_dim" style="display:none;"></div>
+<!-- //esg_dim -->
+
+
+<!-- panel_side -->
+<div class="panel_side esg" id="pop01" style="display:none;">
+    <div class="top">
+        <strong class="ico_esg ty_e">온실가스 배출량 감축</strong>
+        <p>온실가스 배출량 (Scope 1&2)이 감소 추세에 있는지 확인하기 위한 지표</p>
+
+        <button type="button" class="btn_panel_close" onclick="closePanel('pop01');"><span class="blind">닫기</span></button>
+    </div>
+    <div class="cnt">
+        <!-- cnt_inner -->
+        <div class="cnt_inner">
+            <!-- btns -->
+            <div class="btns sm">
+                <button type="button" class="btn_save">저장</button>
+            </div>
+            <!-- //btns -->
+        </div>
+        <!-- //cnt_inner -->
+    </div>
+</div>
+<!-- //panel_side -->
+
+<!-- esg_modal -->
+<div class="esg_modal" style="display:none;"></div>
+<!-- //esg_modal -->
+
+<!-- esg_alert -->
+<div class="esg_alert" style="display:none;"></div>
+<!-- //esg_alert -->
+
+
+<script>
+// ------------------------------------------------------------
+// 초기
+// ------------------------------------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+    getHashOfName();
+    gate0304Init();
+});
+window.addEventListener("hashchange", () => {
+    getHashOfName();
+    gate0304Init();
+});
+</script>
+</body>
+</html>

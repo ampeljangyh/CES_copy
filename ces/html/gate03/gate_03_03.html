@@ -1254,6 +1254,18 @@ function animateStep04Panel() {
 // 자연스러운 지그재그 값 생성
 // ------------------------------------------------------------
 function generateZigzagValues(count, min = 70, max = 98, maxStep = 8) {
+    const fragment = getFragment();
+    if (fragment == '2') {
+        min-=5;
+        max-=5;
+    } else if (fragment == '3') {
+        min-=10;
+        max-=10;
+    } else if (fragment == '4') {
+        min-=15;
+        max-=15;
+    }
+
     const values = [];
     let prev = Math.floor((min + max) / 2);
     values.push(prev);
@@ -1330,7 +1342,7 @@ async function runAutoScrollSequence(container, callback) {
 
         // 스크롤
         await gsap.to(container, {
-            scrollTop: group[0].offsetTop - 50,
+            scrollTop: group[0].offsetTop,
             duration: 0.75,
             ease: "power2.out"
         });
@@ -1413,6 +1425,12 @@ document.addEventListener("DOMContentLoaded", () => {
     getHashOfName();
     gate0303Init();
     animateStep04Panel();
+
+    $('#btns01 .btn_esg').on('click', function(){
+        const fragment = getFragment();
+    
+        location.href = 'gate_03_04.html#' + fragment;
+    });
 });
 window.addEventListener("hashchange", () => {
     getHashOfName();

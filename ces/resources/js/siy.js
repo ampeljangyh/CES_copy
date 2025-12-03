@@ -26,6 +26,18 @@ function getHashOfName(fragment) {
     return map[fragment] || '';
 }
 
+// hash → 제품명 변환
+function getHashOfCategory(fragment) {
+    fragment = fragment ? fragment : getFragment();
+    const map = {
+        '1': '자동차',
+        '2': '전기·전자',
+        '3': '바이오·헬스케어',
+        '4': '정보통신·소프트웨어'
+    };
+    return map[fragment] || '';
+}
+
 // panel & overlay DOM 조회
 function getPanelElements(id) {
     return {
@@ -102,6 +114,19 @@ function gate0303Init() {
     const fragment = getFragment();
 
     $('#selPrdName').text(getHashOfName());
+    const $visibleItems = $("[data-visible]");
+    $visibleItems.hide();
+    $visibleItems.filter(`[data-visible="${fragment}"]`).show();
+
+    $(".esg_cont").css("visibility", "");
+}
+
+// gate0304Init
+function gate0304Init() {
+    const fragment = getFragment();
+
+    $('#selPrdName').text(getHashOfName());
+    $('#selPrdCategory').text(getHashOfCategory());
     const $visibleItems = $("[data-visible]");
     $visibleItems.hide();
     $visibleItems.filter(`[data-visible="${fragment}"]`).show();
