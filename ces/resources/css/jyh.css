@@ -921,7 +921,7 @@ body.kcon-pop-lock{position:fixed;width:100%;overflow:hidden;}
 .as_expec_pop .btn_pop_box .btn_pop:active {transform:translateY(0);}
 .as_expec_pop.is-show .inner {animation:expecPopIn 0.35s cubic-bezier(0.22,1,0.36,1);}
 @keyframes expecPopIn {0%{opacity:0;transform:translateY(1.0417vw);}100%{opacity:1;transform:translateY(0);}}
-
+.as_step_box.step_box_01 .s2 .credit_rating_re {margin: 12vw auto 0;}
 /* step_box_02 공통 */
 .as_step_box  {height: 100vw;}
 .as_step_box.step_box_02 {opacity:0;display:none;}
@@ -1404,7 +1404,7 @@ body.kcon-pop-lock{position:fixed;width:100%;overflow:hidden;}
 .loca_pop .loca_pop_inner .tit > strong {color:#FFF;font-size:3.328vw;font-weight:700;letter-spacing:-0.0666vw;}
 .loca_pop .loca_pop_inner .tit > p {color:#FFF;font-size:1.248vw;font-weight:400;letter-spacing:-0.0250vw;margin-top:0.884vw;}
 .loca_pop .loca_map {position:relative;width:44.044vw;height:20.852vw;margin:2.548vw auto 0;}
-.loca_pop .loca_map .img_box > img {mix-blend-mode:screen;height:100%;}
+.loca_pop .loca_map .img_box > img {mix-blend-mode:screen;height:100%;width: 100%; object-fit: cover;}
 .loca_pop .loca_map .pin {position:absolute;width:3.328vw;height:4.316vw;top:0.5vw;left:26vw;opacity:0;transform:translate3d(0,0,0);transform-origin:50% 100%;}
 .loca_pop.is-open .loca_map .pin {animation:pinAppear 0.6s ease forwards;animation-delay:1s;}
 .loca_pop .loca_map .pin > img {height:100%;transform:translate3d(0,0,0) rotateY(0deg);}
@@ -1426,7 +1426,7 @@ body.kcon-pop-lock{position:fixed;width:100%;overflow:hidden;}
 .grow_pop_process .grow_pop_inner .tit > strong {color:#FFF;font-size:3.328vw;font-weight:700;letter-spacing:-0.0666vw;}
 .grow_pop_process .grow_pop_inner .tit > p {color:#FFF;font-size:1.248vw;font-weight:400;letter-spacing:-0.0250vw;margin-top:0.884vw;}
 .grow_pop_process .grow_pop_inner .loca_map {position:relative;width:44.044vw;height:20.852vw;margin:2.548vw auto 0;}
-.grow_pop_process .grow_pop_inner .loca_map .img_box > img {mix-blend-mode:screen;height:100%;}
+.grow_pop_process .grow_pop_inner .loca_map .img_box > img {mix-blend-mode:screen;height:100%;width: 100%; object-fit: cover;}
 .grow_pop_process .grow_pop_inner .loca_map .pin {position:absolute;width:3.328vw;height:4.316vw;top:0.5vw;left:26vw;opacity:0;transform:translate3d(0,0,0);transform-origin:50% 100%;}
 .grow_pop_process.is-open .loca_map .pin {animation:pinAppear 0.6s ease forwards;animation-delay:1s;}
 .grow_pop_process.is-open .loca_map .pin > img {height:100%;transform:translate3d(0,0,0) rotateY(0deg);}
@@ -1451,6 +1451,7 @@ body.kcon-pop-lock{position:fixed;width:100%;overflow:hidden;}
 .grow_pop_process .grow_pop_process_02 .bot_item.ty_02 .img {width:23.348vw;height:13.468vw;margin:0 auto;}
 .grow_pop_process .grow_pop_process_02 .bot_item .img > video {height:100%;object-fit:cover;width:100%;}
 .grow_pop_process.step_02 .mp_bg {position:absolute;top:0;left:0;z-index:-1;opacity:0.6;}
+.grow_pop_process.step_02 .mp_bg >video {width: 100%;height: 100%;object-fit: cover;}
 .grow_pop_process .text_box {opacity:0;display:none;transform:translateY(0.52vw);}
 .grow_pop_process .text_box.box-open {opacity:1;display:block;transform:translateY(0);}
 .grow_pop_process.step_02::before {background:linear-gradient(180deg,rgba(0,0,0,0.00) -9%,#0f1e44 120%);}
@@ -1873,3 +1874,11 @@ body.kcon-pop-lock{position:fixed;width:100%;overflow:hidden;}
 #lang_en .gate_02.sub [class*="gate_02"] .inve_info_list .step_01 .step_01_item>[class*="ico_"]>span {font-size: 1.4vw;}
 #lang_en .gate_02.sub [class*="gate_02"] .inve_info_list .step_01 .step_01_item>.num_box>span {font-weight: 700;margin-right: 0.2vw;}
 #lang_en .gate_02.sub [class*="gate_02"] .inve_info_list .step_03 .box_item .data {font-weight: 600;}
+#lang_en .inve_pop .btn .btn_next span.en_t {display: inline-block;}
+#lang_en .inve_pop .btn .btn_next span.kr_t {display: none;}
+#lang_kr .inve_pop .btn .btn_next span.en_t {display: none;}
+#lang_kr .inve_pop .btn .btn_next span.kr_t {display: inline-block;}
+#lang_en .inve_pop .info .tit {font-size: 1.5vw;}
+#lang_en .inve_pop .result span {font-size: 1.12vw;font-weight: 700;}
+#lang_en .inve_pop .q {font-size: 1vw;font-weight: 600;margin-top: 1.5vw;margin-bottom: 2vw;}
+#lang_en .new_pop_l .sp_prod_list .prod_item {padding: 0 0.5vw;}
