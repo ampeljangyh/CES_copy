@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // -----------------------------
   // 기본 설정 (언어, 회사)
   // -----------------------------
+  const isAsit = (typeof currentCompany !== "undefined" && currentCompany === "에이에스이티");
+
   const bizScores = getBizRadarValues(currentCompany, language);
 
   radarValues = bizScores;
@@ -9,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabButtons = document.querySelectorAll(".grp_tab_box .grp_tab_item");
   const radarBiz   = document.querySelector(".radial_wrap.te_01"); // 기술 사업 역량(5각형)
   const radarTech  = document.querySelector(".radial_wrap.te_02"); // 기술 경쟁력(3각형)
+  const radarBiz2  = document.querySelector(".radial_wrap.te_03");
 
   // ===============================
   // 공통: 코멘트 영역 업데이트
@@ -61,6 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderBizCapabilityView(lang, company) {
+    console.log("!!")
     const data = getBizCapabilityData(lang, company);
     if (!data) return;
 
@@ -125,6 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // 상단 타이틀 / 뱃지 / 바차트 갱신
     const barData = getBizBarDetail(lang, company, idx);   // ← service.js에서 가져옴
+    console.log('barData: ', barData);
     if (barData) {
       const titleEl = document.querySelector(".bar_grp_box_tit .tit");
       const badgeL  = document.querySelector(".badge_box .l");
@@ -297,6 +302,427 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ===============================
+  // 에이에스이티 전용 데이터/뷰
+  // ===============================
+
+  // 5각형 레이더 값 세팅
+  function setRadar5Data(values) {
+    if (window.abilityRadarChart) {
+      window.abilityRadarChart.data.datasets[0].data = values;
+      window.abilityRadarChart.update();
+    } else {
+      // HTML 쪽에서 초기 그릴 때 참조하는 전역값
+      window.radarValues = values;
+    }
+  }
+
+  // 3각형 레이더 값 세팅
+  function setRadar3Data(values) {
+    if (window.abilityRadarChart02) {
+      window.abilityRadarChart02.data.datasets[0].data = values;
+      window.abilityRadarChart02.update();
+    } else {
+      // HTML 스크립트에서 쓰는 전역
+      window.radarValues02 = values;
+    }
+  }
+
+  // 사업성 2-Bar 그래프 값 세팅
+  function setBiz2BarData(values) {
+    if (window.abilityBarChart03) {
+      window.abilityBarChart03.data.datasets[0].data = values;
+      window.abilityBarChart03.update();
+    } else {
+      window.barValues03 = values;
+    }
+  }
+
+    // ASIT: 기업역량 탭용 상단 타이틀 / 뱃지 / barData 기반 막대 그래프
+  function updateAsitCompanyHeaderAndBar(idx) {
+    const barData = getBizBarDetail(language, currentCompany, idx);
+    if (!barData) return;
+
+    const titleEl = document.querySelector(".bar_grp_box_tit .tit");
+    const badgeL  = document.querySelector(".badge_box .l");
+    const badgeR  = document.querySelector(".badge_box .r");
+
+    if (titleEl) titleEl.textContent = barData.title;             // 예: "기업가 정신과 신뢰"
+    if (badgeL)  badgeL.textContent  = barData.grade;             // 예: "B"
+    if (badgeR)  badgeR.textContent  = getGradeLabel(barData.grade); // "(양호)"
+
+    // 여기서 metrics는 service.js에서 만든 세부 항목들
+    updateSkillBarChart(barData.metrics);
+  }
+
+    // ASIT: tit / badge / skillBarChart 공통 업데이트
+  function updateAsitHeaderAndBar(items, grades, idx) {
+    const titleEl = document.querySelector(".bar_grp_box_tit .tit");
+    const badgeL  = document.querySelector(".badge_box .l");
+    const badgeR  = document.querySelector(".badge_box .r");
+
+    const itemName = items[idx] || "";
+    const grade    = grades[idx] || "";
+
+    if (titleEl) titleEl.textContent = itemName;
+    if (badgeL)  badgeL.textContent  = grade;
+    if (badgeR && typeof getGradeLabel === "function") {
+      badgeR.textContent = getGradeLabel(grade);
+    }
+
+    // 선택된 등급 1개를 막대 그래프(0~100)로 표현
+    if (typeof gradeToScore === "function") {
+      const score = gradeToScore(grade);
+      const metrics = [{
+        label: itemName,
+        score: score,
+        detail: ""
+      }];
+      updateSkillBarChart(metrics);
+    }
+  }
+
+    // 기업역량은 이미 getBizBarDetail로 연결해 놨으니까
+  // 기술성 / 시장성 / 사업성만 따로 추가
+
+  // 기술성 탭: service.js의 getTechBarDetail 사용
+  function updateAsitTechHeaderAndBar(idx) {
+    const barData = getTechBarDetail(language, currentCompany, idx);
+    if (!barData) return;
+
+    const titleEl = document.querySelector(".bar_grp_box_tit .tit");
+    const badgeL  = document.querySelector(".badge_box .l");
+    const badgeR  = document.querySelector(".badge_box .r");
+
+    if (titleEl) titleEl.textContent = barData.title;
+    if (badgeL)  badgeL.textContent  = barData.grade;
+    if (badgeR)  badgeR.textContent  = getGradeLabel(barData.grade);
+
+    updateSkillBarChart(barData.metrics);
+  }
+
+  // 시장성 탭: getMarketBarDetail 사용
+  function updateAsitMarketHeaderAndBar(idx) {
+    const barData = getMarketBarDetail(language, currentCompany, idx);
+    if (!barData) return;
+
+    const titleEl = document.querySelector(".bar_grp_box_tit .tit");
+    const badgeL  = document.querySelector(".badge_box .l");
+    const badgeR  = document.querySelector(".badge_box .r");
+
+    if (titleEl) titleEl.textContent = barData.title;
+    if (badgeL)  badgeL.textContent  = barData.grade;
+    if (badgeR)  badgeR.textContent  = getGradeLabel(barData.grade);
+
+    updateSkillBarChart(barData.metrics);
+  }
+
+  // 사업성 탭: getBusinessBarDetail 사용
+  function updateAsitBusinessHeaderAndBar(idx) {
+    const barData = getBusinessBarDetail(language, currentCompany, idx);
+    if (!barData) return;
+
+    const titleEl = document.querySelector(".bar_grp_box_tit .tit");
+    const badgeL  = document.querySelector(".badge_box .l");
+    const badgeR  = document.querySelector(".badge_box .r");
+
+    if (titleEl) titleEl.textContent = barData.title;
+    if (badgeL)  badgeL.textContent  = barData.grade;
+    if (badgeR)  badgeR.textContent  = getGradeLabel(barData.grade);
+
+    updateSkillBarChart(barData.metrics);
+  }
+
+    // 리스트/등급 공통 렌더링 (선택 인덱스 콜백 추가)
+  function renderAsitListAndGrades(items, grades, onChangeIndex) {
+    const itemList  = document.querySelector(".grp_btn_list .list_item:first-child ul");
+    const gradeList = document.querySelector(".grp_btn_list .list_item:last-child ul");
+    if (!itemList || !gradeList) return;
+
+    itemList.innerHTML = items.map((text, i) => `
+      <li>
+        <button type="button"
+                class="list_btn arrow ${i === 0 ? "on" : ""}"
+                data-index="${i}">
+          <span>${text}</span>
+        </button>
+      </li>
+    `).join("");
+
+    gradeList.innerHTML = grades.map((g, i) => `
+      <li>
+        <div class="btn ${i === 0 ? "on" : ""}" data-index="${i}">
+          <span>${g}</span>
+        </div>
+      </li>
+    `).join("");
+
+    const itemButtons  = document.querySelectorAll(".grp_btn_list .list_item:first-child .list_btn");
+    const gradeButtons = document.querySelectorAll(".grp_btn_list .list_item:last-child .btn");
+
+    function syncOn(idx) {
+      itemButtons.forEach((b, i)  => b.classList.toggle("on", i === idx));
+      gradeButtons.forEach((b, i) => b.classList.toggle("on", i === idx));
+      if (typeof onChangeIndex === "function") {
+        onChangeIndex(idx);
+      }
+    }
+
+    itemButtons.forEach((btn, i) => {
+      btn.addEventListener("click", () => syncOn(i));
+    });
+    gradeButtons.forEach((btn, i) => {
+      btn.addEventListener("click", () => syncOn(i));
+    });
+
+    // 초기 0번 선택 반영 → tit / badge / skillBarChart까지 세팅
+    if (items.length > 0) {
+      syncOn(0);
+    }
+  }
+
+  // 기업 역량(삼각형) 탭
+  function renderAsitCompanyView(lang, company) {
+    const korData = COMPANY_DATA_KOR[company];
+    const engData = COMPANY_DATA_ENG[company];
+    if (!korData || !korData.evaluation) return;
+    if (!engData || !engData.evaluation) return;
+
+    let ev;
+    if (lang === 'kor') {
+      ev = korData.evaluation;
+    } else if (lang === 'eng') {
+      ev = engData.evaluation;
+    }
+    const items = ["기업가 정신과 신뢰", "최고 경영자", "경영진"];
+    const grades = [
+      ev.companyCapability.entrepreneurshipTrust.grade,
+      ev.companyCapability.ceo.grade,
+      ev.companyCapability.executives.grade
+    ];
+
+    const values = grades.map(g =>
+      (typeof gradeToScore === "function" ? gradeToScore(g) : 0)
+    );
+
+    // 리스트 선택 시 도형 on + 헤더/바차트 갱신
+    renderAsitListAndGrades(items, grades, function(idx) {
+      if (radarTech) {
+        const radialBtns = radarTech.querySelectorAll(".radial_btn");
+        radialBtns.forEach((b, i) => b.classList.toggle("on", i === idx));
+      }
+      updateAsitCompanyHeaderAndBar(idx);
+    });
+
+    const commentText = lang === 'kor' ? (korData.comments && korData.comments["경영 역량"]) || "" : (engData.comments && engData.comments["경영 역량"]) || "";
+    setComment(commentText);
+
+    // 도형 버튼 → 리스트 버튼 클릭 위임
+    if (radarTech) {
+      const radialBtns = radarTech.querySelectorAll(".radial_btn");
+      radialBtns.forEach((b, i) => b.classList.toggle("on", i === 0));
+
+      const itemButtons = document.querySelectorAll(".grp_btn_list .list_item:first-child .list_btn");
+      radialBtns.forEach((btn, i) => {
+        btn.addEventListener("click", () => {
+          if (itemButtons[i]) itemButtons[i].click();
+        });
+      });
+    }
+
+    setRadar3Data(values);
+  }
+
+  // 기술성(오각형) 탭
+  function renderAsitTechView(lang, company) {
+    const korData = COMPANY_DATA_KOR[company];
+    const engData = COMPANY_DATA_ENG[company];
+    if (!korData || !korData.evaluation) return;
+    if (!engData || !engData.evaluation) return;
+
+    let tech;
+    if (lang === 'kor') {
+      tech = korData.evaluation.technology;
+    } else if (lang === 'eng') {
+      tech = engData.evaluation.technology;
+    }
+    const items = ["개발/수상 실적", "개발 역량", "혁신성", "자립·확장성", "보호 수준"];
+    const grades = [
+      tech.devStatus.grade,
+      tech.devCapability.grade,
+      tech.innovation.grade,
+      tech.independenceExpansion.grade,
+      tech.protection.grade
+    ];
+
+    const values = grades.map(g =>
+      (typeof gradeToScore === "function" ? gradeToScore(g) : 0)
+    );
+
+        renderAsitListAndGrades(items, grades, function(idx) {
+      if (radarBiz) {
+        const radialBtns = radarBiz.querySelectorAll(".radial_btn");
+        radialBtns.forEach((b, i) => b.classList.toggle("on", i === idx));
+      }
+
+      updateAsitTechHeaderAndBar(idx);
+    });
+
+    const commentText = lang === 'kor' ? (korData.comments && korData.comments["기술성"]) || "" : (engData.comments && engData.comments["시장성"]);
+    setComment(commentText);
+
+    if (radarBiz) {
+      const radialBtns = radarBiz.querySelectorAll(".radial_btn");
+      radialBtns.forEach((b, i) => b.classList.toggle("on", i === 0));
+
+      const itemButtons = document.querySelectorAll(".grp_btn_list .list_item:first-child .list_btn");
+      radialBtns.forEach((btn, i) => {
+        btn.addEventListener("click", () => {
+          if (itemButtons[i]) itemButtons[i].click();
+        });
+      });
+    }
+
+    setRadar5Data(values);
+  }
+
+  // 시장성(삼각형) 탭
+  function renderAsitMarketView(lang, company) {
+    const korData = COMPANY_DATA_KOR[company];
+    const engData = COMPANY_DATA_ENG[company];
+    if (!korData || !korData.evaluation) return;
+    if (!engData || !engData.evaluation) return;
+
+    let mkt;
+
+    if(lang === 'kor') {
+      mkt = korData.evaluation.market;
+    } else if (lang === 'eng') {
+      mkt = engData.evaluation.market;
+    }
+
+    const items = ["시장 규모·성장성", "경쟁 상황", "제품 경쟁력"];
+    const grades = [
+      mkt.marketStatus.grade,
+      mkt.competition.grade,
+      mkt.productCompetitiveness.grade
+    ];
+
+    const values = grades.map(g =>
+      (typeof gradeToScore === "function" ? gradeToScore(g) : 0)
+    );
+
+        renderAsitListAndGrades(items, grades, function(idx) {
+      if (radarTech) {
+        const radialBtns = radarTech.querySelectorAll(".radial_btn");
+        radialBtns.forEach((b, i) => b.classList.toggle("on", i === idx));
+      }
+
+      updateAsitMarketHeaderAndBar(idx);
+    });
+
+
+    const commentText = lang === 'kor' ? (korData.comments && korData.comments["시장성"]) || "" : (engData.comments && engData.comments["시장성"]);
+    setComment(commentText);
+
+    if (radarTech) {
+      const radialBtns = radarTech.querySelectorAll(".radial_btn");
+      radialBtns.forEach((b, i) => b.classList.toggle("on", i === 0));
+
+      const itemButtons = document.querySelectorAll(".grp_btn_list .list_item:first-child .list_btn");
+      radialBtns.forEach((btn, i) => {
+        btn.addEventListener("click", () => {
+          if (itemButtons[i]) itemButtons[i].click();
+        });
+      });
+    }
+
+    setRadar3Data(values);
+  }
+
+  // 사업성(2-Bar) 탭
+  function renderAsitBusinessView(lang, company) {
+    const korData = COMPANY_DATA_KOR[company];
+    const engData = COMPANY_DATA_ENG[company];
+    if (!korData || !korData.evaluation) return;
+    if (!engData || !engData.evaluation) return;
+
+    let biz;
+    if (lang === 'kor') {
+      biz = korData.evaluation.business;
+    } else if (lang === 'eng') {
+      biz = engData.evaluation.business;
+    }
+    const items  = ["사업능력", "향후전망"];
+    const grades = [biz.capability.grade, biz.outlook.grade];
+    const values = grades.map(g =>
+      (typeof gradeToScore === "function" ? gradeToScore(g) : 0)
+    );
+
+    renderAsitListAndGrades(items, grades, function(idx) {
+      if (radarBiz2) {
+        const radialBtns = radarBiz2.querySelectorAll(".radial_btn");
+        radialBtns.forEach((b, i) => b.classList.toggle("on", i === idx));
+      }
+      updateAsitBusinessHeaderAndBar(idx);
+    });
+
+    const commentText = lang === 'kor' ? (korData.comments && korData.comments["사업성"]) || "" : (engData.comments && engData.comments["사업성"]) || "";
+    setComment(commentText);
+
+    if (radarBiz2) {
+      const radialBtns = radarBiz2.querySelectorAll(".radial_btn");
+      radialBtns.forEach((b, i) => b.classList.toggle("on", i === 0));
+
+      const itemButtons = document.querySelectorAll(".grp_btn_list .list_item:first-child .list_btn");
+      radialBtns.forEach((btn, i) => {
+        btn.addEventListener("click", () => {
+          if (itemButtons[i]) itemButtons[i].click();
+        });
+      });
+    }
+
+    setBiz2BarData(values);
+  }
+
+  // ASIT용 상단 탭 전환
+  function activateAsitTopTab(index) {
+    // 탭 on/off
+    tabButtons.forEach(btn => btn.classList.remove("on"));
+    if (tabButtons[index]) {
+      tabButtons[index].classList.add("on");
+    }
+
+    // 그래프 on/off
+    [radarBiz, radarTech, radarBiz2].forEach(el => el && el.classList.remove("on"));
+
+    const itemList  = document.querySelector(".grp_btn_list .list_item:first-child ul");
+    const gradeList = document.querySelector(".grp_btn_list .list_item:last-child ul");
+    if (itemList)  itemList.innerHTML  = "";
+    if (gradeList) gradeList.innerHTML = "";
+    setComment("");
+
+    // 0: 기업역량(삼각형) / 1: 기술성(오각형) / 2: 시장성(삼각형) / 3: 사업성(2-Bar)
+    if (index === 0) {
+      if (radarTech) radarTech.classList.add("on");
+      renderAsitCompanyView(language, currentCompany);
+    } else if (index === 1) {
+      if (radarBiz) radarBiz.classList.add("on");
+      document.getElementById('abilityRadar').style.height = '22.1425vw';
+      renderAsitTechView(language, currentCompany);
+    } else if (index === 2) {
+      if (radarTech) radarTech.classList.add("on");
+      renderAsitMarketView(language, currentCompany);
+    } else if (index === 3) {
+      if (radarBiz2) radarBiz2.classList.add("on");
+      renderAsitBusinessView(language, currentCompany);
+    } else {
+      // 기본은 0번
+      if (radarTech) radarTech.classList.add("on");
+      renderAsitCompanyView(language, currentCompany);
+    }
+  }
+
+  // ===============================
   // 상단 탭 전환
   // ===============================
   function activateTopTab(index) {
@@ -329,7 +755,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // 상단 탭 클릭 이벤트
   tabButtons.forEach((btn, idx) => {
     btn.addEventListener("click", () => {
-      activateTopTab(idx);
+      if (isAsit) {
+        activateAsitTopTab(idx);
+      } else {
+        activateTopTab(idx);
+      }
     });
   });
 
@@ -356,31 +786,29 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ===============================
-  // 바 차트 그리기 / 업데이트
-  // ===============================
-  function updateSkillBarChart(metrics) {
-    skillLabels = metrics.map(m => m.label);
-    skillValues   = metrics.map(m => m.score);
+// 바 차트 그리기 / 업데이트
+// ===============================
+function updateSkillBarChart(metrics) {
+  console.log("metrics: ", metrics);
+  // 전역 값 갱신 (나중에 차트 만들 때도 이 값 사용 가능)
+  skillLabels = metrics.map(m => m.label);
+  skillValues = metrics.map(m => m.score);
 
-    // 이미 chart가 생성되어 있을 때 (정상적으로)
-    if (
-      window.skillBarChart &&
-      window.skillBarChart.data &&
-      window.skillBarChart.data.datasets &&
-      window.skillBarChart.data.datasets[0]
-    ) {
-      window.skillBarChart.data.labels = skillLabels;
-      window.skillBarChart.data.datasets[0].data = skillValues;
-      window.skillBarChart.update();
-      return;
-    }
-
-    // ❗ 차트가 없거나 구조가 손상된 경우 → 새로 생성
-    const canvas = document.getElementById("skillBarChart02");
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
+  // 아직 차트 인스턴스가 없거나 구조가 준비 안 되어 있으면 그냥 리턴
+  if (
+    !window.skillBarChart ||
+    !window.skillBarChart.data ||
+    !window.skillBarChart.data.datasets ||
+    !window.skillBarChart.data.datasets[0]
+  ) {
+    return;
   }
+
+  // 여기까지 왔으면 차트가 준비된 상태
+  window.skillBarChart.data.labels = skillLabels;
+  window.skillBarChart.data.datasets[0].data = skillValues;
+  window.skillBarChart.update();
+}
 
   // ===============================
   // 초기 진입 시 기본 탭 활성화
@@ -391,7 +819,12 @@ document.addEventListener("DOMContentLoaded", () => {
       defaultIndex = idx;
     }
   });
-  activateTopTab(defaultIndex);
+
+  if (isAsit) {
+    activateAsitTopTab(defaultIndex);
+  } else {
+    activateTopTab(defaultIndex);
+  }
 
   // ===============================
   // 성장성 레이더 차트 (abilityRadar04)

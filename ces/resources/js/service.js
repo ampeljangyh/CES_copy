@@ -117,25 +117,48 @@ function gradeToScore(grade) {
 }
 
 // 3) 기술사업역량(5각형) 레이더용 점수 배열 가져오기
-//    language는 일단 'kor'만 쓴다고 보고 만듦
 function getBizRadarValues(company, language) {
   let data;
   if (language === "kor") {
     data = COMPANY_DATA_KOR[company];
-  } else if ( language === "eng") {
+  } else if (language === "eng") {
     data = COMPANY_DATA_ENG[company];
   }
-  
-  const biz  = data.bizCapability;
 
-  // [경영주, 관리, 개발, 제품화, 수익] 순서
-  return [
-    gradeToScore(biz.owner.grade),
-    gradeToScore(biz.management.grade),
-    gradeToScore(biz.techDevelopment.grade),
-    gradeToScore(biz.productization.grade),
-    gradeToScore(biz.profit.grade)
-  ];
+  // 데이터 자체가 없으면 그냥 0으로 채워서 리턴
+  if (!data) {
+    return [0, 0, 0, 0, 0];
+  }
+
+  // 1) 기존 회사들: bizCapability가 있는 경우 (듀셀 등)
+  if (data.bizCapability) {
+    const biz = data.bizCapability;
+    return [
+      gradeToScore(biz.owner.grade),
+      gradeToScore(biz.management.grade),
+      gradeToScore(biz.techDevelopment.grade),
+      gradeToScore(biz.productization.grade),
+      gradeToScore(biz.profit.grade)
+    ];
+  }
+
+  // 2) 에이에스이티처럼 bizCapability가 없고 evaluation.companyCapability만 있는 경우
+  const cc = data.evaluation && data.evaluation.companyCapability;
+  if (cc) {
+    // [경영주, 관리, 개발, 제품화, 수익] 자리에 최대한 비슷하게 매핑
+    const grades = [
+      cc.entrepreneurshipTrust && cc.entrepreneurshipTrust.grade, // 경영주
+      cc.ceo && cc.ceo.grade,                                     // 관리 (대표이사)
+      cc.executives && cc.executives.grade,                       // 개발/경영진
+      cc.grade,                                                   // 제품화 (전체 기업역량 등급)
+      cc.grade                                                    // 수익 (전체 기업역량 등급 재사용)
+    ];
+
+    return grades.map(g => gradeToScore(g));
+  }
+
+  // 3) 그래도 없으면 안전하게 0으로 채움
+  return [0, 0, 0, 0, 0];
 }
 
 // 4) 기술경쟁력(3각형) 레이더용 점수 배열 (나중에 쓸 거면)
@@ -213,6 +236,133 @@ const BIZ_BAR_CONFIG = [
   }
 ];
 
+// 에이에스이티 전용 기업역량 바차트 설정
+const ASIT_BIZ_BAR_CONFIG = [
+  {
+    key: "entrepreneurshipTrust",
+    title: "기업가 정신과 신뢰",
+    fields: [
+      { prop: "entrepreneurship", label: "기업가 정신" },
+      { prop: "reliability",      label: "신뢰성" }
+    ]
+  },
+  {
+    key: "ceo",
+    title: "최고 경영자",
+    fields: [
+      { prop: "sameIndustryExperience", label: "동업종 경험" },
+      { prop: "techKnowledge",          label: "기술 지식" },
+      { prop: "techUnderstanding",      label: "기술 이해도" }
+    ]
+  },
+  {
+    key: "executives",
+    title: "경영진",
+    fields: [
+      { prop: "executiveExpertise",           label: "경영진 전문성" },
+      { prop: "executiveCapitalParticipation",label: "경영진 자본 참여도" },
+      { prop: "teamworkWithOwner",           label: "경영주와의 팀워크" }
+    ]
+  }
+];
+
+// 에이에스이티 전용: 기술성 바차트 구성
+const ASIT_TECH_BAR_CONFIG = [
+  {
+    key: "devStatus",
+    title: "기술 개발 현황",
+    fields: [
+      { prop: "devAndAwards",  label: "기술개발 및 수상실적" },
+      { prop: "ipHolding",     label: "지식재산권 등 보유현황" },
+      { prop: "rndInvestment", label: "연구개발 투자" }
+    ]
+  },
+  {
+    key: "devCapability",
+    title: "기술 개발 능력",
+    fields: [
+      { prop: "devOrg",             label: "기술개발 전담조직" },
+      { prop: "techStaff",          label: "기술인력" },
+      { prop: "techStaffManagement",label: "기술인력 관리" }
+    ]
+  },
+  {
+    key: "innovation",
+    title: "기술 혁신성",
+    fields: [
+      { prop: "itemInnovation",   label: "아이템의 혁신성" },
+      { prop: "lifecyclePosition",label: "기술의 수명주기상 위치" }
+    ]
+  },
+  {
+    key: "independenceExpansion",
+    title: "기술자립도 및 확장성",
+    fields: [
+      { prop: "independence", label: "기술의 자립도" },
+      { prop: "rippleEffect", label: "기술적 파급효과" },
+      { prop: "completeness", label: "기술의 완성도" }
+    ]
+  },
+  {
+    key: "protection",
+    title: "기술 보호성",
+    fields: [
+      { prop: "imitationDifficulty", label: "모방의 난이도" },
+      { prop: "protectionLevel",     label: "기술보호" }
+    ]
+  }
+];
+
+// 에이에스이티 전용: 시장성 바차트 구성
+const ASIT_MARKET_BAR_CONFIG = [
+  {
+    key: "marketStatus",
+    title: "시장 현황",
+    fields: [
+      { prop: "marketSize",   label: "시장규모" },
+      { prop: "marketGrowth", label: "시장 성장성" }
+    ]
+  },
+  {
+    key: "competition",
+    title: "경쟁상황",
+    fields: [
+      { prop: "competitionStatus", label: "경쟁 상황" },
+      { prop: "regulation",        label: "법규제 등 제약/장려요인" },
+      { prop: "entryEase",         label: "시장 진입 용이성" }
+    ]
+  },
+  {
+    key: "productCompetitiveness",
+    title: "제품 경쟁력",
+    fields: [
+      { prop: "comparativeAdvantage", label: "경쟁제품과 비교 우위성" }
+    ]
+  }
+];
+
+// 에이에스이티 전용: 사업성 바차트 구성
+const ASIT_BUSINESS_BAR_CONFIG = [
+  {
+    key: "capability",
+    title: "사업능력",
+    fields: [
+      { prop: "productionPlan", label: "생산계획의 타당성" },
+      { prop: "salesPlan",      label: "판매계획의 타당성" },
+      { prop: "salesSecuring",  label: "판매처 확보여부" },
+      { prop: "capitalRaising", label: "자본조달 능력" }
+    ]
+  },
+  {
+    key: "outlook",
+    title: "향후 전망",
+    fields: [
+      { prop: "growthOutlook", label: "성장 전망" },
+      { prop: "profitOutlook", label: "수익 전망" }
+    ]
+  }
+];
+
 // 기술경쟁력(3각형) 서브 항목 정의
 const TECH_BAR_CONFIG = [
   {
@@ -271,16 +421,45 @@ function getBizBarDetail(language, company, index) {
   const korData = COMPANY_DATA_KOR[company];
   const engData = COMPANY_DATA_ENG[company];
 
-  if (!korData) return null;
-  if (!engData) return null;
+  if (!korData || !engData) return null;
 
+  // 에이에스이티: evaluation.companyCapability 세부 항목으로 바차트 구성
+  if (company === "에이에스이티") {
+    const evalData = korData.evaluation && korData.evaluation.companyCapability;
+    if (!evalData) return null;
+
+    console.log('evalData :', evalData);
+
+    const conf = ASIT_BIZ_BAR_CONFIG[index];
+    if (!conf) return null;
+
+    const block = evalData[conf.key];   // entrepreneurshipTrust / ceo / executives
+    if (!block) return null;
+
+    const metrics = conf.fields.map(f => {
+      const g = block[f.prop];          // 예: block.entrepreneurship
+      return {
+        label: f.label,                 // 예: "기업가 정신"
+        grade: g,
+        score: gradeToScore(g)
+      };
+    });
+
+    return {
+      title: conf.title,                // "기업가 정신과 신뢰" 같은 블록 이름
+      grade: block.grade,               // 블록 전체 등급 (B, C 등)
+      metrics                           // 세부 항목들
+    };
+  }
+
+  // 기본 구조(듀셀 등) 처리
   let biz;
-
   if (language === "kor") {
     biz = korData.bizCapability;
   } else if (language === "eng") {
     biz = engData.bizCapability;
   }
+  if (!biz) return null;
 
   const conf = BIZ_BAR_CONFIG[index];
   if (!conf) return null;
@@ -310,22 +489,47 @@ function getBizBarDetail(language, company, index) {
 function getTechBarDetail(language, company, index) {
   const korData = COMPANY_DATA_KOR[company];
   const engData = COMPANY_DATA_ENG[company];
-  
-  if (!korData) return null;
-  if (!engData) return null;
 
-  let tech;
+  if (!korData || !engData) return null;
 
-  if (language === "kor") {
-    tech = korData.techCompetitiveness;
-  } else if (language === "eng") {
-    tech = engData.techCompetitiveness;
+  // 에이에스이티: evaluation.technology 기반
+  if (company === "에이에스이티") {
+    const tech = korData.evaluation && korData.evaluation.technology;
+    if (!tech) return null;
+
+    const conf = ASIT_TECH_BAR_CONFIG[index];
+    if (!conf) return null;
+
+    const block = tech[conf.key];
+    if (!block) return null;
+
+    const metrics = conf.fields.map(f => {
+      const g = block[f.prop];
+      return {
+        label: f.label,
+        score: gradeToScore(g),
+        detail: ""
+      };
+    });
+
+    return {
+      title: conf.title,
+      grade: block.grade,
+      metrics
+    };
   }
+
+  // 기존 회사들: techCompetitiveness + TECH_BAR_CONFIG 그대로 사용
+  const techComp = language === "kor"
+    ? korData.techCompetitiveness
+    : engData.techCompetitiveness;
+
+  if (!techComp) return null;
 
   const conf = TECH_BAR_CONFIG[index];
   if (!conf) return null;
 
-  const block = tech[conf.key];
+  const block = techComp[conf.key];
   if (!block) return null;
 
   const metrics = conf.fields.map(f => {
@@ -334,6 +538,64 @@ function getTechBarDetail(language, company, index) {
       label: f.label,
       grade: g,
       score: gradeToScore(g)
+    };
+  });
+
+  return {
+    title: conf.title,
+    grade: block.grade,
+    metrics
+  };
+}
+
+function getMarketBarDetail(language, company, index) {
+  const korData = COMPANY_DATA_KOR[company];
+  if (company !== "에이에스이티" || !korData || !korData.evaluation) return null;
+
+  const market = korData.evaluation.market;
+  if (!market) return null;
+
+  const conf = ASIT_MARKET_BAR_CONFIG[index];
+  if (!conf) return null;
+
+  const block = market[conf.key];
+  if (!block) return null;
+
+  const metrics = conf.fields.map(f => {
+    const g = block[f.prop];
+    return {
+      label: f.label,
+      score: gradeToScore(g),
+      detail: ""
+    };
+  });
+
+  return {
+    title: conf.title,
+    grade: block.grade,
+    metrics
+  };
+}
+
+function getBusinessBarDetail(language, company, index) {
+  const korData = COMPANY_DATA_KOR[company];
+  if (company !== "에이에스이티" || !korData || !korData.evaluation) return null;
+
+  const biz = korData.evaluation.business;
+  if (!biz) return null;
+
+  const conf = ASIT_BUSINESS_BAR_CONFIG[index];
+  if (!conf) return null;
+
+  const block = biz[conf.key];
+  if (!block) return null;
+
+  const metrics = conf.fields.map(f => {
+    const g = block[f.prop];
+    return {
+      label: f.label,
+      score: gradeToScore(g),
+      detail: ""
     };
   });
 
@@ -479,21 +741,34 @@ function getFinanceViewData(company, lang, mode) {
     });
   });
 
-  // 표용 문자열 데이터
+    // 표용 문자열 데이터
   const tableRows = metrics.map(m => {
     const srcKey = FIN_KEY_MAP[m.key];
 
     const values = years.map(year => {
       const yearData = comp.finance[String(year)] || {};
       const raw = yearData[srcKey];
-      const n   = normalizeFinanceValue(raw);
 
-      if (n == null) {
-        // 숫자 못 뽑는 애들은 전부 비공개 / not disclosed로 통일
-        return langKey === 'kr' ? '비공개' : 'not disclosed';
+      // 1) null / undefined → "-"
+      if (raw == null) {
+        return "-";
       }
 
-      return n.toLocaleString();
+      const text = String(raw).trim();
+
+      // 2) "N/A" (대소문자 무관) → "-"
+      if (text.toUpperCase() === "N/A") {
+        return "-";
+      }
+
+      // 3) 숫자로 파싱 가능한 경우 → 숫자로 포맷해서 표시
+      const n = normalizeFinanceValue(raw);
+      if (n != null) {
+        return n.toLocaleString();
+      }
+
+      // 4) 그 외(비공개, not disclosed, 기타 텍스트) → 원본 텍스트 그대로
+      return text;
     });
 
     return {
@@ -517,20 +792,17 @@ window.getFinanceViewData = getFinanceViewData;
 function normalizeFinanceValue(raw) {
   if (raw == null) return null; // null / undefined
 
-  if (typeof raw === 'string') {
-    const t = raw.trim().toLowerCase();
-
-    // 비공개 계열은 전부 null 취급
-    if (t === '비공개' || t === 'not disclosed' || t === '-') {
-      return null;
-    }
-
-    // 숫자 문자열이면 숫자로 변환
-    const n = Number(raw.replace(/,/g, ''));
-    return Number.isNaN(n) ? null : n;
-  }
-
+  // 숫자는 그대로
   if (typeof raw === 'number') return raw;
 
-  return null;
+  const t = String(raw).trim();
+
+  // N/A (대소문자 무관) 는 차트용으로는 값 없음 처리
+  if (t.toUpperCase() === 'N/A') {
+    return null;
+  }
+
+  // 숫자 문자열이면 숫자로 변환
+  const n = Number(t.replace(/,/g, ''));
+  return Number.isNaN(n) ? null : n;
 }
