@@ -537,7 +537,7 @@ body.kcon-pop-lock{position:fixed;width:100%;overflow:hidden;}
 .gate_02 .kcon_logo{width:auto;height:6.240vw;}
 .gate_02 .kcon_logo>img{height:100%;object-fit:contain;}
 .gate_02 .kcon_desc{color:#FFF;font-size:1.2vw;font-weight:500;line-height:150%;letter-spacing:-0.0406vw;opacity:0.8;margin-top:0.5vw;}
-.gate_02 .kcon_desc .en_t{font-size: 1.1vw;}
+.gate_02 .kcon_desc .en_t{font-size: 1.1vw;line-height: 1.7vw;}
 .gate_02 .kcon_btn{margin-top:1.976vw;}
 .gate_02 .kcon_btn>a{position:relative;display:inline-flex;padding:0.754vw 1.144vw 0.806vw 3.354vw;justify-content:flex-end;align-items:center;border-radius:0.52vw;background:#0071FE;color:#FFF;font-size:1.352vw;font-weight:700;line-height:125%;letter-spacing:0.013vw;}
 .gate_02 .kcon_btn>a::before{content:"";display:inline-block;width:1.664vw;height:1.664vw;position:absolute;left:1.066vw;top:0.806vw;background:url(../images/gate_02/ico_inve.svg) center center/contain no-repeat;}

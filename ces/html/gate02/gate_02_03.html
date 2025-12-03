@@ -1529,8 +1529,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // --------------------------------------------------------------------
 // Chart.js 레이더 차트: 그리드만 먼저, 마지막 단계에서 폴리곤
+//  - px → vw(1px = 0.0260vw) → 다시 실제 px로 변환해서 사용
 // --------------------------------------------------------------------
 var movieRadar = null;
+
+// 디자인 px → 실제 px (vw 비율 사용)
+function radarPx(px) {
+    // 1px = 0.0260vw 기준
+    var vw = px * 0.0260;
+    // vw → 실제 px
+    return window.innerWidth * vw / 100;
+}
 
 /** body id → lang ('kr' | 'en') */
 function getPageLang() {
@@ -1547,26 +1556,39 @@ function getRadarLabelConfig(lang) {
         return {
             labels: ['Scenario', 'Director', 'Cast', 'Production Capability', 'Distribution', 'Investment'],
             font: {
-                size: 20,
+                // 20px → vw 비율 적용 후 실제 px
+                size: radarPx(20),
                 family: 'Pretendard, Noto Sans KR, sans-serif'
             },
             datasetLabel: 'Evaluation',
             // 오른쪽은 0, 왼쪽은 약간만 남겨서 약간 왼쪽으로 붙인 느낌
-            layoutPadding: { top: 5, right: 0, bottom: 5, left: 18 },
-            // 라벨-육각형 사이 간격 최대한 줄이기
-            pointLabelPadding: 0
+            layoutPadding: {
+                top:    radarPx(5),   // 5px
+                right:  radarPx(0),   // 0px 그대로
+                bottom: radarPx(5),   // 5px
+                left:   radarPx(18)   // 18px
+            },
+            // 라벨-육각형 사이 간격 최대한 줄이기 (0px → 그대로)
+            pointLabelPadding: radarPx(10)
         };
     } else {
         // ★ 한글: 기존 느낌 유지 (좌우 균형)
         return {
             labels: ['시나리오', '감독', '배우', '제작사 역량', '배급', '투자'],
             font: {
-                size: 25,
+                // 25px
+                size: radarPx(25),
                 family: 'Pretendard, Noto Sans KR, sans-serif'
             },
             datasetLabel: '평가',
-            layoutPadding: { top: 10, right: 10, bottom: 10, left: 10 },
-            pointLabelPadding: 8
+            layoutPadding: {
+                top:    radarPx(10),  // 10px
+                right:  radarPx(10),  // 10px
+                bottom: radarPx(10),  // 10px
+                left:   radarPx(10)   // 10px
+            },
+            // 8px
+            pointLabelPadding: radarPx(10)
         };
     }
 }
@@ -1607,7 +1629,7 @@ function initMovieRadarBase() {
                 tooltip: { enabled: false }
             },
             layout: {
-                // ★ 언어별 padding 그대로 사용 (숫자든 객체든 그대로 넘김)
+                // ★ 언어별 padding 그대로 사용 (이미 radarPx로 변환된 실제 px 값)
                 padding: cfg.layoutPadding
             },
             scales: {
@@ -1616,7 +1638,7 @@ function initMovieRadarBase() {
                     max: 100,
                     ticks: {
                         display: false,
-                        stepSize: 20
+                        stepSize: 20  // <- 이건 값(0~100) 단위라 px 변환 X
                     },
                     grid: {
                         color: 'rgba(241, 241, 241, 0.6)'
@@ -1626,9 +1648,8 @@ function initMovieRadarBase() {
                     },
                     pointLabels: {
                         color: '#ffffff',
-                        font: cfg.font,
-                        // ★ 라벨과 육각형 간 거리
-                        padding: cfg.pointLabelPadding
+                        font: cfg.font,               // size는 radarPx 적용된 값
+                        padding: cfg.pointLabelPadding // radarPx 적용
                     }
                 }
             }
@@ -1645,7 +1666,7 @@ function applyMovieRadarLang(lang) {
     movieRadar.data.labels = cfg.labels;
     movieRadar.data.datasets[0].label = cfg.datasetLabel;
 
-    // ★ 폰트 / padding / layout 모두 언어에 맞게 교체
+    // ★ 폰트 / padding / layout 모두 언어에 맞게 교체 (이미 radarPx 적용된 값)
     movieRadar.options.scales.r.pointLabels.font    = cfg.font;
     movieRadar.options.scales.r.pointLabels.padding = cfg.pointLabelPadding;
     movieRadar.options.layout.padding               = cfg.layoutPadding;
@@ -1659,15 +1680,17 @@ function animateMovieRadar() {
     var ds = movieRadar.data.datasets[0];
 
     // 데이터 값은 공통
-    ds.data = [81, 50, 60, 60, 55, 60];
+    ds.data = [76, 90, 70, 50, 75, 93];
 
     ds.borderColor = '#1d7bff';
     ds.backgroundColor = 'rgba(29, 123, 255, 0.35)';
-    ds.borderWidth = 4;
+    // 4px → vw 비율
+    ds.borderWidth = radarPx(4);
+    // 8px → vw 비율
     ds.pointBackgroundColor = '#1d7bff';
     ds.pointBorderColor = '#1d7bff';
-    ds.pointRadius = 8;
-    ds.pointHoverRadius = 8;
+    ds.pointRadius = radarPx(8);
+    ds.pointHoverRadius = radarPx(8);
 
     movieRadar.options.animation = {
         duration: 800,
