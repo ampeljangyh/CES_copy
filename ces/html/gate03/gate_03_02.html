@@ -93,7 +93,7 @@
                         <li data-finished="FALSE" data-self="TRUE">
                             <span class="ico_esg ty_e"></span>
                             <span class="txt">온실가스 배출량 감축</span>
-                            <button type="button" class="btn_eval">평가 하기</button>
+                            <button type="button" class="btn_eval" data-ripple="TRUE" data-target="pop01">평가 하기</button>
                         </li>
                         <li data-finished="FALSE">
                             <span class="ico_esg ty_e"></span>
@@ -183,7 +183,7 @@
                         <li data-finished="FALSE" data-self="TRUE">
                             <span class="ico_esg ty_s"></span>
                             <span class="txt">안전보건 관리활동</span>
-                            <button type="button" class="btn_eval">평가 하기</button>
+                            <button type="button" class="btn_eval" data-ripple="TRUE" data-target="pop02">평가 하기</button>
                         </li>
                         <li data-finished="FALSE">
                             <span class="ico_esg ty_s"></span>
@@ -213,7 +213,7 @@
                         <li data-finished="FALSE" data-self="TRUE">
                             <span class="ico_esg ty_g"></span>
                             <span class="txt">ESG정보공시</span>
-                            <button type="button" class="btn_eval">평가 하기</button>
+                            <button type="button" class="btn_eval" data-ripple="TRUE" data-target="pop03">평가 하기</button>
                         </li>
                         <li data-finished="FALSE">
                             <span class="ico_esg ty_g"></span>
@@ -351,8 +351,8 @@
                 </div>
                 <!-- //eval_grid_area -->
 
-                <div class="esg_btns" id="btns02" style="display:none;">
-                    <button type="button" class="btn_esg">평가진행</button>
+                <div class="esg_floating_btns" id="btns01" style="display: none;">
+                    <button type="button" class="btn_esg">지표별 평가등급 확인</button>
                 </div>
             </div>
         </div>
@@ -373,17 +373,332 @@
 
 
 <!-- panel_side -->
-<div class="panel_side" style="display:none;">
+<div class="panel_side esg" id="pop01" style="display:none;">
     <div class="top">
-        <strong>기업 기초정보</strong>
-        <p>당신의 기업 NexDrive의 정보를 선택해주세요.</p>
+        <strong class="ico_esg ty_e">온실가스 배출량 감축</strong>
+        <p>온실가스 배출량 (Scope 1&2)이 감소 추세에 있는지 확인하기 위한 지표</p>
 
-        <button type="button" class="btn_panel_close"><span class="blind">닫기</span></button>
+        <button type="button" class="btn_panel_close" onclick="closePanel('pop01');"><span class="blind">닫기</span></button>
     </div>
     <div class="cnt">
+        <!-- cnt_inner -->
         <div class="cnt_inner">
-            
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>기초 제출 자료</strong>
+                </div>
+
+                <p class="txt">최근 3개년 연료사용 고지서 - 지역난방, 스팀, 전기, 연료별 구매량 (구매금액), 기타 연료 증빙 (고지서)</p>
+            </div>
+            <!-- //info_box -->
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>요청 자료 설명</strong>
+                </div>
+
+                <p class="txt">온실가스 배출량 감소 추세 확인</p>
+            </div>
+            <!-- //info_box -->
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>산출식</strong>
+                </div>
+
+                <p class="txt">(2024년 집약도 / ((2023년 집약도 + 2022년 집약도) / 2)) * 100</p>
+            </div>
+            <!-- //info_box -->
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>진단 데이터</strong>
+                    <span class="ex">단위 : tC02eq/백만톤</span>
+                </div>
+
+                <ul class="info_li">
+                    <li>
+                        <span class="t1">2022년도 집약도</span>
+                        <span class="d1">0.245</span>
+                    </li>
+                    <li>
+                        <span class="t1">2023년도 집약도</span>
+                        <span class="d1">0.199</span>
+                    </li>
+                    <li>
+                        <span class="t1">2024년도 집약도</span>
+                        <span class="d1">0.153</span>
+                    </li>
+                </ul>
+            </div>
+            <!-- //info_box -->
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>진단 결과</strong>
+                </div>
+
+                <div class="info_grid">
+                    <div>
+                        <span class="t1">총 온실가스 감축률</span>
+                        <span class="t2">
+                            <em class="ty1">139.2</em>
+                            <span>%</span>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="t1">성과 (집약도)</span>
+                        <span class="t2">
+                            <em class="ty2">▲ 39.2</em>
+                            <span>%</span>
+                        </span>
+                    </div>
+                    <div class="span">
+                        <span class="t1 lg">진단 점수</span>
+                        <span class="t2 lg">
+                            <em>LO</em>
+                            <span>(0점)</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!-- //info_box -->
+
+            <div class="btns sm">
+                <button type="button" class="btn_save">저장</button>
+            </div>
         </div>
+        <!-- //cnt_inner -->
+    </div>
+</div>
+<!-- //panel_side -->
+
+<!-- panel_side -->
+<div class="panel_side esg" id="pop02" style="display:none;">
+    <div class="top">
+        <strong class="ico_esg ty_s">안전보건 관리 활동</strong>
+        <p>기업이 정기적으로 검증된 ESG 정보를 공시하는지 확인하기 위한 지표</p>
+
+        <button type="button" class="btn_panel_close" onclick="closePanel('pop02');"><span class="blind">닫기</span></button>
+    </div>
+    <div class="cnt">
+        <!-- cnt_inner -->
+        <div class="cnt_inner">
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>기초 제출 자료</strong>
+                </div>
+
+                <p class="txt">최근 3개년 연료사용 고지서 - 지역난방, 스팀, 전기, 연료별 구매량 (구매금액), 기타 연료 증빙 (고지서)</p>
+            </div>
+            <!-- //info_box -->
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>현장 확인 자료</strong>
+                </div>
+
+                <p class="txt">기업 홈페이지 등 관련 자료 캡쳐, 지속가능경영보고서</p>
+            </div>
+            <!-- //info_box -->
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>요청 자료 설명</strong>
+                </div>
+
+                <p class="txt">온실가스 배출량 감소 추세 확인</p>
+            </div>
+            <!-- //info_box -->
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>Q. 이행 중인 안전보건 관리 활동을 선택해주세요. (복수)</strong>
+                </div>
+
+                <ul class="info_chk_li">
+                    <li>
+                        <label class="chk_min">
+                            <input type="checkbox" name="chk01">
+                            <span>적용항목 없음</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="chk_min">
+                            <input type="checkbox" name="chk01">
+                            <span>안전보건관계자 평가 · 관리실시</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="chk_min">
+                            <input type="checkbox" name="chk01">
+                            <span>사업장 안전보건 사항 관련 종사자 의견 청취</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="chk_min">
+                            <input type="checkbox" name="chk01">
+                            <span>안전보건 위험성 평가</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="chk_min">
+                            <input type="checkbox" name="chk01">
+                            <span>주기적 작업환경측정 실시</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="chk_min">
+                            <input type="checkbox" name="chk01">
+                            <span>화학물질의 MSDS 비치 및 취급자 교육</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="chk_min">
+                            <input type="checkbox" name="chk01">
+                            <span>비상 대응 체계 구축</span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <!-- //info_box -->
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>진단 결과</strong>
+                </div>
+
+                <div class="info_grid">
+                    <div class="span">
+                        <span class="t1">선택된 항목 수</span>
+                        <span class="t2">
+                            <em class="ty1">0</em>
+                            <span>개</span>
+                        </span>
+                    </div>
+                    <div class="span">
+                        <span class="t1 lg">진단 점수</span>
+                        <span class="t2 lg">
+                            <em>LO</em>
+                            <span>(0점)</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!-- //info_box -->
+
+            <div class="btns sm">
+                <button type="button" class="btn_save">저장</button>
+            </div>
+        </div>
+        <!-- //cnt_inner -->
+    </div>
+</div>
+<!-- //panel_side -->
+
+<!-- panel_side -->
+<div class="panel_side esg" id="pop03" style="display:none;">
+    <div class="top">
+        <strong class="ico_esg ty_g">ESG 정보 공시</strong>
+        <p>기업이 정기적으로 검증된 ESG 정보를 공시하는지 확인하기 위한 지표</p>
+
+        <button type="button" class="btn_panel_close" onclick="closePanel('pop03');"><span class="blind">닫기</span></button>
+    </div>
+    <div class="cnt">
+        <!-- cnt_inner -->
+        <div class="cnt_inner">
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>기초 제출 자료</strong>
+                </div>
+
+                <p class="txt">최근 3개년 연료사용 고지서 - 지역난방, 스팀, 전기, 연료별 구매량 (구매금액), 기타 연료 증빙 (고지서)</p>
+            </div>
+            <!-- //info_box -->
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>현장 확인 자료</strong>
+                </div>
+
+                <p class="txt">기업 홈페이지 등 관련 자료 캡쳐, 지속가능경영보고서</p>
+            </div>
+            <!-- //info_box -->
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>요청 자료 설명</strong>
+                </div>
+
+                <p class="txt">온실가스 배출량 감소 추세 확인</p>
+            </div>
+            <!-- //info_box -->
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>Q. ESG 정보를 공시 중에 있습니까?</strong>
+                </div>
+
+                <ul class="info_chk_li">
+                    <li>
+                        <label class="chk_min">
+                            <input type="radio" name="chk01">
+                            <span>ESG 정보 미공시</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="chk_min">
+                            <input type="radio" name="chk01">
+                            <span>ESG 정보 공시 준비 중</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="chk_min">
+                            <input type="radio" name="chk01">
+                            <span>ESG 정보 공시</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="chk_min">
+                            <input type="radio" name="chk01">
+                            <span>검증된 ESG 정보 공시</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="chk_min">
+                            <input type="radio" name="chk01">
+                            <span>정기적으로 검증된 ESG 정보 공시</span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <!-- //info_box -->
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>진단 결과</strong>
+                </div>
+
+                <div class="info_grid">
+                    <div class="span">
+                        <span class="t1 lg">진단 점수</span>
+                        <span class="t2 lg">
+                            <em>LO</em>
+                            <span>(0점)</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!-- //info_box -->
+
+            <div class="btns sm">
+                <button type="button" class="btn_save">저장</button>
+            </div>
+        </div>
+        <!-- //cnt_inner -->
     </div>
 </div>
 <!-- //panel_side -->
@@ -393,6 +708,9 @@
 <div class="esg_modal" style="display:none;"></div>
 <!-- //esg_modal -->
 
+<!-- esg_alert -->
+<div class="esg_alert" style="display:none;"></div>
+<!-- //esg_alert -->
 
 
 <script>
@@ -404,6 +722,9 @@ const rippleDuration = 0.6;
 
 // ★ 미리 로딩한 SVG 텍스트 저장소
 let preloadedSvgText = null;
+
+// ★ self ripple 반복 interval
+let selfRippleInterval = null;
 
 // ------------------------------------------------------------
 // Ripple 생성
@@ -429,6 +750,27 @@ function createRipple(el) {
 }
 
 // ------------------------------------------------------------
+// self 지점 ripple 반복 시작
+// ------------------------------------------------------------
+function startSelfRipple(btn) {
+    if (selfRippleInterval) clearInterval(selfRippleInterval);
+    createRipple(btn);
+    selfRippleInterval = setInterval(() => {
+        createRipple(btn);
+    }, 1000);
+}
+
+// ------------------------------------------------------------
+// self 지점 ripple 정지
+// ------------------------------------------------------------
+function stopSelfRipple() {
+    if (selfRippleInterval) {
+        clearInterval(selfRippleInterval);
+        selfRippleInterval = null;
+    }
+}
+
+// ------------------------------------------------------------
 // 버튼 클릭 애니 + ripple → SVG 완료까지 대기
 // ------------------------------------------------------------
 function autoClickEffect(el, isFirst = false) {
@@ -446,19 +788,19 @@ function autoClickEffect(el, isFirst = false) {
         ease: "power2.out",
         onStart: () => el.classList.add("is-pressed")
     })
-        .to(el, {
-            scale: 1,
-            y: 0,
-            duration: 0.14,
-            ease: "power2.out",
-            onComplete: () => el.classList.remove("is-pressed")
-        })
-        .add(() => {
-            autoTL.pause();
-            loadSvgLoading(el).then(() => {
-                autoTL.resume();
-            });
+    .to(el, {
+        scale: 1,
+        y: 0,
+        duration: 0.14,
+        ease: "power2.out",
+        onComplete: () => el.classList.remove("is-pressed")
+    })
+    .add(() => {
+        autoTL.pause();
+        loadSvgLoading(el).then(() => {
+            autoTL.resume();
         });
+    });
 
     return tl;
 }
@@ -489,10 +831,18 @@ function startWithFirstRipple(selector, delay = 0.75) {
 }
 
 // ------------------------------------------------------------
-// 자동 클릭 시퀀스
+// 🔥 자동 클릭 시퀀스 (보이는 버튼만 포함하도록 수정됨)
 // ------------------------------------------------------------
 function autoClickSequence(selector, delay = 0.75) {
-    const buttons = gsap.utils.toArray(selector);
+
+    // ★ 보이는 버튼만 필터
+    const buttons = gsap.utils
+        .toArray(selector)
+        .filter(btn => {
+            const st = window.getComputedStyle(btn);
+            return st.display !== "none" && btn.offsetWidth > 0 && btn.offsetHeight > 0;
+        });
+
     const tl = gsap.timeline({ paused: true });
 
     buttons.forEach((btn, index) => {
@@ -500,15 +850,18 @@ function autoClickSequence(selector, delay = 0.75) {
         const li = btn.closest("li");
         const isSelf = li?.dataset.self === "TRUE";
         const isFirst = index === 0;
+        
+        tl.call(() => {
+            scrollIntoViewIfNeeded(btn);
+        }, null, at);
 
         if (isSelf) {
             tl.call(() => {
                 pausedAtSelf = true;
                 currentIndex = index;
-                btn.click();
+                startSelfRipple(btn);
                 tl.pause();
             }, null, at);
-
             return;
         }
 
@@ -519,16 +872,32 @@ function autoClickSequence(selector, delay = 0.75) {
 }
 
 // ------------------------------------------------------------
+// 스크롤 시퀀스
+// ------------------------------------------------------------
+function scrollIntoViewIfNeeded(el) {
+    const rect = el.getBoundingClientRect();
+    const vh = window.innerHeight;
+
+    if (rect.top < 0 || rect.bottom > vh) {
+        el.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+    }
+}
+
+// ------------------------------------------------------------
 // self 이후 재개
 // ------------------------------------------------------------
 function resumeAutoClick() {
     if (!pausedAtSelf) return;
     pausedAtSelf = false;
+    stopSelfRipple();
     if (autoTL) autoTL.resume();
 }
 
 // ------------------------------------------------------------
-// SVG 로딩 + 체크 애니 종료 기다리기 (완전 안전 보장)
+// SVG 로딩 + 체크 애니 종료 기다리기
 // ------------------------------------------------------------
 function loadSvgLoading(btn) {
     return new Promise((resolve) => {
@@ -556,37 +925,129 @@ function loadSvgLoading(btn) {
             return;
         }
 
-        check.addEventListener("animationend", () => {
+        resolve();
 
-            // ★ 0.35초 기다렸다가 완료로 전환
-            setTimeout(() => {
-                container.textContent = "완료";
-                li.dataset.finished = "TRUE";
-            }, 300);
-            resolve();
+        check.addEventListener("animationend", () => {
+            container.textContent = "완료";
+            li.dataset.finished = "TRUE";
+
+            // --------------------------------------------------
+            // 🔥 마지막 '보이는' 버튼일 때만 실행되도록 수정됨
+            // --------------------------------------------------
+            const visibleBtns = Array.from(document.querySelectorAll('.btn_eval'))
+                .filter(b => {
+                    const st = window.getComputedStyle(b);
+                    return st.display !== "none" && b.offsetWidth > 0 && b.offsetHeight > 0;
+                });
+
+            const lastVisibleBtn = visibleBtns[visibleBtns.length - 1];
+
+            if (btn === lastVisibleBtn && typeof onAllAnimationComplete === "function") {
+                onAllAnimationComplete(btn);
+            }
+            // --------------------------------------------------
+
         }, { once: true });
 
     });
 }
 
 // ------------------------------------------------------------
-// DOM Ready (SVG preload 끝난 뒤 자동 클릭 시작 보장)
+onAllAnimationComplete = function(btn) {
+    const el = $('#btns01');
+
+    // 이미 애니가 끝나서 화면에 나타난 상태라면 중복 실행 방지
+    if (el.data('shown')) return;
+
+    // display:none → block
+    el.css({
+        display: 'block',
+        opacity: 0,
+        transform: 'translateY(40px)' // 등장 전 살짝 아래
+    });
+
+    // GSAP fade-in + upward motion
+    gsap.to('#btns01', {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power2.out"
+    });
+
+    // 중복 실행 방지 플래그
+    el.data('shown', true);
+};
+
+// ------------------------------------------------------------
+// DOM Ready
 // ------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
 
-    // ★ SVG 완전히 preload — 이후 100% 안전
     fetch("../../resources/images/gate_03/chk_ico_prog.svg")
         .then(r => r.text())
         .then(text => {
             preloadedSvgText = text;
 
-            // preload 완료 후 시작 (중요!)
             autoTL = startWithFirstRipple(".btn_eval", 0.5);
             autoTL.play();
         });
 
     getHashOfName();
     gate0302Init();
+
+    $('.btn_eval').on('click', function(e){
+        e.preventDefault();
+        const $this = $(this);
+        const $li = $this.closest('li');
+        const isSelf = $li.attr('data-self') === 'TRUE';
+        const $prevLi = $li.prev('li');
+        const target = $this.attr('data-target');
+
+        if (isSelf) {
+            if ($prevLi.attr('data-finished') === 'TRUE') {
+                stopSelfRipple();
+                openPanel(target);
+            } else {
+                alert('이전 평가가 진행중입니다.');
+            }
+        } else {
+            if ($prevLi.attr('data-finished') === 'TRUE') {
+                alert('평가가 진행중입니다.');
+            } else {
+                alert('이전 평가가 진행중입니다.');
+            }
+        }
+    });
+
+    $('#pop01 .btn_save').on('click', function(){
+        const $btn = $('.btn_eval[data-target=pop01]');
+        const $li = $btn.closest('li');
+        $btn.text("완료");
+        $li.attr('data-finished','TRUE');
+        closePanel('pop01');
+        currentIndex++;
+        resumeAutoClick();
+    });
+
+    $('#pop02 .btn_save').on('click', function(){
+        const $btn = $('.btn_eval[data-target=pop02]');
+        const $li = $btn.closest('li');
+        $btn.text("완료");
+        $li.attr('data-finished','TRUE');
+        closePanel('pop02');
+        currentIndex++;
+        resumeAutoClick();
+    });
+
+    $('#pop03 .btn_save').on('click', function(){
+        const $btn = $('.btn_eval[data-target=pop03]');
+        const $li = $btn.closest('li');
+        $btn.text("완료");
+        $li.attr('data-finished','TRUE');
+        closePanel('pop03');
+        currentIndex++;
+        resumeAutoClick();
+    });
 });
 
 // ------------------------------------------------------------
@@ -594,7 +1055,6 @@ window.addEventListener("hashchange", () => {
     getHashOfName();
     gate0302Init();
 });
-
 </script>
 </body>
 </html>

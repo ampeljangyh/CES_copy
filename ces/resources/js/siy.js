@@ -43,7 +43,7 @@ function getPanelElements(id) {
 function openPanel(id) {
     const { panel, overlay } = getPanelElements(id);
 
-    [panel, overlay].forEach(el => el.style.display = "block");
+    [panel, overlay].forEach(el => el.style.display = "");
     panel.style.animationName = "panelIn";
     overlay.style.animationName = "overlayIn";
 }
