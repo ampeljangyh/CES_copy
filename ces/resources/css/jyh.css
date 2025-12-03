@@ -1788,7 +1788,7 @@ body.kcon-pop-lock{position:fixed;width:100%;overflow:hidden;}
 #lang_en .inve_tab_list .inve_tab_item.ty_fl .desc {width: 100%;box-sizing: border-box;}
 #lang_en .inve_tab_list .inve_tab_item.ty_sz_s .tit {font-weight: 400;}
 #lang_en .tech_ra_pop .grp_tab_content .radial_box .radial_btn.on {font-weight: 500;}
-#lang_en .tech_ra_pop .grp_tab_content .radial_box .radial_btn {font-weight: 400;font-size: 0.7vw;line-height: 0.8vw;letter-spacing: 0.05vw;}
+#lang_en .tech_ra_pop .grp_tab_content .radial_box .radial_btn {font-weight: 400;font-size: 0.7vw;line-height: 0.8vw;letter-spacing: 0.03vw;}
 #lang_en .tech_ra_pop .grp_tab_content .radial_btn_list>.radial_btn:nth-child(2){right: -4.6vw;top: 5.5vw;}
 #lang_en .tech_ra_pop .grp_tab_content .radial_btn_list>.radial_btn:nth-child(3){right: -2vw;bottom: -4vw;}
 #lang_en .tech_ra_pop .grp_tab_content .radial_btn_list>.radial_btn:nth-child(4){left: -2vw;bottom: -3.5vw;}
@@ -1800,7 +1800,7 @@ body.kcon-pop-lock{position:fixed;width:100%;overflow:hidden;}
 #lang_en .tech_ra_pop .grp_tab_content .radial_box .radial_inner .radial_wrap.te_03 .radial_btn_list>.radial_btn:nth-child(2){bottom: 0.7vw;right: 2.8vw;top: initial;}
 #lang_en .tech_ra_pop .grp_tab_box .grp_tab_item .grp_tab_btn>span{font-size: 1.0vw;}
 #lang_en .tech_go_pop .grp_lg_info_wrap .grp_tit_box{width: 9.0781vw;}
-#lang_en .tech_go_pop .grp_lg_info_wrap .grp_tit_box > span{font-weight: 400;letter-spacing: 0.04vw;font-size: 0.75vw;}
+#lang_en .tech_go_pop .grp_lg_info_wrap .grp_tit_box > span{font-weight: 400;letter-spacing: 0.04vw;font-size: 0.75vw;line-height: 0.95vw;}
 #lang_en .tech_go_pop .grp_lg_box{width: 6.3vw;}
 #lang_en .tech_go_pop .grp_lg_box .lg_item > span{font-weight: 400;letter-spacing: 0.07vw;}
 #lang_en .tech_go_pop .grp_lg_box{width: 7vw;}
@@ -1900,3 +1900,4 @@ body.kcon-pop-lock{position:fixed;width:100%;overflow:hidden;}
 #lang_en .new_pop.new_pop_ty_03 .new_pop_l .sp_prod_list.fl_set .prod_item {padding: 0.5vw 0.5vw 0;}
 #lang_en .as_expec_pop .btn_pop_box .btn_pop {font-weight: 700;}
 #lang_en .btn_box.pop_btn_ty > button {font-weight: 700;}
+#lang_en .tech_ra_pop .grp_tab_content .radial_box .radial_btn.on {letter-spacing: 0;}
