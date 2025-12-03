@@ -28,13 +28,14 @@
     text-align:center;color:#fff;
 }
 
+.esg_select_slide .slide video {position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;}
 .esg_select_slide .slide .txt {
     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
     position:absolute;left:0;top:0;
     width:100%;height:100%;
     z-index:1;
     box-shadow: 0 1px 0 0 #FFF inset, 0 0 20px 0 rgba(217, 229, 254, 0.25), 0 0 20px 0 rgba(217, 229, 254, 0.25);
-    backdrop-filter:blur(25px);
+    /* backdrop-filter:blur(25px); */
 }
 .esg_select_slide .slide .txt .t1 {font-size:96px;font-weight:800;letter-spacing:-1.9px;}
 .esg_select_slide .slide .txt .t2 {font-size:48px;font-weight:500;letter-spacing:-1px;}
@@ -216,16 +217,24 @@
 .eval_grid_area {flex:1 1 auto;overflow-x:hidden;overflow-y:auto;min-height:0;padding:140px 155px;scrollbar-width: none;}
 .eval_grid {display:grid;grid-template-columns: repeat(auto-fill, minmax(510px, auto));gap:80px;}
 .eval_grid > li {
+    overflow: hidden;
+    box-sizing:border-box;
+    height:562px;
+    border: 3px solid transparent;border-radius:45px;
+    background: linear-gradient(#081020, #081020) padding-box, linear-gradient(100deg, #D9E5FE 0%, #CADAFC 40%, #0071FE 100%) border-box;
+    box-shadow: 0 0 20px 4.5px rgba(217, 229, 254, 0.10), 0 0 53.4px 0 rgba(217, 229, 254, 0.10), 0 0 55.5px 0 rgba(217, 229, 254, 0.10), 0 0 24.1px 0 rgba(217, 229, 254, 0.10), 0 0 13.3px 0 rgba(217, 229, 254, 0.10), 0 0 45.9px 0 rgba(217, 229, 254, 0.10);
+}
+
+.eval_grid > li > div {
     display: flex;
+    position: relative;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
     box-sizing:border-box;
-    height:562px;
+    height:100%;
     padding:70px 48px 60px;
-    border: 3px solid transparent;border-radius:45px;
-    background: linear-gradient(#081020, #081020) padding-box, linear-gradient(100deg, #D9E5FE 0%, #CADAFC 40%, #0071FE 100%) border-box;
-    box-shadow: 0 0 20px 4.5px rgba(217, 229, 254, 0.10), 0 0 53.4px 0 rgba(217, 229, 254, 0.10), 0 0 55.5px 0 rgba(217, 229, 254, 0.10), 0 0 24.1px 0 rgba(217, 229, 254, 0.10), 0 0 13.3px 0 rgba(217, 229, 254, 0.10), 0 0 45.9px 0 rgba(217, 229, 254, 0.10);
+    z-index:1;
 }
 
 .eval_grid > li .ico_esg {display:block; width:80px; height:80px; border-radius:50%;}
@@ -237,6 +246,9 @@
 
 .eval_grid > li[data-finished=TRUE] {opacity: 0.5;transition: opacity 0.3s;}
 .eval_grid > li[data-finished=TRUE] .btn_eval {border-color: #BEBEBE;background: rgba(190, 190, 190, 0.17);color:#757575;}
+
+.eval_grid > li {position:relative;}
+.eval_grid > li > img {position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;opacity: 0.2;}
 
 .btn_eval.is-pressed {
     box-shadow: inset 0 0 8px rgba(0,0,0,0.25);
