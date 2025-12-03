@@ -43,7 +43,7 @@ function getPanelElements(id) {
 function openPanel(id) {
     const { panel, overlay } = getPanelElements(id);
 
-    [panel, overlay].forEach(el => el.style.display = "block");
+    [panel, overlay].forEach(el => el.style.display = "");
     panel.style.animationName = "panelIn";
     overlay.style.animationName = "overlayIn";
 }
@@ -87,6 +87,18 @@ function gate0301Init() {
 
 // gate0302Init
 function gate0302Init() {
+    const fragment = getFragment();
+
+    $('#selPrdName').text(getHashOfName());
+    const $visibleItems = $("[data-visible]");
+    $visibleItems.hide();
+    $visibleItems.filter(`[data-visible="${fragment}"]`).show();
+
+    $(".esg_cont").css("visibility", "");
+}
+
+// gate0303Init
+function gate0303Init() {
     const fragment = getFragment();
 
     $('#selPrdName').text(getHashOfName());
