@@ -1267,7 +1267,7 @@ body.kcon-pop-lock{position:fixed;width:100%;overflow:hidden;}
 .tech_ra_pop .grp_tab_content .radial_box .radial_wrap.te_03 .radial_inner {height: 75%;}
 .tech_ra_pop .grp_tab_content .radial_box .radial_inner .radial_wrap.te_03 .radial_btn_list>.radial_btn:nth-child(1) {bottom: 1vw;top: initial;left: 3.6vw;transform: initial;}
 .tech_ra_pop .grp_tab_content .radial_box .radial_inner .radial_wrap.te_03 .radial_btn_list>.radial_btn:nth-child(2) {bottom: 1vw;top: initial;right: 3.3vw;}
-.tech_ra_pop .grp_tab_content .radial_box .grp_btn_list {display:flex;gap:0.468vw;justify-content:space-between;margin:1.5vw -2vw 0;}
+.tech_ra_pop .grp_tab_content .radial_box .grp_btn_list {display:flex;gap:0.468vw;justify-content:space-between;margin:3vw -2vw 0;}
 .tech_ra_pop .grp_btn_list .list_item {display:flex;flex-flow:column;gap:0.156vw;width:100%;}
 .tech_ra_pop .grp_btn_list .list_item .tit {border-radius:0.26vw;background:#111319;text-align:center;padding:0.624vw 0;}
 .tech_ra_pop .grp_btn_list .list_item .tit>span {color:#FFF;text-align:center;font-size:0.832vw;font-weight:800;letter-spacing:-0.0166vw;}
@@ -1819,8 +1819,9 @@ body.kcon-pop-lock{position:fixed;width:100%;overflow:hidden;}
 #lang_en .tab_round_ty .tab_btn {line-height: 1vw;}
 #lang_en .tab_round_ty .tab_btn.on {font-weight: 500;}
 #lang_en .ty_sz_s .tab_round_ty .tab_btn {padding: 0.1vw 0;}
-#lang_en .tech_go_pop .grp_tab_content .radial_box .radial_btn {font-weight: 300;letter-spacing: 0.06vw;line-height: 0.65vw;width: 5vw;}
+#lang_en .tech_go_pop .grp_tab_content .radial_box .radial_btn {font-weight: 300;letter-spacing: 0.04vw;line-height: 0.6vw;width: 4.9vw;}
 #lang_en .tech_go_pop .grp_tab_content .radial_box .radial_btn.on {padding: 0.1vw 0.2vw 0.1vw 0.2vw;font-weight: 600;}
+#lang_en .tech_go_pop .grp_tab_content .radial_box .radial_btn {height: 2.9vw;}
 #lang_en .tech_go_pop .grp_tab_content .radial_btn_list>.radial_btn:nth-child(1) {top: -1vw;}
 #lang_en .card_detail .card_detail_txt > p { font-size: 1.2vw;}
 #lang_en .as_step_box.step_box_03 .re_confirm .inner .btn_box > button {font-weight: 600;}
