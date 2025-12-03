@@ -24,9 +24,17 @@ document.addEventListener("DOMContentLoaded", () => {
   // ===============================
   function getBizCapabilityData(lang, company) {
     const korData = COMPANY_DATA_KOR[company];
+    const engData = COMPANY_DATA_ENG[company];
     if (!korData) return null;
+    if (!engData) return null;
 
-    const biz = korData.bizCapability;
+    let biz;
+
+    if (lang === 'kor') {
+      biz = korData.bizCapability;
+    } else if (lang === 'eng') {
+      biz = engData.bizCapability;
+    }
 
     return {
       items: [
@@ -156,9 +164,17 @@ document.addEventListener("DOMContentLoaded", () => {
   // ===============================
   function getTechCompetitivenessData(lang, company) {
     const korData = COMPANY_DATA_KOR[company];
+    const engData = COMPANY_DATA_ENG[company];
     if (!korData) return null;
+    if (!engData) return null;
 
-    const tech = korData.techCompetitiveness;
+    let tech;
+
+    if (lang === 'kor') {
+      tech = korData.techCompetitiveness;
+    } else if (lang === 'eng') {
+      tech = engData.techCompetitiveness;
+    }
 
     return {
       items: [
@@ -176,8 +192,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function getTechComment(lang, company, itemName) {
     const korData = COMPANY_DATA_KOR[company];
+    const engData = COMPANY_DATA_ENG[company];
     if (!korData || !korData.techComments) return "";
-    return korData.techComments[itemName] || "";
+    if (!engData || !engData.techComments) return "";
+    return lang === 'kor' ? korData.techComments[itemName] || "" : engData.techComments[itemName] || "";
   }
 
   function renderTechCompetitivenessView(lang, company) {
@@ -341,7 +359,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // 바 차트 그리기 / 업데이트
   // ===============================
   function updateSkillBarChart(metrics) {
-    console.log(metrics);
     skillLabels = metrics.map(m => m.label);
     skillValues   = metrics.map(m => m.score);
 
@@ -381,9 +398,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // ===============================
   function updateGrowthRadar(language, company) {
     const data = getGrowthRadarValues(language, company);
-    if (!data) return;
-
     console.log(data);
+    if (!data) return;
 
     radarValuesCompany8 = data.myScores;
     radarValuesTop8   = data.topScores;
@@ -402,9 +418,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateGrowthBarChart(detail) {
     const canvas = document.getElementById("skillBarChart02");
     if (!canvas || !detail) return;
-    console.log("detail.metrics:",detail.metrics);
 
-    const labels = detail.metrics.map(m => m.label);   // "4-7년차투자단계" ...
+    let labels = detail.metrics.map(m => m.label);   // "4-7년차투자단계" ...
     const scores = detail.metrics.map(m => m.score);   // 100, 100, ...
     const amounts = detail.metrics.map(m => m.detail);   // "1.5단계, "0.3건", ...
 
@@ -421,6 +436,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ===============================
   function renderGrowthView(language, company) {
     const model = getGrowthModel(language, company);
+    console.log(model);
     if (!model) return;
 
     // 1) 레이더 차트 값 세팅 / 업데이트 (그래프 버튼 텍스트는 그대로)
@@ -484,11 +500,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const factor = model.factors[idx]; // { name, score, topCompanyScore }
 
-  // 🔹 상단 "외형 지표 가시화" 타이틀 (그 큰 제목)
+  // 상단 "외형 지표 가시화" 타이틀 (그 큰 제목)
   const grpTitle = document.querySelector(".grp_lg_info_wrap .grp_tit_box span");
   if (grpTitle) grpTitle.textContent = factor.name;
 
-  // 🔹 성장성 bar 박스 안에서만 타이틀/점수 찾기
+  // 성장성 bar 박스 안에서만 타이틀/점수 찾기
   const growthCanvas = document.getElementById("skillBarChart02");
   const growthBarBox = growthCanvas ? growthCanvas.closest(".bar_grp_box") : null;
 
@@ -500,8 +516,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (barTitle) barTitle.textContent = factor.name;   // 선택된 요인 이름
     if (badgeL)   badgeL.textContent   = factor.score;  // 혹은 model.totalScore 써도 됨
     if (badgeR)   badgeR.textContent   = "(점)";
-
-    console.log("growth title:", barTitle && barTitle.textContent);
   }
 
   // 바차트 데이터 세팅 (이미 쓰던 거 그대로)
@@ -542,4 +556,303 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener('load', () => {
     renderGrowthView(language, currentCompany);
   });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  initFinanceSection();
+});
+
+/*****************************************
+ *  재무정보: 섹션 초기화
+ *****************************************/
+function initFinanceSection() {
+  const section = document.querySelector('.tab_cont.cs_02');
+  if (!section) return;
+
+  const company =
+    (typeof currentCompany !== 'undefined')
+      ? currentCompany
+      : '듀셀바이오테라퓨틱스';
+
+  const tabBtns = section.querySelectorAll('.tab_round_ty .tab_btn');
+  if (!tabBtns.length) return;
+
+  window.finCharts = window.finCharts || {};
+  const MODES = ['all', 'bs', 'pl'];
+
+  function activateBtn(targetBtn) {
+    tabBtns.forEach(b => b.classList.toggle('on', b === targetBtn));
+  }
+
+  function getModeFromBtn(btn, idx) {
+    if (btn.dataset.mode) return btn.dataset.mode;
+
+    if (btn.classList.contains('rd_tab_02')) return 'bs';
+    if (btn.classList.contains('rd_tab_03')) return 'pl';
+    if (btn.classList.contains('rd_tab_01')) return 'all';
+
+    if (typeof idx === 'number' && MODES[idx]) return MODES[idx];
+    return 'all';
+  }
+
+  // ★★ 여기서 언어는 매번 전역에서 읽어오게 함
+  function getLang() {
+    if (typeof language !== 'undefined') return language;
+    // 혹시 language 전역이 없을 때 대비
+    const bodyLang = (typeof getCurrentLangFromBody === 'function')
+      ? getCurrentLangFromBody()
+      : 'kor';
+    return (bodyLang === 'en') ? 'eng' : 'kor';
+  }
+
+  function render(mode) {
+    const lang = getLang();  // ← 매번 최신 언어 반영
+    console.log('[finance] render mode =', mode, 'lang =', lang);
+
+    const data = getFinanceViewData(company, lang, mode);
+    if (!data) return;
+
+    renderFinanceCharts(section, data);
+    renderFinanceTable(section, data, mode);
+  }
+
+  // 버튼 이벤트 (공통 스크립트 막는 버전 그대로)
+  tabBtns.forEach((btn, idx) => {
+    const mode = getModeFromBtn(btn, idx);
+    btn.dataset.mode = mode;
+
+    btn.addEventListener(
+      'click',
+      function (e) {
+        e.stopPropagation();
+        if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+
+        const clickMode = this.dataset.mode || 'all';
+        console.log('[finance] 탭 클릭:', clickMode);
+
+        activateBtn(this);
+        render(clickMode);
+      },
+      true
+    );
+  });
+
+  // ★★ 언어 변경 시 재렌더링을 위해 전역 함수 하나 노출
+  window.refreshFinanceSection = function () {
+    const activeBtn =
+      section.querySelector('.tab_round_ty .tab_btn.on') || tabBtns[0];
+    const mode = activeBtn ? activeBtn.dataset.mode || 'all' : 'all';
+    render(mode);
+  };
+
+  // 최초 로딩
+  const defaultBtn =
+    section.querySelector('.tab_round_ty .rd_tab_01') || tabBtns[0];
+  if (defaultBtn) {
+    activateBtn(defaultBtn);
+  }
+  render('all');
+}
+
+/*****************************************
+ *  재무 차트 렌더링
+ *****************************************/
+function renderFinanceCharts(section, data) {
+  if (typeof Chart === 'undefined') return;
+
+  // 화면에 보이는 연도 순서 기준으로 매핑
+  // HTML: finChart2022 아래에 "2024", finChart2023 아래에 "2023", finChart2024 아래에 "2022"
+  const canvasIdByYear = {
+    2024: 'finChart2022',
+    2023: 'finChart2023',
+    2022: 'finChart2024'
+  };
+
+  // 전체 값 기준으로 y축 범위 계산
+  let allValues = [];
+  data.years.forEach(year => {
+    const arr = data.chartValuesByYear[year] || [];
+    allValues = allValues.concat(arr);
+  });
+
+  const absVals = allValues.map(v => Math.abs(v));
+  const maxVal  = absVals.length ? Math.max.apply(null, absVals) : 0;
+  const margin  = maxVal * 0.2;
+  const axisMax = maxVal ? Math.ceil((maxVal + margin) / 10) * 10 : 10;
+  const axisMin = -axisMax;
+
+  // 라벨별 색상 매핑 (kr/en 둘 다 지원)
+  const FIN_LABEL_COLOR = {
+    // 한글
+    '자산':       '#E4EDFF',
+    '부채':       '#A9C6FF',
+    '자본':       '#6FAEFF',
+    '매출':       '#2B7CFF',
+    '영업이익':   '#0071FE',
+    '당기순이익': '#0B4EA9',
+    // 영문
+    'assets':           '#E4EDFF',
+    'liabilities':      '#A9C6FF',
+    'capital':          '#6FAEFF',
+    'sales':            '#2B7CFF',
+    'operating profit': '#0071FE',
+    'net profit':       '#0B4EA9'
+  };
+
+  const colors = data.labels.map(label => FIN_LABEL_COLOR[label] || '#2B7CFF');
+
+  const padTop        = designPxToRealPx(20);
+  const padRight      = designPxToRealPx(20);
+  const padLeft       = designPxToRealPx(20);
+  const padBottom     = designPxToRealPx(40);
+  const zeroLineWidth = designPxToRealPx(1);
+
+  // 연도별 차트 인스턴스 저장
+  window.finCharts = window.finCharts || {};
+
+  data.years.forEach(year => {
+    const canvasId = canvasIdByYear[year];
+    if (!canvasId) return;
+
+    const canvas = section.querySelector('#' + canvasId);
+    if (!canvas) return;
+
+    const ctx    = canvas.getContext('2d');
+    const values = data.chartValuesByYear[year] || [];
+    const labels = data.labels;
+
+    // 1) 이미 저장해둔 Chart 인스턴스가 있으면 그걸 우선 사용
+    let chart = window.finCharts[year];
+
+    // 2) 없으면, HTML에서 먼저 만들어둔 Chart를 가져오기
+    if (!chart && typeof Chart.getChart === 'function') {
+      chart = Chart.getChart(canvas) || null;
+    }
+
+    if (chart) {
+      // 이미 있는 차트 → 데이터만 덮어쓰기
+      chart.data.labels                   = labels;
+      chart.data.datasets[0].data         = values;
+      chart.data.datasets[0].backgroundColor = colors;
+      chart.options.scales.y.min          = axisMin;
+      chart.options.scales.y.max          = axisMax;
+      chart.update();
+
+      // 우리 쪽 전역에도 다시 저장
+      window.finCharts[year] = chart;
+    } else {
+      // HTML에서 안 그려줬거나 getChart가 안 될 경우 → 새로 생성
+      window.finCharts[year] = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            data: values,
+            backgroundColor: colors,
+            borderRadius: 0,
+            borderSkipped: false
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: { enabled: false }
+          },
+          layout: {
+            padding: {
+              top:    padTop,
+              right:  padRight,
+              left:   padLeft,
+              bottom: padBottom
+            }
+          },
+          scales: {
+            x: {
+              grid: { display: false },
+              ticks: { display: false }
+            },
+            y: {
+              min: axisMin,
+              max: axisMax,
+              ticks: { display: false },
+              grid: {
+                drawBorder: false,
+                color: function (ctx) {
+                  return ctx.tick.value === 0 ? '#FFFFFF' : 'transparent';
+                },
+                lineWidth: function (ctx) {
+                  return ctx.tick.value === 0 ? zeroLineWidth : 0;
+                }
+              }
+            }
+          },
+          animation: {
+            duration: 800
+          }
+        }
+      });
+    }
+  });
+}
+
+/*****************************************
+ *  재무 테이블 렌더링
+ *****************************************/
+function renderFinanceTable(section, data, mode) {
+  const lang    = (typeof language !== 'undefined') ? language : 'kor';
+  const langKey = (lang === 'en' || lang === 'eng') ? 'en' : 'kr';
+
+  // 현재 언어에 맞는 테이블만 갱신 (kr_t / en_t)
+  const tableInner = section.querySelector(
+    langKey === 'kr' ? '.fin_table_inner.kr_t' : '.fin_table_inner.en_t'
+  );
+  if (!tableInner) return;
+
+  const tableLine = tableInner.querySelector('.table_line');
+  if (!tableLine) return;
+
+  // 단위 라벨
+  const unitSpan = tableInner.querySelector('.table_sub span');
+  if (unitSpan) {
+    unitSpan.textContent = data.unitLabel;
+  }
+
+  const years = data.years;
+  const yearTitle = (langKey === 'kr') ? '년도' : 'Year';
+
+  let html = '';
+
+  // 1) 헤더 행 (년도 / Year)
+  html += `
+    <div class="t_line year">
+      <div class="t_tit"><span>${yearTitle}</span></div>
+      ${years.map(y => `
+        <div class="t_cont"><span>${y}</span></div>
+      `).join('')}
+    </div>
+  `;
+
+  // 2) 데이터 행 (자산/부채/자본/매출/영업이익/당기순이익)
+  data.tableRows.forEach(row => {
+    const lineClass = row.group === 'bs' ? 'fin' : 'income';
+    html += `
+      <div class="t_line ${lineClass}">
+        <div class="t_tit"><span>${row.label}</span></div>
+        ${row.values.map(v => `
+          <div class="t_cont"><span>${v}</span></div>
+        `).join('')}
+      </div>
+    `;
+  });
+
+  tableLine.innerHTML = html;
+}
+
+/*****************************************
+ *  DOM 로드 시 재무 섹션 초기화
+ *****************************************/
+document.addEventListener('DOMContentLoaded', function () {
+  initFinanceSection();
 });

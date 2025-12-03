@@ -1620,7 +1620,7 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
                     <div class="radial_inner">
                         <div class="radial_wrap">
                             <div class="radial_inner">
-                                <canvas id="abilityRadar03"></canvas>
+                                <canvas id="abilityRadar04"></canvas>
                             </div>
                             <div class="radial_btn_list ty_02">
                                 <button type="button" class="radial_btn on">
@@ -1920,9 +1920,11 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
 <!-- 상세페이지 미래 성장성 예측 차트 -->
 <script>
 
+let language = "kor";
+let currentCompany = "뤼튼테크놀로지스";
 
 /****************************
- * 공통 유틸 (px → vw 환산)
+ * 공통 유틸 (px → vw 환산) 
  ****************************/
 const PX_TO_VW = 0.0260; // 1px → 0.0260vw
 
@@ -1941,7 +1943,7 @@ function getLineWidthPx()  { return designPxToRealPx(5); }
 /****************************
  * 데이터 정의 (공통)
  ****************************/
-const labels = ['1','2','3','4','5','6','7','8','9'];
+let labels = ['1','2','3','4','5','6','7','8','9'];
 
 const dataBase      = [10,10,10,10,10,10,10,10,10];
 const dataIndustry  = [10,10,10,10,10,10,10,10,10];
@@ -2267,8 +2269,9 @@ document.addEventListener('DOMContentLoaded', function () {
   langBtn.addEventListener('click', function () {
     setTimeout(function () {
       const lang = getCurrentLangFromBody();
-      if (lang === 'en') ensureEnChart();
-      else ensureKrChart();
+      if (lang === 'en') ensureEnChart(), language = 'eng';
+      else ensureKrChart(), language = 'kor';
+      console.log(language);
     }, 0);
   });
 });
@@ -2291,7 +2294,7 @@ function getLineWidthPx() {
 // ----------------------
 // 데이터 5개 짜리 (숫자만)
 // ----------------------
-const radarValues = [40, 70, 65, 60, 35]; // [경영주, 관리, 개발, 제품화, 수익]
+let radarValues = []; // [경영주, 관리, 개발, 제품화, 수익]
 
 window.addEventListener('load', function () {
   const ctx = document.getElementById('abilityRadar').getContext('2d');
@@ -2428,6 +2431,81 @@ window.addEventListener('load', function () {
   });
 });
 
+// 데이터 두 개 짜리 방사형 대신 바로 대체
+// 세로 막대 값(예시) – 필요에 맞게 수정
+// 세로 바 2개 값 (0~100 기준)
+const barValues03 = [40, 75]; // 예시 값 2개
+
+window.addEventListener('load', function () {
+  const canvas = document.getElementById('abilityRadar03');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  const lineWidth = typeof getLineWidthPx === 'function' ? getLineWidthPx() : 2;
+
+  window.abilityBarChart03 = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['', ''], // 라벨은 숨길 거라 빈값
+      datasets: [{
+        label: 'bar03',
+        data: barValues03,
+        backgroundColor: 'rgba(36,124,255,0.35)', // 반투명 배경
+        borderColor: '#247CFF',                   // 테두리
+        borderWidth: lineWidth,
+        // ★ 바를 더 두껍게
+        barThickness: 'flex',
+        maxBarThickness: 140,
+        categoryPercentage: 0.8,  // 카테고리 영역 중 바가 차지하는 비율 ↑
+        barPercentage: 0.95       // 바 간격 거의 없게
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: false }
+      },
+      scales: {
+        x: {
+          // ★ 세로 눈금선(배경선) 제거
+          grid: {
+            display: false
+          },
+          ticks: {
+            display: false
+          }
+        },
+        y: {
+          beginAtZero: true,
+          max: 100,
+          grid: {
+            // 가로 눈금선만 유지 (레이더 느낌)
+            display: true,
+            color: 'rgba(241,241,241,0.39)',
+            lineWidth: lineWidth,
+            drawBorder: false
+          },
+          ticks: {
+            display: false
+          }
+        }
+      }
+    }
+  });
+
+  // 리사이즈 시 border 두께만 다시 세팅
+  window.addEventListener('resize', function () {
+    const chart = window.abilityBarChart03;
+    if (!chart) return;
+
+    const newWidth = getLineWidthPx();
+    chart.data.datasets[0].borderWidth = newWidth;
+    chart.update();
+  });
+});
+
 
 
 ////////////  바형 차트  ////////////
@@ -2436,8 +2514,8 @@ function vwToPx(vw){return window.innerWidth*(vw/100);}
 function designPxToRealPx(px){const vw=px*PX_TO_VW;return vwToPx(vw);}
 
 // 데이터
-const skillLabels = ['동업종 경험 수준','기술지식 수준','기술경영 관리 능력'];
-const skillValues = [20,70,95]; // 0~100
+let skillLabels = [];
+let skillValues = []; // 0~100
 
 // 리스트별 회색 구분선
 const separatorLinesPlugin = {
@@ -2484,8 +2562,8 @@ const trackPlugin = {
     ctx.strokeStyle = '#0071FE';
     ctx.fillStyle   = '#282C36';
 
-    labels.forEach(label=>{
-      const cy = y.getPixelForValue(label);
+    labels.forEach((label, idx)=>{
+      const cy = y.getPixelForValue(idx);
       const yTop = cy - trackH/2;
 
       drawRoundedRect(ctx, xStart, yTop, width, trackH, radius);
@@ -2543,7 +2621,7 @@ window.addEventListener('load', function(){
 
   const barThickness = designPxToRealPx(18);
 
-  new Chart(ctx,{
+  window.skillBarChart = new Chart(ctx,{
     type:'bar',
     data:{
       labels: skillLabels,
@@ -2625,11 +2703,11 @@ const radarLabels8 = [
 ];
 
 // 당사 / 상위기업 값 (0~100) — 실제 값으로 교체해서 사용
-const radarValuesCompany8 = [80, 75, 70, 65, 60, 68, 72, 78]; // 당사
-const radarValuesTop8     = [95, 90, 88, 85, 82, 89, 92, 94]; // 상위기업
+let radarValuesCompany8 = []; // 당사
+let radarValuesTop8     = []; // 상위기업
 
 window.addEventListener('load', function () {
-  const canvas = document.getElementById('abilityRadar03'); // ★ 캔버스 id
+  const canvas = document.getElementById('abilityRadar04'); // ★ 캔버스 id
   if (!canvas) return;
 
   const ctx = canvas.getContext('2d');
@@ -2724,15 +2802,18 @@ const skillLabels2  = [
   '5년차차 R&D 금액',
   '특허 출원 건수'
 ];
-const skillValues2  = [100,0,0,0,0]; // 바 길이 퍼센트
-const skillAmounts2 = ['10.5억','0건','0건','0억','0건']; // 가운데 숫자 라벨
+let skillValues2  = [100,0,0,0,0]; // 바 길이 퍼센트
+let skillAmounts2 = ['10.5억','0건','0건','0억','0건']; // 가운데 숫자 라벨
 
+// 2번 차트용 라벨 플러그인 (제목 + 금액, 제목 개행 처리)
 // 2번 차트용 라벨 플러그인 (제목 + 금액, 제목 개행 처리)
 const labelCenterPlugin2 = {
   id: 'labelCenterPlugin2',
   afterDraw(chart) {
-    const {ctx, scales:{y}} = chart;
-    const labels = chart.data.labels;
+    const { ctx, scales: { y } } = chart;
+    const labels  = chart.data.labels || [];
+    const ds      = chart.data.datasets[0] || {};
+    const amounts = ds.amounts || [];   // ★ 여기서 amounts 배열 읽기
 
     const titleFontSize  = designPxToRealPx(33);
     const amountFontSize = designPxToRealPx(28);
@@ -2745,7 +2826,7 @@ const labelCenterPlugin2 = {
     ctx.fillStyle = '#FFFFFF';
 
     labels.forEach((label, idx) => {
-      const cy = y.getPixelForValue(label);
+      const cy = y.getPixelForValue(idx);
 
       // ----- 제목(멀티라인) -----
       const lines = String(label).split('\n');
@@ -2761,7 +2842,7 @@ const labelCenterPlugin2 = {
       });
 
       // ----- 금액/건수 -----
-      const amount = skillAmounts2[idx] || '';
+      const amount = amounts[idx] || '';   // ★ 여기서 detail 사용
       if (amount) {
         ctx.font = `${amountFontSize}px Pretendard, "Noto Sans KR", sans-serif`;
         ctx.fillText(amount, amountX, cy);
@@ -2792,12 +2873,13 @@ window.addEventListener('load', function(){
   const ctx = canvas.getContext('2d');
   const barThickness = designPxToRealPx(18);
 
-  new Chart(ctx,{
+  window.growthBarChart = new Chart(ctx,{
     type:'bar',
     data:{
       labels: skillLabels2,
       datasets:[{
         data: skillValues2,
+        amounts: skillAmounts2,
         borderWidth: 0,
         backgroundColor(context){
           const {chart} = context;
@@ -3262,7 +3344,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (typeof Chart === 'undefined') return;
 
   // 공통 라벨 / 색상 (범례 색이랑 맞춰서 설정)
-  const labels = ['자산','부채','자본','매출','영업이익','당기순이익'];
+  let labels = ['자산','부채','자본','매출','영업이익','당기순이익'];
   const barColors = [
     '#E4EDFF', // 자산
     '#A9C6FF', // 부채
@@ -3315,7 +3397,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const padBottom = designPxToRealPx(40);
     const zeroLineWidth = designPxToRealPx(1);
 
-    new Chart(ctx, {
+    window.finCharts = new Chart(ctx, {
       type: 'bar',
       data: {
         labels: labels,
@@ -3417,18 +3499,18 @@ const YEAR_BAR_LABELS = ['2019','2020','2021','2022','2023','2024','2025'];
  * 🔹 언어별 값 / 비공개 여부 / y축 범위 분리
  *****************************************/
 // 👉 실제 값으로 교체해서 사용하세요
-const YEAR_BAR_VALUES_KR   = [0, 0, 0, 43, 150, 250, 830];
-const YEAR_BAR_VALUES_EN   = [0, 0, 0, 2.92, 10.2, 17, 56.44];
+const YEAR_BAR_VALUES_KR   = [0, 0, 10, 45, 0, 90, 0];
+const YEAR_BAR_VALUES_EN   = [0, 0, 0.68, 3.06, 0, 6.12, 0];
 
 const YEAR_BAR_PRIVATE_KR  = [false,false,false,false,false,false,false];
 const YEAR_BAR_PRIVATE_EN  = [false,false,false,false,false,false,false];
 
 // 👉 y축 범위도 언어별로 다르게
 const YEAR_BAR_Y_MIN_KR = 0;
-const YEAR_BAR_Y_MAX_KR = 1000;
+const YEAR_BAR_Y_MAX_KR = 100;
 
 const YEAR_BAR_Y_MIN_EN = 0;
-const YEAR_BAR_Y_MAX_EN = 60; // 예시값, 필요에 맞게 수정
+const YEAR_BAR_Y_MAX_EN = 8; // 예시값, 필요에 맞게 수정
 
 /*****************************************
  * 차트 생성 함수 (언어별)
@@ -3653,3 +3735,9 @@ document.addEventListener('DOMContentLoaded', function(){
  <script>
     
  </script>
+
+ <!-- 프론트 -->
+ <script src="../../resources/js/data.js"></script>
+ <script src="../../resources/js/service.js"></script>
+ <script src="../../resources/js/view.js"></script>
+ <!-- //프론트 -->

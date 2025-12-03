@@ -350,8 +350,12 @@ function getTechBarDetail(language, company, index) {
 
 // 1) 성장성 레이더용 값
 function getGrowthRadarValues(language, company) {
-  if (language !== 'kor') return null;
-  const data = COMPANY_DATA_KOR[company];
+  let data;
+  if (language === 'kor') {
+    data = COMPANY_DATA_KOR[company];
+  } else if (language === 'eng') {
+    data = COMPANY_DATA_ENG[company];
+  }
   if (!data || !data.modelResult) return null;
 
   const factors = data.modelResult.factors || [];
@@ -365,8 +369,13 @@ function getGrowthRadarValues(language, company) {
 
 // 2) 성장성 전체 모델(리스트용)
 function getGrowthModel(language, company) {
-  if (language !== 'kor') return null;
-  const data = COMPANY_DATA_KOR[company];
+  let data;
+  if(language === 'kor') {
+    data = COMPANY_DATA_KOR[company];
+  } else if (language === 'eng') {
+    data = COMPANY_DATA_ENG[company];
+    console.log("getGrowthModel : ", data);
+  }
   if (!data || !data.modelResult) return null;
   return data.modelResult;   // { totalScore, factors, barScores }
 }
@@ -388,11 +397,140 @@ function getGrowthBarDetail(language, company, idx) {
       detail: b.detail
     }));
 
-    console.log(metrics);
-
   return {
     title: factor.name,
     score: factor.score,
     metrics
   };
+}
+
+/*****************************************
+ * 항목 정의 (라벨 + 어떤 탭에 속하는지)
+ *****************************************/
+const FIN_METRIC_DEF = {
+  kr: [
+    { key:'assets',      label:'자산',       group:'bs' }, // 재무상태표
+    { key:'liabilities', label:'부채',       group:'bs' },
+    { key:'capital',     label:'자본',       group:'bs' },
+    { key:'sales',       label:'매출',       group:'pl' }, // 손익계산서
+    { key:'opProfit',    label:'영업이익',   group:'pl' },
+    { key:'netProfit',   label:'당기순이익', group:'pl' }
+  ],
+  en: [
+    { key:'assets',      label:'assets',           group:'bs' },
+    { key:'liabilities', label:'liabilities',      group:'bs' },
+    { key:'capital',     label:'capital',          group:'bs' },
+    { key:'sales',       label:'sales',            group:'pl' },
+    { key:'opProfit',    label:'operating profit', group:'pl' },
+    { key:'netProfit',   label:'net profit',       group:'pl' }
+  ]
+};
+
+const FIN_KEY_MAP = {
+  assets:      'assets',
+  liabilities: 'debt',
+  capital:     'capital',
+  sales:       'sales',
+  opProfit:    'opIncome',
+  netProfit:   'netIncome'
+};
+
+/**
+ * mode: 'all' | 'bs' | 'pl'
+ *  - all: 전체 (자산~당기순이익 6개 전부)
+ *  - bs : 재무상태표 (자산/부채/자본)
+ *  - pl : 손익계산서 (매출/영업이익/당기순이익)
+ */
+function getFinanceViewData(company, lang, mode) {
+  const isEng   = (lang === 'en' || lang === 'eng');
+  const source  = isEng ? COMPANY_DATA_ENG : COMPANY_DATA_KOR;
+  const comp    = JSON.parse(JSON.stringify(source[company]));
+  if (!comp || !comp.finance) return null;
+
+  // "2022","2023","2024" → [2024,2023,2022] 정렬
+  const years = Object.keys(comp.finance)
+    .map(y => Number(y))
+    .sort((a, b) => b - a);
+
+  const langKey = isEng ? 'en' : 'kr';
+  const defList = FIN_METRIC_DEF[langKey];
+
+  // 탭별 항목 필터링
+  const metrics = defList.filter(d => {
+    if (mode === 'bs') return d.group === 'bs';
+    if (mode === 'pl') return d.group === 'pl';
+    return true; // all
+  });
+
+  const labels = metrics.map(d => d.label);
+
+  // 차트용 숫자 데이터
+  const chartValuesByYear = {};
+  years.forEach(year => {
+    const yearData = comp.finance[String(year)] || {};
+
+    chartValuesByYear[year] = metrics.map(m => {
+      const srcKey = FIN_KEY_MAP[m.key];
+      const raw = yearData[srcKey];
+      const n   = normalizeFinanceValue(raw);
+
+      // 비공개/null이면 막대는 0으로 처리
+      return (n === null ? 0 : n);
+    });
+  });
+
+  // 표용 문자열 데이터
+  const tableRows = metrics.map(m => {
+    const srcKey = FIN_KEY_MAP[m.key];
+
+    const values = years.map(year => {
+      const yearData = comp.finance[String(year)] || {};
+      const raw = yearData[srcKey];
+      const n   = normalizeFinanceValue(raw);
+
+      if (n == null) {
+        // 숫자 못 뽑는 애들은 전부 비공개 / not disclosed로 통일
+        return langKey === 'kr' ? '비공개' : 'not disclosed';
+      }
+
+      return n.toLocaleString();
+    });
+
+    return {
+      key:   m.key,
+      group: m.group,
+      label: m.label,
+      values
+    };
+  });
+
+
+  // 단위 라벨은 data.js에 없으니, 필요하면 company별/언어별로 추가 정의하거나 공통 문자열로 고정
+  const unitLabel = langKey === 'kr' ? '(단위:억 원)' : '(USD, Million)';
+
+  return { years, labels, chartValuesByYear, tableRows, unitLabel };
+}
+
+// 다른 스크립트에서 쓸 수 있게 전역에 노출
+window.getFinanceViewData = getFinanceViewData;
+
+function normalizeFinanceValue(raw) {
+  if (raw == null) return null; // null / undefined
+
+  if (typeof raw === 'string') {
+    const t = raw.trim().toLowerCase();
+
+    // 비공개 계열은 전부 null 취급
+    if (t === '비공개' || t === 'not disclosed' || t === '-') {
+      return null;
+    }
+
+    // 숫자 문자열이면 숫자로 변환
+    const n = Number(raw.replace(/,/g, ''));
+    return Number.isNaN(n) ? null : n;
+  }
+
+  if (typeof raw === 'number') return raw;
+
+  return null;
 }
