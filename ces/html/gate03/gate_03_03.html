@@ -1,0 +1,1423 @@
+<!DOCType html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, user-scalable=0">
+<meta name="msapplication-TileColor" content="#4D6EDB">
+<meta property="og:title" content="">
+<meta property="og:description" content="">
+<meta property="og:Type" content="website">
+<meta property="og:image" content="../../resources/images/">
+<title></title>
+<link rel="shortcut icon" href="../../resources/images/" type="image/x-icon">
+<link rel="apple-touch-icon" href="../../resources/images/">
+<link rel="stylesheet" href="../../resources/css/style.css">
+
+<!-- 퍼블리싱 -->
+<script src="../../resources/js/jquery-3.7.1.min.js"></script>
+<script src="../../resources/js/jquery-ui.js"></script>
+<script src="../../resources/js/swiper-bundle.min.js"></script>
+<script src="../../resources/js/chart.js"></script>
+<script src="../../resources/js/gsap.min.js"></script>
+<script src="../../resources/js/siy.js"></script>
+<!-- //퍼블리싱 -->
+</head>
+
+<body>
+<!-- wrap -->
+<div id="wrap" class="com_bg gate_01_main ">
+    <!-- Header -->
+    <header>
+    </header>
+    <!-- //Header -->
+
+    <!-- Container -->
+    <section id="container" class="esg_ty">
+        <div class="snb">
+            <div class="snb_inner">
+                <a href="../main.html" class="logo">
+                    <img src="../../resources/images/logo.png">
+                </a>
+                <div class="menu">
+                    <ul>
+                        <li>
+                            <a href="../main.html" class="menu_item ico_01">메인</a>
+                        </li>
+                        <li>
+                            <a href="../gate01/gate_01_01.html" class="menu_item ico_02">기술 금융 시스템</a>
+                        </li>
+                        <li>
+                            <a href="../gate02/gate_02.html" class="menu_item ico_03">K-콘텐츠 투자</a>
+                        </li>
+                        <li>
+                            <a href="../gate03/gate_03.html" class="menu_item ico_04 active">ESG 정밀진단 시스템</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lang">
+                    <button type="button" class="btn_lang">
+                        <span class="en">English</span>
+                        <span class="kr">한국어</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="contents esg_cont step04" style="visibility: hidden;">
+            <div class="esg_cont_inner">
+                <div class="esg_tit">
+                    <p>지표별 평가를 진행합니다.</p>
+                    <strong><span id="selPrdName">NexDrive</span>의 ESG 지표 평가</strong>
+                </div>
+
+                <!-- step_panel -->
+                <div class="step_panel">
+                    <div class="tit_box_area">
+                        <div class="tit_box tit01">
+                            <strong class="tit">ESG 평가 지표</strong>
+                        </div>
+
+                        <div class="tit_box tit02">
+                            <strong class="tit">평가 등급</strong>
+                        </div>
+                    </div>
+
+                    <!-- step_li -->
+                    <ul class="step_li">
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_e"></span>
+                                <span class="txt">환경 경영 체계</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_e"></span>
+                                <span class="txt">환경 인허가 관리</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_e"></span>
+                                <span class="txt">온실가스 및 에너관리관리</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_e"></span>
+                                <span class="txt">온실가스 배출량 감축</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_e"></span>
+                                <span class="txt">에너지 사용량 관리</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_e"></span>
+                                <span class="txt">폐기물 관리</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_e"></span>
+                                <span class="txt">용수 관리</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_e"></span>
+                                <span class="txt">유해화학물질 관리</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_e"></span>
+                                <span class="txt">대기오염물질 관리</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_e"></span>
+                                <span class="txt">수질오염물질 관리</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_e"></span>
+                                <span class="txt">Scope3 온실가스 배출량 산정 체계</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_e"></span>
+                                <span class="txt">잔류성오염물질 관리</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_s"></span>
+                                <span class="txt">인권관리</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_s"></span>
+                                <span class="txt">고충처리제도</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_s"></span>
+                                <span class="txt">괴롭힘, 차별 금지</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_s"></span>
+                                <span class="txt">근로조건</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_s"></span>
+                                <span class="txt">복리후생</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_s"></span>
+                                <span class="txt">강제노동 금지</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_s"></span>
+                                <span class="txt">아동노동 금지</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_s"></span>
+                                <span class="txt">노사관계 수준</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_s"></span>
+                                <span class="txt">안전보건 관리체계</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_s"></span>
+                                <span class="txt">안전보건 관리활동</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_s"></span>
+                                <span class="txt">지역사회 공헌</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_s"></span>
+                                <span class="txt">외국인근로자 근로 관리</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_g"></span>
+                                <span class="txt">윤리경영 정책</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_g"></span>
+                                <span class="txt">부패 및 불공정거래 방지 활동</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_g"></span>
+                                <span class="txt">윤리준법 신고제도</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_g"></span>
+                                <span class="txt">ESG정보공시</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_g"></span>
+                                <span class="txt">경영 안정성</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_g"></span>
+                                <span class="txt">주주 권리</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+
+
+                        <!-- data-visible : 1 -->
+                        <li data-visible="1" style="display:none">
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_e"></span>
+                                <span class="txt">배터리규제 대상 원료 재활용</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li data-visible="1" style="display:none">
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_e"></span>
+                                <span class="txt">제품 단위 온실가스 배출량 산정 체계</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li data-visible="1" style="display:none">
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_e"></span>
+                                <span class="txt">포장재 감축 및 대체</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li data-visible="1" style="display:none">
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_e"></span>
+                                <span class="txt">제품 내 유해물질 관리</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li data-visible="1" style="display:none">
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_s"></span>
+                                <span class="txt">책임있는 원부자재 조달 정책</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li data-visible="1" style="display:none">
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_s"></span>
+                                <span class="txt">협력사 및 공급망 관리</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <!-- //data-visible : 1 -->
+
+                        
+                        <!-- data-visible : 2 -->
+                        <li data-visible="2" style="display:none;">
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_e"></span>
+                                <span class="txt">분쟁광물 관리</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li data-visible="2" style="display:none;">
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_e"></span>
+                                <span class="txt">제품 내 유해물질 관리</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li data-visible="2" style="display:none;">
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_e"></span>
+                                <span class="txt">오존층 관련 규제대상물질 관리</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li data-visible="2" style="display:none;">
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_e"></span>
+                                <span class="txt">수은 또는 수은 화합물 관리</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li data-visible="2" style="display:none;">
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_e"></span>
+                                <span class="txt">잔류성오염물질 함유 기기 관리</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li data-visible="2" style="display:none;">
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_s"></span>
+                                <span class="txt">협력사 및 공급망 관리</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <!-- //data-visible : 2 -->
+
+
+                        <!-- data-visible : 3 -->
+                        <li data-visible="3" style="display:none;">
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_e"></span>
+                                <span class="txt">동물실험 축소 및 대체</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li data-visible="3" style="display:none;">
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_e"></span>
+                                <span class="txt">생태계교란 생물 반입·반출 관리</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li data-visible="3" style="display:none;">
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_e"></span>
+                                <span class="txt">해외 유전자원 관리</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li data-visible="3" style="display:none;">
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_e"></span>
+                                <span class="txt">유전자변형생물체 관리</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li data-visible="3" style="display:none;">
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_e"></span>
+                                <span class="txt">멸종위기종 관리</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <!-- //data-visible : 3 -->
+
+
+                        <!-- data-visible : 4 -->
+                        <li data-visible="4" style="display:none;">
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_s"></span>
+                                <span class="txt">도급·용역·위탁 안전관리</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li data-visible="4" style="display:none;">
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_s"></span>
+                                <span class="txt">정보보호 관리체계</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li data-visible="4" style="display:none;">
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_s"></span>
+                                <span class="txt">근로시간 준수</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li data-visible="4" style="display:none;">
+                            <div class="txt_wrap">
+                                <span class="ico_esg ty_s"></span>
+                                <span class="txt">개인정보 수집 동의</span>
+                            </div>
+                            <div class="step_bar">
+                                <div class="pintrack">
+                                    <span class="pin"></span>
+                                </div>
+                                <span class="bar"></span>
+                                <ul class="step_labels">
+                                    <li><span>D</span></li>
+                                    <li><span>C</span></li>
+                                    <li><span>B</span></li>
+                                    <li><span>B+</span></li>
+                                    <li><span>A</span></li>
+                                    <li><span>A+</span></li>
+                                    <li><span>S</span></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <!-- //data-visible : 4 -->
+                    </ul>
+                    <!-- //step_li -->
+                </div>
+                <!-- //step_panel -->
+
+
+                <div class="esg_btns" id="btns01" style="display:none;">
+                    <button type="button" class="btn_esg">최종 보고서 확인</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- //Container -->
+
+    <!-- Footer -->
+    <footer>
+    </footer>
+    <!-- //Footer -->
+</div>
+<!-- //wrap -->
+
+
+<!-- esg_dim -->
+<div class="esg_dim" style="display:none;"></div>
+<!-- //esg_dim -->
+
+
+<!-- panel_side -->
+<div class="panel_side esg" id="pop01" style="display:none;">
+    <div class="top">
+        <strong class="ico_esg ty_e">온실가스 배출량 감축</strong>
+        <p>온실가스 배출량 (Scope 1&2)이 감소 추세에 있는지 확인하기 위한 지표</p>
+
+        <button type="button" class="btn_panel_close" onclick="closePanel('pop01');"><span class="blind">닫기</span></button>
+    </div>
+    <div class="cnt">
+        <!-- cnt_inner -->
+        <div class="cnt_inner">
+            <!-- btns -->
+            <div class="btns sm">
+                <button type="button" class="btn_save">저장</button>
+            </div>
+            <!-- //btns -->
+        </div>
+        <!-- //cnt_inner -->
+    </div>
+</div>
+<!-- //panel_side -->
+
+<!-- esg_modal -->
+<div class="esg_modal" style="display:none;"></div>
+<!-- //esg_modal -->
+
+<!-- esg_alert -->
+<div class="esg_alert" style="display:none;"></div>
+<!-- //esg_alert -->
+
+
+<script>
+// ------------------------------------------------------------
+// Step04 패널 등장 애니메이션
+// ------------------------------------------------------------
+function animateStep04Panel() {
+    const cont = document.querySelector('.contents.esg_cont.step04');
+    const panel = document.querySelector('.step_panel');
+    if (!panel || panel.dataset.animated === 'true') return;
+    panel.dataset.animated = 'true';
+    if (cont) gsap.set(cont, { visibility: 'visible' });
+
+    gsap.timeline({ defaults: { ease: "power3.out" } })
+        .fromTo(panel, { opacity: 0, scaleX: 0.75 }, { opacity: 1, scaleX: 1, duration: 0.95 })
+        .from(".step_panel .tit_box", { opacity: 0, y: 18, duration: 0.55 }, "-=0.40")
+        .from(".step_li", { opacity: 0, y: 24, duration: 0.48 }, "-=0.30")
+        .add(() => initPinAutoSequence(onPinSequenceComplete));
+}
+
+
+
+// ------------------------------------------------------------
+// 자연스러운 지그재그 값 생성
+// ------------------------------------------------------------
+function generateZigzagValues(count, min = 70, max = 98, maxStep = 8) {
+    const values = [];
+    let prev = Math.floor((min + max) / 2);
+    values.push(prev);
+    for (let i = 1; i < count; i++) {
+        const dir = Math.random() < 0.5 ? 1 : -1;
+        let next = prev + dir * (Math.random() * maxStep + 2);
+        if (next < min) next = prev + 2;
+        if (next > max) next = prev - 2;
+        values.push(Math.round(next));
+        prev = next;
+    }
+    return values;
+}
+
+
+
+// ------------------------------------------------------------
+// 자동 스크롤 + pin 시퀀스
+// ------------------------------------------------------------
+let pinGroups = [];
+let autoCanceled = false;
+
+function initPinAutoSequence(callback) {
+    autoCanceled = false;
+
+    const container = document.querySelector(".step_li");
+    if (!container) return;
+
+    const items = Array.from(container.querySelectorAll(":scope > li")).filter(li => {
+        const st = window.getComputedStyle(li);
+        return st.display !== "none" && li.offsetWidth > 0 && li.offsetHeight > 0;
+    });
+
+    pinGroups = [];
+    for (let i = 0; i < items.length; i += 7) {
+        pinGroups.push(items.slice(i, i + 7));
+    }
+
+    // 사용자 조작 시 자동 시퀀스 중단
+    const cancel = () => {
+        autoCanceled = true;
+        gsap.killTweensOf(container);
+        container.removeEventListener("wheel", cancel);
+        container.removeEventListener("touchstart", cancel);
+    };
+    container.addEventListener("wheel", cancel, { passive: true });
+    container.addEventListener("touchstart", cancel, { passive: true });
+
+    runAutoScrollSequence(container, callback).finally(() => {
+        container.removeEventListener("wheel", cancel);
+        container.removeEventListener("touchstart", cancel);
+    });
+}
+
+
+
+// ------------------------------------------------------------
+// 시퀀스 실행 (정확 대기 + 빠른 흐름)
+// ------------------------------------------------------------
+async function runAutoScrollSequence(container, callback) {
+    const WAIT = 150;  // ★ 최소 대기 (빠른 흐름)
+
+    for (let i = 0; i < pinGroups.length; i++) {
+        if (autoCanceled) break;
+
+        const group = pinGroups[i];
+
+        // 첫 그룹: 스크롤 없이 pin 애니만
+        if (i === 0) {
+            await animateGroupPins(group);
+            await wait(WAIT);
+            continue;
+        }
+
+        // 스크롤
+        await gsap.to(container, {
+            scrollTop: group[0].offsetTop - 50,
+            duration: 0.75,
+            ease: "power2.out"
+        });
+
+        if (autoCanceled) break;
+
+        await animateGroupPins(group);
+
+        if (autoCanceled) break;
+
+        await wait(WAIT);
+    }
+
+    if (!autoCanceled && typeof callback === "function") callback();
+}
+
+
+
+// ------------------------------------------------------------
+// animateGroupPins() — 모든 핀 애니 끝날 때 resolve()
+// ------------------------------------------------------------
+function animateGroupPins(group) {
+    return new Promise(resolve => {
+        if (!group.length) return resolve();
+
+        const bar = group[0].querySelector(".bar");
+        const barWidth = bar ? bar.offsetWidth : 0;
+        const offset = 20;
+
+        const pinValues = generateZigzagValues(group.length);
+
+        let count = 0;
+        const total = group.length;
+
+        group.forEach((li, index) => {
+            const pin = li.querySelector(".pin");
+            if (!pin) {
+                if (++count >= total) resolve();
+                return;
+            }
+
+            gsap.to(pin, {
+                x: (barWidth * (pinValues[index] / 100)) - offset,
+                duration: 1.0,
+                ease: "power3.out",
+                onComplete: () => {
+                    if (++count >= total) resolve();
+                }
+            });
+        });
+    });
+}
+
+
+
+// ------------------------------------------------------------
+function wait(ms) { return new Promise(r => setTimeout(r, ms)); }
+function onPinSequenceComplete() {
+    gsap.fromTo("#btns01",
+        {
+            autoAlpha: 0,
+            y: 20,
+            display: ""
+        },
+        {
+            duration: 0.45,
+            autoAlpha: 1,
+            y: 0,
+            ease: "power3.out"
+        }
+    );
+}
+
+
+
+// ------------------------------------------------------------
+// 초기
+// ------------------------------------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+    getHashOfName();
+    gate0303Init();
+    animateStep04Panel();
+});
+window.addEventListener("hashchange", () => {
+    getHashOfName();
+    gate0303Init();
+});
+</script>
+</body>
+</html>

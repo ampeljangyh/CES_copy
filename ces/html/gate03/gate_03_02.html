@@ -505,7 +505,7 @@
                 <!-- //eval_grid_area -->
 
                 <div class="esg_floating_btns" id="btns01" style="display: none;">
-                    <button type="button" class="btn_esg">지표별 평가등급 확인</button>
+                    <button type="button" class="btn_esg" id="btn01">지표별 평가등급 확인</button>
                 </div>
             </div>
         </div>
@@ -1200,6 +1200,13 @@ document.addEventListener("DOMContentLoaded", () => {
         closePanel('pop03');
         currentIndex++;
         resumeAutoClick();
+    });
+
+    // 다음페이지로
+    $('#btn01').on('click', function(){
+        const fragment = getFragment();
+    
+        location.href = 'gate_03_03.html#' + fragment;
     });
 });
 

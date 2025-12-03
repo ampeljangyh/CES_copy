@@ -96,3 +96,15 @@ function gate0302Init() {
 
     $(".esg_cont").css("visibility", "");
 }
+
+// gate0303Init
+function gate0303Init() {
+    const fragment = getFragment();
+
+    $('#selPrdName').text(getHashOfName());
+    const $visibleItems = $("[data-visible]");
+    $visibleItems.hide();
+    $visibleItems.filter(`[data-visible="${fragment}"]`).show();
+
+    $(".esg_cont").css("visibility", "");
+}
