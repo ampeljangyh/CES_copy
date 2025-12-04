@@ -359,8 +359,9 @@
 }
 
 /* gate_03_04 */
-.esg_cont.step05 {overflow:hidden;display: flex;flex-direction: column;padding-bottom:0;}
-.esg_cont.step05 .esg_cont_inner {display:flex;flex-direction:column;padding:0 220px;}
+.esg_cont.step05 {overflow:hidden;display: flex;flex-direction: column;padding:0;}
+.esg_cont.step05 .esg_cont_inner {display:flex;flex-direction:column;padding:120px 220px 200px;overflow-y: auto;box-sizing:border-box;height:100%;}
+.esg_cont.step05 .esg_cont_inner::-webkit-scrollbar {display: none;}
 .esg_cont.step05 .esg_tit > p {text-align:left;}
 .esg_cont.step05 .esg_tit > strong {text-align:left;}
 
@@ -379,6 +380,73 @@
 .report_panel .top .current > li + li::before {content:'';display:block;width:50px;height:3px;background-color:#5DB6F1;}
 .report_panel .top .current > li.active ~ li::after {background:#fff;}
 .report_panel .top .current > li.active ~ li::before {background:#fff;}
+
+.report_tit_box {margin:164px 0 158px;}
+.report_tit {display:block;box-sizing:border-box;width:fit-content;margin:0 auto;padding:28px 56px;border-top: 2px solid #0071FE;border-bottom: 2px solid #0071FE;background: rgba(0, 113, 254, 0.17);color: #FFF;font-size: 48px;font-weight: 800;letter-spacing: -0.96px;}
+
+.report_grid {display:flex;flex-direction:column;align-items:center;justify-content:center;gap:58px;}
+.report_grid > li {display:flex;gap:25px;align-items:stretch;width:100%;}
+.report_grid .inner {flex:1 1 auto;width:100%;box-sizing:border-box;border-radius: 30px;background: #2A3755;}
+
+.report_grid .point_wrap {display:flex;align-items:center;padding: 76px 168px 60px 0;}
+.report_grid .point_wrap .txt {display:flex;align-items:center;justify-content:center;flex-direction:column;gap:30px;width:756px;text-align:center;}
+.report_grid .point_wrap .txt .t1 {color: #FFF;font-size: 60px;font-weight: 500;letter-spacing: -1.2px;text-transform: uppercase;}
+.report_grid .point_wrap .txt .t2 {display:flex;align-items:center;gap:16px;}
+.report_grid .point_wrap .txt .t2 > strong {color: #FFF;font-size: 128px;font-weight: 700;letter-spacing: -2.56px;text-transform: uppercase;}
+.report_grid .point_wrap .txt .t2 > span {color: #FFF;font-size: 64px;font-weight: 700;letter-spacing: -1.28px;text-transform: uppercase;}
+.report_grid .point_wrap .cnt {flex:1 1 auto;}
+.report_grid .point_wrap .cnt .t1 {margin-top:48px;color: #FFF;font-size: 40px;font-weight: 400;line-height: 1.5;letter-spacing: -0.8px;text-transform: uppercase;}
+
+.point_li > li {display:flex;align-items:center;}
+.point_li > li + li {margin-top:44px;}
+.point_li .name {flex-shrink:0;display:block;width:240px;color: #B5B5B5;text-align: right;font-size: 40px;font-weight: 500;letter-spacing: -0.8px;text-transform: uppercase;}
+.point_li .point_track {display:block;width:1260px;height:80px;margin-left:60px;}
+.point_li .point_track > .bar {display:block;height:100%;background:#B5B5B5;}
+.point_li .point {display:block;margin-left:auto;text-align:right;color: #B5B5B5;font-size: 48px;font-weight: 500;letter-spacing: -0.96px;}
+.point_li .emph .name {color:#FFF;}
+.point_li .emph .point_track > .bar {background: linear-gradient(270deg, #60BAF5 0%, #0A498C 100%);}
+.point_li .emph .point{color: #FFF;font-size: 64px;font-weight: 700;letter-spacing: -1.28px;}
+
+.grade_li {display:flex;align-items:center;justify-content:center;}
+.grade_li > li {flex:1 1 auto;display:flex;align-items:center;justify-content:center;text-align:center;width:100%;border-radius: 10px;border: 1px solid #0071FE;background: rgba(0, 113, 254, 0.17);color: #FFF;font-size: 48px;font-weight: 400;letter-spacing: -0.96px;text-transform: uppercase;}
+.grade_li > li.active {background: #0071FE;}
+
+
+/* .report_grid .inner.ty1 {} */
+.report_grid .inner.chart_ty {padding:70px 120px 90px;}
+.report_grid .chart_tit {display:block;color: #FFF;text-align: center;font-size: 60px;font-weight: 700;letter-spacing: -1.2px;text-transform: uppercase;}
+.report_grid .inner.chart_ty .chart1 {box-sizing:border-box;height:620px;margin-top:140px;}
+.report_grid .inner.chart_ty .grade_li {margin-top:112px;}
+
+.report_grid .inner.chart_ty .chart2 {box-sizing:border-box;height:580px;margin-top:80px;}
+.point_tbl {margin-top:52px;}
+.point_tbl .thead,
+.point_tbl .tbody {display:flex;align-items:center;}
+.point_tbl .thead span,
+.point_tbl .tbody span {display:flex;align-items:center;justify-content:center;width:100%;text-align:center;}
+.point_tbl .thead {padding:8px 0;border-top: 1px solid #0071FE;border-bottom: 1px solid #0071FE;background: rgba(0, 113, 254, 0.17);}
+.point_tbl .tbody {padding:9px 0;margin-top:16px;background:#374460;}
+.point_tbl .thead span {color: #FFF;font-size: 48px;font-weight: 400;letter-spacing: -0.96px;text-transform: uppercase;}
+.point_tbl .tbody span {color: #FFF;font-size: 32px;font-weight: 400;letter-spacing: -0.64px;}
+
+.report_grid2 {display:flex;gap:32px;}
+.report_grid2 > li {flex:1 1 auto;width:100%;min-width:0;display:flex;flex-direction:column;gap:32px;}
+.report_grid2 .inner {flex:1 1 auto;width:100%;box-sizing:border-box;border-radius: 30px;background: #2A3755;}
+.report_grid2 .inner.chart_ty {padding:70px 90px;}
+.report_grid2 .chart_tit {display:block;color: #FFF;text-align: center;font-size: 60px;font-weight: 700;letter-spacing: -1.2px;text-transform: uppercase;}
+
+.report_grid2 .chart3 {box-sizing:border-box;height:480px;margin-top:74px;}
+.report_grid2 .grade_li {margin-top:48px;}
+.report_grid2 .point_li {margin-top:90px;}
+.report_grid2 .point_li .point_track {width:800px;}
+.report_grid2 .point_li .emph .point_track > .bar {background:#4091B9;}
+.report_grid2 .point_tbl {margin-top:96px;}
+
+.report_grid2 .chart4 {display:flex;margin-top:100px;height:584px;gap:60px;}
+.report_grid2 .chart_inner {flex:1 1 auto;width:100%;}
+.report_grid2 .chart_btns {align-self: flex-end;}
+.report_grid2 .chart_btn {display:block;margin-bottom:18px;width:240px;height:60px;border-radius:10px;background-color:#5B79A6;color: #FFF;text-align: center;font-size: 32px;transition:all 0.3s;}
+.report_grid2 .chart_btn.active {font-size:36px;font-weight:700;background-color: #0071FE;}
 
 /* --- 애니메이션 --- */
 @keyframes panelIn {
