@@ -494,37 +494,74 @@
 
 
 <script>
+let report1ChartsRendered = false;
+
 // ------------------------------------------------------------
 // 초기
 // ------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
     getHashOfName();
     gate0304Init();
-    drawGradeChart('chart1');
-    drawEsTrendChart('chart2');
-    drawGradeChart('chart3',[8.1, 10.5, 34.8, 31.8, 15.2, 1.5, 0],'#4091B9');
-    drawEsgRadarChart('chart4');
 
     const $scrollContainer = $('.esg_cont_inner');
 
     $('.btn_scroll').each(function(index) {
         $(this).on('click', function() {
-            // 대상 영역
             const $target = $(`.scroll_cnt.cnt${index + 1}`);
             if ($target.length === 0) return;
 
-            // 스크롤 이동
             $scrollContainer.animate({
                 scrollTop: $target.position().top
-            }, 400); // 400ms - 필요하면 조절 가능
+            }, 400);
         });
     });
 
+    $('.report_btns button').on('click', function () {
+        const action = $(this).hasClass('next') ? 'next' : 'prev';
+        switchReport(action);
+    });
+
+    const firstReport = $('[data-report].active').data('report');
+    if (firstReport === 1 && !report1ChartsRendered) {
+        initReport1Charts();
+        report1ChartsRendered = true;
+    }
 });
+
 window.addEventListener("hashchange", () => {
     getHashOfName();
     gate0304Init();
 });
+
+function switchReport(action) {
+    const $reports = $('[data-report]');
+    const $current = $reports.filter('.active');
+    const currentIndex = parseInt($current.data('report'), 10);
+
+    const nextIndex = action === 'next'
+        ? currentIndex + 1
+        : currentIndex - 1;
+
+    const $target = $reports.filter(`[data-report="${nextIndex}"]`);
+    if ($target.length === 0) return;
+
+    // 상태 변경
+    $reports.removeClass('active').hide();
+    $target.addClass('active').show();
+
+    // 1번 탭 최초 로딩 시 그래프 1회 실행
+    if (nextIndex === 1 && !report1ChartsRendered) {
+        initReport1Charts();
+        report1ChartsRendered = true;
+    }
+}
+
+function initReport1Charts() {
+    drawGradeChart('chart1');
+    drawEsTrendChart('chart2');
+    drawGradeChart('chart3',[8.1, 10.5, 34.8, 31.8, 15.2, 1.5, 0],'#4091B9');
+    drawEsgRadarChart('chart4');
+}
 
 //chart1
 function drawGradeChart(
