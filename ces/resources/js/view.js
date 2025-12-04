@@ -73,8 +73,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function getBizComment(lang, company, itemName) {
+    console.log('itemName: ', itemName);
     const korData = COMPANY_DATA_KOR[company];
     const engData = COMPANY_DATA_ENG[company];
+    console.log('??',engData.bizComments[itemName]);
     return lang === "kor" ? korData.bizComments[itemName] || "" : engData.bizComments[itemName] || "";
   }
 
@@ -135,11 +137,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 코멘트 변경
     const itemName = data.items[idx];
+    console.log('lang :', lang);
     const comment  = getBizComment(lang, company, itemName);
+    console.log('comment: ',comment);
     setComment(comment);
 
     // 오각형 레이더 전체 점수 갱신
-    updateBizRadar(company, 'kor');
+    updateBizRadar(company, lang);
     
     // 상단 타이틀 / 뱃지 / 바차트 갱신
     const barData = getBizBarDetail(lang, company, idx);   // ← service.js에서 가져옴
@@ -377,36 +381,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // 여기서 metrics는 service.js에서 만든 세부 항목들
     updateSkillBarChart(barData.metrics);
   }
-
-    // ASIT: tit / badge / skillBarChart 공통 업데이트
-  function updateAsitHeaderAndBar(items, grades, idx) {
-    const titleEl = document.querySelector(".bar_grp_box_tit .tit");
-    const badgeL  = document.querySelector(".badge_box .l");
-    const badgeR  = document.querySelector(".badge_box .r");
-
-    const itemName = items[idx] || "";
-    const grade    = grades[idx] || "";
-
-    if (titleEl) titleEl.textContent = itemName;
-    if (badgeL)  badgeL.textContent  = grade;
-    if (badgeR && typeof getGradeLabel === "function") {
-      badgeR.textContent = getGradeLabel(grade);
-    }
-
-    // 선택된 등급 1개를 막대 그래프(0~100)로 표현
-    if (typeof gradeToScore === "function") {
-      const score = gradeToScore(grade);
-      const metrics = [{
-        label: itemName,
-        score: score,
-        detail: ""
-      }];
-      updateSkillBarChart(metrics);
-    }
-  }
-
-    // 기업역량은 이미 getBizBarDetail로 연결해 놨으니까
-  // 기술성 / 시장성 / 사업성만 따로 추가
 
   // 기술성 탭: service.js의 getTechBarDetail 사용
   function updateAsitTechHeaderAndBar(idx) {
@@ -978,7 +952,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (barTitle) barTitle.textContent = factor.name;   // 선택된 요인 이름
       if (badgeL)   badgeL.textContent   = factor.score;  // 혹은 model.totalScore 써도 됨
-      if (badgeR)   badgeR.textContent   = "(점)";
+      if (badgeR)   badgeR.textContent   = language === 'kor' ? "(점)" : "(score)";
     }
 
     // 바차트 데이터 세팅 (이미 쓰던 거 그대로)
