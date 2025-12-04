@@ -79,12 +79,12 @@
                         <div class="top">
                             <p class="tit">1. ESG정밀진단 결과</p>
 
-                            <!-- tab_btns -->
-                            <ul class="tab_btns">
-                                <li><button type="button" class="active">종합결과</button></li>
-                                <li><button type="button">분야별 결과</button></li>
+                            <!-- scroll_btns -->
+                            <ul class="scroll_btns">
+                                <li><button type="button" class="btn_scroll active">종합결과</button></li>
+                                <li><button type="button" class="btn_scroll">분야별 결과</button></li>
                             </ul>
-                            <!-- //tab_btns -->
+                            <!-- //scroll_btns -->
 
                             <!-- current -->
                             <ul class="current">
@@ -248,21 +248,21 @@
 
                                 <!-- tab_btns -->
                                 <div class="tab_btns">
-                                    <button type="button">
+                                    <button type="button" class="btn_report_tab active">
                                         <span class="name">환경</span>
                                         <span class="summary">
                                             <span class="grade">A+</span>
                                             <span class="point">82.5점</span>
                                         </span>
                                     </button>
-                                    <button type="button">
+                                    <button type="button" class="btn_report_tab">
                                         <span class="name">사회</span>
                                         <span class="summary">
                                             <span class="grade">A+</span>
                                             <span class="point">87.0점</span>
                                         </span>
                                     </button>
-                                    <button type="button">
+                                    <button type="button" class="btn_report_tab">
                                         <span class="name">지배구조</span>
                                         <span class="summary">
                                             <span class="grade">A+</span>
@@ -382,11 +382,17 @@
                             <!-- //scroll_cnt -->
                         </div>
                         <!-- //scroll_cnts -->
+
+                        <!-- report_btns -->
+                        <div class="report_btns">
+                            <button type="button" class="next">ESG 규제 대응 수준 평가 결과</button>
+                        </div>
+                        <!-- //report_btns -->
                     </div>
                     <!-- //data-report : 1 -->
 
                     <!-- data-report : 2 -->
-                    <div data-report="2">
+                    <div data-report="2" class="active">
                         <!-- top -->
                         <div class="top">
                             <p class="tit">2. ESG 규제 대응 수준 평가 결과</p>
@@ -402,6 +408,12 @@
                         </div>
                         <!-- //top -->
 
+                        <!-- report_btns -->
+                        <div class="report_btns">
+                            <button type="button" class="prev">ESG 정밀진단 컨설팅 종합</button>
+                            <button type="button" class="next">To-Be 이행 가이드</button>
+                        </div>
+                        <!-- //report_btns -->
                     </div>
                     <!-- //data-report : 2 -->
 
@@ -422,6 +434,12 @@
                         </div>
                         <!-- //top -->
 
+                        <!-- report_btns -->
+                        <div class="report_btns">
+                            <button type="button" class="prev">ESG 규제 대응 수준 평가 결과</button>
+                            <button type="button" class="next">ESG 경영진단 확인서 받기</button>
+                        </div>
+                        <!-- //report_btns -->
                     </div>
                     <!-- //data-report : 3 -->
                 </div>
@@ -486,6 +504,22 @@ document.addEventListener("DOMContentLoaded", () => {
     drawEsTrendChart('chart2');
     drawGradeChart('chart3',[8.1, 10.5, 34.8, 31.8, 15.2, 1.5, 0],'#4091B9');
     drawEsgRadarChart('chart4');
+
+    const $scrollContainer = $('.esg_cont_inner');
+
+    $('.btn_scroll').each(function(index) {
+        $(this).on('click', function() {
+            // 대상 영역
+            const $target = $(`.scroll_cnt.cnt${index + 1}`);
+            if ($target.length === 0) return;
+
+            // 스크롤 이동
+            $scrollContainer.animate({
+                scrollTop: $target.position().top
+            }, 400); // 400ms - 필요하면 조절 가능
+        });
+    });
+
 });
 window.addEventListener("hashchange", () => {
     getHashOfName();
