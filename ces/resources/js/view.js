@@ -1021,6 +1021,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   window.renderBizCapabilityView = renderBizCapabilityView;
   window.activateAsitTopTab = activateAsitTopTab;
+  window.renderGrowthView = renderGrowthView;
 });
 
 document.addEventListener('DOMContentLoaded', () => {

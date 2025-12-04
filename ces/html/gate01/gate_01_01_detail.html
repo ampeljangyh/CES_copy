@@ -2321,8 +2321,8 @@ function resizeGrowthChart(chart) {
  ****************************/
 window.addEventListener('load', function () {
   const lang = getCurrentLangFromBody();
-  if (lang === 'en') ensureEnChart(), language = 'eng', renderBizCapabilityView(language, currentCompany);
-  else ensureKrChart(), language = 'kor', renderBizCapabilityView(language, currentCompany);
+  if (lang === 'en') ensureEnChart(), language = 'eng', renderBizCapabilityView(language, currentCompany), renderGrowthView(language, currentCompany);
+  else ensureKrChart(), language = 'kor', renderBizCapabilityView(language, currentCompany), renderGrowthView(language, currentCompany);
 });
 
 window.addEventListener('resize', function () {
@@ -2337,8 +2337,8 @@ document.addEventListener('DOMContentLoaded', function () {
   langBtn.addEventListener('click', function () {
     setTimeout(function () {
       const lang = getCurrentLangFromBody();
-      if (lang === 'en') ensureEnChart(), language = 'eng', renderBizCapabilityView(language, currentCompany);
-      else ensureKrChart(), language = 'kor', renderBizCapabilityView(language, currentCompany);
+      if (lang === 'en') ensureEnChart(), language = 'eng', renderBizCapabilityView(language, currentCompany), renderGrowthView(language, currentCompany);
+      else ensureKrChart(), language = 'kor', renderBizCapabilityView(language, currentCompany), renderGrowthView(language, currentCompany);
     }, 0);
   });
 });
