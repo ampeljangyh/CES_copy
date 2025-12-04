@@ -35,26 +35,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (lang === 'kor') {
       biz = korData.bizCapability;
+      return {
+        items: [
+          "경영주 역량",
+          "관리 능력",
+          "기술 개발 능력",
+          "제품화 역량",
+          "수익 전망"
+        ],
+        grades: [
+          biz.owner.grade,
+          biz.management.grade,
+          biz.techDevelopment.grade,
+          biz.productization.grade,
+          biz.profit.grade
+        ]
+      };
     } else if (lang === 'eng') {
       biz = engData.bizCapability;
+      return {
+        items: [
+          "CEO capabiity",
+          "Management capability",
+          "Technology development capability",
+          "commercialization capability",
+          "Profit outlook"
+        ],
+        grades: [
+          biz.owner.grade,
+          biz.management.grade,
+          biz.techDevelopment.grade,
+          biz.productization.grade,
+          biz.profit.grade
+        ]
+      };
     }
-
-    return {
-      items: [
-        "경영주 역량",
-        "관리 능력",
-        "기술 개발 능력",
-        "제품화 역량",
-        "수익 전망"
-      ],
-      grades: [
-        biz.owner.grade,
-        biz.management.grade,
-        biz.techDevelopment.grade,
-        biz.productization.grade,
-        biz.profit.grade
-      ]
-    };
   }
 
   function getBizComment(lang, company, itemName) {
@@ -64,7 +79,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderBizCapabilityView(lang, company) {
-    console.log("!!")
     const data = getBizCapabilityData(lang, company);
     if (!data) return;
 
@@ -129,7 +143,6 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // 상단 타이틀 / 뱃지 / 바차트 갱신
     const barData = getBizBarDetail(lang, company, idx);   // ← service.js에서 가져옴
-    console.log('barData: ', barData);
     if (barData) {
       const titleEl = document.querySelector(".bar_grp_box_tit .tit");
       const badgeL  = document.querySelector(".badge_box .l");
@@ -177,22 +190,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (lang === 'kor') {
       tech = korData.techCompetitiveness;
+      return {
+        items: [
+          "기술 혁신성",
+          "시장 현황",
+          "제품 우위성"
+        ],
+        grades: [
+          tech.innovation.grade,
+          tech.market.grade,
+          tech.productAdvantage.grade
+        ]
+      };
     } else if (lang === 'eng') {
       tech = engData.techCompetitiveness;
-    }
-
-    return {
-      items: [
-        "기술 혁신성",
-        "시장 현황",
-        "제품 우위성"
-      ],
-      grades: [
-        tech.innovation.grade,
-        tech.market.grade,
-        tech.productAdvantage.grade
-      ]
-    };
+      return {
+        items: [
+          "technology innovation",
+          "market status",
+          "Product superiority"
+        ],
+        grades: [
+          tech.innovation.grade,
+          tech.market.grade,
+          tech.productAdvantage.grade
+        ]
+      };
+    }  
   }
 
   function getTechComment(lang, company, itemName) {
@@ -488,12 +512,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!engData || !engData.evaluation) return;
 
     let ev;
+    let items;
     if (lang === 'kor') {
       ev = korData.evaluation;
+      items = ["기업가 정신과 신뢰", "최고 경영자", "경영진"];
     } else if (lang === 'eng') {
       ev = engData.evaluation;
+      items = ["entrepreuneurial spirit and credibility", "CEO / Top management", "Executive team (Managers)"];
     }
-    const items = ["기업가 정신과 신뢰", "최고 경영자", "경영진"];
     const grades = [
       ev.companyCapability.entrepreneurshipTrust.grade,
       ev.companyCapability.ceo.grade,
@@ -540,12 +566,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!engData || !engData.evaluation) return;
 
     let tech;
+    let items
     if (lang === 'kor') {
       tech = korData.evaluation.technology;
+      items = ["기술 개발 현황", "기술 개발 능력", "기술 혁신성", "기술자립도 및 확장성", "기술 보호성"];
     } else if (lang === 'eng') {
       tech = engData.evaluation.technology;
+      items = ["status of technology development", "Technology development capability", "technology innovation", "technological independence and scalability", "technology pretectability / security"];
     }
-    const items = ["개발/수상 실적", "개발 역량", "혁신성", "자립·확장성", "보호 수준"];
+
     const grades = [
       tech.devStatus.grade,
       tech.devCapability.grade,
@@ -567,7 +596,7 @@ document.addEventListener("DOMContentLoaded", () => {
       updateAsitTechHeaderAndBar(idx);
     });
 
-    const commentText = lang === 'kor' ? (korData.comments && korData.comments["기술성"]) || "" : (engData.comments && engData.comments["시장성"]);
+    const commentText = lang === 'kor' ? (korData.comments && korData.comments["기술성"]) || "" : (engData.comments && engData.comments["기술성"]);
     setComment(commentText);
 
     if (radarBiz) {
@@ -593,14 +622,16 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!engData || !engData.evaluation) return;
 
     let mkt;
+    let items;
 
     if(lang === 'kor') {
       mkt = korData.evaluation.market;
+      items = ["시장 현황", "경쟁 상황", "제품 경쟁력"];
     } else if (lang === 'eng') {
       mkt = engData.evaluation.market;
+      items = ["market growth potential", "competitive landscape (benchmark)", "product competivness"];
     }
 
-    const items = ["시장 규모·성장성", "경쟁 상황", "제품 경쟁력"];
     const grades = [
       mkt.marketStatus.grade,
       mkt.competition.grade,
@@ -647,12 +678,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!engData || !engData.evaluation) return;
 
     let biz;
+    let items;
     if (lang === 'kor') {
       biz = korData.evaluation.business;
+      items  = ["사업능력", "향후전망"];
     } else if (lang === 'eng') {
       biz = engData.evaluation.business;
+      items  = ["business capability", "futur outlook"];
     }
-    const items  = ["사업능력", "향후전망"];
     const grades = [biz.capability.grade, biz.outlook.grade];
     const values = grades.map(g =>
       (typeof gradeToScore === "function" ? gradeToScore(g) : 0)
@@ -786,29 +819,28 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ===============================
-// 바 차트 그리기 / 업데이트
-// ===============================
-function updateSkillBarChart(metrics) {
-  console.log("metrics: ", metrics);
-  // 전역 값 갱신 (나중에 차트 만들 때도 이 값 사용 가능)
-  skillLabels = metrics.map(m => m.label);
-  skillValues = metrics.map(m => m.score);
+  // 바 차트 그리기 / 업데이트
+  // ===============================
+  function updateSkillBarChart(metrics) {
+    // 전역 값 갱신 (나중에 차트 만들 때도 이 값 사용 가능)
+    skillLabels = metrics.map(m => m.label);
+    skillValues = metrics.map(m => m.score);
 
-  // 아직 차트 인스턴스가 없거나 구조가 준비 안 되어 있으면 그냥 리턴
-  if (
-    !window.skillBarChart ||
-    !window.skillBarChart.data ||
-    !window.skillBarChart.data.datasets ||
-    !window.skillBarChart.data.datasets[0]
-  ) {
-    return;
+    // 아직 차트 인스턴스가 없거나 구조가 준비 안 되어 있으면 그냥 리턴
+    if (
+      !window.skillBarChart ||
+      !window.skillBarChart.data ||
+      !window.skillBarChart.data.datasets ||
+      !window.skillBarChart.data.datasets[0]
+    ) {
+      return;
+    }
+
+    // 여기까지 왔으면 차트가 준비된 상태
+    window.skillBarChart.data.labels = skillLabels;
+    window.skillBarChart.data.datasets[0].data = skillValues;
+    window.skillBarChart.update();
   }
-
-  // 여기까지 왔으면 차트가 준비된 상태
-  window.skillBarChart.data.labels = skillLabels;
-  window.skillBarChart.data.datasets[0].data = skillValues;
-  window.skillBarChart.update();
-}
 
   // ===============================
   // 초기 진입 시 기본 탭 활성화
@@ -831,7 +863,6 @@ function updateSkillBarChart(metrics) {
   // ===============================
   function updateGrowthRadar(language, company) {
     const data = getGrowthRadarValues(language, company);
-    console.log(data);
     if (!data) return;
 
     radarValuesCompany8 = data.myScores;
@@ -869,7 +900,6 @@ function updateSkillBarChart(metrics) {
   // ===============================
   function renderGrowthView(language, company) {
     const model = getGrowthModel(language, company);
-    console.log(model);
     if (!model) return;
 
     // 1) 레이더 차트 값 세팅 / 업데이트 (그래프 버튼 텍스트는 그대로)
@@ -919,44 +949,44 @@ function updateSkillBarChart(metrics) {
   }
 
   function setGrowthActiveByIndex(idx, language, company) {
-  const model = getGrowthModel(language, company);
-  if (!model) return;
+    const model = getGrowthModel(language, company);
+    if (!model) return;
 
-  const radialButtons = document.querySelectorAll(".radial_btn_list.ty_02 .radial_btn");
-  const itemButtons   = document.querySelectorAll(".grp_btn_list.ty_02 .list_item:first-child .list_btn");
-  const scoreButtons  = document.querySelectorAll(".grp_btn_list.ty_02 .list_item:last-child .btn");
+    const radialButtons = document.querySelectorAll(".radial_btn_list.ty_02 .radial_btn");
+    const itemButtons   = document.querySelectorAll(".grp_btn_list.ty_02 .list_item:first-child .list_btn");
+    const scoreButtons  = document.querySelectorAll(".grp_btn_list.ty_02 .list_item:last-child .btn");
 
-  // 버튼 on 동기화
-  radialButtons.forEach((btn, i) => btn.classList.toggle("on", i === idx));
-  itemButtons.forEach((btn, i)   => btn.classList.toggle("on", i === idx));
-  scoreButtons.forEach((btn, i)  => btn.classList.toggle("on", i === idx));
+    // 버튼 on 동기화
+    radialButtons.forEach((btn, i) => btn.classList.toggle("on", i === idx));
+    itemButtons.forEach((btn, i)   => btn.classList.toggle("on", i === idx));
+    scoreButtons.forEach((btn, i)  => btn.classList.toggle("on", i === idx));
 
-  const factor = model.factors[idx]; // { name, score, topCompanyScore }
+    const factor = model.factors[idx]; // { name, score, topCompanyScore }
 
-  // 상단 "외형 지표 가시화" 타이틀 (그 큰 제목)
-  const grpTitle = document.querySelector(".grp_lg_info_wrap .grp_tit_box span");
-  if (grpTitle) grpTitle.textContent = factor.name;
+    // 상단 "외형 지표 가시화" 타이틀 (그 큰 제목)
+    const grpTitle = document.querySelector(".grp_lg_info_wrap .grp_tit_box span");
+    if (grpTitle) grpTitle.textContent = factor.name;
 
-  // 성장성 bar 박스 안에서만 타이틀/점수 찾기
-  const growthCanvas = document.getElementById("skillBarChart02");
-  const growthBarBox = growthCanvas ? growthCanvas.closest(".bar_grp_box") : null;
+    // 성장성 bar 박스 안에서만 타이틀/점수 찾기
+    const growthCanvas = document.getElementById("skillBarChart02");
+    const growthBarBox = growthCanvas ? growthCanvas.closest(".bar_grp_box") : null;
 
-  if (growthBarBox) {
-    const barTitle = growthBarBox.querySelector(".bar_grp_box_tit .tit");
-    const badgeL   = growthBarBox.querySelector(".badge_box .l");
-    const badgeR   = growthBarBox.querySelector(".badge_box .r");
+    if (growthBarBox) {
+      const barTitle = growthBarBox.querySelector(".bar_grp_box_tit .tit");
+      const badgeL   = growthBarBox.querySelector(".badge_box .l");
+      const badgeR   = growthBarBox.querySelector(".badge_box .r");
 
-    if (barTitle) barTitle.textContent = factor.name;   // 선택된 요인 이름
-    if (badgeL)   badgeL.textContent   = factor.score;  // 혹은 model.totalScore 써도 됨
-    if (badgeR)   badgeR.textContent   = "(점)";
+      if (barTitle) barTitle.textContent = factor.name;   // 선택된 요인 이름
+      if (badgeL)   badgeL.textContent   = factor.score;  // 혹은 model.totalScore 써도 됨
+      if (badgeR)   badgeR.textContent   = "(점)";
+    }
+
+    // 바차트 데이터 세팅 (이미 쓰던 거 그대로)
+    const detail = getGrowthBarDetail(language, company, idx);
+    if (detail) {
+      updateGrowthBarChart(detail);
+    }
   }
-
-  // 바차트 데이터 세팅 (이미 쓰던 거 그대로)
-  const detail = getGrowthBarDetail(language, company, idx);
-  if (detail) {
-    updateGrowthBarChart(detail);
-  }
-}
 
 
   function bindGrowthButtons(language, company) {
@@ -989,6 +1019,8 @@ function updateSkillBarChart(metrics) {
   window.addEventListener('load', () => {
     renderGrowthView(language, currentCompany);
   });
+  window.renderBizCapabilityView = renderBizCapabilityView;
+  window.activateAsitTopTab = activateAsitTopTab;
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -1039,9 +1071,7 @@ function initFinanceSection() {
   }
 
   function render(mode) {
-    const lang = getLang();  // ← 매번 최신 언어 반영
-    console.log('[finance] render mode =', mode, 'lang =', lang);
-
+    const lang = getLang();
     const data = getFinanceViewData(company, lang, mode);
     if (!data) return;
 
@@ -1061,7 +1091,6 @@ function initFinanceSection() {
         if (e.stopImmediatePropagation) e.stopImmediatePropagation();
 
         const clickMode = this.dataset.mode || 'all';
-        console.log('[finance] 탭 클릭:', clickMode);
 
         activateBtn(this);
         render(clickMode);

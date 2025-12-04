@@ -1538,64 +1538,64 @@ From a product competitiveness perspective, the company meets requirements relat
     modelResult: {
       totalScore: 98.67,
       factors: [
-        { name: "추가 투자금 유치", score: 99.6, topCompanyScore: 56.5 },
-        { name: "정부 출연금 확보", score: 97.3, topCompanyScore: 26.5 },
-        { name: "브랜드 홍보 전략", score: 97.2, topCompanyScore: 92.4 },
-        { name: "다양한 제휴 체결", score: 0, topCompanyScore: 31.8 },
-        { name: "외형 지표 가시화", score: 96.7, topCompanyScore: 94.1 },
-        { name: "해외 진출 활성화", score: 98.4, topCompanyScore: 21.6 },
-        { name: "우수한 인재 유치", score: 84.9, topCompanyScore: 72.0 },
-        { name: "높은 기술 준비도", score: 96.9, topCompanyScore: 59.6 }
+        { name: "Attract additional investment", score: 99.6, topCompanyScore: 56.5 },
+        { name: "Secure government-funded support", score: 97.3, topCompanyScore: 26.5 },
+        { name: "Brand promotion strategy", score: 97.2, topCompanyScore: 92.4 },
+        { name: "Establish diverse strategic partnerships", score: 0, topCompanyScore: 31.8 },
+        { name: "Visualize growth metrics", score: 96.7, topCompanyScore: 94.1 },
+        { name: "Accelerate global market expansion", score: 98.4, topCompanyScore: 21.6 },
+        { name: "Attracting top-tier professionals", score: 84.9, topCompanyScore: 72.0 },
+        { name: "High technology readiness", score: 96.9, topCompanyScore: 59.6 }
       ],
 
       barScores: [
-        { key: "추가 투자금 유치", label: "4-7년차투자단계", detail: "1.5단계", score: 100 },
-        { key: "추가 투자금 유치", label: "4-7년차투자건수", detail: "0.3건", score: 100 },
-        { key: "추가 투자금 유치", label: "4-7년차투자기사검색건수", detail: "1.5건", score: 100 },
-        { key: "추가 투자금 유치", label: "4년차투자유치금액", detail: "90.0billion KRW", score: 100 },
-        { key: "추가 투자금 유치", label: "5년차VCTOP20투자유치금액", detail: "-billion KRW", score: 10 },
+        { key: "Attract additional investment", label: "4–7-year investment stage", detail: "1.5step", score: 100 },
+        { key: "Attract additional investment", label: "Number of investments during years 4–7", detail: "0.3case", score: 100 },
+        { key: "Attract additional investment", label: "Number of investment-related news articles found during years 4–7", detail: "1.5case", score: 100 },
+        { key: "Attract additional investment", label: "4th-year investment amount", detail: "90.0billion KRW", score: 100 },
+        { key: "Attract additional investment", label: "Number of VC Top 20 investments secured in year 5", detail: "-billion KRW", score: 10 },
 
-        { key: "정부 출연금 확보", label: "4년차RND금액", detail: "10.0billion KRW", score: 100 },
-        { key: "정부 출연금 확보", label: "4-7년차RND수행건수", detail: "-건", score: 0 },
-        { key: "정부 출연금 확보", label: "4-7년차연구비카드사용건수", detail: "-건", score: 10 },
-        { key: "정부 출연금 확보", label: "5년차RND금액", detail: "-billion KRW", score: 10 },
-        { key: "정부 출연금 확보", label: "-", detail: "", score: 0 },
+        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 4", detail: "10.0billion KRW", score: 100 },
+        { key: "Secure government-funded support", label: "Number of R&D projects executed in years 4–7", detail: "-case", score: 0 },
+        { key: "Secure government-funded support", label: "Number of research expense card transactions during years 4–7", detail: "-case", score: 10 },
+        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 5", detail: "-billion KRW", score: 10 },
+        { key: "Secure government-funded support", label: "-", detail: "", score: 0 },
 
-        { key: "브랜드 홍보 전략", label: "4-7년차브랜드지재권종류", detail: "0.5비율", score: 100 },
-        { key: "브랜드 홍보 전략", label: "4-7년차상표권출원건수", detail: "0.8건", score: 100 },
-        { key: "브랜드 홍보 전략", label: "4-7년차전체기사검색건수", detail: "8.0건", score: 100 },
-        { key: "브랜드 홍보 전략", label: "5년차상표권출원대비등록", detail: "-비율", score: 10 },
-        { key: "브랜드 홍보 전략", label: "4년차상표권출원대비등록", detail: "-비율", score: 10 },
+        { key: "Brand promotion strategy", label: "Brand-related intellectual property applications filed during years 4–7", detail: "0.5ratio", score: 100 },
+        { key: "Brand promotion strategy", label: "Number of trademark applications filed during years 4–7", detail: "0.8case", score: 100 },
+        { key: "Brand promotion strategy", label: "Total number of news articles found during years 4–7", detail: "8.0case", score: 100 },
+        { key: "Brand promotion strategy", label: "Number of trademark applications filed during years 5", detail: "-ratio", score: 10 },
+        { key: "Brand promotion strategy", label: "Number of trademark applications filed during years 4", detail: "-ratio", score: 10 },
 
-        { key: "다양한 제휴 체결", label: "4-7년차제휴기사검색건수", detail: "-건", score: 10 },
-        { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
-        { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
-        { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
-        { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
+        { key: "Establish diverse strategic partnerships", label: "Number of partnership-related news articles identified during years 4–7", detail: "-case", score: 10 },
+        { key: "Establish diverse strategic partnerships", label: "-", detail: "", score: 0 },
+        { key: "Establish diverse strategic partnerships", label: "-", detail: "", score: 0 },
+        { key: "Establish diverse strategic partnerships", label: "-", detail: "", score: 0 },
+        { key: "Establish diverse strategic partnerships", label: "-", detail: "", score: 0 },
 
-        { key: "외형 지표 가시화", label: "5년차고용인원증가율", detail: "0.2%", score: 70 },
-        { key: "외형 지표 가시화", label: "4-7년차성과제목기사검색건수", detail: "8.0건", score: 100 },
-        { key: "외형 지표 가시화", label: "-", detail: "", score: 0 },
-        { key: "외형 지표 가시화", label: "-", detail: "", score: 0 },
-        { key: "외형 지표 가시화", label: "-", detail: "", score: 0 },
+        { key: "Visualize growth metrics", label: "Employment growth rate in year 5", detail: "0.2%", score: 70 },
+        { key: "Visualize growth metrics", label: "Number of performance-themed news articles identified during years 4-7", detail: "8.0case", score: 100 },
+        { key: "Visualize growth metrics", label: "-", detail: "", score: 0 },
+        { key: "Visualize growth metrics", label: "-", detail: "", score: 0 },
+        { key: "Visualize growth metrics", label: "-", detail: "", score: 0 },
 
-        { key: "해외 진출 활성화", label: "4-7년차해외진출기사검색건수", detail: "0.5건", score: 100 },
-        { key: "해외 진출 활성화", label: "-", detail: "", score: 0 },
-        { key: "해외 진출 활성화", label: "-", detail: "", score: 0 },
-        { key: "해외 진출 활성화", label: "-", detail: "", score: 0 },
-        { key: "해외 진출 활성화", label: "-", detail: "", score: 0 },
+        { key: "Accelerate global market expansion", label: "Number of articles on international market expansion identified in years 4-7", detail: "0.5case", score: 100 },
+        { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
+        { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
+        { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
+        { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
 
-        { key: "우수한 인재 유치", label: "4년차임금", detail: "4.9million KRW", score: 100 },
-        { key: "우수한 인재 유치", label: "4년차퇴사대비입사율", detail: "0.8비율", score: 50 },
-        { key: "우수한 인재 유치", label: "5년차퇴사대비입사율", detail: "2.0비율", score: 90 },
-        { key: "우수한 인재 유치", label: "5년차임금", detail: "4.8million KRW", score: 100 },
-        { key: "우수한 인재 유치", label: "4-7년차고용관련인증종류현황", detail: "-건", score: 10 },
+        { key: "Attracting top-tier professionals", label: "salary in year 4 ", detail: "4.9million KRW", score: 100 },
+        { key: "Attracting top-tier professionals", label: "Hiring/Resignation ratio in year 4", detail: "0.8ratio", score: 50 },
+        { key: "Attracting top-tier professionals", label: "Hiring/Resignation ratio in year 5", detail: "2.0ratio", score: 90 },
+        { key: "Attracting top-tier professionals", label: "salary in year 5", detail: "4.8million KRW", score: 100 },
+        { key: "Attracting top-tier professionals", label: "Employment certification status during years 4–7 ", detail: "-case", score: 10 },
 
-        { key: "높은 기술 준비도", label: "4-7년차기술인증종류현황", detail: "1.0건", score: 90 },
-        { key: "높은 기술 준비도", label: "4-7년차특허등록건수", detail: "0.5건", score: 100 },
-        { key: "높은 기술 준비도", label: "4년차특허출원대비등록", detail: "0.5건", score: 100 },
-        { key: "높은 기술 준비도", label: "4-7년차특허출원건수", detail: "0.3건", score: 100 },
-        { key: "높은 기술 준비도", label: "4-7년차연구소인증건수", detail: "-건", score: 10 }
+        { key: "High technology readiness", label: "Technology certification status during years 4–7 ", detail: "1.0case", score: 90 },
+        { key: "High technology readiness", label: "Number of patent registrations during years 4–7", detail: "0.5case", score: 100 },
+        { key: "High technology readiness", label: "Patent application-to-registration ratio in year 4", detail: "0.5case", score: 100 },
+        { key: "High technology readiness", label: "Number of patent applications in years 4–7", detail: "0.3case", score: 100 },
+        { key: "High technology readiness", label: "Number of research lab accreditations during 4–7", detail: "-case", score: 10 }
       ]
     }
   },
@@ -1794,64 +1794,64 @@ Therefore, the company’s growth potential and profitability are both evaluated
     modelResult: {
       totalScore: 99.71,
       factors: [
-        { name: "추가 투자금 유치", score: 0, topCompanyScore: 10.0 },
-        { name: "정부 출연금 확보", score: 99.5, topCompanyScore: 16.5 },
-        { name: "높은 기술 준비도", score: 99.2, topCompanyScore: 56.6 },
-        { name: "브랜드 홍보 전략", score: 97.5, topCompanyScore: 68.3 },
-        { name: "외형 지표 가시화", score: 99.5, topCompanyScore: 90.2 },
-        { name: "다양한 제휴 체결", score: 99.8, topCompanyScore: 18.6 },
-        { name: "우수한 인재 유치", score: 98, topCompanyScore: 72.0 },
-        { name: "사전적 영업 수행", score: 62.8, topCompanyScore: 66.7 }
+        { name: "Attract additional investment", score: 0, topCompanyScore: 10.0 },
+        { name: "Secure government-funded support", score: 99.5, topCompanyScore: 16.5 },
+        { name: "High technology readiness", score: 99.2, topCompanyScore: 56.6 },
+        { name: "Brand promotion strategy", score: 97.5, topCompanyScore: 68.3 },
+        { name: "Visualize growth metrics", score: 99.5, topCompanyScore: 90.2 },
+        { name: "Establish diverse strategic partnerships", score: 99.8, topCompanyScore: 18.6 },
+        { name: "Attracting top-tier professionals", score: 98, topCompanyScore: 72.0 },
+        { name: "Conduct proactive sales activities", score: 62.8, topCompanyScore: 66.7 }
       ],
 
       barScores: [
-        { key: "추가 투자금 유치", label: "1-3년차투자기사검색건수", detail: "-건", score: 10 },
-        { key: "추가 투자금 유치", label: "3년차VCTOP20투자유치금액", detail: "-billion KRW", score: 10 },
-        { key: "추가 투자금 유치", label: "2년차VCTOP20투자유치금액", detail: "-billion KRW", score: 10 },
-        { key: "추가 투자금 유치", label: "2년차투자유치금액", detail: "-billion KRW", score: 10 },
-        { key: "추가 투자금 유치", label: "3년차투자유치금액", detail: "-billion KRW", score: 10 },
+        { key: "Attract additional investment", label: "Number of investment-related news articles found during years 1–3", detail: "-case", score: 10 },
+        { key: "Attract additional investment", label: "Amount of VC Top 20 investment secured in year 3", detail: "-billion KRW", score: 10 },
+        { key: "Attract additional investment", label: "Amount of VC Top 20 investment secured in year 4", detail: "-billion KRW", score: 10 },
+        { key: "Attract additional investment", label: "Investment amount secured in year 2", detail: "-billion KRW", score: 10 },
+        { key: "Attract additional investment", label: "Investment amount secured in year 3", detail: "-billion KRW", score: 10 },
 
-        { key: "정부 출연금 확보", label: "1-3년차연구비카드사용건수", detail: "0.3건", score: 100 },
-        { key: "정부 출연금 확보", label: "1-3년차최초연구비카드사용시점", detail: "13.0개월", score: 30 },
-        { key: "정부 출연금 확보", label: "1-3년차최초RND수행시점", detail: "13.0개월", score: 40 },
-        { key: "정부 출연금 확보", label: "1-3년차RND수행건수", detail: "0.3건", score: 100 },
-        { key: "정부 출연금 확보", label: "2년차RND금액", detail: "1.7billion KRW", score: 100 },
+        { key: "Secure government-funded support", label: "Number of research expense card transactions during years 1–3", detail: "0.3case", score: 100 },
+        { key: "Secure government-funded support", label: "Timing of the initial research funding card transaction during years 1-3", detail: "13.0months", score: 30 },
+        { key: "Secure government-funded support", label: "Timing of the initial R&D implementation during years 1-3", detail: "13.0months", score: 40 },
+        { key: "Secure government-funded support", label: "Number of R&D projects executed in years 1–3", detail: "0.3case", score: 100 },
+        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 2", detail: "1.7billion KRW", score: 100 },
 
-        { key: "높은 기술 준비도", label: "1-3년차특허출원건수", detail: "0.3건", score: 100 },
-        { key: "높은 기술 준비도", label: "1-3년차특허등록건수", detail: "0.3건", score: 100 },
-        { key: "높은 기술 준비도", label: "1-3년차연구소인증건수", detail: "0.7건", score: 100 },
-        { key: "높은 기술 준비도", label: "1-3년차기술인증종류현황", detail: "0.7건", score: 100 },
-        { key: "높은 기술 준비도", label: "3년차특허출원대비등록", detail: "1.0비율", score: 100 },
+        { key: "High technology readiness", label: "Number of patent applications in years 1–3", detail: "0.3case", score: 100 },
+        { key: "High technology readiness", label: "Number of patent registrations during years 1–3", detail: "0.3case", score: 100 },
+        { key: "High technology readiness", label: "Number of research lab accreditations during 1–3", detail: "0.7case", score: 100 },
+        { key: "High technology readiness", label: "Technology certification status during years 1–3", detail: "0.7case", score: 100 },
+        { key: "High technology readiness", label: "Patent application-to-registration ratio in year 3", detail: "1.0ratio", score: 100 },
 
-        { key: "브랜드 홍보 전략", label: "1-3년차전체기사검색건수", detail: "14.7건", score: 100 },
-        { key: "브랜드 홍보 전략", label: "2년차상표권출원대비등록", detail: "-비율", score: 10 },
-        { key: "브랜드 홍보 전략", label: "1-3년차상표권등록건수", detail: "-건", score: 10 },
-        { key: "브랜드 홍보 전략", label: "1-3년차상표권출원건수", detail: "-건", score: 10 },
-        { key: "브랜드 홍보 전략", label: "3년차상표권출원대비등록", detail: "-비율", score: 10 },
+        { key: "Brand promotion strategy", label: "Number of patent registrations during years 1–3", detail: "14.7case", score: 100 },
+        { key: "Brand promotion strategy", label: "Trademark application-to-registration ratio in year 2", detail: "-ratio", score: 10 },
+        { key: "Brand promotion strategy", label: "Number of trademark registrations during years 1–3", detail: "-case", score: 10 },
+        { key: "Brand promotion strategy", label: "Number of trademark applications during years 1–3", detail: "-case", score: 10 },
+        { key: "Brand promotion strategy", label: "Trademark application-to-registration ratio in year 3", detail: "-ratio", score: 10 },
 
-        { key: "외형 지표 가시화", label: "1-3년차성과제목기사검색건수", detail: "14.7건", score: 100 },
-        { key: "외형 지표 가시화", label: "2년차자본", detail: "39.7billion KRW", score: 100 },
-        { key: "외형 지표 가시화", label: "2년차자산", detail: "45.7billion KRW", score: 100 },
-        { key: "외형 지표 가시화", label: "-", detail: "", score: 0 },
-        { key: "외형 지표 가시화", label: "-", detail: "", score: 0 },
+        { key: "Visualize growth metrics", label: "Number of performance-related news articles identified during years 1–3", detail: "14.7case", score: 100 },
+        { key: "Visualize growth metrics", label: "Capital in year 2", detail: "39.7billion KRW", score: 100 },
+        { key: "Visualize growth metrics", label: "Total assets in year 2", detail: "45.7billion KRW", score: 100 },
+        { key: "Visualize growth metrics", label: "-", detail: "", score: 0 },
+        { key: "Visualize growth metrics", label: "-", detail: "", score: 0 },
 
-        { key: "다양한 제휴 체결", label: "1-3년차제휴기사검색건수", detail: "6.0건", score: 100 },
-        { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
-        { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
-        { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
-        { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
+        { key: "Establish diverse strategic partnerships", label: "Number of partnership-related news articles identified during years 1–3", detail: "6.0case", score: 100 },
+        { key: "Establish diverse strategic partnerships", label: "-", detail: "", score: 0 },
+        { key: "Establish diverse strategic partnerships", label: "-", detail: "", score: 0 },
+        { key: "Establish diverse strategic partnerships", label: "-", detail: "", score: 0 },
+        { key: "Establish diverse strategic partnerships", label: "-", detail: "", score: 0 },
 
-        { key: "우수한 인재 유치", label: "2년차퇴사대비입사율", detail: "5.0비율", score: 100 },
-        { key: "우수한 인재 유치", label: "1-3년차주소변경횟수", detail: "0.3건", score: 10 },
-        { key: "우수한 인재 유치", label: "3년차퇴사대비입사율", detail: "2.0비율", score: 70 },
-        { key: "우수한 인재 유치", label: "2년차임금", detail: "5.2million KRW", score: 100 },
-        { key: "우수한 인재 유치", label: "3년차임금", detail: "4.7million KRW", score: 100 },
+        { key: "Attracting top-tier professionals", label: "Hiring/Resignation ratio in year 2", detail: "5.0ratio", score: 100 },
+        { key: "Attracting top-tier professionals", label: "Number of address changes during years 1–3", detail: "0.3case", score: 10 },
+        { key: "Attracting top-tier professionals", label: "Hiring/Resignation ratio in year 3", detail: "2.0ratio", score: 70 },
+        { key: "Attracting top-tier professionals", label: "Salary in year 2", detail: "5.2million KRW", score: 100 },
+        { key: "Attracting top-tier professionals", label: "Salary in year 3", detail: "4.7million KRW", score: 100 },
 
-        { key: "사전적 영업 수행", label: "설립일이전허블데이터건수", detail: "-건", score: 10 },
-        { key: "사전적 영업 수행", label: "2년차매출", detail: "-billion KRW", score: 10 },
-        { key: "사전적 영업 수행", label: "-", detail: "", score: 0 },
-        { key: "사전적 영업 수행", label: "-", detail: "", score: 0 },
-        { key: "사전적 영업 수행", label: "-", detail: "", score: 0 }
+        { key: "Conduct proactive sales activities", label: "Number of Hubble data records prior to the establishment date", detail: "-case", score: 10 },
+        { key: "Conduct proactive sales activities", label: "Sales made in year 2", detail: "-billion KRW", score: 10 },
+        { key: "Conduct proactive sales activities", label: "-", detail: "", score: 0 },
+        { key: "Conduct proactive sales activities", label: "-", detail: "", score: 0 },
+        { key: "Conduct proactive sales activities", label: "-", detail: "", score: 0 }
       ]
     }
   },
@@ -2001,64 +2001,64 @@ Therefore, the company’s growth potential and profitability are both evaluated
     modelResult: {
       totalScore: 98.46,
       factors: [
-        { name: "추가 투자금 유치", score: 0, topCompanyScore: 56.5 },
-        { name: "정부 출연금 확보", score: 97.3, topCompanyScore: 26.5 },
-        { name: "브랜드 홍보 전략", score: 95.9, topCompanyScore: 92.4 },
-        { name: "다양한 제휴 체결", score: 98.1, topCompanyScore: 31.8 },
-        { name: "외형 지표 가시화", score: 95.3, topCompanyScore: 94.1 },
-        { name: "해외 진출 활성화", score: 99.3, topCompanyScore: 21.6 },
-        { name: "우수한 인재 유치", score: 83.5, topCompanyScore: 72.0 },
-        { name: "높은 기술 준비도", score: 99.6, topCompanyScore: 59.6 }
+        { name: "Attract additional investment", score: 0, topCompanyScore: 56.5 },
+        { name: "Secure government-funded support", score: 97.3, topCompanyScore: 26.5 },
+        { name: "Brand promotion strategy", score: 95.9, topCompanyScore: 92.4 },
+        { name: "Establish diverse strategic partnerships", score: 98.1, topCompanyScore: 31.8 },
+        { name: "Visualize growth metrics", score: 95.3, topCompanyScore: 94.1 },
+        { name: "Accelerate global market expansion", score: 99.3, topCompanyScore: 21.6 },
+        { name: "Attracting top-tier professionals", score: 83.5, topCompanyScore: 72.0 },
+        { name: "High technology readiness", score: 99.6, topCompanyScore: 59.6 }
       ],
 
       barScores: [
-        { key: "추가 투자금 유치", label: "4-7년차투자단계", detail: "-단계", score: 10 },
-        { key: "추가 투자금 유치", label: "4-7년차투자건수", detail: "-건", score: 10 },
-        { key: "추가 투자금 유치", label: "5년차VCTOP20투자유치금액", detail: "-billion KRW", score: 10 },
-        { key: "추가 투자금 유치", label: "4-7년차VCTOP20투자건수", detail: "-건", score: 10 },
-        { key: "추가 투자금 유치", label: "5년차투자유치금액", detail: "-billion KRW", score: 10 },
+        { key: "Attract additional investment", label: "4–7-year investment stage", detail: "-step", score: 10 },
+        { key: "Attract additional investment", label: "Number of investments during years 4–7", detail: "-case", score: 10 },
+        { key: "Attract additional investment", label: "Number of VC Top 20 investments secured in year 5", detail: "-billion KRW", score: 10 },
+        { key: "Attract additional investment", label: "Number of VC Top 20 investments during years 4–7", detail: "-case", score: 10 },
+        { key: "Attract additional investment", label: "Investment amount secured in year 5", detail: "-billion KRW", score: 10 },
 
-        { key: "정부 출연금 확보", label: "4년차RND금액", detail: "10.5billion KRW", score: 100 },
-        { key: "정부 출연금 확보", label: "4-7년차RND수행건수", detail: "-건", score: 10 },
-        { key: "정부 출연금 확보", label: "4-7년차연구비카드사용건수", detail: "-건", score: 10 },
-        { key: "정부 출연금 확보", label: "5년차RND금액", detail: "-billion KRW", score: 10 },
-        { key: "정부 출연금 확보", label: "-", detail: "", score: 0 },
+        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 4", detail: "10.5billion KRW", score: 100 },
+        { key: "Secure government-funded support", label: "Number of R&D projects executed in years 4–7", detail: "-case", score: 10 },
+        { key: "Secure government-funded support", label: "Number of research expense card transactions during years 4–7", detail: "-case", score: 10 },
+        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 5", detail: "-billion KRW", score: 10 },
+        { key: "Secure government-funded support", label: "-", detail: "", score: 0 },
 
-        { key: "브랜드 홍보 전략", label: "4-7년차브랜드지재권종류", detail: "0.5비율", score: 100 },
-        { key: "브랜드 홍보 전략", label: "4-7년차전체기사검색건수", detail: "12.0건", score: 100 },
-        { key: "브랜드 홍보 전략", label: "5년차상표권출원대비등록", detail: "-비율", score: 10 },
-        { key: "브랜드 홍보 전략", label: "4-7년차상표권출원건수", detail: "-건", score: 10 },
-        { key: "브랜드 홍보 전략", label: "4년차상표권출원대비등록", detail: "-비율", score: 10 },
+        { key: "Brand promotion strategy", label: "Brand-related intellectual property applications filed during years 4–7", detail: "0.5ratio", score: 100 },
+        { key: "Brand promotion strategy", label: "Total number of news articles found during years 4–7", detail: "12.0case", score: 100 },
+        { key: "Brand promotion strategy", label: "Number of trademark applications filed during years 5", detail: "-ratio", score: 10 },
+        { key: "Brand promotion strategy", label: "Number of trademark applications filed during years 4–7", detail: "-case", score: 10 },
+        { key: "Brand promotion strategy", label: "Number of trademark applications filed during years 4", detail: "-ratio", score: 10 },
 
-        { key: "다양한 제휴 체결", label: "4-7년차제휴기사검색건수", detail: "1.0건", score: 100 },
-        { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
-        { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
-        { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
-        { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
+        { key: "Establish diverse strategic partnerships", label: "Number of partnership-related news articles identified during years 4–7", detail: "1.0case", score: 100 },
+        { key: "Establish diverse strategic partnerships", label: "-", detail: "", score: 0 },
+        { key: "Establish diverse strategic partnerships", label: "-", detail: "", score: 0 },
+        { key: "Establish diverse strategic partnerships", label: "-", detail: "", score: 0 },
+        { key: "Establish diverse strategic partnerships", label: "-", detail: "", score: 0 },
 
-        { key: "외형 지표 가시화", label: "5년차고용인원증가율", detail: "-%", score: 40 },
-        { key: "외형 지표 가시화", label: "4-7년차성과제목기사검색건수", detail: "12.0건", score: 100 },
-        { key: "외형 지표 가시화", label: "-", detail: "", score: 0 },
-        { key: "외형 지표 가시화", label: "-", detail: "", score: 0 },
-        { key: "외형 지표 가시화", label: "-", detail: "", score: 0 },
+        { key: "Visualize growth metrics", label: "Employment growth rate in year 5", detail: "-%", score: 40 },
+        { key: "Visualize growth metrics", label: "Number of performance-themed news articles identified during years 4-7", detail: "12.0case", score: 100 },
+        { key: "Visualize growth metrics", label: "-", detail: "", score: 0 },
+        { key: "Visualize growth metrics", label: "-", detail: "", score: 0 },
+        { key: "Visualize growth metrics", label: "-", detail: "", score: 0 },
 
-        { key: "해외 진출 활성화", label: "4-7년차해외진출기사검색건수", detail: "2.0건", score: 100 },
-        { key: "해외 진출 활성화", label: "-", detail: "", score: 0 },
-        { key: "해외 진출 활성화", label: "-", detail: "", score: 0 },
-        { key: "해외 진출 활성화", label: "-", detail: "", score: 0 },
-        { key: "해외 진출 활성화", label: "-", detail: "", score: 0 },
+        { key: "Accelerate global market expansion", label: "Number of articles on international market expansion identified in years 4-7", detail: "2.0case", score: 100 },
+        { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
+        { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
+        { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
+        { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
 
-        { key: "우수한 인재 유치", label: "4년차임금", detail: "4.5million KRW", score: 100 },
-        { key: "우수한 인재 유치", label: "4년차퇴사대비입사율", detail: "1.4비율", score: 80 },
-        { key: "우수한 인재 유치", label: "5년차퇴사대비입사율", detail: "0.7비율", score: 50 },
-        { key: "우수한 인재 유치", label: "5년차임금", detail: "4.7million KRW", score: 100 },
-        { key: "우수한 인재 유치", label: "4-7년차고용관련인증종류현황", detail: "-건", score: 10 },
+        { key: "Attracting top-tier professionals", label: "salary in year 4 ", detail: "4.5million KRW", score: 100 },
+        { key: "Attracting top-tier professionals", label: "Hiring/Resignation ratio in year 4", detail: "1.4ratio", score: 80 },
+        { key: "Attracting top-tier professionals", label: "Hiring/Resignation ratio in year 5", detail: "0.7ratio", score: 50 },
+        { key: "Attracting top-tier professionals", label: "salary in year 5", detail: "4.7million KRW", score: 100 },
+        { key: "Attracting top-tier professionals", label: "Employment certification status during years 4–7 ", detail: "-case", score: 10 },
 
-        { key: "높은 기술 준비도", label: "4-7년차기술인증종류현황", detail: "1.0건", score: 90 },
-        { key: "높은 기술 준비도", label: "4-7년차연구소인증건수", detail: "0.3건", score: 100 },
-        { key: "높은 기술 준비도", label: "4-7년차특허등록건수", detail: "1.0건", score: 100 },
-        { key: "높은 기술 준비도", label: "4년차특허출원대비등록", detail: "3.0비율", score: 100 },
-        { key: "높은 기술 준비도", label: "4-7년차특허출원건수", detail: "0.3건", score: 100 }
+        { key: "High technology readiness", label: "Technology certification status during years 4–7 ", detail: "1.0case", score: 90 },
+        { key: "High technology readiness", label: "Number of research lab accreditations during 4–7", detail: "0.3case", score: 100 },
+        { key: "High technology readiness", label: "Number of patent registrations during years 4–7", detail: "1.0case", score: 100 },
+        { key: "High technology readiness", label: "Patent application-to-registration ratio in year 4", detail: "3.0ratio", score: 100 },
+        { key: "High technology readiness", label: "Number of patent applications in years 4–7", detail: "0.3case", score: 100 }
       ]
     }
   },
@@ -2207,64 +2207,64 @@ Therefore, the product superiority is evaluated as average.`
     modelResult: {
       totalScore: 96.83,
       factors: [
-        { name: "추가 투자금 유치", score: 98.8, topCompanyScore: 56.5 },
-        { name: "정부 출연금 확보", score: 0, topCompanyScore: 26.5 },
-        { name: "브랜드 홍보 전략", score: 93.5, topCompanyScore: 92.4 },
-        { name: "다양한 제휴 체결", score: 0, topCompanyScore: 31.8 },
-        { name: "외형 지표 가시화", score: 95.9, topCompanyScore: 94.1 },
-        { name: "해외 진출 활성화", score: 0, topCompanyScore: 21.6 },
-        { name: "우수한 인재 유치", score: 81.7, topCompanyScore: 72.0 },
-        { name: "높은 기술 준비도", score: 96.9, topCompanyScore: 59.6 }
+        { name: "Attract additional investment", score: 98.8, topCompanyScore: 56.5 },
+        { name: "Secure government-funded support", score: 0, topCompanyScore: 26.5 },
+        { name: "Brand promotion strategy", score: 93.5, topCompanyScore: 92.4 },
+        { name: "Establish diverse strategic partnerships", score: 0, topCompanyScore: 31.8 },
+        { name: "Visualize growth metrics", score: 95.9, topCompanyScore: 94.1 },
+        { name: "Accelerate global market expansion", score: 0, topCompanyScore: 21.6 },
+        { name: "Attracting top-tier professionals", score: 81.7, topCompanyScore: 72.0 },
+        { name: "High technology readiness", score: 96.9, topCompanyScore: 59.6 }
       ],
 
       barScores: [
-        { key: "추가 투자금 유치", label: "4-7년차투자기사검색건수", detail: "0.5건", score: 100 },
-        { key: "추가 투자금 유치", label: "4-7년차투자단계", detail: "-단계", score: 10 },
-        { key: "추가 투자금 유치", label: "4-7년차투자건수", detail: "-건", score: 10 },
-        { key: "추가 투자금 유치", label: "5년차VCTOP20투자유치금액", detail: "-billion KRW", score: 10 },
-        { key: "추가 투자금 유치", label: "4-7년차VCTOP20투자건수", detail: "-건", score: 10 },
+        { key: "Attract additional investment", label: "Number of investment-related news articles found during years 4–7", detail: "0.5case", score: 100 },
+        { key: "Attract additional investment", label: "4–7-year investment stage", detail: "-step", score: 10 },
+        { key: "Attract additional investment", label: "Number of investments during years 4–7", detail: "-case", score: 10 },
+        { key: "Attract additional investment", label: "Number of VC Top 20 investments secured in year 5", detail: "-billion KRW", score: 10 },
+        { key: "Attract additional investment", label: "Number of VC Top 20 investments during years 4–7", detail: "-case", score: 10 },
 
-        { key: "정부 출연금 확보", label: "4년차RND금액", detail: "-billion KRW", score: 10 },
-        { key: "정부 출연금 확보", label: "4-7년차RND수행건수", detail: "-건", score: 10 },
-        { key: "정부 출연금 확보", label: "4-7년차연구비카드사용건수", detail: "-건", score: 10 },
-        { key: "정부 출연금 확보", label: "5년차RND금액", detail: "-billion KRW", score: 10 },
-        { key: "정부 출연금 확보", label: "-", detail: "", score: 0 },
+        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 4", detail: "-billion KRW", score: 10 },
+        { key: "Secure government-funded support", label: "Number of R&D projects executed in years 4–7", detail: "-case", score: 10 },
+        { key: "Secure government-funded support", label: "Number of research expense card transactions during years 4–7", detail: "-case", score: 10 },
+        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 5", detail: "-billion KRW", score: 10 },
+        { key: "Secure government-funded support", label: "-", detail: "", score: 0 },
 
-        { key: "브랜드 홍보 전략", label: "4-7년차전체기사검색건수", detail: "1.5건", score: 100 },
-        { key: "브랜드 홍보 전략", label: "4-7년차브랜드지재권종류", detail: "-비율", score: 10 },
-        { key: "브랜드 홍보 전략", label: "5년차상표권출원대비등록", detail: "-비율", score: 10 },
-        { key: "브랜드 홍보 전략", label: "4-7년차상표권출원건수", detail: "-건", score: 10 },
-        { key: "브랜드 홍보 전략", label: "4년차상표권출원대비등록", detail: "-비율", score: 10 },
+        { key: "Brand promotion strategy", label: "Total number of news articles found during years 4–7", detail: "1.5case", score: 100 },
+        { key: "Brand promotion strategy", label: "Brand-related intellectual property applications filed during years 4–7", detail: "-ratio", score: 10 },
+        { key: "Brand promotion strategy", label: "Number of trademark applications filed during years 5", detail: "-ratio", score: 10 },
+        { key: "Brand promotion strategy", label: "Number of trademark applications filed during years 4–7", detail: "-case", score: 10 },
+        { key: "Brand promotion strategy", label: "Number of trademark applications filed during years 4", detail: "-ratio", score: 10 },
 
-        { key: "다양한 제휴 체결", label: "4-7년차제휴기사검색건수", detail: "-건", score: 10 },
-        { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
-        { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
-        { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
-        { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
+        { key: "Establish diverse strategic partnerships", label: "Number of partnership-related news articles identified during years 4–7", detail: "-case", score: 10 },
+        { key: "Establish diverse strategic partnerships", label: "-", detail: "", score: 0 },
+        { key: "Establish diverse strategic partnerships", label: "-", detail: "", score: 0 },
+        { key: "Establish diverse strategic partnerships", label: "-", detail: "", score: 0 },
+        { key: "Establish diverse strategic partnerships", label: "-", detail: "", score: 0 },
 
-        { key: "외형 지표 가시화", label: "5년차고용인원증가율", detail: "0.2%", score: 80 },
-        { key: "외형 지표 가시화", label: "4-7년차성과제목기사검색건수", detail: "1.5건", score: 100 },
-        { key: "외형 지표 가시화", label: "-", detail: "", score: 0 },
-        { key: "외형 지표 가시화", label: "-", detail: "", score: 0 },
-        { key: "외형 지표 가시화", label: "-", detail: "", score: 0 },
+        { key: "Visualize growth metrics", label: "Employment growth rate in year 5", detail: "0.2%", score: 80 },
+        { key: "Visualize growth metrics", label: "Number of performance-themed news articles identified during years 4-7", detail: "1.5case", score: 100 },
+        { key: "Visualize growth metrics", label: "-", detail: "", score: 0 },
+        { key: "Visualize growth metrics", label: "-", detail: "", score: 0 },
+        { key: "Visualize growth metrics", label: "-", detail: "", score: 0 },
 
-        { key: "해외 진출 활성화", label: "4-7년차해외진출기사검색건수", detail: "-건", score: 10 },
-        { key: "해외 진출 활성화", label: "-", detail: "", score: 0 },
-        { key: "해외 진출 활성화", label: "-", detail: "", score: 0 },
-        { key: "해외 진출 활성화", label: "-", detail: "", score: 0 },
-        { key: "해외 진출 활성화", label: "-", detail: "", score: 0 },
+        { key: "Accelerate global market expansion", label: "Number of articles on international market expansion identified in years 4-7", detail: "-case", score: 10 },
+        { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
+        { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
+        { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
+        { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
 
-        { key: "우수한 인재 유치", label: "4년차임금", detail: "3.8million KRW", score: 80 },
-        { key: "우수한 인재 유치", label: "4년차퇴사대비입사율", detail: "0.8비율", score: 40 },
-        { key: "우수한 인재 유치", label: "5년차퇴사대비입사율", detail: "3.2비율", score: 100 },
-        { key: "우수한 인재 유치", label: "5년차임금", detail: "3.7million KRW", score: 80 },
-        { key: "우수한 인재 유치", label: "4-7년차고용관련인증종류현황", detail: "-건", score: 10 },
+        { key: "Attracting top-tier professionals", label: "salary in year 4 ", detail: "3.8million KRW", score: 80 },
+        { key: "Attracting top-tier professionals", label: "Hiring/Resignation ratio in year 4", detail: "0.8ratio", score: 40 },
+        { key: "Attracting top-tier professionals", label: "Hiring/Resignation ratio in year 5", detail: "3.2ratio", score: 100 },
+        { key: "Attracting top-tier professionals", label: "salary in year 5", detail: "3.7million KRW", score: 80 },
+        { key: "Attracting top-tier professionals", label: "Employment certification status during years 4–7 ", detail: "-case", score: 10 },
 
-        { key: "높은 기술 준비도", label: "4-7년차기술인증종류현황", detail: "1.0건", score: 90 },
-        { key: "높은 기술 준비도", label: "4-7년차특허등록건수", detail: "0.5건", score: 100 },
-        { key: "높은 기술 준비도", label: "4년차특허출원대비등록", detail: "0.7비율", score: 100 },
-        { key: "높은 기술 준비도", label: "4-7년차특허출원건수", detail: "0.8건", score: 100 },
-        { key: "높은 기술 준비도", label: "4-7년차연구소인증건수", detail: "-건", score: 10 }
+        { key: "High technology readiness", label: "Technology certification status during years 4–7 ", detail: "1.0case", score: 90 },
+        { key: "High technology readiness", label: "Number of patent registrations during years 4–7", detail: "0.5case", score: 100 },
+        { key: "High technology readiness", label: "Patent application-to-registration ratio in year 4", detail: "0.7ratio", score: 100 },
+        { key: "High technology readiness", label: "Number of patent applications in years 4–7", detail: "0.8case", score: 100 },
+        { key: "High technology readiness", label: "Number of research lab accreditations during 4–7", detail: "-case", score: 10 }
       ]
     }
   },
@@ -2424,64 +2424,64 @@ However, in consideration of the characteristics of an early-stage startup, the 
     modelResult: {
       totalScore: 98.11,
       factors: [
-        { name: "추가 투자금 유치", score: 99.4, topCompanyScore: 56.5 },
-        { name: "정부 출연금 확보", score: 97.7, topCompanyScore: 26.5 },
-        { name: "브랜드 홍보 전략", score: 95, topCompanyScore: 92.4 },
-        { name: "다양한 제휴 체결", score: 0, topCompanyScore: 31.8 },
-        { name: "외형 지표 가시화", score: 96.8, topCompanyScore: 94.1 },
-        { name: "해외 진출 활성화", score: 98.4, topCompanyScore: 21.6 },
-        { name: "우수한 인재 유치", score: 80.3, topCompanyScore: 72.0 },
-        { name: "높은 기술 준비도", score: 0, topCompanyScore: 59.6 }
+        { name: "Attract additional investment", score: 99.4, topCompanyScore: 56.5 },
+        { name: "Secure government-funded support", score: 97.7, topCompanyScore: 26.5 },
+        { name: "Brand promotion strategy", score: 95, topCompanyScore: 92.4 },
+        { name: "Establish diverse strategic partnerships", score: 0, topCompanyScore: 31.8 },
+        { name: "Visualize growth metrics", score: 96.8, topCompanyScore: 94.1 },
+        { name: "Accelerate global market expansion", score: 98.4, topCompanyScore: 21.6 },
+        { name: "Attracting top-tier professionals", score: 80.3, topCompanyScore: 72.0 },
+        { name: "High technology readiness", score: 0, topCompanyScore: 59.6 }
       ],
 
       barScores: [
-        { key: "추가 투자금 유치", label: "4-7년차투자단계", detail: "0.3단계", score: 100 },
-        { key: "추가 투자금 유치", label: "4-7년차투자건수", detail: "0.3건", score: 100 },
-        { key: "추가 투자금 유치", label: "4-7년차투자기사검색건수", detail: "1.0건", score: 100 },
-        { key: "추가 투자금 유치", label: "5년차VCTOP20투자유치금액", detail: "-billion KRW", score: 10 },
-        { key: "추가 투자금 유치", label: "4-7년차VCTOP20투자건수", detail: "-건", score: 10 },
+        { key: "Attract additional investment", label: "4–7-year investment stage", detail: "0.3step", score: 100 },
+        { key: "Attract additional investment", label: "Number of investments during years 4–7", detail: "0.3case", score: 100 },
+        { key: "Attract additional investment", label: "Number of investment-related news articles found during years 4–7", detail: "1.0case", score: 100 },
+        { key: "Attract additional investment", label: "Number of VC Top 20 investments secured in year 5", detail: "-billion KRW", score: 10 },
+        { key: "Attract additional investment", label: "Number of VC Top 20 investments during years 4–7", detail: "-case", score: 10 },
 
-        { key: "정부 출연금 확보", label: "4년차RND금액", detail: "0.7billion KRW", score: 100 },
-        { key: "정부 출연금 확보", label: "4-7년차RND수행건수", detail: "0.5건", score: 100 },
-        { key: "정부 출연금 확보", label: "4-7년차연구비카드사용건수", detail: "-건", score: 10 },
-        { key: "정부 출연금 확보", label: "5년차RND금액", detail: "-billion KRW", score: 10 },
-        { key: "정부 출연금 확보", label: "-", detail: "", score: 0 },
+        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 4", detail: "0.7billion KRW", score: 100 },
+        { key: "Secure government-funded support", label: "Number of R&D projects executed in years 4–7", detail: "0.5case", score: 100 },
+        { key: "Secure government-funded support", label: "Number of research expense card transactions during years 4–7", detail: "-case", score: 10 },
+        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 5", detail: "-billion KRW", score: 10 },
+        { key: "Secure government-funded support", label: "-", detail: "", score: 0 },
 
-        { key: "브랜드 홍보 전략", label: "4-7년차전체기사검색건수", detail: "6.0건", score: 100 },
-        { key: "브랜드 홍보 전략", label: "4-7년차브랜드지재권종류", detail: "-비율", score: 10 },
-        { key: "브랜드 홍보 전략", label: "5년차상표권출원대비등록", detail: "-비율", score: 10 },
-        { key: "브랜드 홍보 전략", label: "4-7년차상표권출원건수", detail: "-건", score: 10 },
-        { key: "브랜드 홍보 전략", label: "4년차상표권출원대비등록", detail: "-비율", score: 10 },
+        { key: "Brand promotion strategy", label: "Total number of news articles found during years 4–7", detail: "6.0case", score: 100 },
+        { key: "Brand promotion strategy", label: "Brand-related intellectual property applications filed during years 4–7", detail: "-ratio", score: 10 },
+        { key: "Brand promotion strategy", label: "Number of trademark applications filed during years 5", detail: "-ratio", score: 10 },
+        { key: "Brand promotion strategy", label: "Number of trademark applications filed during years 4–7", detail: "-case", score: 10 },
+        { key: "Brand promotion strategy", label: "Number of trademark applications filed during years 4", detail: "-ratio", score: 10 },
 
-        { key: "다양한 제휴 체결", label: "4-7년차제휴기사검색건수", detail: "-건", score: 10 },
-        { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
-        { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
-        { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
-        { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
+        { key: "Establish diverse strategic partnerships", label: "Number of partnership-related news articles identified during years 4–7", detail: "-case", score: 10 },
+        { key: "Establish diverse strategic partnerships", label: "-", detail: "", score: 0 },
+        { key: "Establish diverse strategic partnerships", label: "-", detail: "", score: 0 },
+        { key: "Establish diverse strategic partnerships", label: "-", detail: "", score: 0 },
+        { key: "Establish diverse strategic partnerships", label: "-", detail: "", score: 0 },
 
-        { key: "외형 지표 가시화", label: "5년차고용인원증가율", detail: "0.3%", score: 90 },
-        { key: "외형 지표 가시화", label: "4-7년차성과제목기사검색건수", detail: "6.0건", score: 100 },
-        { key: "외형 지표 가시화", label: "-", detail: "", score: 0 },
-        { key: "외형 지표 가시화", label: "-", detail: "", score: 0 },
-        { key: "외형 지표 가시화", label: "-", detail: "", score: 0 },
+        { key: "Visualize growth metrics", label: "Employment growth rate in year 5", detail: "0.3%", score: 90 },
+        { key: "Visualize growth metrics", label: "Number of performance-themed news articles identified during years 4-7", detail: "6.0case", score: 100 },
+        { key: "Visualize growth metrics", label: "-", detail: "", score: 0 },
+        { key: "Visualize growth metrics", label: "-", detail: "", score: 0 },
+        { key: "Visualize growth metrics", label: "-", detail: "", score: 0 },
 
-        { key: "해외 진출 활성화", label: "4-7년차해외진출기사검색건수", detail: "0.5건", score: 100 },
-        { key: "해외 진출 활성화", label: "-", detail: "", score: 0 },
-        { key: "해외 진출 활성화", label: "-", detail: "", score: 0 },
-        { key: "해외 진출 활성화", label: "-", detail: "", score: 0 },
-        { key: "해외 진출 활성화", label: "-", detail: "", score: 0 },
+        { key: "Accelerate global market expansion", label: "Number of articles on international market expansion identified in years 4-7", detail: "0.5case", score: 100 },
+        { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
+        { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
+        { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
+        { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
 
-        { key: "우수한 인재 유치", label: "4년차임금", detail: "2.3million KRW", score: 20 },
-        { key: "우수한 인재 유치", label: "4-7년차주소변경횟수", detail: "0.3건", score: 80 },
-        { key: "우수한 인재 유치", label: "4년차퇴사대비입사율", detail: "0.4비율", score:30 },
-        { key: "우수한 인재 유치", label: "5년차퇴사대비입사율", detail: "1.8비율", score: 90 },
-        { key: "우수한 인재 유치", label: "5년차임금", detail: "2.7million KRW", score: 30 },
+        { key: "Attracting top-tier professionals", label: "salary in year 4 ", detail: "2.3million KRW", score: 20 },
+        { key: "Attracting top-tier professionals", label: "Employment certification status during years 4–7 ", detail: "0.3case", score: 80 },
+        { key: "Attracting top-tier professionals", label: "Hiring/Resignation ratio in year 4", detail: "0.4ratio", score:30 },
+        { key: "Attracting top-tier professionals", label: "Hiring/Resignation ratio in year 5", detail: "1.8ratio", score: 90 },
+        { key: "Attracting top-tier professionals", label: "salary in year 5", detail: "2.7million KRW", score: 30 },
 
-        { key: "높은 기술 준비도", label: "4-7년차기술인증종류현황", detail: "-건", score: 10 },
-        { key: "높은 기술 준비도", label: "4-7년차연구소인증건수", detail: "-건", score: 10 },
-        { key: "높은 기술 준비도", label: "4-7년차특허등록건수", detail: "-건", score: 10 },
-        { key: "높은 기술 준비도", label: "4년차특허출원대비등록", detail: "-비율", score: 10 },
-        { key: "높은 기술 준비도", label: "4-7년차특허출원건수", detail: "-건", score: 10 }
+        { key: "High technology readiness", label: "Technology certification status during years 4–7 ", detail: "-case", score: 10 },
+        { key: "High technology readiness", label: "Number of research lab accreditations during 4–7", detail: "-case", score: 10 },
+        { key: "High technology readiness", label: "Number of patent registrations during years 4–7", detail: "-case", score: 10 },
+        { key: "High technology readiness", label: "Patent application-to-registration ratio in year 4", detail: "-ratio", score: 10 },
+        { key: "High technology readiness", label: "Number of patent applications in years 4–7", detail: "-case", score: 10 }
       ]
     }
   },
@@ -2640,64 +2640,64 @@ However, in consideration of the unique characteristics of a startup, the produc
     modelResult: {
       totalScore: 98.92,
       factors: [
-        { name: "추가 투자금 유치", score: 98.8, topCompanyScore: 77.6 },
-        { name: "정부 출연금 확보", score: 96.5, topCompanyScore: 49.1 },
-        { name: "외형 지표 가시화", score: 94.2, topCompanyScore: 81.0 },
-        { name: "높은 기술 준비도", score: 95.2, topCompanyScore: 85.3 },
-        { name: "초격차 기술 개발", score: 0, topCompanyScore: 38.5 },
-        { name: "브랜드 홍보 전략", score: 96.8, topCompanyScore: 71.6 },
-        { name: "신속한 매출 실현", score: 34.9, topCompanyScore: 62.3 },
-        { name: "우수한 인재 유치", score: 66.7, topCompanyScore: 78.9 }
+        { name: "Attract additional investment", score: 98.8, topCompanyScore: 77.6 },
+        { name: "Secure government-funded support", score: 96.5, topCompanyScore: 49.1 },
+        { name: "Visualize growth metrics", score: 94.2, topCompanyScore: 81.0 },
+        { name: "High technology readiness", score: 95.2, topCompanyScore: 85.3 },
+        { name: "Breakthrough technology development", score: 0, topCompanyScore: 38.5 },
+        { name: "Brand promotion strategy", score: 96.8, topCompanyScore: 71.6 },
+        { name: "Accelerated profit generation", score: 34.9, topCompanyScore: 62.3 },
+        { name: "Attracting top-tier professionals", score: 66.7, topCompanyScore: 78.9 }
       ],
 
       barScores: [
-        { key: "추가 투자금 유치", label: "1-3년차투자단계", detail: "0.3단계", score: 100 },
-        { key: "추가 투자금 유치", label: "1-3년차투자유치개수", detail: "0.3건", score: 100 },
-        { key: "추가 투자금 유치", label: "2년차자본잉여금", detail: "3.0billion KRW", score: 100 },
-        { key: "추가 투자금 유치", label: "1-3년차투자기사검색건수", detail: "7.0건", score: 100 },
-        { key: "추가 투자금 유치", label: "1-3년차VCTOP20투자건수", detail: "-건", score: 10 },
+        { key: "Attract additional investment", label: "1–3 year investment stage", detail: "0.3step", score: 100 },
+        { key: "Attract additional investment", label: "Number of investments attracted during years 1–3", detail: "0.3case", score: 100 },
+        { key: "Attract additional investment", label: "Capital surplus in year 2", detail: "3.0billion KRW", score: 100 },
+        { key: "Attract additional investment", label: "Number of investment-related news articles found during years 1–3", detail: "7.0case", score: 100 },
+        { key: "Attract additional investment", label: "Number of VC Top 20 investments secured during years 1-3", detail: "-case", score: 10 },
 
-        { key: "정부 출연금 확보", label: "2년차RND금액규모", detail: "0.6billion KRW", score: 100 },
-        { key: "정부 출연금 확보", label: "1-3년차RND수행건수", detail: "0.3건", score: 100 },
-        { key: "정부 출연금 확보", label: "1-3년차최초RND수행시점", detail: "18.0개월", score: 40 },
-        { key: "정부 출연금 확보", label: "3년차RND금액규모", detail: "-billion KRW", score: 10 },
-        { key: "정부 출연금 확보", label: "-", detail: "", score: 0 },
+        { key: "Secure government-funded support", label: "2년차RND금액규모", detail: "0.6billion KRW", score: 100 },
+        { key: "Secure government-funded support", label: "Number of R&D projects executed in years 1–3", detail: "0.3case", score: 100 },
+        { key: "Secure government-funded support", label: "Timing of the initial R&D implementation during years 1-3", detail: "18.0months", score: 40 },
+        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 3", detail: "-billion KRW", score: 10 },
+        { key: "Secure government-funded support", label: "-", detail: "", score: 0 },
 
-        { key: "외형 지표 가시화", label: "2년차자본규모", detail: "2.0billion KRW", score: 70 },
-        { key: "외형 지표 가시화", label: "2년차자산규모", detail: "6.9billion KRW", score: 60 },
-        { key: "외형 지표 가시화", label: "1-3년차고용인원", detail: "7.0명", score: 70 },
-        { key: "외형 지표 가시화", label: "1-3년차성과기사제목검색건수", detail: "0.3건", score: 100 },
-        { key: "외형 지표 가시화", label: "3년차고용인원증가율", detail: "-%", score: 30 },
+        { key: "Visualize growth metrics", label: "Amount of capital surplus in year 2", detail: "2.0billion KRW", score: 70 },
+        { key: "Visualize growth metrics", label: "Capital size in year 2", detail: "6.9billion KRW", score: 60 },
+        { key: "Visualize growth metrics", label: "Number of employees during years 1–3", detail: "7.0명", score: 70 },
+        { key: "Visualize growth metrics", label: "Number of partnership-related news articles identified during years 1–3", detail: "0.3case", score: 100 },
+        { key: "Visualize growth metrics", label: "Employment growth rate in year 3", detail: "-%", score: 30 },
 
-        { key: "높은 기술 준비도", label: "1-3년차특허출원건수규모", detail: "9.0건", score: 100 },
-        { key: "높은 기술 준비도", label: "1-3년차특허등록건수규모", detail: "3.0건", score: 100 },
-        { key: "높은 기술 준비도", label: "1-3년차최초연구소인증시점", detail: "20.0개월", score: 30 },
-        { key: "높은 기술 준비도", label: "1-3년차최초특허출원시점", detail: "6.0개월", score: 70 },
-        { key: "높은 기술 준비도", label: "-", detail: "", score: 0 },
+        { key: "High technology readiness", label: "Number of patent applications during years 1–3", detail: "9.0case", score: 100 },
+        { key: "High technology readiness", label: "Number of patent registrations during years 1–3", detail: "3.0case", score: 100 },
+        { key: "High technology readiness", label: "Timing of initial research lab accreditation during years 1–3", detail: "20.0months", score: 30 },
+        { key: "High technology readiness", label: "Timing of the initial patent filing during years 1-3", detail: "6.0months", score: 70 },
+        { key: "High technology readiness", label: "-", detail: "", score: 0 },
         
-        { key: "초격차 기술 개발", label: "1-3년차특허초격차키워드검색건수", detail: "-건", score: 10 },
-        { key: "초격차 기술 개발", label: "1-3년차RND초격차키워드검색건수", detail: "-건", score: 10 },
-        { key: "초격차 기술 개발", label: "-", detail: "", score: 0 },
-        { key: "초격차 기술 개발", label: "-", detail: "", score: 0 },
-        { key: "초격차 기술 개발", label: "-", detail: "", score: 0 },
+        { key: "Breakthrough technology development", label: "Number of keyword searches related to breakthrough patents identified during years 1-3", detail: "-case", score: 10 },
+        { key: "Breakthrough technology development", label: "Number of keyword searches related to R&D patents identified during years 1-3", detail: "-case", score: 10 },
+        { key: "Breakthrough technology development", label: "-", detail: "", score: 0 },
+        { key: "Breakthrough technology development", label: "-", detail: "", score: 0 },
+        { key: "Breakthrough technology development", label: "-", detail: "", score: 0 },
 
-        { key: "브랜드 홍보 전략", label: "1-3년차상표권출원건수", detail: "2.0건", score: 90 },
-        { key: "브랜드 홍보 전략", label: "1-3년차브랜드지재권종류", detail: "1.0건", score: 100 },
-        { key: "브랜드 홍보 전략", label: "1-3년차전체기사검색건수", detail: "20.7건", score: 100 },
-        { key: "브랜드 홍보 전략", label: "1-3년차디자인출원건수", detail: "-건", score: 10 },
-        { key: "브랜드 홍보 전략", label: "-", detail: "", score: 0 },
+        { key: "Brand promotion strategy", label: "Number of trademark applications during years 1–3", detail: "2.0case", score: 90 },
+        { key: "Brand promotion strategy", label: "Brand-related intellectual property applications during years 1–3", detail: "1.0case", score: 100 },
+        { key: "Brand promotion strategy", label: "Number of patent registrations during years 1–3", detail: "20.7case", score: 100 },
+        { key: "Brand promotion strategy", label: "Number of design applications during years 1–3", detail: "-case", score: 10 },
+        { key: "Brand promotion strategy", label: "-", detail: "", score: 0 },
 
-        { key: "신속한 매출 실현", label: "2년차매출규모", detail: "-billion KRW", score: 10 },
-        { key: "신속한 매출 실현", label: "1년차매출규모", detail: "-billion KRW", score: 10 },
-        { key: "신속한 매출 실현", label: "-", detail: "", score: 0 },
-        { key: "신속한 매출 실현", label: "-", detail: "", score: 0 },
-        { key: "신속한 매출 실현", label: "-", detail: "", score: 0 },
+        { key: "Accelerated profit generation", label: "Total profit for year 2", detail: "-billion KRW", score: 10 },
+        { key: "Accelerated profit generation", label: "Total profit for year 1", detail: "-billion KRW", score: 10 },
+        { key: "Accelerated profit generation", label: "-", detail: "", score: 0 },
+        { key: "Accelerated profit generation", label: "-", detail: "", score: 0 },
+        { key: "Accelerated profit generation", label: "-", detail: "", score: 0 },
 
-        { key: "우수한 인재 유치", label: "3년차퇴사대비입사율", detail: "0.8비율", score:30 },
-        { key: "우수한 인재 유치", label: "1-3년차공시지가", detail: "4,388.0천 원/m2", score: 70 },
-        { key: "우수한 인재 유치", label: "3년차임금", detail: "2.3million KRW", score: 60 },
-        { key: "우수한 인재 유치", label: "2년차임금", detail: "2.7million KRW", score: 40 },
-        { key: "우수한 인재 유치", label: "-", detail: "", score: 0 }
+        { key: "Attracting top-tier professionals", label: "Hiring/Resignation ratio in year 3", detail: "0.8ratio", score:30 },
+        { key: "Attracting top-tier professionals", label: "Officially assessed land value during years 1–3", detail: "4,388.0 thousand won/m2", score: 70 },
+        { key: "Attracting top-tier professionals", label: "Salary in year 3", detail: "2.3million KRW", score: 60 },
+        { key: "Attracting top-tier professionals", label: "Salary in year 2", detail: "2.7million KRW", score: 40 },
+        { key: "Attracting top-tier professionals", label: "-", detail: "", score: 0 }
       ]
     }
   },
@@ -2746,24 +2746,24 @@ However, in consideration of the unique characteristics of a startup, the produc
     // 2) 기술사업 역량 (코멘트)
     // ============================
     bizComments: {
-      "경영주 역량": `경영주 이세영은(문헌정보학 학사) KSCY에서 근무 경력이 있으며, 2021년 동사를 창업하여 경영하고 있음.
-경영주의 동업종 종사기간(4년 5개월) 고려 시 동업종 경험수준은 취약한 수준임.
-경영주의 학력 및 기술경험기간을 고려 시 고급기술자로 기술지식수준은 양호한 수준임.
-경영기획, 정보수집능력, 기술전략, 사업화실적, 기업가정신 등의 항목 요소를 충족하여 기술경영 관리능력은 우수한 것으로 판단됨.`,
-      "관리 능력": `핵심인력의 퇴직, 복지·교육훈련, 목표관리, 핵심인력의 의존도 등의 항목을 충족하여 기술인력관리능력은 양호한 수준임.
-동사의 경영진은 총 4분야(담당 업무: 관리총괄, 재무총괄, 기술총괄, 디자인총괄 / 기술수준: 기타 1명, 초급 3명)로 구성되어 있으며 평균 근속 연수 약 3년 3개월로, 경영진 전문성은 취약한 것으로 판단됨.
-경영진 총 4명이 보유한 지분의 합은 6.69%로 경영진 자본참여도는 보통인 수준으로 판단됨.`,
-      "기술 개발 능력": `기업부설연구소를 약 3년 6개월간 운영하고 있어 연구개발조직은 양호한 것으로 평가됨.
-연구개발 투자비율이 260.49%(업종 평균 대비 5662.83%) 수준임을 감안하면 연구개발투자비율은 우수한 수준으로 판단됨.
-기술인력 총 61명 (연구개발인력 특급기술자 11명, 고급기술자 3명, 중급기술자 8명, 초급기술자 17명, 기타기술자 22명)으로 기술인력 전문성은 우수한 수준임.
-총 4건의 기술개발 및 상용화 실적 감안하여 (기술개발 1건, 제품상용화 2건, 인증 1건이며, 국책과제인 개인화된 검색 증강모델과 질문 생성 알고리즘을 활용한 작문 보조 시스템 개발 등) 동사의 기술개발 및 수상(인증) 실적은 미흡한 것으로 평가됨.
-총 18건(특허 등록 2건, 디자인 등록 10건, 상표권 등록 6건)의 지식재산권을 보유하여 지식재산 보유현황은 양호한 수준임.`,
-      "제품화 역량": `동사는 제품 및 서비스를 자체생산하고 있으며, 개발시설 규모, 개발설비 수준, 개발인력 수급, 자체 솔루션 보유 유/무 항목을 충족하여 전반적인 생산역량은 양호한 것으로 평가됨.
-동사의 기술제품은 상용화 이후 단계로, 사업화를 위한 투자규모 및 실현가능성은 우수한 수준임.
-사업화를 위한 자금조달 영역 및 보유자산 등을 고려 시 자본조달능력은 우수한 수준으로 판단됨.`,
-      "수익 전망": `시장조사, 환경분석, 마케팅전략, 실행가능성, 전담부서확보 등의 항목 요건을 충족하여 마케팅 역량은 우수한 수준으로 평가됨.
-주요 판매처는 개인고객이고, 판로확보 계획이 수립되어 있는 점을 고려하여 판매처의 다양성과 안정성은 미흡한 수준으로 판단됨.
-동사의 매출액 영업이익률 평균이 -2207.37%(업종 평균 대비 -150161.22%)임을 감안하여 수익창출역량은 취약한 수준으로 판단됨.`
+      "경영주 역량": `• CEO Se-Young Lee (Bachelor’s degree in Library and Information Science) has prior work experience at KSCY and founded the Company in 2021, where she has been managing the business since then.
+• Considering the CEO’s industry experience of 4 years and 5 months, her experience level in the same industry is assessed as weak.
+• Based on the CEO’s academic background and accumulated technical experience, her level of technical knowledge is evaluated as favorable, corresponding to that of a high-level technical professional.
+• The CEO demonstrates strong capabilities in areas such as business planning, information-gathering ability, technology strategy, commercialization performance, and entrepreneurial competency, and therefore her technology management capability is assessed as excellent.`,
+      "관리 능력": `• Considering factors such as turnover of key personnel, welfare and training, management by objectives, and dependence on key personnel, the Company’s technical human resource management capability is assessed as favorable.
+• The Company’s management team consists of four functional areas (responsible for overall management, finance, technology, and design, respectively), with technical levels classified as one “other” and three “junior-level” members, and an average tenure of approximately 3 years and 3 months. Accordingly, the professional competence of the management team is evaluated as weak.
+• The combined equity stake held by the four executives is 6.69%, and thus the level of capital participation by management is assessed as average.`,
+      "기술 개발 능력": `• The Company has operated its corporate-affiliated research institute for approximately 3 years and 6 months, and therefore its R&D organization is assessed as favorable.
+• Given that the Company’s R&D investment ratio stands at 260.49% (equivalent to 5,662.83% of the industry average), its level of R&D investment is evaluated as excellent.
+• With a total of 61 technical personnel — including 11 senior-level engineers, 3 high-level engineers, 8 intermediate-level engineers, 17 junior-level engineers, and 22 other technical staff — the Company’s technical workforce demonstrates a high level of professional competency.
+• Considering the Company’s four achievements in technology development and commercialization (1 technology development, 2 product commercializations, and 1 certification — including national R&D tasks such as developing a personalized search augmentation model and a writing-assistance system using a question-generation algorithm), the Company’s technology development and certification (award) performance is assessed as weak.
+• The Company owns a total of 18 intellectual property rights (including 2 registered patents, 10 registered designs, and 6 registered trademarks), and its intellectual property portfolio is evaluated as favorable.`,
+      "제품화 역량": `• The Company develops and provides its products and services in-house, and satisfies evaluation criteria such as the scale of development facilities, level of development equipment, availability of development personnel, and ownership of proprietary solutions; accordingly, its overall production (development) capacity is assessed as favorable.
+• The Company’s technological products are at the post-commercialization stage, and the scale of investment and feasibility for further commercialization are evaluated as excellent.
+• Considering the Company’s funding channels for commercialization and its asset base, its capital-raising capability is assessed as excellent.`,
+      "수익 전망": `• The Company satisfies evaluation criteria in areas such as market research, environmental analysis, marketing strategy, feasibility, and the establishment of a dedicated marketing department, and thus its marketing capability is assessed as excellent.
+• Given that the Company’s main customers are individual consumers and that it has established a sales channel development plan, the diversity and stability of its sales channels are nevertheless assessed as weak.
+• In view of the Company’s average operating margin of –2,207.37% (equivalent to –150,161.22% compared to the industry average), its profit-generating capability is evaluated as weak.`
     },
 
     // ============================
@@ -2797,17 +2797,17 @@ However, in consideration of the unique characteristics of a startup, the produc
     // 4) 기술 경쟁력 (코멘트)
     // ============================
     techComments: {
-      "기술 혁신성": `평가대상기술(AI 서포트, 캐릭터 생성 및 채팅 솔루션 개발 기술)은 혁신적인 기술로, 차별적 요인이 상대적으로 강하고 성장기 초기 기술로 파악되어 기술차별성은 우수한 수준으로 판단됨.
-개발비, 개발기간, 기술보호 등의 항목 요건을 충족하여 모방의 난이도는 보통인 것으로 평가됨.
-판매단계 4년이며 1건의 보완개발 및 버전업을 감안하여 기술완성도는 양호한 수준임.
-기술자립도는 양호한 것으로 평가됨.
-해당기술은 활용분야가 제한적이나 확장가능성이 있어 기술확장성은 보통인 수준임.`,
-      "시장 현황": `목표시장(인공지능(AI 소프트웨어))의 2025년 예상 매출액 규모(91,700억 원)를 감안하면 시장규모는 우수한 수준임.
-전체산업 대비 동업종의 매출액증가율은 20.80%이나, 목표시장의 CAGR(57.57%)을 감안하여 향후 높은 성장이 전망되므로 시장성장성은 양호한 것으로 평가됨.
-목표시장은 집중도, 차별화, 비용구조, 정책/제도 등의 항목 조건을 충족하여 시장구조 및 특성은 양호한 수준으로 평가됨.`,
-      "제품 우위성": `동사는 자체상표 비중, 대체재 위협, 고객충성도, 구매동기 등의 항목을 충족하여 제품 인지도는 양호한 수준임.
-자본소요량, 경쟁우위, 구매자 교섭력 등의 항목 요건을 충족하여 시장확보 가능성은 보통인 것으로 판단됨.
-품질 경쟁력, 편리성 및 디자인 경쟁력, 자사 제품으로 교체의사의 잠재력, 자사 제품으로 교체 시 비용 제약없음 등의 항목을 충족하여 경쟁제품과의 비교우위성은 양호한 것으로 평가됨.`
+      "기술 혁신성": `• The evaluated technology (AI support, character-generation and chat solution development technology) is considered an innovative technology with relatively strong differentiating factors and is identified as being in the early stage of its growth phase; therefore, its technological differentiation is assessed as excellent.
+• As the technology satisfies evaluation criteria in areas such as development cost, development period, and technology protection, the difficulty of imitation is assessed as average.
+• With four years in the sales (commercialization) stage and one instance of additional development and version upgrade, the technical maturity (level of completeness) is evaluated as favorable.
+• The degree of technological self-reliance is assessed as favorable.
+• Although the application field of the technology is currently limited, it has potential for expansion, and thus its technological scalability is evaluated as average..`,
+      "시장 현황": `• Considering the projected 2025 sales volume of the target market (Artificial Intelligence (AI) software), which is estimated at KRW 9.17 trillion, the market size is assessed as excellent.
+• Although the sales growth rate of the industry as a whole is 20.80%, the target market’s CAGR of 57.57% indicates strong expected future growth; therefore, the market growth potential is evaluated as favorable.
+• The target market satisfies evaluation criteria in areas such as market concentration, differentiation, cost structure, and relevant policies/regulations, and thus its market structure and characteristics are assessed as favorable.`,
+      "제품 우위성": `• The Company satisfies evaluation criteria such as proportion of proprietary branding, threat of substitutes, customer loyalty, and purchase motivation, and therefore its product recognition is assessed as favorable.
+• Considering factors such as capital requirements, competitive advantage, and buyer bargaining power, the market acquisition potential is assessed as average.
+• By meeting criteria related to quality competitiveness, convenience and design competitiveness, potential customer willingness to switch to the Company’s products, and the absence of cost constraints when switching, the Company’s comparative advantage over competing products is evaluated as favorable.`
     },
 
     // ============================
@@ -2846,64 +2846,64 @@ However, in consideration of the unique characteristics of a startup, the produc
     modelResult: {
       totalScore: 97.769,
       factors: [
-        { name: "추가 투자금 유치", score: 98.5, topCompanyScore: 91.9 },
-        { name: "정부 출연금 확보", score: 0, topCompanyScore: 33.9 },
-        { name: "외형 지표 가시화", score: 67.2, topCompanyScore: 84.0 },
-        { name: "초격차 기술 개발", score: 0, topCompanyScore: 27.0 },
-        { name: "브랜드 홍보 전략", score: 98, topCompanyScore: 63.6 },
-        { name: "높은 기술 준비도", score: 0, topCompanyScore: 52.9 },
-        { name: "해외 진출 활성화", score: 99.9, topCompanyScore: 39.3 },
-        { name: "다양한 제휴 체결", score: 99.9, topCompanyScore: 40.6 }
+        { name: "Attract additional investment", score: 98.5, topCompanyScore: 91.9 },
+        { name: "Secure government-funded support", score: 0, topCompanyScore: 33.9 },
+        { name: "Visualize growth metrics", score: 67.2, topCompanyScore: 84.0 },
+        { name: "Breakthrough technology development", score: 0, topCompanyScore: 27.0 },
+        { name: "Brand promotion strategy", score: 98, topCompanyScore: 63.6 },
+        { name: "High technology readiness", score: 0, topCompanyScore: 52.9 },
+        { name: "Accelerate global market expansion", score: 99.9, topCompanyScore: 39.3 },
+        { name: "Establish diverse strategic partnerships", score: 99.9, topCompanyScore: 40.6 }
       ],
 
       barScores: [
-        { key: "추가 투자금 유치", label: "4-7년차투자유치금액", detail: "250.0billion KRW", score: 100 },
-        { key: "추가 투자금 유치", label: "4-7년차투자단계", detail: "4.0단계", score: 100 },
-        { key: "추가 투자금 유치", label: "4-7년차투자유치개수", detail: "1.0건", score: 100 },
-        { key: "추가 투자금 유치", label: "4-7년차투자기사검색건수", detail: "51.0건", score: 100 },
-        { key: "추가 투자금 유치", label: "4-7년차VCTOP20투자건수", detail: "-건", score: 10 },
+        { key: "Attract additional investment", label: "Investment amount secured during years 4-7", detail: "250.0billion KRW", score: 100 },
+        { key: "Attract additional investment", label: "4–7-year investment stage", detail: "4.0step", score: 100 },
+        { key: "Attract additional investment", label: "Number of investments attracted during years 4–7", detail: "1.0case", score: 100 },
+        { key: "Attract additional investment", label: "Number of investment-related news articles found during years 4–7", detail: "51.0case", score: 100 },
+        { key: "Attract additional investment", label: "Number of VC Top 20 investments during years 4–7", detail: "-case", score: 10 },
 
-        { key: "정부 출연금 확보", label: "4-7년차RND수행건수", detail: "-건", score: 10 },
-        { key: "정부 출연금 확보", label: "4년차RND금액규모", detail: "-billion KRW", score: 10 },
-        { key: "정부 출연금 확보", label: "-", detail: "", score: 0 },
-        { key: "정부 출연금 확보", label: "-", detail: "", score: 0 },
-        { key: "정부 출연금 확보", label: "-", detail: "", score: 0 },
+        { key: "Secure government-funded support", label: "Number of R&D projects executed in years 4–7", detail: "-case", score: 10 },
+        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 4", detail: "-billion KRW", score: 10 },
+        { key: "Secure government-funded support", label: "-", detail: "", score: 0 },
+        { key: "Secure government-funded support", label: "-", detail: "", score: 0 },
+        { key: "Secure government-funded support", label: "-", detail: "", score: 0 },
 
-        { key: "외형 지표 가시화", label: "4-7년차성과기사제목검색건수", detail: "2.0건", score: 100 },
-        { key: "외형 지표 가시화", label: "4-7년차고용인원", detail: "92.0명", score: 100 },
-        { key: "외형 지표 가시화", label: "4년차고용인원증가율", detail: "0.2%", score: 70 },
-        { key: "외형 지표 가시화", label: "-", detail: "", score: 0 },
-        { key: "외형 지표 가시화", label: "-", detail: "", score: 0 },
+        { key: "Visualize growth metrics", label: "Number of performance-themed news articles identified during years 4-7", detail: "2.0case", score: 100 },
+        { key: "Visualize growth metrics", label: "Number of employees during years 4–7", detail: "92.0명", score: 100 },
+        { key: "Visualize growth metrics", label: "Employment growth rate in year 4", detail: "0.2%", score: 70 },
+        { key: "Visualize growth metrics", label: "-", detail: "", score: 0 },
+        { key: "Visualize growth metrics", label: "-", detail: "", score: 0 },
 
-        { key: "초격차 기술 개발", label: "4-7년차RND초격차키워드검색건수", detail: "-건", score: 10 },
-        { key: "초격차 기술 개발", label: "4-7년차특허초격차키워드검색건수", detail: "-건", score: 10 },
-        { key: "초격차 기술 개발", label: "-", detail: "", score: 0 },
-        { key: "초격차 기술 개발", label: "-", detail: "", score: 0 },
-        { key: "초격차 기술 개발", label: "-", detail: "", score: 0 },
+        { key: "Breakthrough technology development", label: "Number of keyword searches related to R&D patents identified during years 4-7", detail: "-case", score: 10 },
+        { key: "Breakthrough technology development", label: "Number of keyword searches related to breakthrough patents identified during years 1-3", detail: "-case", score: 10 },
+        { key: "Breakthrough technology development", label: "-", detail: "", score: 0 },
+        { key: "Breakthrough technology development", label: "-", detail: "", score: 0 },
+        { key: "Breakthrough technology development", label: "-", detail: "", score: 0 },
 
-        { key: "브랜드 홍보 전략", label: "4-7년차상표권출원건수", detail: "1.0건", score: 90 },
-        { key: "브랜드 홍보 전략", label: "4-7년차전체기사검색건수", detail: "331.0건", score: 100 },
-        { key: "브랜드 홍보 전략", label: "4-7년차브랜드관련지재권출원종류", detail: "2.0건", score: 100 },
-        { key: "브랜드 홍보 전략", label: "4-7년차디자인출원건수", detail: "-건", score: 10 },
-        { key: "브랜드 홍보 전략", label: "-", detail: "", score: 0 },
+        { key: "Brand promotion strategy", label: "Number of trademark applications filed during years 4–7", detail: "1.0case", score: 90 },
+        { key: "Brand promotion strategy", label: "Total number of news articles found during years 4–7", detail: "331.0case", score: 100 },
+        { key: "Brand promotion strategy", label: "Categories of brand-related intellectual property during years 4–7", detail: "2.0case", score: 100 },
+        { key: "Brand promotion strategy", label: "Number of design applications during years 4–7", detail: "-case", score: 10 },
+        { key: "Brand promotion strategy", label: "-", detail: "", score: 0 },
 
-        { key: "높은 기술 준비도", label: "4-7년차특허출원건수규모", detail: "-건", score: 10 },
-        { key: "높은 기술 준비도", label: "-", detail: "", score: 0 },
-        { key: "높은 기술 준비도", label: "-", detail: "", score: 0 },
-        { key: "높은 기술 준비도", label: "-", detail: "", score: 0 },
-        { key: "높은 기술 준비도", label: "-", detail: "", score: 0 },
+        { key: "High technology readiness", label: "Number of patent applications during years 4–7", detail: "-case", score: 10 },
+        { key: "High technology readiness", label: "-", detail: "", score: 0 },
+        { key: "High technology readiness", label: "-", detail: "", score: 0 },
+        { key: "High technology readiness", label: "-", detail: "", score: 0 },
+        { key: "High technology readiness", label: "-", detail: "", score: 0 },
 
-        { key: "해외 진출 활성화", label: "4-7년차해외진출기사검색건수", detail: "165.0건", score: 100 },
-        { key: "해외 진출 활성화", label: "-", detail: "", score: 0 },
-        { key: "해외 진출 활성화", label: "-", detail: "", score: 0 },
-        { key: "해외 진출 활성화", label: "-", detail: "", score: 0 },
-        { key: "해외 진출 활성화", label: "-", detail: "", score: 0 },
+        { key: "Accelerate global market expansion", label: "Number of articles on international market expansion identified in years 4-7", detail: "165.0case", score: 100 },
+        { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
+        { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
+        { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
+        { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
 
-        { key: "다양한 제휴 체결", label: "4-7년차제휴기사검색건수", detail: "112.0건", score:100 },
-        { key: "다양한 제휴 체결", label: "", detail: "", score: 0 },
-        { key: "다양한 제휴 체결", label: "", detail: "", score: 0 },
-        { key: "다양한 제휴 체결", label: "", detail: "", score: 0 },
-        { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 }
+        { key: "Establish diverse strategic partnerships", label: "Number of partnership-related news articles identified during years 4–7", detail: "112.0case", score:100 },
+        { key: "Establish diverse strategic partnerships", label: "", detail: "", score: 0 },
+        { key: "Establish diverse strategic partnerships", label: "", detail: "", score: 0 },
+        { key: "Establish diverse strategic partnerships", label: "", detail: "", score: 0 },
+        { key: "Establish diverse strategic partnerships", label: "-", detail: "", score: 0 }
       ]
     }
   }

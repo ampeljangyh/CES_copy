@@ -186,7 +186,7 @@ function getTechRadarValues(company, language) {
 
 // 메인 항목별(경영주 역량, 관리 능력, ...) 서브 항목 정의
 // company 공통 구조 기준 (듀셀, 포트래이, 브이투브이 등)
-const BIZ_BAR_CONFIG = [
+const BIZ_BAR_CONFIG_KOR = [
   {
     key: "owner",
     title: "경영주 역량",
@@ -236,8 +236,58 @@ const BIZ_BAR_CONFIG = [
   }
 ];
 
+const BIZ_BAR_CONFIG_ENG = [
+  {
+    key: "owner",
+    title: "CEO capabiity",
+    fields: [
+      { prop: "experience",     label: "Experience in the same industry" },
+      { prop: "techKnowledge",  label: "Technical knowledge" },
+      { prop: "techManagement", label: "Technology management / skills managment" }
+    ]
+  },
+  {
+    key: "management",
+    title: "Management capability",
+    fields: [
+      { prop: "techStaffManagement", label: "Technical employees management (human ressources)" },
+      { prop: "executiveExpertise",  label: "Executive expertise" },
+      { prop: "capitalParticipation",label: "Executive capital participation" }
+    ]
+  },
+  {
+    key: "techDevelopment",
+    title: "Technology development capability",
+    fields: [
+      { prop: "rndOrg",        label: "R&D organization" },
+      { prop: "rndInvestment", label: "R&D investment ratio" },
+      { prop: "techExpertise", label: "Technical employee expertise" },
+      { prop: "awards",        label: "Technology development & award/certification achievments" },
+      { prop: "ipStatus",      label: "intellectual property rights" }
+    ]
+  },
+  {
+    key: "productization",
+    title: "commercialization capability",
+    fields: [
+      { prop: "productionCapability", label: "production capability" },
+      { prop: "investmentAdequacy",   label: "appropriateness of investment scale" },
+      { prop: "capitalRaising",       label: "capital raising ability" }
+    ]
+  },
+  {
+    key: "profit",
+    title: "Profit outlook",
+    fields: [
+      { prop: "marketing",     label: "Marketing capability" },
+      { prop: "salesStability",label: "diversity and stability of sales channels/outlets" },
+      { prop: "revenueCreation",label: "profit-generation capability" }
+    ]
+  }
+];
+
 // 에이에스이티 전용 기업역량 바차트 설정
-const ASIT_BIZ_BAR_CONFIG = [
+const ASIT_BIZ_BAR_CONFIG_KOR = [
   {
     key: "entrepreneurshipTrust",
     title: "기업가 정신과 신뢰",
@@ -266,8 +316,37 @@ const ASIT_BIZ_BAR_CONFIG = [
   }
 ];
 
+const ASIT_BIZ_BAR_CONFIG_ENG = [
+  {
+    key: "entrepreneurshipTrust",
+    title: "entrepreuneurial spirit and credibility",
+    fields: [
+      { prop: "entrepreneurship", label: "entrepreuneurial spirit" },
+      { prop: "reliability",      label: "reliability" }
+    ]
+  },
+  {
+    key: "ceo",
+    title: "CEO / Top management",
+    fields: [
+      { prop: "sameIndustryExperience", label: "Experience in the same industry" },
+      { prop: "techKnowledge",          label: "Technical knowledge" },
+      { prop: "techUnderstanding",      label: "Technical understanding" }
+    ]
+  },
+  {
+    key: "executives",
+    title: "Executive team (Managers)",
+    fields: [
+      { prop: "executiveExpertise",           label: "Executive expertise" },
+      { prop: "executiveCapitalParticipation",label: "executive captal participation" },
+      { prop: "teamworkWithOwner",           label: "teamwork with the managers/executives" }
+    ]
+  }
+];
+
 // 에이에스이티 전용: 기술성 바차트 구성
-const ASIT_TECH_BAR_CONFIG = [
+const ASIT_TECH_BAR_CONFIG_KOR = [
   {
     key: "devStatus",
     title: "기술 개발 현황",
@@ -313,8 +392,54 @@ const ASIT_TECH_BAR_CONFIG = [
   }
 ];
 
+const ASIT_TECH_BAR_CONFIG_ENG = [
+  {
+    key: "devStatus",
+    title: "status of technology development",
+    fields: [
+      { prop: "devAndAwards",  label: "technology development and award acheivments" },
+      { prop: "ipHolding",     label: "status of intellectual property rights" },
+      { prop: "rndInvestment", label: "R&D investment" }
+    ]
+  },
+  {
+    key: "devCapability",
+    title: "Technology development capability",
+    fields: [
+      { prop: "devOrg",             label: "dedicated R&D organization" },
+      { prop: "techStaff",          label: "technical employees" },
+      { prop: "techStaffManagement",label: "technical employees managment" }
+    ]
+  },
+  {
+    key: "innovation",
+    title: "technology innovation",
+    fields: [
+      { prop: "itemInnovation",   label: "innovation of the item" },
+      { prop: "lifecyclePosition",label: "position in the technology lifecycle" }
+    ]
+  },
+  {
+    key: "independenceExpansion",
+    title: "technological independence and scalability",
+    fields: [
+      { prop: "independence", label: "degree of technological independence" },
+      { prop: "rippleEffect", label: "technological ripple effect" },
+      { prop: "completeness", label: "technological completness" }
+    ]
+  },
+  {
+    key: "protection",
+    title: "technology pretectability / security",
+    fields: [
+      { prop: "imitationDifficulty", label: "difficulty of imitation" },
+      { prop: "protectionLevel",     label: "technlogy protection" }
+    ]
+  }
+];
+
 // 에이에스이티 전용: 시장성 바차트 구성
-const ASIT_MARKET_BAR_CONFIG = [
+const ASIT_MARKET_BAR_CONFIG_KOR = [
   {
     key: "marketStatus",
     title: "시장 현황",
@@ -341,8 +466,35 @@ const ASIT_MARKET_BAR_CONFIG = [
   }
 ];
 
+const ASIT_MARKET_BAR_CONFIG_ENG = [
+  {
+    key: "marketStatus",
+    title: "market status",
+    fields: [
+      { prop: "marketSize",   label: "market size" },
+      { prop: "marketGrowth", label: "market growth potential" }
+    ]
+  },
+  {
+    key: "competition",
+    title: "regulations and laws",
+    fields: [
+      { prop: "competitionStatus", label: "regulations and laws" },
+      { prop: "regulation",        label: "regulations and laws" },
+      { prop: "entryEase",         label: "ease of market entry" }
+    ]
+  },
+  {
+    key: "productCompetitiveness",
+    title: "product competivness",
+    fields: [
+      { prop: "comparativeAdvantage", label: "comparative advantage over competing products" }
+    ]
+  }
+];
+
 // 에이에스이티 전용: 사업성 바차트 구성
-const ASIT_BUSINESS_BAR_CONFIG = [
+const ASIT_BUSINESS_BAR_CONFIG_KOR = [
   {
     key: "capability",
     title: "사업능력",
@@ -363,8 +515,29 @@ const ASIT_BUSINESS_BAR_CONFIG = [
   }
 ];
 
+const ASIT_BUSINESS_BAR_CONFIG_ENG = [
+  {
+    key: "capability",
+    title: "business capability",
+    fields: [
+      { prop: "productionPlan", label: "feasibility pf production plan" },
+      { prop: "salesPlan",      label: "feasibility of sales plan" },
+      { prop: "salesSecuring",  label: "availability of secured sales channels/outlets" },
+      { prop: "capitalRaising", label: "capital raising ability" }
+    ]
+  },
+  {
+    key: "outlook",
+    title: "futur outlook",
+    fields: [
+      { prop: "growthOutlook", label: "growth outlook" },
+      { prop: "profitOutlook", label: "profit outlook" }
+    ]
+  }
+];
+
 // 기술경쟁력(3각형) 서브 항목 정의
-const TECH_BAR_CONFIG = [
+const TECH_BAR_CONFIG_KOR = [
   {
     key: "innovation",
     title: "기술 혁신성",
@@ -396,17 +569,60 @@ const TECH_BAR_CONFIG = [
   }
 ];
 
+const TECH_BAR_CONFIG_ENG = [
+  {
+    key: "innovation",
+    title: "technology innovation",
+    fields: [
+      { prop: "differentiation",     label: "differenciation of technology" },
+      { prop: "imitationDifficulty", label: "difficulty of imitation" },
+      { prop: "completeness",        label: "technologicy completness" },
+      { prop: "independence",        label: "technology independence" },
+      { prop: "scalability",         label: "technologicy scalability" }
+    ]
+  },
+  {
+    key: "market",
+    title: "Market status",
+    fields: [
+      { prop: "marketSize", label: "Market size" },
+      { prop: "growth",     label: "Market growth potential" },
+      { prop: "structure",  label: "Market structure and characteristics" }
+    ]
+  },
+  {
+    key: "productAdvantage",
+    title: "Product superiority",
+    fields: [
+      { prop: "awareness",       label: "awarness / recognition" },
+      { prop: "marketSecuring",  label: "Market acquisition possibility" },
+      { prop: "competitiveness", label: "comparative advantage over competing products" }
+    ]
+  }
+];
+
 // 등급 → 한글 설명 (뱃지 오른쪽)
 function getGradeLabel(grade) {
   if (!grade) return "";
   const g = grade.charAt(0); // A+, A, B+ 등에서 첫 글자만
-  const map = {
+  let map;
+  if (language === 'kor') {
+      map = {
     "A": "(우수)",
     "B": "(양호)",
     "C": "(보통)",
     "D": "(미흡)",
     "E": "(취약)"
   };
+    } else if (language === 'eng') {
+      map = {
+    "A": "(Excellent)",
+    "B": "(Good)",
+    "C": "(Average)",
+    "D": "(Insufficient)",
+    "E": "(Weak)"
+  };
+    }
   return map[g] || "";
 }
 
@@ -428,9 +644,12 @@ function getBizBarDetail(language, company, index) {
     const evalData = korData.evaluation && korData.evaluation.companyCapability;
     if (!evalData) return null;
 
-    console.log('evalData :', evalData);
-
-    const conf = ASIT_BIZ_BAR_CONFIG[index];
+    let conf;
+    if (language === 'kor') {
+      conf = ASIT_BIZ_BAR_CONFIG_KOR[index];
+    } else if (language === 'eng') {
+      conf = ASIT_BIZ_BAR_CONFIG_ENG[index];
+    }
     if (!conf) return null;
 
     const block = evalData[conf.key];   // entrepreneurshipTrust / ceo / executives
@@ -461,7 +680,12 @@ function getBizBarDetail(language, company, index) {
   }
   if (!biz) return null;
 
-  const conf = BIZ_BAR_CONFIG[index];
+  let conf;
+  if (language === 'kor') {
+    conf = BIZ_BAR_CONFIG_KOR[index];
+  } else if (language === 'eng') {
+    conf = BIZ_BAR_CONFIG_ENG[index];
+  }
   if (!conf) return null;
 
   const block = biz[conf.key];
@@ -497,7 +721,12 @@ function getTechBarDetail(language, company, index) {
     const tech = korData.evaluation && korData.evaluation.technology;
     if (!tech) return null;
 
-    const conf = ASIT_TECH_BAR_CONFIG[index];
+    let conf;
+    if (language === 'kor') {
+      conf = ASIT_TECH_BAR_CONFIG_KOR[index];
+    } else if (language === 'eng') {
+      conf = ASIT_TECH_BAR_CONFIG_ENG[index];
+    }
     if (!conf) return null;
 
     const block = tech[conf.key];
@@ -526,7 +755,12 @@ function getTechBarDetail(language, company, index) {
 
   if (!techComp) return null;
 
-  const conf = TECH_BAR_CONFIG[index];
+  let conf;
+  if (language === 'kor') {
+    conf = TECH_BAR_CONFIG_KOR[index];
+  } else if (language === 'eng') {
+    conf = TECH_BAR_CONFIG_ENG[index];
+  }
   if (!conf) return null;
 
   const block = techComp[conf.key];
@@ -555,7 +789,12 @@ function getMarketBarDetail(language, company, index) {
   const market = korData.evaluation.market;
   if (!market) return null;
 
-  const conf = ASIT_MARKET_BAR_CONFIG[index];
+  let conf;
+  if (language === 'kor') {
+    conf = ASIT_MARKET_BAR_CONFIG_KOR[index];
+  } else if (language === 'eng') {
+    conf = ASIT_MARKET_BAR_CONFIG_ENG[index];
+  }
   if (!conf) return null;
 
   const block = market[conf.key];
@@ -584,7 +823,12 @@ function getBusinessBarDetail(language, company, index) {
   const biz = korData.evaluation.business;
   if (!biz) return null;
 
-  const conf = ASIT_BUSINESS_BAR_CONFIG[index];
+  let conf;
+  if (language === 'kor') {
+    conf = ASIT_BUSINESS_BAR_CONFIG_KOR[index];
+  } else if (language === 'eng') {
+    conf = ASIT_BUSINESS_BAR_CONFIG_ENG[index];
+  }
   if (!conf) return null;
 
   const block = biz[conf.key];
@@ -636,7 +880,6 @@ function getGrowthModel(language, company) {
     data = COMPANY_DATA_KOR[company];
   } else if (language === 'eng') {
     data = COMPANY_DATA_ENG[company];
-    console.log("getGrowthModel : ", data);
   }
   if (!data || !data.modelResult) return null;
   return data.modelResult;   // { totalScore, factors, barScores }

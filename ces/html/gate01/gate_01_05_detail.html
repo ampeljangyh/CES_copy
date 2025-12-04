@@ -1619,9 +1619,9 @@ IBK는 성공한 벤치마크 기업의 성장 모형과 유사하게 성장할 
                                 <span class="r">(점)</span>
                             </div>
                         </div>
-                        <div class="desc_inner">
+                        <!-- <div class="desc_inner">
                             <p>정부의 지원으로 연구개발에 따른 재정적 부담을 완화하여 지속적인 혁신 활동에 중요한 동력을 제공합니다.</p>
-                        </div>
+                        </div> -->
                         <div class="bar_grp_inner">
                             <div class="skill-bar-wrap">
                                 <canvas id="skillBarChart02"></canvas>
@@ -2094,8 +2094,8 @@ function resizeGrowthChart(chart) {
  ****************************/
 window.addEventListener('load', function () {
   const lang = getCurrentLangFromBody();
-  if (lang === 'en') ensureEnChart();
-  else ensureKrChart();
+  if (lang === 'en') ensureEnChart(), language = 'eng', renderBizCapabilityView(language, currentCompany);
+  else ensureKrChart(), language = 'kor', renderBizCapabilityView(language, currentCompany);
 });
 
 window.addEventListener('resize', function () {
@@ -2110,9 +2110,8 @@ document.addEventListener('DOMContentLoaded', function () {
   langBtn.addEventListener('click', function () {
     setTimeout(function () {
       const lang = getCurrentLangFromBody();
-      if (lang === 'en') ensureEnChart(), language = 'eng';
-      else ensureKrChart(), language = 'kor';
-      console.log(language);
+      if (lang === 'en') ensureEnChart(), language = 'eng', renderBizCapabilityView(language, currentCompany);
+      else ensureKrChart(), language = 'kor', renderBizCapabilityView(language, currentCompany);
     }, 0);
   });
 });
