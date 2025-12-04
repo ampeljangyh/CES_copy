@@ -181,7 +181,7 @@
                                         <div class="inner chart_ty">
                                             <strong class="chart_tit">전체 중소 기업 등급 분포</strong>
                                             <div class="chart1">
-                                                <canvas id="chart1" style="width:100%; height:100%;"></canvas>
+                                                <canvas id="report1-chart1" style="width:100%; height:100%;"></canvas>
                                             </div>
                                             <ul class="grade_li">
                                                 <li>D</li>
@@ -196,7 +196,7 @@
                                         <div class="inner chart_ty">
                                             <strong class="chart_tit">최근 3개년 ESG 점수 현황</strong>
                                             <div class="chart2">
-                                                <canvas id="chart2" style="width:100%; height:100%;"></canvas>
+                                                <canvas id="report1-chart2" style="width:100%; height:100%;"></canvas>
                                             </div>
                                             <!-- point_tbl -->
                                             <ul class="point_tbl">
@@ -246,23 +246,23 @@
                                     <strong class="report_tit">ESG정밀진단 분야별 결과</strong>
                                 </div>
 
-                                <!-- tab_btns -->
-                                <div class="tab_btns">
-                                    <button type="button" class="btn_report_tab active">
+                                <!-- report_tab_btns -->
+                                <div class="report_tab_btns">
+                                    <button type="button" data-tab="1" class="btn_report_tab active">
                                         <span class="name">환경</span>
                                         <span class="summary">
                                             <span class="grade">A+</span>
                                             <span class="point">82.5점</span>
                                         </span>
                                     </button>
-                                    <button type="button" class="btn_report_tab">
+                                    <button type="button" data-tab="2" class="btn_report_tab">
                                         <span class="name">사회</span>
                                         <span class="summary">
                                             <span class="grade">A+</span>
                                             <span class="point">87.0점</span>
                                         </span>
                                     </button>
-                                    <button type="button" class="btn_report_tab">
+                                    <button type="button" data-tab="3" class="btn_report_tab">
                                         <span class="name">지배구조</span>
                                         <span class="summary">
                                             <span class="grade">A+</span>
@@ -270,10 +270,11 @@
                                         </span>
                                     </button>
                                 </div>
-                                <!-- //tab_btns -->
+                                <!-- //report_tab_btns -->
 
-                                <div class="tab_cnts">
-                                    <div>
+                                <div class="report_tab_cnts">
+                                    <!-- tab1 -->
+                                    <div data-tab="1"class="active">
                                         <!-- report_grid2 -->
                                         <ul class="report_grid2">
                                             <li>
@@ -281,7 +282,7 @@
                                                     <strong class="chart_tit">환경분야 전체 중소기업 등급 분포</strong>
 
                                                     <div class="chart3">
-                                                        <canvas id="chart3" style="width:100%; height:100%;"></canvas>
+                                                        <canvas id="report1-tab1-chart1" style="width:100%; height:100%;"></canvas>
                                                     </div>
 
                                                     <ul class="grade_li">
@@ -330,7 +331,7 @@
 
                                                     <div class="chart4">
                                                         <div class="chart_inner">
-                                                            <canvas id="chart4" style="width:100%; height:100%;"></canvas>
+                                                            <canvas id="report1-tab1-chart2" style="width:100%; height:100%;"></canvas>
                                                         </div>
 
                                                         <div class="chart_btns">
@@ -376,6 +377,219 @@
                                         </ul>
                                         <!-- //report_grid2 -->
                                     </div>
+                                    <!-- //tab1 -->
+
+                                    <!-- tab2 -->
+                                    <div data-tab="2">
+                                        <!-- report_grid2 -->
+                                        <ul class="report_grid2">
+                                            <li>
+                                                <div class="inner chart_ty">
+                                                    <strong class="chart_tit">환경분야 전체 중소기업 등급 분포</strong>
+
+                                                    <div class="chart3">
+                                                        <canvas id="report1-tab2-chart1" style="width:100%; height:100%;"></canvas>
+                                                    </div>
+
+                                                    <ul class="grade_li">
+                                                        <li>D</li>
+                                                        <li>C</li>
+                                                        <li>B</li>
+                                                        <li>B+</li>
+                                                        <li>A</li>
+                                                        <li class="active">A+</li>
+                                                        <li>S</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="inner chart_ty">
+                                                    <strong class="chart_tit">환경분야 기업 ESG경쟁력 수준</strong>
+
+                                                    <!-- point_li -->
+                                                    <ul class="point_li">
+                                                        <li class="emph">
+                                                            <span class="name">당사</span>
+                                                            <span class="point_track">
+                                                                <span class="bar" style="width:84.9%;" data-point="84.9"></span>
+                                                            </span>
+                                                            <strong class="point">84.9점</strong>
+                                                        </li>
+                                                        <li>
+                                                            <span class="name">동종산업 평균</span>
+                                                            <span class="point_track">
+                                                                <span class="bar" style="width:56.9%;" data-point="56.9"></span>
+                                                            </span>
+                                                            <strong class="point">56.9점</strong>
+                                                        </li>
+                                                        <li>
+                                                            <span class="name">중소기업 평균</span>
+                                                            <span class="point_track">
+                                                                <span class="bar" style="width:52.9%;" data-point="52.9"></span>
+                                                            </span>
+                                                            <strong class="point">52.9점</strong>
+                                                        </li>
+                                                    </ul>
+                                                    <!-- //point_li -->
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="inner chart_ty">
+                                                    <strong class="chart_tit">환경분야 이슈별 점수</strong>
+
+                                                    <div class="chart4">
+                                                        <div class="chart_inner">
+                                                            <canvas id="report1-tab2-chart2" style="width:100%; height:100%;"></canvas>
+                                                        </div>
+
+                                                        <div class="chart_btns">
+                                                            <button id="btnCompany" class="chart_btn active">당사</button>
+                                                            <button id="btnIndustry" class="chart_btn">동종산업 평균</button>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- point_tbl -->
+                                                    <ul class="point_tbl">
+                                                        <li class="thead">
+                                                            <span>이슈</span>
+                                                            <span>점수</span>
+                                                        </li>
+                                                        <li class="tbody">
+                                                            <span>환경경영 일반</span>
+                                                            <span>81.3점</span>
+                                                        </li>
+                                                        <li class="tbody">
+                                                            <span>온실가스 및 에너지</span>
+                                                            <span>89.3점</span>
+                                                        </li>
+                                                        <li class="tbody">
+                                                            <span>폐기물</span>
+                                                            <span>91.7점</span>
+                                                        </li>
+                                                        <li class="tbody">
+                                                            <span>수자원</span>
+                                                            <span>100.0점</span>
+                                                        </li>
+                                                        <li class="tbody">
+                                                            <span>유해화학물질</span>
+                                                            <span>62.5점</span>
+                                                        </li>
+                                                        <li class="tbody">
+                                                            <span>대기,수질 오염물질</span>
+                                                            <span>50.5점</span>
+                                                        </li>
+                                                    </ul>
+                                                    <!-- //point_tbl -->
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <!-- //report_grid2 -->
+                                    </div>
+                                    <!-- //tab2 -->
+
+                                    <!-- tab3 -->
+                                    <div data-tab="3">
+                                        <!-- report_grid2 -->
+                                        <ul class="report_grid2">
+                                            <li>
+                                                <div class="inner chart_ty">
+                                                    <strong class="chart_tit">환경분야 전체 중소기업 등급 분포</strong>
+
+                                                    <div class="chart3">
+                                                        <canvas id="report1-tab3-chart1" style="width:100%; height:100%;"></canvas>
+                                                    </div>
+
+                                                    <ul class="grade_li">
+                                                        <li>D</li>
+                                                        <li>C</li>
+                                                        <li>B</li>
+                                                        <li>B+</li>
+                                                        <li>A</li>
+                                                        <li class="active">A+</li>
+                                                        <li>S</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="inner chart_ty">
+                                                    <strong class="chart_tit">환경분야 기업 ESG경쟁력 수준</strong>
+
+                                                    <!-- point_li -->
+                                                    <ul class="point_li">
+                                                        <li class="emph">
+                                                            <span class="name">당사</span>
+                                                            <span class="point_track">
+                                                                <span class="bar" style="width:84.9%;" data-point="84.9"></span>
+                                                            </span>
+                                                            <strong class="point">84.9점</strong>
+                                                        </li>
+                                                        <li>
+                                                            <span class="name">동종산업 평균</span>
+                                                            <span class="point_track">
+                                                                <span class="bar" style="width:56.9%;" data-point="56.9"></span>
+                                                            </span>
+                                                            <strong class="point">56.9점</strong>
+                                                        </li>
+                                                        <li>
+                                                            <span class="name">중소기업 평균</span>
+                                                            <span class="point_track">
+                                                                <span class="bar" style="width:52.9%;" data-point="52.9"></span>
+                                                            </span>
+                                                            <strong class="point">52.9점</strong>
+                                                        </li>
+                                                    </ul>
+                                                    <!-- //point_li -->
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="inner chart_ty">
+                                                    <strong class="chart_tit">환경분야 이슈별 점수</strong>
+
+                                                    <div class="chart4">
+                                                        <div class="chart_inner">
+                                                            <canvas id="report1-tab3-chart2" style="width:100%; height:100%;"></canvas>
+                                                        </div>
+
+                                                        <div class="chart_btns">
+                                                            <button id="btnCompany" class="chart_btn active">당사</button>
+                                                            <button id="btnIndustry" class="chart_btn">동종산업 평균</button>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- point_tbl -->
+                                                    <ul class="point_tbl">
+                                                        <li class="thead">
+                                                            <span>이슈</span>
+                                                            <span>점수</span>
+                                                        </li>
+                                                        <li class="tbody">
+                                                            <span>환경경영 일반</span>
+                                                            <span>81.3점</span>
+                                                        </li>
+                                                        <li class="tbody">
+                                                            <span>온실가스 및 에너지</span>
+                                                            <span>89.3점</span>
+                                                        </li>
+                                                        <li class="tbody">
+                                                            <span>폐기물</span>
+                                                            <span>91.7점</span>
+                                                        </li>
+                                                        <li class="tbody">
+                                                            <span>수자원</span>
+                                                            <span>100.0점</span>
+                                                        </li>
+                                                        <li class="tbody">
+                                                            <span>유해화학물질</span>
+                                                            <span>62.5점</span>
+                                                        </li>
+                                                        <li class="tbody">
+                                                            <span>대기,수질 오염물질</span>
+                                                            <span>50.5점</span>
+                                                        </li>
+                                                    </ul>
+                                                    <!-- //point_tbl -->
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <!-- //report_grid2 -->
+                                    </div>
+                                    <!-- //tab3 -->
                                 </div>
 
                             </div>
@@ -407,6 +621,210 @@
                             <!-- //current -->
                         </div>
                         <!-- //top -->
+
+                        <!-- report_grid -->
+                        <ul class="report_grid mt01">
+                            <li>
+                                <div class="inner txt">
+                                    <p class="t1">ESG규제 대응 수준평가란?</p>
+                                    <p class="t2">ESG 규제 대응 평가는 주요 글로벌 ESG 규제에 대한 기업의 이행 수준을 점검하는 데 목적이 있습니다.<br>단순한 준수 여부를 확인하는 것을 넘어, 변화하는 규제 환경 속에서 기업이 현재 어느정도 대응하고 있는지를 객관적으로 평가합니다.<br>이를 통해 기업이 보완이 필요한 부분을 인식하고, 향후 대응 전략을 마련하는 데 참고할 수 있도록 합니다.</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="inner">
+                                    <!-- point_wrap -->
+                                    <div class="point_wrap">
+                                        <div class="txt">
+                                            <p class="t1">규제 대응 등급</p>
+                                            <p class="t2"><strong>미흡</strong></p>
+                                        </div>
+                                        <div class="cnt">
+                                            <ul class="grade_li">
+                                                <li>취약</li>
+                                                <li class="active">미흡</li>
+                                                <li>보통</li>
+                                                <li>양호</li>
+                                                <li>우수</li>
+                                            </ul>
+    
+                                            <p class="t1">귀사는 일부 ESG 규제 요구사항을 반영하고 있으나, 대응 체계가 충분히 갖춰지지 않은 상태입니다.<br>주요 항목을 점검하고 단계적으로 개선해 나가는 것이 필요합니다.</p>
+                                        </div>
+                                    </div>
+                                    <!-- //point_wrap -->
+                                </div>
+                            </li>
+                            <li>
+                                <div class="inner">
+                                    <!-- point_wrap -->
+                                    <div class="point_wrap">
+                                        <div class="txt">
+                                            <p class="t1">규제 대응도</p>
+                                            <p class="t2"><strong>37.5%</strong></p>
+                                        </div>
+                                        <div class="cnt">
+                                            <!-- point_li -->
+                                            <ul class="point_li">
+                                                <li class="emph">
+                                                    <span class="name">당사</span>
+                                                    <span class="point_track">
+                                                        <span class="bar" style="width:77.5%;" data-point="37.5"></span>
+                                                    </span>
+                                                    <strong class="point">37.5%</strong>
+                                                </li>
+                                                <li>
+                                                    <span class="name">동종산업 평균</span>
+                                                    <span class="point_track">
+                                                        <span class="bar" style="width:37.3%;" data-point="17.3"></span>
+                                                    </span>
+                                                    <strong class="point">17.3%</strong>
+                                                </li>
+                                                <li>
+                                                    <span class="name">중소기업 평균</span>
+                                                    <span class="point_track">
+                                                        <span class="bar" style="width:43.9%;" data-point="23.9"></span>
+                                                    </span>
+                                                    <strong class="point">23.9%</strong>
+                                                </li>
+                                            </ul>
+                                            <!-- //point_li -->
+                                        </div>
+                                    </div>
+                                    <!-- //point_wrap -->
+                                </div>
+                            </li>
+                        </ul>
+                        <!-- report_grid -->
+
+                        <!-- report_tit_box -->
+                        <div class="report_tit_box">
+                            <strong class="report_tit">ESG정밀진단 분야별 결과</strong>
+                        </div>
+                        <!-- //report_tit_box -->
+
+                        <!-- report_grid -->
+                        <ul class="report_grid">
+                            <li>
+                                <div class="inner">
+                                    <!-- regulation_panel -->
+                                    <div class="regulation_panel">
+                                        <div class="reg_category_list">
+                                            <span class="reg_category_box">CSDDD부속석1</span>
+                                            <span class="reg_category_box">CSDDD부속석2</span>
+                                            <span class="reg_category_box">산림벌채규정<br>(EUDR)</span>
+                                            <span class="reg_category_box">EU 배터리규정</span>
+                                            <span class="reg_category_box">위구르 강제노동 금지법<br>(UFLPA)</span>
+                                            <span class="reg_category_box">탄소국경조징제도<br>(CBAM)</span>
+                                            <span class="reg_category_box">청징경생법<br>(CCA)</span>
+                                            <span class="reg_category_box">분쟁광물규정</span>
+                                            <span class="reg_category_box">EU 강제노동제품 금지규정</span>
+                                        </div>
+
+                                        <div class="reg_status_list">
+                                            <div class="reg_status_box">
+                                                <strong>규제 대응도</strong>
+                                                <span>37.5%</span>
+                                            </div>
+                                            <div class="reg_status_box">
+                                                <strong>미대상</strong>
+                                            </div>
+                                            <div class="reg_status_box">
+                                                <strong>미대상</strong>
+                                            </div>
+                                            <div class="reg_status_box">
+                                                <strong>취약</strong>
+                                                <span>(0/1, 0%)</span>
+                                            </div>
+                                            <div class="reg_status_box">
+                                                <strong>우수</strong>
+                                                <span>(1/1, 100%)</span>
+                                            </div>
+                                            <div class="reg_status_box">
+                                                <strong>취약</strong>
+                                                <span>(0/1, 0%)</span>
+                                            </div>
+                                            <div class="reg_status_box">
+                                                <strong>취약</strong>
+                                                <span>(0/1, 0%)</span>
+                                            </div>
+                                            <div class="reg_status_box">
+                                                <strong>취약</strong>
+                                                <span>(0/1, 0%)</span>
+                                            </div>
+                                            <div class="reg_status_box">
+                                                <strong>우수</strong>
+                                                <span>(1/1, 100%)</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- reg_slider_list -->
+                                        <div class="reg_slider_list">
+                                            <div class="reg_slider">
+                                                <span class="label_top">GOOD</span>
+                                                <div class="slider_track">
+                                                    <div class="slider_point" style="bottom: 40%;"></div>
+                                                </div>
+                                                <span class="label_bottom">BAD</span>
+                                            </div>
+
+                                            <div class="reg_slider empty"></div>
+                                            <div class="reg_slider empty"></div>
+
+                                            <div class="reg_slider">
+                                                <span class="label_top">GOOD</span>
+                                                <div class="slider_track">
+                                                    <div class="slider_point" style="bottom: 20%;"></div>
+                                                </div>
+                                                <span class="label_bottom">BAD</span>
+                                            </div>
+
+                                            <div class="reg_slider">
+                                                <span class="label_top">GOOD</span>
+                                                <div class="slider_track">
+                                                    <div class="slider_point" style="bottom: 60%;"></div>
+                                                </div>
+                                                <span class="label_bottom">BAD</span>
+                                            </div>
+                                            
+                                            <div class="reg_slider">
+                                                <span class="label_top">GOOD</span>
+                                                <div class="slider_track">
+                                                    <div class="slider_point" style="bottom: 60%;"></div>
+                                                </div>
+                                                <span class="label_bottom">BAD</span>
+                                            </div>
+
+                                            <div class="reg_slider">
+                                                <span class="label_top">GOOD</span>
+                                                <div class="slider_track">
+                                                    <div class="slider_point" style="bottom: 60%;"></div>
+                                                </div>
+                                                <span class="label_bottom">BAD</span>
+                                            </div>
+
+                                            <div class="reg_slider">
+                                                <span class="label_top">GOOD</span>
+                                                <div class="slider_track">
+                                                    <div class="slider_point" style="bottom: 60%;"></div>
+                                                </div>
+                                                <span class="label_bottom">BAD</span>
+                                            </div>
+
+                                            <div class="reg_slider">
+                                                <span class="label_top">GOOD</span>
+                                                <div class="slider_track">
+                                                    <div class="slider_point" style="bottom: 60%;"></div>
+                                                </div>
+                                                <span class="label_bottom">BAD</span>
+                                            </div>
+                                        </div>
+                                        <!-- //reg_slider_list -->
+                                    </div>
+                                    <!-- //regulation_panel -->
+                                </div>
+                            </li>
+                        </ul>
+                        <!-- //report_grid -->
+                                    
 
                         <!-- report_btns -->
                         <div class="report_btns">
@@ -494,11 +912,9 @@
 
 
 <script>
-let report1ChartsRendered = false;
+let renderedReports = {};
+let renderedTabs = {};
 
-// ------------------------------------------------------------
-// 초기
-// ------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
     getHashOfName();
     gate0304Init();
@@ -522,10 +938,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     const firstReport = $('[data-report].active').data('report');
-    if (firstReport === 1 && !report1ChartsRendered) {
-        initReport1Charts();
-        report1ChartsRendered = true;
-    }
+    const firstTab = $('.report_tab_btns button.active').data('tab') || 1;
+
+    renderReport(firstReport);
+    renderReportTab(firstReport, firstTab);
+
+    $('.report_tab_btns button').on('click', function () {
+        switchReportTab($(this).data('tab'));
+    });
 });
 
 window.addEventListener("hashchange", () => {
@@ -538,29 +958,91 @@ function switchReport(action) {
     const $current = $reports.filter('.active');
     const currentIndex = parseInt($current.data('report'), 10);
 
-    const nextIndex = action === 'next'
-        ? currentIndex + 1
-        : currentIndex - 1;
-
+    const nextIndex = action === 'next' ? currentIndex + 1 : currentIndex - 1;
     const $target = $reports.filter(`[data-report="${nextIndex}"]`);
     if ($target.length === 0) return;
 
-    // 상태 변경
     $reports.removeClass('active').hide();
     $target.addClass('active').show();
 
-    // 1번 탭 최초 로딩 시 그래프 1회 실행
-    if (nextIndex === 1 && !report1ChartsRendered) {
-        initReport1Charts();
-        report1ChartsRendered = true;
-    }
+    const $inner = $('.esg_cont_inner');
+
+    // 이전 자동 스크롤 관련 이벤트 제거
+    $inner.off('.autoScroll');
+
+    // 자동 스크롤 시작
+    $inner.stop(true).animate({ scrollTop: 0 }, 400);
+
+    // 사용자 스크롤(휠/터치) 감지 시 자동 스크롤 중단
+    const stopAutoScroll = () => {
+        $inner.stop(true);
+        $inner.off('.autoScroll');
+    };
+
+    $inner.on('wheel.autoScroll touchmove.autoScroll touchstart.autoScroll', stopAutoScroll);
+
+    renderReport(nextIndex);
+
+    const activeTab = $target.find('.report_tab_btns button.active').data('tab') || 1;
+    renderReportTab(nextIndex, activeTab);
 }
 
+// report 1 기본 차트
 function initReport1Charts() {
-    drawGradeChart('chart1');
-    drawEsTrendChart('chart2');
-    drawGradeChart('chart3',[8.1, 10.5, 34.8, 31.8, 15.2, 1.5, 0],'#4091B9');
-    drawEsgRadarChart('chart4');
+    drawGradeChart('report1-chart1');
+    drawEsTrendChart('report1-chart2');
+}
+
+// report 렌더
+function renderReport(reportNo) {
+    if (renderedReports[reportNo]) return;
+
+    switch (reportNo) {
+        case 1:
+            initReport1Charts();
+            break;
+    }
+
+    renderedReports[reportNo] = true;
+}
+
+function switchReportTab(tabIndex) {
+    const $btns = $('.report_tab_btns button');
+    const $cnts = $('.report_tab_cnts > div');
+
+    $btns.removeClass('active');
+    $btns.filter(`[data-tab="${tabIndex}"]`).addClass('active');
+
+    $cnts.removeClass('active').hide();
+    $cnts.filter(`[data-tab="${tabIndex}"]`).addClass('active').show();
+
+    const reportNo = $('[data-report].active').data('report');
+    renderReportTab(reportNo, tabIndex);
+}
+
+// tab 렌더
+function renderReportTab(reportNo, tabNo) {
+    const key = `${reportNo}_${tabNo}`;
+    if (renderedTabs[key]) return;
+
+    if (reportNo === 1) {
+        switch (tabNo) {
+            case 1:
+                drawGradeChart('report1-tab1-chart1', [8.1, 10.5, 34.8, 31.8, 15.2, 1.5, 0], '#4091B9');
+                drawEsgRadarChart('report1-tab1-chart2');
+                break;
+            case 2:
+                drawGradeChart('report1-tab2-chart1', [8.1, 10.5, 34.8, 31.8, 15.2, 1.5, 0], '#4091B9');
+                drawEsgRadarChart('report1-tab2-chart2');
+                break;
+            case 3:
+                drawGradeChart('report1-tab3-chart1', [8.1, 10.5, 34.8, 31.8, 15.2, 1.5, 0], '#4091B9');
+                drawEsgRadarChart('report1-tab3-chart2');
+                break;
+        }
+    }
+
+    renderedTabs[key] = true;
 }
 
 //chart1
