@@ -68,7 +68,7 @@
             <div class="esg_cont_inner">
                 <div class="esg_tit">
                     <p><span id="selPrdName">NexDrive</span> (<span id="selPrdCategory">자동차</span>)</p>
-                    <strong>ESG 정밀밀진단 최종 보고서</strong>
+                    <strong>ESG 정밀진단 최종 보고서</strong>
                 </div>
 
                 <!-- report_panel -->
@@ -97,21 +97,176 @@
                         </div>
                         <!-- //top -->
 
-                        <!-- tab_cnts -->
-                        <div class="tab_cnts">
-                            <!-- tab_cnt -->
-                            <div>
+                        <!-- scroll_cnts -->
+                        <div class="scroll_cnts">
+                            <!-- scroll_cnt -->
+                            <div class="scroll_cnt cnt1">
+                                <div class="report_tit_box">
+                                    <strong class="report_tit">ESG 정밀진단 종합 결과</strong>
+                                </div>
+
+                                <!-- report_grid -->
+                                <ul class="report_grid">
+                                    <li>
+                                        <div class="inner">
+                                            <!-- point_wrap -->
+                                            <div class="point_wrap">
+                                                <div class="txt">
+                                                    <p class="t1">종합 등급</p>
+                                                    <p class="t2">
+                                                        <strong>A+</strong>
+                                                        <span>등급</span>
+                                                    </p>
+                                                </div>
+                                                <div class="cnt">
+                                                    <ul class="grade_li">
+                                                        <li>D</li>
+                                                        <li>C</li>
+                                                        <li>B</li>
+                                                        <li>B+</li>
+                                                        <li>A</li>
+                                                        <li class="active">A+</li>
+                                                        <li>S</li>
+                                                    </ul>
+
+                                                    <p class="t1">귀사는 ESG 관리 수준이 높은 기업으로, 주요 항목을 잘 운영하고 있습니다.<br>일부 영역을 보완하면 더욱 균형잡힌 ESG 경영을 실천할 수 있습니다.<br>지속적인 개선을 통해 한 단계 더 도약할 수 있습니다.</p>
+                                                </div>
+                                            </div>
+                                            <!-- //point_wrap -->
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inner">
+                                            <!-- point_wrap -->
+                                            <div class="point_wrap">
+                                                <div class="txt">
+                                                    <p class="t1">종합 점수</p>
+                                                    <p class="t2">
+                                                        <strong>84.9</strong>
+                                                        <span>점</span>
+                                                    </p>
+                                                </div>
+                                                <div class="cnt">
+                                                    <!-- point_li -->
+                                                    <ul class="point_li">
+                                                        <li class="emph">
+                                                            <span class="name">당사</span>
+                                                            <span class="point_track">
+                                                                <span class="bar" style="width:84.9%;" data-point="84.9"></span>
+                                                            </span>
+                                                            <strong class="point">84.9점</strong>
+                                                        </li>
+                                                        <li>
+                                                            <span class="name">동종산업 평균</span>
+                                                            <span class="point_track">
+                                                                <span class="bar" style="width:56.9%;" data-point="56.9"></span>
+                                                            </span>
+                                                            <strong class="point">56.9점</strong>
+                                                        </li>
+                                                        <li>
+                                                            <span class="name">중소기업 평균</span>
+                                                            <span class="point_track">
+                                                                <span class="bar" style="width:52.9%;" data-point="52.9"></span>
+                                                            </span>
+                                                            <strong class="point">52.9점</strong>
+                                                        </li>
+                                                    </ul>
+                                                    <!-- //point_li -->
+                                                </div>
+                                            </div>
+                                            <!-- //point_wrap -->
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inner chart_ty">
+                                            <strong class="chart_tit">전체 중소 기업 등급 분포</strong>
+                                            <div class="chart1">
+                                                <canvas id="chart1" style="width:100%; height:100%;"></canvas>
+                                            </div>
+                                            <ul class="grade_li">
+                                                <li>D</li>
+                                                <li>C</li>
+                                                <li>B</li>
+                                                <li>B+</li>
+                                                <li>A</li>
+                                                <li class="active">A+</li>
+                                                <li>S</li>
+                                            </ul>
+                                        </div>
+                                        <div class="inner chart_ty">
+                                            <strong class="chart_tit">최근 3개년 ESG 점수 현황</strong>
+                                            <div class="chart2">
+                                                <canvas id="chart2" style="width:100%; height:100%;"></canvas>
+                                            </div>
+                                            <!-- point_tbl -->
+                                            <ul class="point_tbl">
+                                                <li class="thead">
+                                                    <span>년도</span>
+                                                    <span>2022</span>
+                                                    <span>2023</span>
+                                                    <span>2024</span>
+                                                </li>
+                                                <li class="tbody">
+                                                    <span>종합</span>
+                                                    <span>69.8</span>
+                                                    <span>77.6</span>
+                                                    <span>84.9</span>
+                                                </li>
+                                                <li class="tbody">
+                                                    <span>환경</span>
+                                                    <span>72.4</span>
+                                                    <span>78.8</span>
+                                                    <span>82.5</span>
+                                                </li>
+                                                <li class="tbody">
+                                                    <span>사회</span>
+                                                    <span>71.7</span>
+                                                    <span>79.0</span>
+                                                    <span>87.0</span>
+                                                </li>
+                                                <li class="tbody">
+                                                    <span>지배구조</span>
+                                                    <span>78.0</span>
+                                                    <span>79.1</span>
+                                                    <span>85.0</span>
+                                                </li>
+                                            </ul>
+                                            <!-- //point_tbl -->
+                                        </div>
+                                    </li>
+                                </ul>
+                                <!-- //report_grid -->
 
                             </div>
-                            <!-- //tab_cnt -->
+                            <!-- //scroll_cnt -->
                              
-                            <!-- tab_cnt -->
-                            <div>
+                            <!-- scroll_cnt -->
+                            <div class="scroll_cnt cnt2">
+                                <div class="report_tit_box">
+                                    <strong class="report_tit">ESG정밀진단 분야별 결과</strong>
+                                </div>
 
+                                <!-- report_grid2 -->
+                                <ul class="report_grid2">
+                                    <li>
+                                        <div class="inner">
+                                            <strong class="chart_tit">환경분야 전체 중소기업 등급 분포</strong>
+                                        </div>
+                                        <div class="inner">
+                                            <strong class="chart_tit">환경분야 기업 ESG경쟁력 수준</strong>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inner">
+                                            <strong class="chart_tit">환경분야 이슈별 점수</strong>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <!-- //report_grid2 -->
                             </div>
-                            <!-- //tab_cnt -->
+                            <!-- //scroll_cnt -->
                         </div>
-                        <!-- //tab_cnts -->
+                        <!-- //scroll_cnts -->
                     </div>
                     <!-- //data-report : 1 -->
 
@@ -212,11 +367,273 @@
 document.addEventListener("DOMContentLoaded", () => {
     getHashOfName();
     gate0304Init();
+    drawGradeChart('chart1');
+    drawEsTrendChart('chart2');
 });
 window.addEventListener("hashchange", () => {
     getHashOfName();
     gate0304Init();
 });
+
+//chart1
+function drawGradeChart(canvasId, dataValues = [1.5, 4.5, 33.3, 34.8, 22.7, 3, 0]) {
+	const canvas = document.getElementById(canvasId);
+	const ctx = canvas.getContext("2d");
+
+	const labels = ["D", "C", "B", "B+", "A", "A+", "S"];
+
+	// A+ gradient
+	const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height / 2);
+	gradient.addColorStop(0, "#60BAF5"); // 상단
+	gradient.addColorStop(1, "#0A498C"); // 하단
+
+	// 바 색상
+	const barColors = labels.map(label =>
+		label === "A+" ? gradient : "#B5B5B5"
+	);
+
+	// 퍼센트 라벨 플러그인
+	const percentLabelPlugin = {
+		id: "percentLabel",
+		afterDatasetsDraw(chart) {
+			const { ctx } = chart;
+			const meta = chart.getDatasetMeta(0);
+
+			meta.data.forEach((bar, index) => {
+				const x = bar.x;
+				const y = bar.y - 28;
+
+				ctx.save();
+				ctx.fillStyle = labels[index] === "A+" ? "#5CB4EF" : "#ffffff";
+				ctx.font = "32px Pretendard, sans-serif";
+				ctx.textAlign = "center";
+				ctx.fillText(dataValues[index] + "%", x, y);
+				ctx.restore();
+			});
+		}
+	};
+
+	// 기존 차트 제거
+	if (canvas._chartInstance) {
+		canvas._chartInstance.destroy();
+	}
+
+	// 차트 생성
+	const chartInstance = new Chart(ctx, {
+		type: "bar",
+		data: {
+			labels,
+			datasets: [
+				{
+					data: dataValues,
+					backgroundColor: barColors,
+					borderRadius: 0
+				}
+			]
+		},
+		options: {
+			responsive: true,
+			maintainAspectRatio: false,
+
+			plugins: {
+				legend: { display: false },
+				tooltip: { enabled: false }
+			},
+
+			scales: {
+				y: {
+					display: false,
+					grid: { display: false, drawBorder: false, drawTicks: false },
+					ticks: { display: false },
+					suggestedMax: 40
+				},
+
+				x: {
+					grid: { display: false, drawBorder: false, drawTicks: false },
+					ticks: {
+						color: "#ffffff",
+						font: { size: 32, weight: "700", family: "Pretendard" },
+						padding: 32
+					}
+				}
+			}
+		},
+		plugins: [percentLabelPlugin]
+	});
+
+	canvas._chartInstance = chartInstance;
+}
+
+//chart2
+function drawEsTrendChart(
+    canvasId,
+    labels = ["2022", "2023", "2024"],
+    totalValues = [69.8, 77.6, 84.9],
+    lineValues = {
+        env:    [72.4, 78.8, 82.5],
+        social: [71.7, 79.0, 87.0],
+        gov:    [78.0, 79.1, 85.0]
+    }
+) {
+    const canvas = document.getElementById(canvasId);
+    const ctx = canvas.getContext("2d");
+
+    // bar gradient (종합은 그대로 유지)
+    const barGradient = ctx.createLinearGradient(0, 0, 0, canvas.height / 2);
+    barGradient.addColorStop(0, "#A7D4FF");
+    barGradient.addColorStop(1, "#245FA3");
+
+    const labelMap = {
+        env: "환경",
+        social: "사회",
+        gov: "지배구조"
+    };
+
+    // ★ line도 legend와 동일한 컬러를 사용하도록 변경
+    const lineColors = {
+        env:    "#4091B9",
+        social: "#387D82",
+        gov:    "#5D69E5"
+    };
+
+    // ★ legend 아이콘 색상도 동일하게 매핑
+    const legendColors = {
+        "종합":    "#2C76B6",
+        "환경":    "#4091B9",
+        "사회":    "#387D82",
+        "지배구조": "#5D69E5"
+    };
+
+    // ★ bar 위에 line을 다시 그려주는 플러그인
+    const lineOnTopPlugin = {
+        id: "lineOnTop",
+        afterDatasetsDraw(chart) {
+            const { ctx } = chart;
+            chart.data.datasets.forEach((ds, i) => {
+                if (ds.type === "line") {
+                    const meta = chart.getDatasetMeta(i);
+                    meta.controller.draw();
+                }
+            });
+        }
+    };
+
+    // ★ legend 박스를 위로 올리는 플러그인
+    const legendMoveUpPlugin = {
+        id: "legendMoveUpPlugin",
+        afterLayout(chart) {
+            const legend = chart.legend;
+            if (!legend) return;
+            legend.bottom -= 30;
+        }
+    };
+
+    if (canvas._chartInstance) canvas._chartInstance.destroy();
+
+    const chartInstance = new Chart(ctx, {
+        data: {
+            labels,
+            datasets: [
+                // 종합 (bar) — 기존 그대로 유지
+                {
+                    type: "bar",
+                    label: "종합",
+                    data: totalValues,
+                    backgroundColor: barGradient,
+                    borderRadius: 0,
+                    barThickness: 120
+                },
+
+                // ★ 3개의 line 색상 수정됨 (legend와 동일한 색)
+                ...Object.keys(lineValues).map(key => ({
+                    type: "line",
+                    label: labelMap[key],
+                    data: lineValues[key],
+                    borderColor: lineColors[key],
+                    backgroundColor: lineColors[key],
+
+                    tension: 0.4,
+                    borderWidth: 8,
+                    pointRadius: 8,
+                    pointHoverRadius: 8,
+                    pointBorderWidth: 3,
+                    pointBackgroundColor: "#192642",
+                    pointBorderColor: lineColors[key],
+                    fill: false
+                }))
+            ]
+        },
+
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            
+            plugins: {
+                tooltip: { enabled: false },
+
+                legend: {
+                    display: true,
+                    position: "right",
+                    align: "end",
+                    onClick: null,
+
+                    labels: {
+                        color: "#ffffff",
+                        font: { size: 32, family: "Pretendard" },
+                        usePointStyle: true,
+                        pointStyle: "circle",
+                        boxWidth: 60,
+                        boxHeight: 600,
+                        padding: 40,
+
+                        generateLabels(chart) {
+                            const original = Chart.defaults.plugins.legend.labels.generateLabels(chart);
+                            original.forEach(item => {
+                                if (legendColors[item.text]) {
+                                    item.fillStyle = legendColors[item.text];
+                                    item.strokeStyle = legendColors[item.text];
+                                }
+                            });
+                            return original;
+                        }
+                    }
+                }
+            },
+
+            scales: {
+                x: {
+                    ticks: {
+                        color: "#ffffff",
+                        font: { size: 32, family: "Pretendard" },
+                        padding: 12
+                    },
+                    grid: { display: false }
+                },
+
+                y: {
+                    min: 50,
+                    max: 90,
+                    ticks: {
+                        color: "#ffffff",
+                        stepSize: 10,
+                        font: { size: 32, family: "Pretendard" },
+                        padding: 12
+                    },
+                    grid: {
+                        display: true,
+                        color: "rgba(255,255,255,0.15)",
+                        lineWidth: 1
+                    }
+                }
+            }
+        },
+
+        plugins: [lineOnTopPlugin, legendMoveUpPlugin]
+    });
+
+    canvas._chartInstance = chartInstance;
+}
+
 </script>
 </body>
 </html>
