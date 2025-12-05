@@ -1735,14 +1735,14 @@ function renderReportTab(reportNo, tabNo) {
 function drawGradeChart(
     canvasId,
     dataValues = [1.5, 4.5, 33.3, 34.8, 22.7, 3, 0],
-    barColor = "#0A498C"  // ★ A+ 전용 단색
+    barColor = "#0A498C"  // A+ 전용 단색
 ) {
     const canvas = document.getElementById(canvasId);
     const ctx = canvas.getContext("2d");
 
     const labels = ["D", "C", "B", "B+", "A", "A+", "S"];
 
-    // ★ A+는 barColor, 나머지는 #B5B5B5
+    // A+는 barColor, 나머지는 #B5B5B5
     const barColors = labels.map(label =>
         label === "A+" ? barColor : "#B5B5B5"
     );
@@ -1824,7 +1824,7 @@ function drawEsTrendChart(
         social: [71.7, 79.0, 87.0],
         gov:    [78.0, 79.1, 85.0]
     },
-    barColor = "#0A498C"   // ★ 단색 바 컬러 기본값
+    barColor = "#0A498C"   // 단색 바 컬러 기본값
 ) {
     const canvas = document.getElementById(canvasId);
     const ctx = canvas.getContext("2d");
@@ -1876,7 +1876,7 @@ function drawEsTrendChart(
         data: {
             labels,
             datasets: [
-                // ★ 종합 bar 단색 처리
+                // 종합 bar 단색 처리
                 {
                     type: "bar",
                     label: "종합",
@@ -2005,19 +2005,19 @@ function drawEsgRadarChart(canvasId) {
             labels,
             datasets: [
                 // -----------------------------------------------------
-                // ★ 당사 그래프(수정됨)
+                // 당사 그래프(수정됨)
                 // -----------------------------------------------------
                 {
                     label: "당사",
                     data: companyValues,
 
-                    borderColor: "#4091B9",   // ★ 선 색상
-                    borderWidth: 8,           // ★ 선 두께
+                    borderColor: "#4091B9",   // 선 색상
+                    borderWidth: 8,           // 선 두께
 
                     backgroundColor: "rgba(64,145,185,0.3)",
 
-                    pointRadius: 12,          // ★ dot 크기
-                    pointBackgroundColor: "#4091B9", // ★ dot 색
+                    pointRadius: 12,          // dot 크기
+                    pointBackgroundColor: "#4091B9", // dot 색
                     pointBorderColor: "#4091B9",
                     pointBorderWidth: 0,
 
@@ -2249,7 +2249,7 @@ function drawQuadrantScatterChart(
         }
     };
 
-    // ★★★ 핵심 수정 적용: hover / click 제거
+    // 핵심 수정 적용: hover / click 제거
     const chart = new Chart(ctx, {
         type: "scatter",
         data: {

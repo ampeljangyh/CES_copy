@@ -882,10 +882,10 @@ let pausedAtSelf = false;
 
 const rippleDuration = 0.6;
 
-// ★ 미리 로딩한 SVG 텍스트 저장소
+// 미리 로딩한 SVG 텍스트 저장소
 let preloadedSvgText = null;
 
-// ★ self ripple 반복 interval
+// self ripple 반복 interval
 let selfRippleInterval = null;
 
 // ------------------------------------------------------------
@@ -993,11 +993,11 @@ function startWithFirstRipple(selector, delay = 0.75) {
 }
 
 // ------------------------------------------------------------
-// 🔥 자동 클릭 시퀀스 (보이는 버튼만 포함하도록 수정됨)
+// 자동 클릭 시퀀스 (보이는 버튼만 포함하도록 수정됨)
 // ------------------------------------------------------------
 function autoClickSequence(selector, delay = 0.75) {
 
-    // ★ 보이는 버튼만 필터
+    // 보이는 버튼만 필터
     const buttons = gsap.utils
         .toArray(selector)
         .filter(btn => {
@@ -1094,7 +1094,7 @@ function loadSvgLoading(btn) {
             li.dataset.finished = "TRUE";
 
             // --------------------------------------------------
-            // 🔥 마지막 '보이는' 버튼일 때만 실행되도록 수정됨
+            // 마지막 '보이는' 버튼일 때만 실행되도록 수정됨
             // --------------------------------------------------
             const visibleBtns = Array.from(document.querySelectorAll('.btn_eval'))
                 .filter(b => {

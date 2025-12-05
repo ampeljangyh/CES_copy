@@ -1326,7 +1326,7 @@ function initPinAutoSequence(callback) {
 // 시퀀스 실행 (정확 대기 + 빠른 흐름)
 // ------------------------------------------------------------
 async function runAutoScrollSequence(container, callback) {
-    const WAIT = 150;  // ★ 최소 대기 (빠른 흐름)
+    const WAIT = 150;  // 최소 대기 (빠른 흐름)
 
     for (let i = 0; i < pinGroups.length; i++) {
         if (autoCanceled) break;

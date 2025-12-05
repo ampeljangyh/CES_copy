@@ -75,7 +75,7 @@ function openPanel(id, callback, beforeFn) {
     const onAnimationEnd = () => {
         completed++;
         if (completed === total) {
-            callback(id); // 🔥 콜백 호출
+            callback(id); // 콜백 호출
             panel.removeEventListener("animationend", onAnimationEnd);
             overlay.removeEventListener("animationend", onAnimationEnd);
         }
@@ -113,7 +113,7 @@ function closePanel(id, callback, beforeFn) {
             completed++;
 
             if (completed === total && typeof callback === "function") {
-                callback(id); // 🔥 콜백 호출
+                callback(id); // 콜백 호출
             }
         }
 
