@@ -606,7 +606,7 @@
                     <!-- //data-report : 1 -->
 
                     <!-- data-report : 2 -->
-                    <div data-report="2" class="active">
+                    <div data-report="2">
                         <!-- top -->
                         <div class="top">
                             <p class="tit">2. ESG 규제 대응 수준 평가 결과</p>
@@ -885,7 +885,7 @@
                     <!-- //data-report : 2 -->
 
                     <!-- data-report : 3 -->
-                    <div data-report="3">
+                    <div data-report="3" class="active">
                         <!-- top -->
                         <div class="top">
                             <p class="tit">3. TO-BE 이행 가이드</p>
@@ -900,6 +900,129 @@
                             <!-- //current -->
                         </div>
                         <!-- //top -->
+
+                        <!-- dist_panel -->
+                        <div class="dist_panel">
+                            <!-- dist_chart -->
+                            <div class="dist_chart">
+                                <div class="report_tit_box">
+                                    <strong class="report_tit">개선과제 관리 우선 분포도</strong>
+                                </div>
+                                
+                                <div class="dist_chart_inner">
+                                    <canvas id="report3-chart1" style="width:100%; height:100%;"></canvas>
+                                </div>
+                            </div>
+                            <!-- dist_chart -->
+
+                            <!-- dist_side -->
+                            <div class="dist_side">
+                                <div class="dist_side_inner">
+                                    <strong class="tit">Quick Win 과제</strong>
+
+                                    <ul class="dist_li">
+                                        <li>
+                                            <button type="button" class="btn_dist">
+                                                <span class="txt">1. 온실가스 및 에너지 관리</span>
+                                                <span class="ico_esg ty_e"></span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="btn_dist">
+                                                <span class="txt">2. 협력사 리스크 관리</span>
+                                                <span class="ico_esg ty_s"></span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="btn_dist">
+                                                <span class="txt">3. 안전보보건 관리 활동</span>
+                                                <span class="ico_esg ty_s"></span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="btn_dist">
+                                                <span class="txt">4. 환경경영 내재화</span>
+                                                <span class="ico_esg ty_s"></span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="btn_dist" disabled>
+                                                <span class="txt">5. 유해화학물질 관리</span>
+                                                <span class="ico_esg ty_s"></span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="btn_dist">
+                                                <span class="txt">6. ESG정보공시</span>
+                                                <span class="ico_esg ty_g"></span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="btn_dist" disabled>
+                                                <span class="txt">7. 폐기물 관리</span>
+                                                <span class="ico_esg ty_e"></span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="btn_dist" disabled>
+                                                <span class="txt">8. 인권경영 관리체계</span>
+                                                <span class="ico_esg ty_s"></span>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="dist_side_inner">
+                                    <strong class="tit">단기</strong>
+
+                                    <ul class="dist_li">
+                                        <li>
+                                            <button type="button" class="btn_dist" disabled>
+                                                <span class="txt">9. 윤리준법 신고제도</span>
+                                                <span class="ico_esg ty_g"></span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="btn_dist" disabled>
+                                                <span class="txt">10. 책임 있는 원부자재 조달 정책</span>
+                                                <span class="ico_esg ty_s"></span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="btn_dist" disabled>
+                                                <span class="txt">11. 근로자 생활시설 관리</span>
+                                                <span class="ico_esg ty_s"></span>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="dist_side_inner">
+                                    <strong class="tit">중장기</strong>
+
+                                    <ul class="dist_li">                                        
+                                        <li>
+                                            <button type="button" class="btn_dist" disabled>
+                                                <span class="txt">12. 온실가스 배출량 산정체계</span>
+                                                <span class="ico_esg ty_e"></span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="btn_dist" disabled>
+                                                <span class="txt">13. 도급· 용역· 위탁 안전관리</span>
+                                                <span class="ico_esg ty_s"></span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="btn_dist" disabled>
+                                                <span class="txt">14. 환경 영향 저감제품 개발</span>
+                                                <span class="ico_esg ty_e"></span>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- //dist_side -->
+                        </div>
+                        <!-- //dist_panel -->
 
                         <!-- report_btns -->
                         <div class="report_btns">
@@ -1042,6 +1165,11 @@ function initReport1Charts() {
     drawEsTrendChart('report1-chart2');
 }
 
+// report 3 기본 차트
+function initReport3Charts() {
+    drawQuadrantScatterChart('report3-chart1');
+}
+
 // report 렌더
 function renderReport(reportNo) {
     if (renderedReports[reportNo]) return;
@@ -1050,10 +1178,15 @@ function renderReport(reportNo) {
         case 1:
             initReport1Charts();
             break;
+
+        case 3:
+            initReport3Charts();
+            break;
     }
 
     renderedReports[reportNo] = true;
 }
+
 
 function switchReportTab(tabIndex) {
     const $btns = $('.report_tab_btns button');
@@ -1463,6 +1596,229 @@ function drawEsgRadarChart(canvasId) {
     chart.update();
 }
 
+//chart5
+function drawQuadrantScatterChart(
+    canvasId,
+    points = [
+        { x: 80, y: 85, label: "1", type: "E" },
+        { x: 75, y: 90, label: "2", type: "S" },
+        { x: 78, y: 88, label: "3", type: "S" },
+        { x: 70, y: 82, label: "4", type: "E" },
+        { x: 60, y: 78, label: "5", type: "E" },
+        { x: 62, y: 80, label: "6", type: "G" },
+        { x: 72, y: 70, label: "7", type: "E" },
+        { x: 68, y: 88, label: "8", type: "S" },
+        { x: 30, y: 85, label: "9", type: "G" },
+        { x: 40, y: 65, label: "11", type: "S" },
+        { x: 42, y: 58, label: "10", type: "S" },
+        { x: 90, y: 60, label: "12", type: "E" },
+        { x: 78, y: 55, label: "13", type: "S" },
+        { x: 60, y: 50, label: "14", type: "E" },
+    ]
+) {
+    const COLORS = {
+        E: "#5DBCED",
+        S: "rgb(60,125,130)",
+        G: "rgb(95,105,230)"
+    };
+
+    const canvas = document.getElementById(canvasId);
+    const ctx = canvas.getContext("2d");
+
+    if (canvas._chartInstance) canvas._chartInstance.destroy();
+
+    const pointLabelPlugin = {
+        id: "pointLabelPlugin",
+        afterDatasetsDraw(chart) {
+            const { ctx } = chart;
+            ctx.save();
+            ctx.font = "32px Pretendard";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillStyle = "#FFFFFF";
+
+            const meta = chart.getDatasetMeta(0);
+            meta.data.forEach((element, i) => {
+                ctx.fillText(points[i].label, element.x, element.y);
+            });
+
+            ctx.restore();
+        }
+    };
+
+    const quadrantBackgroundPlugin = {
+        id: "quadrantBackgroundPlugin",
+        beforeDraw(chart) {
+            const { ctx, chartArea } = chart;
+            if (!chartArea) return;
+
+            const midX = (chartArea.left + chartArea.right) / 2;
+            const midY = (chartArea.top + chartArea.bottom) / 2;
+
+            ctx.save();
+
+            const c1 = "rgba(202, 218, 252, 0.30)";
+            const c2 = "rgba(202, 218, 252, 0.11)";
+            const c3 = "rgba(202, 218, 252, 0.30)";
+            const c4 = "rgba(202, 218, 252, 0.11)";
+
+            ctx.fillStyle = c2;
+            ctx.fillRect(chartArea.left, chartArea.top, midX - chartArea.left, midY - chartArea.top);
+
+            ctx.fillStyle = c1;
+            ctx.fillRect(midX, chartArea.top, chartArea.right - midX, midY - chartArea.top);
+
+            ctx.fillStyle = c3;
+            ctx.fillRect(chartArea.left, midY, midX - chartArea.left, chartArea.bottom - midY);
+
+            ctx.fillStyle = c4;
+            ctx.fillRect(midX, midY, chartArea.right - midX, chartArea.bottom - midY);
+
+            ctx.strokeStyle = "#66ADFF";
+            ctx.lineWidth = 3;
+
+            ctx.beginPath();
+            ctx.moveTo(midX, chartArea.top);
+            ctx.lineTo(midX, chartArea.bottom);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(chartArea.left, midY);
+            ctx.lineTo(chartArea.right, midY);
+            ctx.stroke();
+
+            ctx.restore();
+        }
+    };
+
+    const verticalYAxisLabelPlugin = {
+        id: "verticalYAxisLabelPlugin",
+        afterDraw(chart) {
+            const { ctx, chartArea } = chart;
+
+            const text = "이행용이성";
+            const x = chartArea.left - 50;
+            let y = chartArea.top + 50;
+
+            ctx.save();
+            ctx.font = "40px Pretendard";
+            ctx.fillStyle = "#FFFFFF";
+            ctx.textAlign = "center";
+
+            [...text].forEach(ch => {
+                ctx.fillText(ch, x, y);
+                y += 45;
+            });
+
+            ctx.restore();
+        }
+    };
+
+    const quadrantLegendPlugin = {
+        id: "quadrantLegendPlugin",
+        afterDraw(chart) {
+            const { ctx, chartArea } = chart;
+
+            ctx.save();
+            ctx.font = "32px Pretendard";
+
+            const legendX = chartArea.right + 40;
+            const legendY = chartArea.bottom - 140;
+
+            const items = [
+                { label: "E 환경", color: COLORS.E },
+                { label: "S 사회", color: COLORS.S },
+                { label: "G 지배구조", color: COLORS.G }
+            ];
+
+            items.forEach((item, i) => {
+                ctx.fillStyle = item.color;
+                ctx.beginPath();
+                ctx.arc(legendX, legendY + i * 48, 14, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = "#FFFFFF";
+                ctx.fillText(item.label, legendX + 30, legendY + i * 48 + 10);
+            });
+
+            ctx.restore();
+        }
+    };
+
+    // ★★★ 핵심 수정 적용: hover / click 제거
+    const chart = new Chart(ctx, {
+        type: "scatter",
+        data: {
+            datasets: [
+                {
+                    label: "분포도",
+                    data: points,
+                    pointRadius: 28,
+
+                    // ✔ hover 및 클릭 제거
+                    pointHoverRadius: 0,
+                    hoverRadius: 0,
+
+                    backgroundColor: p => COLORS[p.raw.type],
+                    borderColor: p => COLORS[p.raw.type],
+                    borderWidth: 4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
+            // ✔ 완전 비활성화
+            interaction: { mode: null },
+            events: [],
+
+            layout: {
+                padding: {
+                    left: 80,
+                    right: 220,
+                    top: 50,
+                    bottom: 100
+                }
+            },
+
+            plugins: {
+                tooltip: { enabled: false },
+                legend: { display: false }
+            },
+
+            scales: {
+                x: {
+                    min: 0, max: 100,
+                    ticks: { display: false },
+                    grid: { display: false },
+                    title: {
+                        display: true,
+                        text: "시급성 및 중요도",
+                        color: "#FFFFFF",
+                        font: { size: 40, family: "Pretendard" },
+                        padding: 30
+                    }
+                },
+                y: {
+                    min: 0, max: 100,
+                    ticks: { display: false },
+                    grid: { display: false },
+                    title: { display: false }
+                }
+            }
+        },
+
+        plugins: [
+            pointLabelPlugin,
+            quadrantBackgroundPlugin,
+            verticalYAxisLabelPlugin,
+            quadrantLegendPlugin
+        ]
+    });
+
+    canvas._chartInstance = chart;
+}
 </script>
 </body>
 </html>
