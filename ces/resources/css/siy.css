@@ -3,19 +3,21 @@
 .esg_ty {display:flex;width:100vw;height:100vh;overflow:hidden;}
 
 .esg_cont {overflow-x:hidden;overflow-y:auto;box-sizing:border-box;min-width:0;height:100%;padding:100px 0;}
-.esg_cont_inner {position:relative;min-height:100%;}
+.esg_cont_inner {box-sizing:border-box;position:relative;min-height:100%;}
 
 /* step01 */
-.step01 .esg_cont_inner {box-sizing:border-box;padding-top:126px;}
+.esg_cont.step01 {overflow:hidden;display: flex;flex-direction: column;padding-bottom:0;}
+.esg_cont.step01 .esg_cont_inner {display:flex;flex-direction:column;padding-top:126px;height:100%;}
+
 .esg_tit {text-align:center;color:#fff;}
 .esg_tit > p {font-size:52px;letter-spacing:-1px;}
 .esg_tit > strong {display:block;margin-top:25px;font-size:100px;font-weight:700;letter-spacing:-2px;}
 
-.esg_select_msg {width:1282px;margin:124px auto 0;padding:84px 102px;border-radius:30px;text-align:center;color:#fff;background-color:rgba(42, 55, 85, 0.77);}
+.esg_select_msg {width:1282px;margin:124px auto 0;padding:76px 102px;border-radius:30px;text-align:center;color:#fff;background-color:rgba(42, 55, 85, 0.77);}
 .esg_select_msg .t1 {font-size:60px;font-weight:700;letter-spacing:-1.2px;}
 .esg_select_msg .t2 {margin-top:28px;font-size:40px;font-weight:500;letter-spacing:-1px;}
 
-.esg_select_slide {overflow:visible;box-sizing:border-box;margin-top:190px;}
+.esg_select_slide {overflow:visible;box-sizing:border-box;margin-top:100px;}
 .esg_select_slide .slide {box-sizing:border-box;}
 .esg_select_slide .slide > div {
     position:relative;
@@ -308,7 +310,7 @@
 .chk_min > input[type=radio] + span::before {border-radius:50%;background:#fff;}
 .chk_min > input[type=radio]:checked + span::after {content:'';display:block;position:absolute;top:17px;left:5px;width:20px;height:20px;border-radius:50%;background:#0071FE;}
 
-.esg_floating_btns {position:absolute;left:0;bottom:0;width:100%;height:1310px;background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #080C12 100%);}
+.esg_floating_btns {position:absolute;left:0;bottom:0;width:100%;height:1310px;background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #080C12 100%);z-index:1;}
 .esg_floating_btns .btn_esg {position:absolute;left:50%;bottom:106px;transform: translateX(-50%);}
 
 

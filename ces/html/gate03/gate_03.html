@@ -19,6 +19,7 @@
 <script src="../../resources/js/jquery-ui.js"></script>
 <script src="../../resources/js/swiper-bundle.min.js"></script>
 <script src="../../resources/js/chart.js"></script>
+<script src="../../resources/js/gsap.min.js"></script>
 <script src="../../resources/js/siy.js"></script>
 <!-- //퍼블리싱 -->
 </head>
@@ -116,6 +117,10 @@
                     </div>
                 </div>
                 <!-- //esg_select_slide -->
+
+                <div class="esg_btns" id="btns01" style="display:none;">
+                    <button type="button" id="btn01" class="btn_esg">평가 시작</button>
+                </div>
             </div>
         </div>
     </section>
@@ -275,6 +280,8 @@
         centeredSlides: true
     });
 
+    gsap.set("#btns01", { autoAlpha: 0, y: 20, display: "none" });
+
     //팝업
     $('[data-select]').on('click', function(e){
         e.preventDefault();
@@ -290,11 +297,34 @@
     * 입력 완료 클릭 시, hash 이용해서 다음 페이지로
     */
     $('#selPrdConfirm').on('click', function(){
-        var selPrdCode = $('#selPrdCode').val();
-        closePanel('pop01');
+        closePanel('pop01', onAllAnimationComplete);
+    });
 
+    onAllAnimationComplete = function() {
+        const el = $('#btns01');
+
+        // 이미 애니가 끝나서 화면에 나타난 상태라면 중복 실행 방지
+        if (el.data('shown')) return;
+
+        gsap.killTweensOf(el);
+        gsap.to(el, {
+            duration: 0.45,
+            autoAlpha: 1,
+            y: 0,
+            display: "",
+            ease: "power3.out"
+        });
+
+        // 중복 실행 방지 플래그
+        el.data('shown', true);
+    };
+
+    $('#btn01').on('click', function(){
+        var selPrdCode = $('#selPrdCode').val();
+    
         location.href = 'gate_03_01.html#' + selPrdCode;
     });
+
 </script>
 </body>
 </html>
