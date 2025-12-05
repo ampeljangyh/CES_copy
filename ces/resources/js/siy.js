@@ -52,20 +52,25 @@ function getPanelElements(id) {
 --------------------------------------------------------- */
 
 // panel open
-function openPanel(id, callback) {
+function openPanel(id, callback, beforeFn) {
     const { panel, overlay } = getPanelElements(id);
+
+    // beforeFn 먼저 실행
+    if (typeof beforeFn === "function") {
+        beforeFn(id);
+    }
 
     // 표시
     [panel, overlay].forEach(el => el.style.display = "");
 
-    // 애니메이션 이름 지정
+    // 애니메이션 시작
     panel.style.animationName = "panelIn";
     overlay.style.animationName = "overlayIn";
 
     if (typeof callback !== "function") return;
 
     let completed = 0;
-    const total = 2; // panel + overlay 총 2개 애니 끝나면 콜백 실행
+    const total = 2;
 
     const onAnimationEnd = () => {
         completed++;
@@ -80,25 +85,43 @@ function openPanel(id, callback) {
     overlay.addEventListener("animationend", onAnimationEnd);
 }
 
+
 // panel close
-function closePanel(id) {
+function closePanel(id, callback, beforeFn) {
     const { panel, overlay } = getPanelElements(id);
 
+    // beforeFn 먼저 실행
+    if (typeof beforeFn === "function") {
+        beforeFn(id);
+    }
+
+    // 애니메이션 시작
     panel.style.animationName = "panelOut";
     overlay.style.animationName = "overlayOut";
 
-    const hideAfterAnimation = (el, name) => {
-        el.addEventListener(
-            "animationend",
-            () => {
-                if (el.style.animationName === name) el.style.display = "none";
-            },
-            { once: true }
-        );
+    let completed = 0;
+    const total = 2;
+
+    const onAnimationEnd = (e) => {
+        const el = e.target;
+
+        if (
+            (el === panel && panel.style.animationName === "panelOut") ||
+            (el === overlay && overlay.style.animationName === "overlayOut")
+        ) {
+            el.style.display = "none";
+            completed++;
+
+            if (completed === total && typeof callback === "function") {
+                callback(id); // 🔥 콜백 호출
+            }
+        }
+
+        el.removeEventListener("animationend", onAnimationEnd);
     };
 
-    hideAfterAnimation(panel, "panelOut");
-    hideAfterAnimation(overlay, "overlayOut");
+    panel.addEventListener("animationend", onAnimationEnd);
+    overlay.addEventListener("animationend", onAnimationEnd);
 }
 
 

@@ -74,7 +74,7 @@
                 <!-- report_panel -->
                 <div class="report_panel">
                     <!-- data-report : 1 -->
-                    <div data-report="1">
+                    <div data-report="1" class="active">
                         <!-- top -->
                         <div class="top">
                             <p class="tit">1. ESG정밀진단 결과</p>
@@ -885,7 +885,7 @@
                     <!-- //data-report : 2 -->
 
                     <!-- data-report : 3 -->
-                    <div data-report="3" class="active">
+                    <div data-report="3">
                         <!-- top -->
                         <div class="top">
                             <p class="tit">3. TO-BE 이행 가이드</p>
@@ -952,7 +952,7 @@
                                             </button>
                                         </li>
                                         <li>
-                                            <button type="button" class="btn_dist" onclick="openPanel('pop05');">
+                                            <button type="button" class="btn_dist" onclick="openPanel('pop05',startAutoPrc, resetAutoPrc);">
                                                 <span class="txt">6. ESG정보공시</span>
                                                 <span class="ico_esg ty_g"></span>
                                             </button>
@@ -1424,6 +1424,74 @@
                 </li>
             </ul>
             <!-- //guide_li -->
+        </div>
+        <!-- //cnt_inner -->
+    </div>
+</div>
+<!-- //panel_side -->
+
+<!-- panel_side -->
+<div class="panel_side esg_guide" id="pop05">
+    <div class="top">
+        <strong>개선 이행 가이드</strong>
+
+        <button type="button" class="btn_panel_close" onclick="closePanel('pop05',stopAutoPrc);"><span class="blind">닫기</span></button>
+    </div>
+    <div class="cnt">
+        <!-- cnt_inner -->
+        <div class="cnt_inner">
+            <div class="tit_guide">
+                <span class="ico_esg ty_g"></span>
+                <span class="tit">ESG 정보 공시</span>
+            </div>
+
+            <!-- prc_auto -->
+            <div class="prc_auto">
+                <strong class="tit">정보 공시 절차</strong>
+
+                <!-- auto_prc -->
+                <ul class="auto_prc">
+                    <li>
+                        <span class="effect"></span>
+                        <strong class="tit">➊ 준비</strong>
+
+                        <ul class="list">
+                            <li>담당자 선정 및 협업 네트워크 구축</li>
+                            <li>이해관계자의 니즈와 기대 이해</li>
+                            <li>환경경영시스템의 적용범위 결정</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="effect"></span>
+                        <strong class="tit">➋ 작성</strong>
+
+                        <ul class="list">
+                            <li>각 세부 주제별 보고 내용 작성</li>
+                            <li>ESG 추진 사례 및 데이터 수집</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="effect"></span>
+                        <strong class="tit">➌ 검증</strong>
+
+                        <ul class="list">
+                            <li>보고서 오류 발생 점검</li>
+                            <li>독립적인 제 3자 보고서 검증 실시</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="effect"></span>
+                        <strong class="tit">➍ 공개</strong>
+
+                        <ul class="list">
+                            <li>공개채널 및 주기 설정</li>
+                            <li>이해관계자 소통</li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- //auto_prc -->
+            </div>
+            <!-- //prc_auto -->
         </div>
         <!-- //cnt_inner -->
     </div>
@@ -2255,6 +2323,169 @@ function drawQuadrantScatterChart(
 
     canvas._chartInstance = chart;
 }
+
+
+// 자동 순환용 GSAP timeline
+let autoPrcTimeline = null;
+
+// 자동 순환 시작
+function startAutoPrc(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    // 순환 대상 li 목록
+    const itemsArr = Array.from(el.querySelectorAll(".auto_prc > li"));
+    if (!itemsArr.length) return;
+
+    // 효과 요소(.effect) 목록
+    const effectsArr = itemsArr.map(function (li) { 
+        return li.querySelector(".effect"); 
+    });
+
+    // 기존 timeline 종료
+    if (autoPrcTimeline) autoPrcTimeline.kill();
+
+    // 반복 timeline 생성
+    autoPrcTimeline = gsap.timeline({ repeat: -1 });
+    autoPrcTimeline.data = { isFirstCycle: true }; // 첫 루프 여부 판단
+
+    // 첫 li 제외한 나머지 초기 비활성 상태
+    var restItems = itemsArr.slice(1);
+    var restEffects = effectsArr.slice(1).filter(Boolean);
+
+    if (restItems.length) {
+        gsap.set(restItems, { 
+            opacity: 0.6,
+            backgroundColor: "rgba(255,255,255,0.08)"
+        });
+    }
+
+    if (restEffects.length) gsap.set(restEffects, { borderColor: "transparent" });
+
+    // li 순서대로 활성/비활성 애니메이션 구성
+    itemsArr.forEach(function (item, i) {
+        var eff = effectsArr[i];
+
+        autoPrcTimeline.to(item, {
+            opacity: 1,
+            backgroundColor: "rgba(93,105,229,0.26)",
+            duration: 0.7,
+            ease: "power3.out",
+
+            onStart: function () {
+                var isFirst = autoPrcTimeline.data.isFirstCycle;
+
+                // 2번째 루프부터 활성화 전에 전체 초기화
+                if (i === 0 && !isFirst) {
+                    gsap.set(itemsArr, { 
+                        opacity: 0.6,
+                        backgroundColor: "rgba(255,255,255,0.08)"
+                    });
+                    gsap.set(effectsArr.filter(Boolean), { borderColor: "transparent" });
+                }
+
+                // 활성화 스타일 적용(부드러운 fade)
+                gsap.to(item, { 
+                    opacity: 1,
+                    backgroundColor: "rgba(93,105,229,0.26)",
+                    duration: 0.7,
+                    ease: "power3.out"
+                });
+
+                // effect 활성화
+                if (eff) {
+                    gsap.to(eff, { 
+                        borderColor: "rgba(93,105,229,0.55)",
+                        duration: 0.7,
+                        ease: "power3.out"
+                    });
+                }
+
+                // 자동 스크롤 제어
+                scrollLiIntoPanelIfNeeded(item);
+            }
+        });
+
+        // 활성 유지 시간
+        autoPrcTimeline.to({}, { duration: 1 });
+
+        // 비활성화 애니메이션
+        autoPrcTimeline.to(item, { 
+            opacity: 0.6,
+            backgroundColor: "rgba(255,255,255,0.08)",
+            duration: 0.7,
+            ease: "power3.inOut"
+        });
+
+        // effect 비활성
+        if (eff) {
+            autoPrcTimeline.to(eff, { borderColor: "transparent" }, "<");
+        }
+    });
+
+    // 첫 루프 종료 후 isFirstCycle 해제
+    autoPrcTimeline.call(function () { autoPrcTimeline.data.isFirstCycle = false; });
+}
+
+// 자동 순환 정지
+function stopAutoPrc() {
+    if (autoPrcTimeline) autoPrcTimeline.kill();
+    autoPrcTimeline = null;
+}
+
+// 스타일 초기화 (첫 항목만 활성)
+function resetAutoPrc(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    var itemsArr = Array.from(el.querySelectorAll(".auto_prc > li"));
+    var effectsArr = itemsArr.map(function (li) { return li.querySelector(".effect"); });
+
+    // 전체 스타일 제거
+    itemsArr.forEach(function (li) { li.removeAttribute("style"); });
+    effectsArr.forEach(function (eff) { if (eff) eff.removeAttribute("style"); });
+
+    // 첫 li만 활성 스타일 적용
+    var first = itemsArr[0], firstEff = effectsArr[0];
+
+    if (first) {
+        gsap.set(first, { 
+            opacity: 1,
+            backgroundColor: "rgba(93,105,229,0.26)"
+        });
+    }
+
+    if (firstEff) gsap.set(firstEff, { borderColor: "rgba(93,105,229,0.55)", borderWidth: "10px" });
+}
+
+// 활성 li가 화면에서 벗어날 경우 자동 스크롤
+function scrollLiIntoPanelIfNeeded(li) {
+    if (!li) return;
+
+    var container = li.closest(".cnt");
+    if (!container) return;
+
+    var cRect = container.getBoundingClientRect();
+    var iRect = li.getBoundingClientRect();
+
+    // 위로 벗어남
+    if (iRect.top < cRect.top) {
+        container.scrollTo({
+            top: container.scrollTop - (cRect.top - iRect.top) - cRect.height / 2 + iRect.height / 2,
+            behavior: "smooth"
+        });
+        return;
+    }
+
+    // 아래로 벗어남
+    if (iRect.bottom > cRect.bottom) {
+        container.scrollTo({
+            top: container.scrollTop + (iRect.bottom - cRect.bottom) + cRect.height / 2 - iRect.height / 2,
+            behavior: "smooth"
+        });
+    }
+}
+
 </script>
 </body>
 </html>

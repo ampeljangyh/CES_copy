@@ -635,3 +635,22 @@
 .guide_diag .tit {display:block;margin-bottom:56px;color: #FFF;font-size: 52px;font-weight: 700;letter-spacing: -1.04px;}
 .guide_diag .guide_diag_box {padding:140px 160px;border-radius: 30px;background:#282C36;}
 .guide_diag .guide_diag_box img {display:block;margin:0 auto;max-width:100%;}
+
+.prc_auto > .tit {display:block;margin-bottom:72px;color: #FFF;font-size: 52px;font-weight: 700;letter-spacing: -1.04px;}
+.auto_prc {width:646px;margin:0 auto;}
+.auto_prc > li {position:relative;padding:30px 44px 40px;border-radius: 30px;opacity: 0.6;background: rgba(255, 255, 255, 0.08);z-index:1;}
+.auto_prc > li::after {content:'';display:block;position:absolute;left:50%;top:-80px;width:2px;height:80px;margin-left:-1px;opacity: 0.48;background: #FFF;}
+.auto_prc > li:first-child::after {display:none;}
+.auto_prc > li + li {margin-top:80px;}
+.auto_prc > li .tit {display:block;margin-bottom:36px;color: #FFF;font-size: 52px;font-weight: 700;letter-spacing: -1.04px;}
+.auto_prc > li .list {display:flex;flex-direction: column;align-items:center;justify-content:center;gap:18px;}
+.auto_prc > li .list > li {position:relative;box-sizing:border-box;width:100%;padding:44px 40px 44px 68px;border-radius: 20px;border-radius: 20px;background: rgba(255,255,255,0.048);color: #FFF;font-size: 32px;font-weight: 400;letter-spacing: -0.64px;}
+.auto_prc > li .list > li::after {content:'';position:absolute;left:44px;top:64px;width:9px;height:9px;background:#fff;}
+.auto_prc > li .list > li > strong {color:#387D82;font-weight:800;}
+.auto_prc > li .effect {
+    position:absolute;
+    inset:0;
+    border-radius:30px;
+    pointer-events:none;
+    border:10px solid transparent;
+}
