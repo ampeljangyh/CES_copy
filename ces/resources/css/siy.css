@@ -528,13 +528,14 @@
 .dist_panel .dist_li {margin-top:28px;}
 .dist_panel .dist_li li + li {margin-top:28px;}
 .btn_dist {display: flex;align-items: center;gap: 10px;width:100%;height: 80px;padding: 0 84px 0 44px;border-radius: 100px;border: 1px solid #0071FE;background: #0071FE url(../images/gate_03/btn_dist.svg) no-repeat right 44px center;}
-.btn_dist:disabled {border-color:#D9D9D9;background-color: rgba(217, 217, 217, 0.08);opacity: 0.6;}
-
 .btn_dist .txt {display:block;color: #FFF;font-size: 36px;font-weight: 800;letter-spacing: -0.72px;text-transform: uppercase;}
-.btn_dist .ico_esg {display:block; width:36px; height:36px; border-radius:50%;}
+.btn_dist .ico_esg {display:block; width:36px; height:36px; margin-top:4px; border-radius:50%;}
 .btn_dist .ico_esg.ty_e {background:#5DBCED url(../images/gate_03/ico_char_e.svg) no-repeat center; background-size:50%;}
 .btn_dist .ico_esg.ty_s {background:rgb(60,125,130) url(../images/gate_03/ico_char_s.svg) no-repeat center; background-size:50%;}
 .btn_dist .ico_esg.ty_g {background:rgb(95,105,230) url(../images/gate_03/ico_char_g.svg) no-repeat center; background-size:50%;}
+
+.btn_dist:disabled {border-color:#D9D9D9;background-color: rgba(217, 217, 217, 0.08);opacity: 0.6;}
+.btn_dist:disabled .txt {font-weight: 400;}
 
 /* --- 애니메이션 --- */
 @keyframes panelIn {
@@ -557,3 +558,80 @@
 @keyframes fillBar {
     to   { width:0; }
 }
+
+.panel_side.esg_guide .btn_panel_close {top:50%;transform: translateY(-50%);}
+.panel_side.esg_guide .cnt {padding:88px 80px 100px;}
+
+.panel_side.esg_guide .tit_guide {display:flex;align-items:center;gap:14px;box-sizing:border-box;width:100%;margin-bottom:84px;padding:40px 50px;border-radius: 30px;background: #282C36;}
+.panel_side.esg_guide .tit_guide .tit {color: #FFF;font-size: 52px;font-weight: 700;letter-spacing: -1.04px;}
+.panel_side.esg_guide .tit_guide .ico_esg {display:block; width:48px; height:48px; margin-top:4px; border-radius:50%;}
+.panel_side.esg_guide .tit_guide .ico_esg.ty_e {background:#5DBCED url(../images/gate_03/ico_char_e.svg) no-repeat center; background-size:50%;}
+.panel_side.esg_guide .tit_guide .ico_esg.ty_s {background:rgb(60,125,130) url(../images/gate_03/ico_char_s.svg) no-repeat center; background-size:50%;}
+.panel_side.esg_guide .tit_guide .ico_esg.ty_g {background:rgb(95,105,230) url(../images/gate_03/ico_char_g.svg) no-repeat center; background-size:50%;}
+
+.panel_side.esg_guide .diag {width:920px;height:920px;margin:0 auto 100px;}
+.panel_side.esg_guide .diag img {display:block;width:100%;height:100%;}
+
+.guide_li {display:flex;flex-direction: column;align-items:center;justify-content:center;gap:32px;}
+.guide_li > li {display:block;box-sizing:border-box;width:100%;padding:48px 48px 56px;border-radius: 30px;background-color:#282C36;}
+.guide_li .tit {display:block;margin-bottom:36px;color: #FFF;font-size: 52px;font-weight: 700;letter-spacing: -1.04px;}
+.guide_li .list {display:flex;flex-direction: column;align-items:center;justify-content:center;gap:18px;}
+.guide_li .list > li {position:relative;box-sizing:border-box;width:100%;padding:44px 40px 44px 68px;border-radius: 20px;background: #32363F;color: #FFF;font-size: 32px;font-weight: 400;letter-spacing: -0.64px;}
+.guide_li .list > li::after {content:'';position:absolute;left:44px;top:64px;width:9px;height:9px;background:#fff;}
+.guide_li .list > li > strong {color:#387D82;font-weight:800;}
+
+
+.guide_step .tit {display:block;margin-bottom:76px;color: #FFF;font-size: 52px;font-weight: 700;letter-spacing: -1.04px;}
+.guide_step_li {display:flex;gap:64px;align-items:stretch;margin-bottom:60px;}
+.guide_step_li > li {flex:1 1 auto;width:100%;position:relative;}
+.guide_step_li > li::after {
+    content: "";
+    position: absolute;
+    left:calc(100% - 1px);
+    top: 50%;
+    width: 0;
+    height: 0;
+    margin-top:-28px;
+    border-top: 28px solid transparent;
+    border-bottom: 28px solid transparent;
+    border-left: 36px solid #D9D9D9;
+    transition: all 0.3s;
+}
+
+.guide_step_li > li:last-child::after {display:none;}
+.guide_step_li button {display:flex;align-items:center;gap:20px;box-sizing:border-box;width:100%;min-height:100%;padding:38px 50px 38px 60px;border-radius:15px;background-color:#D9D9D9;transition: all 0.3s;}
+.guide_step_li button > em {flex-shrink:0;display:flex;width:76px;height:76px;border:3px solid #202B44;border-radius:50%;align-items:center;justify-content:center;color: #202B44;text-align: center;font-size: 32px;font-weight: 400;letter-spacing: -0.64px;transition: all 0.3s;}
+.guide_step_li button > span {display:block;text-align:left;color: #202B44;font-size: 36px;font-weight: 700;letter-spacing: -0.72px;transition: all 0.3s;}
+
+.guide_step_li li.active::after {border-left-color:#387D82;}
+.guide_step_li li.active button {background-color:#387D82;}
+.guide_step_li li.active button > em {border-color:#fff;color:#fff;}
+.guide_step_li li.active button > span {color:#fff;}
+
+.guide_prc {margin-top:88px;}
+.guide_prc:first-child {margin-top:0;}
+
+.guide_prc .tit {display:block;margin-bottom:80px;color: #FFF;font-size: 52px;font-weight: 700;letter-spacing: -1.04px;}
+
+.guide_prc .guide_prc_li {position:relative;padding-left:60px;}
+.guide_prc .guide_prc_li > .bar {content:'';display:block;overflow:hidden;position:absolute;left:0;top:0;width:20px;height:100%;border-radius:100px;background:#D9D9D9;}
+.guide_prc .guide_prc_li > .bar .fill {display:block;position:absolute;top:0;left:0;width:100%;background:#387D82;}
+
+.guide_prc .guide_prc_li strong {display:block;color: #FFF;font-size: 36px;font-style: normal;font-weight: 700;line-height: 150%;letter-spacing: -0.72px;opacity: 0.48;transition:color 0.3s, opacity 0.3s;}
+.guide_prc .guide_prc_li p {
+    color: #FFF;font-size: 36px;font-weight: 400;line-height: 1.5;letter-spacing: -0.72px;
+    opacity: 0;overflow: hidden;
+    transition: opacity .3s ease;
+}
+
+.guide_prc .guide_prc_li div + div {margin-top:26px;}
+.guide_prc .guide_prc_li div.active + div.active {margin-top:60px;}
+.guide_prc .guide_prc_li div.active + div:not(.active) {margin-top:60px;}
+
+.guide_prc .guide_prc_li div.active strong {color:#387D82;opacity:1;}
+.guide_prc .guide_prc_li div.active p {opacity: 1;}
+
+.guide_diag {margin-bottom:34px;}
+.guide_diag .tit {display:block;margin-bottom:56px;color: #FFF;font-size: 52px;font-weight: 700;letter-spacing: -1.04px;}
+.guide_diag .guide_diag_box {padding:140px 160px;border-radius: 30px;background:#282C36;}
+.guide_diag .guide_diag_box img {display:block;margin:0 auto;max-width:100%;}

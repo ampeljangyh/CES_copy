@@ -922,25 +922,25 @@
 
                                     <ul class="dist_li">
                                         <li>
-                                            <button type="button" class="btn_dist">
+                                            <button type="button" class="btn_dist" onclick="openPanel('pop01');">
                                                 <span class="txt">1. 온실가스 및 에너지 관리</span>
                                                 <span class="ico_esg ty_e"></span>
                                             </button>
                                         </li>
                                         <li>
-                                            <button type="button" class="btn_dist">
+                                            <button type="button" class="btn_dist" onclick="openPanel('pop02',refreshGuideFill);">
                                                 <span class="txt">2. 협력사 리스크 관리</span>
                                                 <span class="ico_esg ty_s"></span>
                                             </button>
                                         </li>
                                         <li>
-                                            <button type="button" class="btn_dist">
+                                            <button type="button" class="btn_dist" onclick="openPanel('pop03');">
                                                 <span class="txt">3. 안전보보건 관리 활동</span>
                                                 <span class="ico_esg ty_s"></span>
                                             </button>
                                         </li>
                                         <li>
-                                            <button type="button" class="btn_dist">
+                                            <button type="button" class="btn_dist" onclick="openPanel('pop04');">
                                                 <span class="txt">4. 환경경영 내재화</span>
                                                 <span class="ico_esg ty_s"></span>
                                             </button>
@@ -952,7 +952,7 @@
                                             </button>
                                         </li>
                                         <li>
-                                            <button type="button" class="btn_dist">
+                                            <button type="button" class="btn_dist" onclick="openPanel('pop05');">
                                                 <span class="txt">6. ESG정보공시</span>
                                                 <span class="ico_esg ty_g"></span>
                                             </button>
@@ -1053,21 +1053,377 @@
 
 
 <!-- panel_side -->
-<div class="panel_side esg" id="pop01" style="display:none;">
+<div class="panel_side esg_guide" id="pop01" style="display:none;">
     <div class="top">
-        <strong class="ico_esg ty_e">온실가스 배출량 감축</strong>
-        <p>온실가스 배출량 (Scope 1&2)이 감소 추세에 있는지 확인하기 위한 지표</p>
+        <strong>개선 이행 가이드</strong>
 
         <button type="button" class="btn_panel_close" onclick="closePanel('pop01');"><span class="blind">닫기</span></button>
     </div>
     <div class="cnt">
         <!-- cnt_inner -->
         <div class="cnt_inner">
-            <!-- btns -->
-            <div class="btns sm">
-                <button type="button" class="btn_save">저장</button>
+            <div class="tit_guide">
+                <span class="ico_esg ty_e"></span>
+                <span class="tit">온실가스 및 에너지 관리</span>
             </div>
-            <!-- //btns -->
+
+            <!-- diag -->
+            <div class="diag">
+                <img src="../../resources/images/gate_03/img_diag01.png" alt="온실가스 및 에너지 관리체계. 1. 정책 수립, 2. 배출량 산정, 3. KPI 및 목표 수립, 4. 감축 활동 실시, 5. 검증 및 공개">
+            </div>
+            <!-- //diag -->
+
+            <!-- guide_li -->
+            <ul class="guide_li">
+                <li>
+                    <strong class="tit">➊ 정책 수립</strong>
+                    <ul class="list">
+                        <li>온실가스 배출 저감 및 에너지 사용 절감을 위한 의지 표명</li>
+                        <li>내부적으로 공식화된 문서 보유</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong class="tit">➋ 배출량 산정</strong>
+                    <ul class="list">
+                        <li>에너지 사용량 측정</li>
+                        <li>온실가스 인벤토리 구축</li>
+                        <li>제품 단위 온실가스 배출량 산정</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong class="tit">➌ KPI 및 목표 수립</strong>
+                    <ul class="list">
+                        <li>배출 현황 및 대내외 요구사항 반영하여 KPI 선정</li>
+                        <li>KPI별 정량적 단기/중장기 목표 수립</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong class="tit">➍ 감축 활동 실시</strong>
+                    <ul class="list">
+                        <li>에너지 효율화 관련 설비 투자</li>
+                        <li>에너지 효율화 관련 공정 개선 등의 활동</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong class="tit">➎ 검증 및 공개</strong>
+                    <ul class="list">
+                        <li>독립적인 제3자 기관의 배출량 검증</li>
+                        <li>지속가능경영보고서 및 홈페이지 공개</li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- //guide_li -->
+        </div>
+        <!-- //cnt_inner -->
+    </div>
+</div>
+<!-- //panel_side -->
+
+<!-- panel_side -->
+<div class="panel_side esg_guide" id="pop02">
+    <div class="top">
+        <strong>개선 이행 가이드</strong>
+
+        <button type="button" class="btn_panel_close" onclick="closePanel('pop02');"><span class="blind">닫기</span></button>
+    </div>
+    <div class="cnt">
+        <!-- cnt_inner -->
+        <div class="cnt_inner">
+            <div class="tit_guide">
+                <span class="ico_esg ty_s"></span>
+                <span class="tit">협력사 리스크 관리</span>
+            </div>
+
+            <!-- guide_step -->
+            <div class="guide_step">
+                <strong class="tit">협력사 ESG 리스크 관리 3대 영역</strong>
+                <!-- guide_step_li -->
+                <ul class="guide_step_li">
+                    <li class="active">
+                        <button type="button" data-guide="1">
+                            <em>01</em>
+                            <span>협력사 행동 규범</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" data-guide="2">
+                            <em>02</em>
+                            <span>협력사 ESG 점검</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" data-guide="3">
+                            <em>03</em>
+                            <span>협력사 ESG 교육 및 역량 강화</span>
+                        </button>
+                    </li>
+                </ul>
+                <!-- //guide_step_li -->
+            </div>
+            <!-- //guide_step -->
+
+            <!-- guide_li -->
+            <ul class="guide_li">
+                <li data-guide="1">
+                    <ul class="list">
+                        <li>행동 규범 <strong>작성</strong></li>
+                        <li>행동규범 <strong>배포 및 준수 동의 서명</strong> 확보</li>
+                    </ul>
+                </li>
+                <li data-guide="2" style="display: none;">
+                    <ul class="list">
+                        <li>협력사 대상 정기적 ESG 점검 활동 수행​</li>
+                        <li>협력사 <strong>선정 및 계약 결정 과정</strong>에 ESG 점검 결과 반영</li>
+                    </ul>
+                </li>
+                <li data-guide="3" style="display: none;">
+                    <ul class="list">
+                        <li>협력사 대상 ESG 교육 및 역량 강화 프로그램 제공</li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- //guide_li -->
+
+            <!-- guide_prc -->
+            <div class="guide_prc">
+                <strong class="tit">OECD 실사 6단계</strong>
+
+                <div class="guide_prc_li">
+                    <span class="bar"><span class="fill"></span></span>
+
+                    <div data-guide="1" class="active">
+                        <div>
+                            <strong>1. 실사 내재화</strong>
+                            <p>고충처리제도, 이해관계자 참여 등을 활용하여 정책 내 실사 내재화</p>
+                        </div>
+                    </div>
+                    <div data-guide="2">
+                        <div>
+                            <strong>2. 부정적 영향 식별 및 우선순위화</strong>
+                            <p>주요 비즈니스 관계에서 발생 가능한 실제 또는 잠재적 부정적 영향 식별 및 우선순위화</p>
+                        </div>
+                    </div>
+                    <div data-guide="2">
+                        <div>
+                            <strong>3. 부정적 영향 예방, 완화,제거</strong>
+                            <p>잠재적 부정적 영향 예방, 실제 부정적 영향 완화 및 종료</p>
+                        </div>
+                    </div>
+                    <div data-guide="2">
+                        <div>
+                            <strong>4. 모니터링</strong>
+                            <p>실사 프로세스 이행에 대한 모니터링 및 개선</p>
+                        </div>
+                    </div>
+                    <div data-guide="3">
+                        <div>
+                            <strong>5. 이해관계자 소통</strong>
+                            <p>실사 프로세스에 대한 대외 커뮤니케이션</p>
+                        </div>
+                    </div>
+                    <div data-guide="3">
+                        <div>
+                            <strong>6. 구제 조치 마련</strong>
+                            <p>실제 발생한 부정적 영향에 대한 구제조치 수행</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- //guide_prc -->
+        </div>
+        <!-- //cnt_inner -->
+    </div>
+</div>
+<!-- //panel_side -->
+
+
+<!-- panel_side -->
+<div class="panel_side esg_guide" id="pop03">
+    <div class="top">
+        <strong>개선 이행 가이드</strong>
+
+        <button type="button" class="btn_panel_close" onclick="closePanel('pop03');"><span class="blind">닫기</span></button>
+    </div>
+    <div class="cnt">
+        <!-- cnt_inner -->
+        <div class="cnt_inner">
+            <div class="tit_guide">
+                <span class="ico_esg ty_s"></span>
+                <span class="tit">안전보건 관리 활동</span>
+            </div>
+
+            <!-- guide_diag -->
+            <div class="guide_diag">
+                <strong class="tit">위험성 평가 절차</strong>
+                
+                <!-- guide_diag_box -->
+                <div class="guide_diag_box">
+                    <img src="../../resources/images/gate_03/img_diag02.png" alt="">
+                </div>
+                <!-- //guide_diag_box -->
+            </div>
+            <!-- //guide_diag -->
+
+            <!-- guide_li -->
+            <ul class="guide_li">
+                <li>
+                    <strong class="tit">➊ 사전 준비</strong>
+                    <ul class="list">
+                        <li>실사규정 작성 통해 유해·위험요인 확인 및 개선 업무절차 마련​</li>
+                        <li>위험성 수준 및 판단기준 등 확정</li>
+                        <li>안전보건정보 사전조사 및 활용</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong class="tit">➋ 유해·위험요인 파악</strong>
+                    <ul class="list">
+                        <li>업종, 규모 등 사업장 실정을 고려하여 사업장 순회점검, 근로자 청취조사, 안전보건자료, 체크리스트 등 활용 가능​</li>
+                        <li>아차사고 분석, 제안제도 실시 등</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong class="tit">➌ 위험성 결정</strong>
+                    <ul class="list">
+                        <li>연 1회 이상 위험성 평가 실시</li>
+                        <li>위험성 수준 판단</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong class="tit">➍ 위험성 허용 여부 판단</strong>
+                    <ul class="list">
+                        <li>위험성 추정 결과를 바탕으로 유해위험요인 별 위험성 허용 가능 여부 판단</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong class="tit">➎ 위험성 감소대책 수립 및 실행</strong>
+                    <ul class="list">
+                        <li>관리기준에 따라 적절한 개선대책 수립 및 실행</li>
+                        <li>위험의 빈도 및 강도가 높게 평가된 사항은 즉시 개선 필요</li>
+                        <li>가능한 낮은 위험성 수준으로 감소시키기 위한 대책 수립 및 실행</li>
+                        <li>허용 가능 여부 재확인</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong class="tit">➏ 위험성 평가 공유</strong>
+                    <ul class="list">
+                        <li>결과 게시 및 주지​</li>
+                        <li>TBM(작업 전 안전점검회의, Tool Box Meeting) 활용한 공유​</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong class="tit">➐ 기록 및 보존</strong>
+                    <ul class="list">
+                        <li>실시 결과 기록하여 3년간 보존</li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- //guide_li -->
+        </div>
+        <!-- //cnt_inner -->
+    </div>
+</div>
+<!-- //panel_side -->
+
+<!-- panel_side -->
+<div class="panel_side esg_guide" id="pop04">
+    <div class="top">
+        <strong>개선 이행 가이드</strong>
+
+        <button type="button" class="btn_panel_close" onclick="closePanel('pop04');"><span class="blind">닫기</span></button>
+    </div>
+    <div class="cnt">
+        <!-- cnt_inner -->
+        <div class="cnt_inner">
+            <div class="tit_guide">
+                <span class="ico_esg ty_s"></span>
+                <span class="tit">환경 경영 내재화</span>
+            </div>
+
+            <!-- guide_step -->
+            <div class="guide_step">
+                <strong class="tit">협력사 ESG 리스크 관리 3대 영역</strong>
+                <!-- guide_step_li -->
+                <ul class="guide_step_li">
+                    <li class="active">
+                        <button type="button" data-guide="1">
+                            <em>01</em>
+                            <span>환경 경영체계 구축</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" data-guide="2">
+                            <em>02</em>
+                            <span>환경경영 성과<br>모니터링</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" data-guide="3">
+                            <em>03</em>
+                            <span>환경경영 운영<br>및 실행</span>
+                        </button>
+                    </li>
+                </ul>
+                <!-- //guide_step_li -->
+            </div>
+            <!-- //guide_step -->
+
+            <!-- guide_li -->
+            <ul class="guide_li">
+                <li data-guide="1">
+                    <strong class="tit">➊ 대내외 요구사항 파악</strong>
+                    <ul class="list">
+                        <li>조직과 조직 상황 이해</li>
+                        <li>이해관계자의 니즈와 기대 이해</li>
+                        <li>환경경영시스템의 적용범위 결정</li>
+                    </ul>
+                </li>
+                <li data-guide="1">
+                    <strong class="tit">➋ 정책 수립</strong>
+                    <ul class="list">
+                        <li>대내외 요구사항 반영</li>
+                        <li>경영진의 의지 표명</li>
+                        <li>외부 공개</li>
+                    </ul>
+                </li>
+                <li data-guide="2" style="display:none;">
+                    <strong class="tit">➊ KPI 및 목표 수립</strong>
+                    <ul class="list">
+                        <li>대내외 요구사항 반영</li>
+                        <li>정량적 KPI 및 목표 수립</li>
+                        <li>KPI 및 목표 달성 위한 세부 계획 수립</li>
+                    </ul>
+                </li>
+                <li data-guide="2" style="display:none;">
+                    <strong class="tit">➋ 성과 모니터링</strong>
+                    <ul class="list">
+                        <li>성과 모니터링 체계 구축</li>
+                        <li>KPI 목표 대비 현황</li>
+                    </ul>
+                </li>
+                <li data-guide="2" style="display:none;">
+                    <strong class="tit">➌ 성과평가/보상 연계</strong>
+                    <ul class="list">
+                        <li>환경 관련 KPI를 조직/개인의 성과평가와 연계​</li>
+                        <li>환경 관련 KPI를 조직/개인의 보상과 연계</li>
+                    </ul>
+                </li>
+                <li data-guide="3" style="display:none;">
+                    <strong class="tit">➊ 조직 운영</strong>
+                    <ul class="list">
+                        <li>실무 담당자, 전사 총괄 담당자/담당 조직 마련​</li>
+                        <li>효과적인 성과 보고 및 검토를 위한 실무 협의체, 내부 의사결정 체계 구축 및 운영</li>
+                    </ul>
+                </li>
+                <li data-guide="3" style="display:none;">
+                    <strong class="tit">➋ 환경 인허가 관리</strong>
+                    <ul class="list">
+                        <li>환경 인허가 대상 여부 파악 및 인허가 취득​</li>
+                        <li>환경 인허가 변경 사항 발생 여부 모니터링​</li>
+                        <li>인허가 변경 사항 발생 시, 변경 허가 신청</li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- //guide_li -->
         </div>
         <!-- //cnt_inner -->
     </div>
@@ -1118,7 +1474,87 @@ document.addEventListener("DOMContentLoaded", () => {
     $('.report_tab_btns button').on('click', function () {
         switchReportTab($(this).data('tab'));
     });
+
+    $('button[data-guide]').on('click', function(e){
+        const $this = $(this);
+        const guideNumber = $this.attr('data-guide');
+        const $cnt = $this.closest('.panel_side');
+        const $guide_prc_li = $cnt.find('.guide_prc_li');
+        const panelId = $cnt.attr('id');
+        
+        $cnt.find('button[data-guide]').parent().removeClass('active');
+        $this.parent().addClass('active');
+        $cnt.find('.guide_li li[data-guide]').hide();
+        $cnt.find('.guide_li li[data-guide='+ guideNumber +']').show();
+
+        if (panelId == 'pop02') {
+            $guide_prc_li.find('div[data-guide]').removeClass('active');
+            $guide_prc_li.find('div[data-guide='+ guideNumber +']').addClass('active');
+    
+            waitForAllGuideTransitions($cnt, guideNumber);
+        }
+    });
 });
+
+let guideTransitionTimer = null;
+function waitForAllGuideTransitions($cnt, guideNumber) {
+    const $parent = $cnt.find('.guide_prc_li');
+    const el = $parent[0];
+
+    // 이전 이벤트 제거
+    el.removeEventListener("transitionend", el._guideTransitionHandler);
+
+    el._guideTransitionHandler = function() {
+        // 여러 개 transitionend가 들어와도,
+        // 마지막 transition 이후 60ms 동안 추가 이벤트가 없으면 업데이트 실행
+        clearTimeout(guideTransitionTimer);
+
+        guideTransitionTimer = setTimeout(() => {
+            updateGuideFill($cnt, guideNumber);
+        }, 60);
+    };
+
+    el.addEventListener("transitionend", el._guideTransitionHandler);
+}
+
+function refreshGuideFill(id){
+    const $cnt = $('#' + id);
+    const $activeBtn = $cnt.find('button[data-guide]').parent('.active').find('button[data-guide]');
+    
+    if ($activeBtn.length === 0) return;
+
+    const guideNumber = $activeBtn.attr("data-guide");
+
+    // 기존 함수 호출
+    updateGuideFill($cnt, guideNumber)
+}
+
+function updateGuideFill($cnt, guideNumber) {
+    const $parent = $cnt.find('.guide_prc_li');   // fill의 기준
+    const parentRect = $parent[0].getBoundingClientRect();
+
+    const $targets = $parent.find('div[data-guide="'+guideNumber+'"]');
+    if (!$targets.length) return;
+
+    // 첫 번째, 마지막 element
+    const first = $targets.first()[0];
+    const last = $targets.last()[0];
+
+    const firstRect = first.getBoundingClientRect();
+    const lastRect  = last.getBoundingClientRect();
+
+    // guide_prc_li 좌표계 기준 top 및 height 계산
+    const top = firstRect.top - parentRect.top;
+    const height = (lastRect.bottom - parentRect.top) - top;
+
+    const $fill = $parent.find('.bar .fill');
+
+    $fill.stop().animate({
+        top: top,
+        height: height
+    }, 350);
+}
+
 
 window.addEventListener("hashchange", () => {
     getHashOfName();
@@ -1738,7 +2174,7 @@ function drawQuadrantScatterChart(
                 ctx.fill();
 
                 ctx.fillStyle = "#FFFFFF";
-                ctx.fillText(item.label, legendX + 30, legendY + i * 48 + 10);
+                ctx.fillText(item.label, legendX + 30, legendY + i * 48 + 12);
             });
 
             ctx.restore();

@@ -52,12 +52,32 @@ function getPanelElements(id) {
 --------------------------------------------------------- */
 
 // panel open
-function openPanel(id) {
+function openPanel(id, callback) {
     const { panel, overlay } = getPanelElements(id);
 
+    // 표시
     [panel, overlay].forEach(el => el.style.display = "");
+
+    // 애니메이션 이름 지정
     panel.style.animationName = "panelIn";
     overlay.style.animationName = "overlayIn";
+
+    if (typeof callback !== "function") return;
+
+    let completed = 0;
+    const total = 2; // panel + overlay 총 2개 애니 끝나면 콜백 실행
+
+    const onAnimationEnd = () => {
+        completed++;
+        if (completed === total) {
+            callback(id); // 🔥 콜백 호출
+            panel.removeEventListener("animationend", onAnimationEnd);
+            overlay.removeEventListener("animationend", onAnimationEnd);
+        }
+    };
+
+    panel.addEventListener("animationend", onAnimationEnd);
+    overlay.addEventListener("animationend", onAnimationEnd);
 }
 
 // panel close
