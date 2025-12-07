@@ -67,7 +67,7 @@
         <div class="contents esg_cont step05" style="visibility: hidden;">
             <div class="esg_cont_inner">
                 <div class="esg_tit">
-                    <p><span id="selPrdName">NexDrive</span> (<span id="selPrdCategory">자동차</span>)</p>
+                    <p><span class="selPrdName">NexDrive</span> (<span id="selPrdCategory">자동차</span>)</p>
                     <strong>ESG 정밀진단 최종 보고서</strong>
                 </div>
 
@@ -942,13 +942,13 @@
                                         <li>
                                             <button type="button" class="btn_dist" onclick="openPanel('pop04');">
                                                 <span class="txt">4. 환경경영 내재화</span>
-                                                <span class="ico_esg ty_s"></span>
+                                                <span class="ico_esg ty_e"></span>
                                             </button>
                                         </li>
                                         <li>
                                             <button type="button" class="btn_dist" disabled>
                                                 <span class="txt">5. 유해화학물질 관리</span>
-                                                <span class="ico_esg ty_s"></span>
+                                                <span class="ico_esg ty_e"></span>
                                             </button>
                                         </li>
                                         <li>
@@ -1335,7 +1335,7 @@
         <!-- cnt_inner -->
         <div class="cnt_inner">
             <div class="tit_guide">
-                <span class="ico_esg ty_s"></span>
+                <span class="ico_esg ty_e"></span>
                 <span class="tit">환경 경영 내재화</span>
             </div>
 
@@ -1343,7 +1343,7 @@
             <div class="guide_step">
                 <strong class="tit">협력사 ESG 리스크 관리 3대 영역</strong>
                 <!-- guide_step_li -->
-                <ul class="guide_step_li">
+                <ul class="guide_step_li blue">
                     <li class="active">
                         <button type="button" data-guide="1">
                             <em>01</em>
@@ -1499,7 +1499,51 @@
 <!-- //panel_side -->
 
 <!-- esg_modal -->
-<div class="esg_modal" style="display:none;"></div>
+<div class="esg_modal" id="modal01" style="display:none;">
+    <div class="inner">
+        <div class="top">
+            <strong class="tit">ESG 정밀밀진단 컨설팅 확인서 발급</strong>
+            <p class="tit_t1"><span class="selPrdName">NexDrive</span>의 ESG 정밀진단 컨설팅 확인서가 발급되었습니다.</p>
+        </div>
+        <div class="modal_cnt">
+            <div class="effect_tit">
+                <strong>ESG 정밀밀진단 컨설팅 확인서</strong>
+            </div>
+
+            <span class="esg_category selPrdName">NexDrive</span>
+
+            <p class="msg">IBK기업은행은 ESG정밀진단 컨설팅을 통해<br>위 회사의 ESG을 아래와 같이 확인합니다.</p>
+
+            <ul class="summary_box">
+                <li>
+                    <strong>종합등급 :</strong>
+                    <span>B+</span>
+                </li>
+                <li>
+                    <strong>종합점수 :</strong>
+                    <span>46.6 / 100</span>
+                </li>
+                <li>
+                    <strong>발급번호 :</strong>
+                    <span>2026-1-6</span>
+                </li>
+                <li>
+                    <strong>유효기간 :</strong>
+                    <span>2026-1-6~2027-1-6</span>
+                </li>
+            </ul>
+
+            <div class="sign">
+                <img class="sign_logo" src="../../resources/images/gate_03/img_logo.svg" alt="IBK기업은행">
+                <img class="sign_badge" src="../../resources/images/gate_03/img_badge.svg" alt="IBK">
+            </div>
+
+            <div class="buttons">
+                <button type="button" class="btn_modal" id="btn01">맞춤 금융 상품 추천받기</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- //esg_modal -->
 
 <!-- esg_alert -->
@@ -1561,6 +1605,13 @@ document.addEventListener("DOMContentLoaded", () => {
     
             waitForAllGuideTransitions($cnt, guideNumber);
         }
+    });
+
+    // #btn01
+    $('#btn01').on('click', function(){
+        const fragment = getFragment();
+    
+        location.href = 'gate_03_05.html#' + fragment;
     });
 });
 
@@ -1636,6 +1687,11 @@ function switchReport(action) {
 
     const nextIndex = action === 'next' ? currentIndex + 1 : currentIndex - 1;
     const $target = $reports.filter(`[data-report="${nextIndex}"]`);
+
+    if (nextIndex === 4) {
+        openModal('modal01');
+        return;
+    }
     if ($target.length === 0) return;
 
     $reports.removeClass('active').hide();

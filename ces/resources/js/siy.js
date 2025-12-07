@@ -124,6 +124,36 @@ function closePanel(id, callback, beforeFn) {
     overlay.addEventListener("animationend", onAnimationEnd);
 }
 
+function openModal(id, callback, beforeFn) {
+    const { panel, overlay } = getPanelElements(id);
+
+    // beforeFn 먼저 실행
+    if (typeof beforeFn === "function") {
+        beforeFn(id);
+    }
+
+    // 표시
+    [panel].forEach(el => el.style.display = "");
+
+    // 애니메이션 시작
+    panel.style.animationName = "overlayIn";
+
+    if (typeof callback !== "function") return;
+
+    let completed = 0;
+    const total = 1;
+
+    const onAnimationEnd = () => {
+        completed++;
+        if (completed === total) {
+            callback(id); // 콜백 호출
+            panel.removeEventListener("animationend", onAnimationEnd);
+        }
+    };
+
+    panel.addEventListener("animationend", onAnimationEnd);
+}
+
 
 /* ---------------------------------------------------------
    Gate 초기화
@@ -168,8 +198,20 @@ function gate0303Init() {
 function gate0304Init() {
     const fragment = getFragment();
 
-    $('#selPrdName').text(getHashOfName());
+    $('.selPrdName').text(getHashOfName());
     $('#selPrdCategory').text(getHashOfCategory());
+    const $visibleItems = $("[data-visible]");
+    $visibleItems.hide();
+    $visibleItems.filter(`[data-visible="${fragment}"]`).show();
+
+    $(".esg_cont").css("visibility", "");
+}
+
+// gate0305Init
+function gate0305Init() {
+    const fragment = getFragment();
+
+    $('.selPrdName').text(getHashOfName());
     const $visibleItems = $("[data-visible]");
     $visibleItems.hide();
     $visibleItems.filter(`[data-visible="${fragment}"]`).show();
