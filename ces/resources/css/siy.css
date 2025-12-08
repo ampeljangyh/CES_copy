@@ -499,6 +499,7 @@
 .reg_category_list .reg_category_box {
     display:flex;align-items:center;justify-content:center;box-sizing:border-box;height:180px;padding:0 12px;border-radius: 10px;border: 1px solid #0071FE;background: rgba(0, 113, 254, 0.17);
     text-align:center;color: #FFF;font-size: 36px;font-weight: 400;letter-spacing: -0.72px;text-transform: uppercase;
+    word-break: keep-all;
 }
 
 .reg_status_list {display: grid;grid-template-columns: repeat(9, 1fr);gap: 22px;margin-bottom: 50px;}
