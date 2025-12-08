@@ -2615,72 +2615,290 @@ function drawRoundedRect(ctx,x,y,w,h,r){
   ctx.closePath();
 }
 
-window.addEventListener('load', function(){
-  const ctx = document.getElementById('skillBarChart').getContext('2d');
+/****************************************************
+ * skillBarChart 통합본
+ *  - px → vw 변환 (1px = 0.0260vw)
+ *  - 한글 / 영문용 설정 분리
+ *  - body id 기반 실시간 감지 (lang_kr / lang_en)
+ *  - setSkillBarLang('kr' | 'en') 로 수동 토글도 가능
+ *
+ *  ⚠ 전제:
+ *   - skillLabels, skillValues 전역 배열이 이미 정의되어 있음
+ *   - separatorLinesPlugin, trackPlugin 이 이미 정의되어 있음
+ ****************************************************/
+(function () {
 
-  const barThickness = designPxToRealPx(18);
+  /****************************************************
+   * px → 실제 px 변환 (1px = 0.0260vw)
+   ****************************************************/
+  if (typeof window.designPxToRealPx !== 'function') {
+    window.designPxToRealPx = function (px) {
+      // 1px = 0.0260vw
+      var vw = px * 0.0260;
+      return window.innerWidth * vw / 100; // vw → 실제 px
+    };
+  }
 
-  window.skillBarChart = new Chart(ctx,{
-    type:'bar',
-    data:{
-      labels: skillLabels,
-      datasets:[
-        {
-          data: skillValues,
-          borderWidth: 0,
-          backgroundColor(context){
-            const {chart} = context;
-            const {ctx, chartArea} = chart;
-            if(!chartArea) return '#0071FE';
-            const g = ctx.createLinearGradient(chartArea.left,0,chartArea.right,0);
-            g.addColorStop(0, '#252D3E');   // 진한 회색
-            g.addColorStop(0.4,'#005ED8');  // 중간 파랑
-            g.addColorStop(1, '#008DFF');   // 밝은 파랑
-            return g;
-          },
-          borderRadius: Number.MAX_VALUE,
-          borderSkipped:false,
-          barThickness:barThickness,
-          barPercentage:0.82,
-          categoryPercentage:0.7
-        }
-      ]
+  /****************************************************
+   * 한글 / 영문용 바 차트 설정
+   *  - titleXDesign        : 제목 시작 X (디자인 px)
+   *  - paddingLeftDesign   : 차트 왼쪽 padding (제목+여백 영역 폭)
+   *  - paddingRightDesign  : 차트 오른쪽 padding
+   *  - xMax                : x축 최대값 (bar 전체 길이 느낌)
+   *  - barThicknessDesign  : 바 두께 (디자인 px)
+   *  - barPercentage       : bar 폭 비율
+   *  - categoryPercentage  : bar 사이 간격 비율
+   *  - titleFontDesignPx   : 제목 폰트 크기 (디자인 px)
+   ****************************************************/
+  const skillBarConfigByLang = {
+    kr: {
+      titleXDesign:        0,    // 제목 시작 X
+      paddingLeftDesign:   350,  // 기존 left:420px
+      paddingRightDesign:  8,
+
+      xMax:                100,
+
+      barThicknessDesign:  18,
+      barPercentage:       0.82,
+      categoryPercentage:  0.7,
+
+      titleFontDesignPx:   33
     },
-    options:{
-      responsive:true,
-      maintainAspectRatio:false,
-      indexAxis:'y',
-      plugins:{
-        legend:{display:false},
-        tooltip:{enabled:false}
+
+    en: {
+      titleXDesign:        0,
+      // 영문은 라벨이 길어질 가능성이 높아서 왼쪽 영역 좀 더 넓게
+      paddingLeftDesign:   470,
+      paddingRightDesign:  20,
+
+      xMax:                100,
+
+      barThicknessDesign:  18,
+      barPercentage:       1.3,
+      categoryPercentage:  0.7,
+
+      titleFontDesignPx:   30
+    }
+  };
+
+  let currentSkillBarLang   = 'kr';
+  let currentSkillBarConfig = skillBarConfigByLang.kr;
+  let skillBarChart         = null;
+
+  /****************************************************
+   * body id → 'kr' / 'en'
+   ****************************************************/
+  function getSkillBarLangFromBody() {
+    var id = (document.body && document.body.id ? document.body.id : '').toLowerCase().trim();
+    if (id === 'lang_en') return 'en';
+    if (id === 'lang_kr') return 'kr';
+    return 'kr';
+  }
+
+  function getSkillBarConfig(lang) {
+    return skillBarConfigByLang[lang] || skillBarConfigByLang.kr;
+  }
+
+  /****************************************************
+   * 제목 그려주는 labelCenterPlugin (언어별 설정 반영)
+   *  - Chart.js 기본 y축 라벨은 숨기고, 여기서 커스텀으로 출력
+   ****************************************************/
+  const labelCenterPlugin = {
+    id: 'labelCenterPlugin',
+    afterDraw(chart) {
+      const { ctx, scales: { y } } = chart;
+      const labels = chart.data.labels || [];
+
+      const cfg           = currentSkillBarConfig || skillBarConfigByLang.kr;
+      const titleFontSize = designPxToRealPx(cfg.titleFontDesignPx);
+      const titleX        = designPxToRealPx(cfg.titleXDesign);
+
+      ctx.save();
+      ctx.textBaseline = 'middle';
+      ctx.textAlign    = 'left';
+      ctx.fillStyle    = '#FFFFFF';
+      ctx.font         = `${titleFontSize}px Pretendard, "Noto Sans KR", sans-serif`;
+
+      labels.forEach((label, idx) => {
+        const cy          = y.getPixelForValue(idx);
+        const lines       = String(label).split('\n');
+        const lineHeight  = titleFontSize * 1.25;
+        const totalHeight = lineHeight * lines.length;
+        let startY        = cy - totalHeight / 2 + lineHeight / 2;
+
+        lines.forEach((line, lineIdx) => {
+          const lineY = startY + lineIdx * lineHeight;
+          ctx.fillText(line, titleX, lineY);
+        });
+      });
+
+      ctx.restore();
+    }
+  };
+
+  // 필요하면 외부에서도 접근 가능하게
+  window.labelCenterPlugin = labelCenterPlugin;
+
+  /****************************************************
+   * 언어 적용 (이미 그려진 차트에 대해 위치/폭 재계산)
+   ****************************************************/
+  function applySkillBarLang(lang) {
+    currentSkillBarLang   = lang;
+    currentSkillBarConfig = getSkillBarConfig(lang);
+
+    const cfg   = currentSkillBarConfig;
+    const chart = skillBarChart;
+    if (!chart) return;
+
+    // x축 최대값
+    chart.options.scales.x.max = cfg.xMax;
+
+    // padding으로 bar 위치 조정
+    chart.options.layout.padding.left  = designPxToRealPx(cfg.paddingLeftDesign);
+    chart.options.layout.padding.right = designPxToRealPx(cfg.paddingRightDesign);
+
+    // bar 두께/비율
+    const ds = chart.data.datasets[0];
+    ds.barThickness      = designPxToRealPx(cfg.barThicknessDesign);
+    ds.barPercentage     = cfg.barPercentage;
+    ds.categoryPercentage = cfg.categoryPercentage;
+
+    chart.update();
+  }
+
+  /****************************************************
+   * 초기 생성
+   ****************************************************/
+  function initSkillBarChart(lang) {
+    const canvas = document.getElementById('skillBarChart');
+    if (!canvas) return;
+
+    const initialLang = lang || getSkillBarLangFromBody();
+    currentSkillBarLang   = initialLang;
+    currentSkillBarConfig = getSkillBarConfig(initialLang);
+
+    const cfg = currentSkillBarConfig;
+    const ctx = canvas.getContext('2d');
+
+    // 이미 한 번 그려졌으면 재생성 X → 언어만 반영
+    if (skillBarChart) {
+      applySkillBarLang(initialLang);
+      return;
+    }
+
+    const barThickness = designPxToRealPx(cfg.barThicknessDesign);
+
+    skillBarChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        // ⚠ skillLabels / skillValues 는 외부에서 정의되어 있다고 가정
+        labels: skillLabels,
+        datasets: [
+          {
+            data: skillValues,
+            borderWidth: 0,
+            backgroundColor(context) {
+              const { chart } = context;
+              const { ctx, chartArea } = chart;
+              if (!chartArea) return '#0071FE';
+              const g = ctx.createLinearGradient(chartArea.left, 0, chartArea.right, 0);
+              g.addColorStop(0,   '#252D3E');  // 진한 회색
+              g.addColorStop(0.4, '#005ED8');  // 중간 파랑
+              g.addColorStop(1,   '#008DFF');  // 밝은 파랑
+              return g;
+            },
+            borderRadius: Number.MAX_VALUE,
+            borderSkipped: false,
+            barThickness:  barThickness,
+            barPercentage: cfg.barPercentage,
+            categoryPercentage: cfg.categoryPercentage
+          }
+        ]
       },
-      scales:{
-        x:{
-          min:0,
-          max:100,
-          grid:{display:false},
-          ticks:{display:false}
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: 'y',
+        plugins: {
+          legend:  { display: false },
+          tooltip: { enabled: false }
         },
-        y:{
-          grid:{display:false},
-          ticks:{
-            display:false,        // ★ 기본 라벨 숨기고 우리가 그림
-            padding:0
+        scales: {
+          x: {
+            min: 0,
+            max: cfg.xMax,
+            grid:  { display: false },
+            ticks: { display: false }
+          },
+          y: {
+            grid:  { display: false },
+            ticks: {
+              display: false,  // 기본 라벨 숨기고 플러그인에서 그림
+              padding: 0
+            }
+          }
+        },
+        layout: {
+          padding: {
+            top:    designPxToRealPx(6),
+            bottom: designPxToRealPx(6),
+            left:   designPxToRealPx(cfg.paddingLeftDesign),
+            right:  designPxToRealPx(cfg.paddingRightDesign)
           }
         }
       },
-      layout:{
-        padding:{
-          top:designPxToRealPx(6),
-          bottom:designPxToRealPx(6),
-          left:designPxToRealPx(280), // ★ 타이틀 영역 확보(간격 넓어짐)
-          right:designPxToRealPx(8)
+      plugins: [separatorLinesPlugin, trackPlugin, labelCenterPlugin]
+    });
+
+    window.skillBarChart = skillBarChart;
+  }
+
+  /****************************************************
+   * body id 변경 감지 (lang_kr <-> lang_en 실시간 반영)
+   ****************************************************/
+  function watchSkillBarLang() {
+    const body = document.body;
+    if (!body || typeof MutationObserver === 'undefined') return;
+
+    const observer = new MutationObserver(function (mutations) {
+      mutations.forEach(function (m) {
+        if (m.type === 'attributes' && m.attributeName === 'id') {
+          const newLang = getSkillBarLangFromBody();
+          if (newLang !== currentSkillBarLang) {
+            applySkillBarLang(newLang);
+          }
         }
-      }
-    },
-    plugins:[separatorLinesPlugin, trackPlugin, labelCenterPlugin]
+      });
+    });
+
+    observer.observe(body, { attributes: true, attributeFilter: ['id'] });
+  }
+
+  /****************************************************
+   * 외부 토글용
+   *   setSkillBarLang('kr');
+   *   setSkillBarLang('en');
+   ****************************************************/
+  window.setSkillBarLang = function (lang) {
+    lang = (lang || '').toLowerCase();
+    if (lang !== 'kr' && lang !== 'en') lang = 'kr';
+
+    if (!skillBarChart) {
+      initSkillBarChart(lang);
+    } else {
+      applySkillBarLang(lang);
+    }
+  };
+
+  /****************************************************
+   * load 시점에 1회 초기화 + body id 감시 시작
+   ****************************************************/
+  window.addEventListener('load', function () {
+    initSkillBarChart();  // body id 기준으로 lang 결정
+    watchSkillBarLang();
   });
-});
+
+})();
 
 </script>
 
@@ -2794,44 +3012,127 @@ window.addEventListener('load', function () {
  * 2번 차트 (skillBarChart02)
  * 5개 + 가운데 금액 라벨
  *************************/
-const skillLabels2  = [
+/****************************************************
+ * px → 실제 px 변환 (1px = 0.0260vw)
+ ****************************************************/
+if (typeof window.designPxToRealPx !== 'function') {
+  window.designPxToRealPx = function(px) {
+    var vw = px * 0.0260;
+    return window.innerWidth * vw / 100;
+  };
+}
+
+// ---------------- 기본 데이터 ----------------
+const skillLabels2 = [
   '4년차 R&D 금액',
   '4-7년차 R&D\n수행건수',
   '4-7년차 연구비\n카드 사용건수',
   '5년차차 R&D 금액',
   '특허 출원 건수'
 ];
-let skillValues2  = [100,0,0,0,0]; // 바 길이 퍼센트
-let skillAmounts2 = ['10.5억','0건','0건','0억','0건']; // 가운데 숫자 라벨
 
-// 2번 차트용 라벨 플러그인 (제목 + 금액, 제목 개행 처리)
-// 2번 차트용 라벨 플러그인 (제목 + 금액, 제목 개행 처리)
+let skillValues2  = [100, 0, 0, 0, 0];      // 바 길이(값)
+let skillAmounts2 = ['10.5억','0건','0건','0억','0건']; // 우측 라벨(금액/건수)
+
+// (선택) 영문 라벨
+const skillLabels2_EN = [
+  '4th year R&D amount',
+  '4–7 years R&D\nnumber of projects',
+  '4–7 years R&D\ncard usage count',
+  '5th year R&D amount',
+  'Number of patent\napplications'
+];
+
+/**************************************************
+ * ★ 언어별 설정값
+ **************************************************/
+const skillBarConfigByLang = {
+  kr: {
+    titleXDesign:        0,
+    amountXDesign:       320,
+
+    paddingLeftDesign:   450,
+    paddingRightDesign:  30,
+
+    xMax:                100,
+
+    barThicknessDesign:  18,
+    barPercentage:       2,
+    categoryPercentage:  0.7,
+
+    titleFontDesignPx:   33,
+    amountFontDesignPx:  28
+  },
+
+  en: {
+    titleXDesign:        0,
+    amountXDesign:       350,
+
+    paddingLeftDesign:   520,
+    paddingRightDesign:  40,
+
+    xMax:                100,
+
+    barThicknessDesign:  18,
+    barPercentage:       0.82,
+    categoryPercentage:  0.7,
+
+    titleFontDesignPx:   30,
+    amountFontDesignPx:  26
+  }
+};
+
+// 현재 언어/설정/차트 전역
+let currentSkillBarLang    = 'kr';
+let currentSkillBarConfig  = skillBarConfigByLang.kr;
+let skillBarChart02        = null; // Chart 인스턴스
+
+/**************************************************
+ * body id → 'kr' / 'en' 추출
+ **************************************************/
+function getSkillBarLangFromBody() {
+  var id = (document.body && document.body.id ? document.body.id : '').toLowerCase().trim();
+  if (id === 'lang_en') return 'en';
+  if (id === 'lang_kr') return 'kr';
+  return 'kr';
+}
+
+function getSkillBarConfig(lang) {
+  return skillBarConfigByLang[lang] || skillBarConfigByLang.kr;
+}
+
+/*************************
+ * 2번 차트용 라벨 플러그인
+ *************************/
 const labelCenterPlugin2 = {
   id: 'labelCenterPlugin2',
   afterDraw(chart) {
     const { ctx, scales: { y } } = chart;
     const labels  = chart.data.labels || [];
     const ds      = chart.data.datasets[0] || {};
-    const amounts = ds.amounts || [];   // ★ 여기서 amounts 배열 읽기
+    const amounts = ds.amounts || [];
 
-    const titleFontSize  = designPxToRealPx(33);
-    const amountFontSize = designPxToRealPx(28);
-    const titleX  = designPxToRealPx(0);
-    const amountX = designPxToRealPx(260); // 제목과 금액 사이 + 금액과 바 사이 간격
+    const cfg = currentSkillBarConfig || skillBarConfigByLang.kr;
+
+    const titleFontSize  = designPxToRealPx(cfg.titleFontDesignPx);
+    const amountFontSize = designPxToRealPx(cfg.amountFontDesignPx);
+
+    const titleX  = designPxToRealPx(cfg.titleXDesign);
+    const amountX = designPxToRealPx(cfg.amountXDesign);
 
     ctx.save();
     ctx.textBaseline = 'middle';
-    ctx.textAlign = 'left';
-    ctx.fillStyle = '#FFFFFF';
+    ctx.textAlign    = 'left';
+    ctx.fillStyle    = '#FFFFFF';
 
     labels.forEach((label, idx) => {
       const cy = y.getPixelForValue(idx);
 
       // ----- 제목(멀티라인) -----
-      const lines = String(label).split('\n');
-      const lineHeight = titleFontSize * 1.25;          // 줄 간격
+      const lines       = String(label).split('\n');
+      const lineHeight  = titleFontSize * 1.25;
       const totalHeight = lineHeight * lines.length;
-      let startY = cy - totalHeight / 2 + lineHeight / 2;
+      let startY        = cy - totalHeight / 2 + lineHeight / 2;
 
       ctx.font = `${titleFontSize}px Pretendard, "Noto Sans KR", sans-serif`;
 
@@ -2841,7 +3142,7 @@ const labelCenterPlugin2 = {
       });
 
       // ----- 금액/건수 -----
-      const amount = amounts[idx] || '';   // ★ 여기서 detail 사용
+      const amount = amounts[idx] || '';
       if (amount) {
         ctx.font = `${amountFontSize}px Pretendard, "Noto Sans KR", sans-serif`;
         ctx.fillText(amount, amountX, cy);
@@ -2852,75 +3153,190 @@ const labelCenterPlugin2 = {
   }
 };
 
-window.addEventListener('load', function(){
+/**************************************************
+ * 언어 적용 로직
+ *  - body id 변경/토글 시에도 여기만 호출
+ **************************************************/
+function applySkillBarLang(lang) {
+  currentSkillBarLang   = lang;
+  currentSkillBarConfig = getSkillBarConfig(lang);
+
+  const cfg   = currentSkillBarConfig;
+  const chart = skillBarChart02;
+  if (!chart) return;
+
+  const labels =
+    (lang === 'en')
+      ? skillLabels2_EN
+      : skillLabels2;
+
+  chart.data.labels = labels;
+
+  // ★ 라벨 줄 수에 따라 canvas 높이 재계산 (언어 변경 시도 반영)
+  const canvas = chart.canvas;
+  const linesPerLabel   = labels.map(lbl => String(lbl).split('\n').length);
+  const maxLines        = Math.max.apply(null, linesPerLabel);
+  const baseRowDesignPx = 60;
+  const rowDesignPx     = baseRowDesignPx * maxLines;
+  const totalDesignPx   = rowDesignPx * labels.length;
+  const canvasHeightReal = designPxToRealPx(totalDesignPx);
+
+  canvas.style.height = canvasHeightReal + 'px';
+  chart.resize(); // 사이즈 변경 인지
+
+  // x축 최대값 (bar 길이 느낌)
+  chart.options.scales.x.max = cfg.xMax;
+
+  // 레이아웃 padding (라벨/금액 영역 + bar 시작 위치)
+  chart.options.layout.padding.left  = designPxToRealPx(cfg.paddingLeftDesign);
+  chart.options.layout.padding.right = designPxToRealPx(cfg.paddingRightDesign);
+
+  // bar 두께/비율
+  const ds = chart.data.datasets[0];
+  ds.barThickness       = designPxToRealPx(cfg.barThicknessDesign);
+  ds.barPercentage      = cfg.barPercentage;
+  ds.categoryPercentage = cfg.categoryPercentage;
+
+  chart.update();
+}
+
+/**************************************************
+ * 초기 그리기
+ **************************************************/
+function initSkillBarChart02() {
   const canvas = document.getElementById('skillBarChart02');
   if (!canvas) return;
 
-  // ★★ 개행 수만큼 한 항목 높이 늘리기 ★★
-  const linesPerLabel = skillLabels2.map(lbl => String(lbl).split('\n').length);
-  const maxLines      = Math.max.apply(null, linesPerLabel);
+  const initialLang = getSkillBarLangFromBody();          // ★ body id 기준 언어
+  currentSkillBarLang   = initialLang;
+  currentSkillBarConfig = getSkillBarConfig(initialLang);
+  const cfg = currentSkillBarConfig;
 
-  // 디자인 기준 한 줄당 높이(px) – 필요하면 숫자 조절
-  const baseRowDesignPx  = 60;             // 1줄짜리 기준 높이
-  const rowDesignPx      = baseRowDesignPx * maxLines;
-  const totalDesignPx    = rowDesignPx * skillLabels2.length;
+  const labelsForHeight =
+    (initialLang === 'en')
+      ? skillLabels2_EN
+      : skillLabels2;
+
+  const linesPerLabel   = labelsForHeight.map(lbl => String(lbl).split('\n').length);
+  const maxLines        = Math.max.apply(null, linesPerLabel);
+  const baseRowDesignPx = 60;
+  const rowDesignPx     = baseRowDesignPx * maxLines;
+  const totalDesignPx   = rowDesignPx * labelsForHeight.length;
   const canvasHeightReal = designPxToRealPx(totalDesignPx);
 
-  // 실제 캔버스 높이 지정 (row 높이 확장)
   canvas.style.height = canvasHeightReal + 'px';
 
   const ctx = canvas.getContext('2d');
-  const barThickness = designPxToRealPx(18);
+  const barThickness = designPxToRealPx(cfg.barThicknessDesign);
 
-  window.growthBarChart = new Chart(ctx,{
-    type:'bar',
-    data:{
-      labels: skillLabels2,
-      datasets:[{
+  skillBarChart02 = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: (initialLang === 'en') ? skillLabels2_EN : skillLabels2,
+      datasets: [{
         data: skillValues2,
         amounts: skillAmounts2,
         borderWidth: 0,
-        backgroundColor(context){
-          const {chart} = context;
-          const {ctx, chartArea} = chart;
-          if(!chartArea) return '#0071FE';
-          const g = ctx.createLinearGradient(chartArea.left,0,chartArea.right,0);
+        backgroundColor(context) {
+          const { chart } = context;
+          const { ctx, chartArea } = chart;
+          if (!chartArea) return '#0071FE';
+          const g = ctx.createLinearGradient(chartArea.left, 0, chartArea.right, 0);
           g.addColorStop(0,   '#252D3E');
           g.addColorStop(0.4, '#005ED8');
           g.addColorStop(1,   '#008DFF');
           return g;
         },
         borderRadius: Number.MAX_VALUE,
-        borderSkipped:false,
-        barThickness:barThickness,
-        barPercentage:0.82,
-        categoryPercentage:0.7
+        borderSkipped: false,
+        barThickness:  barThickness,
+        barPercentage: cfg.barPercentage,
+        categoryPercentage: cfg.categoryPercentage
       }]
     },
-    options:{
-      responsive:true,
-      maintainAspectRatio:false,
-      indexAxis:'y',
-      plugins:{
-        legend:{display:false},
-        tooltip:{enabled:false}
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      indexAxis: 'y',
+      plugins: {
+        legend:  { display: false },
+        tooltip: { enabled: false }
       },
-      scales:{
-        x:{min:0,max:100,grid:{display:false},ticks:{display:false}},
-        y:{grid:{display:false},ticks:{display:false,padding:0}}
+      scales: {
+        x: {
+          min: 0,
+          max: cfg.xMax,
+          grid: { display: false },
+          ticks: { display: false }
+        },
+        y: {
+          grid:  { display: false },
+          ticks: { display: false, padding: 0 }
+        }
       },
-      layout:{
-        padding:{
-          top:designPxToRealPx(6),
-          bottom:designPxToRealPx(6),
-          left:designPxToRealPx(420), // 제목 + 금액 영역 전체 확보
-          right:designPxToRealPx(8)
+      layout: {
+        padding: {
+          top:    designPxToRealPx(6),
+          bottom: designPxToRealPx(6),
+          left:   designPxToRealPx(cfg.paddingLeftDesign),
+          right:  designPxToRealPx(cfg.paddingRightDesign)
         }
       }
     },
-    plugins:[separatorLinesPlugin, trackPlugin, labelCenterPlugin2]
+    plugins: [separatorLinesPlugin, trackPlugin, labelCenterPlugin2]
   });
+
+  window.skillBarChart02 = skillBarChart02;
+}
+
+/**************************************************
+ * ★ 언어 토글 관련: body.id 실시간 감지
+ *  - 다른 스크립트에서 body.id = 'lang_en' 등으로 바꾸면
+ *    자동으로 applySkillBarLang 호출
+ **************************************************/
+function observeBodyLangChange() {
+  if (!document.body || typeof MutationObserver === 'undefined') return;
+
+  const observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(m) {
+      if (m.type === 'attributes' && m.attributeName === 'id') {
+        const newLang = getSkillBarLangFromBody();
+        applySkillBarLang(newLang);   // ★ id 바뀔 때마다 언어 적용
+      }
+    });
+  });
+
+  observer.observe(document.body, {
+    attributes: true,
+    attributeFilter: ['id']
+  });
+
+  // 디버깅 필요하면 밖에서 쓸 수 있게 노출
+  window.skillBarLangObserver = observer;
+}
+
+/**************************************************
+ * 페이지 로드 시 1회 초기화 + body.id 감지 시작
+ **************************************************/
+window.addEventListener('load', function () {
+  initSkillBarChart02();     // ★ 최초 body id 기준으로 그리기
+  observeBodyLangChange();   // ★ 이후 id 변경 실시간 감지
 });
+
+/**************************************************
+ * (옵션) 외부에서 호출하는 언어 토글 함수
+ *  - 버튼 클릭 시: setSkillBarLang('kr') / setSkillBarLang('en')
+ *  - 여기서는 body.id만 변경 → MutationObserver가 나머지 처리
+ **************************************************/
+window.setSkillBarLang = function (lang) {
+  lang = (lang || '').toLowerCase();
+  if (lang !== 'kr' && lang !== 'en') {
+    lang = 'kr';
+  }
+
+  // ★ body id 변경만 하면 됨 (실시간 감지에서 applySkillBarLang 호출)
+  document.body.id = (lang === 'en') ? 'lang_en' : 'lang_kr';
+};
 
 </script>
 
