@@ -136,6 +136,18 @@
                                     </li>
                                 </ul>
                             </div>
+
+                            <!-- msg_box -->
+                            <div class="msg_box" style="display:none;">
+                                <span class="arrow"></span>
+                                <p class="msg" data-slideIndex="0">ESG경영 확산을 위해 ESG경영을 시작하는 기업을 지원하여 지속가능 성장 기반을 마련</p>
+                                <p class="msg" data-slideIndex="1">대기업/공공기관의 협약을 통해 협력사를 대상으로 ESG경영 및 동반성장을 지원</p>
+                                <p class="msg" data-slideIndex="2">저탄소 녹색산업 영위 및 전환 기업, 고용창출 우수 기업 등 ESG실천기업에게 대출금리와 한도를 우대</p>
+                                <p class="msg" data-slideIndex="3">신재생에너지, 친환경발전, 에너지효율향상, 환경개선, 환경보호 등 에너지, 환경 테마기업을 지원하는 저리 대출상품</p>
+                                <p class="msg" data-slideIndex="4">한국형 녹색분류체계의 세부 경제활동을 실천 중인 기업을 위한 자금 지원</p>
+                                <p class="msg" data-slideIndex="5">탄소중립 실현을 위한 선도 프로젝트에 투자할 전·후방기업을 대상으로 자금지원(정책자금)</p>
+                            </div>
+                            <!-- //msg_box -->
                         </div>
                         <!-- //step2 -->
                     </div>
@@ -444,30 +456,81 @@ function nextStep(tl){
 
 }
 
-let startX = 0, startY = 0;
+const msgBox = document.querySelector('.msg_box');
+const arrow = document.querySelector('.arrow');
+const msgs = document.querySelectorAll('.msg');
+
+let activeMsgIndex = -1;
+let isBoxVisible = false;
+
+function updateArrowAndMsg(slideIndex) {
+    const slides = swiper.slides;
+    const targetSlide = slides[slideIndex];
+    if (!targetSlide) return;
+
+    if (getComputedStyle(msgBox).display === 'none') {
+        gsap.set(msgBox, { display: 'block', opacity: 0, y: 50 });
+    }
+
+    const slideRect = targetSlide.getBoundingClientRect();
+    const boxRect = msgBox.getBoundingClientRect();
+    const slideCenterX = slideRect.left + (slideRect.width / 2);
+    const arrowX = slideCenterX - boxRect.left - 25; 
+
+    const targetMsg = document.querySelector(`.msg[data-slideIndex="${slideIndex}"]`);
+    msgs.forEach(m => {
+        m.style.display = 'none';
+        m.style.opacity = '0';
+    });
+    if (targetMsg) targetMsg.style.display = 'block';
+
+    if (!isBoxVisible) {
+        gsap.set(arrow, { x: arrowX, opacity: 1 });
+        if (targetMsg) gsap.set(targetMsg, { opacity: 1 });
+        gsap.to(msgBox, { y: 0, opacity: 1, duration: 0.6, ease: "power2.out" });
+        isBoxVisible = true;
+    } else {
+        gsap.set(arrow, { x: arrowX });
+        gsap.to(arrow, { opacity: 1, duration: 0.3 });
+        if (targetMsg) gsap.to(targetMsg, { opacity: 1, duration: 0.4 });
+    }
+}
 
 const swiper = new Swiper('.pro_slide', {
     preventClicks: false,
     preventClicksPropagation: false,
     slidesPerView: 4,
-    spaceBetween: 60
-});
+    spaceBetween: 60,
+    
+    on: {
+        slideChangeTransitionStart: function() {
+            if (isBoxVisible) {
+                gsap.to(arrow, { opacity: 0, duration: 0.2 });
+                gsap.to(msgs, { opacity: 0, duration: 0.2 });
+            }
+        },
 
-swiper.on('touchStart', (swiper, e) => {
-    startX = e.pageX;
-    startY = e.pageY;
-});
+        slideChangeTransitionEnd: function(swiper) {
+            updateArrowAndMsg(swiper.activeIndex);
+            activeMsgIndex = swiper.activeIndex;
+        },
 
-swiper.on('touchEnd', (swiper, e) => {
-    const dx = Math.abs(e.pageX - startX);
-    const dy = Math.abs(e.pageY - startY);
+        click: function(swiper) {
+            const clickedIndex = swiper.clickedIndex;
+            if (clickedIndex === undefined) return;
 
-    if (dx < 5 && dy < 5) {
-        swiper.slides[swiper.clickedIndex]?.click();
+            swiper.slideTo(clickedIndex);
+
+            // [수정] 슬라이드 끝부분 등 이동이 발생하지 않아 transitionEnd가 안 뜨는 경우 강제 실행
+            setTimeout(() => {
+                if (!swiper.animating) {
+                    updateArrowAndMsg(clickedIndex);
+                    activeMsgIndex = clickedIndex;
+                }
+            }, 50);
+        }
     }
 });
-
-
 </script>
 </body>
 </html>

@@ -787,3 +787,7 @@
 .pro_slide li > .box.ty06 {background-image:url(../images/gate_03/img_rec06.jpg);}
 
 .pro_slide li .txt {display:block;color: #FFF;text-align: center;font-size: 40px;font-weight: 700;letter-spacing: -0.8px;text-transform: uppercase;}
+
+.flex_cont .msg_box {display:none;position:relative;margin-top:110px;padding:70px 32px 84px;border-radius: 20px;background: #10223B;opacity:0;}
+.flex_cont .msg {display:none;text-align:center;color: #FFF;font-size: 48px;font-weight: 500;letter-spacing: -0.96px;word-break:keep-all;opacity:0;}
+.flex_cont .msg_box .arrow {position: absolute;top: -35px;left: 0;width: 0;height: 0;opacity: 0;border:solid transparent;border-width:0 25px 40px 25px;border-bottom-color:#10223B;}
