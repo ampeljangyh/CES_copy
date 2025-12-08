@@ -335,8 +335,8 @@
                                                         </div>
 
                                                         <div class="chart_btns">
-                                                            <button id="btnCompany" class="chart_btn active">당사</button>
-                                                            <button id="btnIndustry" class="chart_btn">동종산업 평균</button>
+                                                            <button class="btnCompany chart_btn active">당사</button>
+                                                            <button class="btnIndustry chart_btn">동종산업 평균</button>
                                                         </div>
                                                     </div>
 
@@ -441,8 +441,8 @@
                                                         </div>
 
                                                         <div class="chart_btns">
-                                                            <button id="btnCompany" class="chart_btn active">당사</button>
-                                                            <button id="btnIndustry" class="chart_btn">동종산업 평균</button>
+                                                            <button class="btnCompany chart_btn active">당사</button>
+                                                            <button class="btnIndustry chart_btn">동종산업 평균</button>
                                                         </div>
                                                     </div>
 
@@ -547,8 +547,8 @@
                                                         </div>
 
                                                         <div class="chart_btns">
-                                                            <button id="btnCompany" class="chart_btn active">당사</button>
-                                                            <button id="btnIndustry" class="chart_btn">동종산업 평균</button>
+                                                            <button class="btnCompany chart_btn active">당사</button>
+                                                            <button class="btnIndustry chart_btn">동종산업 평균</button>
                                                         </div>
                                                     </div>
 
@@ -2085,6 +2085,18 @@ function drawEsTrendChart(
 
 //chart4
 function drawEsgRadarChart(canvasId) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+
+    // --- 1. 차트 초기화 (v4 표준) ---
+    const existingChart = Chart.getChart(canvas);
+    if (existingChart) {
+        existingChart.destroy();
+    }
+
+    // --- 2. 데이터 정의 (원본 로직 유지) ---
     const labels = [
         "환경경영일반",
         "온실가스 및 에너지",
@@ -2096,45 +2108,36 @@ function drawEsgRadarChart(canvasId) {
 
     const companyValues = [81.3, 89.3, 91.7, 100.0, 62.5, 50.5];
 
-    // 동종산업 평균 = 당사보다 낮은 랜덤값
+    // 동종산업 평균 = 당사보다 낮은 랜덤값 생성 로직 유지
     const industryValues = companyValues.map(v => {
         const diff = Math.random() * 30 + 5; 
         const val = v - diff;
         return val < 0 ? 0 : parseFloat(val.toFixed(1));
     });
 
-    const canvas = document.getElementById(canvasId);
-    const ctx = canvas.getContext("2d");
-
-    if (canvas._chartInstance) canvas._chartInstance.destroy();
-
+    // --- 3. 차트 생성 ---
     const chart = new Chart(ctx, {
         type: "radar",
         data: {
             labels,
             datasets: [
                 // -----------------------------------------------------
-                // 당사 그래프(수정됨)
+                // 당사 그래프
                 // -----------------------------------------------------
                 {
                     label: "당사",
                     data: companyValues,
-
-                    borderColor: "#4091B9",   // 선 색상
-                    borderWidth: 8,           // 선 두께
-
+                    borderColor: "#4091B9",
+                    borderWidth: 8,
                     backgroundColor: "rgba(64,145,185,0.3)",
-
-                    pointRadius: 12,          // dot 크기
-                    pointBackgroundColor: "#4091B9", // dot 색
+                    pointRadius: 12,
+                    pointBackgroundColor: "#4091B9",
                     pointBorderColor: "#4091B9",
                     pointBorderWidth: 0,
-
                     tension: 0
                 },
-
                 // -----------------------------------------------------
-                // 동종산업 평균 (기존 그대로)
+                // 동종산업 평균
                 // -----------------------------------------------------
                 {
                     label: "동종산업 평균",
@@ -2148,22 +2151,18 @@ function drawEsgRadarChart(canvasId) {
                 }
             ]
         },
-
         options: {
             responsive: true,
             maintainAspectRatio: false,
-
             plugins: {
                 legend: { display: false },
                 tooltip: { enabled: false }
             },
-
             scales: {
                 r: {
                     min: 0,
                     max: 100,
                     ticks: { display: false },
-
                     grid: {
                         color: "rgba(255,255,255,0.14)"
                     },
@@ -2171,7 +2170,6 @@ function drawEsgRadarChart(canvasId) {
                         color: "rgba(255,255,255,0.2)",
                         lineWidth: 1
                     },
-
                     pointLabels: {
                         color: "#FFFFFF",
                         font: {
@@ -2183,27 +2181,30 @@ function drawEsgRadarChart(canvasId) {
                 }
             }
         }
-
     });
 
-    canvas._chartInstance = chart;
+    // --- 4. 버튼 이벤트 핸들링 (안정성 강화) ---
+    const btnCompany = canvas.closest('.chart4').querySelector(".btnCompany");
+    const btnIndustry = canvas.closest('.chart4').querySelector(".btnIndustry");
 
-    const btnCompany  = document.getElementById("btnCompany");
-    const btnIndustry = document.getElementById("btnIndustry");
+    // 함수가 재실행될 때 이벤트가 중첩되지 않도록 onclick 속성 사용
+    if (btnCompany) {
+        btnCompany.onclick = () => {
+            const isActive = btnCompany.classList.toggle("active");
+            chart.data.datasets[0].hidden = !isActive;
+            chart.update();
+        };
+    }
 
-    // 체크박스형 토글
-    btnCompany.addEventListener("click", () => {
-        const isActive = btnCompany.classList.toggle("active");
-        chart.data.datasets[0].hidden = !isActive;
-        chart.update();
-    });
+    if (btnIndustry) {
+        btnIndustry.onclick = () => {
+            const isActive = btnIndustry.classList.toggle("active");
+            chart.data.datasets[1].hidden = !isActive;
+            chart.update();
+        };
+    }
 
-    btnIndustry.addEventListener("click", () => {
-        const isActive = btnIndustry.classList.toggle("active");
-        chart.data.datasets[1].hidden = !isActive;
-        chart.update();
-    });
-
+    // 초기 상태 동기화 (Visible)
     chart.data.datasets[0].hidden = false;
     chart.data.datasets[1].hidden = false;
     chart.update();
@@ -2236,10 +2237,19 @@ function drawQuadrantScatterChart(
     };
 
     const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+
     const ctx = canvas.getContext("2d");
 
-    if (canvas._chartInstance) canvas._chartInstance.destroy();
+    // --- 1. 차트 초기화 (v4 표준) ---
+    const existingChart = Chart.getChart(canvas);
+    if (existingChart) {
+        existingChart.destroy();
+    }
 
+    // --- 2. 플러그인 정의 (기존 로직 유지) ---
+
+    // [Plugin] 점 내부 숫자 라벨 그리기
     const pointLabelPlugin = {
         id: "pointLabelPlugin",
         afterDatasetsDraw(chart) {
@@ -2252,13 +2262,17 @@ function drawQuadrantScatterChart(
 
             const meta = chart.getDatasetMeta(0);
             meta.data.forEach((element, i) => {
-                ctx.fillText(points[i].label, element.x, element.y);
+                // 데이터 포인트가 화면에 그려졌을 때만 텍스트 표시
+                if (!element.hidden && points[i]) {
+                    ctx.fillText(points[i].label, element.x, element.y);
+                }
             });
 
             ctx.restore();
         }
     };
 
+    // [Plugin] 4분면 배경 및 기준선 그리기
     const quadrantBackgroundPlugin = {
         id: "quadrantBackgroundPlugin",
         beforeDraw(chart) {
@@ -2275,6 +2289,7 @@ function drawQuadrantScatterChart(
             const c3 = "rgba(202, 218, 252, 0.30)";
             const c4 = "rgba(202, 218, 252, 0.11)";
 
+            // 4분면 채우기
             ctx.fillStyle = c2;
             ctx.fillRect(chartArea.left, chartArea.top, midX - chartArea.left, midY - chartArea.top);
 
@@ -2287,6 +2302,7 @@ function drawQuadrantScatterChart(
             ctx.fillStyle = c4;
             ctx.fillRect(midX, midY, chartArea.right - midX, chartArea.bottom - midY);
 
+            // 기준선 그리기
             ctx.strokeStyle = "#66ADFF";
             ctx.lineWidth = 3;
 
@@ -2304,6 +2320,7 @@ function drawQuadrantScatterChart(
         }
     };
 
+    // [Plugin] Y축 세로 텍스트 그리기
     const verticalYAxisLabelPlugin = {
         id: "verticalYAxisLabelPlugin",
         afterDraw(chart) {
@@ -2327,6 +2344,7 @@ function drawQuadrantScatterChart(
         }
     };
 
+    // [Plugin] 커스텀 범례 그리기
     const quadrantLegendPlugin = {
         id: "quadrantLegendPlugin",
         afterDraw(chart) {
@@ -2358,8 +2376,9 @@ function drawQuadrantScatterChart(
         }
     };
 
-    // 핵심 수정 적용: hover / click 제거
-    const chart = new Chart(ctx, {
+    // --- 3. 차트 생성 ---
+
+    new Chart(ctx, {
         type: "scatter",
         data: {
             datasets: [
@@ -2368,7 +2387,7 @@ function drawQuadrantScatterChart(
                     data: points,
                     pointRadius: 28,
 
-                    // ✔ hover 및 클릭 제거
+                    // hover 및 클릭 효과 제거
                     pointHoverRadius: 0,
                     hoverRadius: 0,
 
@@ -2382,11 +2401,11 @@ function drawQuadrantScatterChart(
             responsive: true,
             maintainAspectRatio: false,
 
-            // ✔ 완전 비활성화
+            // 인터랙션 완전 비활성화
             interaction: { mode: null },
             events: [],
 
-            // ✔ 애니메이션 완전 제거
+            // 애니메이션 제거
             animation: false,
             animations: { colors: false, numbers: false },
             transitions: { active: { animation: { duration: 0 } } },
@@ -2425,7 +2444,6 @@ function drawQuadrantScatterChart(
                 }
             }
         },
-
         plugins: [
             pointLabelPlugin,
             quadrantBackgroundPlugin,
@@ -2433,10 +2451,7 @@ function drawQuadrantScatterChart(
             quadrantLegendPlugin
         ]
     });
-
-    canvas._chartInstance = chart;
 }
-
 
 // 자동 순환용 GSAP timeline
 let autoPrcTimeline = null;
