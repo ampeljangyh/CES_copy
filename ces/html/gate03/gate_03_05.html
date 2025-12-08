@@ -105,22 +105,34 @@
                             <div class="pro_slide swiper">
                                 <ul class="slide swiper-wrapper">
                                     <li class="swiper-slide">
-                                        <span class="txt">ESG 스타트 지원 대출</span>
+                                        <div class="box ty01">
+                                            <span class="txt">ESG 스타트 지원 대출</span>
+                                        </div>
                                     </li>
                                     <li class="swiper-slide">
-                                        <span class="txt">ESG 상생협력 금융</span>
+                                        <div class="box ty02">
+                                            <span class="txt">ESG 상생협력 금융</span>
+                                        </div>
                                     </li>
                                     <li class="swiper-slide">
-                                        <span class="txt">ESG리더 지원 대출</span>
+                                        <div class="box ty03">
+                                            <span class="txt">ESG리더 지원 대출</span>
+                                        </div>
                                     </li>
                                     <li class="swiper-slide">
-                                        <span class="txt">그린전환 자금</span>
+                                        <div class="box ty04">
+                                            <span class="txt">그린전환 자금</span>
+                                        </div>
                                     </li>
                                     <li class="swiper-slide">
-                                        <span class="txt">K-택소노미론</span>
+                                        <div class="box ty05">
+                                            <span class="txt">K-택소노미론</span>
+                                        </div>
                                     </li>
                                     <li class="swiper-slide">
-                                        <span class="txt">탄소중립 선도 자금</span>
+                                        <div class="box ty06">
+                                            <span class="txt">탄소중립 선도 자금</span>
+                                        </div>
                                     </li>
                                 </ul>
                             </div>
@@ -432,9 +444,27 @@ function nextStep(tl){
 
 }
 
+let startX = 0, startY = 0;
+
 const swiper = new Swiper('.pro_slide', {
+    preventClicks: false,
+    preventClicksPropagation: false,
     slidesPerView: 4,
     spaceBetween: 60
+});
+
+swiper.on('touchStart', (swiper, e) => {
+    startX = e.pageX;
+    startY = e.pageY;
+});
+
+swiper.on('touchEnd', (swiper, e) => {
+    const dx = Math.abs(e.pageX - startX);
+    const dy = Math.abs(e.pageY - startY);
+
+    if (dx < 5 && dy < 5) {
+        swiper.slides[swiper.clickedIndex]?.click();
+    }
 });
 
 
