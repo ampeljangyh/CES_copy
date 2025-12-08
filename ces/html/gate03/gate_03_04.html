@@ -1791,83 +1791,128 @@ function renderReportTab(reportNo, tabNo) {
 function drawGradeChart(
     canvasId,
     dataValues = [1.5, 4.5, 33.3, 34.8, 22.7, 3, 0],
-    barColor = "#0A498C"  // A+ 전용 단색
+    barColor = "#60BAF5"
 ) {
     const canvas = document.getElementById(canvasId);
+    if (!canvas) return; // Canvas 유효성 검사
+
     const ctx = canvas.getContext("2d");
 
+    // --- 1. 차트 초기화 ---
+    const existingChart = Chart.getChart(canvas);
+    if (existingChart) existingChart.destroy(); // 기존 차트 파괴
+
+    // --- 2. 데이터 및 스타일 설정 ---
     const labels = ["D", "C", "B", "B+", "A", "A+", "S"];
+    
+    // 초기 색상 (Fallback)
+    const baseColors = labels.map(label => label === "A+" ? barColor : "#B5B5B5");
+    
+    // 그라디언트 색상 (Start, End)
+    const gradientSpecs = [
+        ["#A3A3A3", "#828282"], // D
+        ["#A3A3A3", "#828282"], // C
+        ["#A3A3A3", "#828282"], // B
+        ["#A3A3A3", "#828282"], // B+
+        ["#A3A3A3", "#828282"], // A
+        ["#60BAF5", "#0A498C"], // A+
+        ["#A3A3A3", "#828282"]  // S
+    ];
 
-    // A+는 barColor, 나머지는 #B5B5B5
-    const barColors = labels.map(label =>
-        label === "A+" ? barColor : "#B5B5B5"
-    );
+    // --- 3. 커스텀 플러그인 ---
 
-    // 퍼센트 라벨 플러그인
+    // [Plugin] 퍼센트 라벨 표시
     const percentLabelPlugin = {
         id: "percentLabel",
         afterDatasetsDraw(chart) {
             const { ctx } = chart;
             const meta = chart.getDatasetMeta(0);
 
-            meta.data.forEach((bar, index) => {
-                const x = bar.x;
-                const y = bar.y - 28;
+            ctx.save();
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "32px Pretendard"; // 폰트 설정 유지
+            ctx.textAlign = "center";
+            ctx.textBaseline = "alphabetic"; 
 
-                ctx.save();
-                ctx.fillStyle = "#ffffff";
-                ctx.font = "32px Pretendard, sans-serif";
-                ctx.textAlign = "center";
-                ctx.fillText(dataValues[index] + "%", x, y);
-                ctx.restore();
+            meta.data.forEach((bar, index) => {
+                if (!bar || (typeof bar.hidden === 'boolean' && bar.hidden)) return;
+                
+                const value = dataValues[index];
+                if (value == null) return;
+
+                // 텍스트 위치 (바 상단 -28px 유지)
+                ctx.fillText(value + "%", bar.x, bar.y - 28);
+            });
+            ctx.restore();
+        }
+    };
+
+    // [Plugin] 그라디언트 적용 (v4 호환 로직)
+    const barGradientPlugin = {
+        id: "barGradientPlugin",
+        beforeDatasetDraw(chart) {
+            const { ctx } = chart;
+            const meta = chart.getDatasetMeta(0);
+
+            meta.data.forEach((bar, index) => {
+                const spec = gradientSpecs[index];
+                if (!spec) return;
+
+                const yTop = bar.y;
+                const yBottom = bar.base;
+
+                // 유효하지 않은 좌표 처리
+                if (!isFinite(yTop) || !isFinite(yBottom) || Math.abs(yBottom - yTop) < 1) return;
+
+                // 그라디언트 생성 및 주입
+                const gradient = ctx.createLinearGradient(0, yTop, 0, yBottom);
+                gradient.addColorStop(0, spec[0]);
+                gradient.addColorStop(1, spec[1]);
+
+                bar.options.backgroundColor = gradient;
+                bar.options.hoverBackgroundColor = gradient;
             });
         }
     };
 
-    if (canvas._chartInstance) canvas._chartInstance.destroy();
-
-    const chartInstance = new Chart(ctx, {
+    // --- 4. 차트 생성 ---
+    new Chart(ctx, {
         type: "bar",
         data: {
-            labels,
-            datasets: [
-                {
-                    data: dataValues,
-                    backgroundColor: barColors,
-                    borderRadius: 0
-                }
-            ]
+            labels: labels,
+            datasets: [{
+                data: dataValues,
+                backgroundColor: baseColors,
+                borderRadius: 0,      // 모서리 둥글기 0 유지
+                borderSkipped: false  // 모든 면 그리기 유지
+            }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-
             plugins: {
                 legend: { display: false },
                 tooltip: { enabled: false }
             },
-
             scales: {
                 y: {
                     display: false,
-                    grid: { display: false },
-                    ticks: { display: false },
-                    suggestedMax: 45
+                    suggestedMax: 45, // 상단 여백 유지
+                    beginAtZero: true
                 },
                 x: {
                     grid: { display: false },
+                    border: { display: false },
                     ticks: {
                         color: "#ffffff",
-                        font: { size: 32, weight: "700", family: "Pretendard" },
-                        padding: 32
+                        font: { size: 32, weight: "700", family: "Pretendard" }, // 폰트 유지
+                        padding: 32 // 패딩 유지
                     }
                 }
             }
         },
-        plugins: [percentLabelPlugin]
+        plugins: [barGradientPlugin, percentLabelPlugin]
     });
-
-    canvas._chartInstance = chartInstance;
 }
 
 //chart2
@@ -1880,109 +1925,118 @@ function drawEsTrendChart(
         social: [71.7, 79.0, 87.0],
         gov:    [78.0, 79.1, 85.0]
     },
-    barColor = "#0A498C"   // 단색 바 컬러 기본값
+    barColor = "#60BAF5"
 ) {
     const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+
     const ctx = canvas.getContext("2d");
 
-    const labelMap = {
-        env: "환경",
-        social: "사회",
-        gov: "지배구조"
-    };
+    // --- 1. 차트 초기화 ---
+    const existingChart = Chart.getChart(canvas);
+    if (existingChart) {
+        existingChart.destroy();
+    }
 
-    // line 색상 (기존 유지)
-    const lineColors = {
-        env:    "#4091B9",
-        social: "#387D82",
-        gov:    "#5D69E5"
-    };
-
+    // --- 2. 데이터 및 설정 ---
+    const labelMap = { env: "환경", social: "사회", gov: "지배구조" };
+    const lineColors = { env: "#4091B9", social: "#387D82", gov: "#5D69E5" };
     const legendColors = {
-        "종합":    barColor,
-        "환경":    "#4091B9",
-        "사회":    "#387D82",
+        "종합": barColor,
+        "환경": "#4091B9",
+        "사회": "#387D82",
         "지배구조": "#5D69E5"
     };
+    
+    // 그라디언트 색상
+    const barGradientSpec = ["#60BAF5", "#0A498C"];
 
-    // bar 위에 line 다시 그리기
-    const lineOnTopPlugin = {
-        id: "lineOnTop",
-        afterDatasetsDraw(chart) {
-            const { ctx } = chart;
-            chart.data.datasets.forEach((ds, i) => {
-                if (ds.type === "line") {
-                    const meta = chart.getDatasetMeta(i);
-                    meta.controller.draw();
-                }
+    // --- 3. 커스텀 플러그인 ---
+
+    const barGradientPlugin = {
+        id: "barGradientPlugin",
+        beforeDatasetDraw(chart) {
+            const { ctx, scales } = chart;
+            const meta = chart.getDatasetMeta(0); // 종합(Bar) 데이터셋
+            
+            if (meta.type !== 'bar') return;
+
+            // ★ 핵심 수정: 그라디언트의 바닥을 '차트의 Y축 최소값(50)' 위치로 고정
+            // scales.y.getPixelForValue(50)을 사용하거나 chart.chartArea.bottom 사용
+            const chartBottom = scales.y.getPixelForValue(50); 
+
+            meta.data.forEach((bar) => {
+                const yTop = bar.y;
+                
+                // 유효성 검사
+                if (!isFinite(yTop)) return;
+
+                // 그라디언트 생성 (Top -> Visible Bottom)
+                // 기존 bar.base(0) 대신 chartBottom(50)을 사용하여 
+                // 화면에 보이는 구간 내에서 색상이 변하도록 함
+                const gradient = ctx.createLinearGradient(0, yTop, 0, chartBottom);
+                gradient.addColorStop(0, barGradientSpec[0]);
+                gradient.addColorStop(1, barGradientSpec[1]);
+
+                bar.options.backgroundColor = gradient;
+                bar.options.hoverBackgroundColor = gradient;
             });
         }
     };
 
-    const legendMoveUpPlugin = {
-        id: "legendMoveUpPlugin",
-        afterLayout(chart) {
-            if (chart.legend) chart.legend.bottom -= 30;
-        }
-    };
-
-    if (canvas._chartInstance) canvas._chartInstance.destroy();
-
-    const chartInstance = new Chart(ctx, {
+    // --- 4. 차트 생성 ---
+    new Chart(ctx, {
+        type: "bar",
         data: {
             labels,
             datasets: [
-                // 종합 bar 단색 처리
+                // BAR (종합)
                 {
                     type: "bar",
                     label: "종합",
                     data: totalValues,
                     backgroundColor: barColor,
                     borderRadius: 0,
-                    barThickness: 120
+                    barThickness: 120,
+                    order: 2 // 뒤에 그려짐
                 },
-
-                // line 3개
+                // LINE (환경, 사회, 지배구조)
                 ...Object.keys(lineValues).map(key => ({
                     type: "line",
                     label: labelMap[key],
                     data: lineValues[key],
                     borderColor: lineColors[key],
                     backgroundColor: lineColors[key],
-
                     tension: 0.4,
                     borderWidth: 8,
                     pointRadius: 8,
                     pointHoverRadius: 8,
                     pointBorderWidth: 3,
                     pointBackgroundColor: "#192642",
-                    pointBorderColor: lineColors[key]
+                    pointBorderColor: lineColors[key],
+                    order: 1 // 앞에 그려짐
                 }))
             ]
         },
-
         options: {
             responsive: true,
             maintainAspectRatio: false,
-
+            events: [],
             plugins: {
                 tooltip: { enabled: false },
-
                 legend: {
                     display: true,
                     position: "right",
                     align: "end",
                     onClick: null,
-
                     labels: {
                         color: "#ffffff",
                         font: { size: 32, family: "Pretendard" },
                         usePointStyle: true,
                         pointStyle: "circle",
                         boxWidth: 60,
-                        boxHeight: 600,
+                        boxHeight: 60,
                         padding: 40,
-
                         generateLabels(chart) {
                             const original = Chart.defaults.plugins.legend.labels.generateLabels(chart);
                             original.forEach(item => {
@@ -1996,7 +2050,6 @@ function drawEsTrendChart(
                     }
                 }
             },
-
             scales: {
                 x: {
                     ticks: {
@@ -2004,7 +2057,8 @@ function drawEsTrendChart(
                         font: { size: 32, family: "Pretendard" },
                         padding: 12
                     },
-                    grid: { display: false }
+                    grid: { display: false, drawBorder: false },
+                    border: { display: false }
                 },
                 y: {
                     min: 50,
@@ -2018,16 +2072,15 @@ function drawEsTrendChart(
                     grid: {
                         display: true,
                         color: "rgba(255,255,255,0.15)",
-                        lineWidth: 1
-                    }
+                        lineWidth: 1,
+                        drawBorder: false
+                    },
+                    border: { display: false }
                 }
             }
         },
-
-        plugins: [lineOnTopPlugin, legendMoveUpPlugin]
+        plugins: [barGradientPlugin]
     });
-
-    canvas._chartInstance = chartInstance;
 }
 
 //chart4
