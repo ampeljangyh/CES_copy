@@ -367,8 +367,8 @@
 .esg_cont.step05 {overflow:hidden;display: flex;flex-direction: column;padding:0;}
 .esg_cont.step05 .esg_cont_inner {display:flex;flex-direction:column;padding:120px 220px 200px;overflow-y: auto;box-sizing:border-box;height:100%;}
 .esg_cont.step05 .esg_cont_inner::-webkit-scrollbar {display: none;}
-.esg_cont.step05 .esg_tit > p {text-align:left;}
-.esg_cont.step05 .esg_tit > strong {text-align:left;}
+/* .esg_cont.step05 .esg_tit > p {text-align:left;}
+.esg_cont.step05 .esg_tit > strong {text-align:left;} */
 
 /* report_panel */
 .report_panel {margin-top:180px;}
