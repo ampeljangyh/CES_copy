@@ -2177,7 +2177,7 @@ function drawQuadrantScatterChart(
     ]
 ) {
     const COLORS = {
-        E: "#5DBCED",
+        E: "rgb(70,145,185)",
         S: "rgb(60,125,130)",
         G: "rgb(95,105,230)"
     };
@@ -2333,6 +2333,11 @@ function drawQuadrantScatterChart(
             interaction: { mode: null },
             events: [],
 
+            // ✔ 애니메이션 완전 제거
+            animation: false,
+            animations: { colors: false, numbers: false },
+            transitions: { active: { animation: { duration: 0 } } },
+
             layout: {
                 padding: {
                     left: 80,
@@ -2363,8 +2368,7 @@ function drawQuadrantScatterChart(
                 y: {
                     min: 0, max: 100,
                     ticks: { display: false },
-                    grid: { display: false },
-                    title: { display: false }
+                    grid: { display: false }
                 }
             }
         },
