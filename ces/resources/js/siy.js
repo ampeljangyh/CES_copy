@@ -219,6 +219,8 @@ function gate0305Init() {
     $visibleItems.hide();
     $visibleItems.filter(`[data-visible="${fragment}"]`).show();
 
+    bindPoint();
+
     $(".esg_cont").css("visibility", "");
 }
 
@@ -972,4 +974,38 @@ function bindRegResult() {
 
         $sliderList.append($slider);
     });
+}
+
+
+function bindPoint() {
+    const { config, data } = getCurrentGate0304Data();
+    if (!data) return;
+
+    // 1) 종합 등급 텍스트 (#gradeTxt)
+    const gradeIndex = data.grade; // 0~6
+    let gradeText = '';
+
+    if (config && Array.isArray(config.gradeTxt) &&
+        typeof gradeIndex === 'number' &&
+        gradeIndex >= 0 && gradeIndex < config.gradeTxt.length) {
+        gradeText = config.gradeTxt[gradeIndex];
+    }
+
+    $('#gradeTxt').text(gradeText || '-');
+
+    // 2) 종합 점수 (#gradePoint) - 최신 연도 기준
+    const history = data.pointHistory || {};
+    const years = Object.keys(history).sort((a, b) => Number(a) - Number(b));
+
+    if (!years.length) {
+        $('#gradePoint').text('-');
+        return;
+    }
+
+    const latestYear = years[years.length - 1];
+    const latest = history[latestYear] || {};
+    const latestPoint = latest.gradePoint != null ? Number(latest.gradePoint) : null;
+
+    // formatPointText: 82.5 -> "82.5점", null -> "-"
+    $('#gradePoint').text(formatPointText(latestPoint));
 }
