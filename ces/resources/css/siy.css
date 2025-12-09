@@ -398,7 +398,7 @@
 .report_grid .inner {flex:1 1 auto;width:100%;box-sizing:border-box;border-radius: 30px;background: #2A3755;}
 
 .report_grid .point_wrap {display:flex;align-items:center;padding: 76px 168px 60px 0;}
-.report_grid .point_wrap .txt {display:flex;align-items:center;justify-content:center;flex-direction:column;gap:30px;width:756px;text-align:center;}
+.report_grid .point_wrap .txt {flex-shrink:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:30px;width:756px;text-align:center;}
 .report_grid .point_wrap .txt .t1 {color: #FFF;font-size: 60px;font-weight: 500;letter-spacing: -1.2px;text-transform: uppercase;}
 .report_grid .point_wrap .txt .t2 {display:flex;align-items:center;gap:16px;}
 .report_grid .point_wrap .txt .t2 > strong {color: #FFF;font-size: 128px;font-weight: 700;letter-spacing: -2.56px;text-transform: uppercase;}
@@ -414,11 +414,10 @@
     display:block;
     height:100%;
     background: linear-gradient(270deg, #A3A3A3 0%, #828282 100%);
-    animation: fillBar 1s ease-out reverse;
 }
 .point_li .point {display:block;margin-left:auto;text-align:right;color: #B5B5B5;font-size: 48px;font-weight: 500;letter-spacing: -0.96px;}
 .point_li .emph .name {color:#FFF;}
-.point_li .emph .point_track > .bar {background: linear-gradient(270deg, #60BAF5 0%, #0A498C 100%);}
+.point_li .emph .point_track > .bar {background: linear-gradient(270deg, #60BAF5 0%, #0A498C 100%);animation: fillBar 1s ease-out reverse;}
 .point_li .emph .point{color: #FFF;font-size: 64px;font-weight: 700;letter-spacing: -1.28px;}
 
 .grade_li {display:flex;align-items:center;justify-content:center;}
@@ -455,6 +454,9 @@
 .report_grid2 .point_li .point_track {width:660px;}
 .report_grid2 .point_li .emph .point_track > .bar {background:#4091B9;}
 .report_grid2 .point_tbl {margin-top:96px;}
+
+[data-tab='2'] .report_grid2 .point_li .emph .point_track > .bar {background:#387D82;}
+[data-tab='3'] .report_grid2 .point_li .emph .point_track > .bar {background:#5D69E5;}
 
 .report_grid2 .chart4 {display:flex;margin-top:100px;height:584px;gap:60px;}
 .report_grid2 .chart_inner {flex:1 1 auto;width:100%;}

@@ -106,7 +106,7 @@
                                 </div>
 
                                 <!-- report_grid -->
-                                <ul class="report_grid">
+                                <ul class="report_grid" id="totalResult">
                                     <li>
                                         <div class="inner">
                                             <!-- point_wrap -->
@@ -241,7 +241,7 @@
                             <!-- //scroll_cnt -->
                              
                             <!-- scroll_cnt -->
-                            <div class="scroll_cnt cnt2">
+                            <div class="scroll_cnt cnt2" id="esgResult">
                                 <div class="report_tit_box">
                                     <strong class="report_tit">ESG정밀진단 분야별 결과</strong>
                                 </div>
@@ -367,7 +367,7 @@
                                                             <span>62.5점</span>
                                                         </li>
                                                         <li class="tbody">
-                                                            <span>대기,수질 오염물질</span>
+                                                            <span>대기, 수질 오염물질</span>
                                                             <span>50.5점</span>
                                                         </li>
                                                     </ul>
@@ -473,7 +473,7 @@
                                                             <span>62.5점</span>
                                                         </li>
                                                         <li class="tbody">
-                                                            <span>대기,수질 오염물질</span>
+                                                            <span>대기, 수질 오염물질</span>
                                                             <span>50.5점</span>
                                                         </li>
                                                     </ul>
@@ -579,7 +579,7 @@
                                                             <span>62.5점</span>
                                                         </li>
                                                         <li class="tbody">
-                                                            <span>대기,수질 오염물질</span>
+                                                            <span>대기, 수질 오염물질</span>
                                                             <span>50.5점</span>
                                                         </li>
                                                     </ul>
@@ -606,7 +606,7 @@
                     <!-- //data-report : 1 -->
 
                     <!-- data-report : 2 -->
-                    <div data-report="2">
+                    <div data-report="2" id="regResult">
                         <!-- top -->
                         <div class="top">
                             <p class="tit">2. ESG 규제 대응 수준 평가 결과</p>
@@ -721,8 +721,8 @@
 
                                         <div class="reg_status_list">
                                             <div class="reg_status_box">
-                                                <strong>미흡</strong>
-                                                <span>(6/16, 37.5%)</span>
+                                                <strong>양호</strong>
+                                                <span>(10/16, 62.5%)</span>
                                             </div>
                                             <div class="reg_status_box">
                                                 <strong>미대상</strong>
@@ -767,7 +767,7 @@
                                                     <div class="slider_bg"></div>
                                                     <div class="slider_bg"></div>
                                                     <div class="slider_inner">
-                                                        <div class="slider_point" style="bottom: 37.5%;"></div>
+                                                        <div class="slider_point" style="bottom: 62.5%;"></div>
                                                     </div>
                                                 </div>
                                                 <span class="label_bottom">BAD</span>
@@ -1721,7 +1721,19 @@ function switchReport(action) {
 
 // report 1 기본 차트
 function initReport1Charts() {
-    drawGradeChart('report1-chart1');
+    const { data } = getCurrentGate0304Data();
+    if (!data) return;
+
+    const distribution = [1.5, 4.5, 33.3, 34.8, 22.7, 3, 0];
+
+    drawGradeChart('report1-chart1', distribution, {
+        highlightIndex: data.grade,
+        barColor: "#60BAF5",
+        useGradientHighlight: true,
+        gradientStart: "#60BAF5",
+        gradientEnd: "#0A498C"
+    });
+
     drawEsTrendChart('report1-chart2');
 }
 
@@ -1765,21 +1777,42 @@ function switchReportTab(tabIndex) {
 // tab 렌더
 function renderReportTab(reportNo, tabNo) {
     const key = `${reportNo}_${tabNo}`;
+    const { data } = getCurrentGate0304Data();
+    
     if (renderedTabs[key]) return;
+    if (!data || !data.pointDetail) return;
+
+    const detail = data.pointDetail;
+    let distribution = [1.5, 4.5, 33.3, 34.8, 22.7, 3, 0];
 
     if (reportNo === 1) {
         switch (tabNo) {
             case 1:
-                drawGradeChart('report1-tab1-chart1', [8.1, 10.5, 34.8, 31.8, 15.2, 1.5, 0], '#4091B9');
-                drawEsgRadarChart('report1-tab1-chart2');
+                distribution = [6.1, 10.6, 34.8, 31.8, 15.2, 1.5, 0];
+                drawGradeChart('report1-tab1-chart1', distribution, {
+                    highlightIndex: detail.e.grade,
+                    barColor: "#4091B9",
+                    useGradientHighlight: false
+                });
+                drawEsgRadarChart('report1-tab1-chart2','e');
                 break;
             case 2:
-                drawGradeChart('report1-tab2-chart1', [8.1, 10.5, 34.8, 31.8, 15.2, 1.5, 0], '#4091B9');
-                drawEsgRadarChart('report1-tab2-chart2');
+                distribution = [0, 3, 15.2, 34.8, 30.3, 16.7, 0];
+                drawGradeChart('report1-tab2-chart1', distribution, {
+                    highlightIndex: detail.s.grade,
+                    barColor: "#387D82",
+                    useGradientHighlight: false
+                });
+                drawEsgRadarChart('report1-tab2-chart2','s');
                 break;
             case 3:
-                drawGradeChart('report1-tab3-chart1', [8.1, 10.5, 34.8, 31.8, 15.2, 1.5, 0], '#4091B9');
-                drawEsgRadarChart('report1-tab3-chart2');
+                distribution = [18.2, 19.7, 18.2, 24.2, 13.6, 6.1, 0];
+                drawGradeChart('report1-tab3-chart1', distribution, {
+                    highlightIndex: detail.g.grade,
+                    barColor: "#5D69E5",
+                    useGradientHighlight: false
+                });
+                drawEsgRadarChart('report1-tab3-chart2','g');
                 break;
         }
     }
@@ -1791,33 +1824,49 @@ function renderReportTab(reportNo, tabNo) {
 function drawGradeChart(
     canvasId,
     dataValues = [1.5, 4.5, 33.3, 34.8, 22.7, 3, 0],
-    barColor = "#60BAF5"
+    options = {}
 ) {
+    // 3번째 인자를 문자열로 준 예전 호출 방식 대응
+    if (typeof options === 'string') {
+        options = { barColor: options };
+    }
+
+    const {
+        highlightIndex = null,        // 0~6 (data.grade 등)
+        highlightGrade = null,        // 'A+' 같은 라벨로 지정하고 싶을 때
+        barColor = "#60BAF5",         // 하이라이트 막대 단색
+        greyColor = "#B5B5B5",        // 나머지 막대 기본색 (그라디언트 적용 전)
+        useGradientHighlight = false, // true면 하이라이트 막대도 그라디언트
+        gradientStart = "#60BAF5",    // 하이라이트 그라디언트 시작색
+        gradientEnd = "#0A498C"       // 하이라이트 그라디언트 끝색
+    } = options;
+
     const canvas = document.getElementById(canvasId);
-    if (!canvas) return; // Canvas 유효성 검사
+    if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
 
     // --- 1. 차트 초기화 ---
     const existingChart = Chart.getChart(canvas);
-    if (existingChart) existingChart.destroy(); // 기존 차트 파괴
+    if (existingChart) existingChart.destroy();
 
     // --- 2. 데이터 및 스타일 설정 ---
     const labels = ["D", "C", "B", "B+", "A", "A+", "S"];
-    
-    // 초기 색상 (Fallback)
-    const baseColors = labels.map(label => label === "A+" ? barColor : "#B5B5B5");
-    
-    // 그라디언트 색상 (Start, End)
-    const gradientSpecs = [
-        ["#A3A3A3", "#828282"], // D
-        ["#A3A3A3", "#828282"], // C
-        ["#A3A3A3", "#828282"], // B
-        ["#A3A3A3", "#828282"], // B+
-        ["#A3A3A3", "#828282"], // A
-        ["#60BAF5", "#0A498C"], // A+
-        ["#A3A3A3", "#828282"]  // S
-    ];
+
+    // highlightGrade가 들어오면 라벨 -> 인덱스로 변환
+    let effectiveHighlightIndex = highlightIndex;
+    if (effectiveHighlightIndex == null && highlightGrade != null) {
+        const idx = labels.indexOf(highlightGrade);
+        effectiveHighlightIndex = idx >= 0 ? idx : null;
+    }
+
+    // 기본 색상: 하이라이트 막대는 barColor, 나머지는 greyColor
+    const baseColors = labels.map((label, idx) =>
+        idx === effectiveHighlightIndex ? barColor : greyColor
+    );
+
+    // 회색 막대용 기본 그라디언트 스펙
+    const greyGradientSpec = ["#A3A3A3", "#828282"];
 
     // --- 3. 커스텀 플러그인 ---
 
@@ -1827,27 +1876,27 @@ function drawGradeChart(
         afterDatasetsDraw(chart) {
             const { ctx } = chart;
             const meta = chart.getDatasetMeta(0);
+            const values = chart.data.datasets[0].data;
 
             ctx.save();
             ctx.fillStyle = "#ffffff";
-            ctx.font = "32px Pretendard"; // 폰트 설정 유지
+            ctx.font = "32px Pretendard";
             ctx.textAlign = "center";
-            ctx.textBaseline = "alphabetic"; 
+            ctx.textBaseline = "alphabetic";
 
             meta.data.forEach((bar, index) => {
-                if (!bar || (typeof bar.hidden === 'boolean' && bar.hidden)) return;
-                
-                const value = dataValues[index];
+                if (!bar || (typeof bar.hidden === "boolean" && bar.hidden)) return;
+
+                const value = values[index];
                 if (value == null) return;
 
-                // 텍스트 위치 (바 상단 -28px 유지)
                 ctx.fillText(value + "%", bar.x, bar.y - 28);
             });
             ctx.restore();
         }
     };
 
-    // [Plugin] 그라디언트 적용 (v4 호환 로직)
+    // [Plugin] 막대 그라디언트 적용
     const barGradientPlugin = {
         id: "barGradientPlugin",
         beforeDatasetDraw(chart) {
@@ -1855,17 +1904,26 @@ function drawGradeChart(
             const meta = chart.getDatasetMeta(0);
 
             meta.data.forEach((bar, index) => {
-                const spec = gradientSpecs[index];
-                if (!spec) return;
+                if (!bar || !isFinite(bar.y) || !isFinite(bar.base)) return;
+                if (Math.abs(bar.base - bar.y) < 1) return;
 
-                const yTop = bar.y;
-                const yBottom = bar.base;
+                let spec = null;
 
-                // 유효하지 않은 좌표 처리
-                if (!isFinite(yTop) || !isFinite(yBottom) || Math.abs(yBottom - yTop) < 1) return;
+                // 하이라이트 막대
+                if (index === effectiveHighlightIndex) {
+                    if (useGradientHighlight) {
+                        // 하이라이트도 그라디언트 사용 (종합 등급 분포 차트 등)
+                        spec = [gradientStart, gradientEnd];
+                    } else {
+                        // 하이라이트는 단색 barColor 유지 → 그라디언트 적용 안 함
+                        return;
+                    }
+                } else {
+                    // 나머지 회색 막대들은 항상 그라디언트
+                    spec = greyGradientSpec;
+                }
 
-                // 그라디언트 생성 및 주입
-                const gradient = ctx.createLinearGradient(0, yTop, 0, yBottom);
+                const gradient = ctx.createLinearGradient(0, bar.y, 0, bar.base);
                 gradient.addColorStop(0, spec[0]);
                 gradient.addColorStop(1, spec[1]);
 
@@ -1875,17 +1933,21 @@ function drawGradeChart(
         }
     };
 
+    const plugins = [percentLabelPlugin, barGradientPlugin];
+
     // --- 4. 차트 생성 ---
     new Chart(ctx, {
         type: "bar",
         data: {
             labels: labels,
-            datasets: [{
-                data: dataValues,
-                backgroundColor: baseColors,
-                borderRadius: 0,      // 모서리 둥글기 0 유지
-                borderSkipped: false  // 모든 면 그리기 유지
-            }]
+            datasets: [
+                {
+                    data: dataValues,
+                    backgroundColor: baseColors,
+                    borderRadius: 0,
+                    borderSkipped: false
+                }
+            ]
         },
         options: {
             responsive: true,
@@ -1897,7 +1959,7 @@ function drawGradeChart(
             scales: {
                 y: {
                     display: false,
-                    suggestedMax: 45, // 상단 여백 유지
+                    suggestedMax: 45,
                     beginAtZero: true
                 },
                 x: {
@@ -1905,40 +1967,108 @@ function drawGradeChart(
                     border: { display: false },
                     ticks: {
                         color: "#ffffff",
-                        font: { size: 32, weight: "700", family: "Pretendard" }, // 폰트 유지
-                        padding: 32 // 패딩 유지
+                        font: { size: 32, weight: "700", family: "Pretendard" },
+                        padding: 32
                     }
                 }
             }
         },
-        plugins: [barGradientPlugin, percentLabelPlugin]
+        plugins
     });
 }
+
 
 //chart2
 function drawEsTrendChart(
     canvasId,
-    labels = ["2022", "2023", "2024"],
-    totalValues = [69.8, 77.6, 84.9],
-    lineValues = {
-        env:    [72.4, 78.8, 82.5],
-        social: [71.7, 79.0, 87.0],
-        gov:    [78.0, 79.1, 85.0]
-    },
     barColor = "#60BAF5"
 ) {
     const canvas = document.getElementById(canvasId);
     if (!canvas) return;
 
+    // 1. gate0304ConfigData에서 데이터 가져오기
+    const { data } = getCurrentGate0304Data();
+    if (!data || !data.pointHistory) return;
+
+    const history = data.pointHistory; // { 2022:{...}, 2023:{...}, 2024:{...} }
+
+    // 연도 정렬 (숫자 기준 오름차순)
+    const years = Object.keys(history).sort((a, b) => Number(a) - Number(b));
+
+    // labels / totalValues / lineValues 구성
+    const labels = [];
+    const totalValues = [];
+    const lineValues = {
+        env:    [],
+        social: [],
+        gov:    []
+    };
+
+    years.forEach(year => {
+        const h = history[year] || {};
+
+        labels.push(year);
+
+        totalValues.push(
+            h.gradePoint != null ? Number(h.gradePoint) : null
+        );
+        lineValues.env.push(
+            h.gradePointE != null ? Number(h.gradePointE) : null
+        );
+        lineValues.social.push(
+            h.gradePointS != null ? Number(h.gradePointS) : null
+        );
+        lineValues.gov.push(
+            h.gradePointG != null ? Number(h.gradePointG) : null
+        );
+    });
+
+    // 2. y축 min / max 동적 계산 + 10단위 스냅
+    const allVals = [
+        ...totalValues,
+        ...lineValues.env,
+        ...lineValues.social,
+        ...lineValues.gov
+    ].filter(v => v != null && !isNaN(v));
+
+    if (!allVals.length) return;
+
+    let minData = Math.min(...allVals);
+    let maxData = Math.max(...allVals);
+
+    if (minData === maxData) {
+        // 전부 같은 값이면 여유를 줘서 축 확보
+        minData -= 10;
+        maxData += 10;
+    }
+
+    // ★ 10 단위로 스냅
+    let minVal = Math.floor(minData / 10) * 10;
+    let maxVal = Math.ceil(maxData / 10) * 10;
+
+    // 0~100 범위로 클램프
+    minVal = Math.max(0, minVal);
+    maxVal = Math.min(100, maxVal);
+
+    // 혹시라도 같아지는 경우 대비
+    if (minVal === maxVal) {
+        minVal = Math.max(0, minVal - 10);
+        maxVal = Math.min(100, maxVal + 10);
+    }
+    
+    if ((maxVal - minVal) < 40) {
+        maxVal = minVal + 40;
+    }
+
     const ctx = canvas.getContext("2d");
 
-    // --- 1. 차트 초기화 ---
+    // --- 차트 초기화 ---
     const existingChart = Chart.getChart(canvas);
     if (existingChart) {
         existingChart.destroy();
     }
 
-    // --- 2. 데이터 및 설정 ---
+    // --- 데이터 및 설정 ---
     const labelMap = { env: "환경", social: "사회", gov: "지배구조" };
     const lineColors = { env: "#4091B9", social: "#387D82", gov: "#5D69E5" };
     const legendColors = {
@@ -1951,29 +2081,23 @@ function drawEsTrendChart(
     // 그라디언트 색상
     const barGradientSpec = ["#60BAF5", "#0A498C"];
 
-    // --- 3. 커스텀 플러그인 ---
-
+    // --- 그라디언트 플러그인 ---
     const barGradientPlugin = {
         id: "barGradientPlugin",
         beforeDatasetDraw(chart) {
             const { ctx, scales } = chart;
             const meta = chart.getDatasetMeta(0); // 종합(Bar) 데이터셋
-            
+
             if (meta.type !== 'bar') return;
 
-            // ★ 핵심 수정: 그라디언트의 바닥을 '차트의 Y축 최소값(50)' 위치로 고정
-            // scales.y.getPixelForValue(50)을 사용하거나 chart.chartArea.bottom 사용
-            const chartBottom = scales.y.getPixelForValue(50); 
+            const yScale = scales.y;
+            // y축 min 값 기준으로 바닥 픽셀 계산
+            const chartBottom = yScale.getPixelForValue(yScale.min);
 
             meta.data.forEach((bar) => {
                 const yTop = bar.y;
-                
-                // 유효성 검사
                 if (!isFinite(yTop)) return;
 
-                // 그라디언트 생성 (Top -> Visible Bottom)
-                // 기존 bar.base(0) 대신 chartBottom(50)을 사용하여 
-                // 화면에 보이는 구간 내에서 색상이 변하도록 함
                 const gradient = ctx.createLinearGradient(0, yTop, 0, chartBottom);
                 gradient.addColorStop(0, barGradientSpec[0]);
                 gradient.addColorStop(1, barGradientSpec[1]);
@@ -1984,7 +2108,7 @@ function drawEsTrendChart(
         }
     };
 
-    // --- 4. 차트 생성 ---
+    // --- 차트 생성 ---
     new Chart(ctx, {
         type: "bar",
         data: {
@@ -1998,7 +2122,7 @@ function drawEsTrendChart(
                     backgroundColor: barColor,
                     borderRadius: 0,
                     barThickness: 120,
-                    order: 2 // 뒤에 그려짐
+                    order: 2
                 },
                 // LINE (환경, 사회, 지배구조)
                 ...Object.keys(lineValues).map(key => ({
@@ -2007,14 +2131,14 @@ function drawEsTrendChart(
                     data: lineValues[key],
                     borderColor: lineColors[key],
                     backgroundColor: lineColors[key],
-                    tension: 0.4,
+                    tension: 0,              // ★ 곡선 없이 직선
                     borderWidth: 8,
                     pointRadius: 8,
                     pointHoverRadius: 8,
                     pointBorderWidth: 3,
                     pointBackgroundColor: "#192642",
                     pointBorderColor: lineColors[key],
-                    order: 1 // 앞에 그려짐
+                    order: 1
                 }))
             ]
         },
@@ -2061,11 +2185,11 @@ function drawEsTrendChart(
                     border: { display: false }
                 },
                 y: {
-                    min: 50,
-                    max: 90,
+                    min: minVal,   // ★ 10 단위로 스냅된 min
+                    max: maxVal,   // ★ 10 단위로 스냅된 max
                     ticks: {
                         color: "#ffffff",
-                        stepSize: 10,
+                        stepSize: 10,   // ★ 10단위 눈금
                         font: { size: 32, family: "Pretendard" },
                         padding: 12
                     },
@@ -2083,34 +2207,48 @@ function drawEsTrendChart(
     });
 }
 
+
 //chart4
-function drawEsgRadarChart(canvasId) {
+function drawEsgRadarChart(canvasId, type) {
     const canvas = document.getElementById(canvasId);
     if (!canvas) return;
 
-    const ctx = canvas.getContext("2d");
+    // --- 0. 데이터 가져오기 ---
+    const { data } = getCurrentGate0304Data();
+    if (!data || !data.pointDetail) return;
+
+    const section = data.pointDetail[type]; // 'e' | 's' | 'g'
+    if (!section || !Array.isArray(section.details)) return;
+
+    const details = section.details;
 
     // --- 1. 차트 초기화 (v4 표준) ---
+    const ctx = canvas.getContext("2d");
     const existingChart = Chart.getChart(canvas);
     if (existingChart) {
         existingChart.destroy();
     }
 
-    // --- 2. 데이터 정의 (원본 로직 유지) ---
-    const labels = [
-        "환경경영일반",
-        "온실가스 및 에너지",
-        "폐기물",
-        "수자원",
-        "유해화학물질",
-        "대기,수질 오염물질"
-    ];
+    // --- 2. labels / companyValues / industryValues 구성 ---
+    const labels = details.map(item => item.text || '');
 
-    const companyValues = [81.3, 89.3, 91.7, 100.0, 62.5, 50.5];
+    const companyValues = details.map(item => {
+        const v = item.score;
+        return (v == null || isNaN(v)) ? 0 : Number(v);
+    });
 
-    // 동종산업 평균 = 당사보다 낮은 랜덤값 생성 로직 유지
-    const industryValues = companyValues.map(v => {
-        const diff = Math.random() * 30 + 5; 
+    // 동종산업 평균:
+    // 1) item.industry 값이 있으면 우선 사용
+    // 2) 없으면 "당사보다 낮은 랜덤 값" 로직 유지
+    const industryValues = details.map((item, idx) => {
+        if (item.industry != null && !isNaN(item.industry)) {
+            return Number(item.industry);
+        }
+
+        const v = companyValues[idx];
+        if (!isFinite(v) || v <= 0) return 0;
+
+        const diff = Math.random() * 30 + 5; // 5~35 사이 랜덤 차이
         const val = v - diff;
         return val < 0 ? 0 : parseFloat(val.toFixed(1));
     });
@@ -2121,9 +2259,7 @@ function drawEsgRadarChart(canvasId) {
         data: {
             labels,
             datasets: [
-                // -----------------------------------------------------
-                // 당사 그래프
-                // -----------------------------------------------------
+                // 당사
                 {
                     label: "당사",
                     data: companyValues,
@@ -2136,9 +2272,7 @@ function drawEsgRadarChart(canvasId) {
                     pointBorderWidth: 0,
                     tension: 0
                 },
-                // -----------------------------------------------------
                 // 동종산업 평균
-                // -----------------------------------------------------
                 {
                     label: "동종산업 평균",
                     data: industryValues,
@@ -2173,7 +2307,7 @@ function drawEsgRadarChart(canvasId) {
                     pointLabels: {
                         color: "#FFFFFF",
                         font: {
-                            size: 32, 
+                            size: 32,
                             family: "Pretendard"
                         },
                         padding: 20
@@ -2183,11 +2317,14 @@ function drawEsgRadarChart(canvasId) {
         }
     });
 
-    // --- 4. 버튼 이벤트 핸들링 (안정성 강화) ---
-    const btnCompany = canvas.closest('.chart4').querySelector(".btnCompany");
-    const btnIndustry = canvas.closest('.chart4').querySelector(".btnIndustry");
+    // --- 4. 버튼 이벤트 핸들링 ---
+    const chartRoot = canvas.closest('.chart4');
+    if (!chartRoot) return;
 
-    // 함수가 재실행될 때 이벤트가 중첩되지 않도록 onclick 속성 사용
+    const btnCompany  = chartRoot.querySelector(".btnCompany");
+    const btnIndustry = chartRoot.querySelector(".btnIndustry");
+
+    // onclick으로 덮어쓰기 → 중복 방지
     if (btnCompany) {
         btnCompany.onclick = () => {
             const isActive = btnCompany.classList.toggle("active");
@@ -2204,7 +2341,7 @@ function drawEsgRadarChart(canvasId) {
         };
     }
 
-    // 초기 상태 동기화 (Visible)
+    // 초기 상태: 둘 다 보이게
     chart.data.datasets[0].hidden = false;
     chart.data.datasets[1].hidden = false;
     chart.update();
@@ -2225,9 +2362,9 @@ function drawQuadrantScatterChart(
         { x: 30, y: 85, label: "9", type: "G" },
         { x: 40, y: 65, label: "11", type: "S" },
         { x: 42, y: 58, label: "10", type: "S" },
-        { x: 90, y: 60, label: "12", type: "E" },
-        { x: 78, y: 55, label: "13", type: "S" },
-        { x: 60, y: 50, label: "14", type: "E" },
+        { x: 90, y: 44, label: "12", type: "E" },
+        { x: 78, y: 40, label: "13", type: "S" },
+        { x: 60, y: 42, label: "14", type: "E" }
     ]
 ) {
     const COLORS = {
