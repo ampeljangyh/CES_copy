@@ -2657,7 +2657,7 @@ However, in consideration of the unique characteristics of a startup, the produc
         { key: "Attract additional investment", label: "Number of investment-related news articles found during years 1–3", detail: "7.0case", score: 100 },
         { key: "Attract additional investment", label: "Number of VC Top 20 investments secured during years 1-3", detail: "-case", score: 10 },
 
-        { key: "Secure government-funded support", label: "2년차RND금액규모", detail: "$40.82K", score: 100 },
+        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 2", detail: "$40.82K", score: 100 },
         { key: "Secure government-funded support", label: "Number of R&D projects executed in years 1–3", detail: "0.3case", score: 100 },
         { key: "Secure government-funded support", label: "Timing of the initial R&D implementation during years 1-3", detail: "18.0months", score: 40 },
         { key: "Secure government-funded support", label: "Total amount of R&D investment in year 3", detail: "$-M", score: 10 },
