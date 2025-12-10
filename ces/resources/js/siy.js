@@ -224,6 +224,20 @@ function gate0305Init() {
     $(".esg_cont").css("visibility", "");
 }
 
+// gate030103Init
+function gate030103Init() {
+    const fragment = getFragment();
+
+    $('.selPrdName').text(getHashOfName());
+    const $visibleItems = $("[data-visible]");
+    $visibleItems.hide();
+    $visibleItems.filter(`[data-visible="${fragment}"]`).show();
+
+    
+
+    $(".esg_cont").css("visibility", "");
+}
+
 
 // gate0304ConfigData
 function gate0304ConfigData() {

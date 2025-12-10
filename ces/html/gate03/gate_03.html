@@ -155,19 +155,19 @@
                 <li class="full opt_slider">
                     <div class="option_tit">
                         <strong class="tit">기업규모</strong>
-                        <p class="info">
+                        <p class="info" id="scaleTxt">
                             <strong>300-500</strong>
                             <span>&nbsp;억원</span>
                         </p>
                     </div>
                     <div class="option_cnt">
                         <div class="option_slider">
-                            <input type="range" class="range" min="0" max="3" step="1" value="1"/>
+                            <input type="range" class="range" min="0" max="3" step="1" value="1" oninput="updateScaleTxt(this);"/>
                             <ul class="option_slider_labels">
-                                <li><span>300억 미만</span></li>
-                                <li><span>300-500억</span></li>
-                                <li><span>500-1,500억</span></li>
-                                <li><span>1,500억</span></li>
+                                <li><span>300억원 미만</span></li>
+                                <li><span>300-500억원</span></li>
+                                <li><span>500-1,500억원</span></li>
+                                <li><span>1,500억원</span></li>
                             </ul>
                         </div>
                     </div>
@@ -326,6 +326,38 @@
     //     location.href = 'gate_03_01.html#' + selPrdCode;
     // });
 
+    function updateScaleTxt(el) {
+        const $scaleTxt = $('#scaleTxt');
+        switch (el.value) {
+            case '0':
+                $scaleTxt.html(
+                    '<strong>300</strong>'
+                    +'<span>&nbsp;억원 미만</span>'
+                );
+                break;
+            case '1':
+                $scaleTxt.html(
+                    '<strong>300-500</strong>'
+                    +'<span>&nbsp;억원</span>'
+                );
+                break;
+            case '2':
+                $scaleTxt.html(
+                    '<strong>500-1500</strong>'
+                    +'<span>&nbsp;억원</span>'
+                );
+                break;
+            case '3':
+                $scaleTxt.html(
+                    '<strong>1500</strong>'
+                    +'<span>&nbsp;억원</span>'
+                );
+                break;
+        
+            default:
+                break;
+        }
+    }
 </script>
 </body>
 </html>
