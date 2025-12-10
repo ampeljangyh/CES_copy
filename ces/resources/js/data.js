@@ -1552,13 +1552,13 @@ From a product competitiveness perspective, the company meets requirements relat
         { key: "Attract additional investment", label: "4–7-year investment stage", detail: "1.5step", score: 100 },
         { key: "Attract additional investment", label: "Number of investments during years 4–7", detail: "0.3case", score: 100 },
         { key: "Attract additional investment", label: "Number of investment-related news articles found during years 4–7", detail: "1.5case", score: 100 },
-        { key: "Attract additional investment", label: "4th-year investment amount", detail: "90.0billion KRW", score: 100 },
-        { key: "Attract additional investment", label: "Number of VC Top 20 investments secured in year 5", detail: "-billion KRW", score: 10 },
+        { key: "Attract additional investment", label: "4th-year investment amount", detail: "$6.1M", score: 100 },
+        { key: "Attract additional investment", label: "Number of VC Top 20 investments secured in year 5", detail: "$-M", score: 10 },
 
-        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 4", detail: "10.0billion KRW", score: 100 },
+        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 4", detail: "$0.7M", score: 100 },
         { key: "Secure government-funded support", label: "Number of R&D projects executed in years 4–7", detail: "-case", score: 0 },
         { key: "Secure government-funded support", label: "Number of research expense card transactions during years 4–7", detail: "-case", score: 10 },
-        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 5", detail: "-billion KRW", score: 10 },
+        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 5", detail: "$-M", score: 10 },
         { key: "Secure government-funded support", label: "-", detail: "", score: 0 },
 
         { key: "Brand promotion strategy", label: "Brand-related intellectual property applications filed during years 4–7", detail: "0.5ratio", score: 100 },
@@ -1585,10 +1585,10 @@ From a product competitiveness perspective, the company meets requirements relat
         { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
         { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
 
-        { key: "Attracting top-tier professionals", label: "salary in year 4 ", detail: "4.9million KRW", score: 100 },
+        { key: "Attracting top-tier professionals", label: "salary in year 4 ", detail: "$3.33K", score: 100 },
         { key: "Attracting top-tier professionals", label: "Hiring/Resignation ratio in year 4", detail: "0.8ratio", score: 50 },
         { key: "Attracting top-tier professionals", label: "Hiring/Resignation ratio in year 5", detail: "2.0ratio", score: 90 },
-        { key: "Attracting top-tier professionals", label: "salary in year 5", detail: "4.8million KRW", score: 100 },
+        { key: "Attracting top-tier professionals", label: "salary in year 5", detail: "$3.27K", score: 100 },
         { key: "Attracting top-tier professionals", label: "Employment certification status during years 4–7 ", detail: "-case", score: 10 },
 
         { key: "High technology readiness", label: "Technology certification status during years 4–7 ", detail: "1.0case", score: 90 },
@@ -1806,16 +1806,16 @@ Therefore, the company’s growth potential and profitability are both evaluated
 
       barScores: [
         { key: "Attract additional investment", label: "Number of investment-related news articles found during years 1–3", detail: "-case", score: 10 },
-        { key: "Attract additional investment", label: "Amount of VC Top 20 investment secured in year 3", detail: "-billion KRW", score: 10 },
-        { key: "Attract additional investment", label: "Amount of VC Top 20 investment secured in year 4", detail: "-billion KRW", score: 10 },
-        { key: "Attract additional investment", label: "Investment amount secured in year 2", detail: "-billion KRW", score: 10 },
-        { key: "Attract additional investment", label: "Investment amount secured in year 3", detail: "-billion KRW", score: 10 },
+        { key: "Attract additional investment", label: "Amount of VC Top 20 investment secured in year 3", detail: "$-M", score: 10 },
+        { key: "Attract additional investment", label: "Amount of VC Top 20 investment secured in year 4", detail: "$-M", score: 10 },
+        { key: "Attract additional investment", label: "Investment amount secured in year 2", detail: "$-M", score: 10 },
+        { key: "Attract additional investment", label: "Investment amount secured in year 3", detail: "$-M", score: 10 },
 
         { key: "Secure government-funded support", label: "Number of research expense card transactions during years 1–3", detail: "0.3case", score: 100 },
         { key: "Secure government-funded support", label: "Timing of the initial research funding card transaction during years 1-3", detail: "13.0months", score: 30 },
         { key: "Secure government-funded support", label: "Timing of the initial R&D implementation during years 1-3", detail: "13.0months", score: 40 },
         { key: "Secure government-funded support", label: "Number of R&D projects executed in years 1–3", detail: "0.3case", score: 100 },
-        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 2", detail: "1.7billion KRW", score: 100 },
+        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 2", detail: "$0.1M", score: 100 },
 
         { key: "High technology readiness", label: "Number of patent applications in years 1–3", detail: "0.3case", score: 100 },
         { key: "High technology readiness", label: "Number of patent registrations during years 1–3", detail: "0.3case", score: 100 },
@@ -1830,8 +1830,8 @@ Therefore, the company’s growth potential and profitability are both evaluated
         { key: "Brand promotion strategy", label: "Trademark application-to-registration ratio in year 3", detail: "-ratio", score: 10 },
 
         { key: "Visualize growth metrics", label: "Number of performance-related news articles identified during years 1–3", detail: "14.7case", score: 100 },
-        { key: "Visualize growth metrics", label: "Capital in year 2", detail: "39.7billion KRW", score: 100 },
-        { key: "Visualize growth metrics", label: "Total assets in year 2", detail: "45.7billion KRW", score: 100 },
+        { key: "Visualize growth metrics", label: "Capital in year 2", detail: "$2.7M", score: 100 },
+        { key: "Visualize growth metrics", label: "Total assets in year 2", detail: "$3.1M", score: 100 },
         { key: "Visualize growth metrics", label: "-", detail: "", score: 0 },
         { key: "Visualize growth metrics", label: "-", detail: "", score: 0 },
 
@@ -1844,11 +1844,11 @@ Therefore, the company’s growth potential and profitability are both evaluated
         { key: "Attracting top-tier professionals", label: "Hiring/Resignation ratio in year 2", detail: "5.0ratio", score: 100 },
         { key: "Attracting top-tier professionals", label: "Number of address changes during years 1–3", detail: "0.3case", score: 10 },
         { key: "Attracting top-tier professionals", label: "Hiring/Resignation ratio in year 3", detail: "2.0ratio", score: 70 },
-        { key: "Attracting top-tier professionals", label: "Salary in year 2", detail: "5.2million KRW", score: 100 },
-        { key: "Attracting top-tier professionals", label: "Salary in year 3", detail: "4.7million KRW", score: 100 },
+        { key: "Attracting top-tier professionals", label: "Salary in year 2", detail: "$3.53K", score: 100 },
+        { key: "Attracting top-tier professionals", label: "Salary in year 3", detail: "$3.19K", score: 100 },
 
         { key: "Conduct proactive sales activities", label: "Number of Hubble data records prior to the establishment date", detail: "-case", score: 10 },
-        { key: "Conduct proactive sales activities", label: "Sales made in year 2", detail: "-billion KRW", score: 10 },
+        { key: "Conduct proactive sales activities", label: "Sales made in year 2", detail: "$-M", score: 10 },
         { key: "Conduct proactive sales activities", label: "-", detail: "", score: 0 },
         { key: "Conduct proactive sales activities", label: "-", detail: "", score: 0 },
         { key: "Conduct proactive sales activities", label: "-", detail: "", score: 0 }
@@ -2014,14 +2014,14 @@ Therefore, the company’s growth potential and profitability are both evaluated
       barScores: [
         { key: "Attract additional investment", label: "4–7-year investment stage", detail: "-step", score: 10 },
         { key: "Attract additional investment", label: "Number of investments during years 4–7", detail: "-case", score: 10 },
-        { key: "Attract additional investment", label: "Number of VC Top 20 investments secured in year 5", detail: "-billion KRW", score: 10 },
+        { key: "Attract additional investment", label: "Number of VC Top 20 investments secured in year 5", detail: "$-M", score: 10 },
         { key: "Attract additional investment", label: "Number of VC Top 20 investments during years 4–7", detail: "-case", score: 10 },
-        { key: "Attract additional investment", label: "Investment amount secured in year 5", detail: "-billion KRW", score: 10 },
+        { key: "Attract additional investment", label: "Investment amount secured in year 5", detail: "$-M", score: 10 },
 
-        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 4", detail: "10.5billion KRW", score: 100 },
+        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 4", detail: "$0.7M", score: 100 },
         { key: "Secure government-funded support", label: "Number of R&D projects executed in years 4–7", detail: "-case", score: 10 },
         { key: "Secure government-funded support", label: "Number of research expense card transactions during years 4–7", detail: "-case", score: 10 },
-        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 5", detail: "-billion KRW", score: 10 },
+        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 5", detail: "$-M", score: 10 },
         { key: "Secure government-funded support", label: "-", detail: "", score: 0 },
 
         { key: "Brand promotion strategy", label: "Brand-related intellectual property applications filed during years 4–7", detail: "0.5ratio", score: 100 },
@@ -2048,10 +2048,10 @@ Therefore, the company’s growth potential and profitability are both evaluated
         { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
         { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
 
-        { key: "Attracting top-tier professionals", label: "salary in year 4 ", detail: "4.5million KRW", score: 100 },
+        { key: "Attracting top-tier professionals", label: "salary in year 4 ", detail: "$3.06K", score: 100 },
         { key: "Attracting top-tier professionals", label: "Hiring/Resignation ratio in year 4", detail: "1.4ratio", score: 80 },
         { key: "Attracting top-tier professionals", label: "Hiring/Resignation ratio in year 5", detail: "0.7ratio", score: 50 },
-        { key: "Attracting top-tier professionals", label: "salary in year 5", detail: "4.7million KRW", score: 100 },
+        { key: "Attracting top-tier professionals", label: "salary in year 5", detail: "$3.19K", score: 100 },
         { key: "Attracting top-tier professionals", label: "Employment certification status during years 4–7 ", detail: "-case", score: 10 },
 
         { key: "High technology readiness", label: "Technology certification status during years 4–7 ", detail: "1.0case", score: 90 },
@@ -2221,13 +2221,13 @@ Therefore, the product superiority is evaluated as average.`
         { key: "Attract additional investment", label: "Number of investment-related news articles found during years 4–7", detail: "0.5case", score: 100 },
         { key: "Attract additional investment", label: "4–7-year investment stage", detail: "-step", score: 10 },
         { key: "Attract additional investment", label: "Number of investments during years 4–7", detail: "-case", score: 10 },
-        { key: "Attract additional investment", label: "Number of VC Top 20 investments secured in year 5", detail: "-billion KRW", score: 10 },
+        { key: "Attract additional investment", label: "Number of VC Top 20 investments secured in year 5", detail: "$-M", score: 10 },
         { key: "Attract additional investment", label: "Number of VC Top 20 investments during years 4–7", detail: "-case", score: 10 },
 
-        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 4", detail: "-billion KRW", score: 10 },
+        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 4", detail: "$-M", score: 10 },
         { key: "Secure government-funded support", label: "Number of R&D projects executed in years 4–7", detail: "-case", score: 10 },
         { key: "Secure government-funded support", label: "Number of research expense card transactions during years 4–7", detail: "-case", score: 10 },
-        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 5", detail: "-billion KRW", score: 10 },
+        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 5", detail: "$-M", score: 10 },
         { key: "Secure government-funded support", label: "-", detail: "", score: 0 },
 
         { key: "Brand promotion strategy", label: "Total number of news articles found during years 4–7", detail: "1.5case", score: 100 },
@@ -2254,10 +2254,10 @@ Therefore, the product superiority is evaluated as average.`
         { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
         { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
 
-        { key: "Attracting top-tier professionals", label: "salary in year 4 ", detail: "3.8million KRW", score: 80 },
+        { key: "Attracting top-tier professionals", label: "salary in year 4 ", detail: "$2.58K", score: 80 },
         { key: "Attracting top-tier professionals", label: "Hiring/Resignation ratio in year 4", detail: "0.8ratio", score: 40 },
         { key: "Attracting top-tier professionals", label: "Hiring/Resignation ratio in year 5", detail: "3.2ratio", score: 100 },
-        { key: "Attracting top-tier professionals", label: "salary in year 5", detail: "3.7million KRW", score: 80 },
+        { key: "Attracting top-tier professionals", label: "salary in year 5", detail: "$2.51M", score: 80 },
         { key: "Attracting top-tier professionals", label: "Employment certification status during years 4–7 ", detail: "-case", score: 10 },
 
         { key: "High technology readiness", label: "Technology certification status during years 4–7 ", detail: "1.0case", score: 90 },
@@ -2438,13 +2438,13 @@ However, in consideration of the characteristics of an early-stage startup, the 
         { key: "Attract additional investment", label: "4–7-year investment stage", detail: "0.3step", score: 100 },
         { key: "Attract additional investment", label: "Number of investments during years 4–7", detail: "0.3case", score: 100 },
         { key: "Attract additional investment", label: "Number of investment-related news articles found during years 4–7", detail: "1.0case", score: 100 },
-        { key: "Attract additional investment", label: "Number of VC Top 20 investments secured in year 5", detail: "-billion KRW", score: 10 },
+        { key: "Attract additional investment", label: "Number of VC Top 20 investments secured in year 5", detail: "$-M", score: 10 },
         { key: "Attract additional investment", label: "Number of VC Top 20 investments during years 4–7", detail: "-case", score: 10 },
 
-        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 4", detail: "0.7billion KRW", score: 100 },
+        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 4", detail: "$47.62K", score: 100 },
         { key: "Secure government-funded support", label: "Number of R&D projects executed in years 4–7", detail: "0.5case", score: 100 },
         { key: "Secure government-funded support", label: "Number of research expense card transactions during years 4–7", detail: "-case", score: 10 },
-        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 5", detail: "-billion KRW", score: 10 },
+        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 5", detail: "$-M", score: 10 },
         { key: "Secure government-funded support", label: "-", detail: "", score: 0 },
 
         { key: "Brand promotion strategy", label: "Total number of news articles found during years 4–7", detail: "6.0case", score: 100 },
@@ -2471,11 +2471,11 @@ However, in consideration of the characteristics of an early-stage startup, the 
         { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
         { key: "Accelerate global market expansion", label: "-", detail: "", score: 0 },
 
-        { key: "Attracting top-tier professionals", label: "salary in year 4 ", detail: "2.3million KRW", score: 20 },
+        { key: "Attracting top-tier professionals", label: "salary in year 4 ", detail: "$1.56K", score: 20 },
         { key: "Attracting top-tier professionals", label: "Employment certification status during years 4–7 ", detail: "0.3case", score: 80 },
         { key: "Attracting top-tier professionals", label: "Hiring/Resignation ratio in year 4", detail: "0.4ratio", score:30 },
         { key: "Attracting top-tier professionals", label: "Hiring/Resignation ratio in year 5", detail: "1.8ratio", score: 90 },
-        { key: "Attracting top-tier professionals", label: "salary in year 5", detail: "2.7million KRW", score: 30 },
+        { key: "Attracting top-tier professionals", label: "salary in year 5", detail: "$1.84K", score: 30 },
 
         { key: "High technology readiness", label: "Technology certification status during years 4–7 ", detail: "-case", score: 10 },
         { key: "High technology readiness", label: "Number of research lab accreditations during 4–7", detail: "-case", score: 10 },
@@ -2653,19 +2653,19 @@ However, in consideration of the unique characteristics of a startup, the produc
       barScores: [
         { key: "Attract additional investment", label: "1–3 year investment stage", detail: "0.3step", score: 100 },
         { key: "Attract additional investment", label: "Number of investments attracted during years 1–3", detail: "0.3case", score: 100 },
-        { key: "Attract additional investment", label: "Capital surplus in year 2", detail: "3.0billion KRW", score: 100 },
+        { key: "Attract additional investment", label: "Capital surplus in year 2", detail: "$0.2M", score: 100 },
         { key: "Attract additional investment", label: "Number of investment-related news articles found during years 1–3", detail: "7.0case", score: 100 },
         { key: "Attract additional investment", label: "Number of VC Top 20 investments secured during years 1-3", detail: "-case", score: 10 },
 
-        { key: "Secure government-funded support", label: "2년차RND금액규모", detail: "0.6billion KRW", score: 100 },
+        { key: "Secure government-funded support", label: "2년차RND금액규모", detail: "$40.82K", score: 100 },
         { key: "Secure government-funded support", label: "Number of R&D projects executed in years 1–3", detail: "0.3case", score: 100 },
         { key: "Secure government-funded support", label: "Timing of the initial R&D implementation during years 1-3", detail: "18.0months", score: 40 },
-        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 3", detail: "-billion KRW", score: 10 },
+        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 3", detail: "$-M", score: 10 },
         { key: "Secure government-funded support", label: "-", detail: "", score: 0 },
 
-        { key: "Visualize growth metrics", label: "Amount of capital surplus in year 2", detail: "2.0billion KRW", score: 70 },
-        { key: "Visualize growth metrics", label: "Capital size in year 2", detail: "6.9billion KRW", score: 60 },
-        { key: "Visualize growth metrics", label: "Number of employees during years 1–3", detail: "7.0명", score: 70 },
+        { key: "Visualize growth metrics", label: "Amount of capital surplus in year 2", detail: "$0.14M", score: 70 },
+        { key: "Visualize growth metrics", label: "Capital size in year 2", detail: "$0.47M", score: 60 },
+        { key: "Visualize growth metrics", label: "Number of employees during years 1–3", detail: "7.0people", score: 70 },
         { key: "Visualize growth metrics", label: "Number of partnership-related news articles identified during years 1–3", detail: "0.3case", score: 100 },
         { key: "Visualize growth metrics", label: "Employment growth rate in year 3", detail: "-%", score: 30 },
 
@@ -2687,16 +2687,16 @@ However, in consideration of the unique characteristics of a startup, the produc
         { key: "Brand promotion strategy", label: "Number of design applications during years 1–3", detail: "-case", score: 10 },
         { key: "Brand promotion strategy", label: "-", detail: "", score: 0 },
 
-        { key: "Accelerated profit generation", label: "Total profit for year 2", detail: "-billion KRW", score: 10 },
-        { key: "Accelerated profit generation", label: "Total profit for year 1", detail: "-billion KRW", score: 10 },
+        { key: "Accelerated profit generation", label: "Total profit for year 2", detail: "$-M", score: 10 },
+        { key: "Accelerated profit generation", label: "Total profit for year 1", detail: "$-M", score: 10 },
         { key: "Accelerated profit generation", label: "-", detail: "", score: 0 },
         { key: "Accelerated profit generation", label: "-", detail: "", score: 0 },
         { key: "Accelerated profit generation", label: "-", detail: "", score: 0 },
 
         { key: "Attracting top-tier professionals", label: "Hiring/Resignation ratio in year 3", detail: "0.8ratio", score:30 },
-        { key: "Attracting top-tier professionals", label: "Officially assessed land value during years 1–3", detail: "4,388.0 thousand won/m2", score: 70 },
-        { key: "Attracting top-tier professionals", label: "Salary in year 3", detail: "2.3million KRW", score: 60 },
-        { key: "Attracting top-tier professionals", label: "Salary in year 2", detail: "2.7million KRW", score: 40 },
+        { key: "Attracting top-tier professionals", label: "Officially assessed land value during years 1–3", detail: "$2.99K/m2", score: 70 },
+        { key: "Attracting top-tier professionals", label: "Salary in year 3", detail: "$1.97K", score: 60 },
+        { key: "Attracting top-tier professionals", label: "Salary in year 2", detail: "$1.63K", score: 40 },
         { key: "Attracting top-tier professionals", label: "-", detail: "", score: 0 }
       ]
     }
@@ -2857,20 +2857,20 @@ However, in consideration of the unique characteristics of a startup, the produc
       ],
 
       barScores: [
-        { key: "Attract additional investment", label: "Investment amount secured during years 4-7", detail: "250.0billion KRW", score: 100 },
+        { key: "Attract additional investment", label: "Investment amount secured during years 4-7", detail: "$17M", score: 100 },
         { key: "Attract additional investment", label: "4–7-year investment stage", detail: "4.0step", score: 100 },
         { key: "Attract additional investment", label: "Number of investments attracted during years 4–7", detail: "1.0case", score: 100 },
         { key: "Attract additional investment", label: "Number of investment-related news articles found during years 4–7", detail: "51.0case", score: 100 },
         { key: "Attract additional investment", label: "Number of VC Top 20 investments during years 4–7", detail: "-case", score: 10 },
 
         { key: "Secure government-funded support", label: "Number of R&D projects executed in years 4–7", detail: "-case", score: 10 },
-        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 4", detail: "-billion KRW", score: 10 },
+        { key: "Secure government-funded support", label: "Total amount of R&D investment in year 4", detail: "$-M", score: 10 },
         { key: "Secure government-funded support", label: "-", detail: "", score: 0 },
         { key: "Secure government-funded support", label: "-", detail: "", score: 0 },
         { key: "Secure government-funded support", label: "-", detail: "", score: 0 },
 
         { key: "Visualize growth metrics", label: "Number of performance-themed news articles identified during years 4-7", detail: "2.0case", score: 100 },
-        { key: "Visualize growth metrics", label: "Number of employees during years 4–7", detail: "92.0명", score: 100 },
+        { key: "Visualize growth metrics", label: "Number of employees during years 4–7", detail: "92.0people", score: 100 },
         { key: "Visualize growth metrics", label: "Employment growth rate in year 4", detail: "0.2%", score: 70 },
         { key: "Visualize growth metrics", label: "-", detail: "", score: 0 },
         { key: "Visualize growth metrics", label: "-", detail: "", score: 0 },
