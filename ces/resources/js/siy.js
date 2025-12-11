@@ -188,8 +188,6 @@ function commonInit() {
     $(".esg_cont").css("visibility", "");
 }
 
-
-
 // gate03ConfigData
 function gate03ConfigData() {
     const fragment = getFragment();
@@ -594,6 +592,7 @@ function bindTotalResult() {
 
     // 등급 텍스트
     $gradeLi.find('.t2 strong').text(companyGradeText);
+    $('#popupTotalGrade').text(companyGradeText);
 
     // 등급 설명 문구 (HTML 유지)
     $gradeLi.find('.cnt .t1').html(data.gradeMsg || '');
@@ -622,8 +621,10 @@ function bindTotalResult() {
     if (latestPoint != null) {
         const pointStr = latestPoint.toFixed(1);
         $scoreLi.find('.t2 strong').text(pointStr);
+        $('#popupTotalPoint').text(pointStr);
     } else {
         $scoreLi.find('.t2 strong').text('-');
+        $('#popupTotalPoint').text('-');
     }
 
     const $pointLis = $scoreLi.find('.point_li li');
