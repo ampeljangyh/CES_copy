@@ -64,7 +64,7 @@
             </div>
         </div>
 
-        <div class="contents esg_cont step02_04">
+        <div class="contents esg_cont step02_04" style="visibility: hidden;">
             <div class="esg_cont_inner">
 
                 <!-- auto_diag -->
@@ -108,9 +108,12 @@
                                 <strong class="eval">평가</strong>
                             </div>
                             <!-- head_txt -->
-                            <ul class="diag_li" data-proc="e">
+                            <ul class="diag_li" data-proc="1">
                                 <li>
-                                    <div class="name"></div>
+                                    <div class="name">
+                                        <span class="ico_esg ty_e"></span>
+                                        <span class="txt">환경 경영 체계</span>
+                                    </div>
 
                                     <!-- progress_wrap -->
                                     <div class="progress_wrap" style="display:none;">
@@ -180,15 +183,20 @@
 
 
 <script>
+// ------------------------------------------------------------
+// 페이지 단계 정의
+// ------------------------------------------------------------
+const pageSteps = {
+    commonBefore,
+    commonInit
+};
 
+// ------------------------------------------------------------
+// DOM Ready
+// ------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
-    gate030103Init();
+    pageInit(pageSteps);
 });
-
-window.addEventListener("hashchange", () => {
-    gate030103Init();
-});
-
 </script>
 </body>
 </html>

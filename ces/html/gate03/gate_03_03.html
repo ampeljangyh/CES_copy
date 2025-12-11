@@ -68,7 +68,7 @@
             <div class="esg_cont_inner">
                 <div class="esg_tit">
                     <p>지표별 평가를 진행합니다.</p>
-                    <strong><span id="selPrdName">NexDrive</span>의 ESG 지표 평가</strong>
+                    <strong><span class="selPrdName">NexDrive</span>의 ESG 지표 평가</strong>
                 </div>
 
                 <!-- step_panel -->
@@ -1416,25 +1416,35 @@ function onPinSequenceComplete() {
     );
 }
 
-
-
-// ------------------------------------------------------------
-// 초기
-// ------------------------------------------------------------
-document.addEventListener("DOMContentLoaded", () => {
-    getHashOfName();
-    gate0303Init();
-    animateStep04Panel();
-
+// gate0303onLoad
+function gate0303onLoad() {
     $('#btns01 .btn_esg').on('click', function(){
         const fragment = getFragment();
     
         location.href = 'gate_03_04.html#' + fragment;
     });
-});
-window.addEventListener("hashchange", () => {
-    getHashOfName();
-    gate0303Init();
+}
+
+// gate0303Animation
+function gate0303Animation() {
+    animateStep04Panel();
+}
+
+// ------------------------------------------------------------
+// 페이지 단계 정의
+// ------------------------------------------------------------
+const pageSteps = {
+    commonBefore,
+    gate0303onLoad,
+    commonInit,
+    gate0303Animation
+};
+
+// ------------------------------------------------------------
+// DOM Ready
+// ------------------------------------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+    pageInit(pageSteps);
 });
 </script>
 </body>

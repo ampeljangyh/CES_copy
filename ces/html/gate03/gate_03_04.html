@@ -67,7 +67,7 @@
         <div class="contents esg_cont step05" style="visibility: hidden;">
             <div class="esg_cont_inner">
                 <div class="esg_tit">
-                    <p><span class="selPrdName">NexDrive</span> (<span id="selPrdCategory">자동차</span>)</p>
+                    <p><span class="selPrdName">NexDrive</span> (<span class="selPrdCategory">자동차</span>)</p>
                     <strong>ESG 정밀진단 최종 보고서</strong>
                 </div>
 
@@ -1554,68 +1554,8 @@
 <script>
 let renderedReports = {};
 let renderedTabs = {};
-
-document.addEventListener("DOMContentLoaded", () => {
-    getHashOfName();
-    gate0304Init();
-
-    const $scrollContainer = $('.esg_cont_inner');
-
-    $('.btn_scroll').each(function(index) {
-        $(this).on('click', function() {
-            const $target = $(`.scroll_cnt.cnt${index + 1}`);
-            if ($target.length === 0) return;
-
-            $scrollContainer.animate({
-                scrollTop: $target.position().top
-            }, 400);
-        });
-    });
-
-    $('.report_btns button').on('click', function () {
-        const action = $(this).hasClass('next') ? 'next' : 'prev';
-        switchReport(action);
-    });
-
-    const firstReport = $('[data-report].active').data('report');
-    const firstTab = $('.report_tab_btns button.active').data('tab') || 1;
-
-    renderReport(firstReport);
-    renderReportTab(firstReport, firstTab);
-
-    $('.report_tab_btns button').on('click', function () {
-        switchReportTab($(this).data('tab'));
-    });
-
-    $('button[data-guide]').on('click', function(e){
-        const $this = $(this);
-        const guideNumber = $this.attr('data-guide');
-        const $cnt = $this.closest('.panel_side');
-        const $guide_prc_li = $cnt.find('.guide_prc_li');
-        const panelId = $cnt.attr('id');
-        
-        $cnt.find('button[data-guide]').parent().removeClass('active');
-        $this.parent().addClass('active');
-        $cnt.find('.guide_li li[data-guide]').hide();
-        $cnt.find('.guide_li li[data-guide='+ guideNumber +']').show();
-
-        if (panelId == 'pop02') {
-            $guide_prc_li.find('div[data-guide]').removeClass('active');
-            $guide_prc_li.find('div[data-guide='+ guideNumber +']').addClass('active');
-    
-            waitForAllGuideTransitions($cnt, guideNumber);
-        }
-    });
-
-    // #btn01
-    $('#btn01').on('click', function(){
-        const fragment = getFragment();
-    
-        location.href = 'gate_03_05.html#' + fragment;
-    });
-});
-
 let guideTransitionTimer = null;
+
 function waitForAllGuideTransitions($cnt, guideNumber) {
     const $parent = $cnt.find('.guide_prc_li');
     const el = $parent[0];
@@ -1674,12 +1614,6 @@ function updateGuideFill($cnt, guideNumber) {
     }, 350);
 }
 
-
-window.addEventListener("hashchange", () => {
-    getHashOfName();
-    gate0304Init();
-});
-
 function switchReport(action) {
     const $reports = $('[data-report]');
     const $current = $reports.filter('.active');
@@ -1721,7 +1655,7 @@ function switchReport(action) {
 
 // report 1 기본 차트
 function initReport1Charts() {
-    const { data } = getCurrentGate0304Data();
+    const { data } = getCurrentGate03Data();
     if (!data) return;
 
     const distribution = [1.5, 4.5, 33.3, 34.8, 22.7, 3, 0];
@@ -1777,7 +1711,7 @@ function switchReportTab(tabIndex) {
 // tab 렌더
 function renderReportTab(reportNo, tabNo) {
     const key = `${reportNo}_${tabNo}`;
-    const { data } = getCurrentGate0304Data();
+    const { data } = getCurrentGate03Data();
     
     if (renderedTabs[key]) return;
     if (!data || !data.pointDetail) return;
@@ -1986,8 +1920,8 @@ function drawEsTrendChart(
     const canvas = document.getElementById(canvasId);
     if (!canvas) return;
 
-    // 1. gate0304ConfigData에서 데이터 가져오기
-    const { data } = getCurrentGate0304Data();
+    // 1. gate03ConfigData에서 데이터 가져오기
+    const { data } = getCurrentGate03Data();
     if (!data || !data.pointHistory) return;
 
     const history = data.pointHistory; // { 2022:{...}, 2023:{...}, 2024:{...} }
@@ -2214,7 +2148,7 @@ function drawEsgRadarChart(canvasId, type) {
     if (!canvas) return;
 
     // --- 0. 데이터 가져오기 ---
-    const { data } = getCurrentGate0304Data();
+    const { data } = getCurrentGate03Data();
     if (!data || !data.pointDetail) return;
 
     const section = data.pointDetail[type]; // 'e' | 's' | 'g'
@@ -2751,6 +2685,91 @@ function scrollLiIntoPanelIfNeeded(li) {
     }
 }
 
+// gate0304onLoad
+function gate0304onLoad() {
+    const $scrollContainer = $('.esg_cont_inner');
+
+    $('.btn_scroll').each(function(index) {
+        $(this).on('click', function() {
+            const $target = $(`.scroll_cnt.cnt${index + 1}`);
+            if ($target.length === 0) return;
+
+            $scrollContainer.animate({
+                scrollTop: $target.position().top
+            }, 400);
+        });
+    });
+
+    $('.report_btns button').on('click', function () {
+        const action = $(this).hasClass('next') ? 'next' : 'prev';
+        switchReport(action);
+    });
+
+    $('.report_tab_btns button').on('click', function () {
+        switchReportTab($(this).data('tab'));
+    });
+
+    $('button[data-guide]').on('click', function(e){
+        const $this = $(this);
+        const guideNumber = $this.attr('data-guide');
+        const $cnt = $this.closest('.panel_side');
+        const $guide_prc_li = $cnt.find('.guide_prc_li');
+        const panelId = $cnt.attr('id');
+        
+        $cnt.find('button[data-guide]').parent().removeClass('active');
+        $this.parent().addClass('active');
+        $cnt.find('.guide_li li[data-guide]').hide();
+        $cnt.find('.guide_li li[data-guide='+ guideNumber +']').show();
+
+        if (panelId == 'pop02') {
+            $guide_prc_li.find('div[data-guide]').removeClass('active');
+            $guide_prc_li.find('div[data-guide='+ guideNumber +']').addClass('active');
+    
+            waitForAllGuideTransitions($cnt, guideNumber);
+        }
+    });
+
+    // #btn01
+    $('#btn01').on('click', function(){
+        const fragment = getFragment();
+    
+        location.href = 'gate_03_05.html#' + fragment;
+    });
+}
+
+// gate0304Bind
+function gate0304Bind() {
+    bindTotalResult();
+    bindEsgResult();
+    bindRegResult();
+}
+
+// gate0304Rendered
+function gate0304Rendered() {
+    const firstReport = $('[data-report].active').data('report');
+    const firstTab = $('.report_tab_btns button.active').data('tab') || 1;
+
+    renderReport(firstReport);
+    renderReportTab(firstReport, firstTab);
+}
+
+// ------------------------------------------------------------
+// 페이지 단계 정의
+// ------------------------------------------------------------
+const pageSteps = {
+    commonBefore,
+    gate0304onLoad,
+    gate0304Bind,
+    commonInit,
+    gate0304Rendered
+};
+
+// ------------------------------------------------------------
+// DOM Ready
+// ------------------------------------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+    pageInit(pageSteps);
+});
 </script>
 </body>
 </html>

@@ -284,21 +284,176 @@
 
 
 <script>
+// ------------------------------------------------------------
+// gate0305 모듈: 상태 + Swiper + 메시지 박스 제어
+// ------------------------------------------------------------
+const gate0305 = {
+    swiper: null,
+    msgBox: null,
+    arrow: null,
+    msgs: [],
+    activeMsgIndex: -1,
+    isBoxVisible: false,
 
-document.addEventListener("DOMContentLoaded", () => {
-    getHashOfName();
-    gate0305Init();
-});
+    initDom() {
+        this.msgBox = document.querySelector('.msg_box');
+        this.arrow  = document.querySelector('.arrow');
+        this.msgs   = Array.from(document.querySelectorAll('.msg'));
+    },
 
-window.addEventListener("hashchange", () => {
-    getHashOfName();
-    gate0305Init();
-});
+    initSwiper() {
+        // .pro_slide 존재 여부 체크(없으면 그냥 리턴)
+        const proSlideEl = document.querySelector('.pro_slide');
+        if (!proSlideEl || typeof Swiper === 'undefined') return;
 
-document.addEventListener("DOMContentLoaded", () => {
+        this.swiper = new Swiper('.pro_slide', {
+            preventClicks: false,
+            preventClicksPropagation: false,
+            slidesPerView: 4,
+            spaceBetween: 60,
 
-    const items = [...document.querySelectorAll(".bubble_li > li")];
+            on: {
+                slideChangeTransitionStart: () => {
+                    if (this.isBoxVisible) {
+                        if (this.arrow) {
+                            gsap.to(this.arrow, { opacity: 0, duration: 0.2 });
+                        }
+                        if (this.msgs && this.msgs.length) {
+                            gsap.to(this.msgs, { opacity: 0, duration: 0.2 });
+                        }
+                    }
+                },
+
+                slideChangeTransitionEnd: (swiper) => {
+                    this.updateArrowAndMsg(swiper.activeIndex);
+                    this.activeMsgIndex = swiper.activeIndex;
+                },
+
+                click: (swiper) => {
+                    const clickedIndex = swiper.clickedIndex;
+                    if (clickedIndex === undefined || clickedIndex === null) return;
+
+                    swiper.slideTo(clickedIndex);
+
+                    // 슬라이드가 끝부분 등으로 이동이 없어서 transitionEnd가 안 뜨는 경우 강제 실행
+                    setTimeout(() => {
+                        if (!swiper.animating) {
+                            this.updateArrowAndMsg(clickedIndex);
+                            this.activeMsgIndex = clickedIndex;
+                        }
+                    }, 50);
+                }
+            }
+        });
+    },
+
+    updateArrowAndMsg(slideIndex) {
+        if (!this.swiper) return;
+
+        const slides = this.swiper.slides;
+        const targetSlide = slides[slideIndex];
+        if (!targetSlide) return;
+
+        if (!this.msgBox) return;
+
+        // msgBox가 display:none이면 최초 진입용 세팅
+        if (getComputedStyle(this.msgBox).display === 'none') {
+            gsap.set(this.msgBox, { display: 'block', opacity: 0, y: 50 });
+        }
+
+        const boxRect = this.msgBox.getBoundingClientRect();
+        const slideRect = targetSlide.getBoundingClientRect();
+        const slideCenterX = slideRect.left + (slideRect.width / 2);
+
+        // 화살표 위치 (고정값 25px 오프셋 유지)
+        const arrowX = slideCenterX - boxRect.left - 25;
+
+        // 메시지 교체
+        let targetMsg = null;
+        if (this.msgs && this.msgs.length) {
+            this.msgs.forEach(m => {
+                m.style.display = 'none';
+                m.style.opacity = '0';
+                const idx = m.getAttribute('data-slideIndex');
+                if (idx !== null && Number(idx) === slideIndex) {
+                    targetMsg = m;
+                }
+            });
+        }
+
+        if (targetMsg) {
+            targetMsg.style.display = 'block';
+        }
+
+        // 최초 등장
+        if (!this.isBoxVisible) {
+            if (this.arrow) {
+                gsap.set(this.arrow, { x: arrowX, opacity: 1 });
+            }
+            if (targetMsg) {
+                gsap.set(targetMsg, { opacity: 1 });
+            }
+            gsap.to(this.msgBox, {
+                y: 0,
+                opacity: 1,
+                duration: 0.6,
+                ease: "power2.out"
+            });
+            this.isBoxVisible = true;
+        } else {
+            // 이미 떠 있는 상태에서 위치/텍스트만 업데이트
+            if (this.arrow) {
+                gsap.set(this.arrow, { x: arrowX });
+                gsap.to(this.arrow, { opacity: 1, duration: 0.3 });
+            }
+            if (targetMsg) {
+                gsap.to(targetMsg, { opacity: 1, duration: 0.4 });
+            }
+        }
+    }
+};
+
+// ------------------------------------------------------------
+// gate0305 단계 함수 (pageSteps에 들어갈 “얇은” 함수들)
+// ------------------------------------------------------------
+
+// gate0305onLoad : gate0305 DOM/Swiper 준비
+function gate0305onLoad() {
+    gate0305.initDom();
+    gate0305.initSwiper();
+}
+
+// gate0305Bind : gate0305 관련 이벤트 바인딩
+function gate0305Bind() {
+    // 기존 공통 포인트 바인딩
+    if (typeof bindPoint === 'function') {
+        bindPoint();
+    }
+    // 필요 시 gate0305 전용 추가 바인딩도 여기에…
+}
+
+// gate0305Animation : 버블 → step 전환 전체 애니메이션 시작
+function gate0305Animation() {
+    runBubbleAnimation(runStepTransition);
+}
+
+
+// ------------------------------------------------------------
+// 버블 애니메이션 + step 전환 애니메이션 분리
+// ------------------------------------------------------------
+
+// bubble_li > li 요소들을 순차적으로 올리면서, 마지막에 onComplete(tl) 호출
+function runBubbleAnimation(onComplete) {
+    const items = Array.from(document.querySelectorAll(".bubble_li > li"));
     const total = items.length;
+    if (!total) {
+        // 버블이 없으면 바로 다음 step으로 넘어가고 싶을 때
+        if (typeof onComplete === 'function') {
+            const tl = gsap.timeline();
+            onComplete(tl);
+        }
+        return;
+    }
 
     const bubbleHeight = 203;
     const margin = 25;
@@ -328,63 +483,75 @@ document.addEventListener("DOMContentLoaded", () => {
             y: OFF_BELOW,
             opacity: 0,
             scale: 0.5,
-            filter: "blur(5px)"   // ★ blur 시작
+            filter: "blur(5px)"
         });
 
         // 내부 텍스트 초기화
         const textEl = curr.querySelector("span");
-        gsap.set(textEl, {
-            opacity: 0,
-            filter: "blur(8px)"    // ★ 텍스트 blur 시작
-        });
+        if (textEl) {
+            gsap.set(textEl, {
+                opacity: 0,
+                filter: "blur(8px)"
+            });
+        }
 
         tl.addLabel("run");
 
         // prev3 제거
-        if (prev3) tl.to(prev3, {
-            y: OFF_ABOVE,
-            opacity: 0,
-            duration: dur,
-            ease: "power1.inOut"
-        }, "run");
+        if (prev3) {
+            tl.to(prev3, {
+                y: OFF_ABOVE,
+                opacity: 0,
+                duration: dur,
+                ease: "power1.inOut"
+            }, "run");
+        }
 
         // prev2 : MID → TOP
-        if (prev2) tl.to(prev2, {
-            y: TOP_SLOT,
-            duration: dur,
-            ease: "power1.inOut"
-        }, "run");
+        if (prev2) {
+            tl.to(prev2, {
+                y: TOP_SLOT,
+                duration: dur,
+                ease: "power1.inOut"
+            }, "run");
+        }
 
         // prev1 : BOT → MID
-        if (prev1) tl.to(prev1, {
-            y: MID_SLOT,
-            duration: dur,
-            ease: "power1.inOut"
-        }, "run");
+        if (prev1) {
+            tl.to(prev1, {
+                y: MID_SLOT,
+                duration: dur,
+                ease: "power1.inOut"
+            }, "run");
+        }
 
         // curr 등장 : 아래 → BOT + scale + fade + blur clear
         tl.to(curr, {
             y: BOT_SLOT,
             opacity: 1,
             scale: 1,
-            filter: "blur(0px)",   // ★ blur 해제
+            filter: "blur(0px)",
             duration: dur,
             ease: "power1.out"
         }, "run");
 
         // 텍스트 fade + blur 해제
-        tl.to(textEl, {
-            opacity: 1,
-            filter: "blur(0px)",   // ★ 텍스트 blur 해제
-            duration: 0.65,
-            ease: "power1.out"
-        }, "run+=0.35");
+        if (textEl) {
+            tl.to(textEl, {
+                opacity: 1,
+                filter: "blur(0px)",
+                duration: 0.65,
+                ease: "power1.out"
+            }, "run+=0.35");
+        }
 
         // 다음 Step
         tl.add(() => {
             index++;
             if (index >= total) {
-                nextStep(tl);
+                if (typeof onComplete === 'function') {
+                    onComplete(tl); // 버블 끝난 뒤 다음 애니메이션 연결
+                }
                 return;
             }
             next();
@@ -392,144 +559,87 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     next();
-});
+}
 
-function nextStep(tl){
-
-    tl = tl ? tl : gsap.timeline();
+// step1 → step2 전환 + pro_slide 등장 애니메이션
+function runStepTransition(prevTl) {
+    let tl = prevTl || gsap.timeline();
 
     tl
-    // STEP1 사라짐
-    .to('.step1', {
-        y: -20,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
-        onComplete: () => {
-            gsap.set('.step1', { display: 'none' });
-            gsap.set('.step2', {
-                display: '',
-                y: 20,
-                opacity: 0
-            })
+        // STEP1 사라짐
+        .to('.step1', {
+            y: -20,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power3.out",
+            onComplete: () => {
+                gsap.set('.step1', { display: 'none' });
+                gsap.set('.step2', {
+                    display: '',
+                    y: 20,
+                    opacity: 0
+                });
 
-            gsap.set('.flex_cont .side', {
-                display: 'block' 
-            });
+                gsap.set('.flex_cont .side', {
+                    display: 'block'
+                });
 
-            gsap.set('.pro_slide', { y:20,opacity: 0 });
-        }
-    })
-
-    .to('.esg_cont.step06 .esg_cont_inner',{
-        paddingTop:152,
-        duration: 1,
-        ease: "power3.out"
-    })
-
-    // STEP2 등장
-    .to('.step2', {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        ease: "power3.in"
-    },'<')
-    
-    .to('.flex_cont', {
-        paddingLeft:762,
-        ease: "power3.out",
-        duration: 1
-    })
-    
-    .to('.flex_cont .side', {
-        clipPath: 'inset(0 0% 0 0)',
-        duration: 1,
-        ease: "power3.out"
-    },'<')
-    
-    .to('.pro_slide', {
-        y:0,
-        opacity: 1,
-        duration: 0.8,
-        ease: "power2.in"
-    });
-
-}
-
-const msgBox = document.querySelector('.msg_box');
-const arrow = document.querySelector('.arrow');
-const msgs = document.querySelectorAll('.msg');
-
-let activeMsgIndex = -1;
-let isBoxVisible = false;
-
-function updateArrowAndMsg(slideIndex) {
-    const slides = swiper.slides;
-    const targetSlide = slides[slideIndex];
-    if (!targetSlide) return;
-
-    if (getComputedStyle(msgBox).display === 'none') {
-        gsap.set(msgBox, { display: 'block', opacity: 0, y: 50 });
-    }
-
-    const slideRect = targetSlide.getBoundingClientRect();
-    const boxRect = msgBox.getBoundingClientRect();
-    const slideCenterX = slideRect.left + (slideRect.width / 2);
-    const arrowX = slideCenterX - boxRect.left - 25; 
-
-    const targetMsg = document.querySelector(`.msg[data-slideIndex="${slideIndex}"]`);
-    msgs.forEach(m => {
-        m.style.display = 'none';
-        m.style.opacity = '0';
-    });
-    if (targetMsg) targetMsg.style.display = 'block';
-
-    if (!isBoxVisible) {
-        gsap.set(arrow, { x: arrowX, opacity: 1 });
-        if (targetMsg) gsap.set(targetMsg, { opacity: 1 });
-        gsap.to(msgBox, { y: 0, opacity: 1, duration: 0.6, ease: "power2.out" });
-        isBoxVisible = true;
-    } else {
-        gsap.set(arrow, { x: arrowX });
-        gsap.to(arrow, { opacity: 1, duration: 0.3 });
-        if (targetMsg) gsap.to(targetMsg, { opacity: 1, duration: 0.4 });
-    }
-}
-
-const swiper = new Swiper('.pro_slide', {
-    preventClicks: false,
-    preventClicksPropagation: false,
-    slidesPerView: 4,
-    spaceBetween: 60,
-    
-    on: {
-        slideChangeTransitionStart: function() {
-            if (isBoxVisible) {
-                gsap.to(arrow, { opacity: 0, duration: 0.2 });
-                gsap.to(msgs, { opacity: 0, duration: 0.2 });
+                gsap.set('.pro_slide', { y: 20, opacity: 0 });
             }
-        },
+        })
 
-        slideChangeTransitionEnd: function(swiper) {
-            updateArrowAndMsg(swiper.activeIndex);
-            activeMsgIndex = swiper.activeIndex;
-        },
+        .to('.esg_cont.step06 .esg_cont_inner', {
+            paddingTop: 152,
+            duration: 1,
+            ease: "power3.out"
+        })
 
-        click: function(swiper) {
-            const clickedIndex = swiper.clickedIndex;
-            if (clickedIndex === undefined) return;
+        // STEP2 등장
+        .to('.step2', {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "power3.in"
+        }, '<')
 
-            swiper.slideTo(clickedIndex);
+        .to('.flex_cont', {
+            paddingLeft: 762,
+            ease: "power3.out",
+            duration: 1
+        })
 
-            // [수정] 슬라이드 끝부분 등 이동이 발생하지 않아 transitionEnd가 안 뜨는 경우 강제 실행
-            setTimeout(() => {
-                if (!swiper.animating) {
-                    updateArrowAndMsg(clickedIndex);
-                    activeMsgIndex = clickedIndex;
-                }
-            }, 50);
-        }
-    }
+        .to('.flex_cont .side', {
+            clipPath: 'inset(0 0% 0 0)',
+            duration: 1,
+            ease: "power3.out"
+        }, '<')
+
+        .to('.pro_slide', {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: "power2.in"
+        });
+
+    return tl;
+}
+
+// ------------------------------------------------------------
+// 페이지 단계 정의
+// ------------------------------------------------------------
+const pageSteps = {
+    commonBefore,      // 공통: hash/언어/텍스트 등
+    gate0305onLoad,    // gate0305 DOM + Swiper 준비
+    gate0305Bind,      // gate0305 이벤트 바인딩
+    commonInit,        // 공통: esg_cont visible, 스크롤 등
+    gate0305Animation  // gate0305 애니메이션 시작 (버블 → step 전환)
+};
+
+// ------------------------------------------------------------
+// DOM Ready
+// ------------------------------------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+    pageInit(pageSteps);
 });
 </script>
 </body>

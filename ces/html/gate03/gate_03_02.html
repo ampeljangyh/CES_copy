@@ -75,7 +75,7 @@
             <div class="esg_cont_inner">
                 <div class="esg_tit">
                     <p>수집된 데이터를 바탕으로 ESG 상태 평가를 진행합니다.</p>
-                    <strong><span id="selPrdName">NexDrive</span>의 ESG 지표 평가</strong>
+                    <strong><span class="selPrdName">NexDrive</span>의 ESG 지표 평가</strong>
                 </div>
 
                 <!-- eval_grid_area -->
@@ -1115,7 +1115,7 @@ function loadSvgLoading(btn) {
 }
 
 // ------------------------------------------------------------
-onAllAnimationComplete = function(btn) {
+function onAllAnimationComplete(btn) {
     const el = $('#btns01');
 
     // 이미 애니가 끝나서 화면에 나타난 상태라면 중복 실행 방지
@@ -1140,23 +1140,17 @@ onAllAnimationComplete = function(btn) {
     el.data('shown', true);
 };
 
-// ------------------------------------------------------------
-// DOM Ready
-// ------------------------------------------------------------
-document.addEventListener("DOMContentLoaded", () => {
-
+// gate0302Before
+function gate0302Before() {
     fetch("../../resources/images/gate_03/chk_ico_prog.svg")
         .then(r => r.text())
         .then(text => {
             preloadedSvgText = text;
-
-            autoTL = startWithFirstRipple(".btn_eval", 0.5);
-            autoTL.play();
         });
+}
 
-    getHashOfName();
-    gate0302Init();
-
+// gate0302onLoad
+function gate0302onLoad() {
     $('.btn_eval').on('click', function(e){
         e.preventDefault();
         const $this = $(this);
@@ -1217,12 +1211,31 @@ document.addEventListener("DOMContentLoaded", () => {
     
         location.href = 'gate_03_03.html#' + fragment;
     });
-});
+}
+
+// gate0302Animation
+function gate0302Animation() {
+    autoTL = startWithFirstRipple(".btn_eval", 0.5);
+    autoTL.play();
+}
 
 // ------------------------------------------------------------
-window.addEventListener("hashchange", () => {
-    getHashOfName();
-    gate0302Init();
+// 페이지 단계 정의
+// ------------------------------------------------------------
+
+const pageSteps = {
+    commonBefore,
+    gate0302Before,
+    gate0302onLoad,
+    commonInit,
+    gate0302Animation
+};
+
+// ------------------------------------------------------------
+// DOM Ready
+// ------------------------------------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+    pageInit(pageSteps);
 });
 </script>
 </body>

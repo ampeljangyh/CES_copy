@@ -68,7 +68,7 @@
             <div class="esg_cont_inner">
                 <div class="esg_tit">
                     <p>기업 경영활동에 특화된 지표를 생성합니다.</p>
-                    <strong><span id="selPrdName">NexDrive</span> 특화형 지표 생성</strong>
+                    <strong><span class="selPrdName">NexDrive</span> 특화형 지표 생성</strong>
                 </div>
 
                 <div class="chk_panel">
@@ -1275,34 +1275,6 @@
 
 <script>
 //------------------------------------------------------------
-// DOM Ready
-//------------------------------------------------------------
-document.addEventListener("DOMContentLoaded", () => {
-    gate0301Init();
-
-    runAutoCheckSequence();
-
-    $("#btns01 .btn_esg").on("click", timeLineStart);
-
-    //페이지 이동
-    $("#btns02 .btn_esg").on("click", function(){
-        const fragment = getFragment();
-    
-        location.href = 'gate_03_02.html#' + fragment;
-    });
-
-    gsap.set("#btns01", { autoAlpha: 0, y: 20, display: "none" });
-    $("input[name=esg_self]").on("change", toggleSelfButton);
-});
-
-//------------------------------------------------------------
-// Hash Change
-//------------------------------------------------------------
-window.addEventListener("hashchange", () => {
-    gate0301Init();
-});
-
-//------------------------------------------------------------
 // Utilities
 //------------------------------------------------------------
 const qs = (sel, parent = document) => parent.querySelector(sel);
@@ -1524,6 +1496,42 @@ function timeLineStart() {
       .call(runProgressSequence);
 }
 
+// gate0301onLoad
+function gate0301onLoad() {
+    $("#btns01 .btn_esg").on("click", timeLineStart);
+
+    //페이지 이동
+    $("#btns02 .btn_esg").on("click", function(){
+        const fragment = getFragment();
+    
+        location.href = 'gate_03_02.html#' + fragment;
+    });
+
+    gsap.set("#btns01", { autoAlpha: 0, y: 20, display: "none" });
+    $("input[name=esg_self]").on("change", toggleSelfButton);
+}
+
+// gate0301Animation
+function gate0301Animation() {
+    runAutoCheckSequence();
+}
+
+// ------------------------------------------------------------
+// 페이지 단계 정의
+// ------------------------------------------------------------
+const pageSteps = {
+    commonBefore,
+    gate0301onLoad,
+    commonInit,
+    gate0301Animation
+};
+
+// ------------------------------------------------------------
+// DOM Ready
+// ------------------------------------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+    pageInit(pageSteps);
+});
 </script>
 </body>
 </html>

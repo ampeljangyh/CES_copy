@@ -4,7 +4,6 @@ $(function () {
 });
 // End of siy.js
 
-
 /* ---------------------------------------------------------
    공통 유틸
 --------------------------------------------------------- */
@@ -154,93 +153,45 @@ function openModal(id, callback, beforeFn) {
     panel.addEventListener("animationend", onAnimationEnd);
 }
 
-
 /* ---------------------------------------------------------
    Gate 초기화
 --------------------------------------------------------- */
-
-// gate0301Init
-function gate0301Init() {
-    const fragment = getFragment();
-
-    $('#selPrdName').text(getHashOfName());
-    const $visibleItems = $("[data-visible]");
-    $visibleItems.hide();
-    $visibleItems.filter(`[data-visible="${fragment}"]`).show();
-    $(".esg_cont").css("visibility", "");
+async function runChain(steps) {
+    for (const step of steps) {
+        await step();   // 동기든 async든 모두 기다리면서 순서대로 실행
+    }
 }
 
-// gate0302Init
-function gate0302Init() {
-    const fragment = getFragment();
-
-    $('#selPrdName').text(getHashOfName());
-    const $visibleItems = $("[data-visible]");
-    $visibleItems.hide();
-    $visibleItems.filter(`[data-visible="${fragment}"]`).show();
-
-    $(".esg_cont").css("visibility", "");
+async function pageInit(stepMap) {
+    try {
+        const pageSteps = Object.values(stepMap);
+        await runChain(pageSteps);
+    } catch (e) {
+        console.error('script error:', e);
+    }
 }
 
-// gate0303Init
-function gate0303Init() {
+
+//공통 처리
+function commonBefore() {
     const fragment = getFragment();
-
-    $('#selPrdName').text(getHashOfName());
-    const $visibleItems = $("[data-visible]");
-    $visibleItems.hide();
-    $visibleItems.filter(`[data-visible="${fragment}"]`).show();
-
-    $(".esg_cont").css("visibility", "");
-}
-
-// gate0304Init
-function gate0304Init() {
-    const fragment = getFragment();
-
-    $('.selPrdName').text(getHashOfName());
-    $('#selPrdCategory').text(getHashOfCategory());
-    const $visibleItems = $("[data-visible]");
-    $visibleItems.hide();
-    $visibleItems.filter(`[data-visible="${fragment}"]`).show();
-    bindTotalResult();
-    bindEsgResult();
-    bindRegResult();
-
-    $(".esg_cont").css("visibility", "");
-}
-
-// gate0305Init
-function gate0305Init() {
-    const fragment = getFragment();
-
-    $('.selPrdName').text(getHashOfName());
-    const $visibleItems = $("[data-visible]");
-    $visibleItems.hide();
-    $visibleItems.filter(`[data-visible="${fragment}"]`).show();
-
-    bindPoint();
-
-    $(".esg_cont").css("visibility", "");
-}
-
-// gate030103Init
-function gate030103Init() {
-    const fragment = getFragment();
-
-    $('.selPrdName').text(getHashOfName());
-    const $visibleItems = $("[data-visible]");
-    $visibleItems.hide();
-    $visibleItems.filter(`[data-visible="${fragment}"]`).show();
-
     
+    $('.selPrdName').text(getHashOfName());
+    $('.selPrdCategory').text(getHashOfCategory());
 
+    const $visibleItems = $("[data-visible]");
+    $visibleItems.hide();
+    $visibleItems.filter(`[data-visible="${fragment}"]`).show();
+}
+
+function commonInit() {
     $(".esg_cont").css("visibility", "");
 }
 
 
-// gate0304ConfigData
-function gate0304ConfigData() {
+
+// gate03ConfigData
+function gate03ConfigData() {
     const fragment = getFragment();
     const config = {
         gradeTxt:['D', 'C', 'B', 'B+', 'A', 'A+', 'S'],
@@ -562,9 +513,9 @@ function gate0304ConfigData() {
     return config;
 }
 
-// 현재 해시(#1~#4)를 기준으로 gate0304ConfigData에서 데이터 가져오기
-function getCurrentGate0304Data() {
-    const config = gate0304ConfigData();
+// 현재 해시(#1~#4)를 기준으로 gate03ConfigData에서 데이터 가져오기
+function getCurrentGate03Data() {
+    const config = gate03ConfigData();
     const fragment = getFragment();               // "1" ~ "4" 기대
     const key = (fragment && config[fragment]) ? fragment : '1';
     const data = config[key];
@@ -629,7 +580,7 @@ function parsePercentFromText(text) {
  *  - 최근 3개년 ESG 점수 현황
  */
 function bindTotalResult() {
-    const { config, data } = getCurrentGate0304Data();
+    const { config, data } = getCurrentGate03Data();
     if (!data) return;
 
     const $totalResult = $('#totalResult');
@@ -766,7 +717,7 @@ function bindTotalResult() {
  *  - 각 탭 내 grade_li / point_li / 이슈별 점수 표
  */
 function bindEsgResult() {
-    const { config, data } = getCurrentGate0304Data();
+    const { config, data } = getCurrentGate03Data();
     if (!data || !data.pointDetail) return;
 
     const gradeTxtArr = config.gradeTxt; // ['D','C','B','B+','A','A+','S']
@@ -854,7 +805,7 @@ function bindEsgResult() {
 }
 
 function bindRegResult() {
-    const { config, data } = getCurrentGate0304Data();
+    const { config, data } = getCurrentGate03Data();
     if (!data) return;
 
     const $section = $('#regResult');
@@ -990,9 +941,8 @@ function bindRegResult() {
     });
 }
 
-
 function bindPoint() {
-    const { config, data } = getCurrentGate0304Data();
+    const { config, data } = getCurrentGate03Data();
     if (!data) return;
 
     // 1) 종합 등급 텍스트 (#gradeTxt)
@@ -1022,4 +972,193 @@ function bindPoint() {
 
     // formatPointText: 82.5 -> "82.5점", null -> "-"
     $('#gradePoint').text(formatPointText(latestPoint));
+}
+
+function getCurrentGate03DiagData() {
+    const config = getGate03DiagData();
+    const fragment = getFragment();               // "1" ~ "4" 기대
+    const key = (fragment && config[fragment]) ? fragment : '1';
+    const data = config[key];
+
+    return { config, key, data };
+}
+
+function getGate03DiagData() {
+    const config = {
+        "1": {
+            e: [
+                { item: "환경경영체계", grade: "S" },
+                { item: "환경 인허가 관리", grade: "A+" },
+                { item: "온실가스 및 에너지 관리", grade: "B+" },
+                { item: "온실가스 배출량 감축", grade: "A" },
+                { item: "에너지 사용량 감축", grade: "A" },
+                { item: "폐기물 관리", grade: "A" },
+                { item: "용수 관리", grade: "B" },
+                { item: "유해화학물질 관리", grade: "S" },
+                { item: "대기오염물질 관리", grade: "S" },
+                { item: "수질오염물질 관리", grade: "A+" },
+                { item: "scope3 온실가스 배출량 산정 체계", grade: "B" },
+                { item: "잔류성 오염물질 관리", grade: "A+" },
+                { item: "배터리 규제 대상 원료 재활용", grade: "A" },
+                { item: "제품 단위 온실가스 배출량 산정 체계", grade: "A+" },
+                { item: "포장재 감축 및 대체", grade: "A+" },
+                { item: "제품 내 유해물질 관리", grade: "A+" }
+            ],
+            s: [
+                { item: "인권 관리", grade: "A+" },
+                { item: "고충 처리 제도", grade: "S" },
+                { item: "괴롭힘, 차별 금지", grade: "A" },
+                { item: "근로조건", grade: "A" },
+                { item: "복리후생", grade: "A" },
+                { item: "강제노동 금지", grade: "B+" },
+                { item: "아동노동 금지", grade: "A+" },
+                { item: "노사관계 수준", grade: "A+" },
+                { item: "안전보건 관리체계", grade: "A+" },
+                { item: "안전보건 관리활동", grade: "S" },
+                { item: "지역사회 공헌", grade: "B" },
+                { item: "외국인근로자 근로 관리", grade: "A" },
+                { item: "책임있는 원부자재 조달 정책", grade: "S" },
+                { item: "협력사 및 공급망 관리", grade: "A+" }
+            ],
+            g: [
+                { item: "윤리경영 정책", grade: "B+" },
+                { item: "부패 및 불공정거래 방지 활동", grade: "S" },
+                { item: "윤리준법 신고제도", grade: "A" },
+                { item: "ESG 정보 공시", grade: "A" },
+                { item: "경영 안정성", grade: "A+" },
+                { item: "주주권리", grade: "A" }
+            ]
+        },
+        "2": {
+            e: [
+                { item: "환경경영체계", grade: "A" },
+                { item: "환경 인허가 관리", grade: "B+" },
+                { item: "온실가스 및 에너지 관리", grade: "B+" },
+                { item: "온실가스 배출량 감축", grade: "B+" },
+                { item: "에너지 사용량 감축", grade: "B" },
+                { item: "폐기물 관리", grade: "C" },
+                { item: "용수 관리", grade: "S" },
+                { item: "유해화학물질 관리", grade: "B" },
+                { item: "대기오염물질 관리", grade: "A" },
+                { item: "수질오염물질 관리", grade: "A+" },
+                { item: "scope3 온실가스 배출량 산정 체계", grade: "A+" },
+                { item: "잔류성 오염물질 관리", grade: "B" },
+                { item: "분쟁광물 관리", grade: "B" },
+                { item: "제품 내 유해물질 관리", grade: "B+" },
+                { item: "오존층 관련 규제대상물질 관리", grade: "C" },
+                { item: "수은 또는 수은 화합물 관리", grade: "B+" },
+                { item: "잔류성오염물질 함유 기기 관리", grade: "B+" }
+            ],
+            s: [
+                { item: "인권 관리", grade: "B" },
+                { item: "고충 처리 제도", grade: "B+" },
+                { item: "괴롭힘, 차별 금지", grade: "A" },
+                { item: "근로조건", grade: "A" },
+                { item: "복리후생", grade: "A" },
+                { item: "강제노동 금지", grade: "B" },
+                { item: "아동노동 금지", grade: "S" },
+                { item: "노사관계 수준", grade: "S" },
+                { item: "안전보건 관리체계", grade: "A+" },
+                { item: "안전보건 관리활동", grade: "B" },
+                { item: "지역사회 공헌", grade: "A+" },
+                { item: "외국인근로자 근로 관리", grade: "B" },
+                { item: "협력사 및 공급망 관리", grade: "B" }
+            ],
+            g: [
+                { item: "윤리경영 정책", grade: "S" },
+                { item: "부패 및 불공정거래 방지 활동", grade: "A+" },
+                { item: "윤리준법 신고제도", grade: "B" },
+                { item: "ESG 정보 공시", grade: "A+" },
+                { item: "경영 안정성", grade: "B" },
+                { item: "주주권리", grade: "B+" }
+            ]
+        },
+        "3": {
+            e: [
+                { item: "환경경영체계", grade: "B+" },
+                { item: "환경 인허가 관리", grade: "B" },
+                { item: "온실가스 및 에너지 관리", grade: "B" },
+                { item: "온실가스 배출량 감축", grade: "B+" },
+                { item: "에너지 사용량 감축", grade: "C" },
+                { item: "폐기물 관리", grade: "C" },
+                { item: "용수 관리", grade: "A" },
+                { item: "유해화학물질 관리", grade: "B" },
+                { item: "대기오염물질 관리", grade: "A" },
+                { item: "수질오염물질 관리", grade: "B" },
+                { item: "scope3 온실가스 배출량 산정 체계", grade: "B+" },
+                { item: "잔류성 오염물질 관리", grade: "C" },
+                { item: "동물실험 축소 및 대체", grade: "C" },
+                { item: "생태계 교란 생물 반입/반출 관리", grade: "D" },
+                { item: "해외 유전자원 관리", grade: "A+" },
+                { item: "유전자변형생물체 관리", grade: "A" },
+                { item: "멸종위기종 관리", grade: "D" }
+            ],
+            s: [
+                { item: "인권 관리", grade: "A" },
+                { item: "고충 처리 제도", grade: "B+" },
+                { item: "괴롭힘, 차별 금지", grade: "B" },
+                { item: "근로조건", grade: "C" },
+                { item: "복리후생", grade: "S" },
+                { item: "강제노동 금지", grade: "B" },
+                { item: "아동노동 금지", grade: "A" },
+                { item: "노사관계 수준", grade: "A+" },
+                { item: "안전보건 관리체계", grade: "A+" },
+                { item: "안전보건 관리활동", grade: "B" },
+                { item: "지역사회 공헌", grade: "A+" },
+                { item: "외국인근로자 근로 관리", grade: "B+" }
+            ],
+            g: [
+                { item: "윤리경영 정책", grade: "B+" },
+                { item: "부패 및 불공정거래 방지 활동", grade: "B+" },
+                { item: "윤리준법 신고제도", grade: "B+" },
+                { item: "ESG 정보 공시", grade: "A" },
+                { item: "경영 안정성", grade: "B" },
+                { item: "주주권리", grade: "B" }
+            ]
+        },
+        "4": {
+            e: [
+                { item: "환경경영체계", grade: "B+" },
+                { item: "환경 인허가 관리", grade: "B" },
+                { item: "온실가스 및 에너지 관리", grade: "B" },
+                { item: "온실가스 배출량 감축", grade: "B+" },
+                { item: "에너지 사용량 감축", grade: "C" },
+                { item: "폐기물 관리", grade: "C" },
+                { item: "용수 관리", grade: "A" },
+                { item: "유해화학물질 관리", grade: "B" },
+                { item: "대기오염물질 관리", grade: "A" },
+                { item: "수질오염물질 관리", grade: "B" },
+                { item: "scope3 온실가스 배출량 산정 체계", grade: "B+" },
+                { item: "잔류성 오염물질 관리", grade: "C" }
+            ],
+            s: [
+                { item: "인권 관리", grade: "A" },
+                { item: "고충 처리 제도", grade: "C" },
+                { item: "괴롭힘, 차별 금지", grade: "A" },
+                { item: "근로조건", grade: "A+" },
+                { item: "복리후생", grade: "A+" },
+                { item: "강제노동 금지", grade: "B" },
+                { item: "아동노동 금지", grade: "B" },
+                { item: "노사관계 수준", grade: "B+" },
+                { item: "안전보건 관리체계", grade: "C" },
+                { item: "안전보건 관리활동", grade: "B+" },
+                { item: "지역사회 공헌", grade: "B+" },
+                { item: "외국인근로자 근로 관리", grade: "A" },
+                { item: "도급/용역/위탁 안전관리", grade: "C" },
+                { item: "정보보호 관리체계", grade: "A+" },
+                { item: "근로시간 준수", grade: "B" },
+                { item: "개인정보 수집 동의", grade: "A+" }
+            ],
+            g: [
+                { item: "윤리경영 정책", grade: "C" },
+                { item: "부패 및 불공정거래 방지 활동", grade: "B+" },
+                { item: "윤리준법 신고제도", grade: "A+" },
+                { item: "ESG 정보 공시", grade: "D" },
+                { item: "경영 안정성", grade: "B+" },
+                { item: "주주권리", grade: "B+" }
+            ]
+        }
+    }
+
+    return config;
 }
