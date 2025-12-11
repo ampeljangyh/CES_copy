@@ -991,7 +991,7 @@ function getGate03DiagData() {
                 { item: "환경경영체계", grade: "S" },
                 { item: "환경 인허가 관리", grade: "A+" },
                 { item: "온실가스 및 에너지 관리", grade: "B+" },
-                { item: "온실가스 배출량 감축", grade: "A" },
+                { item: "온실가스 배출량 감축", grade: "A", popup: true, panelId: 'pop01' },
                 { item: "에너지 사용량 감축", grade: "A" },
                 { item: "폐기물 관리", grade: "A" },
                 { item: "용수 관리", grade: "B" },
@@ -1015,7 +1015,7 @@ function getGate03DiagData() {
                 { item: "아동노동 금지", grade: "A+" },
                 { item: "노사관계 수준", grade: "A+" },
                 { item: "안전보건 관리체계", grade: "A+" },
-                { item: "안전보건 관리활동", grade: "S" },
+                { item: "안전보건 관리활동", grade: "S", popup: true, panelId: 'pop02' },
                 { item: "지역사회 공헌", grade: "B" },
                 { item: "외국인근로자 근로 관리", grade: "A" },
                 { item: "책임있는 원부자재 조달 정책", grade: "S" },
@@ -1025,7 +1025,7 @@ function getGate03DiagData() {
                 { item: "윤리경영 정책", grade: "B+" },
                 { item: "부패 및 불공정거래 방지 활동", grade: "S" },
                 { item: "윤리준법 신고제도", grade: "A" },
-                { item: "ESG 정보 공시", grade: "A" },
+                { item: "ESG 정보 공시", grade: "A", popup: true, panelId: 'pop03' },
                 { item: "경영 안정성", grade: "A+" },
                 { item: "주주권리", grade: "A" }
             ]
@@ -1035,7 +1035,7 @@ function getGate03DiagData() {
                 { item: "환경경영체계", grade: "A" },
                 { item: "환경 인허가 관리", grade: "B+" },
                 { item: "온실가스 및 에너지 관리", grade: "B+" },
-                { item: "온실가스 배출량 감축", grade: "B+" },
+                { item: "온실가스 배출량 감축", grade: "B+", popup: true, panelId: 'pop01' },
                 { item: "에너지 사용량 감축", grade: "B" },
                 { item: "폐기물 관리", grade: "C" },
                 { item: "용수 관리", grade: "S" },
@@ -1060,7 +1060,7 @@ function getGate03DiagData() {
                 { item: "아동노동 금지", grade: "S" },
                 { item: "노사관계 수준", grade: "S" },
                 { item: "안전보건 관리체계", grade: "A+" },
-                { item: "안전보건 관리활동", grade: "B" },
+                { item: "안전보건 관리활동", grade: "B", popup: true, panelId: 'pop02' },
                 { item: "지역사회 공헌", grade: "A+" },
                 { item: "외국인근로자 근로 관리", grade: "B" },
                 { item: "협력사 및 공급망 관리", grade: "B" }
@@ -1069,7 +1069,7 @@ function getGate03DiagData() {
                 { item: "윤리경영 정책", grade: "S" },
                 { item: "부패 및 불공정거래 방지 활동", grade: "A+" },
                 { item: "윤리준법 신고제도", grade: "B" },
-                { item: "ESG 정보 공시", grade: "A+" },
+                { item: "ESG 정보 공시", grade: "A+", popup: true, panelId: 'pop03' },
                 { item: "경영 안정성", grade: "B" },
                 { item: "주주권리", grade: "B+" }
             ]
@@ -1079,7 +1079,7 @@ function getGate03DiagData() {
                 { item: "환경경영체계", grade: "B+" },
                 { item: "환경 인허가 관리", grade: "B" },
                 { item: "온실가스 및 에너지 관리", grade: "B" },
-                { item: "온실가스 배출량 감축", grade: "B+" },
+                { item: "온실가스 배출량 감축", grade: "B+", popup: true, panelId: 'pop01' },
                 { item: "에너지 사용량 감축", grade: "C" },
                 { item: "폐기물 관리", grade: "C" },
                 { item: "용수 관리", grade: "A" },
@@ -1104,7 +1104,7 @@ function getGate03DiagData() {
                 { item: "아동노동 금지", grade: "A" },
                 { item: "노사관계 수준", grade: "A+" },
                 { item: "안전보건 관리체계", grade: "A+" },
-                { item: "안전보건 관리활동", grade: "B" },
+                { item: "안전보건 관리활동", grade: "B", popup: true, panelId: 'pop02' },
                 { item: "지역사회 공헌", grade: "A+" },
                 { item: "외국인근로자 근로 관리", grade: "B+" }
             ],
@@ -1112,7 +1112,7 @@ function getGate03DiagData() {
                 { item: "윤리경영 정책", grade: "B+" },
                 { item: "부패 및 불공정거래 방지 활동", grade: "B+" },
                 { item: "윤리준법 신고제도", grade: "B+" },
-                { item: "ESG 정보 공시", grade: "A" },
+                { item: "ESG 정보 공시", grade: "A", popup: true, panelId: 'pop03' },
                 { item: "경영 안정성", grade: "B" },
                 { item: "주주권리", grade: "B" }
             ]
@@ -1122,7 +1122,7 @@ function getGate03DiagData() {
                 { item: "환경경영체계", grade: "B+" },
                 { item: "환경 인허가 관리", grade: "B" },
                 { item: "온실가스 및 에너지 관리", grade: "B" },
-                { item: "온실가스 배출량 감축", grade: "B+" },
+                { item: "온실가스 배출량 감축", grade: "B+", popup: true, panelId: 'pop01' },
                 { item: "에너지 사용량 감축", grade: "C" },
                 { item: "폐기물 관리", grade: "C" },
                 { item: "용수 관리", grade: "A" },
@@ -1142,7 +1142,7 @@ function getGate03DiagData() {
                 { item: "아동노동 금지", grade: "B" },
                 { item: "노사관계 수준", grade: "B+" },
                 { item: "안전보건 관리체계", grade: "C" },
-                { item: "안전보건 관리활동", grade: "B+" },
+                { item: "안전보건 관리활동", grade: "B+", popup: true, panelId: 'pop02' },
                 { item: "지역사회 공헌", grade: "B+" },
                 { item: "외국인근로자 근로 관리", grade: "A" },
                 { item: "도급/용역/위탁 안전관리", grade: "C" },
@@ -1154,7 +1154,7 @@ function getGate03DiagData() {
                 { item: "윤리경영 정책", grade: "C" },
                 { item: "부패 및 불공정거래 방지 활동", grade: "B+" },
                 { item: "윤리준법 신고제도", grade: "A+" },
-                { item: "ESG 정보 공시", grade: "D" },
+                { item: "ESG 정보 공시", grade: "D", popup: true, panelId: 'pop03' },
                 { item: "경영 안정성", grade: "B+" },
                 { item: "주주권리", grade: "B+" }
             ]
@@ -1162,4 +1162,20 @@ function getGate03DiagData() {
     }
 
     return config;
+}
+
+function getCurrentSummaryGrades() {
+    const { key } = getCurrentGate03DiagData();  // "1" ~ "4"
+    const summaries = getGate03SummaryGrades();
+    return summaries[key] || null;
+}
+
+// E/S/G 요약 등급 데이터
+function getGate03SummaryGrades() {
+    return {
+        "1": { e: "A+", s: "A+", g: "A+" },
+        "2": { e: "B+",  s: "A",  g: "A" },
+        "3": { e: "B", s: "A",  g: "B+"  },
+        "4": { e: "B",  s: "B+", g: "B" }
+    };
 }

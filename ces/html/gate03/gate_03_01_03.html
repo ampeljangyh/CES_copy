@@ -108,33 +108,35 @@
                                 <strong class="eval">평가</strong>
                             </div>
                             <!-- head_txt -->
-                            <ul class="diag_li" data-proc="1">
-                                <li>
-                                    <div class="name">
-                                        <span class="ico_esg ty_e"></span>
-                                        <span class="txt">환경 경영 체계</span>
-                                    </div>
 
-                                    <!-- progress_wrap -->
-                                    <div class="progress_wrap" style="display:none;">
-                                        <div class="progress_track">
-                                            <span class="bar"></span>
+                            <!-- diag_li_wrap -->
+                            <div class="diag_li_wrap">
+                                <!-- diag_li -->
+                                <!-- ul class="diag_li" data-proc="e">
+                                    <li>
+                                        <div class="name">
+                                            <span class="ico_esg ty_e"></span>
+                                            <span class="txt">환경 경영 체계</span>
                                         </div>
-                                        <span class="progress_txt">
-                                            <span class="t1">upload</span>
-                                            <strong class="percent">100%</strong>
-                                        </span>
-                                    </div>
-                                    <!-- //progress_wrap -->
 
-                                    <!-- eval_wrap -->
-                                    <div class="eval_wrap">
-                                        <span class="loading"></span>
-                                        <span class="grade"></span>
-                                    </div>
-                                    <!-- //eval_wrap -->
-                                </li>
-                            </ul>
+                                        <div class="progress_wrap">
+                                            <div class="progress_track">
+                                                <span class="bar"></span>
+                                            </div>
+                                            <span class="progress_txt">
+                                                <span class="t1">upload</span>
+                                                <strong class="percent">100%</strong>
+                                            </span>
+                                        </div>
+
+                                        <div class="eval_wrap">
+
+                                        </div>
+                                    </li>
+                                </ul -->
+                                <!-- //diag_li -->
+                            </div>
+                            <!-- //diag_li_wrap -->
                         </div>
                         <!-- //proc_auto -->
                     </div>
@@ -159,41 +161,1033 @@
 <!-- //esg_dim -->
 
 
+<!-- esg_modal -->
+<div class="esg_modal" style="display:none;"></div>
+<!-- //esg_modal -->
+
 <!-- panel_side -->
-<div class="panel_side" id="pop01" style="display:none;">
+<div class="panel_side esg" id="pop01" style="display:none;">
     <div class="top">
-        <strong>기업 기초정보</strong>
-        <p>당신의 기업 <span class="selPrdName">NexDrive</span>의 정보를 선택해주세요.</p>
+        <strong class="ico_esg ty_e">온실가스 배출량 감축</strong>
+        <p>온실가스 배출량 (Scope 1&2)이 감소 추세에 있는지 확인하기 위한 지표</p>
 
         <button type="button" class="btn_panel_close" onclick="closePanel('pop01');"><span class="blind">닫기</span></button>
     </div>
     <div class="cnt">
+        <!-- cnt_inner -->
         <div class="cnt_inner">
-            
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>기초 제출 자료</strong>
+                </div>
+
+                <p class="txt">최근 3개년 연료사용 고지서 - 지역난방, 스팀, 전기, 연료별 구매량 (구매금액), 기타 연료 증빙 (고지서)</p>
+            </div>
+            <!-- //info_box -->
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>요청 자료 설명</strong>
+                </div>
+
+                <p class="txt">온실가스 배출량 감소 추세 확인</p>
+            </div>
+            <!-- //info_box -->
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>산출식</strong>
+                </div>
+
+                <p class="txt">(2024년 집약도 / ((2023년 집약도 + 2022년 집약도) / 2)) * 100</p>
+            </div>
+            <!-- //info_box -->
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>진단 데이터</strong>
+                    <span class="ex">단위 : tC02eq/백만톤</span>
+                </div>
+
+                <ul class="info_li">
+                    <li>
+                        <span class="t1">2022년도 집약도</span>
+                        <span class="d1">0.245</span>
+                    </li>
+                    <li>
+                        <span class="t1">2023년도 집약도</span>
+                        <span class="d1">0.199</span>
+                    </li>
+                    <li>
+                        <span class="t1">2024년도 집약도</span>
+                        <span class="d1">0.153</span>
+                    </li>
+                </ul>
+            </div>
+            <!-- //info_box -->
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>진단 결과</strong>
+                </div>
+
+                <div class="info_grid">
+                    <div>
+                        <span class="t1">총 온실가스 감축률</span>
+                        <span class="t2">
+                            <em class="ty1">139.2</em>
+                            <span>%</span>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="t1">성과 (집약도)</span>
+                        <span class="t2">
+                            <em class="ty2">▲ 39.2</em>
+                            <span>%</span>
+                        </span>
+                    </div>
+                    <div class="span">
+                        <span class="t1 lg">진단 점수</span>
+                        <span class="t2 lg">
+                            <em>LO</em>
+                            <span>(0점)</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!-- //info_box -->
+
+            <div class="btns sm">
+                <button type="button" class="btn_save">저장</button>
+            </div>
         </div>
+        <!-- //cnt_inner -->
+    </div>
+</div>
+<!-- //panel_side -->
+
+<!-- panel_side -->
+<div class="panel_side esg" id="pop02" style="display:none;">
+    <div class="top">
+        <strong class="ico_esg ty_s">안전보건 관리 활동</strong>
+        <p>기업이 정기적으로 검증된 ESG 정보를 공시하는지 확인하기 위한 지표</p>
+
+        <button type="button" class="btn_panel_close" onclick="closePanel('pop02');"><span class="blind">닫기</span></button>
+    </div>
+    <div class="cnt">
+        <!-- cnt_inner -->
+        <div class="cnt_inner">
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>기초 제출 자료</strong>
+                </div>
+
+                <p class="txt">최근 3개년 연료사용 고지서 - 지역난방, 스팀, 전기, 연료별 구매량 (구매금액), 기타 연료 증빙 (고지서)</p>
+            </div>
+            <!-- //info_box -->
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>현장 확인 자료</strong>
+                </div>
+
+                <p class="txt">기업 홈페이지 등 관련 자료 캡쳐, 지속가능경영보고서</p>
+            </div>
+            <!-- //info_box -->
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>요청 자료 설명</strong>
+                </div>
+
+                <p class="txt">온실가스 배출량 감소 추세 확인</p>
+            </div>
+            <!-- //info_box -->
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>Q. 이행 중인 안전보건 관리 활동을 선택해주세요. (복수)</strong>
+                </div>
+
+                <ul class="info_chk_li">
+                    <li>
+                        <label class="chk_min">
+                            <input type="checkbox" name="chk01">
+                            <span>적용항목 없음</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="chk_min">
+                            <input type="checkbox" name="chk01">
+                            <span>안전보건관계자 평가 · 관리실시</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="chk_min">
+                            <input type="checkbox" name="chk01">
+                            <span>사업장 안전보건 사항 관련 종사자 의견 청취</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="chk_min">
+                            <input type="checkbox" name="chk01">
+                            <span>안전보건 위험성 평가</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="chk_min">
+                            <input type="checkbox" name="chk01">
+                            <span>주기적 작업환경측정 실시</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="chk_min">
+                            <input type="checkbox" name="chk01">
+                            <span>화학물질의 MSDS 비치 및 취급자 교육</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="chk_min">
+                            <input type="checkbox" name="chk01">
+                            <span>비상 대응 체계 구축</span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <!-- //info_box -->
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>진단 결과</strong>
+                </div>
+
+                <div class="info_grid">
+                    <div class="span">
+                        <span class="t1">선택된 항목 수</span>
+                        <span class="t2">
+                            <em class="ty1">0</em>
+                            <span>개</span>
+                        </span>
+                    </div>
+                    <div class="span">
+                        <span class="t1 lg">진단 점수</span>
+                        <span class="t2 lg">
+                            <em>LO</em>
+                            <span>(0점)</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!-- //info_box -->
+
+            <div class="btns sm">
+                <button type="button" class="btn_save">저장</button>
+            </div>
+        </div>
+        <!-- //cnt_inner -->
+    </div>
+</div>
+<!-- //panel_side -->
+
+<!-- panel_side -->
+<div class="panel_side esg" id="pop03" style="display:none;">
+    <div class="top">
+        <strong class="ico_esg ty_g">ESG 정보 공시</strong>
+        <p>기업이 정기적으로 검증된 ESG 정보를 공시하는지 확인하기 위한 지표</p>
+
+        <button type="button" class="btn_panel_close" onclick="closePanel('pop03');"><span class="blind">닫기</span></button>
+    </div>
+    <div class="cnt">
+        <!-- cnt_inner -->
+        <div class="cnt_inner">
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>기초 제출 자료</strong>
+                </div>
+
+                <p class="txt">최근 3개년 연료사용 고지서 - 지역난방, 스팀, 전기, 연료별 구매량 (구매금액), 기타 연료 증빙 (고지서)</p>
+            </div>
+            <!-- //info_box -->
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>현장 확인 자료</strong>
+                </div>
+
+                <p class="txt">기업 홈페이지 등 관련 자료 캡쳐, 지속가능경영보고서</p>
+            </div>
+            <!-- //info_box -->
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>요청 자료 설명</strong>
+                </div>
+
+                <p class="txt">온실가스 배출량 감소 추세 확인</p>
+            </div>
+            <!-- //info_box -->
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>Q. ESG 정보를 공시 중에 있습니까?</strong>
+                </div>
+
+                <ul class="info_chk_li">
+                    <li>
+                        <label class="chk_min">
+                            <input type="radio" name="chk01">
+                            <span>ESG 정보 미공시</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="chk_min">
+                            <input type="radio" name="chk01">
+                            <span>ESG 정보 공시 준비 중</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="chk_min">
+                            <input type="radio" name="chk01">
+                            <span>ESG 정보 공시</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="chk_min">
+                            <input type="radio" name="chk01">
+                            <span>검증된 ESG 정보 공시</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="chk_min">
+                            <input type="radio" name="chk01">
+                            <span>정기적으로 검증된 ESG 정보 공시</span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <!-- //info_box -->
+            <!-- info_box -->
+            <div class="info_box">
+                <div class="info_tit">
+                    <strong>진단 결과</strong>
+                </div>
+
+                <div class="info_grid">
+                    <div class="span">
+                        <span class="t1 lg">진단 점수</span>
+                        <span class="t2 lg">
+                            <em>LO</em>
+                            <span>(0점)</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!-- //info_box -->
+
+            <div class="btns sm">
+                <button type="button" class="btn_save">저장</button>
+            </div>
+        </div>
+        <!-- //cnt_inner -->
     </div>
 </div>
 <!-- //panel_side -->
 
 
-<!-- esg_modal -->
-<div class="esg_modal" style="display:none;"></div>
-<!-- //esg_modal -->
-
-
-
 <script>
+// 미리 로딩한 SVG 텍스트 저장소
+let preloadedSvgText = null;
+
+const DIAG_TOTAL_TARGET = 20; // 초 단위, E+S+G 전체 목표시간
+
+// ------------------------------------------------------------
+// 자동 진단 전체 시퀀스 (E → S → G)
+// ------------------------------------------------------------
+
+function startDiagSequence() {
+    runDiagSequence().catch((err) => {
+        console.error("[diag sequence error]", err);
+    });
+}
+
+async function runDiagSequence() {
+    const wrap = document.querySelector(".diag_li_wrap");
+    if (!wrap) return;
+
+    const order  = ["e", "s", "g"];
+    const ulList = [];
+
+    // 1) data-proc 기준으로 E/S/G 순서 정렬
+    order.forEach((key) => {
+        const ul = wrap.querySelector(`.diag_li[data-proc="${key}"]`);
+        if (ul) ulList.push(ul);
+    });
+
+    // 2) data-proc 이 없으면 DOM 순서대로 사용
+    if (!ulList.length) {
+        ulList.push(...wrap.querySelectorAll(".diag_li"));
+    }
+
+    // 3) 전체 항목 수 계산
+    let totalItems = 0;
+    ulList.forEach((ul) => {
+        totalItems += ul.querySelectorAll("li").length;
+    });
+    if (!totalItems) return;
+
+    // 4) UL 입·퇴장 시간 + 항목별 time slot 계산
+    const ulEnterDuration = 0.35;
+    const ulExitDuration  = 0.35;
+    const ulStaticTime    = (ulEnterDuration + ulExitDuration) * ulList.length;
+
+    const availableForItems = Math.max(DIAG_TOTAL_TARGET - ulStaticTime, 3);
+    const itemSlot          = availableForItems / totalItems;
+
+    const lastIndex  = ulList.length - 1;
+    const summaryMap = getCurrentSummaryGrades(); // { e: "A+", s: "A+", g: "A+" }
+
+    // 5) E/S/G 순서대로 리스트 애니메이션
+    for (let i = 0; i < ulList.length; i++) {
+        const ul      = ulList[i];
+        const isLast  = (i === lastIndex);
+        const procKey = ul.dataset.proc || null; // "e" / "s" / "g"
+
+        // ▶ E/S/G 프로그래스 영역: "진단 중" 상태
+        if (procKey) {
+            setProcProgressState(procKey, "active");
+        }
+
+        await animateDiagList(ul, {
+            itemSlot,
+            ulEnterDuration,
+            ulExitDuration
+        }, isLast);
+
+        // ▶ E/S/G 프로그래스 영역: 최종 등급 반영
+        if (procKey) {
+            let summaryGrade = "-";
+            if (summaryMap && summaryMap[procKey]) {
+                summaryGrade = summaryMap[procKey];
+            }
+            setProcProgressState(procKey, "done", summaryGrade);
+        }
+    }
+}
+
+// ------------------------------------------------------------
+// E / S / G 프로그레스 상태 제어
+// ------------------------------------------------------------
+
+function setProcProgressState(procKey, state, finalText) {
+    const progress = document.querySelector(".proc_progress");
+    if (!progress) return;
+
+    // HTML 순서: 0 = e, 1 = s, 2 = g
+    let index = -1;
+    if (procKey === "e") index = 0;
+    else if (procKey === "s") index = 1;
+    else if (procKey === "g") index = 2;
+
+    if (index < 0) return;
+
+    const li = progress.children[index];
+    if (!li) return;
+
+    const procTxt = li.querySelector(".proc_txt");
+
+    if (state === "active") {
+        li.classList.add("on");
+        if (procTxt) procTxt.textContent = "진단 중";
+    } else if (state === "done") {
+        li.classList.remove("on");
+        if (procTxt) procTxt.textContent = finalText || "등급";
+    } else if (state === "reset") {
+        li.classList.remove("on");
+        if (procTxt) procTxt.textContent = "-";
+    }
+}
+
+// ------------------------------------------------------------
+// diag_li_wrap 스크롤: 현재 li를 중앙 근처로 이동
+// ------------------------------------------------------------
+
+function scrollDiagItemIntoView(li, itemSlot) {
+    return new Promise((resolve) => {
+        const wrap = document.querySelector(".diag_li_wrap");
+        if (!wrap || !li) {
+            resolve();
+            return;
+        }
+
+        const wrapRect = wrap.getBoundingClientRect();
+        const liRect   = li.getBoundingClientRect();
+
+        const margin  = 32; // 위/아래 여유
+        const isAbove = liRect.top < wrapRect.top + margin;
+        const isBelow = liRect.bottom > wrapRect.bottom - margin;
+
+        // 이미 화면 안 쪽이면 스크롤 생략
+        if (!isAbove && !isBelow) {
+            resolve();
+            return;
+        }
+
+        // li 중앙을 wrap 중앙 근처로 위치
+        const currentScroll = wrap.scrollTop;
+        const liTopInWrap   = liRect.top - wrapRect.top + currentScroll;
+        const targetScroll  = liTopInWrap - (wrap.clientHeight - li.clientHeight) / 2;
+
+        const maxScroll   = wrap.scrollHeight - wrap.clientHeight;
+        const finalScroll = Math.max(0, Math.min(targetScroll, maxScroll));
+
+        // itemSlot 에 맞춰 스크롤 시간 스케일링
+        const scrollDuration = Math.max(0.2, Math.min(0.5, itemSlot * 0.4));
+
+        gsap.to(wrap, {
+            scrollTop: finalScroll,
+            duration: scrollDuration,
+            ease: "power2.out",
+            onComplete: resolve
+        });
+    });
+}
+
+// ------------------------------------------------------------
+// UL 단위 애니메이션 (등장 → 항목 반복 → 퇴장)
+// ------------------------------------------------------------
+
+async function animateDiagList(ul, opts, isLast = false) {
+    const { itemSlot, ulEnterDuration, ulExitDuration } = opts;
+
+    ul.style.display = "";
+
+    // 1) 리스트 본문 등장
+    await new Promise((resolve) => {
+        gsap.fromTo(
+            ul,
+            { autoAlpha: 0, y: 24 },
+            {
+                autoAlpha: 1,
+                y: 0,
+                duration: ulEnterDuration,
+                ease: "power3.out",
+                onComplete: resolve
+            }
+        );
+    });
+
+    // 2) li 항목 순차 처리
+    const items = Array.from(ul.querySelectorAll("li"));
+    for (const li of items) {
+        await animateDiagItem(li, itemSlot);
+    }
+
+    // 3) 마지막 G 는 남겨두고, E/S 만 퇴장
+    if (isLast) {
+        gsap.set(ul, { autoAlpha: 1, y: 0 });
+        return;
+    }
+
+    // 4) 리스트 퇴장
+    await new Promise((resolve) => {
+        gsap.to(ul, {
+            autoAlpha: 0,
+            y: -24,
+            duration: ulExitDuration,
+            ease: "power3.in",
+            onComplete: resolve
+        });
+    });
+
+    ul.style.display = "none";
+}
+
+// ------------------------------------------------------------
+// LI 단위 애니메이션 (progress → bar/percent → 평가)
+// ------------------------------------------------------------
+
+async function animateDiagItem(li, itemSlot) {
+    const progressWrap = li.querySelector(".progress_wrap");
+    const bar          = li.querySelector(".progress_track .bar");
+    const percentEl    = li.querySelector(".progress_txt .percent");
+    const evalWrap     = li.querySelector(".eval_wrap");
+    const gradeEl      = evalWrap && evalWrap.querySelector(".grade");
+
+    if (!progressWrap || !evalWrap) return;
+
+    const mode        = li.dataset.mode || "auto";
+    const isPopupMode = (mode === "popup");
+
+    // 1) 스크롤 위치 조정
+    await scrollDiagItemIntoView(li, itemSlot);
+
+    const appearDur = Math.max(0.1,  itemSlot * 0.25);
+    const barDur    = Math.max(0.15, itemSlot * 0.75);
+
+    // 2) progress_wrap 등장
+    await new Promise((resolve) => {
+        gsap.to(progressWrap, {
+            autoAlpha: 1,
+            y: 0,
+            duration: appearDur,
+            ease: "power3.out",
+            onComplete: resolve
+        });
+    });
+
+    // 3) 바 로딩 + 숫자 카운트
+    const loadingAnims = [];
+
+    if (bar) {
+        loadingAnims.push(
+            new Promise((resolve) => {
+                gsap.to(bar, {
+                    scaleX: 1,
+                    duration: barDur,
+                    ease: "power2.out",
+                    onComplete: resolve
+                });
+            })
+        );
+    }
+
+    if (percentEl) {
+        const obj = { value: 0 };
+        loadingAnims.push(
+            new Promise((resolve) => {
+                gsap.to(obj, {
+                    value: 100,
+                    duration: barDur,
+                    ease: "power2.out",
+                    onUpdate: () => {
+                        percentEl.textContent = Math.round(obj.value) + "%";
+                    },
+                    onComplete: resolve
+                });
+            })
+        );
+    }
+
+    // 4) 평가 방식에 따라 Promise 준비
+    let evalPromise = Promise.resolve();
+
+    if (isPopupMode) {
+        // ▶ 팝업 브랜치: openPanel ~ closePanel 전체를 하나의 Promise로
+        evalPromise = runPopupEvalFlow(li, evalWrap, gradeEl);
+    } else {
+        // ▶ 자동 브랜치: SVG 체크 + grade (굳이 기다릴 필요 없으면 그대로 호출)
+        startSvgAndGrade(evalWrap, gradeEl);
+    }
+
+    // 5) 바/숫자 + (팝업 또는 자동 평가) 모두 끝난 뒤에야 다음 li 로 이동
+    await Promise.all([
+        evalPromise,
+        ...loadingAnims
+    ]);
+}
+
+// ------------------------------------------------------------
+// SVG 체크 애니 후 grade 표시
+// ------------------------------------------------------------
+
+function startSvgAndGrade(evalWrap, gradeEl) {
+    if (!evalWrap) return;
+
+    let svgContainer = evalWrap.querySelector(".svg_wrap");
+    if (!svgContainer) {
+        svgContainer = document.createElement("span");
+        svgContainer.className = "svg_wrap";
+        evalWrap.insertBefore(svgContainer, gradeEl || null);
+    }
+
+    // SVG 체크 애니 끝나면 grade 크로스 페이드
+    loadSvgLoading(svgContainer).then(() => {
+        const tl = gsap.timeline();
+
+        tl.to(svgContainer, {
+            autoAlpha: 0,
+            y: -4,
+            duration: 0.25,
+            ease: "power2.inOut",
+            onComplete: () => {
+                svgContainer.remove();
+            }
+        });
+
+        if (gradeEl) {
+            tl.to(gradeEl, {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.3,
+                ease: "power3.out"
+            }, "-=0.15");
+        }
+    });
+}
+
+// ------------------------------------------------------------
+// 팝업 기반 평가 플로우 (버튼 → 팝업 → grade)
+// ------------------------------------------------------------
+
+async function runPopupEvalFlow(li, evalWrap, gradeEl) {
+    if (!evalWrap) return;
+
+    const panelId = li.dataset.panelId || "popup01";
+
+    let btn = li.querySelector(".btn_item_eval");
+    if (!btn) return;
+
+    if (gradeEl) {
+        gsap.set(gradeEl, { autoAlpha: 0, y: 8 });
+    }
+
+    // 1) 평가 버튼 등장
+    await new Promise((resolve) => {
+        gsap.fromTo(
+            btn,
+            {
+                display: '',
+                autoAlpha: 0,
+                y: 10
+            },
+            {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.3,
+                ease: "power3.out",
+                onComplete: resolve
+            }
+        );
+    });
+
+    // 2) 버튼 살짝 눌리는 모션
+    await new Promise((resolve) => {
+        gsap.to(btn, {
+            scale: 0.94,
+            duration: 0.12,
+            ease: "power1.out",
+            yoyo: true,
+            repeat: 1,
+            onComplete: resolve
+        });
+    });
+
+    // 3) 팝업 open → 내부 시퀀스 → close
+    await new Promise((resolve) => {
+        openPanel(panelId, () => {
+            runPopupPanelSequence(panelId).then(() => {
+                closePanel(panelId, () => {
+                    resolve();
+                });
+            });
+        });
+    });
+
+    // 4) 버튼 제거 + grade 등장
+    await new Promise((resolve) => {
+        const tl = gsap.timeline({ onComplete: resolve });
+
+        tl.to(btn, {
+            autoAlpha: 0,
+            y: -6,
+            duration: 0.25,
+            ease: "power2.inOut",
+            onComplete: () => {
+                btn.remove();
+            }
+        });
+
+        if (gradeEl) {
+            tl.to(gradeEl, {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.3,
+                ease: "power3.out"
+            }, "-=0.1");
+        }
+    });
+}
+
+function runPopupPanelSequence(panelId) {
+    return new Promise((resolve) => {
+        const panel = document.getElementById(panelId);
+        if (!panel) {
+            resolve();
+            return;
+        }
+
+        // debugger;
+
+        resolve();
+
+        // const saveBtn = panel.querySelector(".btn_popup_save");  // 실제 클래스명에 맞게 수정
+        // const bodyEls = panel.querySelectorAll(".eval_item");    // 내부 평가 요소들 선택자도 수정
+
+        // const tl = gsap.timeline({
+        //     defaults: { ease: "power3.out" },
+        //     onComplete: resolve
+        // });
+
+        // // 1) (선택) 패널 내부 요소들 평가 애니메이션
+        // if (bodyEls.length) {
+        //     tl.from(bodyEls, {
+        //         autoAlpha: 0,
+        //         y: 16,
+        //         stagger: 0.06,
+        //         duration: 0.25
+        //     });
+        // }
+
+        // // 2) 저장 버튼이 눌리는 애니메이션
+        // if (saveBtn) {
+        //     tl.to(saveBtn, {
+        //         scale: 0.95,
+        //         duration: 0.12,
+        //         ease: "power1.out",
+        //         yoyo: true,
+        //         repeat: 1
+        //     }, "+=0.3");
+        // }
+    });
+}
+
+
+// ------------------------------------------------------------
+// 게이트 03-0103: SVG 프리로드
+// ------------------------------------------------------------
+
+function gate030103Before() {
+    fetch("../../resources/images/gate_03/chk_ico_prog.svg")
+        .then((r) => r.text())
+        .then((text) => {
+            preloadedSvgText = text;
+        })
+        .catch(() => {
+            preloadedSvgText = null;
+        });
+}
+
+// ------------------------------------------------------------
+// SVG 로딩 + 체크 애니 종료 기다리기
+// ------------------------------------------------------------
+
+function loadSvgLoading(target) {
+    return new Promise((resolve) => {
+        if (!preloadedSvgText) {
+            resolve();
+            return;
+        }
+
+        const container = target;
+        container.innerHTML = preloadedSvgText;
+
+        const svg   = container.querySelector("svg");
+        const check = svg && svg.querySelector(".check");
+
+        if (!svg || !check) {
+            resolve();
+            return;
+        }
+
+        check.addEventListener(
+            "animationend",
+            () => {
+                resolve();
+            },
+            { once: true }
+        );
+    });
+}
+
+// ------------------------------------------------------------
+// 게이트 03-0103: 데이터 렌더링
+// ------------------------------------------------------------
+
+function gate030103rendered() {
+    const { data } = getCurrentGate03DiagData();
+    if (!data) return;
+
+    const wrap = document.querySelector(".diag_li_wrap");
+    if (!wrap) return;
+
+    // 기존 내용 초기화
+    wrap.innerHTML = "";
+
+    const procOrder = ["e", "s", "g"];
+
+    // E/S/G 순서대로 UL 생성
+    procOrder.forEach((procKey) => {
+        const items = data[procKey];
+        if (!items || !items.length) return;
+
+        const ul = document.createElement("ul");
+        ul.className    = "diag_li";
+        ul.dataset.proc = procKey;
+        ul.style.display = "none";
+
+        items.forEach(({ item, grade, popup, panelId }) => {
+            const li = document.createElement("li");
+
+            li.innerHTML = `
+                <div class="name">
+                    <span class="ico_esg ty_${procKey}"></span>
+                    <span class="txt">${item}</span>
+                </div>
+                <div class="progress_wrap">
+                    <div class="progress_track">
+                        <span class="bar"></span>
+                    </div>
+                    <span class="progress_txt">
+                        <span class="t1">upload</span>
+                        <strong class="percent">100%</strong>
+                    </span>
+                </div>
+                <div class="eval_wrap">
+                    <span class="btn_item_eval disabled" style="display:none;">평가하기</span>
+                    <span class="grade">${grade}</span>
+                </div>
+            `;
+
+            if (popup) {
+                li.dataset.mode = "popup";
+                if (panelId) {
+                    li.dataset.panelId = panelId;
+                }
+            }
+
+            ul.appendChild(li);
+        });
+
+        wrap.appendChild(ul);
+    });
+}
+
+// ------------------------------------------------------------
+// 게이트 03-0103: 애니메이션 초기 상태 세팅
+// ------------------------------------------------------------
+
+function gate030103AnimationBefore() {
+    const wrap = document.querySelector(".diag_li_wrap");
+    if (!wrap) return;
+
+    const uls = wrap.querySelectorAll(".diag_li");
+
+    uls.forEach((ul) => {
+        // 렌더링 시 display:none 으로 생성되어 있음
+        ul.style.display = "none";
+
+        ul.querySelectorAll("li").forEach((li) => {
+            const progressWrap = li.querySelector(".progress_wrap");
+            const bar          = li.querySelector(".progress_track .bar");
+            const percentEl    = li.querySelector(".progress_txt .percent");
+            const evalWrap     = li.querySelector(".eval_wrap");
+            const gradeEl      = evalWrap && evalWrap.querySelector(".grade");
+
+            // progress_wrap 초기 상태
+            if (progressWrap) {
+                gsap.set(progressWrap, { autoAlpha: 0, y: 16 });
+            }
+
+            // bar 초기 상태
+            if (bar) {
+                gsap.set(bar, { scaleX: 0, transformOrigin: "left center" });
+            }
+
+            // percent 초기값
+            if (percentEl) {
+                percentEl.textContent = "0%";
+            }
+
+            // grade 초기 상태
+            if (gradeEl) {
+                gsap.set(gradeEl, { autoAlpha: 0, y: 8 });
+            }
+        });
+    });
+}
+
+// ------------------------------------------------------------
+// 게이트 03-0103: 패널 헤더 애니메이션 + 진단 시퀀스 시작
+// ------------------------------------------------------------
+
+function gate030103Animation() {
+    const cont     = document.querySelector(".contents.esg_cont.step02_04");
+    const autoDiag = document.querySelector(".auto_diag");
+    if (!autoDiag) return;
+
+    // 중복 실행 방지
+    if (autoDiag.dataset.animated === "true") return;
+    autoDiag.dataset.animated = "true";
+
+    // 컨테이너 노출
+    if (cont) {
+        gsap.set(cont, { visibility: "visible" });
+    }
+
+    const tl = gsap.timeline({
+        defaults: { ease: "power3.out" },
+        delay: 1,                  // 전체 애니 시작 전 1초 대기
+        onComplete: startDiagSequence // 패널 애니 후 diag 시퀀스 시작
+    });
+
+    // 1) .proc_progress 아래에서 위로 fade-in
+    tl.from(".auto_diag .proc_progress", {
+        autoAlpha: 0,
+        y: 24,
+        duration: 0.55
+    })
+
+    // 2) .proc_auto 좁게 등장
+    .fromTo(
+        ".auto_diag .proc_auto",
+        {
+            autoAlpha: 0,
+            y: 24,
+            scaleX: 0.75
+        },
+        {
+            autoAlpha: 1,
+            y: 0,
+            scaleX: 0.75,
+            duration: 0.55
+        }
+    )
+
+    // 3) .proc_auto 가로 확장
+    .to(".auto_diag .proc_auto", {
+        scaleX: 1,
+        duration: 0.4,
+        ease: "power2.out"
+    })
+
+    // 4) .head_txt 아래에서 위로 fade-in
+    .from(".auto_diag .head_txt", {
+        autoAlpha: 0,
+        y: 18,
+        duration: 0.48
+    });
+}
+
 // ------------------------------------------------------------
 // 페이지 단계 정의
 // ------------------------------------------------------------
+
 const pageSteps = {
     commonBefore,
-    commonInit
+    gate030103Before,
+    gate030103rendered,
+    gate030103AnimationBefore,
+    commonInit,
+    gate030103Animation
 };
 
 // ------------------------------------------------------------
 // DOM Ready
 // ------------------------------------------------------------
+
 document.addEventListener("DOMContentLoaded", () => {
     pageInit(pageSteps);
 });
