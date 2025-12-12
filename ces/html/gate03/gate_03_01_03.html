@@ -449,6 +449,20 @@
 </div>
 <!-- //panel_side -->
 
+<!-- esg_dim_msg -->
+<div class="esg_dim_msg" style="display: none;">
+    <div class="inner">
+        <p class="t1">ESG 정밀진단 최종 보고서 생성 중</p>
+        <p class="t2">NexDrive의 ESG 정밀진단 최종 보고서를 생성 중입니다.</p>
+    </div>
+</div>
+<!-- //esg_dim_msg -->
+
+<!-- esg_dim_video -->
+<div class="esg_dim_video" style="display: none;">
+    <video src="../../resources/images/gate_03/loading.mp4" autoplay="" muted="" loop="" playsinline=""></video>
+</div>
+<!-- //esg_dim_video -->
 
 <script>
 // 미리 로딩한 SVG 텍스트 저장소
@@ -1110,7 +1124,7 @@ function runPopup01Sequence(panel) {
             });
         }
 
-        
+
         // 4) 버튼 활성화 + "꾹 눌렀다 튕겨 올라오는" 강한 클릭 모션
         if (btnSave) {
             tl.add(() => {

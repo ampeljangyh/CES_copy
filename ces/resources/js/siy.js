@@ -175,7 +175,7 @@ async function pageInit(stepMap) {
 //공통 처리
 function commonBefore() {
     const fragment = getFragment();
-    
+
     $('.selPrdName').text(getHashOfName());
     $('.selPrdCategory').text(getHashOfCategory());
 
@@ -198,7 +198,7 @@ function gate03ConfigData() {
             // [종합 평가]
             grade: 5, // A+
             gradeMsg: '귀사는 ESG 관리 수준이 높은 기업으로, 주요 항목을 잘 운영하고 있습니다.<br>일부 영역을 보완하면 더욱 균형잡힌 ESG 경영을 실천할 수 있습니다.<br>지속적인 개선을 통해 한 단계 더 도약할 수 있습니다.',
-            
+
             // [연도별 점수 이력]
             pointHistory: {
                 2024: { gradePoint: 84.9, gradePointE: 82.5, gradePointS: 87,   gradePointG: 85 },
@@ -276,7 +276,7 @@ function gate03ConfigData() {
             // [종합 평가]
             grade: 4, // A
             gradeMsg: '귀사는 ESG 경영을 성실히 실천하고 있으며, 주요 항목에 대한 관리가 이루어지고 있습니다.<br>일부 보완할 부분을 개선해 나가면 더욱 안정적이고 신뢰받는 ESG 체계를 구축할 수 있습니다.',
-            
+
             // [연도별 점수 이력]
             pointHistory: {
                 2024: { gradePoint: 66.1, gradePointE: 61.4, gradePointS: 69.4, gradePointG: 70 },
@@ -289,7 +289,7 @@ function gate03ConfigData() {
                 e: {
                     grade: 3, // B+
                     point: 61.4,
-                    avgIndustry: 49.7, 
+                    avgIndustry: 49.7,
                     avgSme: 45.2,
                     details: [
                         { score: 75,   text: '환경경영 일반' },
@@ -354,7 +354,7 @@ function gate03ConfigData() {
             // [종합 평가]
             grade: 3, // B+
             gradeMsg: '귀사는 ESG 관리 기반을 갖추고 있으며, 점진적인 개선을 통해 더 나은 성과를 기대할 수 있습니다.<br>관리 체계를 정교하게 다듬어 나간다면 ESG 경영의 신뢰도를 높일 수 있을 것입니다.',
-            
+
             // [연도별 점수 이력]
             pointHistory: {
                 2024: { gradePoint: 52.5, gradePointE: 43.4, gradePointS: 60.2, gradePointG: 60 },
@@ -432,7 +432,7 @@ function gate03ConfigData() {
             // [종합 평가]
             grade: 2, // B
             gradeMsg: '귀사는 ESG 경영을 위한 노력을 지속하고 있으며, 기본적인 요소를 충족하고 있습니다.<br>주요 항목을 정비하고 보완해 나가면 ESG 경쟁력을 한층 더 높일 수 있습니다.',
-            
+
             // [연도별 점수 이력]
             pointHistory: {
                 2024: { gradePoint: 43.6, gradePointE: 38.3, gradePointS: 50, gradePointG: 35 },

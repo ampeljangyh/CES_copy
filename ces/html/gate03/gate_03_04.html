@@ -239,7 +239,7 @@
 
                             </div>
                             <!-- //scroll_cnt -->
-                             
+
                             <!-- scroll_cnt -->
                             <div class="scroll_cnt cnt2" id="esgResult">
                                 <div class="report_tit_box">
@@ -646,7 +646,7 @@
                                                 <li>양호</li>
                                                 <li>우수</li>
                                             </ul>
-    
+
                                             <p class="t1">귀사는 일부 ESG 규제 요구사항을 반영하고 있으나, 대응 체계가 충분히 갖춰지지 않은 상태입니다.<br>주요 항목을 점검하고 단계적으로 개선해 나가는 것이 필요합니다.</p>
                                         </div>
                                     </div>
@@ -805,7 +805,7 @@
                                                 </div>
                                                 <span class="label_bottom">BAD</span>
                                             </div>
-                                            
+
                                             <div class="reg_slider">
                                                 <span class="label_top">GOOD</span>
                                                 <div class="slider_track">
@@ -873,7 +873,7 @@
                             </li>
                         </ul>
                         <!-- //report_grid -->
-                                    
+
 
                         <!-- report_btns -->
                         <div class="report_btns">
@@ -908,7 +908,7 @@
                                 <div class="report_tit_box">
                                     <strong class="report_tit">개선과제 관리 우선 분포도</strong>
                                 </div>
-                                
+
                                 <div class="dist_chart_inner">
                                     <canvas id="report3-chart1" style="width:100%; height:100%;"></canvas>
                                 </div>
@@ -998,7 +998,7 @@
                                 <div class="dist_side_inner">
                                     <strong class="tit">중장기</strong>
 
-                                    <ul class="dist_li">                                        
+                                    <ul class="dist_li">
                                         <li>
                                             <button type="button" class="btn_dist" disabled>
                                                 <span class="txt">12. 온실가스 배출량 산정체계</span>
@@ -1255,7 +1255,7 @@
             <!-- guide_diag -->
             <div class="guide_diag">
                 <strong class="tit">위험성 평가 절차</strong>
-                
+
                 <!-- guide_diag_box -->
                 <div class="guide_diag_box">
                     <img src="../../resources/images/gate_03/img_diag02.png" alt="">
@@ -1579,7 +1579,7 @@ function waitForAllGuideTransitions($cnt, guideNumber) {
 function refreshGuideFill(id){
     const $cnt = $('#' + id);
     const $activeBtn = $cnt.find('button[data-guide]').parent('.active').find('button[data-guide]');
-    
+
     if ($activeBtn.length === 0) return;
 
     const guideNumber = $activeBtn.attr("data-guide");
@@ -1711,7 +1711,7 @@ function switchReportTab(tabIndex) {
 function renderReportTab(reportNo, tabNo) {
     const key = `${reportNo}_${tabNo}`;
     const { data } = getCurrentGate03Data();
-    
+
     if (renderedTabs[key]) return;
     if (!data || !data.pointDetail) return;
 
@@ -1987,7 +1987,7 @@ function drawEsTrendChart(
         minVal = Math.max(0, minVal - 10);
         maxVal = Math.min(100, maxVal + 10);
     }
-    
+
     if ((maxVal - minVal) < 40) {
         maxVal = minVal + 40;
     }
@@ -2009,7 +2009,7 @@ function drawEsTrendChart(
         "사회": "#387D82",
         "지배구조": "#5D69E5"
     };
-    
+
     // 그라디언트 색상
     const barGradientSpec = ["#60BAF5", "#0A498C"];
 
@@ -2534,8 +2534,8 @@ function startAutoPrc(id) {
     if (!itemsArr.length) return;
 
     // 효과 요소(.effect) 목록
-    const effectsArr = itemsArr.map(function (li) { 
-        return li.querySelector(".effect"); 
+    const effectsArr = itemsArr.map(function (li) {
+        return li.querySelector(".effect");
     });
 
     // 기존 timeline 종료
@@ -2550,7 +2550,7 @@ function startAutoPrc(id) {
     var restEffects = effectsArr.slice(1).filter(Boolean);
 
     if (restItems.length) {
-        gsap.set(restItems, { 
+        gsap.set(restItems, {
             opacity: 0.6,
             backgroundColor: "rgba(255,255,255,0.08)"
         });
@@ -2573,7 +2573,7 @@ function startAutoPrc(id) {
 
                 // 2번째 루프부터 활성화 전에 전체 초기화
                 if (i === 0 && !isFirst) {
-                    gsap.set(itemsArr, { 
+                    gsap.set(itemsArr, {
                         opacity: 0.6,
                         backgroundColor: "rgba(255,255,255,0.08)"
                     });
@@ -2581,7 +2581,7 @@ function startAutoPrc(id) {
                 }
 
                 // 활성화 스타일 적용(부드러운 fade)
-                gsap.to(item, { 
+                gsap.to(item, {
                     opacity: 1,
                     backgroundColor: "rgba(93,105,229,0.26)",
                     duration: 0.7,
@@ -2590,7 +2590,7 @@ function startAutoPrc(id) {
 
                 // effect 활성화
                 if (eff) {
-                    gsap.to(eff, { 
+                    gsap.to(eff, {
                         borderColor: "rgba(93,105,229,0.55)",
                         duration: 0.7,
                         ease: "power3.out"
@@ -2606,7 +2606,7 @@ function startAutoPrc(id) {
         autoPrcTimeline.to({}, { duration: 1 });
 
         // 비활성화 애니메이션
-        autoPrcTimeline.to(item, { 
+        autoPrcTimeline.to(item, {
             opacity: 0.6,
             backgroundColor: "rgba(255,255,255,0.08)",
             duration: 0.7,
@@ -2645,7 +2645,7 @@ function resetAutoPrc(id) {
     var first = itemsArr[0], firstEff = effectsArr[0];
 
     if (first) {
-        gsap.set(first, { 
+        gsap.set(first, {
             opacity: 1,
             backgroundColor: "rgba(93,105,229,0.26)"
         });
@@ -2712,7 +2712,7 @@ function gate0304onLoad() {
         const $cnt = $this.closest('.panel_side');
         const $guide_prc_li = $cnt.find('.guide_prc_li');
         const panelId = $cnt.attr('id');
-        
+
         $cnt.find('button[data-guide]').parent().removeClass('active');
         $this.parent().addClass('active');
         $cnt.find('.guide_li li[data-guide]').hide();
@@ -2721,7 +2721,7 @@ function gate0304onLoad() {
         if (panelId == 'pop02') {
             $guide_prc_li.find('div[data-guide]').removeClass('active');
             $guide_prc_li.find('div[data-guide='+ guideNumber +']').addClass('active');
-    
+
             waitForAllGuideTransitions($cnt, guideNumber);
         }
     });
@@ -2729,7 +2729,7 @@ function gate0304onLoad() {
     // #btn01
     $('#btn01').on('click', function(){
         const fragment = getFragment();
-    
+
         location.href = 'gate_03_05.html#' + fragment;
     });
 }

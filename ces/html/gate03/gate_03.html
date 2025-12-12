@@ -270,7 +270,6 @@
 <!-- //esg_modal -->
 
 
-
 <script>
 function updateScaleTxt(el) {
     const $scaleTxt = $('#scaleTxt');
@@ -299,7 +298,7 @@ function updateScaleTxt(el) {
                 +'<span>&nbsp;억원</span>'
             );
             break;
-    
+
         default:
             break;
     }
@@ -324,12 +323,12 @@ function gate03onLoad() {
         openPanel('pop01');
     });
 
-    /* 
+    /*
     * 입력 완료 클릭 시, hash 이용해서 다음 페이지로
     */
     $('#selPrdConfirm').on('click', function(){
         var selPrdCode = $('#selPrdCode').val();
-    
+
         location.href = 'gate_03_01_03.html#' + selPrdCode;
     });
 }

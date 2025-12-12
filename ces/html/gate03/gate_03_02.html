@@ -30,7 +30,7 @@
     <!--
     alert 처리 필요
     결과산충
-    선택 시, 케이스 적용 
+    선택 시, 케이스 적용
     -->
     <!-- Header -->
     <header>
@@ -322,8 +322,8 @@
                                 <button type="button" data-ripple="TRUE" class="btn_eval">평가 하기</button>
                             </div>
                         </li>
-    
-    
+
+
                         <!-- data-visible : 1 -->
                         <li data-finished="FALSE" data-visible="1" style="display:none;">
                             <img src="../../resources/images/gate_03/7/img31.jpg" alt="">
@@ -374,8 +374,8 @@
                             </div>
                         </li>
                         <!-- //data-visible : 1 -->
-    
-                        
+
+
                         <!-- data-visible : 2 -->
                         <li data-finished="FALSE" data-visible="2" style="display:none;">
                             <img src="../../resources/images/gate_03/7/img37.jpg" alt="">
@@ -426,8 +426,8 @@
                             </div>
                         </li>
                         <!-- //data-visible : 2 -->
-    
-    
+
+
                         <!-- data-visible : 3 -->
                         <li data-finished="FALSE" data-visible="3" style="display:none;">
                             <img src="../../resources/images/gate_03/7/img43.jpg" alt="">
@@ -470,8 +470,8 @@
                             </div>
                         </li>
                         <!-- //data-visible : 3 -->
-    
-    
+
+
                         <!-- data-visible : 4 -->
                         <li data-finished="FALSE" data-visible="4" style="display:none;">
                             <img src="../../resources/images/gate_03/7/img48.jpg" alt="">
@@ -1012,7 +1012,7 @@ function autoClickSequence(selector, delay = 0.75) {
         const li = btn.closest("li");
         const isSelf = li?.dataset.self === "TRUE";
         const isFirst = index === 0;
-        
+
         tl.call(() => {
             scrollIntoViewIfNeeded(btn);
         }, null, at);
@@ -1208,7 +1208,7 @@ function gate0302onLoad() {
     // 다음페이지로
     $('#btn01').on('click', function(){
         const fragment = getFragment();
-    
+
         location.href = 'gate_03_03.html#' + fragment;
     });
 }
