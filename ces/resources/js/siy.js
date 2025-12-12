@@ -977,7 +977,7 @@ function bindPoint() {
 
 function getCurrentGate03DiagData() {
     const config = getGate03DiagData();
-    const fragment = getFragment();               // "1" ~ "4" 기대
+    const fragment = getFragment();
     const key = (fragment && config[fragment]) ? fragment : '1';
     const data = config[key];
 
@@ -1165,9 +1165,10 @@ function getGate03DiagData() {
 }
 
 function getCurrentSummaryGrades() {
-    const { key } = getCurrentGate03DiagData();  // "1" ~ "4"
-    const summaries = getGate03SummaryGrades();
-    return summaries[key] || null;
+    const config = getGate03SummaryGrades();
+    const fragment = getFragment();
+    const key = (fragment && config[fragment]) ? fragment : '1';
+    return config[key] || null;
 }
 
 // E/S/G 요약 등급 데이터
@@ -1178,4 +1179,224 @@ function getGate03SummaryGrades() {
         "3": { e: "B", s: "A",  g: "B+"  },
         "4": { e: "B",  s: "B+", g: "B" }
     };
+}
+
+function getCurrentPopupDatas() {
+    const config   = getGate03PopupDatas();
+    const fragment = getFragment();
+    const key      = (fragment && config[fragment]) ? fragment : "1";
+    const data     = config[key];
+
+    return { config, key, data };
+}
+
+// 팝업 데이터
+function getGate03PopupDatas() {
+    return {
+        "1": {
+            pop01: {
+                d1: 0.123,
+                d2: 0.115,
+                d3: 0.107,
+                d4: 90.3,
+                d5: {
+                    class: "ty1",
+                    percent: 9.7
+                },
+                d6: "L4",
+                d7: "(10점)"
+            },
+            pop02: {
+                chkIdx: [1, 2, 3, 4, 5, 6]
+            },
+            pop03: {
+                chkIdx: 4
+            }
+        },
+        "2": {
+            pop01: {
+                d1: 0.176,
+                d2: 0.199,
+                d3: 0.184,
+                d4: 98.0,
+                d5: {
+                    class: "ty1",
+                    percent: 2.0
+                },
+                d6: "L2",
+                d7: "(5점)"
+            },
+            pop02: {
+                chkIdx: [1, 2, 4, 5, 6]
+            },
+            pop03: {
+                chkIdx: 3
+            }
+        },
+        "3": {
+            pop01: {
+                d1: 0.153,
+                d2: 0.199,
+                d3: 0.245,
+                d4: 139.2,
+                d5: {
+                    class: "ty2",
+                    percent: 39.2
+                },
+                d6: "L0",
+                d7: "(0점)"
+            },
+            pop02: {
+                chkIdx: [2, 3, 6]
+            },
+            pop03: {
+                chkIdx: 2
+            }
+        },
+        "4": {
+            pop01: {
+                d1: 0.153,
+                d2: 0.199,
+                d3: 0.245,
+                d4: 139.2,
+                d5: {
+                    class: "ty2",
+                    percent: 39.2
+                },
+                d6: "L0",
+                d7: "(0점)"
+            },
+            pop02: {
+                chkIdx: [0]
+            },
+            pop03: {
+                chkIdx: 1
+            }
+        }
+    };
+}
+
+/**
+ * fragment(1~4)에 맞는 팝업 데이터 → pop01 / pop02 / pop03 DOM에 바인딩
+ */
+function bindPopupData() {
+    const { data } = getCurrentPopupDatas();
+    if (!data) return;
+
+    Object.keys(data).forEach((panelId) => {
+        const popupData = data[panelId];
+        const panel     = document.getElementById(panelId);
+        if (!panel || !popupData) return;
+
+        if (panelId === "pop01") {
+            bindPopup01(panel, popupData);
+        } else if (panelId === "pop02") {
+            bindPopup02(panel, popupData);
+        } else if (panelId === "pop03") {
+            bindPopup03(panel, popupData);
+        }
+    });
+}
+
+/* ===========================
+   pop01: 수치 + 화살표 규칙
+   =========================== */
+
+function bindPopup01(panel, popupData) {
+    // 숫자 포맷 (집약도 3자리 소수)
+    const fmt3 = (v) =>
+        (typeof v === "number" ? v.toFixed(3) : v);
+
+    // 1) 진단 데이터 (집약도 3개) d1, d2, d3
+    const valueSpans = panel.querySelectorAll(".info_box .info_li li .d1");
+    if (valueSpans[0] && popupData.d1 != null) valueSpans[0].textContent = fmt3(popupData.d1);
+    if (valueSpans[1] && popupData.d2 != null) valueSpans[1].textContent = fmt3(popupData.d2);
+    if (valueSpans[2] && popupData.d3 != null) valueSpans[2].textContent = fmt3(popupData.d3);
+
+    const grid = panel.querySelector(".info_grid");
+    if (!grid) return;
+
+    const blocks = grid.querySelectorAll("div");
+
+    // 2) 총 온실가스 감축률 (d4)
+    if (blocks[0]) {
+        const emTotal = blocks[0].querySelector(".t2 em");
+        if (emTotal && popupData.d4 != null) {
+            emTotal.textContent =
+                (typeof popupData.d4 === "number" ? popupData.d4.toFixed(1) : popupData.d4);
+        }
+    }
+
+    // 3) 성과(집약도): d5.class + d5.percent (▲ / ▼ 규칙 적용)
+    if (blocks[1] && popupData.d5) {
+        const emPerf = blocks[1].querySelector(".t2 em");
+        if (emPerf) {
+            // 클래스 적용 (ty1 / ty2 등)
+            if (popupData.d5.class) {
+                emPerf.className = popupData.d5.class;
+            }
+
+            if (popupData.d5.percent != null) {
+                const p    = popupData.d5.percent;
+                const sign = p > 0 ? "▲ " : (p < 0 ? "▼ " : "");
+                // 화살표 + 절대값, 소수 1자리
+                emPerf.textContent = sign + Math.abs(p).toFixed(1);
+            }
+        }
+    }
+
+    // 4) 진단 점수: d6, d7
+    if (blocks[2]) {
+        const scoreEm   = blocks[2].querySelector(".t2.lg em");
+        const scoreSpan = blocks[2].querySelector(".t2.lg span");
+
+        if (scoreEm && popupData.d6 != null) {
+            scoreEm.textContent = popupData.d6;
+        }
+        if (scoreSpan && popupData.d7 != null) {
+            scoreSpan.textContent = popupData.d7;
+        }
+    }
+}
+
+/* ===========================
+   pop02: 체크박스 선택 상태
+   chkIdx: [0..n] (0기준 index)
+   =========================== */
+
+function bindPopup02(panel, popupData) {
+    const chkIdxArr = popupData.chkIdx || [];
+    const inputs = panel.querySelectorAll(".info_chk_li input[type='checkbox']");
+
+    // 초기화
+    inputs.forEach((input) => {
+        input.checked = false;
+    });
+
+    chkIdxArr.forEach((idx) => {
+        if (typeof idx !== "number") return;
+        const input = inputs[idx];
+        if (input) {
+            input.checked = true;
+        }
+    });
+}
+
+/* ===========================
+   pop03: 라디오 선택 상태
+   chkIdx: number (0기준 index)
+   =========================== */
+
+function bindPopup03(panel, popupData) {
+    const idx = popupData.chkIdx;
+    const inputs = panel.querySelectorAll(".info_chk_li input[type='radio']");
+
+    // 초기화
+    inputs.forEach((input) => {
+        input.checked = false;
+    });
+
+    if (typeof idx === "number" && inputs[idx]) {
+        inputs[idx].checked = true;
+    }
 }

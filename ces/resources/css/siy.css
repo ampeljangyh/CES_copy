@@ -158,7 +158,8 @@
 
 .panel_side .btns.sm {justify-content:center;margin-top:60px;}
 
-.btn_save {width:452px;height:136px;border-radius: 30px;background: #0071FE;color: #FFF;font-size: 64px;font-weight: 800;letter-spacing: -1.28px;}
+.btn_save {width:452px;height:136px;border-radius: 30px;background: #0071FE;color: #FFF;font-size: 64px;font-weight: 800;letter-spacing: -1.28px;transition:color 0.7s, background 0.7s;}
+.btn_save:disabled {color:#757575;background: rgba(190, 190, 190, 0.17);}
 
 .btn_round {height:156px;padding:0 120px;border: 1px solid #BEBEBE;border-radius: 100px;background:#383C45;font-size: 64px;font-weight: 500;line-height: 1.5;letter-spacing: -1.92px;color:#757575;}
 .btn_round.confirm {border:5px solid transparent;color:#FFF;background: linear-gradient(#202B44, #202B44) padding-box, linear-gradient(100deg, #D9E5FE 0%, #CADAFC 40%, #0071FE 100%) border-box;box-shadow: 0 0 20px 4.5px rgba(217, 229, 254, 0.10), 0 0 53.4px 0 rgba(217, 229, 254, 0.10), 0 0 55.5px 0 rgba(217, 229, 254, 0.10), 0 0 24.1px 0 rgba(217, 229, 254, 0.10), 0 0 13.3px 0 rgba(217, 229, 254, 0.10), 0 0 45.9px 0 rgba(217, 229, 254, 0.10);}
@@ -293,6 +294,7 @@
 .panel_side .info_grid > div.span {grid-column: span 2;}
 .panel_side .info_grid .t1 {color: #FFF;font-size: 36px;font-weight: 400;letter-spacing: -0.72px;}
 .panel_side .info_grid .t2 {display:flex;align-items:center;gap:12px;color: #FFF;font-size: 40px;font-weight: 800;letter-spacing: -0.8px;}
+.panel_side .info_grid .t2 em {transition:color 0.7s;}
 .panel_side .info_grid .t2 > .ty1 {color:#0071FE;}
 .panel_side .info_grid .t2 > .ty2 {color:#EC4115;}
 .panel_side .info_grid .t1.lg {gap:16px;font-size: 48px;font-weight: 600;}

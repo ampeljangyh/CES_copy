@@ -170,8 +170,6 @@
     <div class="top">
         <strong class="ico_esg ty_e">온실가스 배출량 감축</strong>
         <p>온실가스 배출량 (Scope 1&2)이 감소 추세에 있는지 확인하기 위한 지표</p>
-
-        <button type="button" class="btn_panel_close" onclick="closePanel('pop01');"><span class="blind">닫기</span></button>
     </div>
     <div class="cnt">
         <!-- cnt_inner -->
@@ -259,7 +257,7 @@
             <!-- //info_box -->
 
             <div class="btns sm">
-                <button type="button" class="btn_save">저장</button>
+                <button type="button" class="btn_save" disabled>평가하기</button>
             </div>
         </div>
         <!-- //cnt_inner -->
@@ -272,8 +270,6 @@
     <div class="top">
         <strong class="ico_esg ty_s">안전보건 관리 활동</strong>
         <p>기업이 정기적으로 검증된 ESG 정보를 공시하는지 확인하기 위한 지표</p>
-
-        <button type="button" class="btn_panel_close" onclick="closePanel('pop02');"><span class="blind">닫기</span></button>
     </div>
     <div class="cnt">
         <!-- cnt_inner -->
@@ -313,43 +309,43 @@
 
                 <ul class="info_chk_li">
                     <li>
-                        <label class="chk_min">
+                        <label class="chk_min" style="pointer-events: none;">
                             <input type="checkbox" name="chk01">
                             <span>적용항목 없음</span>
                         </label>
                     </li>
                     <li>
-                        <label class="chk_min">
+                        <label class="chk_min" style="pointer-events: none;">
                             <input type="checkbox" name="chk01">
                             <span>안전보건관계자 평가 · 관리실시</span>
                         </label>
                     </li>
                     <li>
-                        <label class="chk_min">
+                        <label class="chk_min" style="pointer-events: none;">
                             <input type="checkbox" name="chk01">
                             <span>사업장 안전보건 사항 관련 종사자 의견 청취</span>
                         </label>
                     </li>
                     <li>
-                        <label class="chk_min">
+                        <label class="chk_min" style="pointer-events: none;">
                             <input type="checkbox" name="chk01">
                             <span>안전보건 위험성 평가</span>
                         </label>
                     </li>
                     <li>
-                        <label class="chk_min">
+                        <label class="chk_min" style="pointer-events: none;">
                             <input type="checkbox" name="chk01">
                             <span>주기적 작업환경측정 실시</span>
                         </label>
                     </li>
                     <li>
-                        <label class="chk_min">
+                        <label class="chk_min" style="pointer-events: none;">
                             <input type="checkbox" name="chk01">
                             <span>화학물질의 MSDS 비치 및 취급자 교육</span>
                         </label>
                     </li>
                     <li>
-                        <label class="chk_min">
+                        <label class="chk_min" style="pointer-events: none;">
                             <input type="checkbox" name="chk01">
                             <span>비상 대응 체계 구축</span>
                         </label>
@@ -357,33 +353,9 @@
                 </ul>
             </div>
             <!-- //info_box -->
-            <!-- info_box -->
-            <div class="info_box">
-                <div class="info_tit">
-                    <strong>진단 결과</strong>
-                </div>
-
-                <div class="info_grid">
-                    <div class="span">
-                        <span class="t1">선택된 항목 수</span>
-                        <span class="t2">
-                            <em class="ty1">0</em>
-                            <span>개</span>
-                        </span>
-                    </div>
-                    <div class="span">
-                        <span class="t1 lg">진단 점수</span>
-                        <span class="t2 lg">
-                            <em>LO</em>
-                            <span>(0점)</span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <!-- //info_box -->
 
             <div class="btns sm">
-                <button type="button" class="btn_save">저장</button>
+                <button type="button" class="btn_save" disabled>평가하기</button>
             </div>
         </div>
         <!-- //cnt_inner -->
@@ -396,8 +368,6 @@
     <div class="top">
         <strong class="ico_esg ty_g">ESG 정보 공시</strong>
         <p>기업이 정기적으로 검증된 ESG 정보를 공시하는지 확인하기 위한 지표</p>
-
-        <button type="button" class="btn_panel_close" onclick="closePanel('pop03');"><span class="blind">닫기</span></button>
     </div>
     <div class="cnt">
         <!-- cnt_inner -->
@@ -437,31 +407,31 @@
 
                 <ul class="info_chk_li">
                     <li>
-                        <label class="chk_min">
+                        <label class="chk_min" style="pointer-events: none;">
                             <input type="radio" name="chk01">
                             <span>ESG 정보 미공시</span>
                         </label>
                     </li>
                     <li>
-                        <label class="chk_min">
+                        <label class="chk_min" style="pointer-events: none;">
                             <input type="radio" name="chk01">
                             <span>ESG 정보 공시 준비 중</span>
                         </label>
                     </li>
                     <li>
-                        <label class="chk_min">
+                        <label class="chk_min" style="pointer-events: none;">
                             <input type="radio" name="chk01">
                             <span>ESG 정보 공시</span>
                         </label>
                     </li>
                     <li>
-                        <label class="chk_min">
+                        <label class="chk_min" style="pointer-events: none;">
                             <input type="radio" name="chk01">
                             <span>검증된 ESG 정보 공시</span>
                         </label>
                     </li>
                     <li>
-                        <label class="chk_min">
+                        <label class="chk_min" style="pointer-events: none;">
                             <input type="radio" name="chk01">
                             <span>정기적으로 검증된 ESG 정보 공시</span>
                         </label>
@@ -469,26 +439,9 @@
                 </ul>
             </div>
             <!-- //info_box -->
-            <!-- info_box -->
-            <div class="info_box">
-                <div class="info_tit">
-                    <strong>진단 결과</strong>
-                </div>
-
-                <div class="info_grid">
-                    <div class="span">
-                        <span class="t1 lg">진단 점수</span>
-                        <span class="t2 lg">
-                            <em>LO</em>
-                            <span>(0점)</span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <!-- //info_box -->
 
             <div class="btns sm">
-                <button type="button" class="btn_save">저장</button>
+                <button type="button" class="btn_save">평가하기</button>
             </div>
         </div>
         <!-- //cnt_inner -->
@@ -831,13 +784,13 @@ function startSvgAndGrade(evalWrap, gradeEl) {
 // ------------------------------------------------------------
 // 팝업 기반 평가 플로우 (버튼 → 팝업 → grade)
 // ------------------------------------------------------------
-
 async function runPopupEvalFlow(li, evalWrap, gradeEl) {
     if (!evalWrap) return;
 
-    const panelId = li.dataset.panelId || "popup01";
+    // HTML 패널 id(pop01, pop02, pop03)에 맞게 기본값은 pop01
+    const panelId = li.dataset.panelId || "pop01";
 
-    let btn = li.querySelector(".btn_item_eval");
+    const btn = li.querySelector(".btn_item_eval");
     if (!btn) return;
 
     if (gradeEl) {
@@ -849,7 +802,7 @@ async function runPopupEvalFlow(li, evalWrap, gradeEl) {
         gsap.fromTo(
             btn,
             {
-                display: '',
+                display: "",
                 autoAlpha: 0,
                 y: 10
             },
@@ -863,19 +816,25 @@ async function runPopupEvalFlow(li, evalWrap, gradeEl) {
         );
     });
 
-    // 2) 버튼 살짝 눌리는 모션
+    // 2) 버튼 강하게 눌리는 모션
     await new Promise((resolve) => {
         gsap.to(btn, {
-            scale: 0.94,
-            duration: 0.12,
-            ease: "power1.out",
+            scale: 0.9,
+            y: 2,
+            duration: 0.18,
+            ease: "power2.out",
             yoyo: true,
             repeat: 1,
             onComplete: resolve
         });
     });
 
-    // 3) 팝업 open → 내부 시퀀스 → close
+    // 3) 팝업 내부 애니메이션 초기화 (openPanel 이전에 실행)
+    if (typeof initPopupPanelState === "function") {
+        initPopupPanelState(panelId);
+    }
+
+    // 4) 팝업 open → 내부 시퀀스 → close
     await new Promise((resolve) => {
         openPanel(panelId, () => {
             runPopupPanelSequence(panelId).then(() => {
@@ -886,7 +845,7 @@ async function runPopupEvalFlow(li, evalWrap, gradeEl) {
         });
     });
 
-    // 4) 버튼 제거 + grade 등장
+    // 5) 버튼 제거 + grade 등장
     await new Promise((resolve) => {
         const tl = gsap.timeline({ onComplete: resolve });
 
@@ -901,56 +860,463 @@ async function runPopupEvalFlow(li, evalWrap, gradeEl) {
         });
 
         if (gradeEl) {
-            tl.to(gradeEl, {
-                autoAlpha: 1,
-                y: 0,
-                duration: 0.3,
-                ease: "power3.out"
-            }, "-=0.1");
+            tl.to(
+                gradeEl,
+                {
+                    autoAlpha: 1,
+                    y: 0,
+                    duration: 0.3,
+                    ease: "power3.out"
+                },
+                "-=0.1"
+            );
         }
     });
 }
 
+
+function initPopupPanelState(panelId) {
+    const panel = document.getElementById(panelId);
+    if (!panel) return;
+
+    if (panelId === "pop01") {
+        initPopup01State(panel);
+    } else if (panelId === "pop02") {
+        initPopup02State(panel);
+    } else if (panelId === "pop03") {
+        initPopup03State(panel);
+    }
+}
+
+function initPopup01State(panel) {
+    const grid = panel.querySelector(".info_grid");
+    if (!grid) return;
+
+    const blocks = grid.querySelectorAll("div");
+    if (blocks.length < 3) return;
+
+    const totalEm   = blocks[0].querySelector(".t2 em");
+    const perfEm    = blocks[1].querySelector(".t2 em");
+    const scoreEm   = blocks[2].querySelector(".t2.lg em");
+    const scoreSpan = blocks[2].querySelector(".t2.lg span");
+    const btnSave   = panel.querySelector(".btn_save");
+
+    // 숫자 클래스/텍스트 초기화 (0.0 대신 "-")
+    if (totalEm) {
+        totalEm.dataset.origClass = totalEm.className || "";
+        totalEm.className = "";
+        totalEm.textContent = "-";
+    }
+    if (perfEm) {
+        perfEm.dataset.origClass = perfEm.className || "";
+        perfEm.className = "";
+        perfEm.textContent = "-";
+    }
+
+    // 진단 점수는 텍스트는 그대로, 애니만 숨김 상태로 시작
+    if (scoreEm) {
+        gsap.set(scoreEm, { autoAlpha: 0, y: 4 });
+    }
+    if (scoreSpan) {
+        gsap.set(scoreSpan, { autoAlpha: 0, y: 4 });
+    }
+
+    // 버튼 초기 상태
+    if (btnSave) {
+        btnSave.disabled = true;
+        gsap.set(btnSave, { scale: 1, y: 0 });
+    }
+}
+
+function initPopup02State(panel) {
+    // 체크박스 모두 해제 (애니메이션은 여기서부터 시작)
+    const inputs = panel.querySelectorAll(".info_chk_li input[type='checkbox']");
+    inputs.forEach((input) => {
+        input.checked = false;
+    });
+
+    // 버튼 초기화
+    const btnSave = panel.querySelector(".btn_save");
+    if (btnSave) {
+        btnSave.disabled = true;
+        gsap.set(btnSave, { scale: 1, y: 0 });
+    }
+}
+
+function initPopup03State(panel) {
+    // 라디오 모두 선택 해제 (애니메이션 시작점)
+    const inputs = panel.querySelectorAll(".info_chk_li input[type='radio']");
+    inputs.forEach((input) => {
+        input.checked = false;
+    });
+
+    // 버튼 초기화
+    const btnSave = panel.querySelector(".btn_save");
+    if (btnSave) {
+        btnSave.disabled = true;
+        gsap.set(btnSave, { scale: 1, y: 0 });
+    }
+}
+
 function runPopupPanelSequence(panelId) {
+    const panel = document.getElementById(panelId);
+    if (!panel) {
+        return Promise.resolve();
+    }
+
+    if (panelId === "pop01") {
+        return runPopup01Sequence(panel);
+    } else if (panelId === "pop02") {
+        return runPopup02Sequence(panel);
+    } else if (panelId === "pop03") {
+        return runPopup03Sequence(panel);
+    }
+
+    return Promise.resolve();
+}
+
+// pop01: 총 온실가스 감축률 → 성과(집약도) → 진단 점수 fadeIn → 버튼 활성화/클릭 연출
+function runPopup01Sequence(panel) {
     return new Promise((resolve) => {
-        const panel = document.getElementById(panelId);
-        if (!panel) {
+        const popupDatas = getCurrentPopupDatas();
+        const data       = popupDatas && popupDatas.data;
+        const popupData  = data && data.pop01;
+        if (!popupData) {
             resolve();
             return;
         }
 
-        // debugger;
+        const grid = panel.querySelector(".info_grid");
+        if (!grid) {
+            resolve();
+            return;
+        }
 
-        resolve();
+        const blocks = grid.querySelectorAll("div");
+        if (blocks.length < 3) {
+            resolve();
+            return;
+        }
 
-        // const saveBtn = panel.querySelector(".btn_popup_save");  // 실제 클래스명에 맞게 수정
-        // const bodyEls = panel.querySelectorAll(".eval_item");    // 내부 평가 요소들 선택자도 수정
+        const totalEm   = blocks[0].querySelector(".t2 em");
+        const perfEm    = blocks[1].querySelector(".t2 em");
+        const scoreEm   = blocks[2].querySelector(".t2.lg em");
+        const scoreSpan = blocks[2].querySelector(".t2.lg span");
+        const btnSave   = panel.querySelector(".btn_save");
 
-        // const tl = gsap.timeline({
-        //     defaults: { ease: "power3.out" },
-        //     onComplete: resolve
-        // });
+        if (!totalEm || !perfEm || !scoreSpan) {
+            resolve();
+            return;
+        }
 
-        // // 1) (선택) 패널 내부 요소들 평가 애니메이션
-        // if (bodyEls.length) {
-        //     tl.from(bodyEls, {
-        //         autoAlpha: 0,
-        //         y: 16,
-        //         stagger: 0.06,
-        //         duration: 0.25
-        //     });
-        // }
+        // 목표 값
+        const totalTarget =
+            typeof popupData.d4 === "number" ? popupData.d4 : parseFloat(popupData.d4);
 
-        // // 2) 저장 버튼이 눌리는 애니메이션
-        // if (saveBtn) {
-        //     tl.to(saveBtn, {
-        //         scale: 0.95,
-        //         duration: 0.12,
-        //         ease: "power1.out",
-        //         yoyo: true,
-        //         repeat: 1
-        //     }, "+=0.3");
-        // }
+        const perfPercent =
+            popupData.d5 && popupData.d5.percent != null ? popupData.d5.percent : 0;
+
+        const perfSign      = perfPercent > 0 ? "▲ " : perfPercent < 0 ? "▼ " : "";
+        const perfAbsTarget = Math.abs(perfPercent);
+
+        const totalClass = totalEm.dataset.origClass || "";
+        const perfClass  =
+            (popupData.d5 && popupData.d5.class) ||
+            perfEm.dataset.origClass ||
+            "";
+
+        const totalObj = { value: 0 };
+        const perfObj  = { value: 0 };
+
+        const tl = gsap.timeline({
+            defaults: { ease: "power2.out" },
+            onComplete: resolve
+        });
+
+        // 0) 팝업 열린 후 잠깐 정지
+        tl.to({}, { duration: 0.5 });
+
+        // 1) 총 온실가스 감축률: 클래스 부여 후 카운트
+        tl.add(() => {
+            if (totalClass) totalEm.className = totalClass;
+        });
+
+        tl.to(totalObj, {
+            value: totalTarget,
+            duration: 2.0,
+            ease: "power1.out",
+            onUpdate: () => {
+                totalEm.textContent = totalObj.value.toFixed(1);
+            }
+        })
+        .fromTo(
+            totalEm,
+            { scale: 1 },
+            {
+                scale: 1.08,
+                duration: 0.2,
+                ease: "power1.out",
+                yoyo: true,
+                repeat: 1
+            },
+            "-=0.6"
+        )
+        .to({}, { duration: 1.0 }); // 읽는 시간
+
+        // 2) 성과(집약도): 클래스 부여 후 카운트 (이때부터 화살표 등장)
+        tl.add(() => {
+            if (perfClass) perfEm.className = perfClass;
+        });
+
+        tl.to(perfObj, {
+            value: perfAbsTarget,
+            duration: 2.0,
+            ease: "power1.out",
+            onUpdate: () => {
+                perfEm.textContent = perfSign + perfObj.value.toFixed(1);
+            }
+        })
+        .fromTo(
+            perfEm,
+            { scale: 1 },
+            {
+                scale: 1.08,
+                duration: 0.2,
+                ease: "power1.out",
+                yoyo: true,
+                repeat: 1
+            },
+            "-=0.6"
+        )
+        .to({}, { duration: 0.5 });
+
+        // 3) 진단 점수 fadeIn
+        if (scoreEm) {
+            tl.to(
+                [scoreEm, scoreSpan],
+                {
+                    autoAlpha: 1,
+                    y: 0,
+                    duration: 0.6,
+                    ease: "power2.out"
+                }
+            );
+        } else {
+            tl.to(scoreSpan, {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.6,
+                ease: "power2.out"
+            });
+        }
+
+        
+        // 4) 버튼 활성화 + "꾹 눌렀다 튕겨 올라오는" 강한 클릭 모션
+        if (btnSave) {
+            tl.add(() => {
+                btnSave.disabled = false;
+            });
+
+            tl.to({}, { duration: 0.5 });
+
+            // 깊게 눌림 → 튕겨 올라옴 → 살짝 안정화
+            tl.to(
+                btnSave,
+                {
+                    scale: 0.86,
+                    duration: 0.2,
+                    ease: "power3.in"
+                },
+                "+=0.15"
+            )
+            .to(btnSave, {
+                scale: 1.0,
+                duration: 0.2,
+                ease: "power1.out"
+            });
+        }
+    });
+}
+
+function runPopup02Sequence(panel) {
+    return new Promise((resolve) => {
+        const popupDatas = getCurrentPopupDatas();
+        const data       = popupDatas && popupDatas.data;
+        const popupData  = data && data.pop02;
+        if (!popupData) {
+            resolve();
+            return;
+        }
+
+        const chkIdxArr = Array.isArray(popupData.chkIdx) ? popupData.chkIdx : [];
+        const inputs    = panel.querySelectorAll(".info_chk_li input[type='checkbox']");
+        const btnSave   = panel.querySelector(".btn_save");
+
+        if (!inputs.length) {
+            if (btnSave) btnSave.disabled = false;
+            resolve();
+            return;
+        }
+
+        // 질문 info_box (Q. ... 부분) – 구조상 4번째 info_box 로 가정
+        const infoBoxes   = panel.querySelectorAll(".info_box");
+        const questionBox = infoBoxes[3] || null;
+
+        const tl = gsap.timeline({
+            defaults: { ease: "power2.out" },
+            onComplete: resolve
+        });
+
+        // 0) 팝업 열린 후 잠깐 정지 (질문 읽는 시간)
+        tl.to({}, { duration: 0.5 });
+
+        // 2) chkIdx 순서대로 체크박스 선택 (사람이 하나씩 클릭하는 느낌)
+        if (chkIdxArr.length) {
+            chkIdxArr.forEach((idx, i) => {
+                if (typeof idx !== "number") return;
+                const input = inputs[idx];
+                if (!input) return;
+
+                const label = input.closest("label.chk_min") || input.parentElement;
+
+                const gap = (i === 0 ? 0.7 : 0.5); // 첫 항목은 조금 더 여유
+
+                // 체크 시점
+                tl.add(() => {
+                    input.checked = true;
+                }, `+=${gap}`);
+
+                // 라벨 살짝 눌렸다 올라오는 모션
+                if (label) {
+                    tl.fromTo(
+                        label,
+                        { scale: 0.96, y: 1 },
+                        {
+                            scale: 1.0,
+                            y: 0,
+                            duration: 0.16,
+                            ease: "power2.out"
+                        },
+                        "<" // 체크와 동시에
+                    );
+                }
+            });
+        }
+
+        // 3) 선택 결과 눈으로 확인할 시간
+        tl.to({}, { duration: 0.5 });
+
+        // 4) 버튼 활성화 + pop01 과 동일한 눌림 애니메이션
+        if (btnSave) {
+            tl.add(() => {
+                btnSave.disabled = false;
+            });
+
+            tl.to({}, { duration: 0.5 });
+
+            tl.to(
+                btnSave,
+                {
+                    scale: 0.86,
+                    duration: 0.2,
+                    ease: "power3.in"
+                },
+                "+=0.15"
+            )
+            .to(btnSave, {
+                scale: 1.0,
+                duration: 0.2,
+                ease: "power1.out"
+            });
+        }
+    });
+}
+
+function runPopup03Sequence(panel) {
+    return new Promise((resolve) => {
+        const popupDatas = getCurrentPopupDatas();
+        const data       = popupDatas && popupDatas.data;
+        const popupData  = data && data.pop03;
+        if (!popupData) {
+            resolve();
+            return;
+        }
+
+        const idx       = popupData.chkIdx;
+        const inputs    = panel.querySelectorAll(".info_chk_li input[type='radio']");
+        const btnSave   = panel.querySelector(".btn_save");
+
+        if (!inputs.length) {
+            if (btnSave) btnSave.disabled = false;
+            resolve();
+            return;
+        }
+
+        // 질문 info_box (Q. ... 부분) – 구조상 4번째 info_box 로 가정
+        const infoBoxes   = panel.querySelectorAll(".info_box");
+        const questionBox = infoBoxes[3] || null;
+
+        const tl = gsap.timeline({
+            defaults: { ease: "power2.out" },
+            onComplete: resolve
+        });
+
+        // 0) 팝업 열린 후 잠깐 정지 (질문 읽는 시간)
+        tl.to({}, { duration: 0.5 });
+
+        // 2) 라디오 선택 (사람이 클릭하는 느낌)
+        if (typeof idx === "number" && inputs[idx]) {
+            const input = inputs[idx];
+            const label = input.closest("label.chk_min") || input.parentElement;
+
+            // 선택 전 살짝 텀
+            tl.to({}, { duration: 0.7 });
+
+            tl.add(() => {
+                input.checked = true;
+            });
+
+            if (label) {
+                tl.fromTo(
+                    label,
+                    { scale: 0.96, y: 1 },
+                    {
+                        scale: 1.0,
+                        y: 0,
+                        duration: 0.16,
+                        ease: "power2.out"
+                    },
+                    "<" // 체크와 동시에
+                );
+            }
+        }
+
+        // 3) 선택 결과 눈으로 확인할 시간
+        tl.to({}, { duration: 0.5 });
+
+        // 4) 버튼 활성화 + pop01 / pop02와 동일한 눌림 애니메이션
+        if (btnSave) {
+            tl.add(() => {
+                btnSave.disabled = false;
+            });
+
+            tl.to({}, { duration: 0.5 });
+
+            tl.to(
+                btnSave,
+                {
+                    scale: 0.86,
+                    duration: 0.2,
+                    ease: "power3.in"
+                },
+                "+=0.15"
+            )
+            .to(btnSave, {
+                scale: 1.0,
+                duration: 0.2,
+                ease: "power1.out"
+            });
+        }
     });
 }
 
@@ -1178,6 +1544,7 @@ function gate030103Animation() {
 const pageSteps = {
     commonBefore,
     gate030103Before,
+    bindPopupData,
     gate030103rendered,
     gate030103AnimationBefore,
     commonInit,
