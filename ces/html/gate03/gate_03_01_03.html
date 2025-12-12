@@ -655,6 +655,9 @@ async function animateDiagList(ul, opts, isLast = false) {
     // 3) 마지막 G 는 남겨두고, E/S 만 퇴장
     if (isLast) {
         gsap.set(ul, { autoAlpha: 1, y: 0 });
+        const fragment = getFragment();
+
+        await showEsgDimAndRedirect('gate_03_04.html#' + fragment);
         return;
     }
 
@@ -1509,8 +1512,8 @@ function gate030103Animation() {
 
     const tl = gsap.timeline({
         defaults: { ease: "power3.out" },
-        delay: 1,                  // 전체 애니 시작 전 1초 대기
-        onComplete: startDiagSequence // 패널 애니 후 diag 시퀀스 시작
+        delay: 1,
+        onComplete: startDiagSequence
     });
 
     // 1) .proc_progress 아래에서 위로 fade-in
@@ -1550,6 +1553,43 @@ function gate030103Animation() {
         duration: 0.48
     });
 }
+
+function showEsgDimAndRedirect(url, opts = {}) {
+  const {
+    fadeMs = 700,
+    waitMs = 4000,
+    useReplace = false
+  } = opts;
+
+  const dim = document.querySelector('.esg_dim_msg');
+  const vid = document.querySelector('.esg_dim_video');
+
+  // 없으면 즉시 이동
+  if (!dim && !vid) {
+    useReplace ? location.replace(url) : (location.href = url);
+    return;
+  }
+
+  const show = (el, displayValue) => {
+    if (!el) return;
+    el.style.display = displayValue;
+    gsap.set(el, { autoAlpha: 0 });
+    gsap.to(el, { autoAlpha: 1, duration: fadeMs / 1000, ease: "power1.out" });
+  };
+
+  // dim + video 동시 등장
+  show(dim, 'flex');
+  show(vid, 'block');
+
+  // fade-in 이후 waitMs 지나 이동
+  gsap.delayedCall(fadeMs / 1000 + waitMs / 1000, () => {
+    useReplace ? location.replace(url) : (location.href = url);
+  });
+}
+
+/* 사용 예시 */
+// showEsgDimAndRedirect('/gate_03_01_04.html');
+
 
 // ------------------------------------------------------------
 // 페이지 단계 정의

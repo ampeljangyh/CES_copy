@@ -906,7 +906,7 @@
 .auto_diag .diag_li > li {display:flex;align-items:center;gap:64px;}
 .auto_diag .diag_li > li + li {margin-top:40px;}
 .auto_diag .diag_li > li .name {flex:1 1 auto;display:flex;align-items:flex-start;width:100%;}
-.auto_diag .diag_li > li .name .ico_esg {flex-shrink:0;display:block;width:48px; height:48px; margin-top:11px; margin-right:20px; border-radius:50%;}
+.auto_diag .diag_li > li .name .ico_esg {flex-shrink:0;display:block;width:48px; height:48px; margin-top:5px; margin-right:20px; border-radius:50%;}
 .auto_diag .diag_li > li .name .ico_esg.ty_e {background:rgb(70,145,185) url(../images/gate_03/ico_char_e.svg) no-repeat center; background-size:43%;}
 .auto_diag .diag_li > li .name .ico_esg.ty_s {background:rgb(60,125,130) url(../images/gate_03/ico_char_s.svg) no-repeat center; background-size:50%;}
 .auto_diag .diag_li > li .name .ico_esg.ty_g {background:rgb(95,105,230) url(../images/gate_03/ico_char_g.svg) no-repeat center; background-size:50%;}
