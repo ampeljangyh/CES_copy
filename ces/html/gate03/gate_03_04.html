@@ -279,7 +279,7 @@
                                         <ul class="report_grid2">
                                             <li>
                                                 <div class="inner chart_ty">
-                                                    <strong class="chart_tit">환경분야 전체 중소기업 등급 분포</strong>
+                                                    <strong class="chart_tit">전체 중소기업 등급 분포(환경)</strong>
 
                                                     <div class="chart3">
                                                         <canvas id="report1-tab1-chart1" style="width:100%; height:100%;"></canvas>
@@ -296,7 +296,7 @@
                                                     </ul>
                                                 </div>
                                                 <div class="inner chart_ty">
-                                                    <strong class="chart_tit">환경분야 기업 ESG경쟁력 수준</strong>
+                                                    <strong class="chart_tit">기업 ESG경쟁력 수준(환경)</strong>
 
                                                     <!-- point_li -->
                                                     <ul class="point_li">
@@ -327,7 +327,7 @@
                                             </li>
                                             <li>
                                                 <div class="inner chart_ty">
-                                                    <strong class="chart_tit">환경분야 이슈별 점수</strong>
+                                                    <strong class="chart_tit">이슈별 점수(환경)</strong>
 
                                                     <div class="chart4">
                                                         <div class="chart_inner">
@@ -385,7 +385,7 @@
                                         <ul class="report_grid2">
                                             <li>
                                                 <div class="inner chart_ty">
-                                                    <strong class="chart_tit">환경분야 전체 중소기업 등급 분포</strong>
+                                                    <strong class="chart_tit">전체 중소기업 등급 분포(사회)</strong>
 
                                                     <div class="chart3">
                                                         <canvas id="report1-tab2-chart1" style="width:100%; height:100%;"></canvas>
@@ -402,7 +402,7 @@
                                                     </ul>
                                                 </div>
                                                 <div class="inner chart_ty">
-                                                    <strong class="chart_tit">환경분야 기업 ESG경쟁력 수준</strong>
+                                                    <strong class="chart_tit">기업 ESG경쟁력 수준(사회)</strong>
 
                                                     <!-- point_li -->
                                                     <ul class="point_li">
@@ -433,7 +433,7 @@
                                             </li>
                                             <li>
                                                 <div class="inner chart_ty">
-                                                    <strong class="chart_tit">환경분야 이슈별 점수</strong>
+                                                    <strong class="chart_tit">이슈별 점수(사회)</strong>
 
                                                     <div class="chart4">
                                                         <div class="chart_inner">
@@ -491,7 +491,7 @@
                                         <ul class="report_grid2">
                                             <li>
                                                 <div class="inner chart_ty">
-                                                    <strong class="chart_tit">환경분야 전체 중소기업 등급 분포</strong>
+                                                    <strong class="chart_tit">전체 중소기업 등급 분포(지배구조)</strong>
 
                                                     <div class="chart3">
                                                         <canvas id="report1-tab3-chart1" style="width:100%; height:100%;"></canvas>
@@ -508,7 +508,7 @@
                                                     </ul>
                                                 </div>
                                                 <div class="inner chart_ty">
-                                                    <strong class="chart_tit">환경분야 기업 ESG경쟁력 수준</strong>
+                                                    <strong class="chart_tit">기업 ESG경쟁력 수준(지배구조)</strong>
 
                                                     <!-- point_li -->
                                                     <ul class="point_li">
@@ -539,7 +539,7 @@
                                             </li>
                                             <li>
                                                 <div class="inner chart_ty">
-                                                    <strong class="chart_tit">환경분야 이슈별 점수</strong>
+                                                    <strong class="chart_tit">이슈별 점수(지배구조)</strong>
 
                                                     <div class="chart4">
                                                         <div class="chart_inner">
@@ -2322,6 +2322,7 @@ function drawQuadrantScatterChart(
         id: "pointLabelPlugin",
         afterDatasetsDraw(chart) {
             const { ctx } = chart;
+
             ctx.save();
             ctx.font = "32px Pretendard";
             ctx.textAlign = "center";
@@ -2330,7 +2331,6 @@ function drawQuadrantScatterChart(
 
             const meta = chart.getDatasetMeta(0);
             meta.data.forEach((element, i) => {
-                // 데이터 포인트가 화면에 그려졌을 때만 텍스트 표시
                 if (!element.hidden && points[i]) {
                     ctx.fillText(points[i].label, element.x, element.y);
                 }
@@ -2359,16 +2359,36 @@ function drawQuadrantScatterChart(
 
             // 4분면 채우기
             ctx.fillStyle = c2;
-            ctx.fillRect(chartArea.left, chartArea.top, midX - chartArea.left, midY - chartArea.top);
+            ctx.fillRect(
+                chartArea.left,
+                chartArea.top,
+                midX - chartArea.left,
+                midY - chartArea.top
+            );
 
             ctx.fillStyle = c1;
-            ctx.fillRect(midX, chartArea.top, chartArea.right - midX, midY - chartArea.top);
+            ctx.fillRect(
+                midX,
+                chartArea.top,
+                chartArea.right - midX,
+                midY - chartArea.top
+            );
 
             ctx.fillStyle = c3;
-            ctx.fillRect(chartArea.left, midY, midX - chartArea.left, chartArea.bottom - midY);
+            ctx.fillRect(
+                chartArea.left,
+                midY,
+                midX - chartArea.left,
+                chartArea.bottom - midY
+            );
 
             ctx.fillStyle = c4;
-            ctx.fillRect(midX, midY, chartArea.right - midX, chartArea.bottom - midY);
+            ctx.fillRect(
+                midX,
+                midY,
+                chartArea.right - midX,
+                chartArea.bottom - midY
+            );
 
             // 기준선 그리기
             ctx.strokeStyle = "#66ADFF";
@@ -2388,41 +2408,40 @@ function drawQuadrantScatterChart(
         }
     };
 
-    // [Plugin] Y축 세로 텍스트 그리기
+    // [Plugin] Y축 세로 텍스트 그리기 (중앙 배치)
     const verticalYAxisLabelPlugin = {
         id: "verticalYAxisLabelPlugin",
         afterDraw(chart) {
             const { ctx, chartArea } = chart;
+            if (!chartArea) return;
 
             const text = "이행용이성";
             const x = chartArea.left - 50;
-            let y = chartArea.top + 50;
+
+            const midY = (chartArea.top + chartArea.bottom) / 2;
+            const lineH = 45;
+            const startY = midY - ((text.length - 1) * lineH) / 2;
 
             ctx.save();
             ctx.font = "40px Pretendard";
             ctx.fillStyle = "#FFFFFF";
             ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
 
-            [...text].forEach(ch => {
-                ctx.fillText(ch, x, y);
-                y += 45;
+            [...text].forEach((ch, i) => {
+                ctx.fillText(ch, x, startY + i * lineH);
             });
 
             ctx.restore();
         }
     };
 
-    // [Plugin] 커스텀 범례 그리기
+    // [Plugin] 커스텀 범례 그리기 (font 40px 기준)
     const quadrantLegendPlugin = {
         id: "quadrantLegendPlugin",
         afterDraw(chart) {
             const { ctx, chartArea } = chart;
-
-            ctx.save();
-            ctx.font = "32px Pretendard";
-
-            const legendX = chartArea.right + 40;
-            const legendY = chartArea.bottom - 140;
+            if (!chartArea) return;
 
             const items = [
                 { label: "E 환경", color: COLORS.E },
@@ -2430,22 +2449,115 @@ function drawQuadrantScatterChart(
                 { label: "G 지배구조", color: COLORS.G }
             ];
 
+            ctx.save();
+
+            // -------------------------
+            // Typography
+            // -------------------------
+            const fontSize = 40;
+            ctx.font = `${fontSize}px Pretendard`;
+            ctx.textAlign = "left";
+            ctx.textBaseline = "middle";
+
+            // -------------------------
+            // Layout tuning (여기만 조절)
+            // -------------------------
+            const shiftX = 10;          // 범례 전체를 우측으로 +10px
+            const itemGap = 60;
+
+            const dotR = 16;
+            const gap = 18;            // dot과 텍스트 사이 간격(가로)
+
+            const dotYOffset = 0;      // dot 세로 미세조정
+            const textYOffset = 2;     // 텍스트 세로 미세조정(필요 시 0~3 정도로 튜닝)
+
+            const legendY = chartArea.bottom - 160;
+            const preferredX = chartArea.right + 40 + shiftX;
+
+            // -------------------------
+            // Right-clamp (우측 잘림 방지)
+            // -------------------------
+            const maxTextW = Math.max(...items.map(item => ctx.measureText(item.label).width));
+
+            const canvasW = chart.width;
+            const safeMargin = 20;
+
+            // legendX는 dot 중심 좌표
+            // 우측 끝: legendX + dotR + gap + maxTextW
+            const maxLegendX = canvasW - safeMargin - (dotR + gap + maxTextW);
+            const legendX = Math.min(preferredX, maxLegendX);
+
+            // -------------------------
+            // Draw
+            // -------------------------
             items.forEach((item, i) => {
+                const baseY = legendY + i * itemGap;
+
+                const yDot = baseY + dotYOffset;
+                const yText = baseY + textYOffset;
+
+                // dot
                 ctx.fillStyle = item.color;
                 ctx.beginPath();
-                ctx.arc(legendX, legendY + i * 48, 14, 0, Math.PI * 2);
+                ctx.arc(legendX, yDot, dotR, 0, Math.PI * 2);
                 ctx.fill();
 
+                // text (dot 오른쪽: dotR + gap 만큼 띄움)
                 ctx.fillStyle = "#FFFFFF";
-                ctx.fillText(item.label, legendX + 30, legendY + i * 48 + 12);
+                ctx.fillText(item.label, legendX + dotR + gap, yText);
             });
 
             ctx.restore();
         }
     };
 
-    // --- 3. 차트 생성 ---
 
+
+    // [Plugin] 4분면 중앙 텍스트 삽입
+    const quadrantCenterTextPlugin = {
+        id: "quadrantCenterTextPlugin",
+        beforeDatasetsDraw(chart) {
+            const { ctx, chartArea } = chart;
+            if (!chartArea) return;
+
+            const midX = (chartArea.left + chartArea.right) / 2;
+            const midY = (chartArea.top + chartArea.bottom) / 2;
+
+            // 각 사분면 중앙 좌표
+            const TL = {
+                x: (chartArea.left + midX) / 2,
+                y: (chartArea.top + midY) / 2
+            };
+            const TR = {
+                x: (midX + chartArea.right) / 2,
+                y: (chartArea.top + midY) / 2
+            };
+            const BR = {
+                x: (midX + chartArea.right) / 2,
+                y: (midY + chartArea.bottom) / 2
+            };
+
+            ctx.save();
+            ctx.font = "80px Pretendard";
+            ctx.fillStyle = "rgba(255,255,255,0.6)";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+
+            // 좌측 상단
+            ctx.fillText("단기", TL.x, TL.y);
+
+            // 우측 상단
+            ctx.fillText("Quick Win", TR.x, TR.y);
+
+            // 우측 하단
+            ctx.fillText("중장기", BR.x, BR.y);
+
+            ctx.restore();
+        }
+    };
+
+
+    // --- 3. 차트 생성 ---
     new Chart(ctx, {
         type: "scatter",
         data: {
@@ -2459,8 +2571,8 @@ function drawQuadrantScatterChart(
                     pointHoverRadius: 0,
                     hoverRadius: 0,
 
-                    backgroundColor: p => COLORS[p.raw.type],
-                    borderColor: p => COLORS[p.raw.type],
+                    backgroundColor: (p) => COLORS[p.raw.type],
+                    borderColor: (p) => COLORS[p.raw.type],
                     borderWidth: 4
                 }
             ]
@@ -2481,7 +2593,7 @@ function drawQuadrantScatterChart(
             layout: {
                 padding: {
                     left: 80,
-                    right: 220,
+                    right: 280,
                     top: 50,
                     bottom: 100
                 }
@@ -2494,7 +2606,8 @@ function drawQuadrantScatterChart(
 
             scales: {
                 x: {
-                    min: 0, max: 100,
+                    min: 0,
+                    max: 100,
                     ticks: { display: false },
                     grid: { display: false },
                     title: {
@@ -2506,7 +2619,8 @@ function drawQuadrantScatterChart(
                     }
                 },
                 y: {
-                    min: 0, max: 100,
+                    min: 0,
+                    max: 100,
                     ticks: { display: false },
                     grid: { display: false }
                 }
@@ -2515,6 +2629,7 @@ function drawQuadrantScatterChart(
         plugins: [
             pointLabelPlugin,
             quadrantBackgroundPlugin,
+            quadrantCenterTextPlugin,
             verticalYAxisLabelPlugin,
             quadrantLegendPlugin
         ]

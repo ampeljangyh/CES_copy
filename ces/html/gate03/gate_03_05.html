@@ -466,12 +466,13 @@ function gate0305Animation() {
 // ------------------------------------------------------------
 
 // bubble_li > li 요소들을 순차적으로 올리면서, 마지막에 onComplete(tl) 호출
-function runBubbleAnimation(onComplete) {
+// speed 커스텀 가능: runBubbleAnimation(cb, { dur: 0.8, textDur: 0.5, speed: 1.2 })
+function runBubbleAnimation(onComplete, options = {}) {
     const items = Array.from(document.querySelectorAll(".bubble_li > li"));
     const total = items.length;
+
     if (!total) {
-        // 버블이 없으면 바로 다음 step으로 넘어가고 싶을 때
-        if (typeof onComplete === 'function') {
+        if (typeof onComplete === "function") {
             const tl = gsap.timeline();
             onComplete(tl);
         }
@@ -489,33 +490,51 @@ function runBubbleAnimation(onComplete) {
     const OFF_BELOW = GAP * 3;
     const OFF_ABOVE = -GAP;
 
+    // 속도/완료 옵션
+    const {
+        dur = 1,
+        textDur = 0.65,
+        textDelay = 0.35,
+        speed = 1.5,
+        extraCycles = 2 // 모든 요소 반복 후, 몇 번 더 반복할지
+    } = options;
+
+    const mainDur = dur / speed;
+    const innerTextDur = textDur / speed;
+    const innerTextDelay = textDelay / speed;
+
+    const endIndex = total + Math.max(0, extraCycles);
+
     let index = 0;
 
     function next() {
-        const curr  = items[index];
+        const curr = index < total ? items[index] : null;
         const prev1 = items[index - 1];
         const prev2 = items[index - 2];
         const prev3 = items[index - 3];
 
         const tl = gsap.timeline();
-        const dur = 1;
 
-        // curr 초기 상태
-        gsap.set(curr, {
-            display: "block",
-            y: OFF_BELOW,
-            opacity: 0,
-            scale: 0.5,
-            filter: "blur(5px)"
-        });
+        // curr 초기 상태 (curr가 있을 때만)
+        let textEl = null;
 
-        // 내부 텍스트 초기화
-        const textEl = curr.querySelector("span");
-        if (textEl) {
-            gsap.set(textEl, {
+        if (curr) {
+            gsap.set(curr, {
+                display: "block",
+                y: OFF_BELOW,
                 opacity: 0,
-                filter: "blur(8px)"
+                scale: 0.5,
+                filter: "blur(5px)"
             });
+
+            // 내부 텍스트 초기화
+            textEl = curr.querySelector("span");
+            if (textEl) {
+                gsap.set(textEl, {
+                    opacity: 0,
+                    filter: "blur(8px)"
+                });
+            }
         }
 
         tl.addLabel("run");
@@ -525,7 +544,7 @@ function runBubbleAnimation(onComplete) {
             tl.to(prev3, {
                 y: OFF_ABOVE,
                 opacity: 0,
-                duration: dur,
+                duration: mainDur,
                 ease: "power1.inOut"
             }, "run");
         }
@@ -534,7 +553,7 @@ function runBubbleAnimation(onComplete) {
         if (prev2) {
             tl.to(prev2, {
                 y: TOP_SLOT,
-                duration: dur,
+                duration: mainDur,
                 ease: "power1.inOut"
             }, "run");
         }
@@ -543,46 +562,51 @@ function runBubbleAnimation(onComplete) {
         if (prev1) {
             tl.to(prev1, {
                 y: MID_SLOT,
-                duration: dur,
+                duration: mainDur,
                 ease: "power1.inOut"
             }, "run");
         }
 
-        // curr 등장 : 아래 → BOT + scale + fade + blur clear
-        tl.to(curr, {
-            y: BOT_SLOT,
-            opacity: 1,
-            scale: 1,
-            filter: "blur(0px)",
-            duration: dur,
-            ease: "power1.out"
-        }, "run");
-
-        // 텍스트 fade + blur 해제
-        if (textEl) {
-            tl.to(textEl, {
+        // curr 등장 : 아래 → BOT
+        if (curr) {
+            tl.to(curr, {
+                y: BOT_SLOT,
                 opacity: 1,
+                scale: 1,
                 filter: "blur(0px)",
-                duration: 0.65,
+                duration: mainDur,
                 ease: "power1.out"
-            }, "run+=0.35");
+            }, "run");
+
+            // 텍스트 fade + blur 해제
+            if (textEl) {
+                tl.to(textEl, {
+                    opacity: 1,
+                    filter: "blur(0px)",
+                    duration: innerTextDur,
+                    ease: "power1.out"
+                }, `run+=${innerTextDelay}`);
+            }
         }
 
-        // 다음 Step
+        // 다음 Step / 완료
         tl.add(() => {
             index++;
-            if (index >= total) {
-                if (typeof onComplete === 'function') {
-                    onComplete(tl); // 버블 끝난 뒤 다음 애니메이션 연결
+
+            if (index >= endIndex) {
+                if (typeof onComplete === "function") {
+                    onComplete(tl);
                 }
                 return;
             }
+
             next();
         });
     }
 
     next();
 }
+
 
 // step1 → step2 전환 + pro_slide 등장 애니메이션
 function runStepTransition(prevTl) {
