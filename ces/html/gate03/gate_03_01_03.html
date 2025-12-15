@@ -110,19 +110,22 @@
                                 <span class="ico_esg ty_e"></span>
                                 <span class="txt vw_kr">환경</span>
                                 <span class="txt vw_en">Environmental</span>
-                                <span class="proc_txt">-</span>
+                                <span class="proc_txt vw_kr">-</span>
+                                <span class="proc_txt vw_en">-</span>
                             </li>
                             <li>
                                 <span class="ico_esg ty_s"></span>
                                 <span class="txt vw_kr">사회</span>
                                 <span class="txt vw_en">Social</span>
-                                <span class="proc_txt">-</span>
+                                <span class="proc_txt vw_kr">-</span>
+                                <span class="proc_txt vw_en">-</span>
                             </li>
                             <li>
                                 <span class="ico_esg ty_g"></span>
                                 <span class="txt vw_kr">지배구조</span>
                                 <span class="txt vw_en">Governance</span>
-                                <span class="proc_txt">-</span>
+                                <span class="proc_txt vw_kr">-</span>
+                                <span class="proc_txt vw_en">-</span>
                             </li>
                         </ul>
                         <!-- //proc_progress -->
@@ -594,17 +597,21 @@ function setProcProgressState(procKey, state, finalText) {
     const li = progress.children[index];
     if (!li) return;
 
-    const procTxt = li.querySelector(".proc_txt");
+    const procTxt = li.querySelector(".proc_txt.vw_kr");
+    const procTxtEn = li.querySelector(".proc_txt.vw_en");
 
     if (state === "active") {
         li.classList.add("on");
         if (procTxt) procTxt.textContent = "진단 중";
+        if (procTxtEn) procTxtEn.textContent = "Assessment in Progress";
     } else if (state === "done") {
         li.classList.remove("on");
         if (procTxt) procTxt.textContent = finalText || "등급";
+        if (procTxtEn) procTxtEn.textContent = finalText || "Grade";
     } else if (state === "reset") {
         li.classList.remove("on");
         if (procTxt) procTxt.textContent = "-";
+        if (procTxtEn) procTxtEn.textContent = "-";
     }
 }
 
@@ -1471,7 +1478,10 @@ function gate030103rendered() {
                     </span>
                 </div>
                 <div class="eval_wrap">
-                    <span class="btn_item_eval disabled" style="display:none;">평가하기</span>
+                    <span class="btn_item_eval disabled" style="display:none;">
+                        <span class="vw_kr">평가하기</span>
+                        <span class="vw_en">Assessment</span>
+                    </span>
                     <span class="grade">${grade}</span>
                 </div>
             `;
