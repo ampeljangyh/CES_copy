@@ -229,7 +229,7 @@
 
 .panel_side .btns.sm {justify-content:center;margin-top:60px;}
 
-.btn_save {width:452px;height:136px;border-radius: 30px;background: #0071FE;color: #FFF;font-size: 64px;font-weight: 800;letter-spacing: -1.28px;transition:color 0.7s, background 0.7s;}
+.btn_save {box-sizing:border-box;min-width:452px;height:136px;padding:0 24px;border-radius: 30px;background: #0071FE;color: #FFF;font-size: 64px;font-weight: 800;letter-spacing: -1.28px;transition:color 0.7s, background 0.7s;}
 .btn_save:disabled {color:#757575;background: rgba(190, 190, 190, 0.17);}
 
 .btn_round {height:156px;padding:0 120px;border: 1px solid #BEBEBE;border-radius: 100px;background:#383C45;font-size: 64px;font-weight: 500;line-height: 1.5;letter-spacing: -1.92px;color:#757575;}
@@ -361,7 +361,7 @@
 .panel_side .info_li > li .d1 {display:flex;align-items:center;justify-content:center;box-sizing:border-box;min-width:220px;height:62px;padding:0 10px;border-radius: 10px;border: 1px solid #0071FE;background: rgba(0, 113, 254, 0.17);text-align: center;font-size: 32px;font-weight: 500;line-height: 1.5;letter-spacing: -0.96px;color: #2C88FB;}
 
 .panel_side .info_grid {display:grid;grid-template-columns: repeat(2, 1fr);gap:16px;margin-top:52px;}
-.panel_side .info_grid > div {display:flex;align-items:center;justify-content:space-between;padding:30px;border-radius: 20px;background-color: #32363F;}
+.panel_side .info_grid > div {display:flex;align-items:center;justify-content:space-between;gap:40px;padding:30px;border-radius: 20px;background-color: #32363F;}
 .panel_side .info_grid > div.span {grid-column: span 2;}
 .panel_side .info_grid .t1 {color: #FFF;font-size: 36px;font-weight: 400;letter-spacing: -0.72px;}
 .panel_side .info_grid .t2 {display:flex;align-items:center;gap:12px;color: #FFF;font-size: 40px;font-weight: 800;letter-spacing: -0.8px;}
