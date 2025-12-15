@@ -660,7 +660,7 @@
 .guide_li .tit {display:block;margin-bottom:36px;color: #FFF;font-size: 52px;font-weight: 700;letter-spacing: -1.04px;}
 .guide_li .list {display:flex;flex-direction: column;align-items:center;justify-content:center;gap:18px;}
 .guide_li .list > li {position:relative;box-sizing:border-box;width:100%;padding:44px 40px 44px 68px;border-radius: 20px;background: #32363F;color: #FFF;font-size: 32px;font-weight: 400;letter-spacing: -0.64px;}
-.guide_li .list > li::after {content:'';position:absolute;left:44px;top:64px;width:9px;height:9px;background:#fff;}
+.guide_li .list > li::after {content:'';position:absolute;left:44px;top:58px;width:9px;height:9px;background:#fff;}
 .guide_li .list > li > strong {color:#387D82;font-weight:800;}
 
 
@@ -960,5 +960,7 @@ button.btn_other::after {content:'';display:block;width:33px;height:55px;backgro
 #lang_kr .vw_en {display:none !important;}
 #lang_en .vw_kr {display:none !important;}
 
+.report_grid .point_wrap .txt .t1 {font-size:48px;}
+.report_grid .point_wrap .txt .t2 > strong {font-size:96px;}
 .point_li .name.vw_en {width:380px;}
 .report_btns .vw_en {font-size:48px;}
