@@ -151,7 +151,7 @@
 
                             <!-- esg_btns -->
                             <div class="esg_btns" id="btns01" style="display:none;">
-                                <button type="button" class="btn_esg">다른 기업 평가 받기</button>
+                                <button type="button" class="btn_esg" id="btn01">다른 기업 평가 받기</button>
                             </div>
                             <!-- //esg_btns -->
                         </div>
@@ -440,6 +440,10 @@ const gate0305 = {
 function gate0305onLoad() {
     gate0305.initDom();
     gate0305.initSwiper();
+
+    $('#btn01').on('click', function(){
+        location.href = 'gate_03.html';
+    });
 }
 
 // gate0305Bind : gate0305 관련 이벤트 바인딩
