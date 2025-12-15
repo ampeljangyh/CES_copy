@@ -66,6 +66,8 @@
     url(../font/Pretendard-Thin.woff2) format('woff2');
 }
 
+#lang_kr .vw_en {display:none !important;}
+#lang_en .vw_kr {display:none !important;}
 
 .blind {position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0;}
 
@@ -146,8 +148,8 @@
 .option_grid > li.full {grid-column: span 2;}
 .option_grid .option_tit {display:flex;align-items:center;justify-content:space-between;margin-bottom:40px;}
 .option_grid .option_tit .tit {font-size: 52px;font-weight: 700;letter-spacing: -1.04px;color:#fff;}
-.option_grid .option_tit .info {display:flex;align-items:center;font-size:52px;font-weight:500;color:#fff;}
-.option_grid .option_tit .info > strong {font-size:64px;font-weight:800;color:#0071FE;}
+.option_grid .option_tit .info p {display:flex;align-items:center;gap:12px;font-size:52px;font-weight:500;color:#fff;}
+.option_grid .option_tit .info strong {font-size:64px;font-weight:800;color:#0071FE;}
 
 .option_grid > li.opt_slider .option_tit {margin-top:-8px;}
 

@@ -7,6 +7,18 @@ $(function () {
 /* ---------------------------------------------------------
    공통 유틸
 --------------------------------------------------------- */
+const LANGS = new Set(['lang_kr', 'lang_en']);
+
+function getLanguageCode(defaultLang = 'lang_kr') {
+    const saved = localStorage.getItem('siteLang');
+    if (LANGS.has(saved)) return saved;
+
+    const id = document.body?.id;
+    const lang = LANGS.has(id) ? id : defaultLang;
+
+    localStorage.setItem('siteLang', lang);
+    return lang;
+}
 
 // hash fragment 가져오기
 function getFragment() {
