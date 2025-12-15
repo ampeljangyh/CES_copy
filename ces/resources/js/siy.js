@@ -972,7 +972,7 @@ function bindPoint() {
     const latestPoint = latest.gradePoint != null ? Number(latest.gradePoint) : null;
 
     // formatPointText: 82.5 -> "82.5점", null -> "-"
-    $('#gradePoint').text(formatPointText(latestPoint));
+    $('#gradePoint').text(Number(latestPoint).toFixed(1));
 }
 
 function getCurrentGate03DiagData() {

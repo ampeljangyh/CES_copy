@@ -138,7 +138,7 @@
                             </div>
 
                             <!-- msg_box -->
-                            <div class="msg_box" style="display:none;">
+                            <div class="msg_box">
                                 <span class="arrow"></span>
                                 <p class="msg" data-slideIndex="0">ESG경영 확산을 위해 ESG경영을 시작하는 기업을 지원하여 지속가능 성장 기반을 마련</p>
                                 <p class="msg" data-slideIndex="1">대기업/공공기관의 협약을 통해 협력사를 대상으로 ESG경영 및 동반성장을 지원</p>
@@ -148,6 +148,12 @@
                                 <p class="msg" data-slideIndex="5">탄소중립 실현을 위한 선도 프로젝트에 투자할 전·후방기업을 대상으로 자금지원(정책자금)</p>
                             </div>
                             <!-- //msg_box -->
+
+                            <!-- esg_btns -->
+                            <div class="esg_btns" id="btns01" style="display:none;">
+                                <button type="button" class="btn_esg">다른 기업 평가 받기</button>
+                            </div>
+                            <!-- //esg_btns -->
                         </div>
                         <!-- //step2 -->
                     </div>
@@ -294,11 +300,13 @@ const gate0305 = {
     msgs: [],
     activeMsgIndex: -1,
     isBoxVisible: false,
+    btns: null,
 
     initDom() {
         this.msgBox = document.querySelector('.msg_box');
         this.arrow  = document.querySelector('.arrow');
         this.msgs   = Array.from(document.querySelectorAll('.msg'));
+        this.btns   = document.querySelector('.esg_btns');
     },
 
     initSwiper() {
@@ -397,6 +405,17 @@ const gate0305 = {
                 y: 0,
                 opacity: 1,
                 duration: 0.6,
+                ease: "power2.out"
+            });
+
+            gsap.fromTo(this.btns, {
+                display: '',
+                autoAlpha: 0,
+                y:4
+            },{
+                autoAlpha: 1, 
+                y: 0, 
+                duration: 1, 
                 ease: "power2.out"
             });
             this.isBoxVisible = true;
@@ -589,7 +608,7 @@ function runStepTransition(prevTl) {
         })
 
         .to('.esg_cont.step06 .esg_cont_inner', {
-            paddingTop: 152,
+            paddingTop: 120,
             duration: 1,
             ease: "power3.out"
         })
@@ -618,7 +637,26 @@ function runStepTransition(prevTl) {
             y: 0,
             opacity: 1,
             duration: 0.8,
-            ease: "power2.in"
+            ease: "power2.in",
+            onComplete: () => {
+                // (선택) 처음 진입 시 상태 리셋이 필요하면
+                gate0305.isBoxVisible = false;
+                gate0305.activeMsgIndex = -1;
+
+                if (gate0305.swiper) {
+                    // 0번으로 고정 + 레이아웃 재계산
+                    gate0305.swiper.slideTo(0, 0, false);
+                    gate0305.swiper.update();
+                }
+
+                // 레이아웃/Swiper 반영 후 0번 메시지 출력
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        gate0305.updateArrowAndMsg(0);
+                        gate0305.activeMsgIndex = 0;
+                    });
+                });
+            }
         });
 
     return tl;

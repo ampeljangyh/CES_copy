@@ -776,7 +776,7 @@
 
 /* gate_03_05 */
 .esg_cont.step06 {overflow:hidden;display: flex;flex-direction: column;padding:0;}
-.esg_cont.step06 .esg_cont_inner {display:flex;flex-direction:column;padding:246px 0 200px;overflow-y: auto;box-sizing:border-box;height:100%;}
+.esg_cont.step06 .esg_cont_inner {display:flex;flex-direction:column;padding:246px 0 0;overflow-y: auto;box-sizing:border-box;height:100%;}
 .esg_cont.step06 .esg_cont_inner::-webkit-scrollbar {display: none;}
 
 .flex_cont {position:relative;padding:0 156px;}
