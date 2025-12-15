@@ -229,7 +229,7 @@
 
 .panel_side .btns.sm {justify-content:center;margin-top:60px;}
 
-.btn_save {box-sizing:border-box;min-width:452px;height:136px;padding:0 24px;border-radius: 30px;background: #0071FE;color: #FFF;font-size: 64px;font-weight: 800;letter-spacing: -1.28px;transition:color 0.7s, background 0.7s;}
+.btn_save {box-sizing:border-box;min-width:452px;height:136px;padding:0 48px;border-radius: 30px;background: #0071FE;color: #FFF;font-size: 64px;font-weight: 800;letter-spacing: -1.28px;transition:color 0.7s, background 0.7s;}
 .btn_save:disabled {color:#757575;background: rgba(190, 190, 190, 0.17);}
 
 .btn_round {height:156px;padding:0 120px;border: 1px solid #BEBEBE;border-radius: 100px;background:#383C45;font-size: 64px;font-weight: 500;line-height: 1.5;letter-spacing: -1.92px;color:#757575;}
@@ -885,7 +885,7 @@
 .auto_diag .proc_progress > li {flex:1 1 auto;display:flex;align-items:center;width:100%;padding:40px;border-radius: 30px;border: 1px solid #2C88FB;background-color: rgba(0, 113, 254, 0.17);transition: background-color 1s, border-color 1s;}
 .auto_diag .proc_progress > li.on {border-color:#2C88FB;background-color:#0071FE;}
 
-.auto_diag .proc_progress .ico_esg {display:block;width:48px; height:48px; margin-right:20px; border-radius:50%;}
+.auto_diag .proc_progress .ico_esg {flex:0 0 auto;display:block;width:48px; height:48px; margin-right:20px; border-radius:50%;}
 .auto_diag .proc_progress .ico_esg.ty_e {background:rgb(70,145,185) url(../images/gate_03/ico_char_e.svg) no-repeat center; background-size:43%;}
 .auto_diag .proc_progress .ico_esg.ty_s {background:rgb(60,125,130) url(../images/gate_03/ico_char_s.svg) no-repeat center; background-size:50%;}
 .auto_diag .proc_progress .ico_esg.ty_g {background:rgb(95,105,230) url(../images/gate_03/ico_char_g.svg) no-repeat center; background-size:50%;}
