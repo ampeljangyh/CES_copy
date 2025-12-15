@@ -217,6 +217,7 @@ function gate03ConfigData() {
     const config = {
         gradeTxt:['D', 'C', 'B', 'B+', 'A', 'A+', 'S'],
         regGradeTxt:['취약', '미흡', '보통', '양호', '우수'],
+        regGradeTxtEn:['Weak', 'Insufficient', 'Moderate', 'Good', 'Excellent'],
         '1': {
             // [종합 평가]
             grade: 5, // A+
@@ -286,15 +287,15 @@ function gate03ConfigData() {
             regAvgSme: 23.9,
             // 규제 상세 항목: title 속성 수정 (HTML <br> 포함)
             regDetails: [
-                { score: 3,    text: '10/16, 62.5%', title: 'CSDDD부속서1' },
-                { score: null, text: '미대상', title: 'CSDDD부속서2' },
-                { score: null, text: '미대상', title: '산림벌채규정<br>(EUDR)' },
-                { score: 0,    text: '0/1, 0%', title: 'EU 배터리규정' },
-                { score: 4,    text: '1/1, 100%', title: '위구르 강제노동 금지법<br>(UFLPA)' },
-                { score: 0,    text: '0/1, 0%', title: '탄소국경조정제도<br>(CBAM)' },
-                { score: 0,    text: '0/1, 0%', title: '청정경쟁법<br>(CCA)' },
-                { score: 0,    text: '0/1, 0%', title: '분쟁광물규정' },
-                { score: 4,    text: '1/1, 100%', title: 'EU 강제노동제품 금지규정' }
+                { score: 3,    text: '10/16, 62.5%', title: 'CSDDD부속서1', titleEn: 'CSDDD Affiliated 1' },
+                { score: null, text: '미대상', title: 'CSDDD부속서2', titleEn:'CSDDD Affiliated 2' },
+                { score: null, text: '미대상', title: '산림벌채규정<br>(EUDR)', titleEn:'Deforestation regulations' },
+                { score: 0,    text: '0/1, 0%', title: 'EU 배터리규정', titleEn:'EU battery regulations' },
+                { score: 4,    text: '1/1, 100%', title: '위구르 강제노동 금지법<br>(UFLPA)', titleEn:'Uyghur Forced Labor Prohibition Act' },
+                { score: 0,    text: '0/1, 0%', title: '탄소국경조정제도<br>(CBAM)', titleEn:'Carbon Border Adjustment Mechanism (CBAM)' },
+                { score: 0,    text: '0/1, 0%', title: '청정경쟁법<br>(CCA)', titleEn:'Fair competition Act' },
+                { score: 0,    text: '0/1, 0%', title: '분쟁광물규정', titleEn:'Conflict minerals regulation' },
+                { score: 4,    text: '1/1, 100%', title: 'EU 강제노동제품 금지규정', titleEn:'Eu forced labor Product Ban Regulation' }
             ]
         },
         '2': {
@@ -366,15 +367,15 @@ function gate03ConfigData() {
             regAvgSme: 23.9,
             // 규제 상세 항목: title 속성 수정 (HTML <br> 포함)
             regDetails: [
-                { score: 0,    text: '0/16, 0%', title: 'CSDDD부속서1' },
-                { score: null, text: '미대상', title: 'CSDDD부속서2' },
-                { score: null, text: '미대상', title: '산림벌채규정<br>(EUDR)' },
-                { score: 0,    text: '0/1, 0%', title: 'EU 배터리규정' },
-                { score: 4,    text: '1/1, 100%', title: '위구르 강제노동 금지법<br>(UFLPA)' },
-                { score: 0,    text: '0/1, 0%', title: '탄소국경조정제도<br>(CBAM)' },
-                { score: 0,    text: '0/1, 0%', title: '청정경쟁법<br>(CCA)' },
-                { score: 0,    text: '0/1, 0%', title: '분쟁광물규정' },
-                { score: 4,    text: '1/1, 100%', title: 'EU 강제노동제품 금지규정' }
+                { score: 0,    text: '0/16, 0%', title: 'CSDDD부속서1', titleEn: 'CSDDD Affiliated 1' },
+                { score: null, text: '미대상', title: 'CSDDD부속서2', titleEn:'CSDDD Affiliated 2' },
+                { score: null, text: '미대상', title: '산림벌채규정<br>(EUDR)', titleEn:'Deforestation regulations' },
+                { score: 0,    text: '0/1, 0%', title: 'EU 배터리규정', titleEn:'EU battery regulations' },
+                { score: 4,    text: '1/1, 100%', title: '위구르 강제노동 금지법<br>(UFLPA)', titleEn:'Uyghur Forced Labor Prohibition Act' },
+                { score: 0,    text: '0/1, 0%', title: '탄소국경조정제도<br>(CBAM)', titleEn:'Carbon Border Adjustment Mechanism (CBAM)' },
+                { score: 0,    text: '0/1, 0%', title: '청정경쟁법<br>(CCA)', titleEn:'Fair competition Act' },
+                { score: 0,    text: '0/1, 0%', title: '분쟁광물규정', titleEn:'Conflict minerals regulation' },
+                { score: 4,    text: '1/1, 100%', title: 'EU 강제노동제품 금지규정', titleEn:'Eu forced labor Product Ban Regulation' },
             ]
         },
         '3': {
@@ -446,15 +447,15 @@ function gate03ConfigData() {
 
             // 규제 상세 항목: title 속성 수정 (HTML <br> 포함)
             regDetails: [
-                { score: 0,    text: '0/16, 0%', title: 'CSDDD부속서1' },
-                { score: null, text: '미대상', title: 'CSDDD부속서2' },
-                { score: null, text: '미대상', title: '산림벌채규정<br>(EUDR)' },
-                { score: 0,    text: '0/1, 0%', title: 'EU 배터리규정' },
-                { score: 0,    text: '0/1, 0%', title: '위구르 강제노동 금지법<br>(UFLPA)' },
-                { score: 0,    text: '0/1, 0%', title: '탄소국경조정제도<br>(CBAM)' },
-                { score: 0,    text: '0/1, 0%', title: '청정경쟁법<br>(CCA)' },
-                { score: 0,    text: '0/1, 0%', title: '분쟁광물규정' },
-                { score: 4,    text: '1/1, 100%', title: 'EU 강제노동제품 금지규정' }
+                { score: 0,    text: '0/16, 0%', title: 'CSDDD부속서1', titleEn: 'CSDDD Affiliated 1' },
+                { score: null, text: '미대상', title: 'CSDDD부속서2', titleEn:'CSDDD Affiliated 2' },
+                { score: null, text: '미대상', title: '산림벌채규정<br>(EUDR)', titleEn:'Deforestation regulations' },
+                { score: 0,    text: '0/1, 0%', title: 'EU 배터리규정', titleEn:'EU battery regulations' },
+                { score: 0,    text: '0/1, 0%', title: '위구르 강제노동 금지법<br>(UFLPA)', titleEn:'Uyghur Forced Labor Prohibition Act' },
+                { score: 0,    text: '0/1, 0%', title: '탄소국경조정제도<br>(CBAM)', titleEn:'Carbon Border Adjustment Mechanism (CBAM)' },
+                { score: 0,    text: '0/1, 0%', title: '청정경쟁법<br>(CCA)', titleEn:'Fair competition Act' },
+                { score: 0,    text: '0/1, 0%', title: '분쟁광물규정', titleEn:'Conflict minerals regulation' },
+                { score: 4,    text: '1/1, 100%', title: 'EU 강제노동제품 금지규정', titleEn:'Eu forced labor Product Ban Regulation' }
             ]
         },
         '4': {
@@ -526,15 +527,15 @@ function gate03ConfigData() {
 
             // 규제 상세 항목: title 속성 수정 (HTML <br> 포함)
             regDetails: [
-                { score: 2,    text: '7/16, 43.8%', title: 'CSDDD부속서1' },
-                { score: null, text: '미대상', title: 'CSDDD부속서2' },
-                { score: null, text: '미대상', title: '산림벌채규정<br>(EUDR)' },
-                { score: 0,    text: '0/1, 0%', title: 'EU 배터리규정' },
-                { score: 0,    text: '0/1, 0%', title: '위구르 강제노동 금지법<br>(UFLPA)' },
-                { score: 0,    text: '0/1, 0%', title: '탄소국경조정제도<br>(CBAM)' },
-                { score: 0,    text: '0/1, 0%', title: '청정경쟁법<br>(CCA)' },
-                { score: 0,    text: '0/1, 0%', title: '분쟁광물규정' },
-                { score: 4,    text: '1/1, 100%', title: 'EU 강제노동제품 금지규정' }
+                { score: 2,    text: '7/16, 43.8%', title: 'CSDDD부속서1', titleEn: 'CSDDD Affiliated 1' },
+                { score: null, text: '미대상', title: 'CSDDD부속서2', titleEn:'CSDDD Affiliated 2' },
+                { score: null, text: '미대상', title: '산림벌채규정<br>(EUDR)', titleEn:'Deforestation regulations' },
+                { score: 0,    text: '0/1, 0%', title: 'EU 배터리규정', titleEn:'EU battery regulations' },
+                { score: 0,    text: '0/1, 0%', title: '위구르 강제노동 금지법<br>(UFLPA)', titleEn:'Uyghur Forced Labor Prohibition Act' },
+                { score: 0,    text: '0/1, 0%', title: '탄소국경조정제도<br>(CBAM)', titleEn:'Carbon Border Adjustment Mechanism (CBAM)' },
+                { score: 0,    text: '0/1, 0%', title: '청정경쟁법<br>(CCA)', titleEn:'Fair competition Act' },
+                { score: 0,    text: '0/1, 0%', title: '분쟁광물규정', titleEn:'Conflict minerals regulation' },
+                { score: 4,    text: '1/1, 100%', title: 'EU 강제노동제품 금지규정', titleEn:'Eu forced labor Product Ban Regulation' }
             ]
         }
     };
@@ -857,6 +858,7 @@ function bindRegResult() {
     // -----------------------------
     const regGradeIndex = data.regGrade;                 // 0~4
     const regGradeLabel = config.regGradeTxt[regGradeIndex] || ''; // '취약'~'우수'
+    const regGradeLabelEn = config.regGradeTxtEn[regGradeIndex] || ''; // '취약'~'우수'
 
     // mt01 이 붙은 report_grid 안의 li 들: [0: 설명, 1: 등급, 2: 대응도]
     const $gridItems = $section.find('.report_grid.mt01 > li');
@@ -864,7 +866,8 @@ function bindRegResult() {
     const $rateItem  = $gridItems.eq(2);   // 대응도 박스
 
     // 등급 텍스트
-    $gradeItem.find('.txt .t2 strong').text(regGradeLabel);
+    $gradeItem.find('.txt .t2.vw_kr strong').text(regGradeLabel);
+    $gradeItem.find('.txt .t2.vw_en strong').text(regGradeLabelEn);
 
     // 등급 바 active 처리
     const $regGradeLis = $gradeItem.find('.grade_li li');
@@ -876,7 +879,8 @@ function bindRegResult() {
     }
 
     // 등급 설명 (HTML 포함)
-    $gradeItem.find('.cnt .t1').html(data.regGradeMsg || '');
+    $gradeItem.find('.cnt .t1.vw_kr').html(data.regGradeMsg || '');
+    $gradeItem.find('.cnt .t1.vw_en').html(data.regGradeMsgEn || '');
 
     // -----------------------------
     // 2) 상단 "ESG규제 대응도" 박스
@@ -910,6 +914,7 @@ function bindRegResult() {
     // -----------------------------
     const regDetails = data.regDetails || [];
     const regGradeTxtArr = config.regGradeTxt; // ['취약','미흡','보통','양호','우수']
+    const regGradeTxtArrEn = config.regGradeTxtEn; // ['취약','미흡','보통','양호','우수']
 
     const $panel = $section.find('.regulation_panel');
     if (!$panel.length) return;
@@ -919,8 +924,11 @@ function bindRegResult() {
     $categoryBoxes.each(function (idx) {
         const item = regDetails[idx];
         if (!item) return;
+        const $this = $(this);
         // title 에 이미 <br> 포함됨
-        $(this).html(item.title || '');
+        $this.empty();
+        $('<span/>', {'class' : 'vw_kr'}).html(item.title || '').appendTo($this);
+        $('<span/>', {'class' : 'vw_en'}).html(item.titleEn || '').appendTo($this);
     });
 
     // 3-2) 규제별 상태 텍스트 (오른쪽 상단 박스 리스트)
@@ -933,10 +941,14 @@ function bindRegResult() {
         // score 가 null 이면 "미대상" 처리
         if (item.score == null) {
             const label = item.text || '미대상';
-            $('<strong/>').text(label).appendTo($box);
+            const labelEn = item.textEn || 'Not eligible';
+            $('<strong/>', {'class' : 'vw_kr'}).text(label).appendTo($box);
+            $('<strong/>', {'class' : 'vw_en'}).text(labelEn).appendTo($box);
         } else {
             const label = regGradeTxtArr[item.score] || '';
-            $('<strong/>').text(label).appendTo($box);
+            const labelEn = regGradeTxtArrEn[item.score] || '';
+            $('<strong/>', {'class' : 'vw_kr'}).text(label).appendTo($box);
+            $('<strong/>', {'class' : 'vw_en'}).text(labelEn).appendTo($box);
 
             if (item.text) {
                 // (10/16, 62.5%) 형태로 출력
