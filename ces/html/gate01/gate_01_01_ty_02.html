@@ -1062,323 +1062,329 @@
 <!-- techRadar01 방사형, 바형 차트 -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // =====================================================================
-    // 공통 유틸
-    // =====================================================================
-    // 디자인 px → 실제 px (1px = 0.0260vw 기준)
-    function radarPx(px) {
-        var vw = px * 0.0260;               // px → vw
-        return window.innerWidth * vw / 100; // vw → 실제 px
-    }
+// =====================================================================
+// 공통 유틸
+// =====================================================================
+// 디자인 px → 실제 px (1px = 0.0260vw 기준)
+function radarPx(px) {
+    var vw = px * 0.0260;               // px → vw
+    return window.innerWidth * vw / 100; // vw → 실제 px
+}
 
-    function easeInQuad(t) {
-        t = Math.max(0, Math.min(1, t));
-        return t * t; // 처음 천천히, 마지막 빠르게
-    }
+function easeInQuad(t) {
+    t = Math.max(0, Math.min(1, t));
+    return t * t; // 처음 천천히, 마지막 빠르게
+}
 
-    // 캔버스별 커스텀 드로우 플러그인 생성
-    function createRadarDrawPlugin(canvasId, state, opts) {
-        return {
-            id: 'radarDraw_' + canvasId,
-            afterDatasetsDraw(chart) {
-                if (!chart.canvas || chart.canvas.id !== canvasId) return;
+// ★ 점 → 다음 점 시작까지의 기본 간격(ms)
+//   - 5각형이면: 첫 점 시작 → 마지막 점 시작까지 총 (4 * 이 값)
+//   - 점 간 간격 줄이고 싶으면 이 값만 줄이면 됨 (예: 300 → 150)
+var DEFAULT_POINT_GAP_MS = 300;
 
-                var meta   = chart.getDatasetMeta(0);
-                var points = meta.data || [];
-                if (!points.length) return;
 
-                var ctx        = chart.ctx;
-                var baseRadius = radarPx(opts.pointRadiusPx || 8); // 점 반지름(px 기준)
-                var lineWidth  = radarPx(opts.lineWidthPx  || 2);  // 선 두께(px 기준)
+// 캔버스별 커스텀 드로우 플러그인 생성
+function createRadarDrawPlugin(canvasId, state, opts) {
+    return {
+        id: 'radarDraw_' + canvasId,
+        afterDatasetsDraw(chart) {
+            if (!chart.canvas || chart.canvas.id !== canvasId) return;
 
-                ctx.save();
-                ctx.lineCap  = 'round';
-                ctx.lineJoin = 'round';
+            var meta   = chart.getDatasetMeta(0);
+            var points = meta.data || [];
+            if (!points.length) return;
 
-                // ---------------- 선(세그먼트) ----------------
-                if (Array.isArray(state.segmentProgress)) {
-                    var segLen   = state.segmentProgress.length;
-                    var pointLen = points.length;
+            var ctx        = chart.ctx;
+            var baseRadius = radarPx(opts.pointRadiusPx || 8); // 점 반지름(px 기준)
+            var lineWidth  = radarPx(opts.lineWidthPx  || 2);  // 선 두께(px 기준)
 
-                    for (var i = 0; i < segLen && pointLen > 0; i++) {
-                        var prog = state.segmentProgress[i] || 0;
-                        if (prog <= 0) continue;
+            ctx.save();
+            ctx.lineCap  = 'round';
+            ctx.lineJoin = 'round';
 
-                        var p0 = points[i];
-                        var p1 = (i === pointLen - 1) ? points[0] : points[i + 1];
-                        if (!p0 || !p1) continue;
+            // ---------------- 선(세그먼트) ----------------
+            if (Array.isArray(state.segmentProgress)) {
+                var segLen   = state.segmentProgress.length;
+                var pointLen = points.length;
 
-                        var t = Math.min(prog, 1);
+                for (var i = 0; i < segLen && pointLen > 0; i++) {
+                    var prog = state.segmentProgress[i] || 0;
+                    if (prog <= 0) continue;
 
-                        var x1 = p0.x, y1 = p0.y;
-                        var x2 = p1.x, y2 = p1.y;
-                        var xt = x1 + (x2 - x1) * t;
-                        var yt = y1 + (y2 - y1) * t;
+                    var p0 = points[i];
+                    var p1 = (i === pointLen - 1) ? points[0] : points[i + 1];
+                    if (!p0 || !p1) continue;
 
-                        ctx.save();
-                        ctx.strokeStyle = opts.lineColor || '#1d7bff';
-                        ctx.lineWidth   = lineWidth;
-                        ctx.globalAlpha = t; // opacity 0→1
-                        ctx.beginPath();
-                        ctx.moveTo(x1, y1);
-                        ctx.lineTo(xt, yt);
-                        ctx.stroke();
-                        ctx.restore();
-                    }
-                }
+                    var t = Math.min(prog, 1);
 
-                // ---------------- 점 ----------------
-                if (Array.isArray(state.pointProgress)) {
-                    for (var j = 0; j < points.length; j++) {
-                        var pProg = state.pointProgress[j] || 0;
-                        if (pProg <= 0) continue;
-
-                        var p = points[j];
-                        var r = baseRadius * Math.min(pProg, 1);
-
-                        ctx.save();
-                        ctx.fillStyle   = opts.pointColor || '#1d7bff';
-                        ctx.globalAlpha = pProg; // opacity 0→1
-                        ctx.beginPath();
-                        ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
-                        ctx.fill();
-                        ctx.restore();
-                    }
-                }
-
-                // ---------------- 면 채우기 ----------------
-                if (state.fillProgress > 0 && points.length > 2) {
-                    var alpha = Math.min(state.fillProgress, 1);
+                    var x1 = p0.x, y1 = p0.y;
+                    var x2 = p1.x, y2 = p1.y;
+                    var xt = x1 + (x2 - x1) * t;
+                    var yt = y1 + (y2 - y1) * t;
 
                     ctx.save();
+                    ctx.strokeStyle = opts.lineColor || '#1d7bff';
+                    ctx.lineWidth   = lineWidth;
+                    ctx.globalAlpha = t; // opacity 0→1
                     ctx.beginPath();
-                    ctx.moveTo(points[0].x, points[0].y);
-                    for (var k = 1; k < points.length; k++) {
-                        ctx.lineTo(points[k].x, points[k].y);
-                    }
-                    ctx.closePath();
+                    ctx.moveTo(x1, y1);
+                    ctx.lineTo(xt, yt);
+                    ctx.stroke();
+                    ctx.restore();
+                }
+            }
 
-                    ctx.globalAlpha = alpha;
-                    ctx.fillStyle   = opts.fillColor || 'rgba(29, 123, 255, 0.35)';
+            // ---------------- 점 ----------------
+            if (Array.isArray(state.pointProgress)) {
+                for (var j = 0; j < points.length; j++) {
+                    var pProg = state.pointProgress[j] || 0;
+                    if (pProg <= 0) continue;
+
+                    var p = points[j];
+                    var r = baseRadius * Math.min(pProg, 1);
+
+                    ctx.save();
+                    ctx.fillStyle   = opts.pointColor || '#1d7bff';
+                    ctx.globalAlpha = pProg; // opacity 0→1
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
                     ctx.fill();
                     ctx.restore();
                 }
+            }
 
+            // ---------------- 면 채우기 ----------------
+            if (state.fillProgress > 0 && points.length > 2) {
+                var alpha = Math.min(state.fillProgress, 1);
+
+                ctx.save();
+                ctx.beginPath();
+                ctx.moveTo(points[0].x, points[0].y);
+                for (var k = 1; k < points.length; k++) {
+                    ctx.lineTo(points[k].x, points[k].y);
+                }
+                ctx.closePath();
+
+                ctx.globalAlpha = alpha;
+                ctx.fillStyle   = opts.fillColor || 'rgba(29, 123, 255, 0.35)';
+                ctx.fill();
                 ctx.restore();
             }
-        };
-    }
 
-    // =====================================================================
-    // 공통 컨트롤러 생성 함수
-    //   - canvasId, labels, data만 다르게 넣으면 3각형/5각형/10각형 공통 사용
-    //   - 반환값: { start(), chart, setData(), setLabels() }
-    // =====================================================================
-    function createRadarController(opts) {
-        var canvasId = opts.canvasId;
-        var labels   = (opts.labels || []).slice();
-        var data     = (opts.data   || []).slice();
-        var fontPx   = opts.labelFontPx || 24;
-
-        var canvas = document.getElementById(canvasId);
-        if (!canvas) return null;
-
-        var ctx    = canvas.getContext('2d');
-        var n      = data.length;
-
-        var state = {
-            pointProgress:   new Array(n).fill(0),
-            segmentProgress: new Array(n).fill(0),
-            fillProgress:    0,
-            animating:       false,
-            chart:           null
-        };
-
-        var drawPlugin = createRadarDrawPlugin(canvasId, state, opts);
-        var fontSize   = radarPx(fontPx);
-
-        var chart = new Chart(ctx, {
-            type: 'radar',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: opts.datasetLabel || '',
-                    data: new Array(n).fill(0), // 처음에는 0
-                    borderColor: 'rgba(0,0,0,0)',
-                    backgroundColor: 'rgba(0,0,0,0)',
-                    borderWidth: 0,
-                    pointBackgroundColor: 'rgba(0,0,0,0)',
-                    pointBorderColor: 'rgba(0,0,0,0)',
-                    pointRadius: 0,
-                    pointHoverRadius: 0,
-                    fill: false
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                animation: false,
-                plugins: {
-                    legend: { display: false },
-                    tooltip: { enabled: false }
-                },
-                scales: {
-                    r: {
-                        min: 0,
-                        max: 100,
-                        ticks: {
-                            display: false,
-                            stepSize: 20
-                        },
-                        grid: {
-                            color: opts.gridColor || 'rgba(241, 241, 241, 0.6)'
-                        },
-                        angleLines: {
-                            color: opts.gridColor || 'rgba(241, 241, 241, 0.6)'
-                        },
-                        pointLabels: {
-                            color: opts.labelColor || '#ffffff',
-                            font: {
-                                size: fontSize, // 24px → vw 환산 값
-                                family: opts.fontFamily || 'Pretendard, Noto Sans KR, sans-serif'
-                            },
-                            padding: radarPx(opts.labelPaddingPx || 10)
-                        }
-                    }
-                }
-            },
-            plugins: [drawPlugin]
-        });
-
-        state.chart = chart;
-
-        // ---------- 공통 애니 유틸 ----------
-        function animateValue(duration, onUpdate, onComplete) {
-            var start = performance.now();
-            function frame(now) {
-                var tRaw  = (now - start) / duration;
-                var tNorm = Math.max(0, Math.min(1, tRaw));
-                var eased = easeInQuad(tNorm); // 처음 천천히 → 마지막 빠르게
-
-                onUpdate(eased);
-                chart.update();
-
-                if (tNorm < 1) {
-                    requestAnimationFrame(frame);
-                } else if (typeof onComplete === 'function') {
-                    onComplete();
-                }
-            }
-            requestAnimationFrame(frame);
+            ctx.restore();
         }
-
-        function animatePoint(index, duration) {
-            if (index < 0 || index >= state.pointProgress.length) return;
-            animateValue(duration, function (eased) {
-                state.pointProgress[index] = eased;
-            });
-        }
-
-        function animateSegment(index, duration) {
-            if (index < 0 || index >= state.segmentProgress.length) return;
-            animateValue(duration, function (eased) {
-                state.segmentProgress[index] = eased;
-            });
-        }
-
-        function animateFill(duration) {
-            animateValue(duration, function (eased) {
-                state.fillProgress = eased;
-            }, function () {
-                state.animating = false;
-            });
-        }
-
-// ---------- 실제 시퀀스 ----------
-function start() {
-    var n = data.length;
-    if (!n) return;
-
-    chart.data.labels           = labels.slice();
-    chart.data.datasets[0].data = data.slice();
-
-    state.pointProgress   = new Array(n).fill(0);
-    state.segmentProgress = new Array(n).fill(0);
-    state.fillProgress    = 0;
-    state.animating       = true;
-
-    chart.update();
-
-    // ★ 타이밍 설정
-    // 첫 점은 바로, 이후 점은 3초 간격
-    var FIRST_DELAY    = (opts.firstDelay    != null) ? opts.firstDelay    : 0;     // 0초
-    var STEP_INTERVAL  = (opts.stepInterval  != null) ? opts.stepInterval  : 3200;  // 3초 간격
-    var POINT_DURATION = (opts.pointDuration != null) ? opts.pointDuration : 400;
-    var SEG_DURATION   = (opts.segmentDuration != null) ? opts.segmentDuration : 600;
-    var CLOSE_DELAY    = (opts.closeDelay    != null) ? opts.closeDelay    : 500;   // 마지막 점 찍히고 초 뒤
-    var FILL_DURATION  = (opts.fillDuration  != null) ? opts.fillDuration  : 700;
-
-    // n개의 점 + (중간) 세그먼트
-    for (let i = 0; i < n; i++) {
-        (function (index) {
-            var time = FIRST_DELAY + index * STEP_INTERVAL;
-
-            setTimeout(function () {
-                // 점 찍기
-                animatePoint(index, POINT_DURATION);
-
-                // ★ 수정 전
-                // if (index > 0 && index < n - 1) {
-                //     var segIdx = index - 1;
-                //     animateSegment(segIdx, SEG_DURATION);
-                // }
-
-                // ★ 수정 후 : 두 번째 점부터는 무조건 직전 점과 연결
-                if (index > 0) {
-                    var segIdx = index - 1; // 1→seg0, 2→seg1, 3→seg2, 4→seg3 ...
-                    animateSegment(segIdx, SEG_DURATION);
-                }
-            }, time);
-        })(i);
-    }
-
-
-    // 마지막 점이 찍히는 시점
-    var lastIndex     = n - 1;
-    var lastPointTime = FIRST_DELAY + lastIndex * STEP_INTERVAL;
-
-    // 마지막 점 찍힌 후 0.5초 뒤:
-    //   - 마지막 세그먼트: (마지막 점) ↔ (첫 번째 점)
-    //   - 선 애니 시작과 거의 동시에 면 채우기 시작
-    setTimeout(function () {
-        // 4번째-5번째 선은 위 for 루프에서 이미 그렸고,
-        // 여기서는 5번째-1번째 선 (segment lastIndex)을 그림
-        animateSegment(lastIndex, SEG_DURATION);
-
-        // 선 그리기와 거의 동시에 면 채우기 시작 (스르륵)
-        animateFill(FILL_DURATION);
-    }, lastPointTime + CLOSE_DELAY);
+    };
 }
 
+// =====================================================================
+// 공통 컨트롤러 생성 함수
+//   - canvasId, labels, data만 다르게 넣으면 3각형/5각형/10각형 공통 사용
+//   - 반환값: { start(), chart, setData(), setLabels() }
+// =====================================================================
+function createRadarController(opts) {
+    var canvasId = opts.canvasId;
+    var labels   = (opts.labels || []).slice();
+    var data     = (opts.data   || []).slice();
+    var fontPx   = opts.labelFontPx || 24;
 
+    var canvas = document.getElementById(canvasId);
+    if (!canvas) return null;
 
-        return {
-            start: start,
-            chart: chart,
-            setData: function (newData) {
-                data = (newData || []).slice();
+    var ctx    = canvas.getContext('2d');
+    var n      = data.length;
+
+    var state = {
+        pointProgress:   new Array(n).fill(0),
+        segmentProgress: new Array(n).fill(0),
+        fillProgress:    0,
+        animating:       false,
+        chart:           null
+    };
+
+    var drawPlugin = createRadarDrawPlugin(canvasId, state, opts);
+    var fontSize   = radarPx(fontPx);
+
+    var chart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: opts.datasetLabel || '',
+                data: new Array(n).fill(0), // 처음에는 0
+                borderColor: 'rgba(0,0,0,0)',
+                backgroundColor: 'rgba(0,0,0,0)',
+                borderWidth: 0,
+                pointBackgroundColor: 'rgba(0,0,0,0)',
+                pointBorderColor: 'rgba(0,0,0,0)',
+                pointRadius: 0,
+                pointHoverRadius: 0,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: { enabled: false }
             },
-            setLabels: function (newLabels) {
-                labels = (newLabels || []).slice();
+            scales: {
+                r: {
+                    min: 0,
+                    max: 100,
+                    ticks: {
+                        display: false,
+                        stepSize: 20
+                    },
+                    grid: {
+                        color: opts.gridColor || 'rgba(241, 241, 241, 0.6)'
+                    },
+                    angleLines: {
+                        color: opts.gridColor || 'rgba(241, 241, 241, 0.6)'
+                    },
+                    pointLabels: {
+                        color: opts.labelColor || '#ffffff',
+                        font: {
+                            size: fontSize,
+                            family: opts.fontFamily || 'Pretendard, Noto Sans KR, sans-serif'
+                        },
+                        padding: radarPx(opts.labelPaddingPx || 10)
+                    }
+                }
             }
-        };
+        },
+        plugins: [drawPlugin]
+    });
+
+    state.chart = chart;
+
+    // ---------- 공통 애니 유틸 ----------
+    function animateValue(duration, onUpdate, onComplete) {
+        var start = performance.now();
+        function frame(now) {
+            var tRaw  = (now - start) / duration;
+            var tNorm = Math.max(0, Math.min(1, tRaw));
+            var eased = easeInQuad(tNorm); // 처음 천천히 → 마지막 빠르게
+
+            onUpdate(eased);
+            chart.update();
+
+            if (tNorm < 1) {
+                requestAnimationFrame(frame);
+            } else if (typeof onComplete === 'function') {
+                onComplete();
+            }
+        }
+        requestAnimationFrame(frame);
     }
 
-    // =============================================================
-    // 2개 지표용 바 차트 컨트롤러
-    //  - radarPx, easeInQuad 는 위에서 정의돼 있다고 가정
-    // =============================================================
-    function createTechBarController(opts) {
+    function animatePoint(index, duration) {
+        if (index < 0 || index >= state.pointProgress.length) return;
+        animateValue(duration, function (eased) {
+            state.pointProgress[index] = eased;
+        });
+    }
+
+    function animateSegment(index, duration) {
+        if (index < 0 || index >= state.segmentProgress.length) return;
+        animateValue(duration, function (eased) {
+            state.segmentProgress[index] = eased;
+        });
+    }
+
+    function animateFill(duration) {
+        animateValue(duration, function (eased) {
+            state.fillProgress = eased;
+        }, function () {
+            state.animating = false;
+        });
+    }
+
+    // ---------- 실제 시퀀스 ----------
+    function start() {
+        var n = data.length;
+        if (!n) return;
+
+        chart.data.labels           = labels.slice();
+        chart.data.datasets[0].data = data.slice();
+
+        state.pointProgress   = new Array(n).fill(0);
+        state.segmentProgress = new Array(n).fill(0);
+        state.fillProgress    = 0;
+        state.animating       = true;
+
+        chart.update();
+
+        // ★ 타이밍 설정
+        var FIRST_DELAY = (opts.firstDelay != null)
+            ? opts.firstDelay
+            : 0;
+
+        // ★ 점과 점 사이 간격(ms)
+        // 1순위: opts.pointGapMs
+        // 2순위: opts.stepInterval (기존 코드와 호환)
+        // 3순위: window.RADAR_POINT_GAP_MS (외부에서 글로벌로 세팅 가능)
+        // 4순위: DEFAULT_POINT_GAP_MS (300ms)
+        var POINT_GAP_MS =
+            (opts.pointGapMs != null) ? opts.pointGapMs :
+            (opts.stepInterval != null) ? opts.stepInterval :
+            (typeof window.RADAR_POINT_GAP_MS === 'number') ? window.RADAR_POINT_GAP_MS :
+            DEFAULT_POINT_GAP_MS;
+
+        var POINT_DURATION = (opts.pointDuration   != null) ? opts.pointDuration   : 400;
+        var SEG_DURATION   = (opts.segmentDuration != null) ? opts.segmentDuration : 600;
+        var CLOSE_DELAY    = (opts.closeDelay      != null) ? opts.closeDelay      : 500;
+        var FILL_DURATION  = (opts.fillDuration    != null) ? opts.fillDuration    : 700;
+
+        // n개의 점 + (중간) 세그먼트
+        for (let i = 0; i < n; i++) {
+            (function (index) {
+                // ★ 각 점 시작 시점 = FIRST_DELAY + index * POINT_GAP_MS
+                var time = FIRST_DELAY + index * POINT_GAP_MS;
+
+                setTimeout(function () {
+                    // 점 찍기
+                    animatePoint(index, POINT_DURATION);
+
+                    // 두 번째 점부터는 직전 점과 연결
+                    if (index > 0) {
+                        var segIdx = index - 1;
+                        animateSegment(segIdx, SEG_DURATION);
+                    }
+                }, time);
+            })(i);
+        }
+
+        // 마지막 점이 찍히는 시점
+        var lastIndex     = n - 1;
+        var lastPointTime = FIRST_DELAY + lastIndex * POINT_GAP_MS;
+
+        // 마지막 점 찍힌 후 CLOSE_DELAY 뒤:
+        //   - 마지막 세그먼트: (마지막 점) ↔ (첫 번째 점)
+        //   - 선 애니 시작과 거의 동시에 면 채우기 시작
+        setTimeout(function () {
+            animateSegment(lastIndex, SEG_DURATION);
+            animateFill(FILL_DURATION);
+        }, lastPointTime + CLOSE_DELAY);
+    }
+
+    return {
+        start: start,
+        chart: chart,
+        setData: function (newData) {
+            data = (newData || []).slice();
+        },
+        setLabels: function (newLabels) {
+            labels = (newLabels || []).slice();
+        }
+    };
+}
+
+// =============================================================
+// 2개 지표용 바 차트 컨트롤러
+//  - radarPx, easeInQuad 는 위에서 정의돼 있다고 가정
+// =============================================================
+function createTechBarController(opts) {
     var canvasId = opts.canvasId;
     var labels   = (opts.labels || []).slice(); // 예: ['기술 혁신성', '시장 현황']
     var data     = (opts.data   || []).slice(); // 예: [70, 80] (0~100)
@@ -1504,7 +1510,6 @@ function start() {
 }
 
 
-
     // =====================================================================
     // techRadar01 (5각형) 컨트롤러
     // =====================================================================
@@ -1520,7 +1525,8 @@ function start() {
         // ★ 실제 데이터로 교체해서 사용 (0~100)
         data: [60, 80, 75, 70, 40],
         labelFontPx: 24,
-        datasetLabel: '평가'
+        datasetLabel: '평가',
+        pointGapMs: 2200
     });
 
     // =====================================================================
@@ -1536,7 +1542,8 @@ function start() {
         // ★ 실제 데이터로 교체해서 사용 (0~100)
         data: [70, 80, 60],
         labelFontPx: 24,
-        datasetLabel: '평가'
+        datasetLabel: '평가',
+        pointGapMs: 2200
     });
 
     // =====================================================================
@@ -1557,7 +1564,8 @@ function start() {
         // ★ 실제 데이터로 교체해서 사용 (0~100)
         data: [70, 80, 60, 60, 60, 60, 60, 60],
         labelFontPx: 24,
-        datasetLabel: '평가'
+        datasetLabel: '평가',
+        pointGapMs: 2200
     });
 
     // =============================================================
@@ -1567,7 +1575,8 @@ function start() {
         canvasId: 'techBar01',
         labels: ['제품 우위성', '시장 현황'],  // ← 필요에 맞게 수정
         data:   [75, 60],                     // ← 0~100 값
-        labelFontPx: 24
+        labelFontPx: 24,
+        pointGapMs: 2200
     });
 
     
@@ -1597,12 +1606,20 @@ function start() {
 // tech_process_item 전체 시퀀스 컨트롤러
 // =====================================================================
 (function () {
-    var GAUGE_DURATION      = 2000; // 한 그룹(inve_examine_step_xx)의 게이지가 다 차는데 걸리는 시간
-    var GROUP_FADE_TIME     = 600;  // inve_examine_step_xx 교체용 (위로 스르륵)
-    var ITEM_FADE_TIME      = 600;  // tech_process_item 교체용
-    var ON_DELAY_AFTER_BAR  = 500;  // bar 다 찬 뒤 step_examine 에 on 이 들어가기까지 대기
-    var HIDE_DELAY_AFTER_ON = 200;  // step_examine 에 on 이 들어간 뒤 group 이 사라지기까지 대기
-    var HOLD_AFTER_LIST     = 2000; // 한 tech_process_item의 step 리스트 끝난 뒤 유지 시간
+    // 게이지는 1초 안에 한 번에 다 차게
+    var GAUGE_DURATION       = 1500; // 한 그룹(inve_examine_step_xx)의 게이지가 다 차는데 걸리는 시간
+    var GROUP_FADE_TIME      = 600;  // inve_examine_step_xx 교체용 (위로 스르륵)
+    var ITEM_FADE_TIME       = 600;  // tech_process_item 교체용
+    var ON_DELAY_AFTER_BAR   = 0;    // bar 다 찬 뒤 step_examine 에 on 이 들어가기까지 대기 (지금은 0)
+    var HIDE_DELAY_AFTER_ON  = 200;  // step_examine 에 on 이 들어간 뒤 group 이 사라지기까지 대기
+    var HOLD_AFTER_LIST      = 2000; // 한 tech_process_item의 step 리스트 끝난 뒤 유지 시간
+    var POINT_DELAY_AFTER_ON = 500;  // ★ step_examine_xx 이 on 된 후 0.5초 뒤 그래프 점 애니 시작
+
+    // ★ 점과 점 사이 간격(ms) — 이 숫자를 줄이면 점이 더 빠르게, 촘촘하게 찍힘
+    var CHART_POINT_INTERVAL = 100;
+
+    // 전역에서도 쓸 수 있게
+    window.CHART_POINT_INTERVAL = CHART_POINT_INTERVAL;
 
     var processItems = document.querySelectorAll('.tech_process_item');
     if (!processItems.length) return;
@@ -1685,22 +1702,20 @@ function start() {
         }, GROUP_FADE_TIME);
     }
 
-    // ---------------- gauge 그룹(하나의 inve_examine_step_xx) 애니 + 자동 스크롤 ----------------
+    // ---------------- gauge 그룹(하나의 inve_examine_step_xx) 애니 ----------------
     function animateGaugesInGroup(group) {
         if (!group) return;
 
+        // 이 step 안의 모든 gauge
         var gauges = group.querySelectorAll('.inve_examine_gp_item .bar .gauge');
         var count  = gauges.length;
         if (!count) return;
 
-        // 이 그룹 안의 모든 bar가 GAUGE_DURATION 안에 순서대로 다 차게
-        var perTime = GAUGE_DURATION / count;
-
-        // ★ 스크롤 컨테이너 = .tech_gp_set [class^="inve_examine_step_"] (그룹 자신)
+        // 이 그룹 자체를 스크롤 컨테이너로 사용(overflow-y: auto 가정)
         var scroller = group;
 
         function scrollIntoViewIfNeeded(target) {
-            if (!scroller) return;
+            if (!scroller || !target) return;
 
             var vRect = scroller.getBoundingClientRect();  // 스크롤 영역
             var tRect = target.getBoundingClientRect();    // 타겟 bar 영역
@@ -1716,27 +1731,33 @@ function start() {
             }
         }
 
-        gauges.forEach(function (gauge, idx) {
-            var percent = parseFloat(gauge.getAttribute('data-percent')) || 0;
-
-            // 초기화
+        // 1) 모든 게이지 초기화: transition 제거 + width 0%
+        gauges.forEach(function (gauge) {
             gauge.style.transition = 'none';
             gauge.style.width      = '0%';
-            gauge.getBoundingClientRect(); // reflow
-
-            setTimeout(function () {
-                // 이 gauge가 들어있는 아이템 기준으로 가려짐 체크
-                var item = gauge.closest('.inve_examine_gp_item') || gauge;
-
-                // 1) 이 bar가 채워지기 직전에, 가려질 위치면 먼저 스크롤
-                scrollIntoViewIfNeeded(item);
-
-                // 2) 그 다음 width 애니 시작
-                gauge.getBoundingClientRect(); // 한 번 더 reflow
-                gauge.style.transition = 'width ' + (perTime / 1000) + 's ease';
-                gauge.style.width      = percent + '%';
-            }, idx * perTime);
         });
+
+        // reflow 한 번 줘서 초기 상태 적용
+        if (gauges[0]) {
+            gauges[0].getBoundingClientRect();
+        }
+
+        // 2) 게이지 애니메이션 시작 (모두 동시에 GAUGE_DURATION 동안 채우기)
+        requestAnimationFrame(function () {
+            gauges.forEach(function (gauge) {
+                var percent = parseFloat(gauge.getAttribute('data-percent')) || 0;
+                gauge.style.transition = 'width ' + (GAUGE_DURATION / 1000) + 's ease';
+                gauge.style.width      = percent + '%';
+            });
+        });
+
+        // 3) ★ 게이지가 다 찬 후에 스크롤 이동
+        //    (예: GAUGE_DURATION 끝난 직후에 마지막 아이템이 가려져 있으면 아래로 스크롤)
+        var lastItem = gauges[count - 1].closest('.inve_examine_gp_item') || gauges[count - 1];
+
+        setTimeout(function () {
+            scrollIntoViewIfNeeded(lastItem);
+        }, GAUGE_DURATION); // 게이지 애니 끝난 시점에 맞춰 스크롤
     }
 
     // ---------------- 현재 item 숨기고 다음 item 보여주기 ----------------
@@ -1755,6 +1776,18 @@ function start() {
             current.style.display = 'none';
             showItem(nextIndex);
         }, ITEM_FADE_TIME);
+    }
+
+    // ---------------- 그래프 점 애니 시작 헬퍼 ----------------
+    function startChartForItem(itemIndex) {
+        // ★ 여기서 pointInterval(점 간격)을 같이 넘겨줌
+        if (itemIndex === 0 && typeof runTechRadar01 === 'function') {
+            runTechRadar01(CHART_POINT_INTERVAL);
+        } else if (itemIndex === 1 && typeof runTechBar01 === 'function') {
+            runTechBar01(CHART_POINT_INTERVAL);
+        } else if (itemIndex === 2 && typeof runTechRadar04 === 'function') {
+            runTechRadar04(CHART_POINT_INTERVAL);
+        }
     }
 
     // ---------------- item 하나의 내부 step_examine / gauge / 그룹 시퀀스 ----------------
@@ -1796,19 +1829,8 @@ function start() {
                 animateGaugesInGroup(group);
             }
 
-            // ★ bar 전체가 다 찬 뒤(GAUGE_DURATION) + 0.5초 후의 타이밍
+            // 게이지가 다 찬 뒤(GAUGE_DURATION) + ON_DELAY_AFTER_BAR 후 처리
             setTimeout(function () {
-
-                // ★ step_examine_01 이 on 되는 타이밍에 차트 시작
-                if (stepIndex === 0) {
-                    if (itemIndex === 0 && typeof runTechRadar01 === 'function') {
-                        runTechRadar01();
-                    } else if (itemIndex === 1 && typeof runTechBar01 === 'function') {
-                        runTechBar01();
-                    } else if (itemIndex === 2 && typeof runTechRadar04 === 'function') {
-                        runTechRadar04();
-                    }
-                }
 
                 if (isLastStep) {
                     // 마지막 step: 이전 것들 done, 마지막만 on 유지
@@ -1821,14 +1843,30 @@ function start() {
                             steps[i].classList.remove('done');
                         }
                     }
+
+                    // ★ step_examine_01 이 on 된 뒤 0.5초 뒤에 그래프 점 애니 시작
+                    if (stepIndex === 0) {
+                        setTimeout(function () {
+                            startChartForItem(itemIndex);
+                        }, POINT_DELAY_AFTER_ON);
+                    }
+
                     // 마지막 그룹은 그대로 유지
                     if (typeof onComplete === 'function') onComplete();
+
                 } else {
                     // 현재 step_examine 에 on
                     steps[stepIndex].classList.add('on');
                     steps[stepIndex].classList.remove('done');
 
-                    // ★ on 이 들어간 뒤 0.5초 후 → group 을 위로 스르륵 사라지게
+                    // ★ step_examine_01 이 on 된 뒤 0.5초 후 그래프 점 애니 시작
+                    if (stepIndex === 0) {
+                        setTimeout(function () {
+                            startChartForItem(itemIndex);
+                        }, POINT_DELAY_AFTER_ON);
+                    }
+
+                    // on 이 들어간 뒤 HIDE_DELAY_AFTER_ON 후 → group 을 위로 스르륵 사라지게
                     setTimeout(function () {
                         hideGroup(group, function () {
                             // 완전히 사라진 뒤 다음 step 으로
@@ -1836,7 +1874,8 @@ function start() {
                         });
                     }, HIDE_DELAY_AFTER_ON);
                 }
-            }, GAUGE_DURATION + ON_DELAY_AFTER_BAR); // "bar 완료 + 0.5초" 타이밍
+
+            }, GAUGE_DURATION + ON_DELAY_AFTER_BAR); // bar 완료 시점 기준
         }
 
         // 첫 step 시작
@@ -1896,8 +1935,6 @@ function start() {
             }, HOLD_AFTER_LIST);
         });
     }
-
-
 
     // ---------------- 전체 시퀀스 시작 ----------------
     // 페이지 로드 후 2초 뒤 step_01 시작

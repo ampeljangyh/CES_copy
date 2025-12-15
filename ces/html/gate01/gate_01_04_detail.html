@@ -2231,6 +2231,7 @@ function createGrowthChart(canvasId, lang) {
       }
     },
     plugins: [
+      /* 1) 성장 예측 오른쪽 텍스트 라벨 */
       {
         id: 'rightLabels',
         afterDraw(chart) {
@@ -2309,13 +2310,45 @@ function createGrowthChart(canvasId, lang) {
 
           ctx.restore();
         }
+      },
+
+      /* 2) after 라인을 왼쪽→오른쪽으로 잘라서 보여주는 clip 플러그인 */
+      {
+        id: 'lineRevealClip',
+        beforeDatasetDraw(chart, args) {
+          const dataset = chart.data.datasets[args.index];
+          if (!dataset || dataset.label !== 'after') return;
+
+          const progress =
+            typeof chart.$lineRevealProgress === 'number'
+              ? chart.$lineRevealProgress
+              : 0;
+
+          const { ctx, chartArea } = chart;
+          const { left, right, top, bottom } = chartArea;
+
+          ctx.save();
+          ctx.beginPath();
+
+          // progress 비율만큼만 가로 방향으로 보이도록 clip
+          const width = (right - left) * progress;
+          ctx.rect(left, top, width, bottom - top);
+          ctx.clip();
+        },
+        afterDatasetDraw(chart, args) {
+          const dataset = chart.data.datasets[args.index];
+          if (!dataset || dataset.label !== 'after') return;
+          const { ctx } = chart;
+          ctx.restore();
+        }
       }
     ]
   });
 
   chart.$lang = lang;
   chart.$labelForecastAlpha = 0;   // 성장예측 텍스트 처음엔 숨김
-  chart.$afterAnimated = false;    // 빨간 라인 애니 1회 제한
+  chart.$afterAnimated      = false; // 빨간 라인 애니 1회 제한
+  chart.$lineRevealProgress = 0;   // 0~1, clip 비율
 
   return chart;
 }
@@ -2341,7 +2374,6 @@ function ensureEnChart() {
 function resizeGrowthChart(chart) {
   if (!chart) return;
 
-  const lang = chart.$lang || 'kr';
   const newLineWidth = getLineWidthPx();
   const newFontSize  = getFontSizePx();
   const leftPaddingFactor  = 0.8;
@@ -2372,6 +2404,9 @@ function resizeGrowthChart(chart) {
 
 /****************************
  * 성장 예측(빨간 라인) 애니메이션
+ *  - 데이터는 그대로 두고
+ *  - clip 비율(chart.$lineRevealProgress)만 0→1로
+ *  - 왼쪽 → 오른쪽으로 부드럽게 그려지게
  ****************************/
 function animateAfterLine(chart, duration) {
   if (!chart || chart.$afterAnimated) return;
@@ -2379,30 +2414,28 @@ function animateAfterLine(chart, duration) {
   const ds = chart.data.datasets.find(ds => ds.label === 'after');
   if (!ds) return;
 
-  const target    = ds.data.slice();                     // 최종 값
-  const startData = new Array(target.length).fill(0);    // 아래(0)에서 시작
-
   ds.hidden = false; // 보이게 전환
 
   const startTime = performance.now();
-  chart.$afterAnimated = true;
+  chart.$afterAnimated      = true;
+  chart.$lineRevealProgress = 0;
 
   function frame(now) {
     let t = (now - startTime) / duration;
     if (t > 1) t = 1;
     if (t < 0) t = 0;
 
-    const eased = t * t; // ease-in
+    const eased = t * t; // 약한 ease-in
 
-    for (let i = 0; i < target.length; i++) {
-      ds.data[i] = startData[i] + (target[i] - startData[i]) * eased;
-    }
+    // clip 비율 업데이트
+    chart.$lineRevealProgress = eased;
 
+    // alpha도 같이 올리기 (선 + 오른쪽 "성장 예측" 레이블)
     const alpha = eased;
     ds.borderColor            = `rgba(219,30,30,${alpha})`;
-    chart.$labelForecastAlpha = alpha; // 오른쪽 텍스트 투명도
+    chart.$labelForecastAlpha = alpha;
 
-    chart.update();
+    chart.update('none'); // 내부 애니 없이 바로 그리기
 
     if (t < 1) {
       requestAnimationFrame(frame);
@@ -2550,7 +2583,7 @@ document.addEventListener('DOMContentLoaded', function () {
           animateAfterLine(window.growthChartEnInstance, 1500);
         }
 
-        // 4) 그래프 동작 시작 후 2초 뒤 → step2 노출
+        // 4) 그래프 동작 시작 후 1초 뒤 → step2 노출
         setTimeout(function () {
           showStep(step2);
           appBtn.classList.remove('is-running');
@@ -2560,6 +2593,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 });
+
 
 
 
