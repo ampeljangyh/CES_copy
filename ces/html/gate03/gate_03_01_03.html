@@ -86,33 +86,42 @@
         <div class="contents esg_cont step02_04" style="visibility: hidden;">
             <div class="esg_cont_inner">
 
+                <!-- auto_diag_top -->
+                <div class="auto_diag_top">
+                    <!-- load_video -->
+                    <div class="load_video">
+                        <video src="../../resources/images/gate_03/loading.mp4" autoplay="" muted="" loop="" playsinline=""></video>
+                    </div>
+                    <!-- //load_video -->
+    
+                    <p class="t1 vw_kr"><span class="selPrdName">NexDrive</span> ESG 정밀 진단 중..</p>
+                    <p class="t1 vw_en">Company <span class="selPrdName">NexDrive</span> ESG Assessment in Progress..</p>
+                </div>
+                <!-- //auto_diag_top -->
+                
                 <!-- auto_diag -->
                 <div class="auto_diag">
                     <!-- inner -->
                     <div class="inner">
-                        <!-- load_video -->
-                        <div class="load_video">
-                            <video src="../../resources/images/gate_03/loading.mp4" autoplay="" muted="" loop="" playsinline=""></video>
-                        </div>
-                        <!-- //load_video -->
-
-                        <p class="t1"><span class="selPrdName">NexDrive</span> ESG 정밀 진단 중..</p>
 
                         <!-- proc_progress -->
                         <ul class="proc_progress">
                             <li>
                                 <span class="ico_esg ty_e"></span>
-                                <span class="txt">환경</span>
+                                <span class="txt vw_kr">환경</span>
+                                <span class="txt vw_en">Environmental</span>
                                 <span class="proc_txt">-</span>
                             </li>
                             <li>
                                 <span class="ico_esg ty_s"></span>
-                                <span class="txt">사회</span>
+                                <span class="txt vw_kr">사회</span>
+                                <span class="txt vw_en">Social</span>
                                 <span class="proc_txt">-</span>
                             </li>
                             <li>
                                 <span class="ico_esg ty_g"></span>
-                                <span class="txt">지배구조</span>
+                                <span class="txt vw_kr">지배구조</span>
+                                <span class="txt vw_en">Governance</span>
                                 <span class="proc_txt">-</span>
                             </li>
                         </ul>
@@ -122,9 +131,12 @@
                         <div class="proc_auto">
                             <!-- head_txt -->
                             <div class="head_txt">
-                                <strong class="name">ESG 평가 지표</strong>
-                                <strong class="data">데이터 수집</strong>
-                                <strong class="eval">평가</strong>
+                                <strong class="name vw_kr">ESG 평가 지표</strong>
+                                <strong class="data vw_kr">데이터 수집</strong>
+                                <strong class="eval vw_kr">평가</strong>
+                                <strong class="name vw_en">Assessment Criteria</strong>
+                                <strong class="data vw_en">Data Collection</strong>
+                                <strong class="eval vw_en">Assessment</strong>
                             </div>
                             <!-- head_txt -->
 
@@ -1440,13 +1452,14 @@ function gate030103rendered() {
         ul.dataset.proc = procKey;
         ul.style.display = "none";
 
-        items.forEach(({ item, grade, popup, panelId }) => {
+        items.forEach(({ itemEn, item, grade, popup, panelId }) => {
             const li = document.createElement("li");
 
             li.innerHTML = `
                 <div class="name">
                     <span class="ico_esg ty_${procKey}"></span>
-                    <span class="txt">${item}</span>
+                    <span class="txt vw_kr">${item}</span>
+                    <span class="txt vw_en">${itemEn}</span>
                 </div>
                 <div class="progress_wrap">
                     <div class="progress_track">
