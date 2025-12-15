@@ -472,16 +472,17 @@
 
 .report_grid .point_wrap {display:flex;align-items:center;padding: 76px 168px 60px 0;}
 .report_grid .point_wrap .txt {flex-shrink:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:30px;width:756px;text-align:center;}
-.report_grid .point_wrap .txt .t1 {color: #FFF;font-size: 60px;font-weight: 500;letter-spacing: -1.2px;text-transform: uppercase;}
+.report_grid .point_wrap .txt .t1 {color: #FFF;font-size: 60px;font-weight: 500;letter-spacing: -1.2px;}
 .report_grid .point_wrap .txt .t2 {display:flex;align-items:center;gap:16px;}
-.report_grid .point_wrap .txt .t2 > strong {color: #FFF;font-size: 128px;font-weight: 700;letter-spacing: -2.56px;text-transform: uppercase;}
-.report_grid .point_wrap .txt .t2 > span {color: #FFF;font-size: 64px;font-weight: 700;letter-spacing: -1.28px;text-transform: uppercase;}
+.report_grid .point_wrap .txt .t2 > strong {color: #FFF;font-size: 128px;font-weight: 700;letter-spacing: -2.56px;}
+.report_grid .point_wrap .txt .t2 > span {color: #FFF;font-size: 64px;font-weight: 700;letter-spacing: -1.28px;}
 .report_grid .point_wrap .cnt {flex:1 1 auto;}
-.report_grid .point_wrap .cnt .t1 {margin-top:48px;color: #FFF;font-size: 40px;font-weight: 400;line-height: 1.5;letter-spacing: -0.8px;text-transform: uppercase;}
+.report_grid .point_wrap .cnt .t1 {margin-top:48px;color: #FFF;font-size: 40px;font-weight: 400;line-height: 1.5;letter-spacing: -0.8px;}
 
 .point_li > li {display:flex;align-items:center;}
 .point_li > li + li {margin-top:44px;}
-.point_li .name {flex-shrink:0;display:block;width:240px;color: #B5B5B5;text-align: right;font-size: 40px;font-weight: 500;letter-spacing: -0.8px;text-transform: uppercase;}
+.point_li .name {flex-shrink:0;display:block;width:240px;color: #B5B5B5;text-align: right;font-size: 40px;font-weight: 500;letter-spacing: -0.8px;}
+.point_li .name.vw_en {width:380px;}
 .point_li .point_track {display:block;width:1260px;height:80px;margin-left:60px;}
 .point_li .point_track > .bar {
     display:block;
@@ -500,7 +501,7 @@
 
 /* .report_grid .inner.ty1 {} */
 .report_grid .inner.chart_ty {padding:70px 120px 90px;}
-.report_grid .chart_tit {display:block;color: #FFF;text-align: center;font-size: 60px;font-weight: 700;letter-spacing: -1.2px;text-transform: uppercase;}
+.report_grid .chart_tit {display:block;color: #FFF;text-align: center;font-size: 60px;font-weight: 700;letter-spacing: -1.2px;}
 .report_grid .inner.chart_ty .chart1 {box-sizing:border-box;height:620px;margin-top:140px;}
 .report_grid .inner.chart_ty .grade_li {margin-top:112px;}
 
@@ -511,15 +512,15 @@
 .point_tbl .thead span,
 .point_tbl .tbody span {display:flex;align-items:center;justify-content:center;width:100%;text-align:center;}
 .point_tbl .thead {padding:8px 0;border-top: 1px solid #0071FE;border-bottom: 1px solid #0071FE;background: rgba(0, 113, 254, 0.17);}
-.point_tbl .tbody {padding:9px 0;margin-top:16px;background:#374460;}
-.point_tbl .thead span {color: #FFF;font-size: 48px;font-weight: 400;letter-spacing: -0.96px;text-transform: uppercase;}
+.point_tbl .tbody {padding:9px 12px;margin-top:16px;background:#374460;}
+.point_tbl .thead span {color: #FFF;font-size: 48px;font-weight: 400;letter-spacing: -0.96px;}
 .point_tbl .tbody span {color: #FFF;font-size: 48px;font-weight: 400;letter-spacing: -0.96px;}
 
 .report_grid2 {display:flex;gap:32px;}
 .report_grid2 > li {flex:1 1 auto;width:100%;min-width:0;display:flex;flex-direction:column;gap:32px;}
 .report_grid2 .inner {flex:1 1 auto;width:100%;box-sizing:border-box;border-radius: 30px;background: #2A3755;}
 .report_grid2 .inner.chart_ty {padding:70px 90px;}
-.report_grid2 .chart_tit {display:block;color: #FFF;text-align: center;font-size: 60px;font-weight: 700;letter-spacing: -1.2px;text-transform: uppercase;}
+.report_grid2 .chart_tit {display:block;color: #FFF;text-align: center;font-size: 60px;font-weight: 700;letter-spacing: -1.2px;}
 
 .report_grid2 .chart3 {box-sizing:border-box;height:480px;margin-top:74px;}
 .report_grid2 .grade_li {margin-top:48px;}
@@ -535,7 +536,8 @@
 .report_grid2 .chart_inner {flex:1 1 auto;width:100%;}
 .report_grid2 .chart_btns {align-self: flex-end;}
 .report_grid2 .chart_btn {display:block;margin-bottom:18px;width:240px;height:60px;border-radius:10px;background-color:#5B79A6;color: #FFF;text-align: center;font-size: 32px;transition:all 0.3s;}
-.report_grid2 .chart_btn.active {font-size:36px;font-weight:700;background-color: #0071FE;}
+#lang_en .report_grid2 .chart_btn {width:300px;}
+.report_grid2 .chart_btn.active {font-weight:700;background-color: #0071FE;}
 
 .report_tab_btns {display:flex;align-items:center;gap:28px;margin-bottom:62px;}
 .btn_report_tab {flex:1 1 auto;display:flex;align-items:center;justify-content:space-between;box-sizing:border-box;width:100%;height:200px;padding:0 65px 0 45px;border-radius: 30px;border: 1px solid #2C88FB;background: rgba(0, 113, 254, 0.17);transition: all 0.3s;}
@@ -782,6 +784,7 @@
 .esg_cont.step06 .esg_cont_inner::-webkit-scrollbar {display: none;}
 
 .flex_cont {position:relative;padding:0 156px;}
+.flex_cont .load_video {margin-top:-70px;}
 .flex_cont .load_video video {display:block;margin:0 auto;mix-blend-mode:lighten;}
 .flex_cont .t1 {display:block;color: #FFF;text-align: center;font-size: 100px;font-weight: 700;letter-spacing: -2px;}
 .flex_cont .t2 {margin-top:48px;color: #FFF;text-align: center;font-size: 52px;font-weight: 400;letter-spacing: -1.04px;}
@@ -944,3 +947,13 @@
 .esg_dim_video video{
   display:block;
 }
+
+
+button.btn_other {
+    display:flex;align-items:center;gap:50px;box-sizing:border-box;height:156px;padding:0 62px;border-radius: 100px;color: #FFF;font-size: 62px;font-weight: 500;letter-spacing: -1.24px;
+    margin-left:auto;
+    border:5px solid transparent;color:#FFF;
+    background: linear-gradient(#202B44, #202B44) padding-box, linear-gradient(100deg, #D9E5FE 0%, #CADAFC 40%, #0071FE 100%) border-box;box-shadow: 0 0 20px 4.5px rgba(217, 229, 254, 0.10), 0 0 53.4px 0 rgba(217, 229, 254, 0.10), 0 0 55.5px 0 rgba(217, 229, 254, 0.10), 0 0 24.1px 0 rgba(217, 229, 254, 0.10), 0 0 13.3px 0 rgba(217, 229, 254, 0.10), 0 0 45.9px 0 rgba(217, 229, 254, 0.10);
+    box-shadow: 0 0 20px 4.5px rgba(217, 229, 254, 0.10), 0 0 53.4px 0 rgba(217, 229, 254, 0.10), 0 0 55.5px 0 rgba(217, 229, 254, 0.10), 0 0 24.1px 0 rgba(217, 229, 254, 0.10), 0 0 13.3px 0 rgba(217, 229, 254, 0.10), 0 0 45.9px 0 rgba(217, 229, 254, 0.10);
+}
+button.btn_other::after {content:'';display:block;width:33px;height:55px;background: url(../images/gate_03/btn_report_next.svg) no-repeat center;}

@@ -48,6 +48,16 @@ function getHashOfCategory(fragment) {
     };
     return map[fragment] || '';
 }
+function getHashOfCategoryEn(fragment) {
+    fragment = fragment ? fragment : getFragment();
+    const map = {
+        '1': 'Automobile',
+        '2': 'Elictrial·electronics',
+        '3': 'Bio·healthcare',
+        '4': 'Information Tachnology·software'
+    };
+    return map[fragment] || '';
+}
 
 // panel & overlay DOM 조회
 function getPanelElements(id) {
@@ -190,6 +200,7 @@ function commonBefore() {
 
     $('.selPrdName').text(getHashOfName());
     $('.selPrdCategory').text(getHashOfCategory());
+    $('.selPrdCategoryEn').text(getHashOfCategoryEn());
 
     const $visibleItems = $("[data-visible]");
     $visibleItems.hide();
@@ -210,6 +221,7 @@ function gate03ConfigData() {
             // [종합 평가]
             grade: 5, // A+
             gradeMsg: '귀사는 ESG 관리 수준이 높은 기업으로, 주요 항목을 잘 운영하고 있습니다.<br>일부 영역을 보완하면 더욱 균형잡힌 ESG 경영을 실천할 수 있습니다.<br>지속적인 개선을 통해 한 단계 더 도약할 수 있습니다.',
+            gradeMsgEn: 'Your company has a high level of ESG management and is effectively implementing key initiatives.<br>By improving certain areas, you can achieve a more balanced ESG management approach.<br>Through continuous improvement, you can take your company to the next level.',
 
             // [연도별 점수 이력]
             pointHistory: {
@@ -226,12 +238,12 @@ function gate03ConfigData() {
                     avgIndustry: 49.7,
                     avgSme: 45.2,
                     details: [
-                        { score: 81.3, text: '환경경영 일반' },
-                        { score: 89.3, text: '온실가스 및 에너지' },
-                        { score: 91.7, text: '폐기물' },
-                        { score: 100,  text: '수자원' },
-                        { score: 62.5, text: '유해화학물질' },
-                        { score: 50,   text: '대기, 수질 오염물질' }
+                        { score: 81.3, text: '환경경영 일반', textEn: 'General environmental management'},
+                        { score: 89.3, text: '온실가스 및 에너지', textEn: 'Greenhouse Gas and Energy'},
+                        { score: 91.7, text: '폐기물', textEn: 'Waste'},
+                        { score: 100,  text: '수자원', textEn: 'Water ressources'},
+                        { score: 62.5, text: '유해화학물질', textEn: 'Hazardous Chemicals'},
+                        { score: 50,   text: '대기, 수질 오염물질', textEn: 'Air and Water Pollutants'}
                     ]
                 },
                 s: {
@@ -240,15 +252,15 @@ function gate03ConfigData() {
                     avgIndustry: 64.9,
                     avgSme: 62.4,
                     details: [
-                        { score: 100,  text: '인권' },
-                        { score: 93.7, text: '근로조건' },
-                        { score: 75,   text: '강제노동 및 아동노동' },
-                        { score: 75,   text: '노사관계' },
-                        { score: 95.8, text: '안전보건' },
-                        { score: 50,   text: '지역사회' },
-                        { score: 58.3, text: '협력사 및 공급망' },
-                        { score: 100,  text: '제품 및 고객' },
-                        { score: 91.7, text: '정보보호' }
+                        { score: 100, text: '인권', textEn:'Human rights Management'},
+                        { score: 93.7, text: '근로조건', textEn:'Working Conditions'},
+                        { score: 75, text: '강제노동 및 아동노동', textEn:'Forced Labor & Child Labor'},
+                        { score: 75, text: '노사관계', textEn:'Level of labor-management relations'},
+                        { score: 95.8, text: '안전보건', textEn:'Occupational safety & health'},
+                        { score: 50, text: '지역사회', textEn:'Community Contribution'},
+                        { score: 58.3, text: '협력사 및 공급망', textEn:'Suppliers & supply Chain'},
+                        { score: 100, text: '제품 및 고객', textEn:'Products & Costumers'},
+                        { score: 91.7, text: '정보보호', textEn:'Information Protection'}
                     ]
                 },
                 g: {
@@ -257,10 +269,10 @@ function gate03ConfigData() {
                     avgIndustry: 49.1,
                     avgSme: 41.1,
                     details: [
-                        { score: 100, text: '윤리경영 및 반부패' },
-                        { score: 50,  text: '이해관계자 소통' },
-                        { score: 75,  text: '지배구조 건전성' },
-                        { score: 80,  text: '주주 및 이사회', industry: 60 }
+                        { score: 100, text: '윤리경영 및 반부패', textEn:'Ethical management & Anti-corruption' },
+                        { score: 50,  text: '이해관계자 소통', textEn:'Stakeholder communication' },
+                        { score: 75,  text: '지배구조 건전성', textEn:'governance soundness' },
+                        { score: 80,  text: '주주 및 이사회', industry: 60, textEn:'shareholders & board of directors' }
                     ]
                 }
             },
@@ -268,6 +280,7 @@ function gate03ConfigData() {
             // [규제 대응 평가]
             regGrade: 1, // 미흡
             regGradeMsg: '귀사는 일부 ESG 규제 요구사항을 반영하고 있으나, 대응 체계가 충분히 갖춰지지 않은 상태입니다.<br>주요 항목을 점검하고 단계적으로 개선해 나가는 것이 필요합니다.',
+            regGradeMsgEn: "While your company is addressing some ESG regulatory requirements, its response system is inadequate.<br>It's necessary to review key initiatives and make gradual improvements.",
             regPercent: 37.5,
             regAvgIndustry: 17.3,
             regAvgSme: 23.9,
@@ -288,6 +301,7 @@ function gate03ConfigData() {
             // [종합 평가]
             grade: 4, // A
             gradeMsg: '귀사는 ESG 경영을 성실히 실천하고 있으며, 주요 항목에 대한 관리가 이루어지고 있습니다.<br>일부 보완할 부분을 개선해 나가면 더욱 안정적이고 신뢰받는 ESG 체계를 구축할 수 있습니다.',
+            gradeMsgEn: 'Your company is diligently implementing ESG management and meets the requirements.<br>By addressing some key initiatives that need improvement, you can build a more stable and trustworthy ESG system.',
 
             // [연도별 점수 이력]
             pointHistory: {
@@ -304,12 +318,12 @@ function gate03ConfigData() {
                     avgIndustry: 49.7,
                     avgSme: 45.2,
                     details: [
-                        { score: 75,   text: '환경경영 일반' },
-                        { score: 75,   text: '온실가스 및 에너지' },
-                        { score: 56.3, text: '폐기물' },
-                        { score: 0,    text: '수자원' },
-                        { score: 62.5, text: '유해화학물질' },
-                        { score: 58.3, text: '대기, 수질 오염물질' }
+                        { score: 75,   text: '환경경영 일반', textEn: 'General environmental management' },
+                        { score: 75,   text: '온실가스 및 에너지', textEn: 'Greenhouse Gas and Energy' },
+                        { score: 56.3, text: '폐기물', textEn: 'Waste' },
+                        { score: 0,    text: '수자원', textEn: 'Water ressources' },
+                        { score: 62.5, text: '유해화학물질', textEn: 'Hazardous Chemicals' },
+                        { score: 58.3, text: '대기, 수질 오염물질', textEn: 'Air and Water Pollutants' }
                     ]
                 },
                 s: {
@@ -318,15 +332,15 @@ function gate03ConfigData() {
                     avgIndustry: 64.9,
                     avgSme: 62.4,
                     details: [
-                        { score: 65,   text: '인권' },
-                        { score: 100,  text: '근로조건' },
-                        { score: 68.7, text: '강제노동 및 아동노동' },
-                        { score: 100,  text: '노사관계' },
-                        { score: 87.5, text: '안전보건' },
-                        { score: 25,   text: '지역사회' },
-                        { score: 16.7, text: '협력사 및 공급망' },
-                        { score: 100,  text: '제품 및 고객' },
-                        { score: 25,   text: '정보보호' }
+                        { score: 65,   text: '인권', textEn:'Human rights Management' },
+                        { score: 100,  text: '근로조건', textEn:'Working Conditions' },
+                        { score: 68.7, text: '강제노동 및 아동노동', textEn:'Forced Labor & Child Labor' },
+                        { score: 100,  text: '노사관계', textEn:'Level of labor-management relations' },
+                        { score: 87.5, text: '안전보건', textEn:'Occupational safety & health' },
+                        { score: 25,   text: '지역사회', textEn:'Community Contribution' },
+                        { score: 16.7, text: '협력사 및 공급망', textEn:'Suppliers & supply Chain' },
+                        { score: 100,  text: '제품 및 고객', textEn:'Products & Costumers' },
+                        { score: 25,   text: '정보보호', textEn:'Information Protection' },
                     ]
                 },
                 g: {
@@ -335,10 +349,10 @@ function gate03ConfigData() {
                     avgIndustry: 49.1,
                     avgSme: 41.1,
                     details: [
-                        { score: 75, text: '윤리경영 및 반부패' },
-                        { score: 50, text: '이해관계자 소통' },
-                        { score: 75, text: '지배구조 건전성' },
-                        { score: 65, text: '주주 및 이사회', industry: 60 }
+                        { score: 75, text: '윤리경영 및 반부패', textEn:'Ethical management & Anti-corruption' },
+                        { score: 50, text: '이해관계자 소통', textEn:'Stakeholder communication' },
+                        { score: 75, text: '지배구조 건전성', textEn:'governance soundness' },
+                        { score: 65, text: '주주 및 이사회', industry: 60, textEn:'shareholders & board of directors' }
                     ]
                 }
             },
@@ -346,6 +360,7 @@ function gate03ConfigData() {
             // [규제 대응 평가]
             regGrade: 1, // 미흡
             regGradeMsg: '귀사는 일부 ESG 규제 요구사항을 반영하고 있으나, 대응 체계가 충분히 갖춰지지 않은 상태입니다.<br>주요 항목을 점검하고 단계적으로 개선해 나가는 것이 필요합니다.',
+            regGradeMsgEn: "While your company is addressing some ESG regulatory requirements, its response system is inadequate.<br>It's necessary to review key initiatives and make gradual improvements.",
             regPercent: 28.6,
             regAvgIndustry: 39.3,
             regAvgSme: 23.9,
@@ -366,6 +381,7 @@ function gate03ConfigData() {
             // [종합 평가]
             grade: 3, // B+
             gradeMsg: '귀사는 ESG 관리 기반을 갖추고 있으며, 점진적인 개선을 통해 더 나은 성과를 기대할 수 있습니다.<br>관리 체계를 정교하게 다듬어 나간다면 ESG 경영의 신뢰도를 높일 수 있을 것입니다.',
+            gradeMsgEn: 'Your company has a solid ESG management foundation, and you can expect even better performance through gradual improvements.<br>By further refining your management system, you can enhance the credibility of your ESG management.',
 
             // [연도별 점수 이력]
             pointHistory: {
@@ -382,12 +398,12 @@ function gate03ConfigData() {
                     avgIndustry: 45.9,
                     avgSme: 45.2,
                     details: [
-                        { score: 43.7, text: '환경경영 일반' },
-                        { score: 46.4, text: '온실가스 및 에너지' },
-                        { score: 50,   text: '폐기물' },
-                        { score: 62.5, text: '수자원' },
-                        { score: 25,   text: '유해화학물질' },
-                        { score: 12.5, text: '대기, 수질 오염물질' }
+                        { score: 43.7, text: '환경경영 일반' , textEn: 'General environmental management'},
+                        { score: 46.4, text: '온실가스 및 에너지' , textEn: 'Greenhouse Gas and Energy'},
+                        { score: 50, text: '폐기물' , textEn: 'Waste'},
+                        { score: 62.5, text: '수자원' , textEn: 'Water ressources'},
+                        { score: 25, text: '유해화학물질' , textEn: 'Hazardous Chemicals'},
+                        { score: 12.5, text: '대기, 수질 오염물질', textEn: 'Air and Water Pollutants'}
                     ]
                 },
                 s: {
@@ -395,15 +411,15 @@ function gate03ConfigData() {
                     point: 60.2,
                     // avgIndustry 및 avgSme 항목은 @fix 주석에 따라 삭제됨
                     details: [
-                        { score: 50,   text: '인권' },
-                        { score: 100,  text: '근로조건' },
-                        { score: 50,   text: '강제노동 및 아동노동' },
-                        { score: 100,  text: '노사관계' },
-                        { score: 89.3, text: '안전보건' },
-                        { score: 0,    text: '지역사회' },
-                        { score: 0,    text: '협력사 및 공급망' },
-                        { score: 0,    text: '제품 및 고객' },
-                        { score: 16.7, text: '정보보호' }
+                        { score: 50,   textEn: '', text: '인권', textEn:'Human rights Management' },
+                        { score: 100,  textEn: '', text: '근로조건', textEn:'Working Conditions' },
+                        { score: 50,   textEn: '', text: '강제노동 및 아동노동', textEn:'Forced Labor & Child Labor' },
+                        { score: 100,  textEn: '', text: '노사관계', textEn:'Level of labor-management relations' },
+                        { score: 89.3, textEn: '', text: '안전보건', textEn:'Occupational safety & health' },
+                        { score: 0,    textEn: '', text: '지역사회', textEn:'Community Contribution' },
+                        { score: 0,    textEn: '', text: '협력사 및 공급망', textEn:'Suppliers & supply Chain' },
+                        { score: 0,    textEn: '', text: '제품 및 고객', textEn:'Products & Costumers' },
+                        { score: 16.7, textEn: '', text: '정보보호', textEn:'Information Protection' }
                     ]
                 },
                 g: {
@@ -412,10 +428,10 @@ function gate03ConfigData() {
                     avgIndustry: 31.7,
                     avgSme: 41.1,
                     details: [
-                        { score: 66.7, text: '윤리경영 및 반부패' },
-                        { score: 50,   text: '이해관계자 소통' },
-                        { score: 50,   text: '지배구조 건전성' },
-                        { score: 55,   text: '주주 및 이사회', industry: 60 }
+                        { score: 66.7, text: '윤리경영 및 반부패', textEn:'Ethical management & Anti-corruption' },
+                        { score: 50,   text: '이해관계자 소통', textEn:'Stakeholder communication' },
+                        { score: 50,   text: '지배구조 건전성', textEn:'governance soundness' },
+                        { score: 55,   text: '주주 및 이사회', industry: 60, textEn:'shareholders & board of directors' }
                     ]
                 }
             },
@@ -423,6 +439,7 @@ function gate03ConfigData() {
             // [규제 대응 평가]
             regGrade: 0, // 취약
             regGradeMsg: '귀사는 ESG 규제 대응이 아직 미비한 상태이며, 기본적인 요구사항 충족을 위한 조치가 필요합니다.<br>우선순위를 정해 핵심 항목부터 점검하고 보완하는 것이 중요합니다.',
+            regGradeMsgEn: "Your company's response to ESG regulations is still inadequate, and measures are needed to meet basic requirements.<br>It's important to prioritize, review, and improve key initiatives.",
             regPercent: 14.3,
             regAvgIndustry: 17.3,
             regAvgSme: 23.9,
@@ -444,6 +461,7 @@ function gate03ConfigData() {
             // [종합 평가]
             grade: 2, // B
             gradeMsg: '귀사는 ESG 경영을 위한 노력을 지속하고 있으며, 기본적인 요소를 충족하고 있습니다.<br>주요 항목을 정비하고 보완해 나가면 ESG 경쟁력을 한층 더 높일 수 있습니다.',
+            gradeMsgEn: 'Your company is continuing its efforts toward ESG management and meets the basic requirements.<br>By refining and improving key initiatives, you can further enhance your ESG competitiveness.',
 
             // [연도별 점수 이력]
             pointHistory: {
@@ -460,10 +478,10 @@ function gate03ConfigData() {
                     avgIndustry: 49.7,
                     avgSme: 45.2,
                     details: [
-                        { score: 16.7, text: '환경경영 일반' },
-                        { score: 50,   text: '온실가스 및 에너지' },
-                        { score: 16.7, text: '폐기물' },
-                        { score: 62.5, text: '수자원' }
+                        { score: 16.7, text: '환경경영 일반', textEn: 'General environmental management' },
+                        { score: 50,   text: '온실가스 및 에너지', textEn: 'Greenhouse Gas and Energy' },
+                        { score: 16.7, text: '폐기물', textEn: 'Waste' },
+                        { score: 62.5, text: '수자원', textEn: 'Water ressources' }
                         // 유해화학물질, 대기/수질 오염물질 항목은 삭제됨
                     ]
                 },
@@ -473,15 +491,15 @@ function gate03ConfigData() {
                     avgIndustry: 64.9,
                     avgSme: 62.4,
                     details: [
-                        { score: 65,   text: '인권' },
-                        { score: 81.3, text: '근로조건' },
-                        { score: 62.5, text: '강제노동 및 아동노동' },
-                        { score: 50,   text: '노사관계' },
-                        { score: 31.3, text: '안전보건' },
-                        { score: 25,   text: '지역사회' },
-                        { score: 37.5, text: '협력사 및 공급망' },
-                        { score: 25,   text: '제품 및 고객' },
-                        { score: 41.7, text: '정보보호' }
+                        { score: 65,   text: '인권', textEn:'Human rights Management' },
+                        { score: 81.3, text: '근로조건', textEn:'Working Conditions' },
+                        { score: 62.5, text: '강제노동 및 아동노동', textEn:'Forced Labor & Child Labor' },
+                        { score: 50,   text: '노사관계', textEn:'Level of labor-management relations' },
+                        { score: 31.3, text: '안전보건', textEn:'Occupational safety & health' },
+                        { score: 25,   text: '지역사회', textEn:'Community Contribution' },
+                        { score: 37.5, text: '협력사 및 공급망', textEn:'Suppliers & supply Chain' },
+                        { score: 25,   text: '제품 및 고객', textEn:'Products & Costumers' },
+                        { score: 41.7, text: '정보보호', textEn:'Information Protection' }
                     ]
                 },
                 g: {
@@ -490,10 +508,10 @@ function gate03ConfigData() {
                     avgIndustry: 49.1,
                     avgSme: 41.1,
                     details: [
-                        { score: 41.7, text: '윤리경영 및 반부패' },
-                        { score: 25,   text: '이해관계자 소통' },
-                        { score: 25,   text: '지배구조 건전성' },
-                        { score: 35,   text: '주주 및 이사회', industry: 60 }
+                        { score: 41.7, text: '윤리경영 및 반부패', textEn:'Ethical management & Anti-corruption' },
+                        { score: 25,   text: '이해관계자 소통', textEn:'Stakeholder communication' },
+                        { score: 25,   text: '지배구조 건전성', textEn:'governance soundness' },
+                        { score: 35,   text: '주주 및 이사회', industry: 60, textEn:'shareholders & board of directors' }
                     ]
                 }
             },
@@ -501,6 +519,7 @@ function gate03ConfigData() {
             // [규제 대응 평가]
             regGrade: 0, // 취약
             regGradeMsg: '귀사는 ESG 규제 대응이 아직 미비한 상태이며, 기본적인 요구사항 충족을 위한 조치가 필요합니다.<br>우선순위를 정해 핵심 항목부터 점검하고 보완하는 것이 중요합니다.',
+            regGradeMsgEn: "Your company's response to ESG regulations is still inadequate, and measures are needed to meet basic requirements.<br>It's important to prioritize, review, and improve key initiatives.",
             regPercent: 6.3,
             regAvgIndustry: 21.3,
             regAvgSme: 23.9,
@@ -538,19 +557,26 @@ function formatPointText(value) {
     if (value == null || isNaN(value)) return '-';
     return Number(value).toFixed(1) + '점';
 }
+function formatPointTextEn(value) {
+    if (value == null || isNaN(value)) return '-';
+    return Number(value).toFixed(1) + 'pts';
+}
 
 // point_li 한 줄 업데이트 (막대 + 텍스트)
 function updatePointLi($li, value) {
     const $bar = $li.find('.bar');
-    const $pointText = $li.find('.point');
+    const $pointText = $li.find('.point.vw_kr');
+    const $pointTextEn = $li.find('.point.vw_en');
 
     if (value == null || isNaN(value)) {
         $bar.css('width', '0%').attr('data-point', '');
         $pointText.text('-');
+        $pointTextEn.text('-');
     } else {
         const v = Number(value);
         $bar.css('width', v + '%').attr('data-point', v);
         $pointText.text(formatPointText(v));
+        $pointTextEn.text(formatPointTextEn(v));
     }
 }
 
@@ -607,7 +633,8 @@ function bindTotalResult() {
     $('#popupTotalGrade').text(companyGradeText);
 
     // 등급 설명 문구 (HTML 유지)
-    $gradeLi.find('.cnt .t1').html(data.gradeMsg || '');
+    $gradeLi.find('.cnt .t1.vw_kr').html(data.gradeMsg || '');
+    $gradeLi.find('.cnt .t1.vw_en').html(data.gradeMsgEn || '');
 
     // 등급 바 active 처리
     const $gradeItems1 = $gradeLi.find('.grade_li li');
@@ -758,7 +785,8 @@ function bindEsgResult() {
         const $btn = $section.find('.report_tab_btns .btn_report_tab[data-tab="' + tab + '"]');
         if ($btn.length) {
             $btn.find('.summary .grade').text(gradeLabel);
-            $btn.find('.summary .point').text(formatPointText(point));
+            $btn.find('.summary .point.vw_kr').text(formatPointText(point));
+            $btn.find('.summary .point.vw_en').text(formatPointTextEn(point));
         }
 
         // ============================
@@ -803,14 +831,15 @@ function bindEsgResult() {
             // 데이터 기준으로 tbody 다시 생성
             (d.details || []).forEach(item => {
                 const $li = $('<li/>', { 'class': 'tbody' });
-                $('<span/>').text(item.text || '').appendTo($li);
+                $('<span/>', {'class' : 'vw_kr'}).text(item.text || '').appendTo($li);
+                $('<span/>', {'class' : 'vw_en'}).text(item.textEn || '').appendTo($li);
 
                 const score = item.score;
-                const scoreText = (score == null || isNaN(score))
-                    ? '-'
-                    : Number(score).toFixed(1) + '점';
+                const scoreText = formatPointText(score);
+                const scoreTextEn = formatPointTextEn(score);
 
-                $('<span/>').text(scoreText).appendTo($li);
+                $('<span/>', {'class':'vw_kr'}).text(scoreText).appendTo($li);
+                $('<span/>', {'class':'vw_en'}).text(scoreTextEn).appendTo($li);
                 $tbl.append($li);
             });
         }
