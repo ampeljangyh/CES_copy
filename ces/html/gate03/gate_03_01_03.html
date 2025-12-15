@@ -245,13 +245,13 @@
                             <span>%</span>
                         </span>
                     </div>
-                    <div class="span">
+                    <!--div class="span">
                         <span class="t1 lg">진단 점수</span>
                         <span class="t2 lg">
                             <em>LO</em>
                             <span>(0점)</span>
                         </span>
-                    </div>
+                    </div-->
                 </div>
             </div>
             <!-- //info_box -->
@@ -798,13 +798,49 @@ function startSvgAndGrade(evalWrap, gradeEl) {
     });
 }
 
+function waitForUserPress(btn) {
+    return new Promise((resolve) => {
+        if (!btn) return resolve();
+
+        // 중복 실행 방지
+        let done = false;
+
+        const cleanup = () => {
+            btn.removeEventListener("click", onClick);
+            btn.removeEventListener("keydown", onKeyDown);
+        };
+
+        const finish = () => {
+            if (done) return;
+            done = true;
+            cleanup();
+            resolve();
+        };
+
+        const onClick = (e) => {
+            // 필요하면 e.preventDefault();
+            finish();
+        };
+
+        const onKeyDown = (e) => {
+            // 접근성: Enter / Space로도 진행
+            if (e.key === "Enter" || e.key === " " || e.code === "Space") {
+                e.preventDefault();
+                finish();
+            }
+        };
+
+        btn.addEventListener("click", onClick, { once: false });
+        btn.addEventListener("keydown", onKeyDown, { once: false });
+    });
+}
+
 // ------------------------------------------------------------
 // 팝업 기반 평가 플로우 (버튼 → 팝업 → grade)
 // ------------------------------------------------------------
 async function runPopupEvalFlow(li, evalWrap, gradeEl) {
     if (!evalWrap) return;
 
-    // HTML 패널 id(pop01, pop02, pop03)에 맞게 기본값은 pop01
     const panelId = li.dataset.panelId || "pop01";
 
     const btn = li.querySelector(".btn_item_eval");
@@ -818,33 +854,16 @@ async function runPopupEvalFlow(li, evalWrap, gradeEl) {
     await new Promise((resolve) => {
         gsap.fromTo(
             btn,
-            {
-                display: "",
-                autoAlpha: 0,
-                y: 10
-            },
-            {
-                autoAlpha: 1,
-                y: 0,
-                duration: 0.3,
-                ease: "power3.out",
-                onComplete: resolve
-            }
+            { display: "", autoAlpha: 0, y: 10 },
+            { autoAlpha: 1, y: 0, duration: 0.3, ease: "power3.out", onComplete: resolve }
         );
     });
 
-    // 2) 버튼 강하게 눌리는 모션
-    await new Promise((resolve) => {
-        gsap.to(btn, {
-            scale: 0.9,
-            y: 2,
-            duration: 0.18,
-            ease: "power2.out",
-            yoyo: true,
-            repeat: 1,
-            onComplete: resolve
-        });
-    });
+    // 2) 사용자가 직접 누를 때까지 대기
+    // (필요 시 포커스 부여)
+    btn.setAttribute("tabindex", "0");
+    //btn.focus({ preventScroll: true });
+    await waitForUserPress(btn);
 
     // 3) 팝업 내부 애니메이션 초기화 (openPanel 이전에 실행)
     if (typeof initPopupPanelState === "function") {
@@ -855,9 +874,7 @@ async function runPopupEvalFlow(li, evalWrap, gradeEl) {
     await new Promise((resolve) => {
         openPanel(panelId, () => {
             runPopupPanelSequence(panelId).then(() => {
-                closePanel(panelId, () => {
-                    resolve();
-                });
+                closePanel(panelId, () => resolve());
             });
         });
     });
@@ -871,20 +888,13 @@ async function runPopupEvalFlow(li, evalWrap, gradeEl) {
             y: -6,
             duration: 0.25,
             ease: "power2.inOut",
-            onComplete: () => {
-                btn.remove();
-            }
+            onComplete: () => btn.remove()
         });
 
         if (gradeEl) {
             tl.to(
                 gradeEl,
-                {
-                    autoAlpha: 1,
-                    y: 0,
-                    duration: 0.3,
-                    ease: "power3.out"
-                },
+                { autoAlpha: 1, y: 0, duration: 0.3, ease: "power3.out" },
                 "-=0.1"
             );
         }
@@ -910,12 +920,12 @@ function initPopup01State(panel) {
     if (!grid) return;
 
     const blocks = grid.querySelectorAll("div");
-    if (blocks.length < 3) return;
+    if (blocks.length < 2) return;
 
     const totalEm   = blocks[0].querySelector(".t2 em");
     const perfEm    = blocks[1].querySelector(".t2 em");
-    const scoreEm   = blocks[2].querySelector(".t2.lg em");
-    const scoreSpan = blocks[2].querySelector(".t2.lg span");
+    // const scoreEm   = blocks[2].querySelector(".t2.lg em");
+    // const scoreSpan = blocks[2].querySelector(".t2.lg span");
     const btnSave   = panel.querySelector(".btn_save");
 
     // 숫자 클래스/텍스트 초기화 (0.0 대신 "-")
@@ -931,12 +941,12 @@ function initPopup01State(panel) {
     }
 
     // 진단 점수는 텍스트는 그대로, 애니만 숨김 상태로 시작
-    if (scoreEm) {
-        gsap.set(scoreEm, { autoAlpha: 0, y: 4 });
-    }
-    if (scoreSpan) {
-        gsap.set(scoreSpan, { autoAlpha: 0, y: 4 });
-    }
+    // if (scoreEm) {
+    //     gsap.set(scoreEm, { autoAlpha: 0, y: 4 });
+    // }
+    // if (scoreSpan) {
+    //     gsap.set(scoreSpan, { autoAlpha: 0, y: 4 });
+    // }
 
     // 버튼 초기 상태
     if (btnSave) {
@@ -1010,18 +1020,18 @@ function runPopup01Sequence(panel) {
         }
 
         const blocks = grid.querySelectorAll("div");
-        if (blocks.length < 3) {
+        if (blocks.length < 2) {
             resolve();
             return;
         }
 
         const totalEm   = blocks[0].querySelector(".t2 em");
         const perfEm    = blocks[1].querySelector(".t2 em");
-        const scoreEm   = blocks[2].querySelector(".t2.lg em");
-        const scoreSpan = blocks[2].querySelector(".t2.lg span");
+        // const scoreEm   = blocks[2].querySelector(".t2.lg em");
+        // const scoreSpan = blocks[2].querySelector(".t2.lg span");
         const btnSave   = panel.querySelector(".btn_save");
 
-        if (!totalEm || !perfEm || !scoreSpan) {
+        if (!totalEm || !perfEm) {
             resolve();
             return;
         }
@@ -1108,24 +1118,24 @@ function runPopup01Sequence(panel) {
         .to({}, { duration: 0.5 });
 
         // 3) 진단 점수 fadeIn
-        if (scoreEm) {
-            tl.to(
-                [scoreEm, scoreSpan],
-                {
-                    autoAlpha: 1,
-                    y: 0,
-                    duration: 0.6,
-                    ease: "power2.out"
-                }
-            );
-        } else {
-            tl.to(scoreSpan, {
-                autoAlpha: 1,
-                y: 0,
-                duration: 0.6,
-                ease: "power2.out"
-            });
-        }
+        // if (scoreEm) {
+        //     tl.to(
+        //         [scoreEm, scoreSpan],
+        //         {
+        //             autoAlpha: 1,
+        //             y: 0,
+        //             duration: 0.6,
+        //             ease: "power2.out"
+        //         }
+        //     );
+        // } else {
+        //     tl.to(scoreSpan, {
+        //         autoAlpha: 1,
+        //         y: 0,
+        //         duration: 0.6,
+        //         ease: "power2.out"
+        //     });
+        // }
 
 
         // 4) 버튼 활성화 + "꾹 눌렀다 튕겨 올라오는" 강한 클릭 모션
