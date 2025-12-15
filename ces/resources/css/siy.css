@@ -533,7 +533,6 @@
 .report_grid2 .chart_inner {flex:1 1 auto;width:100%;}
 .report_grid2 .chart_btns {align-self: flex-end;}
 .report_grid2 .chart_btn {display:block;margin-bottom:18px;width:240px;height:60px;border-radius:10px;background-color:#5B79A6;color: #FFF;text-align: center;font-size: 32px;transition:all 0.3s;}
-#lang_en .report_grid2 .chart_btn {width:300px;}
 .report_grid2 .chart_btn.active {font-weight:700;background-color: #0071FE;}
 
 .report_tab_btns {display:flex;align-items:center;gap:28px;margin-bottom:62px;}
@@ -773,7 +772,7 @@
 .esg_modal .modal_cnt .sign .sign_badge {position:absolute;top:-62px;right:70px;mix-blend-mode:screen;}
 
 .esg_modal .modal_cnt .buttons {margin-top:76px;}
-.btn_modal {box-sizing:border-box;height:135px;padding:0 48px;border-radius: 20px;color: #FFF;font-size: 64px;font-weight: 800;letter-spacing: -1.28px;background: #0071FE;}
+.btn_modal {box-sizing:border-box;min-height:135px;padding:12px 48px;border-radius: 20px;color: #FFF;font-size: 64px;font-weight: 800;letter-spacing: -1.28px;background: #0071FE;}
 
 
 /* gate_03_05 */
@@ -964,3 +963,6 @@ button.btn_other::after {content:'';display:block;width:33px;height:55px;backgro
 .report_grid .point_wrap .txt .t2 > strong {font-size:96px;}
 .point_li .name.vw_en {width:380px;}
 .report_btns .vw_en {font-size:48px;}
+
+#lang_en .report_grid2 .chart_btn {width:300px;}
+#lang_en .esg_modal .modal_cnt .summary_box {width:1000px;}
