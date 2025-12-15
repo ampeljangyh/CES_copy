@@ -248,36 +248,7 @@
                     </div>
 
                     <div class="cop_cont_wrap kr_t">
-                        <div class="apply_ty_02">
-                            <div class="apply_inner">
-                                <div class="tit"><strong>추천 지원 상품</strong></div>
-                                <div class="item_list">
-                                    <div class="apply_item" data-target="applyPop01">
-                                        <div class="img">
-                                            <img src="../../resources/images/dollar_3d.png" />
-                                        </div>
-                                        <div class="item_tit">
-                                            <span>기술평가기반 무보증신용대출</span>
-                                        </div>
-                                        <div class="com_icon">
-                                            <span>지원완료</span>
-                                        </div>
-                                    </div>
-                                    <div class="apply_item" data-target="applyPop02">
-                                        <div class="img">
-                                            <img src="../../resources/images/cu_3d.png" />
-                                        </div>
-                                        <div class="item_tit">
-                                            <span>산업부 기술신기업대출</span>
-                                        </div>
-                                        <div class="com_icon">
-                                            <span>지원완료</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="cop_cont_inner">
+                      <div class="cop_cont_inner">
                             <div class="cop_cont_tit">
                                 <span>미래 성장성 예측</span>
                             </div>
@@ -313,38 +284,38 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="cop_cont_wrap en_t">
                         <div class="apply_ty_02">
                             <div class="apply_inner">
-                                <div class="tit"><strong>Recommended<br>Support Products</strong></div>
+                                <div class="tit"><strong>추천 지원 상품</strong></div>
                                 <div class="item_list">
                                     <div class="apply_item" data-target="applyPop01">
                                         <div class="img">
                                             <img src="../../resources/images/dollar_3d.png" />
                                         </div>
                                         <div class="item_tit">
-                                            <span>Technology Assessment–<br>Based Unsecured Loan</span>
+                                            <span>기술평가기반 무보증신용대출</span>
                                         </div>
                                         <div class="com_icon">
-                                            <span>Support Completed</span>
+                                            <span>지원완료</span>
                                         </div>
                                     </div>
                                     <div class="apply_item" data-target="applyPop02">
                                         <div class="img">
-                                            <img src="../../resources/images/cu_3d.png" />
+                                            <img src="../../resources/images/dollar_3d.png" />
                                         </div>
                                         <div class="item_tit">
-                                            <span>Industrial Technology<br>Startup Loan </span>
+                                            <span>산업부 기술신기업대출</span>
                                         </div>
                                         <div class="com_icon">
-                                            <span>Support Completed</span>
+                                            <span>지원완료</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="cop_cont_inner">
+                    </div>
+                    <div class="cop_cont_wrap en_t">
+                      <div class="cop_cont_inner">
                             <div class="cop_cont_tit">
                                 <span>Growth Potential Forecast</span>
                             </div>
@@ -377,6 +348,35 @@
                                                 <span class="dotd"></span>
                                                 <span class="line"></span>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="apply_ty_02">
+                            <div class="apply_inner">
+                                <div class="tit"><strong>Recommended<br>Support Products</strong></div>
+                                <div class="item_list">
+                                    <div class="apply_item" data-target="applyPop01">
+                                        <div class="img">
+                                            <img src="../../resources/images/dollar_3d.png" />
+                                        </div>
+                                        <div class="item_tit">
+                                            <span>Technology Assessment–<br>Based Unsecured Loan</span>
+                                        </div>
+                                        <div class="com_icon">
+                                            <span>Support Completed</span>
+                                        </div>
+                                    </div>
+                                    <div class="apply_item" data-target="applyPop02">
+                                        <div class="img">
+                                            <img src="../../resources/images/dollar_3d.png" />
+                                        </div>
+                                        <div class="item_tit">
+                                            <span>Industrial Technology<br>Startup Loan </span>
+                                        </div>
+                                        <div class="com_icon">
+                                            <span>Support Completed</span>
                                         </div>
                                     </div>
                                 </div>
@@ -1991,25 +1991,6 @@
 let language = "kor";
 let currentCompany = "업사이트";
 
-document.addEventListener('DOMContentLoaded', function () {
-  var btnApply   = document.querySelector('.btn_apply');   // 버튼
-  var applyBott  = document.querySelector('.apply_bott');  // 하단 영역
-  var applyItems = document.querySelectorAll('.apply_item'); // 아이템들
-
-  if (!btnApply) return;
-
-  btnApply.addEventListener('click', function () {
-    if (applyBott) {
-      applyBott.classList.add('on');
-    }
-
-    applyItems.forEach(function (item) {
-      item.classList.add('on');
-    });
-  });
-});
-
-
 /****************************
  * 공통 유틸 (px → vw 환산)
  ****************************/
@@ -2151,7 +2132,7 @@ function createGrowthChart(canvasId, lang) {
           tension: 0
         },
         {
-          // 성장 예측 (빨간 라인) – 처음엔 hidden + 면 투명
+          // 성장 예측 (빨간 라인) – 처음엔 hidden + border alpha 0
           label: 'after',
           data: dataAfter.slice(),
           borderColor: 'rgba(219,30,30,0)', // alpha 0으로 시작
@@ -2364,9 +2345,6 @@ function resizeGrowthChart(chart) {
 
 /****************************
  * 성장 예측(빨간 라인) 애니메이션
- * - 아래에서 위로 값이 올라오면서
- * - borderColor alpha 0 → 1
- * - 오른쪽 "성장 예측" 텍스트도 alpha 0 → 1
  ****************************/
 function animateAfterLine(chart, duration) {
   if (!chart || chart.$afterAnimated) return;
@@ -2394,7 +2372,7 @@ function animateAfterLine(chart, duration) {
     }
 
     const alpha = eased;
-    ds.borderColor           = `rgba(219,30,30,${alpha})`;
+    ds.borderColor            = `rgba(219,30,30,${alpha})`;
     chart.$labelForecastAlpha = alpha; // 오른쪽 텍스트 투명도
 
     chart.update();
@@ -2408,17 +2386,19 @@ function animateAfterLine(chart, duration) {
 }
 
 /****************************
- * 초기 로드 & 언어 토글
+ * 초기 로드 & 언어 초기 렌더
  ****************************/
 window.addEventListener('load', function () {
   const lang = getCurrentLangFromBody();
   if (lang === 'en') {
     ensureEnChart();
+    ensureKrChart(); // 둘 다 만들어두기
     language = 'eng';
     renderBizCapabilityView(language, currentCompany);
     renderGrowthView(language, currentCompany);
   } else {
     ensureKrChart();
+    ensureEnChart(); // 둘 다 만들어두기
     language = 'kor';
     renderBizCapabilityView(language, currentCompany);
     renderGrowthView(language, currentCompany);
@@ -2430,7 +2410,55 @@ window.addEventListener('resize', function () {
   resizeGrowthChart(window.growthChartEnInstance);
 });
 
+/****************************
+ * DOM 준비 후 버튼 이벤트들
+ ****************************/
 document.addEventListener('DOMContentLoaded', function () {
+  const appBtn    = document.getElementById('appBtn');
+  const step1     = document.querySelector('.apply_step_01');
+  const step2     = document.querySelector('.apply_step_02');
+  const applyBott = document.querySelector('.apply_bott');
+
+  /***** step show/hide 초기 세팅 (opacity 0일 때 영역 제거) *****/
+  function initStepStates() {
+    if (step1) {
+      step1.style.display    = 'block';
+      step1.style.opacity    = '1';
+      step1.style.transform  = 'translateY(0)';
+      step1.style.transition = 'opacity .5s ease, transform .5s ease';
+    }
+    if (step2) {
+      step2.style.display    = 'none';
+      step2.style.opacity    = '0';
+      step2.style.transform  = 'translateY(20px)';
+      step2.style.transition = 'opacity .5s ease, transform .5s ease';
+    }
+  }
+
+  function hideStep(el, duration) {
+    if (!el) return;
+    duration = duration || 500;
+    el.style.opacity   = '0';
+    el.style.transform = 'translateY(-20px)';
+    setTimeout(function () {
+      el.style.display = 'none'; // opacity 0이 되면 영역 제거
+    }, duration);
+  }
+
+  function showStep(el) {
+    if (!el) return;
+    el.style.display   = 'block';
+    el.style.opacity   = '0';
+    el.style.transform = 'translateY(20px)';
+    // reflow 강제
+    void el.offsetWidth;
+    el.style.opacity   = '1';
+    el.style.transform = 'translateY(0)';
+  }
+
+  initStepStates();
+
+  /***** 언어 토글 버튼 (.btn_lang) *****/
   const langBtn = document.querySelector('.btn_lang');
   if (langBtn) {
     langBtn.addEventListener('click', function () {
@@ -2438,36 +2466,70 @@ document.addEventListener('DOMContentLoaded', function () {
         const lang = getCurrentLangFromBody();
         if (lang === 'en') {
           ensureEnChart();
+          ensureKrChart();
           language = 'eng';
-          renderBizCapabilityView(language, currentCompany);
-          renderGrowthView(language, currentCompany);
         } else {
           ensureKrChart();
+          ensureEnChart();
           language = 'kor';
-          renderBizCapabilityView(language, currentCompany);
-          renderGrowthView(language, currentCompany);
         }
+        renderBizCapabilityView(language, currentCompany);
+        renderGrowthView(language, currentCompany);
       }, 0);
     });
   }
 
-  // ★ appBtn 클릭 시: 한글/영문 차트 둘 다 성장 예측 라인 & 텍스트 애니메이션
-  const appBtn = document.getElementById('appBtn');
+  /***** appBtn 타임라인 *****/
   if (appBtn) {
     appBtn.addEventListener('click', function () {
-      // 두 인스턴스 모두 생성 보장
-      ensureKrChart();
-      ensureEnChart();
+      // 여러 번 클릭 방지
+      if (appBtn.classList.contains('is-running')) return;
+      appBtn.classList.add('is-running');
 
-      // 한글 차트 애니
-      if (window.growthChartKrInstance) {
-        animateAfterLine(window.growthChartKrInstance, 1500); // 1.5초 스르륵
+      // apply_bott 열기
+      if (applyBott) {
+        applyBott.classList.add('on');
       }
 
-      // 영문 차트 애니
-      if (window.growthChartEnInstance) {
-        animateAfterLine(window.growthChartEnInstance, 1500); // 1.5초 스르륵
+      // 1) step1 사라지기 (opacity 0 + 위로, 끝나면 display:none)
+      hideStep(step1, 500);
+
+      // 2) 국가별 apply_item 순차 on (kr_t & en_t 동시 인덱스 기준)
+      const krItems = document.querySelectorAll('.cop_cont_wrap.kr_t .item_list .apply_item');
+      const enItems = document.querySelectorAll('.cop_cont_wrap.en_t .item_list .apply_item');
+
+      const itemInterval = 1000; // 1초 간격
+      const maxLen       = Math.max(krItems.length, enItems.length);
+
+      for (let i = 0; i < maxLen; i++) {
+        const delay = i * itemInterval;
+        setTimeout(function () {
+          if (krItems[i]) krItems[i].classList.add('on');
+          if (enItems[i]) enItems[i].classList.add('on');
+        }, delay);
       }
+
+      const lastItemTime = maxLen > 0 ? (maxLen - 1) * itemInterval : 0;
+
+      // 3) 마지막 apply_item on 시점 + 1초 뒤 → 두 그래프 모두 동작 시작
+      setTimeout(function () {
+        ensureKrChart();
+        ensureEnChart();
+
+        if (window.growthChartKrInstance) {
+          animateAfterLine(window.growthChartKrInstance, 1500);
+        }
+        if (window.growthChartEnInstance) {
+          animateAfterLine(window.growthChartEnInstance, 1500);
+        }
+
+        // 4) 그래프 동작 시작 후 2초 뒤 → step2 노출
+        setTimeout(function () {
+          showStep(step2);
+          appBtn.classList.remove('is-running');
+        }, 2000);
+
+      }, lastItemTime + 1000); // 마지막 아이템 on 된 뒤 + 1초
     });
   }
 });
