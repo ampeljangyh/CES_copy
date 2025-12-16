@@ -36,10 +36,6 @@ $(function () {
         $('#container').addClass('started');
     });
 
-
-
-
-
     /* Gate 클릭 시 활성화 */
     $('.gate_wrap [class^="gate_item_"]').on('click', function () {
         const $card = $(this);
@@ -54,90 +50,82 @@ $(function () {
         $card.addClass('on');
     });
 
-
-
-
-
     /* Gate 롤링 활성화 */
-$(function () {
-    const $cards = $('.gate_wrap [class^="gate_item_"]');
-    const cardCount = $cards.length;
+    $(function () {
+        const $cards = $('.gate_wrap [class^="gate_item_"]');
+        const cardCount = $cards.length;
 
-    // gate_item_의 부모 li들
-    const $cardLis = $cards.closest('li');
+        // gate_item_의 부모 li들
+        const $cardLis = $cards.closest('li');
 
-    let currentIndex = 0;           // gate_item_01부터 시작
-    let autoTimer = null;           // setInterval 저장
-    let resumeTimeout = null;       // 클릭 후 재시작 setTimeout
-    let isAutoInitialized = false;  // START 버튼 여러 번 눌러도 1번만 시작
+        let currentIndex = 0;           // gate_item_01부터 시작
+        let autoTimer = null;           // setInterval 저장
+        let resumeTimeout = null;       // 클릭 후 재시작 setTimeout
+        let isAutoInitialized = false;  // START 버튼 여러 번 눌러도 1번만 시작
 
-    // 카드 활성화 함수 (gate_item_ + 부모 li 둘 다)
-    function showCard(index) {
-        // gate_item_ on 처리
-        $cards.removeClass('on');
-        $cards.eq(index).addClass('on');
+        // 카드 활성화 함수 (gate_item_ + 부모 li 둘 다)
+        function showCard(index) {
+            // gate_item_ on 처리
+            $cards.removeClass('on');
+            $cards.eq(index).addClass('on');
 
-        // 부모 li active 처리
-        $cardLis.removeClass('active');
-        $cardLis.eq(index).addClass('active');
-    }
+            // 부모 li active 처리
+            $cardLis.removeClass('active');
+            $cardLis.eq(index).addClass('active');
+        }
 
-    // 특정 인덱스부터 자동 롤링 시작
-    function startAutoFrom(index) {
-        currentIndex = index;
-        showCard(currentIndex);
-
-        if (autoTimer) clearInterval(autoTimer);
-
-        autoTimer = setInterval(function () {
-            currentIndex = (currentIndex + 1) % cardCount;
+        // 특정 인덱스부터 자동 롤링 시작
+        function startAutoFrom(index) {
+            currentIndex = index;
             showCard(currentIndex);
-        }, 2500);
-    }
 
-    /* START 버튼 클릭 */
-    $('.btn_main').on('click', function () {
-        $('#container').addClass('started');
+            if (autoTimer) clearInterval(autoTimer);
 
-        // 자동 롤링은 한 번만 세팅
-        if (isAutoInitialized) return;
-        isAutoInitialized = true;
-
-        // 1.5초 뒤 자동 롤링 시작
-        setTimeout(function () {
-            startAutoFrom(currentIndex);
-        }, 1500);
-    });
-
-    /* 카드 클릭 시: 클릭된 카드 활성 + 2초 후 그 카드부터 재시작 */
-    $cards.on('click', function () {
-        const $card = $(this);
-        const clickedIndex = $cards.index($card);
-
-        // 자동 롤링, 재시작 타이머 모두 정지
-        if (autoTimer) {
-            clearInterval(autoTimer);
-            autoTimer = null;
-        }
-        if (resumeTimeout) {
-            clearTimeout(resumeTimeout);
-            resumeTimeout = null;
+            autoTimer = setInterval(function () {
+                currentIndex = (currentIndex + 1) % cardCount;
+                showCard(currentIndex);
+            }, 2500);
         }
 
-        // 클릭된 카드 바로 활성화 (gate_item_ + li)
-        showCard(clickedIndex);
+        /* START 버튼 클릭 */
+        $('.btn_main').on('click', function () {
+            $('#container').addClass('started');
 
-        // 2초 후, 클릭된 카드부터 자동 롤링 재개
-        resumeTimeout = setTimeout(function () {
-            startAutoFrom(clickedIndex);
-            resumeTimeout = null;
-        }, 2000);
+            // 자동 롤링은 한 번만 세팅
+            if (isAutoInitialized) return;
+            isAutoInitialized = true;
+
+            // 1.5초 뒤 자동 롤링 시작
+            setTimeout(function () {
+                startAutoFrom(currentIndex);
+            }, 1500);
+        });
+
+        /* 카드 클릭 시: 클릭된 카드 활성 + 2초 후 그 카드부터 재시작 */
+        $cards.on('click', function () {
+            const $card = $(this);
+            const clickedIndex = $cards.index($card);
+
+            // 자동 롤링, 재시작 타이머 모두 정지
+            if (autoTimer) {
+                clearInterval(autoTimer);
+                autoTimer = null;
+            }
+            if (resumeTimeout) {
+                clearTimeout(resumeTimeout);
+                resumeTimeout = null;
+            }
+
+            // 클릭된 카드 바로 활성화 (gate_item_ + li)
+            showCard(clickedIndex);
+
+            // 2초 후, 클릭된 카드부터 자동 롤링 재개
+            resumeTimeout = setTimeout(function () {
+                startAutoFrom(clickedIndex);
+                resumeTimeout = null;
+            }, 2000);
+        });
     });
-});
-
-
-
-
 
     /* Gate menu 클릭 시 동작 */
     $('.menu_item').on('click', function () {
