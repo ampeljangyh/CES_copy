@@ -288,7 +288,7 @@ body {font-family: 'Pretendard', "TWKEverett", "Apple SD Gothic Neo", "Malgun Go
 .gate_txt {width:100%;position:absolute;top:12.3438vw;left:50%;transform:translateX(-50%);transition:top 0.6s ease,transform 0.6s ease;}
 .gate_txt .desc {color:#FFF;text-align:center;text-shadow:0.104vw 0.104vw 0.104vw rgba(0,0,0,0.35);font-size:3.125vw;font-weight:700;line-height:normal;text-transform:uppercase;}
 .gate_txt .desc > strong {font-size:3.125vw;font-weight:700;}
-.gate_txt .desc > p {font-size:1.250vw;font-weight:500;}
+.gate_txt .desc > p {font-size:1.250vw;font-weight:500;margin-top: 0.7vw;}
 
 /* desc_sub: 기본은 아래 + 투명 (공간 유지) */
 .gate_txt .desc_sub {color:#FFF;text-align:center;line-height:normal;margin-top:8vw;opacity:0;transform:translateY(1.042vw);transition:opacity 0.4s ease,transform 0.4s ease;}
