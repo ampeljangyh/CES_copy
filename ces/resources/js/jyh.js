@@ -194,13 +194,12 @@ $(function () {
   const S3_TOAST_IN_DUR     = 700;
 
   // ✅ step_03 -> search_complete 전환
-  const S3_TO_SEARCH_FADE_DUR = 700; // step_03 사라짐 시간(원하면 STEP_ANIM으로 맞춰도 됨)
+  const S3_TO_SEARCH_FADE_DUR = 700;
 
   const EASE_OUT = 'cubic-bezier(0.22, 1, 0.36, 1)';
   const VW_DOWN  = '0.5200vw';
   const VW_UP    = '-0.5200vw';
 
-  // 현재 언어 상태
   let currentLang = document.documentElement.classList.contains('lang-en') ? 'en_t' : 'kr_t';
 
   // 외부 토글에서 호출
@@ -214,12 +213,14 @@ $(function () {
     document.documentElement.classList.toggle('lang-en', currentLang === 'en_t');
     document.documentElement.classList.toggle('lang-kr', currentLang === 'kr_t');
 
+    // ✅ 현재 상태 기준 no-blend-screen 유지 보정
+    syncNoBlendByState();
+
     const activeStep =
       document.querySelector('.new_gate_sec_01 .new_gate_01.on') ||
       document.querySelector('.new_gate_sec_01 .new_gate_01.step_01');
 
     if (activeStep) {
-      // ✅ 토글 시에만 1회 동기화 (영상 관련 - 그대로 유지)
       syncStepLangVideosOnce(activeStep, prevLang, currentLang);
 
       const onCard = activeStep.querySelector('.gate_01_card_item.on');
@@ -239,14 +240,11 @@ $(function () {
 
     setupAllGateVideos();
 
-    // ✅ 핵심: step2/3는 초기엔 재생/로드 경쟁에서 제외 (영상 관련 - 그대로 유지)
     pauseStepVideos(step2);
     if (step3) pauseStepVideos(step3);
 
-    // ✅ step1은 “부드럽게(현재언어 먼저 → 반대언어)” 재생 (영상 관련 - 그대로 유지)
     playStepVideosSmooth(step1);
 
-    // ✅ step2는 전환 직전에만 preload (영상 관련 - 그대로 유지)
     window.setTimeout(() => {
       primeStepVideos(step2);
     }, Math.max(0, STEP_HOLD - STEP2_PRELOAD_BEFORE));
@@ -256,6 +254,9 @@ $(function () {
     step1.classList.add('on');
     step2.classList.remove('on', 'is-leave');
     if (step3) step3.classList.remove('on', 'is-leave');
+
+    // ✅ 초기 상태 no-blend-screen 정리
+    syncNoBlendByState();
 
     const cards = Array.from(step1.querySelectorAll('.gate_01_card_item'));
     if (cards.length) {
@@ -267,7 +268,6 @@ $(function () {
       runCardSequence(cards, idx);
     }
 
-    // step_01 -> step_02
     window.setTimeout(() => {
       if (CROSSFADE_STEPS) {
         enterStep(step2);
@@ -290,7 +290,7 @@ $(function () {
   }
 
   // -----------------------------
-  // VIDEO (여기부터 영상 관련: 그대로 유지)
+  // VIDEO (그대로 유지)
   // -----------------------------
   function setupAllGateVideos() {
     document.querySelectorAll('.new_gate_sec_01 .main_video video').forEach(v => {
@@ -425,15 +425,18 @@ $(function () {
   function enterStep(el) {
     el.classList.add('on');
 
-    // (영상 관련 - 그대로 유지)
     playStepVideosSmooth(el);
     primeStepVideos(nextStepOf(el));
 
-    // ✅ step_03 연출 시작
     if (el.classList.contains('step_03')) {
+      // ✅ step_03 on일 때만 no-blend-screen ON
+      setNoBlendScreen(true);
+
       runStep03Sequence(el);
-      bindStep03Button(el); // ✅ 버튼 기능 바인딩
+      bindStep03Button(el);
     }
+
+    syncNoBlendByState();
   }
 
   function leaveStep(el, done) {
@@ -441,6 +444,9 @@ $(function () {
     window.setTimeout(() => {
       el.classList.remove('on', 'is-leave');
       pauseStepVideos(el);
+
+      syncNoBlendByState();
+
       if (typeof done === 'function') done();
     }, STEP_ANIM);
   }
@@ -457,23 +463,24 @@ $(function () {
 
     for (let i = startIdx; i < lastIdx; i++) {
       const t = (i - startIdx) * (CARD_HOLD + CARD_ANIM) + CARD_HOLD;
-      window.setTimeout(() => swapCard(cards[i], cards[i + 1]), t);
+      window.setTimeout(() => swapCardSequential(cards[i], cards[i + 1]), t);
     }
 
     const lastOnTime = (lastIdx - startIdx) * (CARD_HOLD + CARD_ANIM);
     window.setTimeout(() => clearCardOn(cards[lastIdx]), lastOnTime + CARD_HOLD);
   }
 
-  function swapCard(current, next) {
+  // ✅ 겹침 제거: 현재 카드가 완전히 사라진 다음 다음 카드 on
+  function swapCardSequential(current, next) {
     if (!current || !next) return;
-
-    next.classList.add('on');
-    requestAnimationFrame(() => playCardText(next));
 
     current.classList.add('is-leave');
     window.setTimeout(() => {
       current.classList.remove('on', 'is-leave');
       resetCardText(current);
+
+      next.classList.add('on');
+      requestAnimationFrame(() => playCardText(next));
     }, CARD_ANIM);
   }
 
@@ -566,6 +573,8 @@ $(function () {
     if (!step3) return;
     if (step3._step03Running) return;
     step3._step03Running = true;
+    step3._step03Done = false;
+    step3._toSearchRunning = false;
 
     const tit1    = step3.querySelector('.step_03_tit.in_step_01');
     const tit2    = step3.querySelector('.step_03_tit.in_step_02');
@@ -576,34 +585,27 @@ $(function () {
     const toast   = step3.querySelector('.toast_pop');
     const celList = step3.querySelector('.cel_list');
 
-    resetStep03State({ tit1, tit2, topLine, topTit, pos01, pos02, toast, celList });
+    resetStep03State({ step3, tit1, tit2, topLine, topTit, pos01, pos02, toast, celList });
 
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        // 1) in_step_01 2초 유지 후 사라짐
         setTimeout(() => {
           fadeOutUpX(tit1, S3_FADE_OUT_TIT1, () => {
-            // 2) in_step_02 + top_line 동시에 등장
             fadeInUpX(tit2, S3_FADE_IN_TIT2);
             fadeInUpX(topLine, S3_FADE_IN_TOPLINE);
 
-            // 3) 0.5초 뒤 top_tit (display:none → inline-block 포함)
             setTimeout(() => {
               fadeInUpY_WithDisplay(topTit, S3_FADE_IN_TOPTIT, 'inline-block');
 
-              // 4) 0.5초 뒤 ani_bg_df 전체 동시 삭제(색 부드럽게)
               setTimeout(() => {
                 removeAllAniBgDfSmooth(celList, S3_CELL_REMOVE_DUR, () => {
-                  // 5) 모두 삭제 후 cel_pos_02 등장
                   fadeInUpY(pos02, S3_FADE_IN_POS02, () => {
-                    // 6) 2초 뒤 cel_pos_01, cel_pos_02 사라짐
                     setTimeout(() => {
                       fadeOutUpY(pos01, S3_FADE_OUT_POS);
                       fadeOutUpY(pos02, S3_FADE_OUT_POS, () => {
-                        // 7) 0.5초 뒤 toast_pop 위로 스르륵 노출
                         setTimeout(() => {
                           toastIn(toast, S3_TOAST_IN_DUR);
-                          step3._step03Done = true; // ✅ 버튼 클릭 가능 플래그
+                          step3._step03Done = true;
                         }, S3_TOAST_DELAY);
                       });
                     }, S3_POS_HOLD);
@@ -618,6 +620,13 @@ $(function () {
   }
 
   function resetStep03State(o) {
+    if (o.step3) {
+      o.step3.style.transition = 'none';
+      o.step3.style.opacity = '';
+      o.step3.style.transform = '';
+      o.step3.style.display = '';
+    }
+
     if (o.tit1) {
       o.tit1.style.display = '';
       o.tit1.style.opacity = '1';
@@ -665,13 +674,6 @@ $(function () {
         cell.style.transition = 'background-color 1000ms ease';
       });
     }
-
-    // ✅ step_03 자체도 버튼 전환 대비 리셋
-    if (o.step3) {
-      o.step3.style.transition = 'none';
-      o.step3.style.opacity = '';
-      o.step3.style.transform = '';
-    }
   }
 
   // -----------------------------
@@ -681,22 +683,21 @@ $(function () {
     if (!step3 || step3._bindCardListBtn) return;
     step3._bindCardListBtn = true;
 
-    const btn = step3.querySelector('#cardListShow');
+    const btn = document.getElementById('cardListShow'); // ✅ 어디 있어도 잡히게
     if (!btn) return;
 
     btn.addEventListener('click', (e) => {
       e.preventDefault();
 
-      // (선택) 애니 끝난 뒤만 클릭 허용하고 싶으면 이거 유지
       if (!step3._step03Done) return;
-
       if (step3._toSearchRunning) return;
       step3._toSearchRunning = true;
 
-      // 1) step_03 위로 스르륵 사라짐
       hideStep03ToSearch(step3, S3_TO_SEARCH_FADE_DUR, () => {
-        // 2) search_complete 노출
         showSearchComplete();
+
+        // ✅ search_complete 노출될 때는 no-blend-screen "삭제" (OFF)
+        setNoBlendScreen(false);
       });
     });
   }
@@ -704,7 +705,6 @@ $(function () {
   function hideStep03ToSearch(step3, dur, done) {
     if (!step3) { if (done) done(); return; }
 
-    // new_gate_01 공통 트랜지션이 이미 있지만, 버튼 클릭 전환은 확실히 인라인로 제어
     step3.style.willChange = 'opacity, transform';
     step3.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
     requestAnimationFrame(() => {
@@ -713,26 +713,44 @@ $(function () {
     });
 
     setTimeout(() => {
-      // step_03는 완전히 꺼주기 (영상도 멈춤)
       step3.classList.remove('on');
       try { pauseStepVideos(step3); } catch (e) {}
+
+      // ✅ 완전히 겹침 방지
+      step3.style.display = 'none';
+
+      // ✅ 상태 기반 보정 (step_03 off라서 no-blend-screen OFF가 맞음)
+      syncNoBlendByState();
+
       if (typeof done === 'function') done();
     }, dur + 30);
   }
 
   function showSearchComplete() {
-    // 기본 CSS: top:120vw 에서 시작한다고 했으니, 0으로 올려주면 됨
-    const sc = document.querySelector('.gate_01 .search_complete');
+    const sc =
+      document.querySelector('.gate_01 .search_complete') ||
+      document.querySelector('.search_complete');
     if (!sc) return;
 
+    // ✅ 강제 표시(혹시 상위에서 display:none을 걸어둔 케이스 대비)
+    sc.style.display = 'flex';
+
+    sc.dataset.active = '1';
     sc.style.willChange = 'top, opacity, transform';
 
-    // 초기값 확실히 세팅
+    // 초기값 확실히
     sc.style.opacity = '0';
     sc.style.transform = `translateY(${VW_DOWN})`;
     sc.style.top = '120vw';
+    sc.style.left = '0';
+    sc.style.width = '100%';
+    sc.style.height = '100%';
+    sc.style.pointerEvents = 'auto';
+    sc.style.zIndex = '999';
 
-    // 두 프레임 뒤 트리거(transition 먹게)
+    // 트랜지션 강제 적용용 리플로우
+    void sc.offsetHeight;
+
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         sc.style.opacity = '1';
@@ -740,6 +758,25 @@ $(function () {
         sc.style.top = '0';
       });
     });
+
+    // ✅ 최종적으로도 OFF 유지
+    setNoBlendScreen(false);
+  }
+
+  // -----------------------------
+  // ✅ no-blend-screen 제어
+  // -----------------------------
+  function setNoBlendScreen(on) {
+    const sec = document.querySelector('.new_gate_sec_01');
+    if (!sec) return;
+
+    sec.classList.toggle('no-blend-screen', !!on);
+  }
+
+  function syncNoBlendByState() {
+    const step3 = document.querySelector('.new_gate_01.step_03');
+    const step3On = !!(step3 && step3.classList.contains('on'));
+    setNoBlendScreen(step3On); // ✅ step_03일 때만 ON, 그 외(=search_complete 포함) OFF
   }
 
   // ---- 공통 애니 헬퍼들 ----
@@ -879,6 +916,8 @@ $(function () {
     initGate01Sequence();
   }
 })();
+
+
 
 
 
