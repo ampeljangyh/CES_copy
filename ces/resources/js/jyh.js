@@ -178,7 +178,7 @@ $(function () {
   const SECOND_LANG_DELAY    = 250;
   const CANPLAY_TIMEOUT      = 8000;
 
-  // ✅ step_03 연출 타임라인 (요구사항 반영)
+  // ✅ step_03 연출 타임라인
   const S3_TIT1_HOLD        = 2000;
   const S3_FADE_OUT_TIT1    = 1500;
 
@@ -187,23 +187,23 @@ $(function () {
   const S3_FADE_IN_TOPLINE  = 1000;
   const S3_FADE_IN_TOPTIT   = 1000;
 
-  // top_tit/top_line "동시 노출 완료" 이후
-  const S3_DELAY_TO_REMOVE_DF01 = 1000; // ✅ 1초 뒤 ani_bg_df_01 삭제
-  const S3_CELL_REMOVE_DUR      = 1000; // 색 스르륵
+  // DF01 제거
+  const S3_DELAY_TO_REMOVE_DF01 = 1000;
+  const S3_CELL_REMOVE_DUR      = 1000;
 
-  // df01 삭제 후
-  const S3_DELAY_TO_POS01   = 1000;  // ✅ 1초 뒤 pos01 등장
-  const S3_FADE_IN_POS01    = 1000; // pos01 등장 시간
+  // pos01
+  const S3_DELAY_TO_POS01   = 1000;
+  const S3_FADE_IN_POS01    = 1000;
 
-  // pos01 애니 완료 후
-  const S3_DELAY_TO_REMOVE_DF  = 1000; // ✅ 1초 뒤 ani_bg_df 삭제
-  const S3_DELAY_TO_POS02      = 1000; // ✅ (df 삭제 이후) 1초 뒤 pos02 등장
+  // DF 제거 + pos02
+  const S3_DELAY_TO_REMOVE_DF  = 1000;
+  const S3_DELAY_TO_POS02      = 1000;
   const S3_FADE_IN_POS02       = 1000;
 
   // pos01/pos02 처리
   const S3_POS_HOLD         = 1000;
   const S3_FADE_OUT_POS     = 1000;
-  const S3_TOAST_DELAY      = 1000; // ✅ pos01/02 사라진 후 1초 뒤 toast
+  const S3_TOAST_DELAY      = 1000;
   const S3_TOAST_IN_DUR     = 700;
 
   // ✅ step_03 -> search_complete 전환
@@ -481,7 +481,6 @@ $(function () {
     window.setTimeout(() => clearCardOn(cards[lastIdx]), lastOnTime + CARD_HOLD);
   }
 
-  // ✅ 겹침 제거
   function swapCardSequential(current, next) {
     if (!current || !next) return;
 
@@ -577,83 +576,91 @@ $(function () {
     card.querySelectorAll('.bott_desc p').forEach(p => p.classList.remove('text_play'));
   }
 
-  // -----------------------------
-  // ✅ step_03 sequence (요구사항 그대로)
-  // -----------------------------
-  function runStep03Sequence(step3) {
-    if (!step3) return;
-    if (step3._step03Running) return;
-    step3._step03Running = true;
-    step3._step03Done = false;
-    step3._toSearchRunning = false;
+ // -----------------------------
+// ✅ step_03 sequence (1~2번 순서/타이밍 수정, 이후는 그대로)
+// -----------------------------
+function runStep03Sequence(step3) {
+  if (!step3) return;
+  if (step3._step03Running) return;
+  step3._step03Running = true;
+  step3._step03Done = false;
+  step3._toSearchRunning = false;
 
-    const tit1    = step3.querySelector('.step_03_tit.in_step_01');
-    const tit2    = step3.querySelector('.step_03_tit.in_step_02');
-    const topLine = step3.querySelector('.cel_content .top_line');
-    const topTit  = step3.querySelector('.cel_wrap .top_tit');
-    const pos01   = step3.querySelector('.cel_wrap .cel_pos_01');
-    const pos02   = step3.querySelector('.cel_wrap .cel_pos_02');
-    const toast   = step3.querySelector('.toast_pop');
-    const celList = step3.querySelector('.cel_list');
+  const tit1    = step3.querySelector('.step_03_tit.in_step_01');
+  const tit2    = step3.querySelector('.step_03_tit.in_step_02');
+  const topLine = step3.querySelector('.cel_content .top_line');
+  const topTit  = step3.querySelector('.cel_wrap .top_tit');
+  const pos01   = step3.querySelector('.cel_wrap .cel_pos_01');
+  const pos02   = step3.querySelector('.cel_wrap .cel_pos_02');
+  const toast   = step3.querySelector('.toast_pop');
+  const celList = step3.querySelector('.cel_list');
 
-    resetStep03State({ step3, tit1, tit2, topLine, topTit, pos01, pos02, toast, celList });
+  resetStep03State({ step3, tit1, tit2, topLine, topTit, pos01, pos02, toast, celList });
 
+  requestAnimationFrame(() => {
     requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
+
+      // (기존 유지) 시작 홀드
+      setTimeout(() => {
+
+        // ✅ 1) (기존 유지) DF01 삭제 타이밍이 있으면 그 타이밍 후 실행
         setTimeout(() => {
-          fadeOutUpX(tit1, S3_FADE_OUT_TIT1, () => {
 
-            // 1) tit2 + top_line + top_tit 동시 노출
-            runParallel([
-              (cb) => fadeInUpX(tit2, S3_FADE_IN_TIT2, cb),
-              (cb) => fadeInUpX(topLine, S3_FADE_IN_TOPLINE, cb),
-              (cb) => fadeInUpY_WithDisplay(topTit, S3_FADE_IN_TOPTIT, 'block', cb)
-            ], () => {
+          // ✅ ani_bg_df_01 삭제와 "동시에" pos01 노출
+          removeClassSmooth(celList, 'ani_bg_df_01', S3_CELL_REMOVE_DUR);
+          fadeInUpY_WithDisplay(pos01, S3_FADE_IN_POS01, 'flex');
 
-              // 2) 동시 노출 "이후 1초" 뒤 ani_bg_df_01 삭제(색 스르륵)
-              setTimeout(() => {
-                removeClassSmooth(celList, 'ani_bg_df_01', S3_CELL_REMOVE_DUR);
+          // ✅ pos01 노출 시작 후 "1초 뒤" tit1 사라짐
+          setTimeout(() => {
+            fadeOutUpX(tit1, S3_FADE_OUT_TIT1, () => {
 
-                // 3) ani_bg_df_01 삭제 후 0.5초 뒤 pos01 등장(op1 위로 스르륵)
+              // ✅ 2) tit2 + top_tit + top_line "한번에" 노출
+              runParallel([
+                (cb) => fadeInUpX(topLine, S3_FADE_IN_TOPLINE, cb),
+                (cb) => fadeInUpY_WithDisplay(topTit, S3_FADE_IN_TOPTIT, 'block', cb),
+                (cb) => fadeInUpX(tit2, S3_FADE_IN_TIT2, cb),
+              ], () => {
+
+                // ------------------------------------------
+                // ✅ 이 이후 애니는 기존 그대로
+                // 3) ani_bg_df 삭제 후 pos02 노출
+                // 4) pos01+pos02 같이 사라짐 -> toast
+                // ------------------------------------------
                 setTimeout(() => {
-                  fadeInUpY_WithDisplay(pos01, S3_FADE_IN_POS01, 'flex', () => {
+                  removeClassSmooth(celList, 'ani_bg_df', S3_CELL_REMOVE_DUR);
 
-                    // 4) pos01 애니 후 1.5초 뒤 ani_bg_df 삭제(색 스르륵)
-                    setTimeout(() => {
-                      removeClassSmooth(celList, 'ani_bg_df', S3_CELL_REMOVE_DUR);
+                  setTimeout(() => {
+                    fadeInUpY_WithDisplay(pos02, S3_FADE_IN_POS02, 'block', () => {
 
-                      // 5) (df 삭제 이후) 1.5초 뒤 pos02 노출
                       setTimeout(() => {
-                        fadeInUpY_WithDisplay(pos02, S3_FADE_IN_POS02, 'block', () => {
-
-                          // 6) 유지 후 pos01/pos02 사라짐 → 1.5초 뒤 toast
+                        runParallel([
+                          (cb) => fadeOutUpY(pos01, S3_FADE_OUT_POS, cb),
+                          (cb) => fadeOutUpY(pos02, S3_FADE_OUT_POS, cb)
+                        ], () => {
                           setTimeout(() => {
-                            fadeOutUpY(pos01, S3_FADE_OUT_POS);
-                            fadeOutUpY(pos02, S3_FADE_OUT_POS, () => {
-                              setTimeout(() => {
-                                toastIn(toast, S3_TOAST_IN_DUR);
-                                step3._step03Done = true;
-                              }, S3_TOAST_DELAY);
-                            });
-                          }, S3_POS_HOLD);
-
+                            toastIn(toast, S3_TOAST_IN_DUR);
+                            step3._step03Done = true;
+                          }, S3_TOAST_DELAY);
                         });
-                      }, S3_DELAY_TO_POS02);
+                      }, S3_POS_HOLD);
 
-                    }, S3_DELAY_TO_REMOVE_DF);
+                    });
+                  }, S3_DELAY_TO_POS02);
 
-                  });
-                }, S3_DELAY_TO_POS01);
+                }, S3_DELAY_TO_REMOVE_DF);
 
-              }, S3_DELAY_TO_REMOVE_DF01);
+              });
 
             });
+          }, 1000); // ✅ "1초 뒤" 고정
 
-          });
-        }, S3_TIT1_HOLD);
-      });
+        }, S3_DELAY_TO_REMOVE_DF01);
+
+      }, S3_TIT1_HOLD);
+
     });
-  }
+  });
+}
 
   function resetStep03State(o) {
     if (o.step3) {
@@ -730,7 +737,7 @@ $(function () {
 
       hideStep03ToSearch(step3, S3_TO_SEARCH_FADE_DUR, () => {
         showSearchComplete();
-        setNoBlendScreen(false);
+        setNoBlendScreen(false); // ✅ search_complete 노출 시 no-blend-screen 삭제
       });
     });
   }
@@ -800,7 +807,7 @@ $(function () {
   function syncNoBlendByState() {
     const step3 = document.querySelector('.new_gate_01.step_03');
     const step3On = !!(step3 && step3.classList.contains('on'));
-    setNoBlendScreen(step3On); // step_03일 때만 ON, search_complete 포함 그 외 OFF
+    setNoBlendScreen(step3On);
   }
 
   // -----------------------------
@@ -832,7 +839,6 @@ $(function () {
 
       cell.appendChild(overlay);
 
-      // ✅ “동시에” 클래스 제거
       cell.classList.remove(className);
 
       requestAnimationFrame(() => {
