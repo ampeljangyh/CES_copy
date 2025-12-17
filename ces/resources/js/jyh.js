@@ -169,8 +169,8 @@ $(function () {
   const CARD_ANIM = 500;
   const CROSSFADE_STEPS = false;
 
-  const TEXT_TOTAL = 2500;
-  const CHAR_DUR   = 600;
+  const TEXT_TOTAL = 1000;
+  const CHAR_DUR   = 300;
   const P_STAGGER  = 500;
 
   // ✅ 튜닝 (영상 관련 - 그대로 유지)
@@ -178,19 +178,32 @@ $(function () {
   const SECOND_LANG_DELAY    = 250;
   const CANPLAY_TIMEOUT      = 8000;
 
-  // ✅ step_03 연출 타임라인
+  // ✅ step_03 연출 타임라인 (요구사항 반영)
   const S3_TIT1_HOLD        = 2000;
   const S3_FADE_OUT_TIT1    = 1500;
-  const S3_FADE_IN_TIT2     = 1500;
-  const S3_FADE_IN_TOPLINE  = 1500;
-  const S3_DELAY_TO_TOPTIT  = 1500;
-  const S3_FADE_IN_TOPTIT   = 1500;
-  const S3_DELAY_TO_CELL    = 1500;
-  const S3_CELL_REMOVE_DUR  = 1000;
-  const S3_FADE_IN_POS02    = 1500;
-  const S3_POS_HOLD         = 2000;
+
+  // tit2 + top_line + top_tit 동시 노출
+  const S3_FADE_IN_TIT2     = 1000;
+  const S3_FADE_IN_TOPLINE  = 1000;
+  const S3_FADE_IN_TOPTIT   = 1000;
+
+  // top_tit/top_line "동시 노출 완료" 이후
+  const S3_DELAY_TO_REMOVE_DF01 = 1000; // ✅ 1초 뒤 ani_bg_df_01 삭제
+  const S3_CELL_REMOVE_DUR      = 1000; // 색 스르륵
+
+  // df01 삭제 후
+  const S3_DELAY_TO_POS01   = 1000;  // ✅ 1초 뒤 pos01 등장
+  const S3_FADE_IN_POS01    = 1000; // pos01 등장 시간
+
+  // pos01 애니 완료 후
+  const S3_DELAY_TO_REMOVE_DF  = 1000; // ✅ 1초 뒤 ani_bg_df 삭제
+  const S3_DELAY_TO_POS02      = 1000; // ✅ (df 삭제 이후) 1초 뒤 pos02 등장
+  const S3_FADE_IN_POS02       = 1000;
+
+  // pos01/pos02 처리
+  const S3_POS_HOLD         = 1000;
   const S3_FADE_OUT_POS     = 1000;
-  const S3_TOAST_DELAY      = 500;
+  const S3_TOAST_DELAY      = 1000; // ✅ pos01/02 사라진 후 1초 뒤 toast
   const S3_TOAST_IN_DUR     = 700;
 
   // ✅ step_03 -> search_complete 전환
@@ -213,7 +226,6 @@ $(function () {
     document.documentElement.classList.toggle('lang-en', currentLang === 'en_t');
     document.documentElement.classList.toggle('lang-kr', currentLang === 'kr_t');
 
-    // ✅ 현재 상태 기준 no-blend-screen 유지 보정
     syncNoBlendByState();
 
     const activeStep =
@@ -255,7 +267,6 @@ $(function () {
     step2.classList.remove('on', 'is-leave');
     if (step3) step3.classList.remove('on', 'is-leave');
 
-    // ✅ 초기 상태 no-blend-screen 정리
     syncNoBlendByState();
 
     const cards = Array.from(step1.querySelectorAll('.gate_01_card_item'));
@@ -361,11 +372,8 @@ $(function () {
 
     const t = clampTime(base.currentTime, target.duration);
     try {
-      if (typeof target.fastSeek === 'function') {
-        target.fastSeek(t);
-      } else if (Math.abs((target.currentTime || 0) - t) > 0.12) {
-        target.currentTime = t;
-      }
+      if (typeof target.fastSeek === 'function') target.fastSeek(t);
+      else if (Math.abs((target.currentTime || 0) - t) > 0.12) target.currentTime = t;
     } catch (e) {}
   }
 
@@ -429,9 +437,7 @@ $(function () {
     primeStepVideos(nextStepOf(el));
 
     if (el.classList.contains('step_03')) {
-      // ✅ step_03 on일 때만 no-blend-screen ON
       setNoBlendScreen(true);
-
       runStep03Sequence(el);
       bindStep03Button(el);
     }
@@ -445,8 +451,13 @@ $(function () {
       el.classList.remove('on', 'is-leave');
       pauseStepVideos(el);
 
-      syncNoBlendByState();
+      if (el.classList.contains('step_03')) {
+        el._step03Running = false;
+        el._step03Done = false;
+        el._toSearchRunning = false;
+      }
 
+      syncNoBlendByState();
       if (typeof done === 'function') done();
     }, STEP_ANIM);
   }
@@ -470,7 +481,7 @@ $(function () {
     window.setTimeout(() => clearCardOn(cards[lastIdx]), lastOnTime + CARD_HOLD);
   }
 
-  // ✅ 겹침 제거: 현재 카드가 완전히 사라진 다음 다음 카드 on
+  // ✅ 겹침 제거
   function swapCardSequential(current, next) {
     if (!current || !next) return;
 
@@ -567,7 +578,7 @@ $(function () {
   }
 
   // -----------------------------
-  // ✅ step_03 sequence
+  // ✅ step_03 sequence (요구사항 그대로)
   // -----------------------------
   function runStep03Sequence(step3) {
     if (!step3) return;
@@ -591,28 +602,53 @@ $(function () {
       requestAnimationFrame(() => {
         setTimeout(() => {
           fadeOutUpX(tit1, S3_FADE_OUT_TIT1, () => {
-            fadeInUpX(tit2, S3_FADE_IN_TIT2);
-            fadeInUpX(topLine, S3_FADE_IN_TOPLINE);
 
-            setTimeout(() => {
-              fadeInUpY_WithDisplay(topTit, S3_FADE_IN_TOPTIT, 'inline-block');
+            // 1) tit2 + top_line + top_tit 동시 노출
+            runParallel([
+              (cb) => fadeInUpX(tit2, S3_FADE_IN_TIT2, cb),
+              (cb) => fadeInUpX(topLine, S3_FADE_IN_TOPLINE, cb),
+              (cb) => fadeInUpY_WithDisplay(topTit, S3_FADE_IN_TOPTIT, 'block', cb)
+            ], () => {
 
+              // 2) 동시 노출 "이후 1초" 뒤 ani_bg_df_01 삭제(색 스르륵)
               setTimeout(() => {
-                removeAllAniBgDfSmooth(celList, S3_CELL_REMOVE_DUR, () => {
-                  fadeInUpY(pos02, S3_FADE_IN_POS02, () => {
+                removeClassSmooth(celList, 'ani_bg_df_01', S3_CELL_REMOVE_DUR);
+
+                // 3) ani_bg_df_01 삭제 후 0.5초 뒤 pos01 등장(op1 위로 스르륵)
+                setTimeout(() => {
+                  fadeInUpY_WithDisplay(pos01, S3_FADE_IN_POS01, 'flex', () => {
+
+                    // 4) pos01 애니 후 1.5초 뒤 ani_bg_df 삭제(색 스르륵)
                     setTimeout(() => {
-                      fadeOutUpY(pos01, S3_FADE_OUT_POS);
-                      fadeOutUpY(pos02, S3_FADE_OUT_POS, () => {
-                        setTimeout(() => {
-                          toastIn(toast, S3_TOAST_IN_DUR);
-                          step3._step03Done = true;
-                        }, S3_TOAST_DELAY);
-                      });
-                    }, S3_POS_HOLD);
+                      removeClassSmooth(celList, 'ani_bg_df', S3_CELL_REMOVE_DUR);
+
+                      // 5) (df 삭제 이후) 1.5초 뒤 pos02 노출
+                      setTimeout(() => {
+                        fadeInUpY_WithDisplay(pos02, S3_FADE_IN_POS02, 'block', () => {
+
+                          // 6) 유지 후 pos01/pos02 사라짐 → 1.5초 뒤 toast
+                          setTimeout(() => {
+                            fadeOutUpY(pos01, S3_FADE_OUT_POS);
+                            fadeOutUpY(pos02, S3_FADE_OUT_POS, () => {
+                              setTimeout(() => {
+                                toastIn(toast, S3_TOAST_IN_DUR);
+                                step3._step03Done = true;
+                              }, S3_TOAST_DELAY);
+                            });
+                          }, S3_POS_HOLD);
+
+                        });
+                      }, S3_DELAY_TO_POS02);
+
+                    }, S3_DELAY_TO_REMOVE_DF);
+
                   });
-                });
-              }, S3_DELAY_TO_CELL);
-            }, S3_DELAY_TO_TOPTIT);
+                }, S3_DELAY_TO_POS01);
+
+              }, S3_DELAY_TO_REMOVE_DF01);
+
+            });
+
           });
         }, S3_TIT1_HOLD);
       });
@@ -626,7 +662,6 @@ $(function () {
       o.step3.style.transform = '';
       o.step3.style.display = '';
     }
-
     if (o.tit1) {
       o.tit1.style.display = '';
       o.tit1.style.opacity = '1';
@@ -653,9 +688,9 @@ $(function () {
     }
     if (o.pos01) {
       o.pos01.style.display = '';
-      o.pos01.style.opacity = '1';
+      o.pos01.style.opacity = '0';
       o.pos01.style.transition = 'none';
-      o.pos01.style.transform = 'translateY(0)';
+      o.pos01.style.transform = `translateY(${VW_DOWN})`;
     }
     if (o.pos02) {
       o.pos02.style.display = '';
@@ -683,7 +718,7 @@ $(function () {
     if (!step3 || step3._bindCardListBtn) return;
     step3._bindCardListBtn = true;
 
-    const btn = document.getElementById('cardListShow'); // ✅ 어디 있어도 잡히게
+    const btn = document.getElementById('cardListShow');
     if (!btn) return;
 
     btn.addEventListener('click', (e) => {
@@ -695,8 +730,6 @@ $(function () {
 
       hideStep03ToSearch(step3, S3_TO_SEARCH_FADE_DUR, () => {
         showSearchComplete();
-
-        // ✅ search_complete 노출될 때는 no-blend-screen "삭제" (OFF)
         setNoBlendScreen(false);
       });
     });
@@ -716,12 +749,12 @@ $(function () {
       step3.classList.remove('on');
       try { pauseStepVideos(step3); } catch (e) {}
 
-      // ✅ 완전히 겹침 방지
       step3.style.display = 'none';
 
-      // ✅ 상태 기반 보정 (step_03 off라서 no-blend-screen OFF가 맞음)
-      syncNoBlendByState();
+      step3._step03Running = false;
+      step3._step03Done = false;
 
+      syncNoBlendByState();
       if (typeof done === 'function') done();
     }, dur + 30);
   }
@@ -732,23 +765,16 @@ $(function () {
       document.querySelector('.search_complete');
     if (!sc) return;
 
-    // ✅ 강제 표시(혹시 상위에서 display:none을 걸어둔 케이스 대비)
     sc.style.display = 'flex';
-
     sc.dataset.active = '1';
-    sc.style.willChange = 'top, opacity, transform';
 
-    // 초기값 확실히
+    sc.style.willChange = 'top, opacity, transform';
     sc.style.opacity = '0';
     sc.style.transform = `translateY(${VW_DOWN})`;
     sc.style.top = '120vw';
-    sc.style.left = '0';
-    sc.style.width = '100%';
-    sc.style.height = '100%';
     sc.style.pointerEvents = 'auto';
     sc.style.zIndex = '999';
 
-    // 트랜지션 강제 적용용 리플로우
     void sc.offsetHeight;
 
     requestAnimationFrame(() => {
@@ -759,7 +785,6 @@ $(function () {
       });
     });
 
-    // ✅ 최종적으로도 OFF 유지
     setNoBlendScreen(false);
   }
 
@@ -769,17 +794,67 @@ $(function () {
   function setNoBlendScreen(on) {
     const sec = document.querySelector('.new_gate_sec_01');
     if (!sec) return;
-
     sec.classList.toggle('no-blend-screen', !!on);
   }
 
   function syncNoBlendByState() {
     const step3 = document.querySelector('.new_gate_01.step_03');
     const step3On = !!(step3 && step3.classList.contains('on'));
-    setNoBlendScreen(step3On); // ✅ step_03일 때만 ON, 그 외(=search_complete 포함) OFF
+    setNoBlendScreen(step3On); // step_03일 때만 ON, search_complete 포함 그 외 OFF
   }
 
-  // ---- 공통 애니 헬퍼들 ----
+  // -----------------------------
+  // ✅ 클래스 삭제 + 색상 스르륵
+  // -----------------------------
+  function removeClassSmooth(celList, className, dur) {
+    if (!celList) return;
+
+    const cells = Array.from(celList.querySelectorAll(`.cel_item.${className}`));
+    if (!cells.length) return;
+
+    cells.forEach(cell => {
+      const cs = getComputedStyle(cell);
+
+      if (cs.position === 'static') cell.style.position = 'relative';
+      cell.style.overflow = 'hidden';
+      cell.style.transition = `background-color ${dur}ms ${EASE_OUT}`;
+
+      const overlay = document.createElement('i');
+      overlay.style.position = 'absolute';
+      overlay.style.inset = '0';
+      overlay.style.pointerEvents = 'none';
+      overlay.style.zIndex = '2';
+      overlay.style.backgroundColor = cs.backgroundColor;
+      overlay.style.opacity = '1';
+      overlay.style.transform = 'translateY(0)';
+      overlay.style.willChange = 'opacity, transform';
+      overlay.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
+
+      cell.appendChild(overlay);
+
+      // ✅ “동시에” 클래스 제거
+      cell.classList.remove(className);
+
+      requestAnimationFrame(() => {
+        overlay.style.opacity = '0';
+        overlay.style.transform = `translateY(${VW_UP})`;
+      });
+
+      setTimeout(() => {
+        if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+      }, dur + 60);
+    });
+  }
+
+  // -----------------------------
+  // 공통 애니 헬퍼
+  // -----------------------------
+  function runParallel(fns, done) {
+    let left = fns.length;
+    if (!left) return done && done();
+    fns.forEach(fn => fn(() => { if (--left === 0 && done) done(); }));
+  }
+
   function fadeOutUpX(el, dur, done) {
     if (!el) { if (done) done(); return; }
     el.style.willChange = 'opacity, transform';
@@ -808,11 +883,11 @@ $(function () {
     });
   }
 
-  function fadeInUpY(el, dur, done) {
+  function fadeInUpY_WithDisplay(el, dur, displayValue, done) {
     if (!el) { if (done) done(); return; }
     el.style.willChange = 'opacity, transform';
-    el.style.display = '';
     el.style.transition = 'none';
+    el.style.display = displayValue || 'block';
     el.style.opacity = '0';
     el.style.transform = `translateY(${VW_DOWN})`;
     requestAnimationFrame(() => {
@@ -821,22 +896,6 @@ $(function () {
         el.style.opacity = '1';
         el.style.transform = 'translateY(0)';
         setTimeout(() => { if (done) done(); }, dur);
-      });
-    });
-  }
-
-  function fadeInUpY_WithDisplay(el, dur, displayValue) {
-    if (!el) return;
-    el.style.willChange = 'opacity, transform';
-    el.style.transition = 'none';
-    el.style.display = displayValue || 'inline-block';
-    el.style.opacity = '0';
-    el.style.transform = `translateY(${VW_DOWN})`;
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        el.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
-        el.style.opacity = '1';
-        el.style.transform = 'translateY(0)';
       });
     });
   }
@@ -868,54 +927,14 @@ $(function () {
     });
   }
 
-  function removeAllAniBgDfSmooth(celList, dur, done) {
-    if (!celList) { if (done) done(); return; }
-
-    const cells = Array.from(celList.querySelectorAll('.cel_item.ani_bg_df'));
-    if (!cells.length) { if (done) done(); return; }
-
-    cells.forEach(cell => {
-      const cs = getComputedStyle(cell);
-
-      if (cs.position === 'static') cell.style.position = 'relative';
-      cell.style.overflow = 'hidden';
-
-      cell.style.transition = `background-color ${dur}ms ${EASE_OUT}`;
-
-      const overlay = document.createElement('i');
-      overlay.style.position = 'absolute';
-      overlay.style.inset = '0';
-      overlay.style.pointerEvents = 'none';
-      overlay.style.zIndex = '2';
-      overlay.style.backgroundColor = cs.backgroundColor;
-      overlay.style.opacity = '1';
-      overlay.style.transform = 'translateY(0)';
-      overlay.style.willChange = 'opacity, transform';
-      overlay.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
-
-      cell.appendChild(overlay);
-
-      cell.classList.remove('ani_bg_df');
-
-      requestAnimationFrame(() => {
-        overlay.style.opacity = '0';
-        overlay.style.transform = `translateY(${VW_UP})`;
-      });
-
-      setTimeout(() => {
-        if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
-      }, dur + 60);
-    });
-
-    setTimeout(() => { if (done) done(); }, dur + 80);
-  }
-
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initGate01Sequence);
   } else {
     initGate01Sequence();
   }
 })();
+
+
 
 
 
