@@ -2025,7 +2025,9 @@ function renderReportTab(reportNo, tabNo) {
                 drawGradeChart('report1-tab1-chart1', distribution, {
                     highlightIndex: detail.e.grade,
                     barColor: "#4091B9",
-                    useGradientHighlight: false
+                    useGradientHighlight: true,
+                    gradientStart: "#4091B9",
+                    gradientEnd: "#286786"
                 });
                 drawEsgRadarChart('report1-tab1-chart2','e');
                 break;
@@ -2034,7 +2036,9 @@ function renderReportTab(reportNo, tabNo) {
                 drawGradeChart('report1-tab2-chart1', distribution, {
                     highlightIndex: detail.s.grade,
                     barColor: "#387D82",
-                    useGradientHighlight: false
+                    useGradientHighlight: true,
+                    gradientStart: "#387D82",
+                    gradientEnd: "#27575A"
                 });
                 drawEsgRadarChart('report1-tab2-chart2','s');
                 break;
@@ -2043,7 +2047,9 @@ function renderReportTab(reportNo, tabNo) {
                 drawGradeChart('report1-tab3-chart1', distribution, {
                     highlightIndex: detail.g.grade,
                     barColor: "#5D69E5",
-                    useGradientHighlight: false
+                    useGradientHighlight: true,
+                    gradientStart: "#5D69E5",
+                    gradientEnd: "#3A42B8"
                 });
                 drawEsgRadarChart('report1-tab3-chart2','g');
                 break;

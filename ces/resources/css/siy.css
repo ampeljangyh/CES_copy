@@ -523,11 +523,11 @@
 .report_grid2 .grade_li {margin-top:48px;}
 .report_grid2 .point_li {margin-top:90px;}
 .report_grid2 .point_li .point_track {width:660px;}
-.report_grid2 .point_li .emph .point_track > .bar {background:#4091B9;}
+.report_grid2 .point_li .emph .point_track > .bar {background: linear-gradient(270deg, #4091B9 0%, #286786 100%);}
 .report_grid2 .point_tbl {margin-top:96px;}
 
-[data-tab='2'] .report_grid2 .point_li .emph .point_track > .bar {background:#387D82;}
-[data-tab='3'] .report_grid2 .point_li .emph .point_track > .bar {background:#5D69E5;}
+[data-tab='2'] .report_grid2 .point_li .emph .point_track > .bar {background: linear-gradient(270deg, #387D82 0%, #27575A 100%);}
+[data-tab='3'] .report_grid2 .point_li .emph .point_track > .bar {background: linear-gradient(270deg, #5D69E5 0%, #3A42B8 100%);}
 
 .report_grid2 .chart4 {display:flex;margin-top:100px;height:584px;gap:60px;}
 .report_grid2 .chart_inner {flex:1 1 auto;width:100%;}
