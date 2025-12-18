@@ -1063,7 +1063,9 @@
 <!-- techRadar01 방사형, 바형 차트 -->
 <script>
 let language = localStorage.getItem('siteLang') === 'lang_kr' ? "kor" : "eng";
-let currentCompany = "포트래이";
+const urlParams = new URLSearchParams(window.location.search);
+let currentCompany = urlParams.get('currentCompany');
+console.log(currentCompany);
 document.addEventListener('DOMContentLoaded', function () {
     // =====================================================================
     // 공통 유틸
@@ -1950,6 +1952,5 @@ function start() {
 <!-- 프론트 -->
 <script src="../../resources/js/data.js"></script>
 <script src="../../resources/js/service.js"></script>
-<script src="../../resources/js/view_chart_aset_patched.js"></script>
-<script src="../../resources/js/view_chart_main_clean_lang_v2.js"></script>
+<script src="../../resources/js/view_chart_main.js"></script>
 <!-- //프론트 -->
