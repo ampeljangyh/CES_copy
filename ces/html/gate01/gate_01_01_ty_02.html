@@ -1,35 +1,36 @@
 <!DOCType html>
 <html lang="ko">
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, user-scalable=0">
-<meta name="msapplication-TileColor" content="#4D6EDB">
-<meta property="og:title" content="">
-<meta property="og:description" content="">
-<meta property="og:Type" content="website">
-<meta property="og:image" content="../../resources/images/">
-<title></title>
-<link rel="shortcut icon" href="../../resources/images/" type="image/x-icon">
-<link rel="apple-touch-icon" href="../../resources/images/">
-<link rel="stylesheet" href="../../resources/css/style.css">
 
-<!-- 퍼블리싱 -->
-<script src="../../resources/js/jquery-3.7.1.min.js"></script>
-<script src="../../resources/js/jquery-ui.js"></script>
-<script src="../../resources/js/swiper-bundle.min.js"></script>
-<script src="../../resources/js/chart.js"></script>
-<script src="../../resources/js/lang_toggle.js"></script>
-<!-- //퍼블리싱 -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=0">
+    <meta name="msapplication-TileColor" content="#4D6EDB">
+    <meta property="og:title" content="">
+    <meta property="og:description" content="">
+    <meta property="og:Type" content="website">
+    <meta property="og:image" content="../../resources/images/">
+    <title></title>
+    <link rel="shortcut icon" href="../../resources/images/" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../../resources/images/">
+    <link rel="stylesheet" href="../../resources/css/style.css">
+
+    <!-- 퍼블리싱 -->
+    <script src="../../resources/js/jquery-3.7.1.min.js"></script>
+    <script src="../../resources/js/jquery-ui.js"></script>
+    <script src="../../resources/js/swiper-bundle.min.js"></script>
+    <script src="../../resources/js/chart.js"></script>
+    <script src="../../resources/js/lang_toggle_patched_v2.js"></script>
+    <!-- //퍼블리싱 -->
 </head>
 
 <body id="lang_kr" class="gate_01_01">
-<!-- wrap -->
-<div id="wrap" class="com_bg gate_01_main">
-    <!-- Header -->
-    <header>
-    </header>
-    <!-- //Header -->
+    <!-- wrap -->
+    <div id="wrap" class="com_bg gate_01_main">
+        <!-- Header -->
+        <header>
+        </header>
+        <!-- //Header -->
 
     <!-- Container -->
     <section id="container" class="gate_01">
@@ -465,8 +466,8 @@
                                     </div>
                                 </div>
                                 <div class="tech_gp_box">
-                                    <!-- <canvas id="techRadar02"></canvas> -->
-                                    <canvas id="techBar01"></canvas>
+                                    <canvas id="techRadar02"></canvas>
+                                    <!-- <canvas id="techBar01"></canvas> -->
                                 </div>
                             </div>
                         </div>
@@ -1061,6 +1062,8 @@
 
 <!-- techRadar01 방사형, 바형 차트 -->
 <script>
+let language = localStorage.getItem('siteLang') === 'lang_kr' ? "kor" : "eng";
+let currentCompany = "포트래이";
 document.addEventListener('DOMContentLoaded', function () {
     // =====================================================================
     // 공통 유틸
@@ -1294,8 +1297,15 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
 
+            var timers = [];
+            function clearTimers() {
+                while (timers.length) clearTimeout(timers.pop());
+            }
+
+
 // ---------- 실제 시퀀스 ----------
 function start() {
+    clearTimers();
     var n = data.length;
     if (!n) return;
 
@@ -1323,7 +1333,7 @@ function start() {
         (function (index) {
             var time = FIRST_DELAY + index * STEP_INTERVAL;
 
-            setTimeout(function () {
+            var tid = setTimeout(function () {
                 // 점 찍기
                 animatePoint(index, POINT_DURATION);
 
@@ -1339,6 +1349,7 @@ function start() {
                     animateSegment(segIdx, SEG_DURATION);
                 }
             }, time);
+            timers.push(tid);
         })(i);
     }
 
@@ -1350,7 +1361,7 @@ function start() {
     // 마지막 점 찍힌 후 0.5초 뒤:
     //   - 마지막 세그먼트: (마지막 점) ↔ (첫 번째 점)
     //   - 선 애니 시작과 거의 동시에 면 채우기 시작
-    setTimeout(function () {
+    var tid2 = setTimeout(function () {
         // 4번째-5번째 선은 위 for 루프에서 이미 그렸고,
         // 여기서는 5번째-1번째 선 (segment lastIndex)을 그림
         animateSegment(lastIndex, SEG_DURATION);
@@ -1358,6 +1369,7 @@ function start() {
         // 선 그리기와 거의 동시에 면 채우기 시작 (스르륵)
         animateFill(FILL_DURATION);
     }, lastPointTime + CLOSE_DELAY);
+    timers.push(tid2);
 }
 
 
@@ -1370,8 +1382,34 @@ function start() {
             },
             setLabels: function (newLabels) {
                 labels = (newLabels || []).slice();
+            },
+
+            // ✅ (추가) 현재 data로 "완성된 상태"를 즉시 그리기 (애니/타이머 없음)
+            renderNow: function () {
+                clearTimers(); // start에서 쓰는 timers 정리(있으면)
+                var n = data.length;
+                if (!n) return;
+
+                chart.data.labels = labels.slice();
+                chart.data.datasets[0].data = data.slice();
+
+                // 완성 상태로 세팅
+                state.pointProgress = new Array(n).fill(1);
+                state.segmentProgress = new Array(n).fill(1);
+                state.fillProgress = 1;
+                state.animating = false;
+
+                chart.update(); // 1회 렌더
+            },
+
+            // ✅ (추가) 라벨만 바꾸고 즉시 반영 (데이터/애니 그대로)
+            updateLabelsOnly: function (newLabels) {
+                labels = (newLabels || []).slice();
+                chart.data.labels = labels.slice();
+                chart.update(); // 애니 옵션 자체가 false라 1회 렌더만 됨
             }
         };
+
     }
 
     // =============================================================
@@ -1380,15 +1418,15 @@ function start() {
     // =============================================================
     function createTechBarController(opts) {
     var canvasId = opts.canvasId;
-    var labels   = (opts.labels || []).slice(); // 예: ['기술 혁신성', '시장 현황']
-    var data     = (opts.data   || []).slice(); // 예: [70, 80] (0~100)
-    var fontPx   = opts.labelFontPx || 24;
+    var labels = (opts.labels || []).slice(); // 예: ['기술 혁신성', '시장 현황']
+    var data = (opts.data || []).slice(); // 예: [70, 80] (0~100)
+    var fontPx = opts.labelFontPx || 24;
 
     var canvas = document.getElementById(canvasId);
     if (!canvas) return null;
 
     var ctx = canvas.getContext('2d');
-    var n   = data.length;
+    var n = data.length;
 
     var fontSize = radarPx(fontPx);
 
@@ -1508,7 +1546,7 @@ function start() {
     // =====================================================================
     // techRadar01 (5각형) 컨트롤러
     // =====================================================================
-    var techRadar01Ctrl = createRadarController({
+    window.techRadar01Ctrl = createRadarController({
         canvasId: 'techRadar01',
         labels: [
             '경영주 역량',
@@ -1526,7 +1564,7 @@ function start() {
     // =====================================================================
     // techRadar02 (3각형) 컨트롤러
     // =====================================================================
-    var techRadar02Ctrl = createRadarController({
+    window.techRadar02Ctrl = createRadarController({
         canvasId: 'techRadar02',
         labels: [
             '기술 혁신성',
@@ -1542,7 +1580,7 @@ function start() {
     // =====================================================================
     // techRadar04 (8각형) 컨트롤러
     // =====================================================================
-    var techRadar04Ctrl = createRadarController({
+    window.techRadar04Ctrl = createRadarController({
         canvasId: 'techRadar04',
         labels: [
             '추가 투자금 유치',
@@ -1563,7 +1601,7 @@ function start() {
     // =============================================================
     // 2개 지표용 바 차트 (캔버스 id = techBar01 가정)
     // =============================================================
-    var techBar01Ctrl = createTechBarController({
+    window.techBar01Ctrl = createTechBarController({
         canvasId: 'techBar01',
         labels: ['제품 우위성', '시장 현황'],  // ← 필요에 맞게 수정
         data:   [75, 60],                     // ← 0~100 값
@@ -1804,7 +1842,7 @@ function start() {
                     if (itemIndex === 0 && typeof runTechRadar01 === 'function') {
                         runTechRadar01();
                     } else if (itemIndex === 1 && typeof runTechBar01 === 'function') {
-                        runTechBar01();
+                        runTechRadar02();
                     } else if (itemIndex === 2 && typeof runTechRadar04 === 'function') {
                         runTechRadar04();
                     }
@@ -1908,3 +1946,10 @@ function start() {
 })();
 
 </script>
+
+<!-- 프론트 -->
+<script src="../../resources/js/data.js"></script>
+<script src="../../resources/js/service.js"></script>
+<script src="../../resources/js/view_chart_aset_patched.js"></script>
+<script src="../../resources/js/view_chart_main_clean_lang_v2.js"></script>
+<!-- //프론트 -->
