@@ -2282,212 +2282,204 @@ function startExamineSequence() {
         target.style.transform = 'translateY(0)';
     }
 
-    // gauge, radar 모두 준비 후 2초 뒤부터 step 진행 시작
+// gauge, radar 모두 준비 후 2초 뒤부터 step 진행 시작
+setTimeout(function () {
+
+  var STEP_DURATION = 1500; // 한 step 내 gauge 가 모두 차는 총 시간
+
+  var steps         = document.querySelectorAll('.step_examine_list [class^="step_examine_"]');
+  var examineGroups = document.querySelectorAll('[class^="inve_examine_step_"]');
+
+  if (!steps.length || !examineGroups.length) {
+    endExamineAndStartAdj();
+    return;
+  }
+
+  var totalSteps = steps.length;
+
+  // 그룹 초기화
+  examineGroups.forEach(function (grp) {
+    grp.style.display = 'none';
+    grp.classList.remove('fade-in-up', 'fade-out-up');
+
+    var gauges = grp.querySelectorAll('.inve_examine_gp_item .bar .gauge');
+    gauges.forEach(function (g) {
+      g.style.transition = 'none';
+      g.style.width      = '0%';
+    });
+  });
+
+  // gauge 채우기 (한 group 내 모든 bar가 STEP_DURATION 안에 순차 채워짐)
+  function animateGauges(group, onComplete) {
+    var bars     = group.querySelectorAll('.inve_examine_gp_item .bar');
+    var barCount = bars.length;
+    if (!barCount) {
+      if (typeof onComplete === 'function') onComplete();
+      return;
+    }
+
+    var perTime = STEP_DURATION / barCount;
+
+    bars.forEach(function (bar, idx) {
+      var gauge = bar.querySelector('.gauge');
+      if (!gauge) return;
+
+      var target = parseFloat(gauge.getAttribute('data-percent')) || 100;
+
+      gauge.style.transition = 'none';
+      gauge.style.width      = '0%';
+      gauge.getBoundingClientRect();
+
+      setTimeout(function () {
+        gauge.style.transition = 'width ' + (perTime / 1000) + 's ease';
+        gauge.style.width      = target + '%';
+      }, idx * perTime);
+    });
+
+    // 모든 gauge 가 채워진 시점(마지막 bar 종료) = STEP_DURATION
     setTimeout(function () {
+      if (typeof onComplete === 'function') onComplete();
+    }, STEP_DURATION);
+  }
 
-        var STEP_DURATION = 1500; // 한 step 내 gauge 가 모두 차는 총 시간
+  // 각 step 에 대해 gauge 가 다 찬 뒤에 레이더 점/선/면을 그리는 헬퍼
+  function animateRadarForStep(stepIndex, isLastStep, onRadarComplete) {
+    if (!movieRadar || !movieRadarAnimating) {
+      if (typeof onRadarComplete === 'function') onRadarComplete();
+      return;
+    }
 
-        var steps         = document.querySelectorAll('.step_examine_list [class^="step_examine_"]');
-        var examineGroups = document.querySelectorAll('[class^="inve_examine_step_"]');
+    var totalPoints  = movieRadarPointProgress.length;   // 보통 6
+    var segmentCount = movieRadarSegmentProgress.length; // 보통 6
 
-        if (!steps.length || !examineGroups.length) {
-            endExamineAndStartAdj();
-            return;
+    var POINT_DURATION = 400;
+    var SEG_DURATION   = 500;
+    var FILL_DURATION  = 600;
+    var FILL_DELAY_ADD = 1000;
+
+    // 1) 해당 step 점 찍기
+    if (stepIndex < totalPoints) {
+      radarAnimatePoint(stepIndex, POINT_DURATION);
+    }
+
+    // 마지막 step이 아닌 경우: 점 + 직전점~현재점 선만
+    if (!isLastStep) {
+      if (stepIndex > 0) {
+        var segIdx = stepIndex - 1;
+        if (segIdx >= 0 && segIdx < segmentCount) {
+          radarAnimateSegment(segIdx, SEG_DURATION);
         }
+      }
+      if (typeof onRadarComplete === 'function') {
+        onRadarComplete();
+      }
+      return;
+    }
 
-        var totalSteps = steps.length;
+    // 마지막 step: (N-1)~N 선 + N~0 선 + 면 채우기까지 완료되면 onRadarComplete
+    var lastPointIndex = Math.min(totalPoints - 1, stepIndex);
 
-        // 그룹 초기화
-        examineGroups.forEach(function (grp) {
-            grp.style.display = 'none';
-            grp.classList.remove('fade-in-up', 'fade-out-up');
+    var segIdxPrev  = lastPointIndex - 1; // 마지막-1 ~ 마지막
+    var segIdxClose = lastPointIndex;     // 마지막 ~ 0
 
-            var gauges = grp.querySelectorAll('.inve_examine_gp_item .bar .gauge');
-            gauges.forEach(function (g) {
-                g.style.transition = 'none';
-                g.style.width      = '0%';
-            });
+    // 마지막-1 ~ 마지막
+    if (segIdxPrev >= 0 && segIdxPrev < segmentCount) {
+      radarAnimateSegment(segIdxPrev, SEG_DURATION);
+    }
+
+    // SEG_DURATION 후 마지막 ~ 0 선
+    if (segIdxClose >= 0 && segIdxClose < segmentCount) {
+      setTimeout(function () {
+        radarAnimateSegment(segIdxClose, SEG_DURATION);
+      }, SEG_DURATION);
+    }
+
+    // SEG_DURATION + FILL_DELAY_ADD 후 면 채우기 시작
+    setTimeout(function () {
+      radarAnimateFill(FILL_DURATION, function () {
+        if (typeof onRadarComplete === 'function') {
+          onRadarComplete();
+        }
+      });
+    }, SEG_DURATION + FILL_DELAY_ADD);
+  }
+
+  // ✅ "다음 step on 들어갈 때, 이전 step done" 규칙 적용
+  function updateStepIndicator(stepIndex) {
+    steps.forEach(function (el, i) {
+      el.classList.remove('on', 'done');
+      if (i < stepIndex) el.classList.add('done'); // 이전 step들은 done
+      if (i === stepIndex) el.classList.add('on'); // 현재 step만 on
+    });
+  }
+
+  function showStep(stepIndex) {
+    var lastIndex = totalSteps - 1;
+
+    if (stepIndex > lastIndex || stepIndex >= examineGroups.length) {
+      // 모든 step 종료 → adj_box 시퀀스로
+      endExamineAndStartAdj();
+      return;
+    }
+
+    // ✅ 여기만 변경됨 (기존 on 누적 방식 제거)
+    updateStepIndicator(stepIndex);
+
+    var currentGroup = examineGroups[stepIndex];
+
+    currentGroup.style.display = 'flex';
+    currentGroup.classList.remove('fade-out-up');
+    currentGroup.classList.add('fade-in-up');
+
+    // 1) gauge 채우기부터 시작
+    animateGauges(currentGroup, function () {
+      var isLastStep = (stepIndex === lastIndex);
+
+      // 2) gauge 가 모두 찬 뒤 → 해당 step 레이더 점/선 애니 시작
+      if (isLastStep) {
+        // 마지막 step: 그래프 전체 완성 후 1초 뒤 final_cursor 이동
+        animateRadarForStep(stepIndex, true, function () {
+          var FINAL_CURSOR      = 75;
+          var HOLD_AFTER_LAST   = 2000; // final_cursor 이후 pop_02까지 대기
+
+          // 방사형 그래프 완성 후 1초 뒤 커서 + p04 노출
+          setTimeout(function () {
+            moveExamineCursor(FINAL_CURSOR);
+            showFinalResultText();
+          }, 1000);
+
+          // 그 상태로 2초 유지 후 pop_02 오픈
+          setTimeout(function () {
+            showPop02();
+          }, 2000 + HOLD_AFTER_LAST);
         });
 
-        // gauge 채우기 (한 group 내 모든 bar가 STEP_DURATION 안에 순차 채워짐)
-        function animateGauges(group, onComplete) {
-            var bars     = group.querySelectorAll('.inve_examine_gp_item .bar');
-            var barCount = bars.length;
-            if (!barCount) {
-                if (typeof onComplete === 'function') onComplete();
-                return;
-            }
+      } else {
+        // 마지막 step 이 아닌 경우: 점/선 그리고 바로 다음 step 으로
+        animateRadarForStep(stepIndex, false, null);
 
-            var perTime = STEP_DURATION / barCount;
+        // gauge + 레이더 시작 후 곧바로 fade-out → 다음 step
+        currentGroup.classList.remove('fade-in-up');
+        currentGroup.classList.add('fade-out-up');
 
-            bars.forEach(function (bar, idx) {
-                var gauge = bar.querySelector('.gauge');
-                if (!gauge) return;
+        var hideHandler = function (ev) {
+          if (ev.propertyName !== 'opacity') return;
+          currentGroup.removeEventListener('transitionend', hideHandler);
 
-                var target = parseFloat(gauge.getAttribute('data-percent')) || 100;
+          currentGroup.style.display = 'none';
+          showStep(stepIndex + 1);
+        };
 
-                gauge.style.transition = 'none';
-                gauge.style.width      = '0%';
-                gauge.getBoundingClientRect();
+        currentGroup.addEventListener('transitionend', hideHandler);
+      }
+    });
+  }
 
-                setTimeout(function () {
-                    gauge.style.transition = 'width ' + (perTime / 1000) + 's ease';
-                    gauge.style.width      = target + '%';
-                }, idx * perTime);
-            });
+  // 첫 단계 시작
+  showStep(0);
 
-            // 모든 gauge 가 채워진 시점(마지막 bar 종료) = STEP_DURATION
-            setTimeout(function () {
-                if (typeof onComplete === 'function') onComplete();
-            }, STEP_DURATION);
-        }
+}, 2000);
 
-        // 각 step 에 대해 gauge 가 다 찬 뒤에 레이더 점/선/면을 그리는 헬퍼
-        function animateRadarForStep(stepIndex, isLastStep, onRadarComplete) {
-            if (!movieRadar || !movieRadarAnimating) {
-                if (typeof onRadarComplete === 'function') onRadarComplete();
-                return;
-            }
-
-            var totalPoints  = movieRadarPointProgress.length;   // 보통 6
-            var segmentCount = movieRadarSegmentProgress.length; // 보통 6
-
-            var POINT_DURATION = 400;
-            var SEG_DURATION   = 500;
-            var FILL_DURATION  = 600;
-            var FILL_DELAY_ADD = 1000;
-
-            // 1) 해당 step 점 찍기
-            if (stepIndex < totalPoints) {
-                radarAnimatePoint(stepIndex, POINT_DURATION);
-            }
-
-            // 마지막 step이 아닌 경우: 점 + 직전점~현재점 선만
-            if (!isLastStep) {
-                if (stepIndex > 0) {
-                    var segIdx = stepIndex - 1;
-                    if (segIdx >= 0 && segIdx < segmentCount) {
-                        radarAnimateSegment(segIdx, SEG_DURATION);
-                    }
-                }
-                if (typeof onRadarComplete === 'function') {
-                    // 비마지막 step은 굳이 기다릴 필요 없이 바로 콜백
-                    onRadarComplete();
-                }
-                return;
-            }
-
-            // 마지막 step: (N-1)~N 선 + N~0 선 + 면 채우기까지 완료되면 onRadarComplete
-            var lastPointIndex = Math.min(totalPoints - 1, stepIndex);
-
-            var segIdxPrev  = lastPointIndex - 1; // 마지막-1 ~ 마지막
-            var segIdxClose = lastPointIndex;     // 마지막 ~ 0
-
-            // 마지막-1 ~ 마지막
-            if (segIdxPrev >= 0 && segIdxPrev < segmentCount) {
-                radarAnimateSegment(segIdxPrev, SEG_DURATION);
-            }
-
-            // SEG_DURATION 후 마지막 ~ 0 선
-            if (segIdxClose >= 0 && segIdxClose < segmentCount) {
-                setTimeout(function () {
-                    radarAnimateSegment(segIdxClose, SEG_DURATION);
-                }, SEG_DURATION);
-            }
-
-            // SEG_DURATION + FILL_DELAY_ADD 후 면 채우기 시작
-            setTimeout(function () {
-                radarAnimateFill(FILL_DURATION, function () {
-                    if (typeof onRadarComplete === 'function') {
-                        onRadarComplete();
-                    }
-                });
-            }, SEG_DURATION + FILL_DELAY_ADD);
-        }
-
-        function showStep(stepIndex) {
-            var lastIndex = totalSteps - 1;
-
-            if (stepIndex > lastIndex || stepIndex >= examineGroups.length) {
-                // 모든 step 종료 → adj_box 시퀀스로
-                endExamineAndStartAdj();
-                return;
-            }
-
-            // 상단 동그라미 상태 업데이트
-            steps.forEach(function (el, i) {
-                el.classList.remove('done');
-
-                if (stepIndex === lastIndex) {
-                    if (i < lastIndex) {
-                        el.classList.remove('on');
-                        el.classList.add('done');
-                    } else if (i === lastIndex) {
-                        el.classList.add('on');
-                    }
-                } else {
-                    if (i <= stepIndex) {
-                        el.classList.add('on');
-                    } else {
-                        el.classList.remove('on');
-                    }
-                }
-            });
-
-            var currentGroup = examineGroups[stepIndex];
-
-            currentGroup.style.display = 'flex';
-            currentGroup.classList.remove('fade-out-up');
-            currentGroup.classList.add('fade-in-up');
-
-            // 1) gauge 채우기부터 시작
-            animateGauges(currentGroup, function () {
-                var isLastStep = (stepIndex === lastIndex);
-
-                // 2) gauge 가 모두 찬 뒤 → 해당 step 레이더 점/선 애니 시작
-                if (isLastStep) {
-                    // 마지막 step: 그래프 전체 완성 후 1초 뒤 final_cursor 이동
-                    animateRadarForStep(stepIndex, true, function () {
-                        var FINAL_CURSOR      = 75;
-                        var HOLD_AFTER_LAST   = 2000; // final_cursor 이후 pop_02까지 대기
-
-                        // 방사형 그래프 완성 후 1초 뒤 커서 + p04 노출
-                        setTimeout(function () {
-                            moveExamineCursor(FINAL_CURSOR);
-                            showFinalResultText();
-                        }, 1000);
-
-                        // 그 상태로 2초 유지 후 pop_02 오픈
-                        setTimeout(function () {
-                            showPop02();
-                        }, 2000 + HOLD_AFTER_LAST);
-                    });
-
-                } else {
-                    // 마지막 step 이 아닌 경우: 점/선 그리고 바로 다음 step 으로
-                    animateRadarForStep(stepIndex, false, null);
-
-                    // gauge + 레이더 시작 후 곧바로 fade-out → 다음 step
-                    currentGroup.classList.remove('fade-in-up');
-                    currentGroup.classList.add('fade-out-up');
-
-                    var hideHandler = function (ev) {
-                        if (ev.propertyName !== 'opacity') return;
-                        currentGroup.removeEventListener('transitionend', hideHandler);
-
-                        currentGroup.style.display = 'none';
-                        showStep(stepIndex + 1);
-                    };
-
-                    currentGroup.addEventListener('transitionend', hideHandler);
-                }
-            });
-        }
-
-        // 첫 단계 시작
-        showStep(0);
-
-    }, 2000);
 }
 
     // --------------------------------------------------------------------

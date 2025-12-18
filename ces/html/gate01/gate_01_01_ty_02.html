@@ -82,7 +82,7 @@
         <div class="contents">
             <div class="contents_01">
                 <section class="tech_process_wrap">
-                    <div class="tech_process_tit_box">
+                    <div class="tech_process_tit_box tech_process_step_01">
                         <div class="tech_process_img">
                             <video src="../../resources/images/loading_img2.mp4" autoplay muted loop playsinline></video>
                         </div>
@@ -95,6 +95,22 @@
                             <strong class="tit">Tech Evaluation</strong>
                             <p class="sub">By assessing the value of the startup’s technology,<br>we recommend the financial products it is eligible for.</p>
                             <p class="sub_02">* This assessment is conducted using IBK’s proprietary Tech Evaluation System.</p>
+                        </div>
+                    </div>
+
+                    <div class="tech_process_tit_box tech_process_step_02">
+                        <div class="tech_process_img">
+                            <video src="../../resources/images/loading_img2.mp4" autoplay muted loop playsinline></video>
+                        </div>
+                        <div class="tech_process_tit kr_t">
+                            <strong class="tit">미래 성장성 평가</strong>
+                            <p class="sub">해당 스타트업의 미래 성장 가치를 평가하여 지원 가능한 상품을 제안합니다. </p>
+                            <p class="sub_02">* 해당 평가는 IBK만의 기술 평가 시스템을 통해 분석됩니다. </p>
+                        </div>
+                        <div class="tech_process_tit en_t">
+                            <strong class="tit">Growth Potential Assessment</strong>
+                            <p class="sub">By assessing the startup’s growth potential, we recommend the financial products it is eligible for.</p>
+                            <p class="sub_02">* This assessment is conducted through IBK’s proprietary New Tech Evaluation System.</p>
                         </div>
                     </div>
 
@@ -1603,344 +1619,391 @@ function createTechBarController(opts) {
 <!-- 평가 과정 애니매이션 -->
 <script>
 // =====================================================================
-// tech_process_item 전체 시퀀스 컨트롤러
+// tech_process_item 전체 시퀀스 컨트롤러 + 타이틀(step_01 -> step_02) 전환 (통합본)
 // =====================================================================
 (function () {
-    // 게이지는 1초 안에 한 번에 다 차게
-    var GAUGE_DURATION       = 1500; // 한 그룹(inve_examine_step_xx)의 게이지가 다 차는데 걸리는 시간
-    var GROUP_FADE_TIME      = 600;  // inve_examine_step_xx 교체용 (위로 스르륵)
-    var ITEM_FADE_TIME       = 600;  // tech_process_item 교체용
-    var ON_DELAY_AFTER_BAR   = 0;    // bar 다 찬 뒤 step_examine 에 on 이 들어가기까지 대기 (지금은 0)
-    var HIDE_DELAY_AFTER_ON  = 200;  // step_examine 에 on 이 들어간 뒤 group 이 사라지기까지 대기
-    var HOLD_AFTER_LIST      = 2000; // 한 tech_process_item의 step 리스트 끝난 뒤 유지 시간
-    var POINT_DELAY_AFTER_ON = 500;  // ★ step_examine_xx 이 on 된 후 0.5초 뒤 그래프 점 애니 시작
+  // 게이지는 1초 안에 한 번에 다 차게
+  var GAUGE_DURATION       = 1500; // 한 그룹(inve_examine_step_xx)의 게이지가 다 차는데 걸리는 시간
+  var GROUP_FADE_TIME      = 600;  // inve_examine_step_xx 교체용 (위로 스르륵)
+  var ITEM_FADE_TIME       = 600;  // tech_process_item 교체용
+  var ON_DELAY_AFTER_BAR   = 0;    // bar 다 찬 뒤 step_examine 에 on 이 들어가기까지 대기
+  var HIDE_DELAY_AFTER_ON  = 200;  // step_examine 에 on 이 들어간 뒤 group 이 사라지기까지 대기
+  var HOLD_AFTER_LIST      = 2000; // 한 tech_process_item의 step 리스트 끝난 뒤 유지 시간
+  var POINT_DELAY_AFTER_ON = 500;  // step_examine_01 on 후 0.5초 뒤 그래프 점 애니 시작
 
-    // ★ 점과 점 사이 간격(ms) — 이 숫자를 줄이면 점이 더 빠르게, 촘촘하게 찍힘
-    var CHART_POINT_INTERVAL = 100;
+  var CHART_POINT_INTERVAL = 100;
+  window.CHART_POINT_INTERVAL = CHART_POINT_INTERVAL;
 
-    // 전역에서도 쓸 수 있게
-    window.CHART_POINT_INTERVAL = CHART_POINT_INTERVAL;
+  // ✅ 타이틀 전환
+  var TITLE_FADE_TIME = 600;
+  var TITLE_MOVE_PX   = 10;
+  var _titleSwitched  = false;
 
-    var processItems = document.querySelectorAll('.tech_process_item');
-    if (!processItems.length) return;
+  var processItems = document.querySelectorAll('.tech_process_item');
+  if (!processItems.length) return;
 
-    // ---------------- 초기 상태 세팅 ----------------
-    processItems.forEach(function (item, idx) {
-        var isFirstItem = (idx === 0);
+  // ✅ 마지막 item 인덱스: .step_last 우선
+  var LAST_INDEX = -1;
+  processItems.forEach(function (el, i) {
+    if (el.classList.contains('step_last')) LAST_INDEX = i;
+  });
+  if (LAST_INDEX < 0) LAST_INDEX = processItems.length - 1;
 
-        item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  function isLastProcessIndex(i) {
+    return i === LAST_INDEX;
+  }
 
-        if (isFirstItem) {
-            item.style.display   = 'block';
-            item.style.opacity   = '1';
-            item.style.transform = 'translateY(0)';
-        } else {
-            item.style.display   = 'none';
-            item.style.opacity   = '0';
-            item.style.transform = 'translateY(10px)';
-        }
+  // ✅ HTML 구조: .tech_process_tit_box.tech_process_step_01 / .tech_process_tit_box.tech_process_step_02
+  function getTitleNodes() {
+    return {
+      s1: document.querySelector('.tech_process_tit_box.tech_process_step_01'),
+      s2: document.querySelector('.tech_process_tit_box.tech_process_step_02')
+    };
+  }
 
-        // 안쪽 step_examine on/done 초기화
-        var innerSteps = item.querySelectorAll('.step_examine_list [class^="step_examine_"]');
-        innerSteps.forEach(function (s) {
-            s.classList.remove('on', 'done');
-        });
+  function initTitleState() {
+    var t = getTitleNodes();
+    if (!t.s1 || !t.s2) return;
 
-        // 게이지 초기 width 0
-        var gauges = item.querySelectorAll('.inve_examine_gp .bar .gauge');
-        gauges.forEach(function (g) {
-            g.style.width      = '0%';
-            g.style.transition = 'none';
-        });
+    // step_01 보정
+    t.s1.style.display   = 'block';
+    t.s1.style.opacity   = '1';
+    t.s1.style.transform = 'translateY(0)';
+    t.s1.style.willChange = 'opacity, transform';
 
-        // 각 item 안의 inve_examine_step_xx 그룹 초기 상태 세팅
-        var groups = item.querySelectorAll('.inve_examine_gp [id^="examine"]');
+    // step_02 디폴트 숨김
+    t.s2.style.display   = 'none';
+    t.s2.style.opacity   = '0';
+    t.s2.style.transform = 'translateY(' + TITLE_MOVE_PX + 'px)';
+    t.s2.style.willChange = 'opacity, transform';
+  }
 
-        // 이 item 안에서 "첫 번째 step_examine"이 가리키는 target id (예: examine01)
-        var firstStep   = item.querySelector('.step_examine_list [class^="step_examine_"]');
-        var firstTarget = firstStep ? firstStep.getAttribute('data-target') : null;
+  // ✅ 마지막 tech_process_item 애니 "시작"과 동시에 호출
+  function switchTitleToStep02() {
+    if (_titleSwitched) return;
+    _titleSwitched = true;
 
-        groups.forEach(function (grp) {
-            // 노출될 때는 무조건 flex
-            grp.dataset.defaultDisplay = 'flex';
-            grp.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    var t = getTitleNodes();
+    var tit01 = t.s1;
+    var tit02 = t.s2;
+    if (!tit01 || !tit02) return;
 
-            if (firstTarget && grp.id === firstTarget) {
-                // ★ 모든 tech_process_item 의 첫 번째 그룹(inve_examine_step_01)은
-                //   페이지 로드시 디폴트로 노출
-                grp.style.display   = 'flex';
-                grp.style.opacity   = '1';
-                grp.style.transform = 'translateY(0)';
-            } else {
-                grp.style.display   = 'none';
-                grp.style.opacity   = '0';
-                grp.style.transform = 'translateY(10px)';
-            }
-        });
+    // 1) step_01 사라짐
+    tit01.style.transition =
+      'opacity ' + (TITLE_FADE_TIME / 1000) + 's ease, ' +
+      'transform ' + (TITLE_FADE_TIME / 1000) + 's ease';
+
+    requestAnimationFrame(function () {
+      tit01.style.opacity   = '0';
+      tit01.style.transform = 'translateY(-' + TITLE_MOVE_PX + 'px)';
     });
 
-    // ---------------- 그룹 show / hide 헬퍼 ----------------
-    function showGroup(group) {
-        if (!group) return;
-        var def = group.dataset.defaultDisplay || 'flex';
-        group.style.display = def;
-        group.getBoundingClientRect(); // reflow
-        group.style.opacity   = '1';
-        group.style.transform = 'translateY(0)';
-    }
-
-    function hideGroup(group, callback) {
-        if (!group) {
-            if (typeof callback === 'function') callback();
-            return;
-        }
-        group.style.opacity   = '0';
-        group.style.transform = 'translateY(-10px)';
-        setTimeout(function () {
-            group.style.display = 'none';
-            if (typeof callback === 'function') callback();
-        }, GROUP_FADE_TIME);
-    }
-
-    // ---------------- gauge 그룹(하나의 inve_examine_step_xx) 애니 ----------------
-    function animateGaugesInGroup(group) {
-        if (!group) return;
-
-        // 이 step 안의 모든 gauge
-        var gauges = group.querySelectorAll('.inve_examine_gp_item .bar .gauge');
-        var count  = gauges.length;
-        if (!count) return;
-
-        // 이 그룹 자체를 스크롤 컨테이너로 사용(overflow-y: auto 가정)
-        var scroller = group;
-
-        function scrollIntoViewIfNeeded(target) {
-            if (!scroller || !target) return;
-
-            var vRect = scroller.getBoundingClientRect();  // 스크롤 영역
-            var tRect = target.getBoundingClientRect();    // 타겟 bar 영역
-
-            // 아래로 가려지는 경우만 처리
-            if (tRect.bottom > vRect.bottom) {
-                var delta = (tRect.bottom - vRect.bottom) + 20; // 여유 20px 정도
-
-                scroller.scrollTo({
-                    top: scroller.scrollTop + delta,
-                    behavior: 'smooth'
-                });
-            }
-        }
-
-        // 1) 모든 게이지 초기화: transition 제거 + width 0%
-        gauges.forEach(function (gauge) {
-            gauge.style.transition = 'none';
-            gauge.style.width      = '0%';
-        });
-
-        // reflow 한 번 줘서 초기 상태 적용
-        if (gauges[0]) {
-            gauges[0].getBoundingClientRect();
-        }
-
-        // 2) 게이지 애니메이션 시작 (모두 동시에 GAUGE_DURATION 동안 채우기)
-        requestAnimationFrame(function () {
-            gauges.forEach(function (gauge) {
-                var percent = parseFloat(gauge.getAttribute('data-percent')) || 0;
-                gauge.style.transition = 'width ' + (GAUGE_DURATION / 1000) + 's ease';
-                gauge.style.width      = percent + '%';
-            });
-        });
-
-        // 3) ★ 게이지가 다 찬 후에 스크롤 이동
-        //    (예: GAUGE_DURATION 끝난 직후에 마지막 아이템이 가려져 있으면 아래로 스크롤)
-        var lastItem = gauges[count - 1].closest('.inve_examine_gp_item') || gauges[count - 1];
-
-        setTimeout(function () {
-            scrollIntoViewIfNeeded(lastItem);
-        }, GAUGE_DURATION); // 게이지 애니 끝난 시점에 맞춰 스크롤
-    }
-
-    // ---------------- 현재 item 숨기고 다음 item 보여주기 ----------------
-    function hideItemAndShowNext(currentIndex) {
-        var itemCount = processItems.length;
-        var current   = processItems[currentIndex];
-        var nextIndex = currentIndex + 1;
-        var next      = processItems[nextIndex];
-
-        if (!next) return;
-
-        current.style.opacity   = '0';
-        current.style.transform = 'translateY(-10px)';
-
-        setTimeout(function () {
-            current.style.display = 'none';
-            showItem(nextIndex);
-        }, ITEM_FADE_TIME);
-    }
-
-    // ---------------- 그래프 점 애니 시작 헬퍼 ----------------
-    function startChartForItem(itemIndex) {
-        // ★ 여기서 pointInterval(점 간격)을 같이 넘겨줌
-        if (itemIndex === 0 && typeof runTechRadar01 === 'function') {
-            runTechRadar01(CHART_POINT_INTERVAL);
-        } else if (itemIndex === 1 && typeof runTechBar01 === 'function') {
-            runTechBar01(CHART_POINT_INTERVAL);
-        } else if (itemIndex === 2 && typeof runTechRadar04 === 'function') {
-            runTechRadar04(CHART_POINT_INTERVAL);
-        }
-    }
-
-    // ---------------- item 하나의 내부 step_examine / gauge / 그룹 시퀀스 ----------------
-    function runInnerStepsForItem(item, itemIndex, onComplete) {
-        var steps = item.querySelectorAll('.step_examine_list [class^="step_examine_"]');
-        var stepCount = steps.length;
-        if (!stepCount) {
-            if (typeof onComplete === 'function') onComplete();
-            return;
-        }
-
-        // 초기화
-        steps.forEach(function (s) {
-            s.classList.remove('on', 'done');
-        });
-
-        // 각 step_examine 이 어떤 그룹을 가리키는지 매핑
-        var groupsByStep = [];
-        for (var i = 0; i < stepCount; i++) {
-            var stepEl = steps[i];
-            var tid    = stepEl.getAttribute('data-target'); // "examine01" 등
-            groupsByStep[i] = tid ? item.querySelector('#' + tid) : null;
-        }
-
-        var lastIndex = stepCount - 1;
-
-        function runStep(stepIndex) {
-            if (stepIndex >= stepCount) {
-                if (typeof onComplete === 'function') onComplete();
-                return;
-            }
-
-            var isLastStep = (stepIndex === lastIndex);
-            var group      = groupsByStep[stepIndex];
-
-            // ---------------- 현재 그룹 노출 + 게이지 애니 시작 ----------------
-            if (group) {
-                showGroup(group);
-                animateGaugesInGroup(group);
-            }
-
-            // 게이지가 다 찬 뒤(GAUGE_DURATION) + ON_DELAY_AFTER_BAR 후 처리
-            setTimeout(function () {
-
-                if (isLastStep) {
-                    // 마지막 step: 이전 것들 done, 마지막만 on 유지
-                    for (var i = 0; i < stepCount; i++) {
-                        if (i < lastIndex) {
-                            steps[i].classList.remove('on');
-                            steps[i].classList.add('done');
-                        } else if (i === lastIndex) {
-                            steps[i].classList.add('on');
-                            steps[i].classList.remove('done');
-                        }
-                    }
-
-                    // ★ step_examine_01 이 on 된 뒤 0.5초 뒤에 그래프 점 애니 시작
-                    if (stepIndex === 0) {
-                        setTimeout(function () {
-                            startChartForItem(itemIndex);
-                        }, POINT_DELAY_AFTER_ON);
-                    }
-
-                    // 마지막 그룹은 그대로 유지
-                    if (typeof onComplete === 'function') onComplete();
-
-                } else {
-                    // 현재 step_examine 에 on
-                    steps[stepIndex].classList.add('on');
-                    steps[stepIndex].classList.remove('done');
-
-                    // ★ step_examine_01 이 on 된 뒤 0.5초 후 그래프 점 애니 시작
-                    if (stepIndex === 0) {
-                        setTimeout(function () {
-                            startChartForItem(itemIndex);
-                        }, POINT_DELAY_AFTER_ON);
-                    }
-
-                    // on 이 들어간 뒤 HIDE_DELAY_AFTER_ON 후 → group 을 위로 스르륵 사라지게
-                    setTimeout(function () {
-                        hideGroup(group, function () {
-                            // 완전히 사라진 뒤 다음 step 으로
-                            runStep(stepIndex + 1);
-                        });
-                    }, HIDE_DELAY_AFTER_ON);
-                }
-
-            }, GAUGE_DURATION + ON_DELAY_AFTER_BAR); // bar 완료 시점 기준
-        }
-
-        // 첫 step 시작
-        runStep(0);
-    }
-
-    // ---------------- tech_process_item 하나 보여주고 내부 시퀀스 시작 ----------------
-    function showItem(index) {
-        var itemCount = processItems.length;
-        if (index < 0 || index >= itemCount) return;
-
-        var item   = processItems[index];
-        var isLast = (index === itemCount - 1);
-
-        item.style.display   = 'block';
-        item.style.transform = 'translateY(10px)';
-        item.style.opacity   = '0';
-
-        requestAnimationFrame(function () {
-            item.style.opacity   = '1';
-            item.style.transform = 'translateY(0)';
-        });
-
-        // 이 item 안에서만 step_examine / inve_examine_step_xx 시퀀스 진행
-        runInnerStepsForItem(item, index, function () {
-            if (isLast) {
-                // ★ 모든 tech_process_item 애니 종료 시점
-
-                var pop = document.querySelector('.com_wid_pop');
-
-                // 1) 2초 기다렸다가 팝업 등장
-                setTimeout(function () {
-                    if (pop) {
-                        pop.style.display    = 'flex';           // 레이아웃 활성화
-                        pop.style.opacity    = '0';
-                        pop.style.transition = 'opacity 0.6s ease';
-
-                        // 다음 프레임에서 opacity 1로 → 스르륵 등장
-                        requestAnimationFrame(function () {
-                            pop.style.opacity = '1';
-                        });
-                    }
-
-                    // 2) 팝업이 뜬 후 3초 뒤 페이지 이동
-                    // setTimeout(function () {
-                    //     window.location.href = '../gate01/gate_01_01_detail.html';
-                    // }, 3000);
-
-                }, 2000); // 팝업 등장까지 2초 딜레이
-
-                return; // 마지막 아이템은 그대로 두고 끝
-            }
-
-            // 마지막이 아닌 경우: 일정 시간 유지 후 다음 item 으로
-            setTimeout(function () {
-                hideItemAndShowNext(index);
-            }, HOLD_AFTER_LIST);
-        });
-    }
-
-    // ---------------- 전체 시퀀스 시작 ----------------
-    // 페이지 로드 후 2초 뒤 step_01 시작
     setTimeout(function () {
-        showItem(0);
-    }, 2000);
+      tit01.style.display = 'none';
+
+      // 2) step_02 등장
+      tit02.style.display = 'block';
+      tit02.style.transition = 'none';
+      tit02.style.opacity = '0';
+      tit02.style.transform = 'translateY(' + TITLE_MOVE_PX + 'px)';
+
+      tit02.getBoundingClientRect(); // reflow
+
+      requestAnimationFrame(function () {
+        tit02.style.transition =
+          'opacity ' + (TITLE_FADE_TIME / 1000) + 's ease, ' +
+          'transform ' + (TITLE_FADE_TIME / 1000) + 's ease';
+        tit02.style.opacity   = '1';
+        tit02.style.transform = 'translateY(0)';
+      });
+    }, TITLE_FADE_TIME);
+  }
+
+  // ---------------- 초기 상태 세팅 ----------------
+  initTitleState();
+
+  processItems.forEach(function (item, idx) {
+    var isFirstItem = (idx === 0);
+
+    item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+
+    if (isFirstItem) {
+      item.style.display   = 'block';
+      item.style.opacity   = '1';
+      item.style.transform = 'translateY(0)';
+    } else {
+      item.style.display   = 'none';
+      item.style.opacity   = '0';
+      item.style.transform = 'translateY(10px)';
+    }
+
+    // 안쪽 step_examine on/done 초기화
+    var innerSteps = item.querySelectorAll('.step_examine_list [class^="step_examine_"]');
+    innerSteps.forEach(function (s) {
+      s.classList.remove('on', 'done');
+    });
+
+    // 게이지 초기 width 0
+    var gauges = item.querySelectorAll('.inve_examine_gp .bar .gauge');
+    gauges.forEach(function (g) {
+      g.style.width      = '0%';
+      g.style.transition = 'none';
+    });
+
+    // 각 item 안의 inve_examine_step_xx 그룹 초기 상태 세팅
+    var groups = item.querySelectorAll('.inve_examine_gp [id^="examine"]');
+
+    var firstStep   = item.querySelector('.step_examine_list [class^="step_examine_"]');
+    var firstTarget = firstStep ? firstStep.getAttribute('data-target') : null;
+
+    groups.forEach(function (grp) {
+      grp.dataset.defaultDisplay = 'flex';
+      grp.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+
+      if (firstTarget && grp.id === firstTarget) {
+        grp.style.display   = 'flex';
+        grp.style.opacity   = '1';
+        grp.style.transform = 'translateY(0)';
+      } else {
+        grp.style.display   = 'none';
+        grp.style.opacity   = '0';
+        grp.style.transform = 'translateY(10px)';
+      }
+    });
+  });
+
+  // ---------------- 그룹 show / hide 헬퍼 ----------------
+  function showGroup(group) {
+    if (!group) return;
+    var def = group.dataset.defaultDisplay || 'flex';
+    group.style.display = def;
+    group.getBoundingClientRect(); // reflow
+    group.style.opacity   = '1';
+    group.style.transform = 'translateY(0)';
+  }
+
+  function hideGroup(group, callback) {
+    if (!group) {
+      if (typeof callback === 'function') callback();
+      return;
+    }
+    group.style.opacity   = '0';
+    group.style.transform = 'translateY(-10px)';
+    setTimeout(function () {
+      group.style.display = 'none';
+      if (typeof callback === 'function') callback();
+    }, GROUP_FADE_TIME);
+  }
+
+  // ---------------- gauge 그룹 애니 ----------------
+  function animateGaugesInGroup(group) {
+    if (!group) return;
+
+    var gauges = group.querySelectorAll('.inve_examine_gp_item .bar .gauge');
+    var count  = gauges.length;
+    if (!count) return;
+
+    var scroller = group;
+
+    function scrollIntoViewIfNeeded(target) {
+      if (!scroller || !target) return;
+
+      var vRect = scroller.getBoundingClientRect();
+      var tRect = target.getBoundingClientRect();
+
+      if (tRect.bottom > vRect.bottom) {
+        var delta = (tRect.bottom - vRect.bottom) + 20;
+        scroller.scrollTo({
+          top: scroller.scrollTop + delta,
+          behavior: 'smooth'
+        });
+      }
+    }
+
+    gauges.forEach(function (gauge) {
+      gauge.style.transition = 'none';
+      gauge.style.width      = '0%';
+    });
+
+    if (gauges[0]) gauges[0].getBoundingClientRect();
+
+    requestAnimationFrame(function () {
+      gauges.forEach(function (gauge) {
+        var percent = parseFloat(gauge.getAttribute('data-percent')) || 0;
+        gauge.style.transition = 'width ' + (GAUGE_DURATION / 1000) + 's ease';
+        gauge.style.width      = percent + '%';
+      });
+    });
+
+    var lastItem = gauges[count - 1].closest('.inve_examine_gp_item') || gauges[count - 1];
+    setTimeout(function () {
+      scrollIntoViewIfNeeded(lastItem);
+    }, GAUGE_DURATION);
+  }
+
+  // ---------------- 현재 item 숨기고 다음 item 보여주기 ----------------
+  function hideItemAndShowNext(currentIndex) {
+    var current   = processItems[currentIndex];
+    var nextIndex = currentIndex + 1;
+    var next      = processItems[nextIndex];
+    if (!next) return;
+
+    current.style.opacity   = '0';
+    current.style.transform = 'translateY(-10px)';
+
+    setTimeout(function () {
+      current.style.display = 'none';
+      showItem(nextIndex);
+    }, ITEM_FADE_TIME);
+  }
+
+  // ---------------- 그래프 점 애니 시작 헬퍼 ----------------
+  function startChartForItem(itemIndex) {
+    if (itemIndex === 0 && typeof runTechRadar01 === 'function') {
+      runTechRadar01(CHART_POINT_INTERVAL);
+    } else if (itemIndex === 1 && typeof runTechBar01 === 'function') {
+      runTechBar01(CHART_POINT_INTERVAL);
+    } else if (itemIndex === 2 && typeof runTechRadar04 === 'function') {
+      runTechRadar04(CHART_POINT_INTERVAL);
+    }
+  }
+
+  // ---------------- item 하나의 내부 step_examine / gauge / 그룹 시퀀스 ----------------
+  function runInnerStepsForItem(item, itemIndex, onComplete) {
+    var steps = item.querySelectorAll('.step_examine_list [class^="step_examine_"]');
+    var stepCount = steps.length;
+    if (!stepCount) {
+      if (typeof onComplete === 'function') onComplete();
+      return;
+    }
+
+    // 초기화
+    steps.forEach(function (s) {
+      s.classList.remove('on', 'done');
+    });
+
+    // 각 step_examine 이 어떤 그룹을 가리키는지 매핑
+    var groupsByStep = [];
+    for (var i = 0; i < stepCount; i++) {
+      var stepEl = steps[i];
+      var tid    = stepEl.getAttribute('data-target');
+      groupsByStep[i] = tid ? item.querySelector('#' + tid) : null;
+    }
+
+    var lastIndex = stepCount - 1;
+
+    // ✅ "다음 step에 on이 들어갈 때, 이전 step은 동시에 done" 적용 함수
+    function activateStep(stepIndex) {
+      // 현재 step on
+      steps[stepIndex].classList.add('on');
+      steps[stepIndex].classList.remove('done');
+
+      // 이전 step done (동시에)
+      if (stepIndex > 0) {
+        steps[stepIndex - 1].classList.remove('on');
+        steps[stepIndex - 1].classList.add('done');
+      }
+    }
+
+    function runStep(stepIndex) {
+      if (stepIndex >= stepCount) {
+        if (typeof onComplete === 'function') onComplete();
+        return;
+      }
+
+      var isLastStep = (stepIndex === lastIndex);
+      var group      = groupsByStep[stepIndex];
+
+      // 현재 그룹 노출 + 게이지 애니 시작
+      if (group) {
+        showGroup(group);
+        animateGaugesInGroup(group);
+      }
+
+      // 게이지 완료 후 step 활성화
+      setTimeout(function () {
+        // ✅ 여기서 "현재 on + (다음 on 타이밍에) 이전 done" 규칙 적용
+        activateStep(stepIndex);
+
+        // step_examine_01 on 된 뒤 0.5초 후 그래프 점 애니
+        if (stepIndex === 0) {
+          setTimeout(function () {
+            startChartForItem(itemIndex);
+          }, POINT_DELAY_AFTER_ON);
+        }
+
+        if (isLastStep) {
+          // 마지막 step: 그룹 유지 + 종료
+          if (typeof onComplete === 'function') onComplete();
+          return;
+        }
+
+        // on 들어간 뒤 그룹 숨김 → 다음 step
+        setTimeout(function () {
+          hideGroup(group, function () {
+            runStep(stepIndex + 1);
+          });
+        }, HIDE_DELAY_AFTER_ON);
+
+      }, GAUGE_DURATION + ON_DELAY_AFTER_BAR);
+    }
+
+    // 첫 step 시작
+    runStep(0);
+  }
+
+  // ---------------- tech_process_item 하나 보여주고 내부 시퀀스 시작 ----------------
+  function showItem(index) {
+    if (index < 0 || index >= processItems.length) return;
+
+    var item   = processItems[index];
+    var isLast = isLastProcessIndex(index);
+
+    // ✅ last item 애니 시작 시점에 타이틀 전환
+    if (isLast) {
+      switchTitleToStep02();
+    }
+
+    item.style.display   = 'block';
+    item.style.transform = 'translateY(10px)';
+    item.style.opacity   = '0';
+
+    requestAnimationFrame(function () {
+      item.style.opacity   = '1';
+      item.style.transform = 'translateY(0)';
+    });
+
+    // 이 item 안에서만 시퀀스 진행
+    runInnerStepsForItem(item, index, function () {
+      if (isLast) {
+        // ✅ 모든 tech_process_item 애니 종료 시점
+        var pop = document.querySelector('.com_wid_pop');
+
+        setTimeout(function () {
+          if (pop) {
+            pop.style.display    = 'flex';
+            pop.style.opacity    = '0';
+            pop.style.transition = 'opacity 0.6s ease';
+            requestAnimationFrame(function () {
+              pop.style.opacity = '1';
+            });
+          }
+        }, 2000);
+
+        return;
+      }
+
+      // 마지막이 아닌 경우: 일정 시간 유지 후 다음 item
+      setTimeout(function () {
+        hideItemAndShowNext(index);
+      }, HOLD_AFTER_LIST);
+    });
+  }
+
+  // ---------------- 전체 시퀀스 시작 ----------------
+  setTimeout(function () {
+    showItem(0);
+  }, 2000);
 
 })();
 

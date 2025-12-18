@@ -4286,8 +4286,34 @@ document.addEventListener('DOMContentLoaded', function () {
             }
           }
         },
-        animation: {
-          duration: 800
+        animations: {
+          // 좌→우 느낌 제거
+          x: { duration: 0 },
+
+          // ✅ 0 기준으로 위/아래 성장
+          y: {
+            duration: 800,
+            easing: 'easeOutCubic',
+            from: (ctx) => {
+              const yScale = ctx.chart.scales.y;
+              // 0이 스케일 범위 밖이면(혹시 모를 케이스) 범위 안 값으로 클램프
+              const zeroValue =
+                (yScale.min <= 0 && yScale.max >= 0) ? 0 :
+                (yScale.min > 0 ? yScale.min : yScale.max);
+              return yScale.getPixelForValue(zeroValue);
+            }
+          },
+          base: {
+            duration: 800,
+            easing: 'easeOutCubic',
+            from: (ctx) => {
+              const yScale = ctx.chart.scales.y;
+              const zeroValue =
+                (yScale.min <= 0 && yScale.max >= 0) ? 0 :
+                (yScale.min > 0 ? yScale.min : yScale.max);
+              return yScale.getPixelForValue(zeroValue);
+            }
+          }
         }
       }
     });
@@ -4513,8 +4539,26 @@ function createYearBarChart(canvasId, lang) {
           }
         }
       },
-      animation:{
-        duration:800
+      /************************************************
+       * ✅ 애니메이션 수정 핵심
+       * - x(좌우 이동) 애니메이션 OFF
+       * - y/base(높이)만 바닥(y축 min)에서 위로 증가
+       ************************************************/
+      animations: {
+        // 좌→우 날아오는 느낌 제거
+        x: { duration: 0 },
+
+        // 막대 꼭대기(y) + 바닥(base)을 바닥에서 출발하게
+        y: {
+          duration: 800,
+          easing: 'easeOutCubic',
+          from: (ctx) => ctx.chart.scales.y.getPixelForValue(ctx.chart.scales.y.min)
+        },
+        base: {
+          duration: 800,
+          easing: 'easeOutCubic',
+          from: (ctx) => ctx.chart.scales.y.getPixelForValue(ctx.chart.scales.y.min)
+        }
       }
     },
     plugins:[transparentBgPlugin, valueLabelPlugin]

@@ -4267,8 +4267,34 @@ document.addEventListener('DOMContentLoaded', function () {
             }
           }
         },
-        animation: {
-          duration: 800
+        animations: {
+          // 좌→우 느낌 제거
+          x: { duration: 0 },
+
+          // ✅ 0 기준으로 위/아래 성장
+          y: {
+            duration: 800,
+            easing: 'easeOutCubic',
+            from: (ctx) => {
+              const yScale = ctx.chart.scales.y;
+              // 0이 스케일 범위 밖이면(혹시 모를 케이스) 범위 안 값으로 클램프
+              const zeroValue =
+                (yScale.min <= 0 && yScale.max >= 0) ? 0 :
+                (yScale.min > 0 ? yScale.min : yScale.max);
+              return yScale.getPixelForValue(zeroValue);
+            }
+          },
+          base: {
+            duration: 800,
+            easing: 'easeOutCubic',
+            from: (ctx) => {
+              const yScale = ctx.chart.scales.y;
+              const zeroValue =
+                (yScale.min <= 0 && yScale.max >= 0) ? 0 :
+                (yScale.min > 0 ? yScale.min : yScale.max);
+              return yScale.getPixelForValue(zeroValue);
+            }
+          }
         }
       }
     });
@@ -4347,11 +4373,9 @@ function createYearBarChart(canvasId, lang) {
    * 🔸 높이 고정: 815px → 21.19vw
    ************************************/
   const DESIGN_HEIGHT_PX = 815;
-  const heightVw = DESIGN_HEIGHT_PX * PX_TO_VW; // 815 * 0.0260 = 21.19
+  const heightVw = DESIGN_HEIGHT_PX * PX_TO_VW;
   canvas.style.height = heightVw.toFixed(2) + 'vw';
 
-  // responsive + maintainAspectRatio:false 일 때 CSS height 기준으로 잡히지만,
-  // 혹시 모를 상황 대비해서 attribute도 한 번 맞춰 줌
   requestAnimationFrame(() => {
     if (!canvas.height) {
       canvas.height = canvas.clientHeight;
@@ -4403,11 +4427,8 @@ function createYearBarChart(canvasId, lang) {
         const val = dataset.data[index];
 
         let labelText;
-        if (isP) {
-          labelText = (lang === 'en') ? 'Private' : '비공개';
-        } else {
-          labelText = String(val);
-        }
+        if (isP) labelText = (lang === 'en') ? 'Private' : '비공개';
+        else     labelText = String(val);
 
         const x = bar.x;
         let y = (val === 0) ? bar.y - offsetZero : bar.y - offsetSmall;
@@ -4441,9 +4462,7 @@ function createYearBarChart(canvasId, lang) {
           const {ctx, chartArea} = chart;
           if (!chartArea) return '#1A65FF';
 
-          if (priv[dataIndex]) {
-            return '#D3D5DB';
-          }
+          if (priv[dataIndex]) return '#D3D5DB';
 
           const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
           gradient.addColorStop(0, '#0A498C');
@@ -4494,8 +4513,27 @@ function createYearBarChart(canvasId, lang) {
           }
         }
       },
-      animation:{
-        duration:800
+
+      /************************************************
+       * ✅ 애니메이션 수정 핵심
+       * - x(좌우 이동) 애니메이션 OFF
+       * - y/base(높이)만 바닥(y축 min)에서 위로 증가
+       ************************************************/
+      animations: {
+        // 좌→우 날아오는 느낌 제거
+        x: { duration: 0 },
+
+        // 막대 꼭대기(y) + 바닥(base)을 바닥에서 출발하게
+        y: {
+          duration: 800,
+          easing: 'easeOutCubic',
+          from: (ctx) => ctx.chart.scales.y.getPixelForValue(ctx.chart.scales.y.min)
+        },
+        base: {
+          duration: 800,
+          easing: 'easeOutCubic',
+          from: (ctx) => ctx.chart.scales.y.getPixelForValue(ctx.chart.scales.y.min)
+        }
       }
     },
     plugins:[transparentBgPlugin, valueLabelPlugin]
