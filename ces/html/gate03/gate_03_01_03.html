@@ -93,12 +93,12 @@
                         <video src="../../resources/images/gate_03/loading.mp4" autoplay="" muted="" loop="" playsinline=""></video>
                     </div>
                     <!-- //load_video -->
-    
-                    <p class="t1 vw_kr"><span class="selPrdName">NexDrive</span> ESG 정밀 진단 중..</p>
-                    <p class="t1 vw_en">Company <span class="selPrdName">NexDrive</span> ESG Assessment in Progress..</p>
+
+                    <p class="t1 vw_kr"><span class="selPrdName">NexDrive</span> ESG 정밀진단</p>
+                    <p class="t1 vw_en"><span class="selPrdName">NexDrive</span>'s ESG Assessment in Progress</p>
                 </div>
                 <!-- //auto_diag_top -->
-                
+
                 <!-- auto_diag -->
                 <div class="auto_diag">
                     <!-- inner -->
@@ -136,10 +136,10 @@
                             <div class="head_txt">
                                 <strong class="name vw_kr">ESG 평가 지표</strong>
                                 <strong class="data vw_kr">데이터 수집</strong>
-                                <strong class="eval vw_kr">평가</strong>
+                                <strong class="eval vw_kr">평가결과</strong>
                                 <strong class="name vw_en">Assessment Criteria</strong>
                                 <strong class="data vw_en">Data Collection</strong>
-                                <strong class="eval vw_en">Assessment</strong>
+                                <strong class="eval vw_en">Results</strong>
                             </div>
                             <!-- head_txt -->
 
@@ -204,7 +204,7 @@
     <div class="top">
         <strong class="ico_esg ty_e vw_kr">온실가스 배출량 감축</strong>
         <p class="vw_kr">온실가스 배출량 (Scope 1&2)이 감소 추세에 있는지 확인하기 위한 지표</p>
-        <strong class="ico_esg ty_e vw_en">Reduction of greenhouse gas emissions</strong>
+        <strong class="ico_esg ty_e vw_en">GHG Emissions Reduction</strong>
         <p class="vw_en">Indicators to check wether scope 1 & 2 greenhouse gas emissions are decreasing</p>
     </div>
     <div class="cnt">
@@ -281,7 +281,7 @@
                 <div class="info_grid">
                     <div>
                         <span class="t1 vw_kr">총 온실가스 감축률</span>
-                        <span class="t1 vw_en">Total greenhouse gas reduction rate</span>
+                        <span class="t1 vw_en">Total GHG Reduction</span>
                         <span class="t2">
                             <em class="ty1">139.2</em>
                             <span>%</span>
@@ -323,8 +323,8 @@
     <div class="top">
         <strong class="ico_esg ty_s vw_kr">안전보건 관리 활동</strong>
         <p class="vw_kr">기업이 안전보건 관리체계를 운영하기 위해 안전보건관리책임자 등 평가·관리 실시, 종사자 의견 청취, 위험성 평가, 지업환경측정, 물질안전보건자료 (MSDS, Material Safety Data Sheet) 비치 및 교육, 비상 대응 체계 구축을 적절히 이행하고 있는지 확인하는 지표</p>
-        <strong class="ico_esg ty_s vw_en">Safety and health management activities</strong>
-        <p class="vw_en">Indicator confirming whether the company properly implements safety & health management systems, including management responsibility, employee feedback, risk assessment, work environment measurement, MSDS documentation and training, and emergency response systems</p>
+        <strong class="ico_esg ty_s vw_en">Safety & Health Activities</strong>
+        <p class="vw_en">Implementation status of safety & health management activities</p>
     </div>
     <div class="cnt">
         <!-- cnt_inner -->
@@ -454,7 +454,7 @@
     <div class="top">
         <strong class="ico_esg ty_g vw_kr">ESG 정보 공시</strong>
         <p class="vw_kr">기업이 정기적으로 검증된 ESG 정보를 공시하는지 확인하기 위한 지표</p>
-        <strong class="ico_esg ty_g vw_en">ESG Information Disclosure</strong>
+        <strong class="ico_esg ty_g vw_en">ESG Disclosure</strong>
         <p class="vw_en">Indicator confirming whether the company regularly discloses verified ESG information</p>
     </div>
     <div class="cnt">
@@ -568,7 +568,7 @@
         <p class="t1 vw_kr">ESG 정밀진단 최종 보고서 생성 중</p>
         <p class="t2 vw_kr"><span class="selPrdName">NexDrive</span>의 ESG 정밀진단 최종 보고서를 생성 중입니다.</p>
         <p class="t1 vw_en">Final ESG Assessment Report in Progress</p>
-        <p class="t2 vw_en">Generating the final ESG assessment report for Company <span class="selPrdName">NexDrive</span>.</p>
+        <p class="t2 vw_en">Generating the final ESG assessment report for <span class="selPrdName">NexDrive</span>.</p>
     </div>
 </div>
 <!-- //esg_dim_msg -->
@@ -684,7 +684,7 @@ function setProcProgressState(procKey, state, finalText) {
     if (state === "active") {
         li.classList.add("on");
         if (procTxt) procTxt.textContent = "진단 중";
-        if (procTxtEn) procTxtEn.textContent = "Assessment in Progress";
+        if (procTxtEn) procTxtEn.textContent = "In Progress";
     } else if (state === "done") {
         li.classList.remove("on");
         if (procTxt) procTxt.textContent = finalText || "등급";
