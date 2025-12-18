@@ -89,13 +89,13 @@
                     <p class="vw_kr">미래 기업 가치의 새로운 기준</p>
                     <strong class="vw_kr">당신의 ESG를 진단합니다</strong>
                     <p class="vw_en">A new standard for future corporate value</p>
-                    <strong class="vw_en">We asses your ESG</strong>
+                    <strong class="vw_en">We assess your ESG performance.</strong>
                 </div>
                 <div class="esg_select_msg">
                     <p class="t1 vw_kr">기업을 선택하세요.</p>
-                    <p class="t2 vw_kr">선택한 기업의 경영진이 되어 해당 기업의 ESG 경영 진단을 받아보세요.</p>
+                    <p class="t2 vw_kr">경영진의 시각에서 ESG 경영 진단을 체험해 보세요.</p>
                     <p class="t1 vw_en">Please select your company.</p>
-                    <p class="t2 vw_en">Become an executive of a company of your choice and receive an ESG management assesment of that company.</p>
+                    <p class="t2 vw_en">Experience an ESG management assessment from a management perspective.</p>
                 </div>
 
                 <!-- esg_select_slide -->
@@ -107,7 +107,7 @@
                                 <div class="txt">
                                     <strong class="t1">NexDrive</strong>
                                     <span class="t2 vw_kr">자동차</span>
-                                    <span class="t2 vw_en">Automobile</span>
+                                    <span class="t2 vw_en">Automotive</span>
                                 </div>
                             </a>
                         </div>
@@ -117,7 +117,7 @@
                                 <div class="txt">
                                     <strong class="t1">Qstack</strong>
                                     <span class="t2 vw_kr">전기·전자</span>
-                                    <span class="t2 vw_en">Elictrial·electronics</span>
+                                    <span class="t2 vw_en">Electrical·Electronics</span>
                                 </div>
                             </a>
                         </div>
@@ -127,7 +127,7 @@
                                 <div class="txt">
                                     <strong class="t1">ApexBio</strong>
                                     <span class="t2 vw_kr">바이오·헬스케어</span>
-                                    <span class="t2 vw_en">Bio·healthcare</span>
+                                    <span class="t2 vw_en">Bio·Healthcare</span>
                                 </div>
                             </a>
                         </div>
@@ -137,7 +137,7 @@
                                 <div class="txt">
                                     <strong class="t1">Dataverse</strong>
                                     <span class="t2 vw_kr">정보통신·소프트웨어</span>
-                                    <span class="t2 vw_en">Information Tachnology·software</span>
+                                    <span class="t2 vw_en">IT·Software</span>
                                 </div>
                             </a>
                         </div>
@@ -171,8 +171,8 @@
     <div class="top">
         <strong class="vw_kr">기업 기초정보</strong>
         <p class="vw_kr">당신의 기업 <span class="selCurrentPrd">NexDrive</span>의 정보를 선택해주세요.</p>
-        <strong class="vw_en">Basic company informartion</strong>
-        <p class="vw_en">Please select the information for your company <span class="selCurrentPrd">NexDrive</span>.</p>
+        <strong class="vw_en">Basic Company Information</strong>
+        <p class="vw_en">Please select the information for <span class="selCurrentPrd">NexDrive</span>.</p>
 
         <button type="button" class="btn_panel_close" onclick="closePanel('pop01');"><span class="blind">닫기</span></button>
     </div>
@@ -187,21 +187,21 @@
                         <strong class="tit vw_en">Company size</strong>
                         <div class="info" id="scaleTxt">
                             <p class="vw_kr"><strong>300-500</strong> 억원</p>
-                            <p class="vw_en"><strong>$20M-S34M</strong></p>
+                            <p class="vw_en"><strong>$20M-$34M</strong></p>
                         </div>
                     </div>
                     <div class="option_cnt">
                         <div class="option_slider">
                             <input type="range" class="range" min="0" max="3" step="1" value="1" oninput="updateScaleTxt(this);"/>
                             <ul class="option_slider_labels vw_kr">
-                                <li><span>300억원 미만</span></li>
-                                <li><span>300-500억원</span></li>
-                                <li><span>500-1,500억원</span></li>
-                                <li><span>1,500억원</span></li>
+                                <li><span>300억 미만</span></li>
+                                <li><span>300-500억</span></li>
+                                <li><span>500-1,500억</span></li>
+                                <li><span>1,500억 이상</span></li>
                             </ul>
                             <ul class="option_slider_labels vw_en">
                                 <li><span>Less than $20M</span></li>
-                                <li><span>$20M-S34M</span></li>
+                                <li><span>$20M-$34M</span></li>
                                 <li><span>$34M-$100M</span></li>
                                 <li><span>More than $100M</span></li>
                             </ul>
@@ -267,7 +267,7 @@
                 <li class="full">
                     <div class="option_tit">
                         <strong class="tit vw_kr">수출 국가</strong>
-                        <strong class="tit vw_en">Export continent</strong>
+                        <strong class="tit vw_en">Export Region</strong>
                     </div>
                     <div class="option_cnt">
                         <ul class="option_li">
@@ -337,7 +337,7 @@
 
 
 <script>
-    
+
 function updateScaleTxt(el) {
     const SCALE_PARTS = {
         '0': {
@@ -346,7 +346,7 @@ function updateScaleTxt(el) {
         },
         '1': {
             kr: [{ strong: '300-500' }, { text: ' 억원' }],
-            en: [{ strong: '$20M-S34M' }]
+            en: [{ strong: '$20M-$34M' }]
         },
         '2': {
             kr: [{ strong: '500-1,500' }, { text: ' 억원' }],
@@ -361,17 +361,17 @@ function updateScaleTxt(el) {
     const v = String(el?.value ?? '');
     const data = SCALE_PARTS[v];
     if (!data) return;
-    
+
     const $root = $('#scaleTxt');
     if (!$root.length) return;
-    
+
     renderParts($root.find('.vw_kr'), data.kr);
     renderParts($root.find('.vw_en'), data.en);
 }
 
 function renderParts($p, parts) {
     if (!$p.length) return;
-    
+
     $p.empty();
     parts.forEach((part) => {
         if (part.strong != null) $p.append($('<strong/>').text(part.strong));
