@@ -21,10 +21,11 @@
 <script src="../../resources/js/chart.js"></script>
 <script src="../../resources/js/gsap.min.js"></script>
 <script src="../../resources/js/siy.js"></script>
+<script src="../../resources/js/lang_toggle.js"></script>
 <!-- //퍼블리싱 -->
 </head>
 
-<body>
+<body id="lang_kr">
 <!-- wrap -->
 <div id="wrap" class="com_bg gate_01_main ">
     <!-- Header -->
@@ -34,24 +35,41 @@
 
     <!-- Container -->
     <section id="container" class="esg_ty">
+        <!-- snb -->
         <div class="snb">
             <div class="snb_inner">
                 <a href="../main.html" class="logo">
                     <img src="../../resources/images/logo.png">
                 </a>
-                <div class="menu">
+                <div class="menu kr_t">
                     <ul>
                         <li>
                             <a href="../main.html" class="menu_item ico_01">메인</a>
                         </li>
                         <li>
-                            <a href="../gate01/gate_01_01.html" class="menu_item ico_02">기술 금융 시스템</a>
+                            <a href="../gate01/gate_01.html" class="menu_item ico_02">기술 금융 시스템</a>
                         </li>
                         <li>
                             <a href="../gate02/gate_02.html" class="menu_item ico_03">K-콘텐츠 투자</a>
                         </li>
                         <li>
                             <a href="../gate03/gate_03.html" class="menu_item ico_04 active">ESG 정밀진단 시스템</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="menu en_t">
+                    <ul>
+                        <li>
+                            <a href="../main.html" class="menu_item ico_01">Main</a>
+                        </li>
+                        <li>
+                            <a href="../gate01/gate_01.html" class="menu_item ico_02">Tech Evaluation</a>
+                        </li>
+                        <li>
+                            <a href="../gate02/gate_02.html" class="menu_item ico_03">K-Content Investment</a>
+                        </li>
+                        <li>
+                            <a href="../gate03/gate_03.html" class="menu_item ico_04 active">ESG Precision Diagnosis System</a>
                         </li>
                     </ul>
                 </div>
@@ -63,16 +81,21 @@
                 </div>
             </div>
         </div>
+        <!-- //snb -->
 
         <div class="contents esg_cont step01" style="visibility: hidden;">
             <div class="esg_cont_inner">
                 <div class="esg_tit">
-                    <p>미래 기업 가치의  새로운 기준</p>
-                    <strong>당신의 ESG를 진단합니다.</strong>
+                    <p class="vw_kr">미래 기업 가치의 새로운 기준</p>
+                    <strong class="vw_kr">당신의 ESG를 진단합니다</strong>
+                    <p class="vw_en">A new standard for future corporate value</p>
+                    <strong class="vw_en">We asses your ESG</strong>
                 </div>
                 <div class="esg_select_msg">
-                    <p class="t1">기업을 선택하세요.</p>
-                    <p class="t2">선택한 기업의 경영진이 되어 해당 기업의 ESG 경영 진단을 받아보세요.</p>
+                    <p class="t1 vw_kr">기업을 선택하세요.</p>
+                    <p class="t2 vw_kr">선택한 기업의 경영진이 되어 해당 기업의 ESG 경영 진단을 받아보세요.</p>
+                    <p class="t1 vw_en">Please select your company.</p>
+                    <p class="t2 vw_en">Become an executive of a company of your choice and receive an ESG management assesment of that company.</p>
                 </div>
 
                 <!-- esg_select_slide -->
@@ -83,7 +106,8 @@
                                 <video src="../../resources/images/gate_03/NexDrive.mp4" autoplay="" muted="" loop="" playsinline=""></video>
                                 <div class="txt">
                                     <strong class="t1">NexDrive</strong>
-                                    <span class="t2">자동차</span>
+                                    <span class="t2 vw_kr">자동차</span>
+                                    <span class="t2 vw_en">Automobile</span>
                                 </div>
                             </a>
                         </div>
@@ -92,7 +116,8 @@
                                 <video src="../../resources/images/gate_03/Qstack.mp4" autoplay="" muted="" loop="" playsinline=""></video>
                                 <div class="txt">
                                     <strong class="t1">Qstack</strong>
-                                    <span class="t2">전기·전자</span>
+                                    <span class="t2 vw_kr">전기·전자</span>
+                                    <span class="t2 vw_en">Elictrial·electronics</span>
                                 </div>
                             </a>
                         </div>
@@ -101,7 +126,8 @@
                                 <video src="../../resources/images/gate_03/ApexBio.mp4" autoplay="" muted="" loop="" playsinline=""></video>
                                 <div class="txt">
                                     <strong class="t1">ApexBio</strong>
-                                    <span class="t2">바이오·헬스케어</span>
+                                    <span class="t2 vw_kr">바이오·헬스케어</span>
+                                    <span class="t2 vw_en">Bio·healthcare</span>
                                 </div>
                             </a>
                         </div>
@@ -110,7 +136,8 @@
                                 <video src="../../resources/images/gate_03/Dataverse.mp4" autoplay="" muted="" loop="" playsinline=""></video>
                                 <div class="txt">
                                     <strong class="t1">Dataverse</strong>
-                                    <span class="t2">정보통신·소프트웨어</span>
+                                    <span class="t2 vw_kr">정보통신·소프트웨어</span>
+                                    <span class="t2 vw_en">Information Tachnology·software</span>
                                 </div>
                             </a>
                         </div>
@@ -142,8 +169,10 @@
 <!-- panel_side -->
 <div class="panel_side" id="pop01" style="display:none;">
     <div class="top">
-        <strong>기업 기초정보</strong>
-        <p>당신의 기업 <span id="selPrd">NexDrive</span>의 정보를 선택해주세요.</p>
+        <strong class="vw_kr">기업 기초정보</strong>
+        <p class="vw_kr">당신의 기업 <span class="selCurrentPrd">NexDrive</span>의 정보를 선택해주세요.</p>
+        <strong class="vw_en">Basic company informartion</strong>
+        <p class="vw_en">Please select the information for your company <span class="selCurrentPrd">NexDrive</span>.</p>
 
         <button type="button" class="btn_panel_close" onclick="closePanel('pop01');"><span class="blind">닫기</span></button>
     </div>
@@ -154,40 +183,54 @@
             <ul class="option_grid">
                 <li class="full opt_slider">
                     <div class="option_tit">
-                        <strong class="tit">기업규모</strong>
-                        <p class="info" id="scaleTxt">
-                            <strong>300-500</strong>
-                            <span>&nbsp;억원</span>
-                        </p>
+                        <strong class="tit vw_kr">기업규모</strong>
+                        <strong class="tit vw_en">Company size</strong>
+                        <div class="info" id="scaleTxt">
+                            <p class="vw_kr"><strong>300-500</strong> 억원</p>
+                            <p class="vw_en"><strong>$20M-S34M</strong></p>
+                        </div>
                     </div>
                     <div class="option_cnt">
                         <div class="option_slider">
                             <input type="range" class="range" min="0" max="3" step="1" value="1" oninput="updateScaleTxt(this);"/>
-                            <ul class="option_slider_labels">
+                            <ul class="option_slider_labels vw_kr">
                                 <li><span>300억원 미만</span></li>
                                 <li><span>300-500억원</span></li>
                                 <li><span>500-1,500억원</span></li>
                                 <li><span>1,500억원</span></li>
+                            </ul>
+                            <ul class="option_slider_labels vw_en">
+                                <li><span>Less than $20M</span></li>
+                                <li><span>$20M-S34M</span></li>
+                                <li><span>$34M-$100M</span></li>
+                                <li><span>More than $100M</span></li>
                             </ul>
                         </div>
                     </div>
                 </li>
                 <li>
                     <div class="option_tit">
-                        <strong class="tit">상장 여부</strong>
+                        <strong class="tit vw_kr">상장 여부</strong>
+                        <strong class="tit vw_en">Listing status</strong>
                     </div>
                     <div class="option_cnt">
                         <ul class="option_li">
                             <li>
                                 <label class="inp_ty_btn">
                                     <input type="radio" name="rdo_a" checked="checked">
-                                    <span>상장</span>
+                                    <span>
+                                        <span class="vw_kr">상장</span>
+                                        <span class="vw_en">Listed</span>
+                                    </span>
                                 </label>
                             </li>
                             <li>
                                 <label class="inp_ty_btn">
                                     <input type="radio" name="rdo_a">
-                                    <span>비상장</span>
+                                    <span>
+                                        <span class="vw_kr">비상장</span>
+                                        <span class="vw_en">Unlisted</span>
+                                    </span>
                                 </label>
                             </li>
                         </ul>
@@ -195,20 +238,27 @@
                 </li>
                 <li>
                     <div class="option_tit">
-                        <strong class="tit">고위험 산업군 여부</strong>
+                        <strong class="tit vw_kr">고위험 산업군 여부</strong>
+                        <strong class="tit vw_en">High-risk industry</strong>
                     </div>
                     <div class="option_cnt">
                         <ul class="option_li">
                             <li>
                                 <label class="inp_ty_btn">
                                     <input type="radio" name="rdo_b" checked="checked">
-                                    <span>예</span>
+                                    <span>
+                                        <span class="vw_kr">예</span>
+                                        <span class="vw_en">Yes</span>
+                                    </span>
                                 </label>
                             </li>
                             <li>
                                 <label class="inp_ty_btn">
                                     <input type="radio" name="rdo_b">
-                                    <span>아니오</span>
+                                    <span>
+                                        <span class="vw_kr">아니오</span>
+                                        <span class="vw_en">No</span>
+                                    </span>
                                 </label>
                             </li>
                         </ul>
@@ -216,7 +266,8 @@
                 </li>
                 <li class="full">
                     <div class="option_tit">
-                        <strong class="tit">수출 국가</strong>
+                        <strong class="tit vw_kr">수출 국가</strong>
+                        <strong class="tit vw_en">Export continent</strong>
                     </div>
                     <div class="option_cnt">
                         <ul class="option_li">
@@ -229,18 +280,27 @@
                             <li>
                                 <label class="inp_ty_btn">
                                     <input type="radio" name="rdo_c">
-                                    <span>북미</span>
+                                    <span>
+                                        <span class="vw_kr">북미</span>
+                                        <span class="vw_en">North America</span>
+                                    </span>
                                 </label>
                             </li><li>
                                 <label class="inp_ty_btn">
                                     <input type="radio" name="rdo_c">
-                                    <span>아시아</span>
+                                    <span>
+                                        <span class="vw_kr">아시아</span>
+                                        <span class="vw_en">Asia</span>
+                                    </span>
                                 </label>
                             </li>
                             <li>
                                 <label class="inp_ty_btn">
                                     <input type="radio" name="rdo_c">
-                                    <span>기타</span>
+                                    <span>
+                                        <span class="vw_kr">기타</span>
+                                        <span class="vw_en">Others</span>
+                                    </span>
                                 </label>
                             </li>
                         </ul>
@@ -252,10 +312,16 @@
             <!-- btns -->
             <div class="btns">
                 <li class="lt">
-                    <button type="button" class="btn_round cancel" onclick="closePanel('pop01');">취소</button>
+                    <button type="button" class="btn_round cancel" onclick="closePanel('pop01');">
+                        <span class="vw_kr">취소</span>
+                        <span class="vw_en">Cancel</span>
+                    </button>
                 </li>
                 <li class="rt">
-                    <button type="button" id="selPrdConfirm" class="btn_round confirm">진단 시작</button>
+                    <button type="button" id="selPrdConfirm" class="btn_round confirm">
+                        <span class="vw_kr">진단 시작</span>
+                        <span class="vw_en">Start Assessment</span>
+                    </button>
                 </li>
             </div>
             <!-- //btns -->
@@ -271,37 +337,46 @@
 
 
 <script>
+    
 function updateScaleTxt(el) {
-    const $scaleTxt = $('#scaleTxt');
-    switch (el.value) {
-        case '0':
-            $scaleTxt.html(
-                '<strong>300</strong>'
-                +'<span>&nbsp;억원 미만</span>'
-            );
-            break;
-        case '1':
-            $scaleTxt.html(
-                '<strong>300-500</strong>'
-                +'<span>&nbsp;억원</span>'
-            );
-            break;
-        case '2':
-            $scaleTxt.html(
-                '<strong>500-1500</strong>'
-                +'<span>&nbsp;억원</span>'
-            );
-            break;
-        case '3':
-            $scaleTxt.html(
-                '<strong>1500</strong>'
-                +'<span>&nbsp;억원</span>'
-            );
-            break;
+    const SCALE_PARTS = {
+        '0': {
+            kr: [{ strong: '300' }, { text: ' 억원 미만' }],
+            en: [{ text: 'Less than ' }, { strong: '$20M' }]
+        },
+        '1': {
+            kr: [{ strong: '300-500' }, { text: ' 억원' }],
+            en: [{ strong: '$20M-S34M' }]
+        },
+        '2': {
+            kr: [{ strong: '500-1,500' }, { text: ' 억원' }],
+            en: [{ strong: '$34M-$100M' }]
+        },
+        '3': {
+            kr: [{ strong: '1,500' }, { text: ' 억원' }],
+            en: [{ text: 'More than ' }, { strong: '$100M' }]
+        }
+    };
 
-        default:
-            break;
-    }
+    const v = String(el?.value ?? '');
+    const data = SCALE_PARTS[v];
+    if (!data) return;
+    
+    const $root = $('#scaleTxt');
+    if (!$root.length) return;
+    
+    renderParts($root.find('.vw_kr'), data.kr);
+    renderParts($root.find('.vw_en'), data.en);
+}
+
+function renderParts($p, parts) {
+    if (!$p.length) return;
+    
+    $p.empty();
+    parts.forEach((part) => {
+        if (part.strong != null) $p.append($('<strong/>').text(part.strong));
+        if (part.text != null) $p.append(document.createTextNode(part.text));
+    });
 }
 
 //gate03onLoad
@@ -318,7 +393,7 @@ function gate03onLoad() {
         var dataSelect = $(this).attr('data-select');
         var selPrdText = getHashOfName(dataSelect);
 
-        $('#selPrd').text(selPrdText);
+        $('.selCurrentPrd').text(selPrdText);
         $('#selPrdCode').val(dataSelect);
         openPanel('pop01');
     });

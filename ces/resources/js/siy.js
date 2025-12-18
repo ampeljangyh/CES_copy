@@ -7,6 +7,18 @@ $(function () {
 /* ---------------------------------------------------------
    공통 유틸
 --------------------------------------------------------- */
+const LANGS = new Set(['lang_kr', 'lang_en']);
+
+function getLanguageCode(defaultLang = 'lang_kr') {
+    const saved = localStorage.getItem('siteLang');
+    if (LANGS.has(saved)) return saved;
+
+    const id = document.body?.id;
+    const lang = LANGS.has(id) ? id : defaultLang;
+
+    localStorage.setItem('siteLang', lang);
+    return lang;
+}
 
 // hash fragment 가져오기
 function getFragment() {
@@ -33,6 +45,16 @@ function getHashOfCategory(fragment) {
         '2': '전기·전자',
         '3': '바이오·헬스케어',
         '4': '정보통신·소프트웨어'
+    };
+    return map[fragment] || '';
+}
+function getHashOfCategoryEn(fragment) {
+    fragment = fragment ? fragment : getFragment();
+    const map = {
+        '1': 'Automobile',
+        '2': 'Elictrial·electronics',
+        '3': 'Bio·healthcare',
+        '4': 'Information Tachnology·software'
     };
     return map[fragment] || '';
 }
@@ -178,6 +200,7 @@ function commonBefore() {
 
     $('.selPrdName').text(getHashOfName());
     $('.selPrdCategory').text(getHashOfCategory());
+    $('.selPrdCategoryEn').text(getHashOfCategoryEn());
 
     const $visibleItems = $("[data-visible]");
     $visibleItems.hide();
@@ -194,10 +217,12 @@ function gate03ConfigData() {
     const config = {
         gradeTxt:['D', 'C', 'B', 'B+', 'A', 'A+', 'S'],
         regGradeTxt:['취약', '미흡', '보통', '양호', '우수'],
+        regGradeTxtEn:['Weak', 'Insufficient', 'Moderate', 'Good', 'Excellent'],
         '1': {
             // [종합 평가]
             grade: 5, // A+
             gradeMsg: '귀사는 ESG 관리 수준이 높은 기업으로, 주요 항목을 잘 운영하고 있습니다.<br>일부 영역을 보완하면 더욱 균형잡힌 ESG 경영을 실천할 수 있습니다.<br>지속적인 개선을 통해 한 단계 더 도약할 수 있습니다.',
+            gradeMsgEn: 'Your company has a high level of ESG management and is effectively implementing key initiatives.<br>By improving certain areas, you can achieve a more balanced ESG management approach.<br>Through continuous improvement, you can take your company to the next level.',
 
             // [연도별 점수 이력]
             pointHistory: {
@@ -214,12 +239,12 @@ function gate03ConfigData() {
                     avgIndustry: 49.7,
                     avgSme: 45.2,
                     details: [
-                        { score: 81.3, text: '환경경영 일반' },
-                        { score: 89.3, text: '온실가스 및 에너지' },
-                        { score: 91.7, text: '폐기물' },
-                        { score: 100,  text: '수자원' },
-                        { score: 62.5, text: '유해화학물질' },
-                        { score: 50,   text: '대기, 수질 오염물질' }
+                        { score: 81.3, text: '환경경영 일반', textEn: 'General environmental management'},
+                        { score: 89.3, text: '온실가스 및 에너지', textEn: 'Greenhouse Gas and Energy'},
+                        { score: 91.7, text: '폐기물', textEn: 'Waste'},
+                        { score: 100,  text: '수자원', textEn: 'Water ressources'},
+                        { score: 62.5, text: '유해화학물질', textEn: 'Hazardous Chemicals'},
+                        { score: 50,   text: '대기, 수질 오염물질', textEn: 'Air and Water Pollutants'}
                     ]
                 },
                 s: {
@@ -228,15 +253,15 @@ function gate03ConfigData() {
                     avgIndustry: 64.9,
                     avgSme: 62.4,
                     details: [
-                        { score: 100,  text: '인권' },
-                        { score: 93.7, text: '근로조건' },
-                        { score: 75,   text: '강제노동 및 아동노동' },
-                        { score: 75,   text: '노사관계' },
-                        { score: 95.8, text: '안전보건' },
-                        { score: 50,   text: '지역사회' },
-                        { score: 58.3, text: '협력사 및 공급망' },
-                        { score: 100,  text: '제품 및 고객' },
-                        { score: 91.7, text: '정보보호' }
+                        { score: 100, text: '인권', textEn:'Human rights Management'},
+                        { score: 93.7, text: '근로조건', textEn:'Working Conditions'},
+                        { score: 75, text: '강제노동 및 아동노동', textEn:'Forced Labor & Child Labor'},
+                        { score: 75, text: '노사관계', textEn:'Level of labor-management relations'},
+                        { score: 95.8, text: '안전보건', textEn:'Occupational safety & health'},
+                        { score: 50, text: '지역사회', textEn:'Community Contribution'},
+                        { score: 58.3, text: '협력사 및 공급망', textEn:'Suppliers & supply Chain'},
+                        { score: 100, text: '제품 및 고객', textEn:'Products & Costumers'},
+                        { score: 91.7, text: '정보보호', textEn:'Information Protection'}
                     ]
                 },
                 g: {
@@ -245,10 +270,10 @@ function gate03ConfigData() {
                     avgIndustry: 49.1,
                     avgSme: 41.1,
                     details: [
-                        { score: 100, text: '윤리경영 및 반부패' },
-                        { score: 50,  text: '이해관계자 소통' },
-                        { score: 75,  text: '지배구조 건전성' },
-                        { score: 80,  text: '주주 및 이사회', industry: 60 }
+                        { score: 100, text: '윤리경영 및 반부패', textEn:'Ethical management & Anti-corruption' },
+                        { score: 50,  text: '이해관계자 소통', textEn:'Stakeholder communication' },
+                        { score: 75,  text: '지배구조 건전성', textEn:'governance soundness' },
+                        { score: 80,  text: '주주 및 이사회', industry: 60, textEn:'shareholders & board of directors' }
                     ]
                 }
             },
@@ -256,26 +281,28 @@ function gate03ConfigData() {
             // [규제 대응 평가]
             regGrade: 1, // 미흡
             regGradeMsg: '귀사는 일부 ESG 규제 요구사항을 반영하고 있으나, 대응 체계가 충분히 갖춰지지 않은 상태입니다.<br>주요 항목을 점검하고 단계적으로 개선해 나가는 것이 필요합니다.',
+            regGradeMsgEn: "While your company is addressing some ESG regulatory requirements, its response system is inadequate.<br>It's necessary to review key initiatives and make gradual improvements.",
             regPercent: 37.5,
             regAvgIndustry: 17.3,
             regAvgSme: 23.9,
             // 규제 상세 항목: title 속성 수정 (HTML <br> 포함)
             regDetails: [
-                { score: 3,    text: '10/16, 62.5%', title: 'CSDDD부속서1' },
-                { score: null, text: '미대상', title: 'CSDDD부속서2' },
-                { score: null, text: '미대상', title: '산림벌채규정<br>(EUDR)' },
-                { score: 0,    text: '0/1, 0%', title: 'EU 배터리규정' },
-                { score: 4,    text: '1/1, 100%', title: '위구르 강제노동 금지법<br>(UFLPA)' },
-                { score: 0,    text: '0/1, 0%', title: '탄소국경조정제도<br>(CBAM)' },
-                { score: 0,    text: '0/1, 0%', title: '청정경쟁법<br>(CCA)' },
-                { score: 0,    text: '0/1, 0%', title: '분쟁광물규정' },
-                { score: 4,    text: '1/1, 100%', title: 'EU 강제노동제품 금지규정' }
+                { score: 3,    text: '10/16, 62.5%', title: 'CSDDD부속서1', titleEn: 'CSDDD Affiliated 1' },
+                { score: null, text: '미대상', title: 'CSDDD부속서2', titleEn:'CSDDD Affiliated 2' },
+                { score: null, text: '미대상', title: '산림벌채규정<br>(EUDR)', titleEn:'Deforestation regulations' },
+                { score: 0,    text: '0/1, 0%', title: 'EU 배터리규정', titleEn:'EU battery regulations' },
+                { score: 4,    text: '1/1, 100%', title: '위구르 강제노동 금지법<br>(UFLPA)', titleEn:'Uyghur Forced Labor Prohibition Act' },
+                { score: 0,    text: '0/1, 0%', title: '탄소국경조정제도<br>(CBAM)', titleEn:'Carbon Border Adjustment Mechanism (CBAM)' },
+                { score: 0,    text: '0/1, 0%', title: '청정경쟁법<br>(CCA)', titleEn:'Fair competition Act' },
+                { score: 0,    text: '0/1, 0%', title: '분쟁광물규정', titleEn:'Conflict minerals regulation' },
+                { score: 4,    text: '1/1, 100%', title: 'EU 강제노동제품 금지규정', titleEn:'Eu forced labor Product Ban Regulation' }
             ]
         },
         '2': {
             // [종합 평가]
             grade: 4, // A
             gradeMsg: '귀사는 ESG 경영을 성실히 실천하고 있으며, 주요 항목에 대한 관리가 이루어지고 있습니다.<br>일부 보완할 부분을 개선해 나가면 더욱 안정적이고 신뢰받는 ESG 체계를 구축할 수 있습니다.',
+            gradeMsgEn: 'Your company is diligently implementing ESG management and meets the requirements.<br>By addressing some key initiatives that need improvement, you can build a more stable and trustworthy ESG system.',
 
             // [연도별 점수 이력]
             pointHistory: {
@@ -292,12 +319,12 @@ function gate03ConfigData() {
                     avgIndustry: 49.7,
                     avgSme: 45.2,
                     details: [
-                        { score: 75,   text: '환경경영 일반' },
-                        { score: 75,   text: '온실가스 및 에너지' },
-                        { score: 56.3, text: '폐기물' },
-                        { score: 0,    text: '수자원' },
-                        { score: 62.5, text: '유해화학물질' },
-                        { score: 58.3, text: '대기, 수질 오염물질' }
+                        { score: 75,   text: '환경경영 일반', textEn: 'General environmental management' },
+                        { score: 75,   text: '온실가스 및 에너지', textEn: 'Greenhouse Gas and Energy' },
+                        { score: 56.3, text: '폐기물', textEn: 'Waste' },
+                        { score: 0,    text: '수자원', textEn: 'Water ressources' },
+                        { score: 62.5, text: '유해화학물질', textEn: 'Hazardous Chemicals' },
+                        { score: 58.3, text: '대기, 수질 오염물질', textEn: 'Air and Water Pollutants' }
                     ]
                 },
                 s: {
@@ -306,15 +333,15 @@ function gate03ConfigData() {
                     avgIndustry: 64.9,
                     avgSme: 62.4,
                     details: [
-                        { score: 65,   text: '인권' },
-                        { score: 100,  text: '근로조건' },
-                        { score: 68.7, text: '강제노동 및 아동노동' },
-                        { score: 100,  text: '노사관계' },
-                        { score: 87.5, text: '안전보건' },
-                        { score: 25,   text: '지역사회' },
-                        { score: 16.7, text: '협력사 및 공급망' },
-                        { score: 100,  text: '제품 및 고객' },
-                        { score: 25,   text: '정보보호' }
+                        { score: 65,   text: '인권', textEn:'Human rights Management' },
+                        { score: 100,  text: '근로조건', textEn:'Working Conditions' },
+                        { score: 68.7, text: '강제노동 및 아동노동', textEn:'Forced Labor & Child Labor' },
+                        { score: 100,  text: '노사관계', textEn:'Level of labor-management relations' },
+                        { score: 87.5, text: '안전보건', textEn:'Occupational safety & health' },
+                        { score: 25,   text: '지역사회', textEn:'Community Contribution' },
+                        { score: 16.7, text: '협력사 및 공급망', textEn:'Suppliers & supply Chain' },
+                        { score: 100,  text: '제품 및 고객', textEn:'Products & Costumers' },
+                        { score: 25,   text: '정보보호', textEn:'Information Protection' },
                     ]
                 },
                 g: {
@@ -323,10 +350,10 @@ function gate03ConfigData() {
                     avgIndustry: 49.1,
                     avgSme: 41.1,
                     details: [
-                        { score: 75, text: '윤리경영 및 반부패' },
-                        { score: 50, text: '이해관계자 소통' },
-                        { score: 75, text: '지배구조 건전성' },
-                        { score: 65, text: '주주 및 이사회', industry: 60 }
+                        { score: 75, text: '윤리경영 및 반부패', textEn:'Ethical management & Anti-corruption' },
+                        { score: 50, text: '이해관계자 소통', textEn:'Stakeholder communication' },
+                        { score: 75, text: '지배구조 건전성', textEn:'governance soundness' },
+                        { score: 65, text: '주주 및 이사회', industry: 60, textEn:'shareholders & board of directors' }
                     ]
                 }
             },
@@ -334,26 +361,28 @@ function gate03ConfigData() {
             // [규제 대응 평가]
             regGrade: 1, // 미흡
             regGradeMsg: '귀사는 일부 ESG 규제 요구사항을 반영하고 있으나, 대응 체계가 충분히 갖춰지지 않은 상태입니다.<br>주요 항목을 점검하고 단계적으로 개선해 나가는 것이 필요합니다.',
+            regGradeMsgEn: "While your company is addressing some ESG regulatory requirements, its response system is inadequate.<br>It's necessary to review key initiatives and make gradual improvements.",
             regPercent: 28.6,
             regAvgIndustry: 39.3,
             regAvgSme: 23.9,
             // 규제 상세 항목: title 속성 수정 (HTML <br> 포함)
             regDetails: [
-                { score: 0,    text: '0/16, 0%', title: 'CSDDD부속서1' },
-                { score: null, text: '미대상', title: 'CSDDD부속서2' },
-                { score: null, text: '미대상', title: '산림벌채규정<br>(EUDR)' },
-                { score: 0,    text: '0/1, 0%', title: 'EU 배터리규정' },
-                { score: 4,    text: '1/1, 100%', title: '위구르 강제노동 금지법<br>(UFLPA)' },
-                { score: 0,    text: '0/1, 0%', title: '탄소국경조정제도<br>(CBAM)' },
-                { score: 0,    text: '0/1, 0%', title: '청정경쟁법<br>(CCA)' },
-                { score: 0,    text: '0/1, 0%', title: '분쟁광물규정' },
-                { score: 4,    text: '1/1, 100%', title: 'EU 강제노동제품 금지규정' }
+                { score: 0,    text: '0/16, 0%', title: 'CSDDD부속서1', titleEn: 'CSDDD Affiliated 1' },
+                { score: null, text: '미대상', title: 'CSDDD부속서2', titleEn:'CSDDD Affiliated 2' },
+                { score: null, text: '미대상', title: '산림벌채규정<br>(EUDR)', titleEn:'Deforestation regulations' },
+                { score: 0,    text: '0/1, 0%', title: 'EU 배터리규정', titleEn:'EU battery regulations' },
+                { score: 4,    text: '1/1, 100%', title: '위구르 강제노동 금지법<br>(UFLPA)', titleEn:'Uyghur Forced Labor Prohibition Act' },
+                { score: 0,    text: '0/1, 0%', title: '탄소국경조정제도<br>(CBAM)', titleEn:'Carbon Border Adjustment Mechanism (CBAM)' },
+                { score: 0,    text: '0/1, 0%', title: '청정경쟁법<br>(CCA)', titleEn:'Fair competition Act' },
+                { score: 0,    text: '0/1, 0%', title: '분쟁광물규정', titleEn:'Conflict minerals regulation' },
+                { score: 4,    text: '1/1, 100%', title: 'EU 강제노동제품 금지규정', titleEn:'Eu forced labor Product Ban Regulation' },
             ]
         },
         '3': {
             // [종합 평가]
             grade: 3, // B+
             gradeMsg: '귀사는 ESG 관리 기반을 갖추고 있으며, 점진적인 개선을 통해 더 나은 성과를 기대할 수 있습니다.<br>관리 체계를 정교하게 다듬어 나간다면 ESG 경영의 신뢰도를 높일 수 있을 것입니다.',
+            gradeMsgEn: 'Your company has a solid ESG management foundation, and you can expect even better performance through gradual improvements.<br>By further refining your management system, you can enhance the credibility of your ESG management.',
 
             // [연도별 점수 이력]
             pointHistory: {
@@ -370,12 +399,12 @@ function gate03ConfigData() {
                     avgIndustry: 45.9,
                     avgSme: 45.2,
                     details: [
-                        { score: 43.7, text: '환경경영 일반' },
-                        { score: 46.4, text: '온실가스 및 에너지' },
-                        { score: 50,   text: '폐기물' },
-                        { score: 62.5, text: '수자원' },
-                        { score: 25,   text: '유해화학물질' },
-                        { score: 12.5, text: '대기, 수질 오염물질' }
+                        { score: 43.7, text: '환경경영 일반' , textEn: 'General environmental management'},
+                        { score: 46.4, text: '온실가스 및 에너지' , textEn: 'Greenhouse Gas and Energy'},
+                        { score: 50, text: '폐기물' , textEn: 'Waste'},
+                        { score: 62.5, text: '수자원' , textEn: 'Water ressources'},
+                        { score: 25, text: '유해화학물질' , textEn: 'Hazardous Chemicals'},
+                        { score: 12.5, text: '대기, 수질 오염물질', textEn: 'Air and Water Pollutants'}
                     ]
                 },
                 s: {
@@ -383,15 +412,15 @@ function gate03ConfigData() {
                     point: 60.2,
                     // avgIndustry 및 avgSme 항목은 @fix 주석에 따라 삭제됨
                     details: [
-                        { score: 50,   text: '인권' },
-                        { score: 100,  text: '근로조건' },
-                        { score: 50,   text: '강제노동 및 아동노동' },
-                        { score: 100,  text: '노사관계' },
-                        { score: 89.3, text: '안전보건' },
-                        { score: 0,    text: '지역사회' },
-                        { score: 0,    text: '협력사 및 공급망' },
-                        { score: 0,    text: '제품 및 고객' },
-                        { score: 16.7, text: '정보보호' }
+                        { score: 50,   textEn: '', text: '인권', textEn:'Human rights Management' },
+                        { score: 100,  textEn: '', text: '근로조건', textEn:'Working Conditions' },
+                        { score: 50,   textEn: '', text: '강제노동 및 아동노동', textEn:'Forced Labor & Child Labor' },
+                        { score: 100,  textEn: '', text: '노사관계', textEn:'Level of labor-management relations' },
+                        { score: 89.3, textEn: '', text: '안전보건', textEn:'Occupational safety & health' },
+                        { score: 0,    textEn: '', text: '지역사회', textEn:'Community Contribution' },
+                        { score: 0,    textEn: '', text: '협력사 및 공급망', textEn:'Suppliers & supply Chain' },
+                        { score: 0,    textEn: '', text: '제품 및 고객', textEn:'Products & Costumers' },
+                        { score: 16.7, textEn: '', text: '정보보호', textEn:'Information Protection' }
                     ]
                 },
                 g: {
@@ -400,10 +429,10 @@ function gate03ConfigData() {
                     avgIndustry: 31.7,
                     avgSme: 41.1,
                     details: [
-                        { score: 66.7, text: '윤리경영 및 반부패' },
-                        { score: 50,   text: '이해관계자 소통' },
-                        { score: 50,   text: '지배구조 건전성' },
-                        { score: 55,   text: '주주 및 이사회', industry: 60 }
+                        { score: 66.7, text: '윤리경영 및 반부패', textEn:'Ethical management & Anti-corruption' },
+                        { score: 50,   text: '이해관계자 소통', textEn:'Stakeholder communication' },
+                        { score: 50,   text: '지배구조 건전성', textEn:'governance soundness' },
+                        { score: 55,   text: '주주 및 이사회', industry: 60, textEn:'shareholders & board of directors' }
                     ]
                 }
             },
@@ -411,27 +440,29 @@ function gate03ConfigData() {
             // [규제 대응 평가]
             regGrade: 0, // 취약
             regGradeMsg: '귀사는 ESG 규제 대응이 아직 미비한 상태이며, 기본적인 요구사항 충족을 위한 조치가 필요합니다.<br>우선순위를 정해 핵심 항목부터 점검하고 보완하는 것이 중요합니다.',
+            regGradeMsgEn: "Your company's response to ESG regulations is still inadequate, and measures are needed to meet basic requirements.<br>It's important to prioritize, review, and improve key initiatives.",
             regPercent: 14.3,
             regAvgIndustry: 17.3,
             regAvgSme: 23.9,
 
             // 규제 상세 항목: title 속성 수정 (HTML <br> 포함)
             regDetails: [
-                { score: 0,    text: '0/16, 0%', title: 'CSDDD부속서1' },
-                { score: null, text: '미대상', title: 'CSDDD부속서2' },
-                { score: null, text: '미대상', title: '산림벌채규정<br>(EUDR)' },
-                { score: 0,    text: '0/1, 0%', title: 'EU 배터리규정' },
-                { score: 0,    text: '0/1, 0%', title: '위구르 강제노동 금지법<br>(UFLPA)' },
-                { score: 0,    text: '0/1, 0%', title: '탄소국경조정제도<br>(CBAM)' },
-                { score: 0,    text: '0/1, 0%', title: '청정경쟁법<br>(CCA)' },
-                { score: 0,    text: '0/1, 0%', title: '분쟁광물규정' },
-                { score: 4,    text: '1/1, 100%', title: 'EU 강제노동제품 금지규정' }
+                { score: 0,    text: '0/16, 0%', title: 'CSDDD부속서1', titleEn: 'CSDDD Affiliated 1' },
+                { score: null, text: '미대상', title: 'CSDDD부속서2', titleEn:'CSDDD Affiliated 2' },
+                { score: null, text: '미대상', title: '산림벌채규정<br>(EUDR)', titleEn:'Deforestation regulations' },
+                { score: 0,    text: '0/1, 0%', title: 'EU 배터리규정', titleEn:'EU battery regulations' },
+                { score: 0,    text: '0/1, 0%', title: '위구르 강제노동 금지법<br>(UFLPA)', titleEn:'Uyghur Forced Labor Prohibition Act' },
+                { score: 0,    text: '0/1, 0%', title: '탄소국경조정제도<br>(CBAM)', titleEn:'Carbon Border Adjustment Mechanism (CBAM)' },
+                { score: 0,    text: '0/1, 0%', title: '청정경쟁법<br>(CCA)', titleEn:'Fair competition Act' },
+                { score: 0,    text: '0/1, 0%', title: '분쟁광물규정', titleEn:'Conflict minerals regulation' },
+                { score: 4,    text: '1/1, 100%', title: 'EU 강제노동제품 금지규정', titleEn:'Eu forced labor Product Ban Regulation' }
             ]
         },
         '4': {
             // [종합 평가]
             grade: 2, // B
             gradeMsg: '귀사는 ESG 경영을 위한 노력을 지속하고 있으며, 기본적인 요소를 충족하고 있습니다.<br>주요 항목을 정비하고 보완해 나가면 ESG 경쟁력을 한층 더 높일 수 있습니다.',
+            gradeMsgEn: 'Your company is continuing its efforts toward ESG management and meets the basic requirements.<br>By refining and improving key initiatives, you can further enhance your ESG competitiveness.',
 
             // [연도별 점수 이력]
             pointHistory: {
@@ -448,10 +479,10 @@ function gate03ConfigData() {
                     avgIndustry: 49.7,
                     avgSme: 45.2,
                     details: [
-                        { score: 16.7, text: '환경경영 일반' },
-                        { score: 50,   text: '온실가스 및 에너지' },
-                        { score: 16.7, text: '폐기물' },
-                        { score: 62.5, text: '수자원' }
+                        { score: 16.7, text: '환경경영 일반', textEn: 'General environmental management' },
+                        { score: 50,   text: '온실가스 및 에너지', textEn: 'Greenhouse Gas and Energy' },
+                        { score: 16.7, text: '폐기물', textEn: 'Waste' },
+                        { score: 62.5, text: '수자원', textEn: 'Water ressources' }
                         // 유해화학물질, 대기/수질 오염물질 항목은 삭제됨
                     ]
                 },
@@ -461,15 +492,15 @@ function gate03ConfigData() {
                     avgIndustry: 64.9,
                     avgSme: 62.4,
                     details: [
-                        { score: 65,   text: '인권' },
-                        { score: 81.3, text: '근로조건' },
-                        { score: 62.5, text: '강제노동 및 아동노동' },
-                        { score: 50,   text: '노사관계' },
-                        { score: 31.3, text: '안전보건' },
-                        { score: 25,   text: '지역사회' },
-                        { score: 37.5, text: '협력사 및 공급망' },
-                        { score: 25,   text: '제품 및 고객' },
-                        { score: 41.7, text: '정보보호' }
+                        { score: 65,   text: '인권', textEn:'Human rights Management' },
+                        { score: 81.3, text: '근로조건', textEn:'Working Conditions' },
+                        { score: 62.5, text: '강제노동 및 아동노동', textEn:'Forced Labor & Child Labor' },
+                        { score: 50,   text: '노사관계', textEn:'Level of labor-management relations' },
+                        { score: 31.3, text: '안전보건', textEn:'Occupational safety & health' },
+                        { score: 25,   text: '지역사회', textEn:'Community Contribution' },
+                        { score: 37.5, text: '협력사 및 공급망', textEn:'Suppliers & supply Chain' },
+                        { score: 25,   text: '제품 및 고객', textEn:'Products & Costumers' },
+                        { score: 41.7, text: '정보보호', textEn:'Information Protection' }
                     ]
                 },
                 g: {
@@ -478,10 +509,10 @@ function gate03ConfigData() {
                     avgIndustry: 49.1,
                     avgSme: 41.1,
                     details: [
-                        { score: 41.7, text: '윤리경영 및 반부패' },
-                        { score: 25,   text: '이해관계자 소통' },
-                        { score: 25,   text: '지배구조 건전성' },
-                        { score: 35,   text: '주주 및 이사회', industry: 60 }
+                        { score: 41.7, text: '윤리경영 및 반부패', textEn:'Ethical management & Anti-corruption' },
+                        { score: 25,   text: '이해관계자 소통', textEn:'Stakeholder communication' },
+                        { score: 25,   text: '지배구조 건전성', textEn:'governance soundness' },
+                        { score: 35,   text: '주주 및 이사회', industry: 60, textEn:'shareholders & board of directors' }
                     ]
                 }
             },
@@ -489,21 +520,22 @@ function gate03ConfigData() {
             // [규제 대응 평가]
             regGrade: 0, // 취약
             regGradeMsg: '귀사는 ESG 규제 대응이 아직 미비한 상태이며, 기본적인 요구사항 충족을 위한 조치가 필요합니다.<br>우선순위를 정해 핵심 항목부터 점검하고 보완하는 것이 중요합니다.',
+            regGradeMsgEn: "Your company's response to ESG regulations is still inadequate, and measures are needed to meet basic requirements.<br>It's important to prioritize, review, and improve key initiatives.",
             regPercent: 6.3,
             regAvgIndustry: 21.3,
             regAvgSme: 23.9,
 
             // 규제 상세 항목: title 속성 수정 (HTML <br> 포함)
             regDetails: [
-                { score: 2,    text: '7/16, 43.8%', title: 'CSDDD부속서1' },
-                { score: null, text: '미대상', title: 'CSDDD부속서2' },
-                { score: null, text: '미대상', title: '산림벌채규정<br>(EUDR)' },
-                { score: 0,    text: '0/1, 0%', title: 'EU 배터리규정' },
-                { score: 0,    text: '0/1, 0%', title: '위구르 강제노동 금지법<br>(UFLPA)' },
-                { score: 0,    text: '0/1, 0%', title: '탄소국경조정제도<br>(CBAM)' },
-                { score: 0,    text: '0/1, 0%', title: '청정경쟁법<br>(CCA)' },
-                { score: 0,    text: '0/1, 0%', title: '분쟁광물규정' },
-                { score: 4,    text: '1/1, 100%', title: 'EU 강제노동제품 금지규정' }
+                { score: 2,    text: '7/16, 43.8%', title: 'CSDDD부속서1', titleEn: 'CSDDD Affiliated 1' },
+                { score: null, text: '미대상', title: 'CSDDD부속서2', titleEn:'CSDDD Affiliated 2' },
+                { score: null, text: '미대상', title: '산림벌채규정<br>(EUDR)', titleEn:'Deforestation regulations' },
+                { score: 0,    text: '0/1, 0%', title: 'EU 배터리규정', titleEn:'EU battery regulations' },
+                { score: 0,    text: '0/1, 0%', title: '위구르 강제노동 금지법<br>(UFLPA)', titleEn:'Uyghur Forced Labor Prohibition Act' },
+                { score: 0,    text: '0/1, 0%', title: '탄소국경조정제도<br>(CBAM)', titleEn:'Carbon Border Adjustment Mechanism (CBAM)' },
+                { score: 0,    text: '0/1, 0%', title: '청정경쟁법<br>(CCA)', titleEn:'Fair competition Act' },
+                { score: 0,    text: '0/1, 0%', title: '분쟁광물규정', titleEn:'Conflict minerals regulation' },
+                { score: 4,    text: '1/1, 100%', title: 'EU 강제노동제품 금지규정', titleEn:'Eu forced labor Product Ban Regulation' }
             ]
         }
     };
@@ -526,19 +558,26 @@ function formatPointText(value) {
     if (value == null || isNaN(value)) return '-';
     return Number(value).toFixed(1) + '점';
 }
+function formatPointTextEn(value) {
+    if (value == null || isNaN(value)) return '-';
+    return Number(value).toFixed(1) + 'pts';
+}
 
 // point_li 한 줄 업데이트 (막대 + 텍스트)
 function updatePointLi($li, value) {
     const $bar = $li.find('.bar');
-    const $pointText = $li.find('.point');
+    const $pointText = $li.find('.point.vw_kr');
+    const $pointTextEn = $li.find('.point.vw_en');
 
     if (value == null || isNaN(value)) {
         $bar.css('width', '0%').attr('data-point', '');
         $pointText.text('-');
+        $pointTextEn.text('-');
     } else {
         const v = Number(value);
         $bar.css('width', v + '%').attr('data-point', v);
         $pointText.text(formatPointText(v));
+        $pointTextEn.text(formatPointTextEn(v));
     }
 }
 
@@ -595,7 +634,8 @@ function bindTotalResult() {
     $('#popupTotalGrade').text(companyGradeText);
 
     // 등급 설명 문구 (HTML 유지)
-    $gradeLi.find('.cnt .t1').html(data.gradeMsg || '');
+    $gradeLi.find('.cnt .t1.vw_kr').html(data.gradeMsg || '');
+    $gradeLi.find('.cnt .t1.vw_en').html(data.gradeMsgEn || '');
 
     // 등급 바 active 처리
     const $gradeItems1 = $gradeLi.find('.grade_li li');
@@ -746,7 +786,8 @@ function bindEsgResult() {
         const $btn = $section.find('.report_tab_btns .btn_report_tab[data-tab="' + tab + '"]');
         if ($btn.length) {
             $btn.find('.summary .grade').text(gradeLabel);
-            $btn.find('.summary .point').text(formatPointText(point));
+            $btn.find('.summary .point.vw_kr').text(formatPointText(point));
+            $btn.find('.summary .point.vw_en').text(formatPointTextEn(point));
         }
 
         // ============================
@@ -791,14 +832,15 @@ function bindEsgResult() {
             // 데이터 기준으로 tbody 다시 생성
             (d.details || []).forEach(item => {
                 const $li = $('<li/>', { 'class': 'tbody' });
-                $('<span/>').text(item.text || '').appendTo($li);
+                $('<span/>', {'class' : 'vw_kr'}).text(item.text || '').appendTo($li);
+                $('<span/>', {'class' : 'vw_en'}).text(item.textEn || '').appendTo($li);
 
                 const score = item.score;
-                const scoreText = (score == null || isNaN(score))
-                    ? '-'
-                    : Number(score).toFixed(1) + '점';
+                const scoreText = formatPointText(score);
+                const scoreTextEn = formatPointTextEn(score);
 
-                $('<span/>').text(scoreText).appendTo($li);
+                $('<span/>', {'class':'vw_kr'}).text(scoreText).appendTo($li);
+                $('<span/>', {'class':'vw_en'}).text(scoreTextEn).appendTo($li);
                 $tbl.append($li);
             });
         }
@@ -816,6 +858,7 @@ function bindRegResult() {
     // -----------------------------
     const regGradeIndex = data.regGrade;                 // 0~4
     const regGradeLabel = config.regGradeTxt[regGradeIndex] || ''; // '취약'~'우수'
+    const regGradeLabelEn = config.regGradeTxtEn[regGradeIndex] || ''; // '취약'~'우수'
 
     // mt01 이 붙은 report_grid 안의 li 들: [0: 설명, 1: 등급, 2: 대응도]
     const $gridItems = $section.find('.report_grid.mt01 > li');
@@ -823,7 +866,8 @@ function bindRegResult() {
     const $rateItem  = $gridItems.eq(2);   // 대응도 박스
 
     // 등급 텍스트
-    $gradeItem.find('.txt .t2 strong').text(regGradeLabel);
+    $gradeItem.find('.txt .t2.vw_kr strong').text(regGradeLabel);
+    $gradeItem.find('.txt .t2.vw_en strong').text(regGradeLabelEn);
 
     // 등급 바 active 처리
     const $regGradeLis = $gradeItem.find('.grade_li li');
@@ -835,7 +879,8 @@ function bindRegResult() {
     }
 
     // 등급 설명 (HTML 포함)
-    $gradeItem.find('.cnt .t1').html(data.regGradeMsg || '');
+    $gradeItem.find('.cnt .t1.vw_kr').html(data.regGradeMsg || '');
+    $gradeItem.find('.cnt .t1.vw_en').html(data.regGradeMsgEn || '');
 
     // -----------------------------
     // 2) 상단 "ESG규제 대응도" 박스
@@ -869,6 +914,7 @@ function bindRegResult() {
     // -----------------------------
     const regDetails = data.regDetails || [];
     const regGradeTxtArr = config.regGradeTxt; // ['취약','미흡','보통','양호','우수']
+    const regGradeTxtArrEn = config.regGradeTxtEn; // ['취약','미흡','보통','양호','우수']
 
     const $panel = $section.find('.regulation_panel');
     if (!$panel.length) return;
@@ -878,8 +924,11 @@ function bindRegResult() {
     $categoryBoxes.each(function (idx) {
         const item = regDetails[idx];
         if (!item) return;
+        const $this = $(this);
         // title 에 이미 <br> 포함됨
-        $(this).html(item.title || '');
+        $this.empty();
+        $('<span/>', {'class' : 'vw_kr'}).html(item.title || '').appendTo($this);
+        $('<span/>', {'class' : 'vw_en'}).html(item.titleEn || '').appendTo($this);
     });
 
     // 3-2) 규제별 상태 텍스트 (오른쪽 상단 박스 리스트)
@@ -892,10 +941,14 @@ function bindRegResult() {
         // score 가 null 이면 "미대상" 처리
         if (item.score == null) {
             const label = item.text || '미대상';
-            $('<strong/>').text(label).appendTo($box);
+            const labelEn = item.textEn || 'Not eligible';
+            $('<strong/>', {'class' : 'vw_kr'}).text(label).appendTo($box);
+            $('<strong/>', {'class' : 'vw_en'}).text(labelEn).appendTo($box);
         } else {
             const label = regGradeTxtArr[item.score] || '';
-            $('<strong/>').text(label).appendTo($box);
+            const labelEn = regGradeTxtArrEn[item.score] || '';
+            $('<strong/>', {'class' : 'vw_kr'}).text(label).appendTo($box);
+            $('<strong/>', {'class' : 'vw_en'}).text(labelEn).appendTo($box);
 
             if (item.text) {
                 // (10/16, 62.5%) 형태로 출력
@@ -972,7 +1025,7 @@ function bindPoint() {
     const latestPoint = latest.gradePoint != null ? Number(latest.gradePoint) : null;
 
     // formatPointText: 82.5 -> "82.5점", null -> "-"
-    $('#gradePoint').text(formatPointText(latestPoint));
+    $('#gradePoint').text(Number(latestPoint).toFixed(1));
 }
 
 function getCurrentGate03DiagData() {
@@ -988,178 +1041,178 @@ function getGate03DiagData() {
     const config = {
         "1": {
             e: [
-                { item: "환경경영체계", grade: "S" },
-                { item: "환경 인허가 관리", grade: "A+" },
-                { item: "온실가스 및 에너지 관리", grade: "B+" },
-                { item: "온실가스 배출량 감축", grade: "A", popup: true, panelId: 'pop01' },
-                { item: "에너지 사용량 감축", grade: "A" },
-                { item: "폐기물 관리", grade: "A" },
-                { item: "용수 관리", grade: "B" },
-                { item: "유해화학물질 관리", grade: "S" },
-                { item: "대기오염물질 관리", grade: "S" },
-                { item: "수질오염물질 관리", grade: "A+" },
-                { item: "scope3 온실가스 배출량 산정 체계", grade: "B" },
-                { item: "잔류성 오염물질 관리", grade: "A+" },
-                { item: "배터리 규제 대상 원료 재활용", grade: "A" },
-                { item: "제품 단위 온실가스 배출량 산정 체계", grade: "A+" },
-                { item: "포장재 감축 및 대체", grade: "A+" },
-                { item: "제품 내 유해물질 관리", grade: "A+" }
+                { itemEn: "Environemental management System", item: "환경경영체계", grade: "S" },
+                { itemEn: "Environemental permit Mangement", item: "환경 인허가 관리", grade: "A+" },
+                { itemEn: "Greenhouse gas and enery management", item: "온실가스 및 에너지 관리", grade: "B+" },
+                { itemEn: "Reduction of greenhouse gas emissions", item: "온실가스 배출량 감축", grade: "A", popup: true, panelId: "pop01" },
+                { itemEn: "Reduction of energy consumption", item: "에너지 사용량 감축", grade: "A" },
+                { itemEn: "Waste mangement", item: "폐기물 관리", grade: "A" },
+                { itemEn: "Water mangement", item: "용수 관리", grade: "B" },
+                { itemEn: "Hazardous chemical management", item: "유해화학물질 관리", grade: "S" },
+                { itemEn: "Air pollutant management", item: "대기오염물질 관리", grade: "S" },
+                { itemEn: "Water pollutant mangement", item: "수질오염물질 관리", grade: "A+" },
+                { itemEn: "Scope3 greenhouse gas emisssion calculation system", item: "Scope3 온실가스 배출량 산정 체계", grade: "B" },
+                { itemEn: "Perisitent pollutant management", item: "잔류성 오염물질 관리", grade: "A+" },
+                { itemEn: "Recycling of batteriy-regulated materials", item: "배터리 규제 대상 원료 재활용", grade: "A" },
+                { itemEn: "Product-level greenhouse gas emission calculation system", item: "제품 단위 온실가스 배출량 산정 체계", grade: "A+" },
+                { itemEn: "Packaging reduction and alternatives", item: "포장재 감축 및 대체", grade: "A+" },
+                { itemEn: "Management of hazardous substances in products", item: "제품 내 유해물질 관리", grade: "A+" }
             ],
             s: [
-                { item: "인권 관리", grade: "A+" },
-                { item: "고충 처리 제도", grade: "S" },
-                { item: "괴롭힘, 차별 금지", grade: "A" },
-                { item: "근로조건", grade: "A" },
-                { item: "복리후생", grade: "A" },
-                { item: "강제노동 금지", grade: "B+" },
-                { item: "아동노동 금지", grade: "A+" },
-                { item: "노사관계 수준", grade: "A+" },
-                { item: "안전보건 관리체계", grade: "A+" },
-                { item: "안전보건 관리활동", grade: "S", popup: true, panelId: 'pop02' },
-                { item: "지역사회 공헌", grade: "B" },
-                { item: "외국인근로자 근로 관리", grade: "A" },
-                { item: "책임있는 원부자재 조달 정책", grade: "S" },
-                { item: "협력사 및 공급망 관리", grade: "A+" }
+                { itemEn: "Human rights mangement", item: "인권 관리", grade: "A+" },
+                { itemEn: "Grievance handling system", item: "고충 처리 제도", grade: "S" },
+                { itemEn: "No harassment or discrimination", item: "괴롭힘, 차별 금지", grade: "A" },
+                { itemEn: "Working conditions", item: "근로조건", grade: "A" },
+                { itemEn: "Employee benefis", item: "복리후생", grade: "A" },
+                { itemEn: "Prohibition of forced labor", item: "강제노동 금지", grade: "B+" },
+                { itemEn: "Prohibition of child labor", item: "아동노동 금지", grade: "A+" },
+                { itemEn: "Level of labor-management relations", item: "노사관계 수준", grade: "A+" },
+                { itemEn: "Occupational safety and health management system", item: "안전보건 관리체계", grade: "A+" },
+                { itemEn: "Occupational safety and health activities", item: "안전보건 관리활동", grade: "S", popup: true, panelId: "pop02" },
+                { itemEn: "Community contribution", item: "지역사회 공헌", grade: "B" },
+                { itemEn: "Management of foreign workers", item: "외국인근로자 근로 관리", grade: "A" },
+                { itemEn: "Responsible raw material procurement policy", item: "책임있는 원부자재 조달 정책", grade: "S" },
+                { itemEn: "Environmental impact management of suppliers", item: "협력사 및 공급망 관리", grade: "A+" }
             ],
             g: [
-                { item: "윤리경영 정책", grade: "B+" },
-                { item: "부패 및 불공정거래 방지 활동", grade: "S" },
-                { item: "윤리준법 신고제도", grade: "A" },
-                { item: "ESG 정보 공시", grade: "A", popup: true, panelId: 'pop03' },
-                { item: "경영 안정성", grade: "A+" },
-                { item: "주주권리", grade: "A" }
+                { itemEn: "Ethical management policy", item: "윤리경영 정책", grade: "B+" },
+                { itemEn: "Anti-corruption and fair trade prevention activities", item: "부패 및 불공정거래 방지 활동", grade: "S" },
+                { itemEn: "Ethics and compliance reporting system", item: "윤리준법 신고제도", grade: "A" },
+                { itemEn: "ESG information disclosure", item: "ESG 정보 공시", grade: "A", popup: true, panelId: "pop03" },
+                { itemEn: "Management stability", item: "경영 안정성", grade: "A+" },
+                { itemEn: "Shareholder rights", item: "주주권리", grade: "A" }
             ]
         },
         "2": {
             e: [
-                { item: "환경경영체계", grade: "A" },
-                { item: "환경 인허가 관리", grade: "B+" },
-                { item: "온실가스 및 에너지 관리", grade: "B+" },
-                { item: "온실가스 배출량 감축", grade: "B+", popup: true, panelId: 'pop01' },
-                { item: "에너지 사용량 감축", grade: "B" },
-                { item: "폐기물 관리", grade: "C" },
-                { item: "용수 관리", grade: "S" },
-                { item: "유해화학물질 관리", grade: "B" },
-                { item: "대기오염물질 관리", grade: "A" },
-                { item: "수질오염물질 관리", grade: "A+" },
-                { item: "scope3 온실가스 배출량 산정 체계", grade: "A+" },
-                { item: "잔류성 오염물질 관리", grade: "B" },
-                { item: "분쟁광물 관리", grade: "B" },
-                { item: "제품 내 유해물질 관리", grade: "B+" },
-                { item: "오존층 관련 규제대상물질 관리", grade: "C" },
-                { item: "수은 또는 수은 화합물 관리", grade: "B+" },
-                { item: "잔류성오염물질 함유 기기 관리", grade: "B+" }
+                { itemEn: "Environemental management System", item: "환경경영체계", grade: "A" },
+                { itemEn: "Environemental permit Mangement", item: "환경 인허가 관리", grade: "B+" },
+                { itemEn: "Greenhouse gas and enery management", item: "온실가스 및 에너지 관리", grade: "B+" },
+                { itemEn: "Reduction of greenhouse gas emissions", item: "온실가스 배출량 감축", grade: "B+", popup: true, panelId: "pop01" },
+                { itemEn: "Reduction of energy consumption", item: "에너지 사용량 감축", grade: "B" },
+                { itemEn: "Waste mangement", item: "폐기물 관리", grade: "C" },
+                { itemEn: "Water mangement", item: "용수 관리", grade: "S" },
+                { itemEn: "Hazardous chemical management", item: "유해화학물질 관리", grade: "B" },
+                { itemEn: "Air pollutant management", item: "대기오염물질 관리", grade: "A" },
+                { itemEn: "Water pollutant mangement", item: "수질오염물질 관리", grade: "A+" },
+                { itemEn: "Scope3 greenhouse gas emisssion calculation system", item: "Scope3 온실가스 배출량 산정 체계", grade: "A+" },
+                { itemEn: "Perisitent pollutant management", item: "잔류성 오염물질 관리", grade: "B" },
+                { itemEn: "Conflict minerals management", item: "분쟁광물 관리", grade: "B" },
+                { itemEn: "Management of hazardous substances in products", item: "제품 내 유해물질 관리", grade: "B+" },
+                { itemEn: "Management of ozone-depleting regulated substances", item: "오존층 관련 규제대상물질 관리", grade: "C" },
+                { itemEn: "Mercury and mercury-compound management", item: "수은 또는 수은 화합물 관리", grade: "B+" },
+                { itemEn: "Management of equipment containing persistent pollutants", item: "잔류성오염물질 함유 기기 관리", grade: "B+" }
             ],
             s: [
-                { item: "인권 관리", grade: "B" },
-                { item: "고충 처리 제도", grade: "B+" },
-                { item: "괴롭힘, 차별 금지", grade: "A" },
-                { item: "근로조건", grade: "A" },
-                { item: "복리후생", grade: "A" },
-                { item: "강제노동 금지", grade: "B" },
-                { item: "아동노동 금지", grade: "S" },
-                { item: "노사관계 수준", grade: "S" },
-                { item: "안전보건 관리체계", grade: "A+" },
-                { item: "안전보건 관리활동", grade: "B", popup: true, panelId: 'pop02' },
-                { item: "지역사회 공헌", grade: "A+" },
-                { item: "외국인근로자 근로 관리", grade: "B" },
-                { item: "협력사 및 공급망 관리", grade: "B" }
+                { itemEn: "Human rights mangement", item: "인권 관리", grade: "B" },
+                { itemEn: "Grievance handling system", item: "고충 처리 제도", grade: "B+" },
+                { itemEn: "No harassment or discrimination", item: "괴롭힘, 차별 금지", grade: "A" },
+                { itemEn: "Working conditions", item: "근로조건", grade: "A" },
+                { itemEn: "Employee benefis", item: "복리후생", grade: "A" },
+                { itemEn: "Prohibition of forced labor", item: "강제노동 금지", grade: "B" },
+                { itemEn: "Prohibition of child labor", item: "아동노동 금지", grade: "S" },
+                { itemEn: "Level of labor-management relations", item: "노사관계 수준", grade: "S" },
+                { itemEn: "Occupational safety and health management system", item: "안전보건 관리체계", grade: "A+" },
+                { itemEn: "Occupational safety and health activities", item: "안전보건 관리활동", grade: "B", popup: true, panelId: "pop02" },
+                { itemEn: "Community contribution", item: "지역사회 공헌", grade: "A+" },
+                { itemEn: "Management of foreign workers", item: "외국인근로자 근로 관리", grade: "B" },
+                { itemEn: "Environmental impact management of suppliers", item: "협력사 및 공급망 관리", grade: "B" }
             ],
             g: [
-                { item: "윤리경영 정책", grade: "S" },
-                { item: "부패 및 불공정거래 방지 활동", grade: "A+" },
-                { item: "윤리준법 신고제도", grade: "B" },
-                { item: "ESG 정보 공시", grade: "A+", popup: true, panelId: 'pop03' },
-                { item: "경영 안정성", grade: "B" },
-                { item: "주주권리", grade: "B+" }
+                { itemEn: "Ethical management policy", item: "윤리경영 정책", grade: "S" },
+                { itemEn: "Anti-corruption and fair trade prevention activities", item: "부패 및 불공정거래 방지 활동", grade: "A+" },
+                { itemEn: "Ethics and compliance reporting system", item: "윤리준법 신고제도", grade: "B" },
+                { itemEn: "ESG information disclosure", item: "ESG 정보 공시", grade: "A+", popup: true, panelId: "pop03" },
+                { itemEn: "Management stability", item: "경영 안정성", grade: "B" },
+                { itemEn: "Shareholder rights", item: "주주권리", grade: "B+" }
             ]
         },
         "3": {
             e: [
-                { item: "환경경영체계", grade: "B+" },
-                { item: "환경 인허가 관리", grade: "B" },
-                { item: "온실가스 및 에너지 관리", grade: "B" },
-                { item: "온실가스 배출량 감축", grade: "B+", popup: true, panelId: 'pop01' },
-                { item: "에너지 사용량 감축", grade: "C" },
-                { item: "폐기물 관리", grade: "C" },
-                { item: "용수 관리", grade: "A" },
-                { item: "유해화학물질 관리", grade: "B" },
-                { item: "대기오염물질 관리", grade: "A" },
-                { item: "수질오염물질 관리", grade: "B" },
-                { item: "scope3 온실가스 배출량 산정 체계", grade: "B+" },
-                { item: "잔류성 오염물질 관리", grade: "C" },
-                { item: "동물실험 축소 및 대체", grade: "C" },
-                { item: "생태계 교란 생물 반입/반출 관리", grade: "D" },
-                { item: "해외 유전자원 관리", grade: "A+" },
-                { item: "유전자변형생물체 관리", grade: "A" },
-                { item: "멸종위기종 관리", grade: "D" }
+                { itemEn: "Environemental management System", item: "환경경영체계", grade: "B+" },
+                { itemEn: "Environemental permit Mangement", item: "환경 인허가 관리", grade: "B" },
+                { itemEn: "Greenhouse gas and enery management", item: "온실가스 및 에너지 관리", grade: "B" },
+                { itemEn: "Reduction of greenhouse gas emissions", item: "온실가스 배출량 감축", grade: "B+", popup: true, panelId: "pop01" },
+                { itemEn: "Reduction of energy consumption", item: "에너지 사용량 감축", grade: "C" },
+                { itemEn: "Waste mangement", item: "폐기물 관리", grade: "C" },
+                { itemEn: "Water mangement", item: "용수 관리", grade: "A" },
+                { itemEn: "Hazardous chemical management", item: "유해화학물질 관리", grade: "B" },
+                { itemEn: "Air pollutant management", item: "대기오염물질 관리", grade: "A" },
+                { itemEn: "Water pollutant mangement", item: "수질오염물질 관리", grade: "B" },
+                { itemEn: "Scope3 greenhouse gas emisssion calculation system", item: "Scope3 온실가스 배출량 산정 체계", grade: "B+" },
+                { itemEn: "Perisitent pollutant management", item: "잔류성 오염물질 관리", grade: "C" },
+                { itemEn: "Reduction and replacement of animal testing", item: "동물실험 축소 및 대체", grade: "C" },
+                { itemEn: "Management of import/export of ecosystem-disturbing species", item: "생태계 교란 생물 반입/반출 관리", grade: "D" },
+                { itemEn: "Management of overseas genetic ressources", item: "해외 유전자원 관리", grade: "A+" },
+                { itemEn: "GMO (Genetically Modified Organism) management", item: "유전자변형생물체 관리", grade: "A" },
+                { itemEn: "Management of endangered species", item: "멸종위기종 관리", grade: "D" }
             ],
             s: [
-                { item: "인권 관리", grade: "A" },
-                { item: "고충 처리 제도", grade: "B+" },
-                { item: "괴롭힘, 차별 금지", grade: "B" },
-                { item: "근로조건", grade: "C" },
-                { item: "복리후생", grade: "S" },
-                { item: "강제노동 금지", grade: "B" },
-                { item: "아동노동 금지", grade: "A" },
-                { item: "노사관계 수준", grade: "A+" },
-                { item: "안전보건 관리체계", grade: "A+" },
-                { item: "안전보건 관리활동", grade: "B", popup: true, panelId: 'pop02' },
-                { item: "지역사회 공헌", grade: "A+" },
-                { item: "외국인근로자 근로 관리", grade: "B+" }
+                { itemEn: "Human rights mangement", item: "인권 관리", grade: "A" },
+                { itemEn: "Grievance handling system", item: "고충 처리 제도", grade: "B+" },
+                { itemEn: "No harassment or discrimination", item: "괴롭힘, 차별 금지", grade: "B" },
+                { itemEn: "Working conditions", item: "근로조건", grade: "C" },
+                { itemEn: "Employee benefis", item: "복리후생", grade: "S" },
+                { itemEn: "Prohibition of forced labor", item: "강제노동 금지", grade: "B" },
+                { itemEn: "Prohibition of child labor", item: "아동노동 금지", grade: "A" },
+                { itemEn: "Level of labor-management relations", item: "노사관계 수준", grade: "A+" },
+                { itemEn: "Occupational safety and health management system", item: "안전보건 관리체계", grade: "A+" },
+                { itemEn: "Occupational safety and health activities", item: "안전보건 관리활동", grade: "B", popup: true, panelId: "pop02" },
+                { itemEn: "Community contribution", item: "지역사회 공헌", grade: "A+" },
+                { itemEn: "Management of foreign workers", item: "외국인근로자 근로 관리", grade: "B+" }
             ],
             g: [
-                { item: "윤리경영 정책", grade: "B+" },
-                { item: "부패 및 불공정거래 방지 활동", grade: "B+" },
-                { item: "윤리준법 신고제도", grade: "B+" },
-                { item: "ESG 정보 공시", grade: "A", popup: true, panelId: 'pop03' },
-                { item: "경영 안정성", grade: "B" },
-                { item: "주주권리", grade: "B" }
+                { itemEn: "Ethical management policy", item: "윤리경영 정책", grade: "B+" },
+                { itemEn: "Anti-corruption and fair trade prevention activities", item: "부패 및 불공정거래 방지 활동", grade: "B+" },
+                { itemEn: "Ethics and compliance reporting system", item: "윤리준법 신고제도", grade: "B+" },
+                { itemEn: "ESG information disclosure", item: "ESG 정보 공시", grade: "A", popup: true, panelId: "pop03" },
+                { itemEn: "Management stability", item: "경영 안정성", grade: "B" },
+                { itemEn: "Shareholder rights", item: "주주권리", grade: "B" }
             ]
         },
         "4": {
             e: [
-                { item: "환경경영체계", grade: "B+" },
-                { item: "환경 인허가 관리", grade: "B" },
-                { item: "온실가스 및 에너지 관리", grade: "B" },
-                { item: "온실가스 배출량 감축", grade: "B+", popup: true, panelId: 'pop01' },
-                { item: "에너지 사용량 감축", grade: "C" },
-                { item: "폐기물 관리", grade: "C" },
-                { item: "용수 관리", grade: "A" },
-                { item: "유해화학물질 관리", grade: "B" },
-                { item: "대기오염물질 관리", grade: "A" },
-                { item: "수질오염물질 관리", grade: "B" },
-                { item: "scope3 온실가스 배출량 산정 체계", grade: "B+" },
-                { item: "잔류성 오염물질 관리", grade: "C" }
+                { itemEn: "Environemental management System", item: "환경경영체계", grade: "B+" },
+                { itemEn: "Environemental permit Mangement", item: "환경 인허가 관리", grade: "B" },
+                { itemEn: "Greenhouse gas and enery management", item: "온실가스 및 에너지 관리", grade: "B" },
+                { itemEn: "Reduction of greenhouse gas emissions", item: "온실가스 배출량 감축", grade: "B+", popup: true, panelId: "pop01" },
+                { itemEn: "Reduction of energy consumption", item: "에너지 사용량 감축", grade: "C" },
+                { itemEn: "Waste mangement", item: "폐기물 관리", grade: "C" },
+                { itemEn: "Water mangement", item: "용수 관리", grade: "A" },
+                { itemEn: "Hazardous chemical management", item: "유해화학물질 관리", grade: "B" },
+                { itemEn: "Air pollutant management", item: "대기오염물질 관리", grade: "A" },
+                { itemEn: "Water pollutant mangement", item: "수질오염물질 관리", grade: "B" },
+                { itemEn: "Scope3 greenhouse gas emisssion calculation system", item: "Scope3 온실가스 배출량 산정 체계", grade: "B+" },
+                { itemEn: "Perisitent pollutant management", item: "잔류성 오염물질 관리", grade: "C" }
             ],
             s: [
-                { item: "인권 관리", grade: "A" },
-                { item: "고충 처리 제도", grade: "C" },
-                { item: "괴롭힘, 차별 금지", grade: "A" },
-                { item: "근로조건", grade: "A+" },
-                { item: "복리후생", grade: "A+" },
-                { item: "강제노동 금지", grade: "B" },
-                { item: "아동노동 금지", grade: "B" },
-                { item: "노사관계 수준", grade: "B+" },
-                { item: "안전보건 관리체계", grade: "C" },
-                { item: "안전보건 관리활동", grade: "B+", popup: true, panelId: 'pop02' },
-                { item: "지역사회 공헌", grade: "B+" },
-                { item: "외국인근로자 근로 관리", grade: "A" },
-                { item: "도급/용역/위탁 안전관리", grade: "C" },
-                { item: "정보보호 관리체계", grade: "A+" },
-                { item: "근로시간 준수", grade: "B" },
-                { item: "개인정보 수집 동의", grade: "A+" }
+                { itemEn: "Human rights mangement", item: "인권 관리", grade: "A" },
+                { itemEn: "Grievance handling system", item: "고충 처리 제도", grade: "C" },
+                { itemEn: "No harassment or discrimination", item: "괴롭힘, 차별 금지", grade: "A" },
+                { itemEn: "Working conditions", item: "근로조건", grade: "A+" },
+                { itemEn: "Employee benefis", item: "복리후생", grade: "A+" },
+                { itemEn: "Prohibition of forced labor", item: "강제노동 금지", grade: "B" },
+                { itemEn: "Prohibition of child labor", item: "아동노동 금지", grade: "B" },
+                { itemEn: "Level of labor-management relations", item: "노사관계 수준", grade: "B+" },
+                { itemEn: "Occupational safety and health management system", item: "안전보건 관리체계", grade: "C" },
+                { itemEn: "Occupational safety and health activities", item: "안전보건 관리활동", grade: "B+", popup: true, panelId: "pop02" },
+                { itemEn: "Community contribution", item: "지역사회 공헌", grade: "B+" },
+                { itemEn: "Management of foreign workers", item: "외국인근로자 근로 관리", grade: "A" },
+                { itemEn: "Safety management for contracted/subcontracted work", item: "도급/용역/위탁 안전관리", grade: "C" },
+                { itemEn: "Information protection management system", item: "정보보호 관리체계", grade: "A+" },
+                { itemEn: "Compliance with working hours", item: "근로시간 준수", grade: "B" },
+                { itemEn: "Consent for personal data collection", item: "개인정보 수집 동의", grade: "A+" }
             ],
             g: [
-                { item: "윤리경영 정책", grade: "C" },
-                { item: "부패 및 불공정거래 방지 활동", grade: "B+" },
-                { item: "윤리준법 신고제도", grade: "A+" },
-                { item: "ESG 정보 공시", grade: "D", popup: true, panelId: 'pop03' },
-                { item: "경영 안정성", grade: "B+" },
-                { item: "주주권리", grade: "B+" }
+                { itemEn: "Ethical management policy", item: "윤리경영 정책", grade: "C" },
+                { itemEn: "Anti-corruption and fair trade prevention activities", item: "부패 및 불공정거래 방지 활동", grade: "B+" },
+                { itemEn: "Ethics and compliance reporting system", item: "윤리준법 신고제도", grade: "A+" },
+                { itemEn: "ESG information disclosure", item: "ESG 정보 공시", grade: "D", popup: true, panelId: "pop03" },
+                { itemEn: "Management stability", item: "경영 안정성", grade: "B+" },
+                { itemEn: "Shareholder rights", item: "주주권리", grade: "B+" }
             ]
         }
-    }
+    };
 
     return config;
 }

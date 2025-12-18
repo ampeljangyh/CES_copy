@@ -21,10 +21,11 @@
 <script src="../../resources/js/chart.js"></script>
 <script src="../../resources/js/gsap.min.js"></script>
 <script src="../../resources/js/siy.js"></script>
+<script src="../../resources/js/lang_toggle.js"></script>
 <!-- //퍼블리싱 -->
 </head>
 
-<body>
+<body id="lang_kr">
 <!-- wrap -->
 <div id="wrap" class="com_bg gate_01_main ">
     <!-- Header -->
@@ -34,24 +35,41 @@
 
     <!-- Container -->
     <section id="container" class="esg_ty">
+        <!-- snb -->
         <div class="snb">
             <div class="snb_inner">
                 <a href="../main.html" class="logo">
                     <img src="../../resources/images/logo.png">
                 </a>
-                <div class="menu">
+                <div class="menu kr_t">
                     <ul>
                         <li>
                             <a href="../main.html" class="menu_item ico_01">메인</a>
                         </li>
                         <li>
-                            <a href="../gate01/gate_01_01.html" class="menu_item ico_02">기술 금융 시스템</a>
+                            <a href="../gate01/gate_01.html" class="menu_item ico_02">기술 금융 시스템</a>
                         </li>
                         <li>
                             <a href="../gate02/gate_02.html" class="menu_item ico_03">K-콘텐츠 투자</a>
                         </li>
                         <li>
                             <a href="../gate03/gate_03.html" class="menu_item ico_04 active">ESG 정밀진단 시스템</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="menu en_t">
+                    <ul>
+                        <li>
+                            <a href="../main.html" class="menu_item ico_01">Main</a>
+                        </li>
+                        <li>
+                            <a href="../gate01/gate_01.html" class="menu_item ico_02">Tech Evaluation</a>
+                        </li>
+                        <li>
+                            <a href="../gate02/gate_02.html" class="menu_item ico_03">K-Content Investment</a>
+                        </li>
+                        <li>
+                            <a href="../gate03/gate_03.html" class="menu_item ico_04 active">ESG Precision Diagnosis System</a>
                         </li>
                     </ul>
                 </div>
@@ -63,12 +81,15 @@
                 </div>
             </div>
         </div>
+        <!-- //snb -->
 
         <div class="contents esg_cont step05" style="visibility: hidden;">
             <div class="esg_cont_inner">
                 <div class="esg_tit">
-                    <p><span class="selPrdName">NexDrive</span> (<span class="selPrdCategory">자동차</span>)</p>
-                    <strong>ESG 정밀진단 최종 보고서</strong>
+                    <p class="vw_kr"><span class="selPrdName">NexDrive</span> (<span class="selPrdCategory">자동차</span>)</p>
+                    <strong class="vw_kr">ESG 정밀진단 최종 보고서</strong>
+                    <p class="vw_en"><span class="selPrdName">NexDrive</span> (<span class="selPrdCategoryEn">Automobile</span>)</p>
+                    <strong class="vw_en">Final ESG in-depth assessment report</strong>
                 </div>
 
                 <!-- report_panel -->
@@ -77,12 +98,23 @@
                     <div data-report="1" class="active">
                         <!-- top -->
                         <div class="top">
-                            <p class="tit">1. ESG정밀진단 결과</p>
+                            <p class="tit vw_kr">1. ESG정밀진단 결과</p>
+                            <p class="tit vw_en">1. ESG in-depth assessment result</p>
 
                             <!-- scroll_btns -->
                             <ul class="scroll_btns">
-                                <li><button type="button" class="btn_scroll active">종합결과</button></li>
-                                <li><button type="button" class="btn_scroll">분야별 결과</button></li>
+                                <li>
+                                    <button type="button" class="btn_scroll active">
+                                        <span class="vw_kr">종합결과</span>
+                                        <span class="vw_en">Overall result</span>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="btn_scroll">
+                                        <span class="vw_kr">분야별 결과</span>
+                                        <span class="vw_en">Results by category</span>
+                                    </button>
+                                </li>
                             </ul>
                             <!-- //scroll_btns -->
 
@@ -102,7 +134,8 @@
                             <!-- scroll_cnt -->
                             <div class="scroll_cnt cnt1">
                                 <div class="report_tit_box">
-                                    <strong class="report_tit">ESG 정밀진단 종합 결과</strong>
+                                    <strong class="report_tit vw_kr">ESG 정밀진단 종합 결과</strong>
+                                    <strong class="report_tit vw_en">Comprehensive ESG In-depth assessment result</strong>
                                 </div>
 
                                 <!-- report_grid -->
@@ -112,10 +145,12 @@
                                             <!-- point_wrap -->
                                             <div class="point_wrap">
                                                 <div class="txt">
-                                                    <p class="t1">종합 등급</p>
+                                                    <p class="t1 vw_kr">종합 등급</p>
+                                                    <p class="t1 vw_en">Overall score</p>
                                                     <p class="t2">
                                                         <strong>A+</strong>
-                                                        <span>등급</span>
+                                                        <span class="vw_kr">등급</span>
+                                                        <span class="vw_en">Score</span>
                                                     </p>
                                                 </div>
                                                 <div class="cnt">
@@ -129,7 +164,8 @@
                                                         <li>S</li>
                                                     </ul>
 
-                                                    <p class="t1">귀사는 ESG 관리 수준이 높은 기업으로, 주요 항목을 잘 운영하고 있습니다.<br>일부 영역을 보완하면 더욱 균형잡힌 ESG 경영을 실천할 수 있습니다.<br>지속적인 개선을 통해 한 단계 더 도약할 수 있습니다.</p>
+                                                    <p class="t1 vw_kr">귀사는 ESG 관리 수준이 높은 기업으로, 주요 항목을 잘 운영하고 있습니다.<br>일부 영역을 보완하면 더욱 균형잡힌 ESG 경영을 실천할 수 있습니다.<br>지속적인 개선을 통해 한 단계 더 도약할 수 있습니다.</p>
+                                                    <p class="t1 vw_en">귀사는 ESG 관리 수준이 높은 기업으로, 주요 항목을 잘 운영하고 있습니다.<br>일부 영역을 보완하면 더욱 균형잡힌 ESG 경영을 실천할 수 있습니다.<br>지속적인 개선을 통해 한 단계 더 도약할 수 있습니다.</p>
                                                 </div>
                                             </div>
                                             <!-- //point_wrap -->
@@ -140,35 +176,43 @@
                                             <!-- point_wrap -->
                                             <div class="point_wrap">
                                                 <div class="txt">
-                                                    <p class="t1">종합 점수</p>
+                                                    <p class="t1 vw_kr">종합 점수</p>
+                                                    <p class="t1 vw_en">Overall rating</p>
                                                     <p class="t2">
                                                         <strong>84.9</strong>
-                                                        <span>점</span>
+                                                        <span class="vw_kr">점</span>
+                                                        <span class="vw_en">pts</span>
                                                     </p>
                                                 </div>
                                                 <div class="cnt">
                                                     <!-- point_li -->
                                                     <ul class="point_li">
                                                         <li class="emph">
-                                                            <span class="name">당사</span>
+                                                            <span class="name vw_kr">당사</span>
+                                                            <span class="name vw_en">Company</span>
                                                             <span class="point_track">
                                                                 <span class="bar" style="width:84.9%;" data-point="84.9"></span>
                                                             </span>
-                                                            <strong class="point">84.9점</strong>
+                                                            <strong class="point vw_kr">84.9점</strong>
+                                                            <strong class="point vw_en">84.9pts</strong>
                                                         </li>
                                                         <li>
-                                                            <span class="name">동종산업 평균</span>
+                                                            <span class="name vw_kr">동종산업 평균</span>
+                                                            <span class="name vw_en">Industry average</span>
                                                             <span class="point_track">
                                                                 <span class="bar" style="width:56.9%;" data-point="56.9"></span>
                                                             </span>
-                                                            <strong class="point">56.9점</strong>
+                                                            <strong class="point vw_kr">56.9점</strong>
+                                                            <strong class="point vw_en">56.9pts</strong>
                                                         </li>
                                                         <li>
-                                                            <span class="name">중소기업 평균</span>
+                                                            <span class="name vw_kr">중소기업 평균</span>
+                                                            <span class="name vw_en">Small and Medium business average</span>
                                                             <span class="point_track">
                                                                 <span class="bar" style="width:52.9%;" data-point="52.9"></span>
                                                             </span>
-                                                            <strong class="point">52.9점</strong>
+                                                            <strong class="point vw_kr">52.9점</strong>
+                                                            <strong class="point vw_en">52.9pts</strong>
                                                         </li>
                                                     </ul>
                                                     <!-- //point_li -->
@@ -179,7 +223,8 @@
                                     </li>
                                     <li>
                                         <div class="inner chart_ty">
-                                            <strong class="chart_tit">전체 중소 기업 등급 분포</strong>
+                                            <strong class="chart_tit vw_kr">전체 중소 기업 등급 분포</strong>
+                                            <strong class="chart_tit vw_en">Distribution of overall Small and Medium Business score</strong>
                                             <div class="chart1">
                                                 <canvas id="report1-chart1" style="width:100%; height:100%;"></canvas>
                                             </div>
@@ -194,38 +239,54 @@
                                             </ul>
                                         </div>
                                         <div class="inner chart_ty">
-                                            <strong class="chart_tit">최근 3개년 ESG 점수 현황</strong>
+                                            <strong class="chart_tit vw_kr">최근 3개년 ESG 점수 현황</strong>
+                                            <strong class="chart_tit vw_en">ESG rating status for the past three years</strong>
                                             <div class="chart2">
                                                 <canvas id="report1-chart2" style="width:100%; height:100%;"></canvas>
                                             </div>
                                             <!-- point_tbl -->
                                             <ul class="point_tbl">
                                                 <li class="thead">
-                                                    <span>년도</span>
+                                                    <span>
+                                                        <em class="vw_kr">년도</em>
+                                                        <em class="vw_en">Year</em>
+                                                    </span>
                                                     <span>2022</span>
                                                     <span>2023</span>
                                                     <span>2024</span>
                                                 </li>
                                                 <li class="tbody">
-                                                    <span>종합</span>
+                                                    <span>
+                                                        <em class="vw_kr">종합</em>
+                                                        <em class="vw_en">Overall</em>
+                                                    </span>
                                                     <span>69.8</span>
                                                     <span>77.6</span>
                                                     <span>84.9</span>
                                                 </li>
                                                 <li class="tbody">
-                                                    <span>환경</span>
+                                                    <span>
+                                                        <em class="vw_kr">환경</em>
+                                                        <em class="vw_en">Environment</em>
+                                                    </span>
                                                     <span>72.4</span>
                                                     <span>78.8</span>
                                                     <span>82.5</span>
                                                 </li>
                                                 <li class="tbody">
-                                                    <span>사회</span>
+                                                    <span>
+                                                        <em class="vw_kr">사회</em>
+                                                        <em class="vw_en">Social</em>
+                                                    </span>
                                                     <span>71.7</span>
                                                     <span>79.0</span>
                                                     <span>87.0</span>
                                                 </li>
                                                 <li class="tbody">
-                                                    <span>지배구조</span>
+                                                    <span>
+                                                        <em class="vw_kr">지배구조</em>
+                                                        <em class="vw_en">Governance</em>
+                                                    </span>
                                                     <span>78.0</span>
                                                     <span>79.1</span>
                                                     <span>85.0</span>
@@ -243,30 +304,37 @@
                             <!-- scroll_cnt -->
                             <div class="scroll_cnt cnt2" id="esgResult">
                                 <div class="report_tit_box">
-                                    <strong class="report_tit">ESG정밀진단 분야별 결과</strong>
+                                    <strong class="report_tit vw_kr">ESG정밀진단 분야별 결과</strong>
+                                    <strong class="report_tit vw_en">ESG sector-specific assessment results</strong>
                                 </div>
 
                                 <!-- report_tab_btns -->
                                 <div class="report_tab_btns">
                                     <button type="button" data-tab="1" class="btn_report_tab active">
-                                        <span class="name">환경</span>
+                                        <span class="name vw_kr">환경</span>
+                                        <span class="name vw_en">Environment</span>
                                         <span class="summary">
                                             <span class="grade">A+</span>
-                                            <span class="point">82.5점</span>
+                                            <span class="point vw_kr">82.5점</span>
+                                            <span class="point vw_en">82.5pts</span>
                                         </span>
                                     </button>
                                     <button type="button" data-tab="2" class="btn_report_tab">
-                                        <span class="name">사회</span>
+                                        <span class="name vw_kr">사회</span>
+                                        <span class="name vw_en">Social</span>
                                         <span class="summary">
                                             <span class="grade">A+</span>
-                                            <span class="point">87.0점</span>
+                                            <span class="point vw_kr">87.0점</span>
+                                            <span class="point vw_en">87.0pts</span>
                                         </span>
                                     </button>
                                     <button type="button" data-tab="3" class="btn_report_tab">
-                                        <span class="name">지배구조</span>
+                                        <span class="name vw_kr">지배구조</span>
+                                        <span class="name vw_en">Governance</span>
                                         <span class="summary">
                                             <span class="grade">A+</span>
-                                            <span class="point">85.0점</span>
+                                            <span class="point vw_kr">85.0점</span>
+                                            <span class="point vw_en">85.0pts</span>
                                         </span>
                                     </button>
                                 </div>
@@ -279,7 +347,8 @@
                                         <ul class="report_grid2">
                                             <li>
                                                 <div class="inner chart_ty">
-                                                    <strong class="chart_tit">환경분야 전체 중소기업 등급 분포</strong>
+                                                    <strong class="chart_tit vw_kr">전체 중소기업 등급 분포(환경)</strong>
+                                                    <strong class="chart_tit vw_en">Overall Small-to-Medium Business Rating distribution (Environment)</strong>
 
                                                     <div class="chart3">
                                                         <canvas id="report1-tab1-chart1" style="width:100%; height:100%;"></canvas>
@@ -296,30 +365,37 @@
                                                     </ul>
                                                 </div>
                                                 <div class="inner chart_ty">
-                                                    <strong class="chart_tit">환경분야 기업 ESG경쟁력 수준</strong>
+                                                    <strong class="chart_tit vw_kr">기업 ESG경쟁력 수준(환경)</strong>
+                                                    <strong class="chart_tit vw_en">ESG competitiveness level (Environment)</strong>
 
                                                     <!-- point_li -->
                                                     <ul class="point_li">
                                                         <li class="emph">
-                                                            <span class="name">당사</span>
+                                                            <span class="name vw_kr">당사</span>
+                                                            <span class="name vw_en">Company</span>
                                                             <span class="point_track">
                                                                 <span class="bar" style="width:84.9%;" data-point="84.9"></span>
                                                             </span>
-                                                            <strong class="point">84.9점</strong>
+                                                            <strong class="point vw_kr">84.9점</strong>
+                                                            <strong class="point vw_en">84.9pts</strong>
                                                         </li>
                                                         <li>
-                                                            <span class="name">동종산업 평균</span>
+                                                            <span class="name vw_kr">동종산업 평균</span>
+                                                            <span class="name vw_en">Industry average</span>
                                                             <span class="point_track">
                                                                 <span class="bar" style="width:56.9%;" data-point="56.9"></span>
                                                             </span>
-                                                            <strong class="point">56.9점</strong>
+                                                            <strong class="point vw_kr">56.9점</strong>
+                                                            <strong class="point vw_en">56.9pts</strong>
                                                         </li>
                                                         <li>
-                                                            <span class="name">중소기업 평균</span>
+                                                            <span class="name vw_kr">중소기업 평균</span>
+                                                            <span class="name vw_en">Small and Medium business average</span>
                                                             <span class="point_track">
                                                                 <span class="bar" style="width:52.9%;" data-point="52.9"></span>
                                                             </span>
-                                                            <strong class="point">52.9점</strong>
+                                                            <strong class="point vw_kr">52.9점</strong>
+                                                            <strong class="point vw_en">52.9pts</strong>
                                                         </li>
                                                     </ul>
                                                     <!-- //point_li -->
@@ -327,7 +403,8 @@
                                             </li>
                                             <li>
                                                 <div class="inner chart_ty">
-                                                    <strong class="chart_tit">환경분야 이슈별 점수</strong>
+                                                    <strong class="chart_tit vw_kr">이슈별 점수(환경)</strong>
+                                                    <strong class="chart_tit vw_en">Issue Scores(Environment)</strong>
 
                                                     <div class="chart4">
                                                         <div class="chart_inner">
@@ -335,41 +412,29 @@
                                                         </div>
 
                                                         <div class="chart_btns">
-                                                            <button class="btnCompany chart_btn active">당사</button>
-                                                            <button class="btnIndustry chart_btn">동종산업 평균</button>
+                                                            <button class="btnCompany chart_btn active">
+                                                                <span class="vw_kr">당사</span>
+                                                                <span class="vw_en">Company</span>
+                                                            </button>
+                                                            <button class="btnIndustry chart_btn">
+                                                                <span class="vw_kr">동종산업 평균</span>
+                                                                <span class="vw_en">Industry average</span>
+                                                            </button>
                                                         </div>
                                                     </div>
 
                                                     <!-- point_tbl -->
                                                     <ul class="point_tbl">
                                                         <li class="thead">
-                                                            <span>이슈</span>
-                                                            <span>점수</span>
+                                                            <span class="vw_kr">이슈</span>
+                                                            <span class="vw_kr">점수</span>
+                                                            <span class="vw_en">Issue</span>
+                                                            <span class="vw_en">Score</span>
                                                         </li>
-                                                        <li class="tbody">
+                                                        <!--li class="tbody">
                                                             <span>환경경영 일반</span>
                                                             <span>81.3점</span>
-                                                        </li>
-                                                        <li class="tbody">
-                                                            <span>온실가스 및 에너지</span>
-                                                            <span>89.3점</span>
-                                                        </li>
-                                                        <li class="tbody">
-                                                            <span>폐기물</span>
-                                                            <span>91.7점</span>
-                                                        </li>
-                                                        <li class="tbody">
-                                                            <span>수자원</span>
-                                                            <span>100.0점</span>
-                                                        </li>
-                                                        <li class="tbody">
-                                                            <span>유해화학물질</span>
-                                                            <span>62.5점</span>
-                                                        </li>
-                                                        <li class="tbody">
-                                                            <span>대기, 수질 오염물질</span>
-                                                            <span>50.5점</span>
-                                                        </li>
+                                                        </li-->
                                                     </ul>
                                                     <!-- //point_tbl -->
                                                 </div>
@@ -385,7 +450,8 @@
                                         <ul class="report_grid2">
                                             <li>
                                                 <div class="inner chart_ty">
-                                                    <strong class="chart_tit">환경분야 전체 중소기업 등급 분포</strong>
+                                                    <strong class="chart_tit vw_kr">전체 중소기업 등급 분포(사회)</strong>
+                                                    <strong class="chart_tit vw_en">Overall Small-to-Medium Business Rating distribution (Social)</strong>
 
                                                     <div class="chart3">
                                                         <canvas id="report1-tab2-chart1" style="width:100%; height:100%;"></canvas>
@@ -402,30 +468,37 @@
                                                     </ul>
                                                 </div>
                                                 <div class="inner chart_ty">
-                                                    <strong class="chart_tit">환경분야 기업 ESG경쟁력 수준</strong>
+                                                    <strong class="chart_tit vw_kr">기업 ESG경쟁력 수준(사회)</strong>
+                                                    <strong class="chart_tit vw_en">ESG competitiveness level (Social)</strong>
 
                                                     <!-- point_li -->
                                                     <ul class="point_li">
                                                         <li class="emph">
-                                                            <span class="name">당사</span>
+                                                            <span class="name vw_kr">당사</span>
+                                                            <span class="name vw_en">Company</span>
                                                             <span class="point_track">
                                                                 <span class="bar" style="width:84.9%;" data-point="84.9"></span>
                                                             </span>
-                                                            <strong class="point">84.9점</strong>
+                                                            <strong class="point vw_kr">84.9점</strong>
+                                                            <strong class="point vw_en">84.9pts</strong>
                                                         </li>
                                                         <li>
-                                                            <span class="name">동종산업 평균</span>
+                                                            <span class="name vw_kr">동종산업 평균</span>
+                                                            <span class="name vw_en">Industry average</span>
                                                             <span class="point_track">
                                                                 <span class="bar" style="width:56.9%;" data-point="56.9"></span>
                                                             </span>
-                                                            <strong class="point">56.9점</strong>
+                                                            <strong class="point vw_kr">56.9점</strong>
+                                                            <strong class="point vw_en">56.9pts</strong>
                                                         </li>
                                                         <li>
-                                                            <span class="name">중소기업 평균</span>
+                                                            <span class="name vw_kr">중소기업 평균</span>
+                                                            <span class="name vw_en">Small and Medium business average</span>
                                                             <span class="point_track">
                                                                 <span class="bar" style="width:52.9%;" data-point="52.9"></span>
                                                             </span>
-                                                            <strong class="point">52.9점</strong>
+                                                            <strong class="point vw_kr">52.9점</strong>
+                                                            <strong class="point vw_en">52.9pts</strong>
                                                         </li>
                                                     </ul>
                                                     <!-- //point_li -->
@@ -433,7 +506,8 @@
                                             </li>
                                             <li>
                                                 <div class="inner chart_ty">
-                                                    <strong class="chart_tit">환경분야 이슈별 점수</strong>
+                                                    <strong class="chart_tit vw_kr">이슈별 점수(사회)</strong>
+                                                    <strong class="chart_tit vw_en">Issue Scores(Social)</strong>
 
                                                     <div class="chart4">
                                                         <div class="chart_inner">
@@ -441,40 +515,24 @@
                                                         </div>
 
                                                         <div class="chart_btns">
-                                                            <button class="btnCompany chart_btn active">당사</button>
-                                                            <button class="btnIndustry chart_btn">동종산업 평균</button>
+                                                            <button class="btnCompany chart_btn active">
+                                                                <span class="vw_kr">당사</span>
+                                                                <span class="vw_en">Company</span>
+                                                            </button>
+                                                            <button class="btnIndustry chart_btn">
+                                                                <span class="vw_kr">동종산업 평균</span>
+                                                                <span class="vw_en">Industry average</span>
+                                                            </button>
                                                         </div>
                                                     </div>
 
                                                     <!-- point_tbl -->
                                                     <ul class="point_tbl">
                                                         <li class="thead">
-                                                            <span>이슈</span>
-                                                            <span>점수</span>
-                                                        </li>
-                                                        <li class="tbody">
-                                                            <span>환경경영 일반</span>
-                                                            <span>81.3점</span>
-                                                        </li>
-                                                        <li class="tbody">
-                                                            <span>온실가스 및 에너지</span>
-                                                            <span>89.3점</span>
-                                                        </li>
-                                                        <li class="tbody">
-                                                            <span>폐기물</span>
-                                                            <span>91.7점</span>
-                                                        </li>
-                                                        <li class="tbody">
-                                                            <span>수자원</span>
-                                                            <span>100.0점</span>
-                                                        </li>
-                                                        <li class="tbody">
-                                                            <span>유해화학물질</span>
-                                                            <span>62.5점</span>
-                                                        </li>
-                                                        <li class="tbody">
-                                                            <span>대기, 수질 오염물질</span>
-                                                            <span>50.5점</span>
+                                                            <span class="vw_kr">이슈</span>
+                                                            <span class="vw_kr">점수</span>
+                                                            <span class="vw_en">Issue</span>
+                                                            <span class="vw_en">Score</span>
                                                         </li>
                                                     </ul>
                                                     <!-- //point_tbl -->
@@ -491,7 +549,8 @@
                                         <ul class="report_grid2">
                                             <li>
                                                 <div class="inner chart_ty">
-                                                    <strong class="chart_tit">환경분야 전체 중소기업 등급 분포</strong>
+                                                    <strong class="chart_tit vw_kr">전체 중소기업 등급 분포(지배구조)</strong>
+                                                    <strong class="chart_tit vw_en">Overall Small-to-Medium Business Rating distribution (Governance)</strong>
 
                                                     <div class="chart3">
                                                         <canvas id="report1-tab3-chart1" style="width:100%; height:100%;"></canvas>
@@ -508,30 +567,37 @@
                                                     </ul>
                                                 </div>
                                                 <div class="inner chart_ty">
-                                                    <strong class="chart_tit">환경분야 기업 ESG경쟁력 수준</strong>
+                                                    <strong class="chart_tit vw_kr">기업 ESG경쟁력 수준(지배구조)</strong>
+                                                    <strong class="chart_tit vw_en">ESG competitiveness level (Governance)</strong>
 
                                                     <!-- point_li -->
                                                     <ul class="point_li">
                                                         <li class="emph">
-                                                            <span class="name">당사</span>
+                                                            <span class="name vw_kr">당사</span>
+                                                            <span class="name vw_en">Company</span>
                                                             <span class="point_track">
                                                                 <span class="bar" style="width:84.9%;" data-point="84.9"></span>
                                                             </span>
-                                                            <strong class="point">84.9점</strong>
+                                                            <strong class="point vw_kr">84.9점</strong>
+                                                            <strong class="point vw_en">84.9pts</strong>
                                                         </li>
                                                         <li>
-                                                            <span class="name">동종산업 평균</span>
+                                                            <span class="name vw_kr">동종산업 평균</span>
+                                                            <span class="name vw_en">Industry average</span>
                                                             <span class="point_track">
                                                                 <span class="bar" style="width:56.9%;" data-point="56.9"></span>
                                                             </span>
-                                                            <strong class="point">56.9점</strong>
+                                                            <strong class="point vw_kr">56.9점</strong>
+                                                            <strong class="point vw_en">56.9pts</strong>
                                                         </li>
                                                         <li>
-                                                            <span class="name">중소기업 평균</span>
+                                                            <span class="name vw_kr">중소기업 평균</span>
+                                                            <span class="name vw_en">Small and Medium business average</span>
                                                             <span class="point_track">
                                                                 <span class="bar" style="width:52.9%;" data-point="52.9"></span>
                                                             </span>
-                                                            <strong class="point">52.9점</strong>
+                                                            <strong class="point vw_kr">52.9점</strong>
+                                                            <strong class="point vw_en">52.9pts</strong>
                                                         </li>
                                                     </ul>
                                                     <!-- //point_li -->
@@ -539,7 +605,8 @@
                                             </li>
                                             <li>
                                                 <div class="inner chart_ty">
-                                                    <strong class="chart_tit">환경분야 이슈별 점수</strong>
+                                                    <strong class="chart_tit vw_kr">이슈별 점수(지배구조)</strong>
+                                                    <strong class="chart_tit vw_en">Issue Scores(Governance)</strong>
 
                                                     <div class="chart4">
                                                         <div class="chart_inner">
@@ -547,40 +614,24 @@
                                                         </div>
 
                                                         <div class="chart_btns">
-                                                            <button class="btnCompany chart_btn active">당사</button>
-                                                            <button class="btnIndustry chart_btn">동종산업 평균</button>
+                                                            <button class="btnCompany chart_btn active">
+                                                                <span class="vw_kr">당사</span>
+                                                                <span class="vw_en">Company</span>
+                                                            </button>
+                                                            <button class="btnIndustry chart_btn">
+                                                                <span class="vw_kr">동종산업 평균</span>
+                                                                <span class="vw_en">Industry average</span>
+                                                            </button>
                                                         </div>
                                                     </div>
 
                                                     <!-- point_tbl -->
                                                     <ul class="point_tbl">
                                                         <li class="thead">
-                                                            <span>이슈</span>
-                                                            <span>점수</span>
-                                                        </li>
-                                                        <li class="tbody">
-                                                            <span>환경경영 일반</span>
-                                                            <span>81.3점</span>
-                                                        </li>
-                                                        <li class="tbody">
-                                                            <span>온실가스 및 에너지</span>
-                                                            <span>89.3점</span>
-                                                        </li>
-                                                        <li class="tbody">
-                                                            <span>폐기물</span>
-                                                            <span>91.7점</span>
-                                                        </li>
-                                                        <li class="tbody">
-                                                            <span>수자원</span>
-                                                            <span>100.0점</span>
-                                                        </li>
-                                                        <li class="tbody">
-                                                            <span>유해화학물질</span>
-                                                            <span>62.5점</span>
-                                                        </li>
-                                                        <li class="tbody">
-                                                            <span>대기, 수질 오염물질</span>
-                                                            <span>50.5점</span>
+                                                            <span class="vw_kr">이슈</span>
+                                                            <span class="vw_kr">점수</span>
+                                                            <span class="vw_en">Issue</span>
+                                                            <span class="vw_en">Score</span>
                                                         </li>
                                                     </ul>
                                                     <!-- //point_tbl -->
@@ -599,7 +650,10 @@
 
                         <!-- report_btns -->
                         <div class="report_btns">
-                            <button type="button" class="next">ESG 규제 대응 수준 평가 결과</button>
+                            <button type="button" class="next">
+                                <span class="vw_kr">ESG 규제 대응 수준 평가 결과</span>
+                                <span class="vw_en">ESG Regulatory Compliance Assessment Result</span>
+                            </button>
                         </div>
                         <!-- //report_btns -->
                     </div>
@@ -609,7 +663,8 @@
                     <div data-report="2" id="regResult">
                         <!-- top -->
                         <div class="top">
-                            <p class="tit">2. ESG 규제 대응 수준 평가 결과</p>
+                            <p class="tit vw_kr">2. ESG 규제 대응 수준 평가 결과</p>
+                            <p class="tit vw_en">2. ESG Regulatory Compliance Assessment Result</p>
 
                             <!-- current -->
                             <ul class="current">
@@ -626,8 +681,10 @@
                         <ul class="report_grid mt01">
                             <li>
                                 <div class="inner txt">
-                                    <p class="t1">ESG규제 대응 수준평가란?</p>
-                                    <p class="t2">ESG 규제 대응 평가는 주요 글로벌 ESG 규제에 대한 기업의 이행 수준을 점검하는 데 목적이 있습니다.<br>단순한 준수 여부를 확인하는 것을 넘어, 변화하는 규제 환경 속에서 기업이 현재 어느정도 대응하고 있는지를 객관적으로 평가합니다.<br>이를 통해 기업이 보완이 필요한 부분을 인식하고, 향후 대응 전략을 마련하는 데 참고할 수 있도록 합니다.</p>
+                                    <p class="t1 vw_kr">ESG규제 대응 수준평가란?</p>
+                                    <p class="t2 vw_kr">ESG 규제 대응 평가는 주요 글로벌 ESG 규제에 대한 기업의 이행 수준을 점검하는 데 목적이 있습니다.<br>단순한 준수 여부를 확인하는 것을 넘어, 변화하는 규제 환경 속에서 기업이 현재 어느정도 대응하고 있는지를 객관적으로 평가합니다.<br>이를 통해 기업이 보완이 필요한 부분을 인식하고, 향후 대응 전략을 마련하는 데 참고할 수 있도록 합니다.</p>
+                                    <p class="t1 vw_en">ESG Regulatory Compliance Assessment?</p>
+                                    <p class="t2 vw_en">The ESG regulatory compliance assessment aims to assess a company's compliance with key global ESG regulations.<br>Beyond simple compliance, it objectively assesses a company's current level of compliance within a changing regulatory environment.<br>This assessment helps companies identify areas for improvement and serves as a reference for developing future response strategies.</p>
                                 </div>
                             </li>
                             <li>
@@ -635,19 +692,37 @@
                                     <!-- point_wrap -->
                                     <div class="point_wrap">
                                         <div class="txt">
-                                            <p class="t1">ESG규제 대응 등급</p>
-                                            <p class="t2"><strong>미흡</strong></p>
+                                            <p class="t1 vw_kr">ESG규제 대응 등급</p>
+                                            <p class="t2 vw_kr"><strong>미흡</strong></p>
+                                            <p class="t1 vw_en">Regulatory Compliance Score</p>
+                                            <p class="t2 vw_en"><strong>미흡</strong></p>
                                         </div>
                                         <div class="cnt">
                                             <ul class="grade_li">
-                                                <li>취약</li>
-                                                <li class="active">미흡</li>
-                                                <li>보통</li>
-                                                <li>양호</li>
-                                                <li>우수</li>
+                                                <li>
+                                                    <span class="vw_kr">취약</span>
+                                                    <span class="vw_en">Weak</span>
+                                                </li>
+                                                <li class="active">
+                                                    <span class="vw_kr">미흡</span>
+                                                    <span class="vw_en">Insufficient</span>
+                                                </li>
+                                                <li>
+                                                    <span class="vw_kr">보통</span>
+                                                    <span class="vw_en">Moderate</span>
+                                                </li>
+                                                <li>
+                                                    <span class="vw_kr">양호</span>
+                                                    <span class="vw_en">Good</span>
+                                                </li>
+                                                <li>
+                                                    <span class="vw_kr">우수</span>
+                                                    <span class="vw_en">Excellent</span>
+                                                </li>
                                             </ul>
 
-                                            <p class="t1">귀사는 일부 ESG 규제 요구사항을 반영하고 있으나, 대응 체계가 충분히 갖춰지지 않은 상태입니다.<br>주요 항목을 점검하고 단계적으로 개선해 나가는 것이 필요합니다.</p>
+                                            <p class="t1 vw_kr">귀사는 일부 ESG 규제 요구사항을 반영하고 있으나, 대응 체계가 충분히 갖춰지지 않은 상태입니다.<br>주요 항목을 점검하고 단계적으로 개선해 나가는 것이 필요합니다.</p>
+                                            <p class="t1 vw_en">While your company is addressing some ESG regulatory requirements, its response system is inadequate.<br>It's necessary to review key initiatives and make gradual improvements.</p>
                                         </div>
                                     </div>
                                     <!-- //point_wrap -->
@@ -658,28 +733,32 @@
                                     <!-- point_wrap -->
                                     <div class="point_wrap">
                                         <div class="txt">
-                                            <p class="t1">ESG규제 대응도</p>
+                                            <p class="t1 vw_kr">ESG규제 대응도</p>
+                                            <p class="t1 vw_en">Regulatory Compliance</p>
                                             <p class="t2"><strong>37.5%</strong></p>
                                         </div>
                                         <div class="cnt">
                                             <!-- point_li -->
                                             <ul class="point_li">
                                                 <li class="emph">
-                                                    <span class="name">당사</span>
+                                                    <span class="name vw_kr">당사</span>
+                                                    <span class="name vw_en">Company</span>
                                                     <span class="point_track">
                                                         <span class="bar" style="width:77.5%;" data-point="37.5"></span>
                                                     </span>
                                                     <strong class="point">37.5%</strong>
                                                 </li>
                                                 <li>
-                                                    <span class="name">동종산업 평균</span>
+                                                    <span class="name vw_kr">동종산업 평균</span>
+                                                    <span class="name vw_en">Industry Average</span>
                                                     <span class="point_track">
                                                         <span class="bar" style="width:37.3%;" data-point="17.3"></span>
                                                     </span>
                                                     <strong class="point">17.3%</strong>
                                                 </li>
                                                 <li>
-                                                    <span class="name">중소기업 평균</span>
+                                                    <span class="name vw_kr">중소기업 평균</span>
+                                                    <span class="name vw_en">Small and Medium Business Average</span>
                                                     <span class="point_track">
                                                         <span class="bar" style="width:43.9%;" data-point="23.9"></span>
                                                     </span>
@@ -697,7 +776,8 @@
 
                         <!-- report_tit_box -->
                         <div class="report_tit_box">
-                            <strong class="report_tit">ESG규제별 대응도 상세</strong>
+                            <strong class="report_tit vw_kr">ESG 규제별 리스크 대응도 상세</strong>
+                            <strong class="report_tit vw_en">Detailed ESG Regulatory Compliance</strong>
                         </div>
                         <!-- //report_tit_box -->
 
@@ -877,8 +957,14 @@
 
                         <!-- report_btns -->
                         <div class="report_btns">
-                            <button type="button" class="prev">ESG 정밀진단 컨설팅 종합</button>
-                            <button type="button" class="next">To-Be 이행 가이드</button>
+                            <button type="button" class="prev">
+                                <span class="vw_kr">ESG 정밀진단 컨설팅 종합</span>
+                                <span class="vw_en">ESG In-Depth Diagnositic Consulting Summary</span>
+                            </button>
+                            <button type="button" class="next">
+                                <span class="vw_kr">To-Be 이행 가이드</span>
+                                <span class="vw_en">To-Be Implemented Guide</span>
+                            </button>
                         </div>
                         <!-- //report_btns -->
                     </div>
@@ -888,7 +974,8 @@
                     <div data-report="3">
                         <!-- top -->
                         <div class="top">
-                            <p class="tit">3. TO-BE 이행 가이드</p>
+                            <p class="tit vw_kr">3. TO-BE 이행 가이드</p>
+                            <p class="tit vw_en">3. To-Be Implemented Guide</p>
 
                             <!-- current -->
                             <ul class="current">
@@ -906,7 +993,8 @@
                             <!-- dist_chart -->
                             <div class="dist_chart">
                                 <div class="report_tit_box">
-                                    <strong class="report_tit">개선과제 관리 우선 분포도</strong>
+                                    <strong class="report_tit vw_kr">개선과제 관리 우선 분포도</strong>
+                                    <strong class="report_tit vw_en">Priority Distribution of Improvement Tasks</strong>
                                 </div>
 
                                 <div class="dist_chart_inner">
@@ -918,102 +1006,119 @@
                             <!-- dist_side -->
                             <div class="dist_side">
                                 <div class="dist_side_inner">
-                                    <strong class="tit">Quick Win 과제</strong>
+                                    <strong class="tit vw_kr">Quick Win 과제</strong>
+                                    <strong class="tit vw_en">Quick Win Tasks</strong>
 
                                     <ul class="dist_li">
                                         <li>
                                             <button type="button" class="btn_dist" onclick="openPanel('pop01');">
-                                                <span class="txt">1. 온실가스 및 에너지 관리</span>
+                                                <span class="txt vw_kr">1. 온실가스 및 에너지 관리</span>
+                                                <span class="txt vw_en">1. Greenhouse Gas & Energy Management</span>
                                                 <span class="ico_esg ty_e"></span>
                                             </button>
                                         </li>
                                         <li>
                                             <button type="button" class="btn_dist" onclick="openPanel('pop02',refreshGuideFill);">
-                                                <span class="txt">2. 협력사 리스크 관리</span>
+                                                <span class="txt vw_kr">2. 협력사 리스크 관리</span>
+                                                <span class="txt vw_en">2. Supplier Risk Management</span>
                                                 <span class="ico_esg ty_s"></span>
                                             </button>
                                         </li>
                                         <li>
                                             <button type="button" class="btn_dist" onclick="openPanel('pop03');">
-                                                <span class="txt">3. 안전보보건 관리 활동</span>
+                                                <span class="txt vw_kr">3. 안전보건 관리 활동</span>
+                                                <span class="txt vw_en">3. Safety & health Management Activities</span>
                                                 <span class="ico_esg ty_s"></span>
                                             </button>
                                         </li>
                                         <li>
                                             <button type="button" class="btn_dist" onclick="openPanel('pop04');">
-                                                <span class="txt">4. 환경경영 내재화</span>
+                                                <span class="txt vw_kr">4. 환경경영 내재화</span>
+                                                <span class="txt vw_en">4. Integrating Environmental Management</span>
                                                 <span class="ico_esg ty_e"></span>
                                             </button>
                                         </li>
                                         <li>
                                             <button type="button" class="btn_dist" disabled>
-                                                <span class="txt">5. 유해화학물질 관리</span>
+                                                <span class="txt vw_kr">5. 유해화학물질 관리</span>
+                                                <span class="txt vw_en">5. Hazardous Chemicals Management</span>
                                                 <span class="ico_esg ty_e"></span>
                                             </button>
                                         </li>
                                         <li>
                                             <button type="button" class="btn_dist" onclick="openPanel('pop05',startAutoPrc, resetAutoPrc);">
-                                                <span class="txt">6. ESG정보공시</span>
+                                                <span class="txt vw_kr">6. ESG정보공시</span>
+                                                <span class="txt vw_en">6. ESG Information Disclosure</span>
                                                 <span class="ico_esg ty_g"></span>
                                             </button>
                                         </li>
                                         <li>
                                             <button type="button" class="btn_dist" disabled>
-                                                <span class="txt">7. 폐기물 관리</span>
+                                                <span class="txt vw_kr">7. 폐기물 관리</span>
+                                                <span class="txt vw_en">7. Waste Management</span>
                                                 <span class="ico_esg ty_e"></span>
                                             </button>
                                         </li>
                                         <li>
                                             <button type="button" class="btn_dist" disabled>
-                                                <span class="txt">8. 인권경영 관리체계</span>
+                                                <span class="txt vw_kr">8. 인권경영 관리체계</span>
+                                                <span class="txt vw_en">8. Human Rights Management system</span>
                                                 <span class="ico_esg ty_s"></span>
                                             </button>
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="dist_side_inner">
-                                    <strong class="tit">단기</strong>
+                                    <strong class="tit vw_kr">단기</strong>
+                                    <strong class="tit vw_en">Short-term</strong>
 
                                     <ul class="dist_li">
                                         <li>
                                             <button type="button" class="btn_dist" disabled>
-                                                <span class="txt">9. 윤리준법 신고제도</span>
+                                                <span class="txt vw_kr">9. 윤리준법 신고제도</span>
+                                                <span class="txt vw_en">9. Ethics & compliance Reporting System</span>
                                                 <span class="ico_esg ty_g"></span>
                                             </button>
                                         </li>
                                         <li>
                                             <button type="button" class="btn_dist" disabled>
-                                                <span class="txt">10. 책임 있는 원부자재 조달 정책</span>
+                                                <span class="txt vw_kr">10. 책임 있는 원부자재 조달 정책</span>
+                                                <span class="txt vw_en">10. Responsible raw material procurment policy</span>
                                                 <span class="ico_esg ty_s"></span>
                                             </button>
                                         </li>
                                         <li>
                                             <button type="button" class="btn_dist" disabled>
-                                                <span class="txt">11. 근로자 생활시설 관리</span>
+                                                <span class="txt vw_kr">11. 근로자 생활시설 관리</span>
+                                                <span class="txt vw_en">11. Worker living Facility Management</span>
                                                 <span class="ico_esg ty_s"></span>
                                             </button>
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="dist_side_inner">
-                                    <strong class="tit">중장기</strong>
+                                    <strong class="tit vw_kr">중장기</strong>
+                                    <strong class="tit vw_en">Mid-To-Long term</strong>
 
                                     <ul class="dist_li">
                                         <li>
                                             <button type="button" class="btn_dist" disabled>
-                                                <span class="txt">12. 온실가스 배출량 산정체계</span>
+                                                <span class="txt vw_kr">12. 온실가스 배출량 산정체계</span>
+                                                <span class="txt vw_en">12. Greenhouse Gas Emission calculation system</span>
                                                 <span class="ico_esg ty_e"></span>
                                             </button>
                                         </li>
                                         <li>
                                             <button type="button" class="btn_dist" disabled>
-                                                <span class="txt">13. 도급· 용역· 위탁 안전관리</span>
+                                                <span class="txt vw_kr">13. 도급·용역·위탁 안전관리</span>
+                                                <span class="txt vw_en">13. Subcontractor·Outsourced work safety management</span>
                                                 <span class="ico_esg ty_s"></span>
                                             </button>
                                         </li>
                                         <li>
                                             <button type="button" class="btn_dist" disabled>
-                                                <span class="txt">14. 환경 영향 저감제품 개발</span>
+                                                <span class="txt vw_kr">14. 환경 영향 저감제품 개발</span>
+                                                <span class="txt vw_en">14. Development of environmentally friendly products</span>
                                                 <span class="ico_esg ty_e"></span>
                                             </button>
                                         </li>
@@ -1026,8 +1131,14 @@
 
                         <!-- report_btns -->
                         <div class="report_btns">
-                            <button type="button" class="prev">ESG 규제 대응 수준 평가 결과</button>
-                            <button type="button" class="next">ESG 경영진단 확인서 받기</button>
+                            <button type="button" class="prev">
+                                <span class="vw_kr">ESG 규제 대응 수준 평가 결과</span>
+                                <span class="vw_en">ESG Regulatory Compliance assessment result</span>
+                            </button>
+                            <button type="button" class="next">
+                                <span class="vw_kr">ESG 경영진단 확인서 받기</span>
+                                <span class="vw_en">Receive ESG Management Assessment Certificate</span>
+                            </button>
                         </div>
                         <!-- //report_btns -->
                     </div>
@@ -1055,7 +1166,8 @@
 <!-- panel_side -->
 <div class="panel_side esg_guide" id="pop01" style="display:none;">
     <div class="top">
-        <strong>개선 이행 가이드</strong>
+        <strong class="vw_kr">개선 이행 가이드</strong>
+        <strong class="vw_en">Improvment Implementation Guide</strong>
 
         <button type="button" class="btn_panel_close" onclick="closePanel('pop01');"><span class="blind">닫기</span></button>
     </div>
@@ -1064,7 +1176,8 @@
         <div class="cnt_inner">
             <div class="tit_guide">
                 <span class="ico_esg ty_e"></span>
-                <span class="tit">온실가스 및 에너지 관리</span>
+                <span class="tit vw_kr">온실가스 및 에너지 관리</span>
+                <span class="tit vw_en">Greenhouse Gas & Energy Management</span>
             </div>
 
             <!-- diag -->
@@ -1076,39 +1189,65 @@
             <!-- guide_li -->
             <ul class="guide_li">
                 <li>
-                    <strong class="tit">➊ 정책 수립</strong>
-                    <ul class="list">
+                    <strong class="tit vw_kr">➊ 정책 수립</strong>
+                    <ul class="list vw_kr">
                         <li>온실가스 배출 저감 및 에너지 사용 절감을 위한 의지 표명</li>
                         <li>내부적으로 공식화된 문서 보유</li>
                     </ul>
+                    <strong class="tit vw_en">➊ Policy Establishement</strong>
+                    <ul class="list vw_en">
+                        <li>Declaration of intent to reduce greenhouse gas emissions and use energy</li>
+                        <li>Maintaining internally formalized documentation</li>
+                    </ul>
                 </li>
                 <li>
-                    <strong class="tit">➋ 배출량 산정</strong>
-                    <ul class="list">
+                    <strong class="tit vw_kr">➋ 배출량 산정</strong>
+                    <ul class="list vw_kr">
                         <li>에너지 사용량 측정</li>
                         <li>온실가스 인벤토리 구축</li>
                         <li>제품 단위 온실가스 배출량 산정</li>
                     </ul>
+                    <strong class="tit vw_en">➋ Calculating emissions</strong>
+                    <ul class="list vw_en">
+                        <li>Energy usage measurement</li>
+                        <li>Establishment of a greenhouse gas inventory</li>
+                        <li>Calculating greenhouse gas emissions per product</li>
+                    </ul>
                 </li>
                 <li>
-                    <strong class="tit">➌ KPI 및 목표 수립</strong>
-                    <ul class="list">
+                    <strong class="tit vw_kr">➌ KPI 및 목표 수립</strong>
+                    <ul class="list vw_kr">
                         <li>배출 현황 및 대내외 요구사항 반영하여 KPI 선정</li>
                         <li>KPI별 정량적 단기/중장기 목표 수립</li>
                     </ul>
-                </li>
-                <li>
-                    <strong class="tit">➍ 감축 활동 실시</strong>
-                    <ul class="list">
-                        <li>에너지 효율화 관련 설비 투자</li>
-                        <li>에너지 효율화 관련 공정 개선 등의 활동</li>
+                    <strong class="tit vw_en">➌ Establishing KPIs and goals</strong>
+                    <ul class="list vw_en">
+                        <li>Select KPIs by reflecting emission status and internal and external requirements.</li>
+                        <li>Establish quantitative short-term/mid- to long-term goals for each KPI</li>
                     </ul>
                 </li>
                 <li>
-                    <strong class="tit">➎ 검증 및 공개</strong>
-                    <ul class="list">
+                    <strong class="tit vw_kr">➍ 감축 활동 실시</strong>
+                    <ul class="list vw_kr">
+                        <li>에너지 효율화 관련 설비 투자</li>
+                        <li>에너지 효율화 관련 공정 개선 등의 활동</li>
+                    </ul>
+                    <strong class="tit vw_en">➍ Implementation of reduction activities</strong>
+                    <ul class="list vw_en">
+                        <li>Investment in energy efficiency-related facilities</li>
+                        <li>Activities such as improving energy efficiency-related processes</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong class="tit vw_kr">➎ 검증 및 공개</strong>
+                    <ul class="list vw_kr">
                         <li>독립적인 제3자 기관의 배출량 검증</li>
                         <li>지속가능경영보고서 및 홈페이지 공개</li>
+                    </ul>
+                    <strong class="tit vw_en">➎ Verification and Disclosure</strong>
+                    <ul class="list vw_en">
+                        <li>Verification of emissions by an independent third-party organization</li>
+                        <li>Disclosure of Sustainability Management Report and Website</li>
                     </ul>
                 </li>
             </ul>
@@ -1122,7 +1261,8 @@
 <!-- panel_side -->
 <div class="panel_side esg_guide" id="pop02">
     <div class="top">
-        <strong>개선 이행 가이드</strong>
+        <strong class="vw_kr">개선 이행 가이드</strong>
+        <strong class="vw_en">Improvment Implementation Guide</strong>
 
         <button type="button" class="btn_panel_close" onclick="closePanel('pop02');"><span class="blind">닫기</span></button>
     </div>
@@ -1131,30 +1271,35 @@
         <div class="cnt_inner">
             <div class="tit_guide">
                 <span class="ico_esg ty_s"></span>
-                <span class="tit">협력사 리스크 관리</span>
+                <span class="tit vw_kr">협력사 리스크 관리</span>
+                <span class="tit vw_en">Supplier risk management</span>
             </div>
 
             <!-- guide_step -->
             <div class="guide_step">
-                <strong class="tit">협력사 ESG 리스크 관리 3대 영역</strong>
+                <strong class="tit vw_kr">협력사 ESG 리스크 관리 3대 영역</strong>
+                <strong class="tit vw_en">3 Key Initiatives of Sypplier ESG Risk Management</strong>
                 <!-- guide_step_li -->
                 <ul class="guide_step_li">
                     <li class="active">
                         <button type="button" data-guide="1">
                             <em>01</em>
-                            <span>협력사 행동 규범</span>
+                            <span class="vw_kr">협력사 행동 규범</span>
+                            <span class="vw_en">Supplier code of conduct</span>
                         </button>
                     </li>
                     <li>
                         <button type="button" data-guide="2">
                             <em>02</em>
-                            <span>협력사 ESG 점검</span>
+                            <span class="vw_kr">협력사 ESG 점검</span>
+                            <span class="vw_en">Supplier ESG Assessment</span>
                         </button>
                     </li>
                     <li>
                         <button type="button" data-guide="3">
                             <em>03</em>
-                            <span>협력사 ESG 교육 및 역량 강화</span>
+                            <span class="vw_kr">협력사 ESG 교육 및 역량 강화</span>
+                            <span class="vw_en">Supplier ESG Training and Capacity Building</span>
                         </button>
                     </li>
                 </ul>
@@ -1165,20 +1310,31 @@
             <!-- guide_li -->
             <ul class="guide_li">
                 <li data-guide="1">
-                    <ul class="list">
+                    <ul class="list vw_kr">
                         <li>행동 규범 <strong>작성</strong></li>
                         <li>행동규범 <strong>배포 및 준수 동의 서명</strong> 확보</li>
                     </ul>
+                    <ul class="list vw_en">
+                        <li>Creating a code of conduct</li>
+                        <li>Distribute the code of conduct and secure signatures to agree to compliance</li>
+                    </ul>
                 </li>
                 <li data-guide="2" style="display: none;">
-                    <ul class="list">
+                    <ul class="list vw_kr">
                         <li>협력사 대상 정기적 ESG 점검 활동 수행​</li>
                         <li>협력사 <strong>선정 및 계약 결정 과정</strong>에 ESG 점검 결과 반영</li>
                     </ul>
+                    <ul class="list vw_en">
+                        <li>Conduct regular ESG inspections of suppliers</li>
+                        <li>Reflecting ESG review results in supplier selection and contract decision processes.</li>
+                    </ul>
                 </li>
                 <li data-guide="3" style="display: none;">
-                    <ul class="list">
+                    <ul class="list vw_kr">
                         <li>협력사 대상 ESG 교육 및 역량 강화 프로그램 제공</li>
+                    </ul>
+                    <ul class="list vw_en">
+                        <li>Providing ESG training and capability-building programs for suppliers</li>
                     </ul>
                 </li>
             </ul>
@@ -1186,45 +1342,70 @@
 
             <!-- guide_prc -->
             <div class="guide_prc">
-                <strong class="tit">OECD 실사 6단계</strong>
+                <strong class="tit vw_kr">OECD 실사 6단계</strong>
+                <strong class="tit vw_en">OECD 6-Step Inspection</strong>
 
                 <div class="guide_prc_li">
                     <span class="bar"><span class="fill"></span></span>
 
                     <div data-guide="1" class="active">
-                        <div>
+                        <div class="vw_kr">
                             <strong>1. 실사 내재화</strong>
                             <p>고충처리제도, 이해관계자 참여 등을 활용하여 정책 내 실사 내재화</p>
                         </div>
+                        <div class="vw_en">
+                            <strong>1. Real-life Integration</strong>
+                            <p>Integrating due diligence into the policy via grievance handling and stakeholder engagement</p>
+                        </div>
                     </div>
                     <div data-guide="2">
-                        <div>
+                        <div class="vw_kr">
                             <strong>2. 부정적 영향 식별 및 우선순위화</strong>
                             <p>주요 비즈니스 관계에서 발생 가능한 실제 또는 잠재적 부정적 영향 식별 및 우선순위화</p>
                         </div>
+                        <div class="vw_en">
+                            <strong>2. Identify and prioritize negative impacts</strong>
+                            <p>Identify and prioritize actual or potential negative impacts that may arise from key business relationships</p>
+                        </div>
                     </div>
                     <div data-guide="2">
-                        <div>
+                        <div class="vw_kr">
                             <strong>3. 부정적 영향 예방, 완화,제거</strong>
                             <p>잠재적 부정적 영향 예방, 실제 부정적 영향 완화 및 종료</p>
                         </div>
+                        <div class="vw_en">
+                            <strong>3. Prevent, mitigate, and eliminate negative impacts</strong>
+                            <p>Prevent potential negative impacts, mitigate actual negative impacts, and eliminate them</p>
+                        </div>
                     </div>
                     <div data-guide="2">
-                        <div>
+                        <div class="vw_kr">
                             <strong>4. 모니터링</strong>
                             <p>실사 프로세스 이행에 대한 모니터링 및 개선</p>
                         </div>
-                    </div>
-                    <div data-guide="3">
-                        <div>
-                            <strong>5. 이해관계자 소통</strong>
-                            <p>실사 프로세스에 대한 대외 커뮤니케이션</p>
+                        <div class="vw_en">
+                            <strong>4. Monitoring</strong>
+                            <p>Monitore and improve the implementation of the due diligence process</p>
                         </div>
                     </div>
                     <div data-guide="3">
-                        <div>
+                        <div class="vw_kr">
+                            <strong>5. 이해관계자 소통</strong>
+                            <p>실사 프로세스에 대한 대외 커뮤니케이션</p>
+                        </div>
+                        <div class="vw_en">
+                            <strong>5. Stakeholder Communication</strong>
+                            <p>External Communication about the Due Diligence Process</p>
+                        </div>
+                    </div>
+                    <div data-guide="3">
+                        <div class="vw_kr">
                             <strong>6. 구제 조치 마련</strong>
                             <p>실제 발생한 부정적 영향에 대한 구제조치 수행</p>
+                        </div>
+                        <div class="vw_en">
+                            <strong>6. Establish concrete measures</strong>
+                            <p>Implement remedy measures for actual negative impacts</p>
                         </div>
                     </div>
                 </div>
@@ -1240,7 +1421,8 @@
 <!-- panel_side -->
 <div class="panel_side esg_guide" id="pop03">
     <div class="top">
-        <strong>개선 이행 가이드</strong>
+        <strong class="vw_kr">개선 이행 가이드</strong>
+        <strong class="vw_en">Improvment Implementation Guide</strong>
 
         <button type="button" class="btn_panel_close" onclick="closePanel('pop03');"><span class="blind">닫기</span></button>
     </div>
@@ -1249,12 +1431,14 @@
         <div class="cnt_inner">
             <div class="tit_guide">
                 <span class="ico_esg ty_s"></span>
-                <span class="tit">안전보건 관리 활동</span>
+                <span class="tit vw_kr">안전보건 관리 활동</span>
+                <span class="tit vw_en">Occupational safety & health management activities</span>
             </div>
 
             <!-- guide_diag -->
             <div class="guide_diag">
-                <strong class="tit">위험성 평가 절차</strong>
+                <strong class="tit vw_kr">위험성 평가 절차</strong>
+                <strong class="tit vw_en">Risk assesment procedures</strong>
 
                 <!-- guide_diag_box -->
                 <div class="guide_diag_box">
@@ -1267,53 +1451,89 @@
             <!-- guide_li -->
             <ul class="guide_li">
                 <li>
-                    <strong class="tit">➊ 사전 준비</strong>
-                    <ul class="list">
+                    <strong class="tit vw_kr">➊ 사전 준비</strong>
+                    <ul class="list vw_kr">
                         <li>실사규정 작성 통해 유해·위험요인 확인 및 개선 업무절차 마련​</li>
                         <li>위험성 수준 및 판단기준 등 확정</li>
                         <li>안전보건정보 사전조사 및 활용</li>
                     </ul>
+                    <strong class="tit vw_en">➊ Pre-inspection</strong>
+                    <ul class="list vw_en">
+                        <li>Implement due-diligence rules to identify hazards and set improvement procedures</li>
+                        <li>Define risk levels and criteria</li>
+                        <li>Conduct and utilize preliminary OSH (occupational safety and health) information</li>
+                    </ul>
                 </li>
                 <li>
-                    <strong class="tit">➋ 유해·위험요인 파악</strong>
-                    <ul class="list">
+                    <strong class="tit vw_kr">➋ 유해·위험요인 파악</strong>
+                    <ul class="list vw_kr">
                         <li>업종, 규모 등 사업장 실정을 고려하여 사업장 순회점검, 근로자 청취조사, 안전보건자료, 체크리스트 등 활용 가능​</li>
                         <li>아차사고 분석, 제안제도 실시 등</li>
                     </ul>
+                    <strong class="tit vw_en">➋ Identification of hazardous and risk factors</strong>
+                    <ul class="list vw_en">
+                        <li>Use site inspections, worker interviews, safety documents, and checklists suited to the workplace’s industry and size.</li>
+                        <li>Near-miss analysis and suggestion program implementation</li>
+                    </ul>
                 </li>
                 <li>
-                    <strong class="tit">➌ 위험성 결정</strong>
-                    <ul class="list">
+                    <strong class="tit vw_kr">➌ 위험성 결정</strong>
+                    <ul class="list vw_kr">
                         <li>연 1회 이상 위험성 평가 실시</li>
                         <li>위험성 수준 판단</li>
                     </ul>
-                </li>
-                <li>
-                    <strong class="tit">➍ 위험성 허용 여부 판단</strong>
-                    <ul class="list">
-                        <li>위험성 추정 결과를 바탕으로 유해위험요인 별 위험성 허용 가능 여부 판단</li>
+                    <strong class="tit vw_en">➌ Determine risk level</strong>
+                    <ul class="list vw_en">
+                        <li>Annual risk assessment, minimum once per year</li>
+                        <li>Assess the level of risk</li>
                     </ul>
                 </li>
                 <li>
-                    <strong class="tit">➎ 위험성 감소대책 수립 및 실행</strong>
-                    <ul class="list">
+                    <strong class="tit vw_kr">➍ 위험성 허용 여부 판단</strong>
+                    <ul class="list vw_kr">
+                        <li>위험성 추정 결과를 바탕으로 유해위험요인 별 위험성 허용 가능 여부 판단</li>
+                    </ul>
+                    <strong class="tit vw_en">➍ Decide if the risk is acceptable</strong>
+                    <ul class="list vw_en">
+                        <li>Based on the risk estimation results, determine whether the risk is acceptable for each hazardous risk factor.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong class="tit vw_kr">➎ 위험성 감소대책 수립 및 실행</strong>
+                    <ul class="list vw_kr">
                         <li>관리기준에 따라 적절한 개선대책 수립 및 실행</li>
                         <li>위험의 빈도 및 강도가 높게 평가된 사항은 즉시 개선 필요</li>
                         <li>가능한 낮은 위험성 수준으로 감소시키기 위한 대책 수립 및 실행</li>
                         <li>허용 가능 여부 재확인</li>
                     </ul>
-                </li>
-                <li>
-                    <strong class="tit">➏ 위험성 평가 공유</strong>
-                    <ul class="list">
-                        <li>결과 게시 및 주지​</li>
-                        <li>TBM(작업 전 안전점검회의, Tool Box Meeting) 활용한 공유​</li>
+                    <strong class="tit vw_en">➎ Plan and implement risk-reduction actions</strong>
+                    <ul class="list vw_en">
+                        <li>Establish and implement appropriate improvement measures according to management standards</li>
+                        <li>Items with a high risk frequency and intensity require immediate improvement.</li>
+                        <li>Establish and implement measures to reduce the risk to the lowest possible level.</li>
+                        <li>Revalidate permissibility</li>
                     </ul>
                 </li>
                 <li>
-                    <strong class="tit">➐ 기록 및 보존</strong>
-                    <ul class="list">
+                    <strong class="tit vw_kr">➏ 위험성 평가 공유</strong>
+                    <ul class="list vw_kr">
+                        <li>결과 게시 및 주지​</li>
+                        <li>TBM(작업 전 안전점검회의, Tool Box Meeting) 활용한 공유​</li>
+                    </ul>
+                    <strong class="tit vw_en">➏ Share risk assessment</strong>
+                    <ul class="list vw_en">
+                        <li>Posting and notifying results</li>
+                        <li>Share updates via TBM (Tool Box Meetings)</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong class="tit vw_kr">➐ 기록 및 보존</strong>
+                    <ul class="list vw_kr">
                         <li>실시 결과 기록하여 3년간 보존</li>
+                    </ul>
+                    <strong class="tit vw_en">➐ Recordkeeping and retention</strong>
+                    <ul class="list vw_en">
+                        <li>Record the results and keep them for 3 years.</li>
                     </ul>
                 </li>
             </ul>
@@ -1327,7 +1547,8 @@
 <!-- panel_side -->
 <div class="panel_side esg_guide" id="pop04">
     <div class="top">
-        <strong>개선 이행 가이드</strong>
+        <strong class="vw_kr">개선 이행 가이드</strong>
+        <strong class="vw_en">Improvment Implementation Guide</strong>
 
         <button type="button" class="btn_panel_close" onclick="closePanel('pop04');"><span class="blind">닫기</span></button>
     </div>
@@ -1336,30 +1557,35 @@
         <div class="cnt_inner">
             <div class="tit_guide">
                 <span class="ico_esg ty_e"></span>
-                <span class="tit">환경 경영 내재화</span>
+                <span class="tit vw_kr">환경 경영 내재화</span>
+                <span class="tit vw_en">Environmental management integration</span>
             </div>
 
             <!-- guide_step -->
             <div class="guide_step">
-                <strong class="tit">협력사 ESG 리스크 관리 3대 영역</strong>
+                <strong class="tit vw_kr">환경경영 체계 수립 절차</strong>
+                <strong class="tit vw_en">Establishment of an environmental management system</strong>
                 <!-- guide_step_li -->
                 <ul class="guide_step_li blue">
                     <li class="active">
                         <button type="button" data-guide="1">
                             <em>01</em>
-                            <span>환경 경영체계 구축</span>
+                            <span class="vw_kr">환경 경영체계 구축</span>
+                            <span class="vw_en">Establishment of an environmental management system</span>
                         </button>
                     </li>
                     <li>
                         <button type="button" data-guide="2">
                             <em>02</em>
-                            <span>환경경영 성과<br>모니터링</span>
+                            <span class="vw_kr">환경경영 성과<br>모니터링</span>
+                            <span class="vw_en">Management performance monitoring</span>
                         </button>
                     </li>
                     <li>
                         <button type="button" data-guide="3">
                             <em>03</em>
-                            <span>환경경영 운영<br>및 실행</span>
+                            <span class="vw_kr">환경경영 운영<br>및 실행</span>
+                            <span class="vw_en">Environmental management operation and implementation</span>
                         </button>
                     </li>
                 </ul>
@@ -1370,56 +1596,95 @@
             <!-- guide_li -->
             <ul class="guide_li">
                 <li data-guide="1">
-                    <strong class="tit">➊ 대내외 요구사항 파악</strong>
-                    <ul class="list">
+                    <strong class="tit vw_kr">➊ 대내외 요구사항 파악</strong>
+                    <ul class="list vw_kr">
                         <li>조직과 조직 상황 이해</li>
                         <li>이해관계자의 니즈와 기대 이해</li>
                         <li>환경경영시스템의 적용범위 결정</li>
                     </ul>
+                    <strong class="tit vw_en">➊ Comprehend internal and external requirements</strong>
+                    <ul class="list vw_en">
+                        <li>Understanding the organization and its context</li>
+                        <li>Understand stakeholder needs and expectations</li>
+                        <li>Determine the scope of application of the environmental management system</li>
+                    </ul>
                 </li>
                 <li data-guide="1">
-                    <strong class="tit">➋ 정책 수립</strong>
-                    <ul class="list">
+                    <strong class="tit vw_kr">➋ 정책 수립</strong>
+                    <ul class="list vw_kr">
                         <li>대내외 요구사항 반영</li>
                         <li>경영진의 의지 표명</li>
                         <li>외부 공개</li>
                     </ul>
+                    <strong class="tit vw_en">➋ Policy making</strong>
+                    <ul class="list vw_en">
+                        <li>Reflecting internal and external requirements</li>
+                        <li>Management's statement of intent</li>
+                        <li>External disclosure</li>
+                    </ul>
                 </li>
                 <li data-guide="2" style="display:none;">
-                    <strong class="tit">➊ KPI 및 목표 수립</strong>
-                    <ul class="list">
+                    <strong class="tit vw_kr">➊ KPI 및 목표 수립</strong>
+                    <ul class="list vw_kr">
                         <li>대내외 요구사항 반영</li>
                         <li>정량적 KPI 및 목표 수립</li>
                         <li>KPI 및 목표 달성 위한 세부 계획 수립</li>
                     </ul>
+                    <strong class="tit vw_en">➊ Establishing KPIs and goals</strong>
+                    <ul class="list vw_en">
+                        <li>Reflecting internal and external requirements</li>
+                        <li>Establish numerical KPIs and goals</li>
+                        <li>Develop a detailed plan to reach KPIs and goals</li>
+                    </ul>
                 </li>
                 <li data-guide="2" style="display:none;">
-                    <strong class="tit">➋ 성과 모니터링</strong>
-                    <ul class="list">
+                    <strong class="tit vw_kr">➋ 성과 모니터링</strong>
+                    <ul class="list vw_kr">
                         <li>성과 모니터링 체계 구축</li>
                         <li>KPI 목표 대비 현황</li>
                     </ul>
+                    <strong class="tit vw_en">➋ Performance monitoring</strong>
+                    <ul class="list vw_en">
+                        <li>Establish a performance monitoring system</li>
+                        <li>KPI Performance vs. Target</li>
+                    </ul>
                 </li>
                 <li data-guide="2" style="display:none;">
-                    <strong class="tit">➌ 성과평가/보상 연계</strong>
-                    <ul class="list">
+                    <strong class="tit vw_kr">➌ 성과평가/보상 연계</strong>
+                    <ul class="list vw_kr">
                         <li>환경 관련 KPI를 조직/개인의 성과평가와 연계​</li>
                         <li>환경 관련 KPI를 조직/개인의 보상과 연계</li>
                     </ul>
-                </li>
-                <li data-guide="3" style="display:none;">
-                    <strong class="tit">➊ 조직 운영</strong>
-                    <ul class="list">
-                        <li>실무 담당자, 전사 총괄 담당자/담당 조직 마련​</li>
-                        <li>효과적인 성과 보고 및 검토를 위한 실무 협의체, 내부 의사결정 체계 구축 및 운영</li>
+                    <strong class="tit vw_en">➌ Performance-Based Compensation</strong>
+                    <ul class="list vw_en">
+                        <li>Aligning environmental KPIs with both organizational and individual performance assessments</li>
+                        <li>Linking environmental KPIs to organizational/individual compensation</li>
                     </ul>
                 </li>
                 <li data-guide="3" style="display:none;">
-                    <strong class="tit">➋ 환경 인허가 관리</strong>
-                    <ul class="list">
+                    <strong class="tit vw_kr">➊ 조직 운영</strong>
+                    <ul class="list vw_kr">
+                        <li>실무 담당자, 전사 총괄 담당자/담당 조직 마련​</li>
+                        <li>효과적인 성과 보고 및 검토를 위한 실무 협의체, 내부 의사결정 체계 구축 및 운영</li>
+                    </ul>
+                    <strong class="tit vw_en">➊ Organizational Operations</strong>
+                    <ul class="list vw_en">
+                        <li>Designation of operational staff and an enterprise-wide coordinating team or department</li>
+                        <li>Establish and operate a working council and internal decision-making system for effective performance reporting and review.</li>
+                    </ul>
+                </li>
+                <li data-guide="3" style="display:none;">
+                    <strong class="tit vw_kr">➋ 환경 인허가 관리</strong>
+                    <ul class="list vw_kr">
                         <li>환경 인허가 대상 여부 파악 및 인허가 취득​</li>
                         <li>환경 인허가 변경 사항 발생 여부 모니터링​</li>
                         <li>인허가 변경 사항 발생 시, 변경 허가 신청</li>
+                    </ul>
+                    <strong class="tit vw_en">➋ Environmental Permit Management</strong>
+                    <ul class="list vw_en">
+                        <li>Determine if you need environmental permits and obtain them.</li>
+                        <li>Monitoring for changes in environmental permits</li>
+                        <li>When a change in permit occurs, apply for a change permit</li>
                     </ul>
                 </li>
             </ul>
@@ -1433,7 +1698,8 @@
 <!-- panel_side -->
 <div class="panel_side esg_guide" id="pop05">
     <div class="top">
-        <strong>개선 이행 가이드</strong>
+        <strong class="vw_kr">개선 이행 가이드</strong>
+        <strong class="vw_en">Improvment Implementation Guide</strong>
 
         <button type="button" class="btn_panel_close" onclick="closePanel('pop05',stopAutoPrc);"><span class="blind">닫기</span></button>
     </div>
@@ -1442,50 +1708,73 @@
         <div class="cnt_inner">
             <div class="tit_guide">
                 <span class="ico_esg ty_g"></span>
-                <span class="tit">ESG 정보 공시</span>
+                <span class="tit vw_kr">ESG 정보 공시</span>
+                <span class="tit vw_en">ESG Information Disclosure</span>
             </div>
 
             <!-- prc_auto -->
             <div class="prc_auto">
-                <strong class="tit">정보 공시 절차</strong>
+                <strong class="tit vw_kr">정보 공시 절차</strong>
+                <strong class="tit vw_en">Information Disclosure Procedure</strong>
 
                 <!-- auto_prc -->
                 <ul class="auto_prc">
                     <li>
                         <span class="effect"></span>
-                        <strong class="tit">➊ 준비</strong>
-
-                        <ul class="list">
+                        <strong class="tit vw_kr">➊ 준비</strong>
+                        <ul class="list vw_kr">
                             <li>담당자 선정 및 협업 네트워크 구축</li>
                             <li>이해관계자의 니즈와 기대 이해</li>
                             <li>환경경영시스템의 적용범위 결정</li>
                         </ul>
+
+                        <strong class="tit vw_en">➊ Preparation</strong>
+                        <ul class="list vw_en">
+                            <li>Select a person in charge and building a collaboration network</li>
+                            <li>Configure reporting scope</li>
+                            <li>Select reporting topics</li>
+                        </ul>
                     </li>
                     <li>
                         <span class="effect"></span>
-                        <strong class="tit">➋ 작성</strong>
 
-                        <ul class="list">
+                        <strong class="tit vw_kr">➋ 작성</strong>
+                        <ul class="list vw_kr">
                             <li>각 세부 주제별 보고 내용 작성</li>
                             <li>ESG 추진 사례 및 데이터 수집</li>
                         </ul>
-                    </li>
-                    <li>
-                        <span class="effect"></span>
-                        <strong class="tit">➌ 검증</strong>
-
-                        <ul class="list">
-                            <li>보고서 오류 발생 점검</li>
-                            <li>독립적인 제 3자 보고서 검증 실시</li>
+                        <strong class="tit vw_en">➋ Draft</strong>
+                        <ul class="list vw_en">
+                            <li>Draft the report content for each sub-topic</li>
+                            <li>ESG implementation cases and data collection</li>
                         </ul>
                     </li>
                     <li>
                         <span class="effect"></span>
-                        <strong class="tit">➍ 공개</strong>
 
-                        <ul class="list">
+                        <strong class="tit vw_kr">➌ 검증</strong>
+                        <ul class="list vw_kr">
+                            <li>보고서 오류 발생 점검</li>
+                            <li>독립적인 제 3자 보고서 검증 실시</li>
+                        </ul>
+                        <strong class="tit vw_en">➌ Verification</strong>
+                        <ul class="list vw_en">
+                            <li>Check for report errors</li>
+                            <li>Independent third-party report verification</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="effect"></span>
+
+                        <strong class="tit vw_kr">➍ 공개</strong>
+                        <ul class="list vw_kr">
                             <li>공개채널 및 주기 설정</li>
                             <li>이해관계자 소통</li>
+                        </ul>
+                        <strong class="tit vw_en">➍ Disclosure</strong>
+                        <ul class="list vw_en">
+                            <li>Public Disclosure Channels and Reporting Frequency Setup</li>
+                            <li>Stakeholder Communication</li>
                         </ul>
                     </li>
                 </ul>
@@ -1502,33 +1791,41 @@
 <div class="esg_modal" id="modal01" style="display:none;">
     <div class="inner">
         <div class="top">
-            <strong class="tit">ESG 정밀진단 컨설팅 확인서 발급</strong>
-            <p class="tit_t1"><span class="selPrdName">NexDrive</span>의 ESG 정밀진단 컨설팅 확인서가 발급되었습니다.</p>
+            <strong class="tit vw_kr">ESG 정밀진단 컨설팅 확인서 발급</strong>
+            <p class="tit_t1 vw_kr"><span class="selPrdName">NexDrive</span>의 ESG 정밀진단 컨설팅 확인서가 발급되었습니다.</p>
+            <strong class="tit vw_en">Issuance of ESG Precision Diagnosis Consulting Certificate</strong>
+            <p class="tit_t1 vw_en">Company <span class="selPrdName">NexDrive</span>'s ESG precision diagnosis consulting certificate has been issued.</p>
         </div>
         <div class="modal_cnt">
             <div class="effect_tit">
-                <strong>ESG 정밀진단 컨설팅 확인서</strong>
+                <strong class="vw_kr">ESG 정밀진단 컨설팅 확인서</strong>
+                <strong class="vw_en">ESG Precision Diagnosis Consulting Confirmation</strong>
             </div>
 
             <span class="esg_category selPrdName">NexDrive</span>
 
-            <p class="msg">IBK기업은행은 ESG정밀진단 컨설팅을 통해<br>위 회사의 ESG을 아래와 같이 확인합니다.</p>
+            <p class="msg vw_kr">IBK기업은행은 ESG정밀진단 컨설팅을 통해<br>위 회사의 ESG을 아래와 같이 확인합니다.</p>
+            <p class="msg vw_en">IBK Industrial Bank of Korea verifies the ESG of the above company as follows through ESG precision diagnosis consulting.</p>
 
             <ul class="summary_box">
                 <li>
-                    <strong>종합등급 :</strong>
+                    <strong class="vw_kr">종합등급 :</strong>
+                    <strong class="vw_en">Overall score :</strong>
                     <span id="popupTotalGrade">B+</span>
                 </li>
                 <li>
-                    <strong>종합점수 :</strong>
+                    <strong class="vw_kr">종합점수 :</strong>
+                    <strong class="vw_en">Overall rating :</strong>
                     <span id="popupTotalPoint">46.6 / 100</span>
                 </li>
                 <li>
-                    <strong>발급번호 :</strong>
+                    <strong class="vw_kr">발급번호 :</strong>
+                    <strong class="vw_en">Certificate Number :</strong>
                     <span>2026-F-0001</span>
                 </li>
                 <li>
-                    <strong>유효기간 :</strong>
+                    <strong class="vw_kr">유효기간 :</strong>
+                    <strong class="vw_en">Expiration period :</strong>
                     <span>2026-1-6~2027-1-6</span>
                 </li>
             </ul>
@@ -1539,7 +1836,10 @@
             </div>
 
             <div class="buttons">
-                <button type="button" class="btn_modal" id="btn01">맞춤형 금융상품 추천받기</button>
+                <button type="button" class="btn_modal" id="btn01">
+                    <span class="vw_kr">맞춤형 금융상품 추천받기</span>
+                    <span class="vw_en">Get personalized financial product recommendations</span>
+                </button>
             </div>
         </div>
     </div>
@@ -2322,6 +2622,7 @@ function drawQuadrantScatterChart(
         id: "pointLabelPlugin",
         afterDatasetsDraw(chart) {
             const { ctx } = chart;
+
             ctx.save();
             ctx.font = "32px Pretendard";
             ctx.textAlign = "center";
@@ -2330,7 +2631,6 @@ function drawQuadrantScatterChart(
 
             const meta = chart.getDatasetMeta(0);
             meta.data.forEach((element, i) => {
-                // 데이터 포인트가 화면에 그려졌을 때만 텍스트 표시
                 if (!element.hidden && points[i]) {
                     ctx.fillText(points[i].label, element.x, element.y);
                 }
@@ -2359,16 +2659,36 @@ function drawQuadrantScatterChart(
 
             // 4분면 채우기
             ctx.fillStyle = c2;
-            ctx.fillRect(chartArea.left, chartArea.top, midX - chartArea.left, midY - chartArea.top);
+            ctx.fillRect(
+                chartArea.left,
+                chartArea.top,
+                midX - chartArea.left,
+                midY - chartArea.top
+            );
 
             ctx.fillStyle = c1;
-            ctx.fillRect(midX, chartArea.top, chartArea.right - midX, midY - chartArea.top);
+            ctx.fillRect(
+                midX,
+                chartArea.top,
+                chartArea.right - midX,
+                midY - chartArea.top
+            );
 
             ctx.fillStyle = c3;
-            ctx.fillRect(chartArea.left, midY, midX - chartArea.left, chartArea.bottom - midY);
+            ctx.fillRect(
+                chartArea.left,
+                midY,
+                midX - chartArea.left,
+                chartArea.bottom - midY
+            );
 
             ctx.fillStyle = c4;
-            ctx.fillRect(midX, midY, chartArea.right - midX, chartArea.bottom - midY);
+            ctx.fillRect(
+                midX,
+                midY,
+                chartArea.right - midX,
+                chartArea.bottom - midY
+            );
 
             // 기준선 그리기
             ctx.strokeStyle = "#66ADFF";
@@ -2388,41 +2708,40 @@ function drawQuadrantScatterChart(
         }
     };
 
-    // [Plugin] Y축 세로 텍스트 그리기
+    // [Plugin] Y축 세로 텍스트 그리기 (중앙 배치)
     const verticalYAxisLabelPlugin = {
         id: "verticalYAxisLabelPlugin",
         afterDraw(chart) {
             const { ctx, chartArea } = chart;
+            if (!chartArea) return;
 
             const text = "이행용이성";
             const x = chartArea.left - 50;
-            let y = chartArea.top + 50;
+
+            const midY = (chartArea.top + chartArea.bottom) / 2;
+            const lineH = 45;
+            const startY = midY - ((text.length - 1) * lineH) / 2;
 
             ctx.save();
             ctx.font = "40px Pretendard";
             ctx.fillStyle = "#FFFFFF";
             ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
 
-            [...text].forEach(ch => {
-                ctx.fillText(ch, x, y);
-                y += 45;
+            [...text].forEach((ch, i) => {
+                ctx.fillText(ch, x, startY + i * lineH);
             });
 
             ctx.restore();
         }
     };
 
-    // [Plugin] 커스텀 범례 그리기
+    // [Plugin] 커스텀 범례 그리기 (font 40px 기준)
     const quadrantLegendPlugin = {
         id: "quadrantLegendPlugin",
         afterDraw(chart) {
             const { ctx, chartArea } = chart;
-
-            ctx.save();
-            ctx.font = "32px Pretendard";
-
-            const legendX = chartArea.right + 40;
-            const legendY = chartArea.bottom - 140;
+            if (!chartArea) return;
 
             const items = [
                 { label: "E 환경", color: COLORS.E },
@@ -2430,22 +2749,115 @@ function drawQuadrantScatterChart(
                 { label: "G 지배구조", color: COLORS.G }
             ];
 
+            ctx.save();
+
+            // -------------------------
+            // Typography
+            // -------------------------
+            const fontSize = 40;
+            ctx.font = `${fontSize}px Pretendard`;
+            ctx.textAlign = "left";
+            ctx.textBaseline = "middle";
+
+            // -------------------------
+            // Layout tuning (여기만 조절)
+            // -------------------------
+            const shiftX = 10;          // 범례 전체를 우측으로 +10px
+            const itemGap = 60;
+
+            const dotR = 16;
+            const gap = 18;            // dot과 텍스트 사이 간격(가로)
+
+            const dotYOffset = 0;      // dot 세로 미세조정
+            const textYOffset = 2;     // 텍스트 세로 미세조정(필요 시 0~3 정도로 튜닝)
+
+            const legendY = chartArea.bottom - 160;
+            const preferredX = chartArea.right + 40 + shiftX;
+
+            // -------------------------
+            // Right-clamp (우측 잘림 방지)
+            // -------------------------
+            const maxTextW = Math.max(...items.map(item => ctx.measureText(item.label).width));
+
+            const canvasW = chart.width;
+            const safeMargin = 20;
+
+            // legendX는 dot 중심 좌표
+            // 우측 끝: legendX + dotR + gap + maxTextW
+            const maxLegendX = canvasW - safeMargin - (dotR + gap + maxTextW);
+            const legendX = Math.min(preferredX, maxLegendX);
+
+            // -------------------------
+            // Draw
+            // -------------------------
             items.forEach((item, i) => {
+                const baseY = legendY + i * itemGap;
+
+                const yDot = baseY + dotYOffset;
+                const yText = baseY + textYOffset;
+
+                // dot
                 ctx.fillStyle = item.color;
                 ctx.beginPath();
-                ctx.arc(legendX, legendY + i * 48, 14, 0, Math.PI * 2);
+                ctx.arc(legendX, yDot, dotR, 0, Math.PI * 2);
                 ctx.fill();
 
+                // text (dot 오른쪽: dotR + gap 만큼 띄움)
                 ctx.fillStyle = "#FFFFFF";
-                ctx.fillText(item.label, legendX + 30, legendY + i * 48 + 12);
+                ctx.fillText(item.label, legendX + dotR + gap, yText);
             });
 
             ctx.restore();
         }
     };
 
-    // --- 3. 차트 생성 ---
 
+
+    // [Plugin] 4분면 중앙 텍스트 삽입
+    const quadrantCenterTextPlugin = {
+        id: "quadrantCenterTextPlugin",
+        beforeDatasetsDraw(chart) {
+            const { ctx, chartArea } = chart;
+            if (!chartArea) return;
+
+            const midX = (chartArea.left + chartArea.right) / 2;
+            const midY = (chartArea.top + chartArea.bottom) / 2;
+
+            // 각 사분면 중앙 좌표
+            const TL = {
+                x: (chartArea.left + midX) / 2,
+                y: (chartArea.top + midY) / 2
+            };
+            const TR = {
+                x: (midX + chartArea.right) / 2,
+                y: (chartArea.top + midY) / 2
+            };
+            const BR = {
+                x: (midX + chartArea.right) / 2,
+                y: (midY + chartArea.bottom) / 2
+            };
+
+            ctx.save();
+            ctx.font = "80px Pretendard";
+            ctx.fillStyle = "rgba(255,255,255,0.6)";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+
+            // 좌측 상단
+            ctx.fillText("단기", TL.x, TL.y);
+
+            // 우측 상단
+            ctx.fillText("Quick Win", TR.x, TR.y);
+
+            // 우측 하단
+            ctx.fillText("중장기", BR.x, BR.y);
+
+            ctx.restore();
+        }
+    };
+
+
+    // --- 3. 차트 생성 ---
     new Chart(ctx, {
         type: "scatter",
         data: {
@@ -2459,8 +2871,8 @@ function drawQuadrantScatterChart(
                     pointHoverRadius: 0,
                     hoverRadius: 0,
 
-                    backgroundColor: p => COLORS[p.raw.type],
-                    borderColor: p => COLORS[p.raw.type],
+                    backgroundColor: (p) => COLORS[p.raw.type],
+                    borderColor: (p) => COLORS[p.raw.type],
                     borderWidth: 4
                 }
             ]
@@ -2481,7 +2893,7 @@ function drawQuadrantScatterChart(
             layout: {
                 padding: {
                     left: 80,
-                    right: 220,
+                    right: 280,
                     top: 50,
                     bottom: 100
                 }
@@ -2494,7 +2906,8 @@ function drawQuadrantScatterChart(
 
             scales: {
                 x: {
-                    min: 0, max: 100,
+                    min: 0,
+                    max: 100,
                     ticks: { display: false },
                     grid: { display: false },
                     title: {
@@ -2506,7 +2919,8 @@ function drawQuadrantScatterChart(
                     }
                 },
                 y: {
-                    min: 0, max: 100,
+                    min: 0,
+                    max: 100,
                     ticks: { display: false },
                     grid: { display: false }
                 }
@@ -2515,6 +2929,7 @@ function drawQuadrantScatterChart(
         plugins: [
             pointLabelPlugin,
             quadrantBackgroundPlugin,
+            quadrantCenterTextPlugin,
             verticalYAxisLabelPlugin,
             quadrantLegendPlugin
         ]

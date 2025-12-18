@@ -4,26 +4,50 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var body = document.body;
 
+  function applyGateLangByBodyId() {
+    var id = body.id || 'lang_kr';
+    var lang = (id === 'lang_en') ? 'en' : 'kr';
+
+    // setGateLang가 준비된 경우 즉시 적용
+    if (typeof window.setGateLang === 'function') {
+      window.setGateLang(lang);
+      return;
+    }
+
+    // setGateLang가 아직 없으면(스크립트 로딩 순서) 짧게 재시도
+    var tryCount = 0;
+    var timer = setInterval(function () {
+      tryCount++;
+      if (typeof window.setGateLang === 'function') {
+        clearInterval(timer);
+        window.setGateLang(lang);
+      } else if (tryCount >= 30) { // 약 1.5초(50ms*30)까지만
+        clearInterval(timer);
+      }
+    }, 50);
+  }
+
   // 1) localStorage에 저장된 언어 상태 불러오기
   var savedLang = localStorage.getItem('siteLang'); // 'lang_kr' or 'lang_en'
 
   if (savedLang === 'lang_kr' || savedLang === 'lang_en') {
-    // 저장된 언어가 있으면 그걸로 body id 세팅
     body.id = savedLang;
   } else {
-    // 저장된 값이 없으면: 기존 id 유지, 없으면 기본 lang_kr
-    if (!body.id) {
-      body.id = 'lang_kr';
-    }
+    if (!body.id) body.id = 'lang_kr';
   }
 
-  // 2) 버튼 클릭 시 토글 + localStorage 저장
-  langBtn.addEventListener('click', function () { 
-    var currentId = body.id || 'lang_kr';
-    var nextId    = currentId === 'lang_kr' ? 'lang_en' : 'lang_kr';
+  // ✅ 초기 로드시 gate 비디오/텍스트도 현재 언어로 동기 적용
+  applyGateLangByBodyId();
 
-    body.id = nextId;                  // 실제 DOM 적용
-    localStorage.setItem('siteLang', nextId); // 다음 페이지에서도 유지
+  // 2) 버튼 클릭 시 토글 + localStorage 저장 + ✅ setGateLang 반영
+  langBtn.addEventListener('click', function () {
+    var currentId = body.id || 'lang_kr';
+    var nextId = currentId === 'lang_kr' ? 'lang_en' : 'lang_kr';
+
+    body.id = nextId;
+    localStorage.setItem('siteLang', nextId);
+
+    applyGateLangByBodyId();
   });
 });
 
@@ -35,10 +59,6 @@ $(function () {
     $('.btn_main').on('click', function () {
         $('#container').addClass('started');
     });
-
-
-
-
 
     /* Gate 클릭 시 활성화 */
     $('.gate_wrap [class^="gate_item_"]').on('click', function () {
@@ -54,90 +74,82 @@ $(function () {
         $card.addClass('on');
     });
 
-
-
-
-
     /* Gate 롤링 활성화 */
-$(function () {
-    const $cards = $('.gate_wrap [class^="gate_item_"]');
-    const cardCount = $cards.length;
+    $(function () {
+        const $cards = $('.gate_wrap [class^="gate_item_"]');
+        const cardCount = $cards.length;
 
-    // gate_item_의 부모 li들
-    const $cardLis = $cards.closest('li');
+        // gate_item_의 부모 li들
+        const $cardLis = $cards.closest('li');
 
-    let currentIndex = 0;           // gate_item_01부터 시작
-    let autoTimer = null;           // setInterval 저장
-    let resumeTimeout = null;       // 클릭 후 재시작 setTimeout
-    let isAutoInitialized = false;  // START 버튼 여러 번 눌러도 1번만 시작
+        let currentIndex = 0;           // gate_item_01부터 시작
+        let autoTimer = null;           // setInterval 저장
+        let resumeTimeout = null;       // 클릭 후 재시작 setTimeout
+        let isAutoInitialized = false;  // START 버튼 여러 번 눌러도 1번만 시작
 
-    // 카드 활성화 함수 (gate_item_ + 부모 li 둘 다)
-    function showCard(index) {
-        // gate_item_ on 처리
-        $cards.removeClass('on');
-        $cards.eq(index).addClass('on');
+        // 카드 활성화 함수 (gate_item_ + 부모 li 둘 다)
+        function showCard(index) {
+            // gate_item_ on 처리
+            $cards.removeClass('on');
+            $cards.eq(index).addClass('on');
 
-        // 부모 li active 처리
-        $cardLis.removeClass('active');
-        $cardLis.eq(index).addClass('active');
-    }
+            // 부모 li active 처리
+            $cardLis.removeClass('active');
+            $cardLis.eq(index).addClass('active');
+        }
 
-    // 특정 인덱스부터 자동 롤링 시작
-    function startAutoFrom(index) {
-        currentIndex = index;
-        showCard(currentIndex);
-
-        if (autoTimer) clearInterval(autoTimer);
-
-        autoTimer = setInterval(function () {
-            currentIndex = (currentIndex + 1) % cardCount;
+        // 특정 인덱스부터 자동 롤링 시작
+        function startAutoFrom(index) {
+            currentIndex = index;
             showCard(currentIndex);
-        }, 2500);
-    }
 
-    /* START 버튼 클릭 */
-    $('.btn_main').on('click', function () {
-        $('#container').addClass('started');
+            if (autoTimer) clearInterval(autoTimer);
 
-        // 자동 롤링은 한 번만 세팅
-        if (isAutoInitialized) return;
-        isAutoInitialized = true;
-
-        // 1.5초 뒤 자동 롤링 시작
-        setTimeout(function () {
-            startAutoFrom(currentIndex);
-        }, 1500);
-    });
-
-    /* 카드 클릭 시: 클릭된 카드 활성 + 2초 후 그 카드부터 재시작 */
-    $cards.on('click', function () {
-        const $card = $(this);
-        const clickedIndex = $cards.index($card);
-
-        // 자동 롤링, 재시작 타이머 모두 정지
-        if (autoTimer) {
-            clearInterval(autoTimer);
-            autoTimer = null;
-        }
-        if (resumeTimeout) {
-            clearTimeout(resumeTimeout);
-            resumeTimeout = null;
+            autoTimer = setInterval(function () {
+                currentIndex = (currentIndex + 1) % cardCount;
+                showCard(currentIndex);
+            }, 2500);
         }
 
-        // 클릭된 카드 바로 활성화 (gate_item_ + li)
-        showCard(clickedIndex);
+        /* START 버튼 클릭 */
+        $('.btn_main').on('click', function () {
+            $('#container').addClass('started');
 
-        // 2초 후, 클릭된 카드부터 자동 롤링 재개
-        resumeTimeout = setTimeout(function () {
-            startAutoFrom(clickedIndex);
-            resumeTimeout = null;
-        }, 2000);
+            // 자동 롤링은 한 번만 세팅
+            if (isAutoInitialized) return;
+            isAutoInitialized = true;
+
+            // 1.5초 뒤 자동 롤링 시작
+            setTimeout(function () {
+                startAutoFrom(currentIndex);
+            }, 1500);
+        });
+
+        /* 카드 클릭 시: 클릭된 카드 활성 + 2초 후 그 카드부터 재시작 */
+        $cards.on('click', function () {
+            const $card = $(this);
+            const clickedIndex = $cards.index($card);
+
+            // 자동 롤링, 재시작 타이머 모두 정지
+            if (autoTimer) {
+                clearInterval(autoTimer);
+                autoTimer = null;
+            }
+            if (resumeTimeout) {
+                clearTimeout(resumeTimeout);
+                resumeTimeout = null;
+            }
+
+            // 클릭된 카드 바로 활성화 (gate_item_ + li)
+            showCard(clickedIndex);
+
+            // 2초 후, 클릭된 카드부터 자동 롤링 재개
+            resumeTimeout = setTimeout(function () {
+                startAutoFrom(clickedIndex);
+                resumeTimeout = null;
+            }, 2000);
+        });
     });
-});
-
-
-
-
 
     /* Gate menu 클릭 시 동작 */
     $('.menu_item').on('click', function () {
@@ -149,550 +161,948 @@ $(function () {
 
 
 
-$(window).on('load', function () {
-  setTimeout(function () {
-    $('.hero-text').addClass('is-show');
-  }, 200);
-});
+(() => {
+  const STEP_HOLD = 12500;
+  const STEP_02_HOLD = 9000;
+  const STEP_ANIM = 600;
+  const CARD_HOLD = 3000;
+  const CARD_ANIM = 500;
+  const CROSSFADE_STEPS = false;
 
-/* floatin icon 생성 */
-const floatArea = document.querySelector('.float-img-area');
-const ICON_COUNT = 70; // 총 아이콘 개수
-const maxVisible = 70;  // 한 번에 노출할 개수 (랜덤)
-const requiredNums = [2, 4, 5, 7, 9, 10]; // 꼭 포함할 아이콘 번호
+  const TEXT_TOTAL = 1000;
+  const CHAR_DUR   = 300;
+  const P_STAGGER  = 500;
 
-/* ===========================
- * 1. HTML 동적 생성
- * ===========================
- */
-for (let i = 1; i <= ICON_COUNT; i++) {
-  const wrap = document.createElement('div');
-  wrap.classList.add('float-img-wrap');
-  wrap.dataset.index = String(i);
+  // ✅ 튜닝 (영상 관련 - 그대로 유지)
+  const STEP2_PRELOAD_BEFORE = 2200;
+  const SECOND_LANG_DELAY    = 250;
+  const CANPLAY_TIMEOUT      = 8000;
 
-  const img = document.createElement('img');
+  // ✅ step_03 연출 타임라인
+  const S3_TIT1_HOLD        = 2000;
+  const S3_FADE_OUT_TIT1    = 1500;
 
-  // 파일명 규칙: 01~09, 10~99, 100~138
-  const numStr = String(i).padStart(2, '0');
-  const ext = requiredNums.includes(i) ? 'png' : 'jpg';
-  img.src = `../../resources/images/floatin_img_${numStr}.${ext}`;
-  img.alt = `floating icon ${i}`;
+  const S3_FADE_IN_TIT2     = 1000;
+  const S3_FADE_IN_TOPLINE  = 1000;
+  const S3_FADE_IN_TOPTIT   = 1000;
 
-  const ico = document.createElement('span');
-  ico.classList.add('ico_fillter');
+  const S3_DELAY_TO_REMOVE_DF01 = 1000;
+  const S3_CELL_REMOVE_DUR      = 1000;
 
-  wrap.appendChild(img);
-  wrap.appendChild(ico);
-  floatArea.appendChild(wrap);
+  const S3_FADE_IN_POS01    = 1000;
+
+  const S3_DELAY_TO_REMOVE_DF  = 1000;
+  const S3_DELAY_TO_POS02      = 1000;
+  const S3_FADE_IN_POS02       = 1000;
+
+  // ✅ pos01/pos02 유지시간(둘 다 같이 보이는 구간) +1초
+  const S3_POS_HOLD         = 2000; // (기존 1000 → 2000)
+  const S3_FADE_OUT_POS     = 1000;
+  const S3_TOAST_DELAY      = 1000;
+  const S3_TOAST_IN_DUR     = 700;
+
+  const S3_TO_SEARCH_FADE_DUR = 700;
+
+  // ✅ pos 깜빡이: 3초
+  const POS_BLINK_TOTAL = 3000; // (기존 2000 → 3000)
+
+  const EASE_OUT = 'cubic-bezier(0.22, 1, 0.36, 1)';
+  const VW_DOWN  = '0.5200vw';
+  const VW_UP    = '-0.5200vw';
+
+  let currentLang = document.documentElement.classList.contains('lang-en') ? 'en_t' : 'kr_t';
+
+  window.setGateLang = function (lang) {
+    const nextLang = (lang === 'en' || lang === 'en_t') ? 'en_t' : 'kr_t';
+    if (nextLang === currentLang) return;
+
+    const prevLang = currentLang;
+    currentLang = nextLang;
+
+    document.documentElement.classList.toggle('lang-en', currentLang === 'en_t');
+    document.documentElement.classList.toggle('lang-kr', currentLang === 'kr_t');
+
+    syncNoBlendByState();
+
+    const activeStep =
+      document.querySelector('.new_gate_sec_01 .new_gate_01.on') ||
+      document.querySelector('.new_gate_sec_01 .new_gate_01.step_01');
+
+    if (activeStep) {
+      syncStepLangVideosOnce(activeStep, prevLang, currentLang);
+
+      const onCard = activeStep.querySelector('.gate_01_card_item.on');
+      if (onCard) requestAnimationFrame(() => playCardText(onCard));
+    }
+  };
+
+  function initGate01Sequence() {
+    const step1 = document.querySelector('.new_gate_01.step_01');
+    const step2 = document.querySelector('.new_gate_01.step_02');
+    const step3 = document.querySelector('.new_gate_01.step_03');
+    if (!step1 || !step2) return;
+
+    if (!document.documentElement.classList.contains('lang-kr') && !document.documentElement.classList.contains('lang-en')) {
+      document.documentElement.classList.add(currentLang === 'en_t' ? 'lang-en' : 'lang-kr');
+    }
+
+    setupAllGateVideos();
+
+    pauseStepVideos(step2);
+    if (step3) pauseStepVideos(step3);
+
+    playStepVideosSmooth(step1);
+
+    window.setTimeout(() => {
+      primeStepVideos(step2);
+    }, Math.max(0, STEP_HOLD - STEP2_PRELOAD_BEFORE));
+
+    requestAnimationFrame(() => prepareAllDescText(step1));
+
+    step1.classList.add('on');
+    step2.classList.remove('on', 'is-leave');
+    if (step3) step3.classList.remove('on', 'is-leave');
+
+    syncNoBlendByState();
+
+    const cards = Array.from(step1.querySelectorAll('.gate_01_card_item'));
+    if (cards.length) {
+      let idx = cards.findIndex(el => el.classList.contains('on'));
+      if (idx < 0) idx = 0;
+
+      cards.forEach((el, i) => el.classList.toggle('on', i === idx));
+      requestAnimationFrame(() => playCardText(cards[idx]));
+      runCardSequence(cards, idx);
+    }
+
+    window.setTimeout(() => {
+      if (CROSSFADE_STEPS) {
+        enterStep(step2);
+        leaveStep(step1);
+      } else {
+        leaveStep(step1, () => enterStep(step2));
+      }
+
+      if (step3) {
+        window.setTimeout(() => {
+          if (CROSSFADE_STEPS) {
+            enterStep(step3);
+            leaveStep(step2);
+          } else {
+            leaveStep(step2, () => enterStep(step3));
+          }
+        }, STEP_02_HOLD);
+      }
+    }, STEP_HOLD);
+  }
+
+  // -----------------------------
+  // VIDEO (그대로 유지)
+  // -----------------------------
+  function setupAllGateVideos() {
+    document.querySelectorAll('.new_gate_sec_01 .main_video video').forEach(v => {
+      v.muted = true;
+      v.setAttribute('muted', '');
+      v.setAttribute('playsinline', '');
+      v.setAttribute('webkit-playsinline', '');
+      v.setAttribute('disablepictureinpicture', '');
+
+      v.autoplay = false;
+      v.removeAttribute('autoplay');
+
+      v.preload = 'metadata';
+      try { v.pause(); } catch (e) {}
+    });
+  }
+
+  function primeStepVideos(step) {
+    if (!step) return;
+    step.querySelectorAll('.main_video video').forEach(v => {
+      v.preload = 'auto';
+      try { v.load(); } catch (e) {}
+    });
+  }
+
+  function playStepVideosSmooth(step) {
+    if (!step) return;
+
+    const kr = step.querySelector('.main_video video.kr_t');
+    const en = step.querySelector('.main_video video.en_t');
+    if (!kr || !en) return;
+
+    const primary = (currentLang === 'en_t') ? en : kr;
+    const second  = (currentLang === 'en_t') ? kr : en;
+
+    waitCanPlay(primary, CANPLAY_TIMEOUT).then(() => {
+      safePlay(primary);
+
+      setTimeout(() => {
+        waitCanPlay(second, CANPLAY_TIMEOUT).then(() => {
+          syncOneToAnother(second, primary);
+          safePlay(second);
+        });
+      }, SECOND_LANG_DELAY);
+    });
+  }
+
+  function pauseStepVideos(step) {
+    if (!step) return;
+    step.querySelectorAll('.main_video video').forEach(v => {
+      try { v.pause(); } catch (e) {}
+    });
+  }
+
+  function syncStepLangVideosOnce(step, fromLang, toLang) {
+    const from = step.querySelector(`.main_video video.${fromLang}`);
+    const to   = step.querySelector(`.main_video video.${toLang}`);
+    if (!from || !to) return;
+
+    waitCanPlay(to, CANPLAY_TIMEOUT).then(() => {
+      syncOneToAnother(to, from);
+      safePlay(to);
+    });
+  }
+
+  function syncOneToAnother(target, base) {
+    if (!target || !base) return;
+
+    const t = clampTime(base.currentTime, target.duration);
+    try {
+      if (typeof target.fastSeek === 'function') target.fastSeek(t);
+      else if (Math.abs((target.currentTime || 0) - t) > 0.12) target.currentTime = t;
+    } catch (e) {}
+  }
+
+  function clampTime(t, duration) {
+    if (!isFinite(t)) return 0;
+    if (!isFinite(duration) || duration <= 0) return t;
+    return Math.min(t, Math.max(0, duration - 0.12));
+  }
+
+  function safePlay(v) {
+    if (!v) return;
+    const p = v.play && v.play();
+    if (p && typeof p.catch === 'function') p.catch(() => {});
+  }
+
+  function waitCanPlay(video, timeoutMs) {
+    return new Promise(resolve => {
+      if (!video) return resolve();
+      if (video.readyState >= 2) return resolve();
+
+      let done = false;
+      const t = setTimeout(finish, timeoutMs);
+
+      function finish() {
+        if (done) return;
+        done = true;
+        clearTimeout(t);
+        cleanup();
+        resolve();
+      }
+      function onReady() {
+        if (video.readyState >= 2) finish();
+      }
+      function cleanup() {
+        video.removeEventListener('loadeddata', onReady);
+        video.removeEventListener('canplay', onReady);
+        video.removeEventListener('canplaythrough', onReady);
+        video.removeEventListener('error', finish);
+        video.removeEventListener('stalled', finish);
+        video.removeEventListener('abort', finish);
+      }
+
+      video.addEventListener('loadeddata', onReady);
+      video.addEventListener('canplay', onReady);
+      video.addEventListener('canplaythrough', onReady);
+      video.addEventListener('error', finish, { once: true });
+      video.addEventListener('stalled', finish, { once: true });
+      video.addEventListener('abort', finish, { once: true });
+
+      try { video.load(); } catch (e) {}
+    });
+  }
+
+  // -----------------------------
+  // STEP / CARD
+  // -----------------------------
+  function enterStep(el) {
+    el.classList.add('on');
+
+    playStepVideosSmooth(el);
+    primeStepVideos(nextStepOf(el));
+
+    if (el.classList.contains('step_03')) {
+      setNoBlendScreen(true);
+      runStep03Sequence(el);
+      bindStep03Button(el);
+    }
+
+    syncNoBlendByState();
+  }
+
+  function leaveStep(el, done) {
+    el.classList.add('is-leave');
+    window.setTimeout(() => {
+      el.classList.remove('on', 'is-leave');
+      pauseStepVideos(el);
+
+      if (el.classList.contains('step_03')) {
+        el._step03Running = false;
+        el._step03Done = false;
+        el._toSearchRunning = false;
+      }
+
+      syncNoBlendByState();
+      if (typeof done === 'function') done();
+    }, STEP_ANIM);
+  }
+
+  function nextStepOf(stepEl) {
+    if (!stepEl) return null;
+    if (stepEl.classList.contains('step_01')) return document.querySelector('.new_gate_01.step_02');
+    if (stepEl.classList.contains('step_02')) return document.querySelector('.new_gate_01.step_03');
+    return null;
+  }
+
+  function runCardSequence(cards, startIdx) {
+    const lastIdx = cards.length - 1;
+
+    for (let i = startIdx; i < lastIdx; i++) {
+      const t = (i - startIdx) * (CARD_HOLD + CARD_ANIM) + CARD_HOLD;
+      window.setTimeout(() => swapCardSequential(cards[i], cards[i + 1]), t);
+    }
+
+    const lastOnTime = (lastIdx - startIdx) * (CARD_HOLD + CARD_ANIM);
+    window.setTimeout(() => clearCardOn(cards[lastIdx]), lastOnTime + CARD_HOLD);
+  }
+
+  function swapCardSequential(current, next) {
+    if (!current || !next) return;
+
+    current.classList.add('is-leave');
+    window.setTimeout(() => {
+      current.classList.remove('on', 'is-leave');
+      resetCardText(current);
+
+      next.classList.add('on');
+      requestAnimationFrame(() => playCardText(next));
+    }, CARD_ANIM);
+  }
+
+  function clearCardOn(card) {
+    if (!card) return;
+    card.classList.add('is-leave');
+    window.setTimeout(() => {
+      card.classList.remove('on', 'is-leave');
+      resetCardText(card);
+    }, CARD_ANIM);
+  }
+
+  // -----------------------------
+  // TEXT
+  // -----------------------------
+  function prepareAllDescText(root) {
+    root.querySelectorAll('.bott_desc p').forEach(p => splitToChars(p));
+  }
+
+  function splitToChars(p) {
+    if (!p || p.dataset.split === '1') return;
+
+    let idx = 0;
+    const frag = document.createDocumentFragment();
+    Array.from(p.childNodes).forEach(node => frag.appendChild(processNode(node)));
+
+    p.textContent = '';
+    p.appendChild(frag);
+    p.dataset.split = '1';
+
+    function processNode(node) {
+      if (node.nodeType === 3) {
+        const text = node.nodeValue || '';
+        const f = document.createDocumentFragment();
+        for (const ch of text) {
+          const span = document.createElement('span');
+          span.className = 'char';
+          span.style.setProperty('--i', idx++);
+          span.textContent = (ch === ' ') ? '\u00A0' : ch;
+          f.appendChild(span);
+        }
+        return f;
+      }
+
+      if (node.nodeType === 1) {
+        const tag = node.tagName.toUpperCase();
+        if (tag === 'BR') return node.cloneNode(true);
+
+        const el = node.cloneNode(false);
+        Array.from(node.childNodes).forEach(child => el.appendChild(processNode(child)));
+        return el;
+      }
+
+      return document.createTextNode('');
+    }
+  }
+
+  function playCardText(card) {
+    if (!card) return;
+
+    const ps = Array.from(card.querySelectorAll(`.bott_desc.${currentLang} p[data-split="1"]`));
+    ps.forEach((p, pi) => {
+      p.classList.remove('text_play');
+
+      const chars = p.querySelectorAll('.char');
+      const n = chars.length;
+
+      const pDelay = pi * P_STAGGER;
+      p.style.setProperty('--p-delay', pDelay + 'ms');
+      p.style.setProperty('--char-dur', CHAR_DUR + 'ms');
+
+      const availableTotal = Math.max(CHAR_DUR, TEXT_TOTAL - pDelay);
+      const charDelay = (n > 1) ? Math.max(0, (availableTotal - CHAR_DUR) / (n - 1)) : 0;
+      p.style.setProperty('--char-delay', charDelay + 'ms');
+
+      void p.offsetWidth;
+      p.classList.add('text_play');
+    });
+  }
+
+  function resetCardText(card) {
+    if (!card) return;
+    card.querySelectorAll('.bott_desc p').forEach(p => p.classList.remove('text_play'));
+  }
+
+  // -----------------------------
+  // ✅ SOFT BLINK (강제 적용 + 더 선명)
+  // -----------------------------
+  let _softBlinkStyleInjected = false;
+
+  function ensureSoftBlinkStyle() {
+  if (_softBlinkStyleInjected) return;
+  _softBlinkStyleInjected = true;
+
+  const style = document.createElement('style');
+  style.type = 'text/css';
+  style.textContent = `
+    /* 기본(소프트) */
+    @keyframes celSoftBlink {
+      0%, 100% { opacity: 1; filter: brightness(1) contrast(1); transform: translateZ(0) scale(1); }
+      50%      { opacity: .78; filter: brightness(1.22) contrast(1.08); transform: translateZ(0) scale(1.012); }
+    }
+
+    /* ✅ pos01용(더 선명) */
+    @keyframes celSoftBlinkStrong {
+      0%, 100% {
+        opacity: 1;
+        filter: brightness(1) contrast(1) drop-shadow(0 0 0 rgba(120,200,255,0));
+        transform: translateZ(0) scale(1);
+      }
+      50% {
+        opacity: .58; /* 더 확 떨어지게 */
+        filter: brightness(1.35) contrast(1.15) drop-shadow(0 0 0.6vw rgba(120,200,255,.35));
+        transform: translateZ(0) scale(1.02); /* 살짝만 펄스 */
+      }
+    }
+
+    .cel_soft_blink {
+      animation: celSoftBlink 560ms ease-in-out infinite !important;
+      will-change: opacity, filter, transform;
+    }
+    .cel_soft_blink_strong {
+      animation: celSoftBlinkStrong 520ms ease-in-out infinite !important;
+      will-change: opacity, filter, transform;
+    }
+
+    /* wrap 방식 강제 */
+    .cel_soft_blink_wrap .item,
+    .cel_soft_blink_wrap [class*="item"]{
+      animation: celSoftBlink 560ms ease-in-out infinite !important;
+      will-change: opacity, filter, transform;
+    }
+    .cel_soft_blink_wrap--strong .item,
+    .cel_soft_blink_wrap--strong [class*="item"]{
+      animation: celSoftBlinkStrong 520ms ease-in-out infinite !important;
+      will-change: opacity, filter, transform;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cel_soft_blink,
+      .cel_soft_blink_strong,
+      .cel_soft_blink_wrap .item,
+      .cel_soft_blink_wrap [class*="item"],
+      .cel_soft_blink_wrap--strong .item,
+      .cel_soft_blink_wrap--strong [class*="item"]{
+        animation: none !important;
+      }
+    }
+  `;
+  document.head.appendChild(style);
 }
 
-/* ===========================
- * 2. 랜덤 노출 + 플로팅 효과
- * ===========================
- */
-const floatWraps = floatArea.querySelectorAll('.float-img-wrap');
-const total = floatWraps.length;
 
-if (total < 10) {
-  console.warn(`⚠️ 이미지 개수가 ${total}개입니다. 최소 10개 이상 권장!`);
-}
-
-const allWraps = Array.from(floatWraps);
-const requiredWraps = allWraps.filter(wrap => requiredNums.includes(parseInt(wrap.dataset.index, 10)));
-const remainingWraps = allWraps.filter(wrap => !requiredWraps.includes(wrap));
-const shuffled = remainingWraps.sort(() => Math.random() - 0.5);
-const limit = Math.min(maxVisible, total);
-let visibleWraps = requiredWraps.slice(0);
-if (visibleWraps.length < limit) {
-  visibleWraps = visibleWraps.concat(shuffled.slice(0, limit - visibleWraps.length));
-}
-
-// 전부 숨김
-floatWraps.forEach(wrap => {
-  wrap.style.display = 'none';
-});
-
-// 선택된 개수에만 랜덤 속성 부여 + 노출
-visibleWraps.forEach(wrap => {
-  let x, y;
-
-  // 중앙 25~75% 영역 피해서 랜덤 배치
-  do {
-    x = Math.random() * 100;
-    y = Math.random() * 100;
-  } while (x > 25 && x < 75 && y > 25 && y < 75);
-
-  const orbitSize = 5 + Math.random() * 10;   // 회전 궤도 (vmin)
-  const duration  = 15 + Math.random() * 10;  // 회전 속도 (s)
-  const delay     = Math.random() * 3;        // 딜레이 (s)
-
-  const maxSize = 5.2865;
-  const minSize = 2;
-  const imgSize = minSize + Math.random() * (maxSize - minSize);
-
-  wrap.style.display = 'block';
-  wrap.style.left = `${x}%`;
-  wrap.style.top  = `${y}%`;
-  wrap.style.position = 'absolute';
-  wrap.style.opacity = '0.6';                 // ★ float-img-wrap 전체 투명도
-  wrap.style.setProperty('--orbit-size', `${orbitSize}vmin`);
-  wrap.style.setProperty('--duration', `${duration}s`);
-  wrap.style.setProperty('--delay', `${delay}s`);
-
-  const img = wrap.querySelector('img');
-  img.style.width  = `${imgSize}vw`;
-  img.style.height = `${imgSize}vw`;
-
-  if (imgSize <= 3.5) {
-    img.style.filter = 'blur(0.2vmin) brightness(0.8)';
-  } else {
-    img.style.filter = 'none';
+  function raf2(fn) {
+    requestAnimationFrame(() => requestAnimationFrame(fn));
   }
 
-  const ico = wrap.querySelector('.ico_fillter');
-  if (ico) {
-    // 이미지와 동시에 필터 아이콘 노출
-    ico.classList.add('show');
-  }
+  // target 내부 selector(.item 등) 3초간 깜빡임
+  function startSoftBlink(target, selector, totalMs, strength) {
+  if (!target) return;
+  ensureSoftBlinkStyle();
 
+  const isStrong = (strength === 'strong');
 
-// ★ 아이콘 세팅이 끝난 뒤 1초 후 전체 영역을 보이게
-setTimeout(() => {
-  if (floatArea) {
-    floatArea.style.opacity = '1';
-  }
-}, 300); // 1초 뒤에 등장
+  target.classList.add('cel_soft_blink_wrap');
+  target.classList.toggle('cel_soft_blink_wrap--strong', isStrong);
 
+  let nodes = [];
+  if (selector) nodes = Array.from(target.querySelectorAll(selector));
+  if (!nodes.length) nodes = Array.from(target.querySelectorAll('.item'));
+  if (!nodes.length) nodes = [target];
 
+  if (target._softBlinkTimer) clearTimeout(target._softBlinkTimer);
 
-
-
-
-
-    var $range  = $('#visitorRange');
-  var $labels = $('.k-slider-labels span');
-
-  function updateLabels() {
-    var idx = parseInt($range.val(), 10);   // 0, 1, 2
-    $labels.removeClass('active');
-    $labels.eq(idx).addClass('active');
-  }
-
-  // 초기 상태 세팅
-  updateLabels();
-
-  // 슬라이드 할 때마다 업데이트
-  $range.on('input change', updateLabels);
+  nodes.forEach(n => {
+    n.classList.add(isStrong ? 'cel_soft_blink_strong' : 'cel_soft_blink');
   });
 
+  target._softBlinkTimer = setTimeout(() => {
+    nodes.forEach(n => {
+      n.classList.remove('cel_soft_blink');
+      n.classList.remove('cel_soft_blink_strong');
+    });
+    target.classList.remove('cel_soft_blink_wrap');
+    target.classList.remove('cel_soft_blink_wrap--strong');
+    target._softBlinkTimer = null;
+  }, totalMs || 3000);
+}
 
 
+  // -----------------------------
+  // ✅ step_03 sequence (pos blink 포함)
+  // -----------------------------
+  function runStep03Sequence(step3) {
+    if (!step3) return;
+    if (step3._step03Running) return;
+    step3._step03Running = true;
+    step3._step03Done = false;
+    step3._toSearchRunning = false;
 
+    const tit1    = step3.querySelector('.step_03_tit.in_step_01');
+    const tit2    = step3.querySelector('.step_03_tit.in_step_02');
+    const topLine = step3.querySelector('.cel_content .top_line');
+    const topTit  = step3.querySelector('.cel_wrap .top_tit');
+    const pos01   = step3.querySelector('.cel_wrap .cel_pos_01');
+    const pos02   = step3.querySelector('.cel_wrap .cel_pos_02');
+    const toast   = step3.querySelector('.toast_pop');
+    const celList = step3.querySelector('.cel_list');
 
+    resetStep03State({ step3, tit1, tit2, topLine, topTit, pos01, pos02, toast, celList });
 
-// .btn_search 버튼 클릭 시 .contents_01에 processing 클래스 추가 
-$('.hero-text .btn_search button').on('click', function () {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
 
-    // 이미 처리 중이면 중복 실행 방지
-    if ($('.contents_01').hasClass('processing')) return;
+        setTimeout(() => {
 
-    $('.contents_01').addClass('processing');
+          setTimeout(() => {
 
-    /* ============================================
-     *  공통 헬퍼들: 항상 "현재 DOM" 기준으로 찾기
-     * ============================================ */
+            removeClassSmooth(celList, 'ani_bg_df_01', S3_CELL_REMOVE_DUR);
 
-    // search_txt_step 전체 래퍼
-    function getSearchStep() {
-        return $('.search_txt_step');
-    }
+            // pos01 노출
+            fadeInUpY_WithDisplay(pos01, S3_FADE_IN_POS01, 'flex');
 
-    // KR/EN 컨테이너 (ul.kr_t, ul.en_t / dl.kr_t, dl.en_t 등)
-    function getLangContainers() {
-        const $searchStep = getSearchStep();
-        let $containers = $searchStep.find('.kr_t, .en_t');
+            // ✅ pos01: 더 선명하게(Strong)
+            raf2(() => startSoftBlink(pos01, '.item', POS_BLINK_TOTAL, 'strong'));
 
-        // kr_t/en_t 로 안 나뉜 경우 전체를 하나의 컨테이너로 취급 (하위 호환)
-        if (!$containers.length) {
-            return $searchStep;
-        }
-        return $containers;
-    }
+            setTimeout(() => {
+              fadeOutUpX(tit1, S3_FADE_OUT_TIT1, () => {
 
-    // 각 언어 컨테이너 안의 li/dd 의 span (카운트 박스들)
-    function getCountWraps() {
-        return getLangContainers().find('> li > span, > dd > span, li > span, dd > span');
-    }
+                runParallel([
+                  (cb) => fadeInUpX(topLine, S3_FADE_IN_TOPLINE, cb),
+                  (cb) => fadeInUpY_WithDisplay(topTit, S3_FADE_IN_TOPTIT, 'block', cb),
+                  (cb) => fadeInUpX(tit2, S3_FADE_IN_TIT2, cb),
+                ], () => {
 
-    // 숫자 카운트 텍스트(.counting) (KR/EN 모두)
-    function getCountingEls() {
-        return getSearchStep().find('.counting');
-    }
+                  setTimeout(() => {
+                    // ✅ line_01~line_05 ani_bg_df 삭제가 "완료"된 다음에 pos02 노출로
+                    removeAniBgDfByLinesSequential(celList, S3_CELL_REMOVE_DUR, 500, function () {
 
-    // progress 영역
-    function getProgressDots() {
-        return $('.progress_dot .item_dot');
-    }
-    function getProgressNum() {
-        return $('.progress_dot .progress_num_counting');
-    }
-    function getProgressNumBox() {
-        return $('.progress_dot .progress_num');
-    }
+                      // ✅ pos02 노출 타이밍을 "조금 미루기" (여기 값 조절)
+                      setTimeout(() => {
+                        fadeInUpY_WithDisplay(pos02, S3_FADE_IN_POS02, 'block', () => {
 
-    /* ============================================
-     *  blink (카운트/프로그레스 숫자 깜빡임)
-     * ============================================ */
-    const BLINK_PAUSE = 1500; // 단계 끝날 때 깜빡임 유지 시간(ms)
-    const FADE_TIME   = 300;  // blink on/off 페이드 시간(ms)
+                          // ✅ pos02도 노출 직후 3초 깜빡임
+                          raf2(() => startSoftBlink(pos02, '.item', POS_BLINK_TOTAL));
 
-    function setBlink(active) {
-        const $countWraps     = getCountWraps();
-        const $progressNumBox = getProgressNumBox();
-
-        if (active) {
-            // 1) opacity 1 → 0.3 으로 부드럽게 줄이고 blink 클래스 부여
-            $countWraps.stop(true, true).animate({ opacity: 0.3 }, FADE_TIME, function () {
-                $countWraps.addClass('blink');
-            });
-
-            if ($progressNumBox.length) {
-                $progressNumBox.stop(true, true).animate({ opacity: 0.3 }, FADE_TIME, function () {
-                    $progressNumBox.addClass('blink');
+                          // ✅ 유지시간
+                          setTimeout(() => {
+                            runParallel([
+                              (cb) => fadeOutUpY(pos01, S3_FADE_OUT_POS, cb),
+                              (cb) => fadeOutUpY(pos02, S3_FADE_OUT_POS, cb)
+                            ], () => {
+                              setTimeout(() => {
+                                toastIn(toast, S3_TOAST_IN_DUR);
+                                step3._step03Done = true;
+                              }, S3_TOAST_DELAY);
+                            });
+                          }, S3_POS_HOLD);
+                        });
+                      }, S3_DELAY_TO_POS02); // ✅ "완료 후" 딜레이로 의미 변경
+                    });
+                  }, S3_DELAY_TO_REMOVE_DF);
                 });
-            }
-        } else {
-            // 2) blink 클래스 제거 후 opacity 0.3 → 1 복귀
-            $countWraps.removeClass('blink').stop(true, true).animate({ opacity: 1 }, FADE_TIME);
+              });
+            }, 1000);
+          }, S3_DELAY_TO_REMOVE_DF01);
+        }, S3_TIT1_HOLD);
+      });
+    });
+  }
 
-            if ($progressNumBox.length) {
-                $progressNumBox.removeClass('blink').stop(true, true).animate({ opacity: 1 }, FADE_TIME);
-            }
-        }
+  function resetStep03State(o) {
+    if (o.step3) {
+      o.step3.style.transition = 'none';
+      o.step3.style.opacity = '';
+      o.step3.style.transform = '';
+      o.step3.style.display = '';
     }
-
-    /* ============================================
-     *  progress 점/숫자 갱신
-     * ============================================ */
-    function updateProgressStep(step) {
-        const $dots = getProgressDots();
-        const $num  = getProgressNum();
-
-        if (!$dots.length) return;
-
-        // 1) 지금까지의 단계는 모두 on 추가 (누적)
-        for (let i = 1; i <= step; i++) {
-            $('.progress_dot_step_0' + i).addClass('on');
-        }
-
-        // 2) 모든 점의 "현재 단계" 깜빡임 클래스 제거
-        $dots.removeClass('is-current');
-
-        // 3) 이번 단계 점에만 깜빡임 클래스 추가
-        $('.progress_dot_step_0' + step).addClass('is-current');
-
-        // 4) 숫자 1~7 변경
-        if ($num.length) {
-            $num.text(step);
-        }
+    if (o.tit1) {
+      o.tit1.style.display = '';
+      o.tit1.style.opacity = '1';
+      o.tit1.style.transition = 'none';
+      o.tit1.style.transform = 'translate(-50%, 0)';
     }
-
-    /* ============================================
-     *  step별 span 위치 조정 (KR/EN 모두)
-     * ============================================ */
-
-    // 해당 step 번호에 맞춰 각 언어 컨테이너의 span margin-top 맞추기
-    function setSpanPositionByStepAll(stepNum) {
-        const stepClass   = '.step' + ('0' + stepNum).slice(-2); // ".step01" ~ ".step07"
-        const $containers = getLangContainers();
-
-        $containers.each(function () {
-            const $box = $(this);
-            const $li  = $box.find('> li, > dd');
-            const $step = $li.find(stepClass).first();
-            if (!$step.length) return;
-
-            const $parent    = $step.closest('li, dd');
-            const $countWrap = $parent.children('span').first();
-            if (!$countWrap.length) return;
-
-            const wasHidden = $step.css('display') === 'none';
-            let originalDisplay;
-
-            // step 이 display:none 이면, 잠깐 보여서 높이 측정
-            if (wasHidden) {
-                originalDisplay = $step[0].style.display;
-                $step.css({ display: 'block', visibility: 'hidden' });
-            }
-
-            const h = $step.outerHeight(true);
-
-            if (wasHidden) {
-                $step.css({ display: originalDisplay || '', visibility: '' });
-            }
-
-            $countWrap.css('margin-top', (h + 20) + 'px');
-        });
+    if (o.tit2) {
+      o.tit2.style.display = '';
+      o.tit2.style.opacity = '0';
+      o.tit2.style.transition = 'none';
+      o.tit2.style.transform = `translate(-50%, ${VW_DOWN})`;
     }
-
-    // step01~step07 활성화 (KR/EN 둘 다에 적용)
-    function showStep(num) {
-        const stepClass   = '.step' + ('0' + num).slice(-2);
-        const $containers = getLangContainers();
-
-        $containers.each(function () {
-            const $box = $(this);
-            const $li  = $box.find('> li, > dd');
-
-            // 이 컨테이너 안의 모든 step p 비활성화
-            const $allSteps = $li.find('> p');
-            $allSteps.removeClass('active');
-
-            // 이번 step만 active
-            const $step = $li.find(stepClass);
-            if ($step.length) {
-                $step.addClass('active');
-            }
-        });
-
-        // 활성 step 기준으로 각 언어별 span 위치 조정
-        setSpanPositionByStepAll(num);
+    if (o.topLine) {
+      o.topLine.style.display = '';
+      o.topLine.style.opacity = '0';
+      o.topLine.style.transition = 'none';
+      o.topLine.style.transform = `translate(-50%, ${VW_DOWN})`;
     }
-
-    /* ============================================
-     *  숫자 카운트 (KR/EN 전체 .counting 동시 갱신)
-     * ============================================ */
-    function animateCount(from, to, duration, onComplete) {
-        const startTime = Date.now();
-        const diff      = to - from;
-
-        function tick() {
-            const now      = Date.now();
-            const elapsed  = now - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const value    = Math.round(from + diff * progress);
-            const text     = value.toLocaleString ? value.toLocaleString() : value;
-
-            getCountingEls().text(text); // KR/EN 모두 동일 숫자 노출
-
-            if (progress < 1) {
-                requestAnimationFrame(tick);
-            } else if (typeof onComplete === 'function') {
-                onComplete();
-            }
-        }
-        requestAnimationFrame(tick);
+    if (o.topTit) {
+      o.topTit.style.display = 'none';
+      o.topTit.style.opacity = '0';
+      o.topTit.style.transition = 'none';
+      o.topTit.style.transform = `translateY(${VW_DOWN})`;
     }
-
-    /* ============================================
-     *  결과 팝업
-     * ============================================ */
-    function showResultPopup() {
-        $('.search_process_pop').addClass('is-active');
-        $('.contents_01.processing').addClass('pop_on');
-        $('.contents_01 .hero').css('z-index', 0);
+    if (o.pos01) {
+      o.pos01.style.display = '';
+      o.pos01.style.opacity = '0';
+      o.pos01.style.transition = 'none';
+      o.pos01.style.transform = `translateY(${VW_DOWN})`;
+      o.pos01.classList.remove('cel_soft_blink_wrap');
     }
-
-    /* ============================================
-     *  플로팅 이미지 점점 줄이기
-     * ============================================ */
-    function startFloatFadeSequence() {
-        // visibleWraps 는 랜덤 노출 시 만든 전역 배열이라고 가정
-        if (typeof visibleWraps === 'undefined' || !visibleWraps.length) return;
-
-        const wraps    = Array.from(visibleWraps);
-        const mustKeep = [2, 4, 5, 7, 9, 10]; // 최종에 남길 아이콘 번호
-        const fadeSec  = totalCountTime / 1000;
-        const removeFadeMs = 500;
-
-        // 전체를 0.6 → 0.3 으로 길게 페이드
-        wraps.forEach(wrap => {
-            const baseTransition = wrap.style.transition || '';
-            wrap.style.transition = baseTransition
-                ? baseTransition + `, opacity ${fadeSec}s ease`
-                : `opacity ${fadeSec}s ease`;
-
-            requestAnimationFrame(function () {
-                wrap.style.opacity = '0.3';
-            });
-        });
-
-        // 제거 대상만 골라서 순차 제거
-        const removeWraps = wraps.filter(wrap => {
-            const idx = parseInt(wrap.dataset.index, 10);
-            return !mustKeep.includes(idx);
-        });
-
-        if (!removeWraps.length) return;
-
-        const removeCount = removeWraps.length;
-        const interval    = totalCountTime / removeCount;
-
-        removeWraps.forEach((wrap, idx) => {
-            const t = Math.round(idx * interval);
-
-            setTimeout(function () {
-                wrap.style.transition = `opacity ${removeFadeMs / 1000}s ease`;
-                wrap.style.opacity = '0';
-
-                setTimeout(function () {
-                    wrap.style.display = 'none';
-                }, removeFadeMs + 50);
-            }, t);
-        });
+    if (o.pos02) {
+      o.pos02.style.display = '';
+      o.pos02.style.opacity = '0';
+      o.pos02.style.transition = 'none';
+      o.pos02.style.transform = `translateY(${VW_DOWN})`;
+      o.pos02.classList.remove('cel_soft_blink_wrap');
     }
-
-    /* ============================================
-     *  단계별 목표 값 / 시간 세팅
-     * ============================================ */
-    const phase1Start = 0;
-    const phase1End   = 1111243; // step01
-    const phase2End   = 952705;  // step02
-    const phase3End   = 323531;  // step03
-    const phase4End   = 320988;  // step04
-    const phase5End   = 230266;  // step05
-    const phase6End   = 105379;  // step06
-    const phase7End   = 500;     // step07
-
-    const phase1Duration = 1000;
-    const phase2Duration = 1000;
-    const phase3Duration = 1000;
-    const phase4Duration = 1000;
-    const phase5Duration = 1000;
-    const phase6Duration = 1000;
-    const phase7Duration = 1000;
-    const phaseDelay     = BLINK_PAUSE; // 각 단계 끝난 후 머무는 시간 = blink 시간
-
-    // 전체 검색 카운트 시간 (step01 ~ step07 + 중간 딜레이 합산)
-    const totalCountTime =
-        phase1Duration + phase2Duration + phase3Duration +
-        phase4Duration + phase5Duration + phase6Duration +
-        phase7Duration + phaseDelay * 6;
-
-    // 한 단계 끝난 후 blink 타임 → 다음 단계 시작
-    function afterPhaseComplete(nextPhaseFn) {
-        setBlink(true);  // 부드럽게 blink 시작
-
-        setTimeout(function () {
-            setBlink(false); // 다시 부드럽게 원상복귀
-
-            if (typeof nextPhaseFn === 'function') {
-                nextPhaseFn();
-            }
-        }, BLINK_PAUSE);
+    if (o.toast) {
+      o.toast.style.display = '';
+      o.toast.style.opacity = '0';
+      o.toast.style.transition = 'none';
+      o.toast.style.bottom = '-9vw';
     }
-
-    /* ============================================
-     *  단계별 실제 동작
-     * ============================================ */
-
-    // 1단계: 0 → 1,111,243 (step01)
-    function startPhase1() {
-        showStep(1);             // KR/EN 모두 step01 active + span 위치
-        updateProgressStep(1);
-        setBlink(false);
-
-        animateCount(phase1Start, phase1End, phase1Duration, function () {
-            afterPhaseComplete(startPhase2);
-        });
+    if (o.celList) {
+      o.celList.querySelectorAll('.cel_item').forEach(cell => {
+        cell.style.transition = 'background-color 1000ms ease';
+      });
     }
+  }
 
-    // 2단계: 1,111,243 → 952,705 (step02)
-    function startPhase2() {
-        showStep(2);
-        updateProgressStep(2);
-        setBlink(false);
+  function bindStep03Button(step3) {
+    if (!step3 || step3._bindCardListBtn) return;
+    step3._bindCardListBtn = true;
 
-        animateCount(phase1End, phase2End, phase2Duration, function () {
-            afterPhaseComplete(startPhase3);
-        });
-    }
+    const btn = document.getElementById('cardListShow');
+    if (!btn) return;
 
-    // 3단계: 952,705 → 323,531 (step03)
-    function startPhase3() {
-        showStep(3);
-        updateProgressStep(3);
-        setBlink(false);
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
 
-        animateCount(phase2End, phase3End, phase3Duration, function () {
-            afterPhaseComplete(startPhase4);
-        });
-    }
+      if (!step3._step03Done) return;
+      if (step3._toSearchRunning) return;
+      step3._toSearchRunning = true;
 
-    // 4단계: 323,531 → 320,988 (step04)
-    function startPhase4() {
-        showStep(4);
-        updateProgressStep(4);
-        setBlink(false);
+      hideStep03ToSearch(step3, S3_TO_SEARCH_FADE_DUR, () => {
+        showSearchComplete();
+        setNoBlendScreen(false);
+      });
+    });
+  }
 
-        animateCount(phase3End, phase4End, phase4Duration, function () {
-            afterPhaseComplete(startPhase5);
-        });
-    }
+  function hideStep03ToSearch(step3, dur, done) {
+    if (!step3) { if (done) done(); return; }
 
-    // 5단계: 320,988 → 230,266 (step05)
-    function startPhase5() {
-        showStep(5);
-        updateProgressStep(5);
-        setBlink(false);
-
-        animateCount(phase4End, phase5End, phase5Duration, function () {
-            afterPhaseComplete(startPhase6);
-        });
-    }
-
-    // 6단계: 230,266 → 105,379 (step06)
-    function startPhase6() {
-        showStep(6);
-        updateProgressStep(6);
-        setBlink(false);
-
-        animateCount(phase5End, phase6End, phase6Duration, function () {
-            afterPhaseComplete(startPhase7);
-        });
-    }
-
-    // 7단계: 105,379 → 500 (step07)
-    function startPhase7() {
-        showStep(7);
-        updateProgressStep(7);
-        setBlink(false);
-
-        animateCount(phase6End, phase7End, phase7Duration, function () {
-            // 마지막 단계: 한 번 더 blink → 결과 팝업
-            setBlink(true);
-            setTimeout(function () {
-                setBlink(false);
-                showResultPopup();
-            }, BLINK_PAUSE);
-        });
-    }
-
-    /* ============================================
-     *  클릭 시 초기화 & 시퀀스 시작
-     * ============================================ */
-
-    // 1) 각 언어 컨테이너의 step 초기화
-    getLangContainers().each(function () {
-        const $box      = $(this);
-        const $li       = $box.find('> li, > dd');
-        const $allSteps = $li.find('> p');
-        $allSteps.removeClass('active');
+    step3.style.willChange = 'opacity, transform';
+    step3.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
+    requestAnimationFrame(() => {
+      step3.style.opacity = '0';
+      step3.style.transform = `translateY(${VW_UP})`;
     });
 
-    // 2) .counting 숫자 0으로 초기화
-    getCountingEls().text('0');
+    setTimeout(() => {
+      step3.classList.remove('on');
+      try { pauseStepVideos(step3); } catch (e) {}
 
-    // 3) blink OFF / step1 활성화 + span 위치
-    setBlink(false);
-    showStep(1);
+      step3.style.display = 'none';
 
-    // 4) 플로팅 이미지 줄이기 시퀀스도 같이 시작
-    startFloatFadeSequence();
+      step3._step03Running = false;
+      step3._step03Done = false;
 
-    // 5) 카운트 & 텍스트 시퀀스 시작
-    startPhase1();
-});
+      syncNoBlendByState();
+      if (typeof done === 'function') done();
+    }, dur + 30);
+  }
+
+  function showSearchComplete() {
+    const sc =
+      document.querySelector('.gate_01 .search_complete') ||
+      document.querySelector('.search_complete');
+    if (!sc) return;
+
+    sc.style.display = 'flex';
+    sc.dataset.active = '1';
+
+    sc.style.willChange = 'top, opacity, transform';
+    sc.style.opacity = '0';
+    sc.style.transform = `translateY(${VW_DOWN})`;
+    sc.style.top = '120vw';
+    sc.style.pointerEvents = 'auto';
+    sc.style.zIndex = '999';
+
+    void sc.offsetHeight;
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        sc.style.opacity = '1';
+        sc.style.transform = 'translateY(0)';
+        sc.style.top = '0';
+      });
+    });
+
+    setNoBlendScreen(false);
+  }
+
+  function setNoBlendScreen(on) {
+    const sec = document.querySelector('.new_gate_sec_01');
+    if (!sec) return;
+    sec.classList.toggle('no-blend-screen', !!on);
+  }
+
+  function syncNoBlendByState() {
+    const step3 = document.querySelector('.new_gate_01.step_03');
+    const step3On = !!(step3 && step3.classList.contains('on'));
+    setNoBlendScreen(step3On);
+  }
+
+  function removeClassSmooth(celList, className, dur) {
+    if (!celList) return;
+
+    const cells = Array.from(celList.querySelectorAll(`.cel_item.${className}`));
+    if (!cells.length) return;
+
+    cells.forEach(cell => {
+      const cs = getComputedStyle(cell);
+
+      if (cs.position === 'static') cell.style.position = 'relative';
+      cell.style.overflow = 'hidden';
+      cell.style.transition = `background-color ${dur}ms ${EASE_OUT}`;
+
+      const overlay = document.createElement('i');
+      overlay.style.position = 'absolute';
+      overlay.style.inset = '0';
+      overlay.style.pointerEvents = 'none';
+      overlay.style.zIndex = '2';
+      overlay.style.backgroundColor = cs.backgroundColor;
+      overlay.style.opacity = '1';
+      overlay.style.transform = 'translateY(0)';
+      overlay.style.willChange = 'opacity, transform';
+      overlay.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
+
+      cell.appendChild(overlay);
+
+      cell.classList.remove(className);
+
+      requestAnimationFrame(() => {
+        overlay.style.opacity = '0';
+        overlay.style.transform = `translateY(${VW_UP})`;
+      });
+
+      setTimeout(() => {
+        if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+      }, dur + 60);
+    });
+  }
+
+  // ✅ selector로 특정 셀들만 골라서 className을 스르륵 제거
+function removeClassSmoothBySelector(celList, selector, className, dur) {
+  if (!celList) return;
+
+  const cells = Array.from(celList.querySelectorAll(selector));
+  if (!cells.length) return;
+
+  cells.forEach(cell => {
+    const cs = getComputedStyle(cell);
+
+    if (cs.position === 'static') cell.style.position = 'relative';
+    cell.style.overflow = 'hidden';
+    cell.style.transition = `background-color ${dur}ms ${EASE_OUT}`;
+
+    const overlay = document.createElement('i');
+    overlay.style.position = 'absolute';
+    overlay.style.inset = '0';
+    overlay.style.pointerEvents = 'none';
+    overlay.style.zIndex = '2';
+    overlay.style.backgroundColor = cs.backgroundColor;
+    overlay.style.opacity = '1';
+    overlay.style.transform = 'translateY(0)';
+    overlay.style.willChange = 'opacity, transform';
+    overlay.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
+
+    cell.appendChild(overlay);
+
+    // ✅ 요청한 클래스만 제거 (line_xx는 유지)
+    cell.classList.remove(className);
+
+    requestAnimationFrame(() => {
+      overlay.style.opacity = '0';
+      overlay.style.transform = `translateY(${VW_UP})`;
+    });
+
+    setTimeout(() => {
+      if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+    }, dur + 60);
+  });
+}
+
+// ✅ line_01 → (0.5s) → line_02 → ... → line_05 순서로 ani_bg_df 제거
+function removeAniBgDfByLinesSequential(celList, dur, staggerMs, done) {
+  if (!celList) { if (done) done(); return; }
+
+  const lines = ['line_01','line_02','line_03','line_04','line_05'];
+  const gap   = (typeof staggerMs === 'number') ? staggerMs : 500;
+
+  lines.forEach((lineCls, idx) => {
+    setTimeout(() => {
+      removeClassSmoothBySelector(
+        celList,
+        `.cel_item.ani_bg_df.${lineCls}`,
+        'ani_bg_df',
+        dur
+      );
+    }, idx * gap);
+  });
+
+  // ✅ "전부 끝" 시점 = 마지막 라인 시작(4*gap) + 제거 애니 dur + 약간 버퍼
+  const total = (lines.length - 1) * gap + dur + 80;
+  setTimeout(() => { if (done) done(); }, total);
+}
+
+  function runParallel(fns, done) {
+    let left = fns.length;
+    if (!left) return done && done();
+    fns.forEach(fn => fn(() => { if (--left === 0 && done) done(); }));
+  }
+
+  function fadeOutUpX(el, dur, done) {
+    if (!el) { if (done) done(); return; }
+    el.style.willChange = 'opacity, transform';
+    el.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
+    requestAnimationFrame(() => {
+      el.style.opacity = '0';
+      el.style.transform = `translate(-50%, ${VW_UP})`;
+    });
+    setTimeout(() => { if (done) done(); }, dur);
+  }
+
+  function fadeInUpX(el, dur, done) {
+    if (!el) { if (done) done(); return; }
+    el.style.willChange = 'opacity, transform';
+    el.style.display = '';
+    el.style.transition = 'none';
+    el.style.opacity = '0';
+    el.style.transform = `translate(-50%, ${VW_DOWN})`;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        el.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
+        el.style.opacity = '1';
+        el.style.transform = 'translate(-50%, 0)';
+        setTimeout(() => { if (done) done(); }, dur);
+      });
+    });
+  }
+
+  function fadeInUpY_WithDisplay(el, dur, displayValue, done) {
+    if (!el) { if (done) done(); return; }
+    el.style.willChange = 'opacity, transform';
+    el.style.transition = 'none';
+    el.style.display = displayValue || 'block';
+    el.style.opacity = '0';
+    el.style.transform = `translateY(${VW_DOWN})`;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        el.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+        setTimeout(() => { if (done) done(); }, dur);
+      });
+    });
+  }
+
+  function fadeOutUpY(el, dur, done) {
+    if (!el) { if (done) done(); return; }
+    el.style.willChange = 'opacity, transform';
+    el.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
+    requestAnimationFrame(() => {
+      el.style.opacity = '0';
+      el.style.transform = `translateY(${VW_UP})`;
+    });
+    setTimeout(() => { if (done) done(); }, dur);
+  }
+
+  function toastIn(toast, dur) {
+    if (!toast) return;
+    toast.style.willChange = 'opacity, bottom';
+    toast.style.display = '';
+    toast.style.transition = 'none';
+    toast.style.opacity = '0';
+    toast.style.bottom = '-9vw';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        toast.style.transition = `opacity ${dur}ms ${EASE_OUT}, bottom ${dur}ms ${EASE_OUT}`;
+        toast.style.opacity = '1';
+        toast.style.bottom = '0';
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGate01Sequence);
+  } else {
+    initGate01Sequence();
+  }
+})();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

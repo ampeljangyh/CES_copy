@@ -21,10 +21,11 @@
 <script src="../../resources/js/chart.js"></script>
 <script src="../../resources/js/gsap.min.js"></script>
 <script src="../../resources/js/siy.js"></script>
+<script src="../../resources/js/lang_toggle.js"></script>
 <!-- //퍼블리싱 -->
 </head>
 
-<body>
+<body id="lang_kr">
 <!-- wrap -->
 <div id="wrap" class="com_bg gate_01_main ">
     <!-- Header -->
@@ -34,24 +35,41 @@
 
     <!-- Container -->
     <section id="container" class="esg_ty">
+        <!-- snb -->
         <div class="snb">
             <div class="snb_inner">
                 <a href="../main.html" class="logo">
                     <img src="../../resources/images/logo.png">
                 </a>
-                <div class="menu">
+                <div class="menu kr_t">
                     <ul>
                         <li>
                             <a href="../main.html" class="menu_item ico_01">메인</a>
                         </li>
                         <li>
-                            <a href="../gate01/gate_01_01.html" class="menu_item ico_02">기술 금융 시스템</a>
+                            <a href="../gate01/gate_01.html" class="menu_item ico_02">기술 금융 시스템</a>
                         </li>
                         <li>
                             <a href="../gate02/gate_02.html" class="menu_item ico_03">K-콘텐츠 투자</a>
                         </li>
                         <li>
                             <a href="../gate03/gate_03.html" class="menu_item ico_04 active">ESG 정밀진단 시스템</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="menu en_t">
+                    <ul>
+                        <li>
+                            <a href="../main.html" class="menu_item ico_01">Main</a>
+                        </li>
+                        <li>
+                            <a href="../gate01/gate_01.html" class="menu_item ico_02">Tech Evaluation</a>
+                        </li>
+                        <li>
+                            <a href="../gate02/gate_02.html" class="menu_item ico_03">K-Content Investment</a>
+                        </li>
+                        <li>
+                            <a href="../gate03/gate_03.html" class="menu_item ico_04 active">ESG Precision Diagnosis System</a>
                         </li>
                     </ul>
                 </div>
@@ -63,38 +81,51 @@
                 </div>
             </div>
         </div>
+        <!-- //snb -->
 
         <div class="contents esg_cont step02_04" style="visibility: hidden;">
             <div class="esg_cont_inner">
 
+                <!-- auto_diag_top -->
+                <div class="auto_diag_top">
+                    <!-- load_video -->
+                    <div class="load_video">
+                        <video src="../../resources/images/gate_03/loading.mp4" autoplay="" muted="" loop="" playsinline=""></video>
+                    </div>
+                    <!-- //load_video -->
+    
+                    <p class="t1 vw_kr"><span class="selPrdName">NexDrive</span> ESG 정밀 진단 중..</p>
+                    <p class="t1 vw_en">Company <span class="selPrdName">NexDrive</span> ESG Assessment in Progress..</p>
+                </div>
+                <!-- //auto_diag_top -->
+                
                 <!-- auto_diag -->
                 <div class="auto_diag">
                     <!-- inner -->
                     <div class="inner">
-                        <!-- load_video -->
-                        <div class="load_video">
-                            <video src="../../resources/images/gate_03/loading.mp4" autoplay="" muted="" loop="" playsinline=""></video>
-                        </div>
-                        <!-- //load_video -->
-
-                        <p class="t1"><span class="selPrdName">NexDrive</span> ESG 정밀 진단 중..</p>
 
                         <!-- proc_progress -->
                         <ul class="proc_progress">
                             <li>
                                 <span class="ico_esg ty_e"></span>
-                                <span class="txt">환경</span>
-                                <span class="proc_txt">-</span>
+                                <span class="txt vw_kr">환경</span>
+                                <span class="txt vw_en">Environmental</span>
+                                <span class="proc_txt vw_kr">-</span>
+                                <span class="proc_txt vw_en">-</span>
                             </li>
                             <li>
                                 <span class="ico_esg ty_s"></span>
-                                <span class="txt">사회</span>
-                                <span class="proc_txt">-</span>
+                                <span class="txt vw_kr">사회</span>
+                                <span class="txt vw_en">Social</span>
+                                <span class="proc_txt vw_kr">-</span>
+                                <span class="proc_txt vw_en">-</span>
                             </li>
                             <li>
                                 <span class="ico_esg ty_g"></span>
-                                <span class="txt">지배구조</span>
-                                <span class="proc_txt">-</span>
+                                <span class="txt vw_kr">지배구조</span>
+                                <span class="txt vw_en">Governance</span>
+                                <span class="proc_txt vw_kr">-</span>
+                                <span class="proc_txt vw_en">-</span>
                             </li>
                         </ul>
                         <!-- //proc_progress -->
@@ -103,9 +134,12 @@
                         <div class="proc_auto">
                             <!-- head_txt -->
                             <div class="head_txt">
-                                <strong class="name">ESG 평가 지표</strong>
-                                <strong class="data">데이터 수집</strong>
-                                <strong class="eval">평가</strong>
+                                <strong class="name vw_kr">ESG 평가 지표</strong>
+                                <strong class="data vw_kr">데이터 수집</strong>
+                                <strong class="eval vw_kr">평가</strong>
+                                <strong class="name vw_en">Assessment Criteria</strong>
+                                <strong class="data vw_en">Data Collection</strong>
+                                <strong class="eval vw_en">Assessment</strong>
                             </div>
                             <!-- head_txt -->
 
@@ -168,8 +202,10 @@
 <!-- panel_side -->
 <div class="panel_side esg" id="pop01" style="display:none;">
     <div class="top">
-        <strong class="ico_esg ty_e">온실가스 배출량 감축</strong>
-        <p>온실가스 배출량 (Scope 1&2)이 감소 추세에 있는지 확인하기 위한 지표</p>
+        <strong class="ico_esg ty_e vw_kr">온실가스 배출량 감축</strong>
+        <p class="vw_kr">온실가스 배출량 (Scope 1&2)이 감소 추세에 있는지 확인하기 위한 지표</p>
+        <strong class="ico_esg ty_e vw_en">Reduction of greenhouse gas emissions</strong>
+        <p class="vw_en">Indicators to check wether scope 1 & 2 greenhouse gas emissions are decreasing</p>
     </div>
     <div class="cnt">
         <!-- cnt_inner -->
@@ -177,48 +213,59 @@
             <!-- info_box -->
             <div class="info_box">
                 <div class="info_tit">
-                    <strong>기초 제출 자료</strong>
+                    <strong class="vw_kr">기초 제출 자료</strong>
+                    <strong class="vw_en">Basic Submission Documents</strong>
                 </div>
 
-                <p class="txt">최근 3개년 연료사용 고지서 - 지역난방, 스팀, 전기, 연료별 구매량 (구매금액), 기타 연료 증빙 (고지서)</p>
+                <p class="txt vw_kr">최근 3개년 연료사용 고지서 - 지역난방, 스팀, 전기, 연료별 구매량 (구매금액), 기타 연료 증빙 (고지서)</p>
+                <p class="txt vw_en">Fuel usage statement for the past three years - district heating, steam, electricity, fuel purchase amount (purchase amount), other fuel proof (invoice)</p>
             </div>
             <!-- //info_box -->
             <!-- info_box -->
             <div class="info_box">
                 <div class="info_tit">
-                    <strong>요청 자료 설명</strong>
+                    <strong class="vw_kr">요청 자료 설명</strong>
+                    <strong class="vw_en">Description of requested documents</strong>
                 </div>
 
-                <p class="txt">온실가스 배출량 감소 추세 확인</p>
+                <p class="txt vw_kr">온실가스 배출량 감소 추세 확인</p>
+                <p class="txt vw_en">View trend of greenhouse gas emission reduction</p>
             </div>
             <!-- //info_box -->
             <!-- info_box -->
             <div class="info_box">
                 <div class="info_tit">
-                    <strong>산출식</strong>
+                    <strong class="vw_kr">산출식</strong>
+                    <strong class="vw_en">Calculation formula</strong>
                 </div>
 
-                <p class="txt">(2024년 집약도 / ((2023년 집약도 + 2022년 집약도) / 2)) * 100</p>
+                <p class="txt vw_kr">(2024년 집약도 / ((2023년 집약도 + 2022년 집약도) / 2)) * 100</p>
+                <p class="txt vw_en">(2024 intensity / ((2023 intensity + 2022 intensity) / 2))*100</p>
             </div>
             <!-- //info_box -->
             <!-- info_box -->
             <div class="info_box">
                 <div class="info_tit">
-                    <strong>진단 데이터</strong>
-                    <span class="ex">단위 : tC02eq/백만톤</span>
+                    <strong class="vw_kr">진단 데이터</strong>
+                    <span class="ex vw_kr">단위 : tC02eq/백만톤</span>
+                    <strong class="vw_en">Assessment data </strong>
+                    <span class="ex vw_en">Unit: tCO2eq/million tons</span>
                 </div>
 
                 <ul class="info_li">
                     <li>
-                        <span class="t1">2022년도 집약도</span>
+                        <span class="t1 vw_kr">2022년도 집약도</span>
+                        <span class="t1 vw_en">Intensity in 2022</span>
                         <span class="d1">0.245</span>
                     </li>
                     <li>
-                        <span class="t1">2023년도 집약도</span>
+                        <span class="t1 vw_kr">2023년도 집약도</span>
+                        <span class="t1 vw_en">Intensity in 2023</span>
                         <span class="d1">0.199</span>
                     </li>
                     <li>
-                        <span class="t1">2024년도 집약도</span>
+                        <span class="t1 vw_kr">2024년도 집약도</span>
+                        <span class="t1 vw_en">Intensity in 2024</span>
                         <span class="d1">0.153</span>
                     </li>
                 </ul>
@@ -227,37 +274,43 @@
             <!-- info_box -->
             <div class="info_box">
                 <div class="info_tit">
-                    <strong>진단 결과</strong>
+                    <strong class="vw_kr">진단 결과</strong>
+                    <strong class="vw_en">Assesment results</strong>
                 </div>
 
                 <div class="info_grid">
                     <div>
-                        <span class="t1">총 온실가스 감축률</span>
+                        <span class="t1 vw_kr">총 온실가스 감축률</span>
+                        <span class="t1 vw_en">Total greenhouse gas reduction rate</span>
                         <span class="t2">
                             <em class="ty1">139.2</em>
                             <span>%</span>
                         </span>
                     </div>
                     <div>
-                        <span class="t1">성과 (집약도)</span>
+                        <span class="t1 vw_kr">성과 (집약도)</span>
+                        <span class="t1 vw_en">Performance (Intensity)</span>
                         <span class="t2">
                             <em class="ty2">▲ 39.2</em>
                             <span>%</span>
                         </span>
                     </div>
-                    <div class="span">
+                    <!--div class="span">
                         <span class="t1 lg">진단 점수</span>
                         <span class="t2 lg">
                             <em>LO</em>
                             <span>(0점)</span>
                         </span>
-                    </div>
+                    </div-->
                 </div>
             </div>
             <!-- //info_box -->
 
             <div class="btns sm">
-                <button type="button" class="btn_save" disabled>평가하기</button>
+                <button type="button" class="btn_save" disabled>
+                    <span class="vw_kr">평가하기</span>
+                    <span class="vw_en">Start Assessment</span>
+                </button>
             </div>
         </div>
         <!-- //cnt_inner -->
@@ -268,8 +321,10 @@
 <!-- panel_side -->
 <div class="panel_side esg" id="pop02" style="display:none;">
     <div class="top">
-        <strong class="ico_esg ty_s">안전보건 관리 활동</strong>
-        <p>기업이 정기적으로 검증된 ESG 정보를 공시하는지 확인하기 위한 지표</p>
+        <strong class="ico_esg ty_s vw_kr">안전보건 관리 활동</strong>
+        <p class="vw_kr">기업이 안전보건 관리체계를 운영하기 위해 안전보건관리책임자 등 평가·관리 실시, 종사자 의견 청취, 위험성 평가, 지업환경측정, 물질안전보건자료 (MSDS, Material Safety Data Sheet) 비치 및 교육, 비상 대응 체계 구축을 적절히 이행하고 있는지 확인하는 지표</p>
+        <strong class="ico_esg ty_s vw_en">Safety and health management activities</strong>
+        <p class="vw_en">Indicator confirming whether the company properly implements safety & health management systems, including management responsibility, employee feedback, risk assessment, work environment measurement, MSDS documentation and training, and emergency response systems</p>
     </div>
     <div class="cnt">
         <!-- cnt_inner -->
@@ -277,77 +332,105 @@
             <!-- info_box -->
             <div class="info_box">
                 <div class="info_tit">
-                    <strong>기초 제출 자료</strong>
+                    <strong class="vw_kr">기초 제출 자료</strong>
+                    <strong class="vw_en">Basic submission documents</strong>
                 </div>
 
-                <p class="txt">최근 3개년 연료사용 고지서 - 지역난방, 스팀, 전기, 연료별 구매량 (구매금액), 기타 연료 증빙 (고지서)</p>
+                <p class="txt vw_kr">안전보건 담당자 평가결과서, 종사자 의견 청취 결과서, 비상대응절차서 (사진 캡쳐 가능)</p>
+                <p class="txt vw_en">Safety officer assessment report, employee feedback report, emergency response procedures (photos may be attached)</p>
             </div>
             <!-- //info_box -->
             <!-- info_box -->
             <div class="info_box">
                 <div class="info_tit">
-                    <strong>현장 확인 자료</strong>
+                    <strong class="vw_kr">현장 확인 자료</strong>
+                    <strong class="vw_en">On-site verification documents</strong>
                 </div>
 
-                <p class="txt">기업 홈페이지 등 관련 자료 캡쳐, 지속가능경영보고서</p>
+                <p class="txt vw_kr">안전보건 담당자 평가결과서, 종사자 의견 청취 결과서, 비상대응절차서 (사진 캡쳐 가능)</p>
+                <p class="txt vw_en">Safety and health manager assessment results, employee opinion Hearing results, emergency response procedures (Photo capture allowed)</p>
             </div>
             <!-- //info_box -->
             <!-- info_box -->
             <div class="info_box">
                 <div class="info_tit">
-                    <strong>요청 자료 설명</strong>
+                    <strong class="vw_kr">요청 자료 설명</strong>
+                    <strong class="vw_en">Description of requested documents</strong>
                 </div>
 
-                <p class="txt">온실가스 배출량 감소 추세 확인</p>
+                <p class="txt vw_kr">안전보건 관리체계 운영 및 이행 여부 확인</p>
+                <p class="txt vw_en">Confirming operation and implementation of the safety & health management system</p>
             </div>
             <!-- //info_box -->
             <!-- info_box -->
             <div class="info_box">
                 <div class="info_tit">
-                    <strong>Q. 이행 중인 안전보건 관리 활동을 선택해주세요. (복수)</strong>
+                    <strong class="vw_kr">Q. 이행 중인 안전보건 관리 활동을 선택해주세요. (복수)</strong>
+                    <strong class="vw_en">Q. Please select the safety & health management activities currently in place. (Multiple selections allowed)</strong>
                 </div>
 
                 <ul class="info_chk_li">
                     <li>
                         <label class="chk_min" style="pointer-events: none;">
                             <input type="checkbox" name="chk01">
-                            <span>적용항목 없음</span>
+                            <span>
+                                <span class="vw_kr">적용항목 없음</span>
+                                <span class="vw_en">No aplicable activites</span>
+                            </span>
                         </label>
                     </li>
                     <li>
                         <label class="chk_min" style="pointer-events: none;">
                             <input type="checkbox" name="chk01">
-                            <span>안전보건관계자 평가 · 관리실시</span>
+                            <span>
+                                <span class="vw_kr">안전보건관계자 평가 · 관리실시</span>
+                                <span class="vw_en">Conducting assessment and management of safety employees</span>
+                            </span>
                         </label>
                     </li>
                     <li>
                         <label class="chk_min" style="pointer-events: none;">
                             <input type="checkbox" name="chk01">
-                            <span>사업장 안전보건 사항 관련 종사자 의견 청취</span>
+                            <span>
+                                <span class="vw_kr">사업장 안전보건 사항 관련 종사자 의견 청취</span>
+                                <span class="vw_en">Collecting employee feedback on workplace safety & health issues</span>
+                            </span>
                         </label>
                     </li>
                     <li>
                         <label class="chk_min" style="pointer-events: none;">
                             <input type="checkbox" name="chk01">
-                            <span>안전보건 위험성 평가</span>
+                            <span>
+                                <span class="vw_kr">안전보건 위험성 평가</span>
+                                <span class="vw_en">Safety & health risk assessment</span>
+                            </span>
                         </label>
                     </li>
                     <li>
                         <label class="chk_min" style="pointer-events: none;">
                             <input type="checkbox" name="chk01">
-                            <span>주기적 작업환경측정 실시</span>
+                            <span>
+                                <span class="vw_kr">주기적 작업환경측정 실시</span>
+                                <span class="vw_en">Periodic work environment measurements</span>
+                            </span>
                         </label>
                     </li>
                     <li>
                         <label class="chk_min" style="pointer-events: none;">
                             <input type="checkbox" name="chk01">
-                            <span>화학물질의 MSDS 비치 및 취급자 교육</span>
+                            <span>
+                                <span class="vw_kr">화학물질의 MSDS 비치 및 취급자 교육</span>
+                                <span class="vw_en">MSDS for chemical substances and training for handlers</span>
+                            </span>
                         </label>
                     </li>
                     <li>
                         <label class="chk_min" style="pointer-events: none;">
                             <input type="checkbox" name="chk01">
-                            <span>비상 대응 체계 구축</span>
+                            <span>
+                                <span class="vw_kr">비상 대응 체계 구축</span>
+                                <span class="vw_en">Establishment of an emergency response system</span>
+                            </span>
                         </label>
                     </li>
                 </ul>
@@ -355,7 +438,10 @@
             <!-- //info_box -->
 
             <div class="btns sm">
-                <button type="button" class="btn_save" disabled>평가하기</button>
+                <button type="button" class="btn_save" disabled>
+                    <span class="vw_kr">평가하기</span>
+                    <span class="vw_en">Start Assessment</span>
+                </button>
             </div>
         </div>
         <!-- //cnt_inner -->
@@ -366,8 +452,10 @@
 <!-- panel_side -->
 <div class="panel_side esg" id="pop03" style="display:none;">
     <div class="top">
-        <strong class="ico_esg ty_g">ESG 정보 공시</strong>
-        <p>기업이 정기적으로 검증된 ESG 정보를 공시하는지 확인하기 위한 지표</p>
+        <strong class="ico_esg ty_g vw_kr">ESG 정보 공시</strong>
+        <p class="vw_kr">기업이 정기적으로 검증된 ESG 정보를 공시하는지 확인하기 위한 지표</p>
+        <strong class="ico_esg ty_g vw_en">ESG Information Disclosure</strong>
+        <p class="vw_en">Indicator confirming whether the company regularly discloses verified ESG information</p>
     </div>
     <div class="cnt">
         <!-- cnt_inner -->
@@ -375,65 +463,87 @@
             <!-- info_box -->
             <div class="info_box">
                 <div class="info_tit">
-                    <strong>기초 제출 자료</strong>
+                    <strong class="vw_kr">기초 제출 자료</strong>
+                    <strong class="vw_en">Basic submission documents</strong>
                 </div>
 
-                <p class="txt">최근 3개년 연료사용 고지서 - 지역난방, 스팀, 전기, 연료별 구매량 (구매금액), 기타 연료 증빙 (고지서)</p>
+                <p class="txt vw_kr">기업 홈페이지, 지속가능 경영보고서</p>
+                <p class="txt vw_en">Company website, sustainability report</p>
             </div>
             <!-- //info_box -->
             <!-- info_box -->
             <div class="info_box">
                 <div class="info_tit">
-                    <strong>현장 확인 자료</strong>
+                    <strong class="vw_kr">현장 확인 자료</strong>
+                    <strong class="vw_en">On-site verification documents</strong>
                 </div>
 
-                <p class="txt">기업 홈페이지 등 관련 자료 캡쳐, 지속가능경영보고서</p>
+                <p class="txt vw_kr">기업 홈페이지 등 관련 자료 캡쳐, 지속가능경영보고서</p>
+                <p class="txt vw_en">Screenshots of company website and related materials, sustainability report</p>
             </div>
             <!-- //info_box -->
             <!-- info_box -->
             <div class="info_box">
                 <div class="info_tit">
-                    <strong>요청 자료 설명</strong>
+                    <strong class="vw_kr">요청 자료 설명</strong>
+                    <strong class="vw_en">Description of requested documents</strong>
                 </div>
 
-                <p class="txt">온실가스 배출량 감소 추세 확인</p>
+                <p class="txt vw_kr">ESG 정보 공시 여부 확인</p>
+                <p class="txt vw_en">Comfirming ESG Information Disclosure...</p>
             </div>
             <!-- //info_box -->
             <!-- info_box -->
             <div class="info_box">
                 <div class="info_tit">
-                    <strong>Q. ESG 정보를 공시 중에 있습니까?</strong>
+                    <strong class="vw_kr">Q. ESG 정보를 공시 중에 있습니까?</strong>
+                    <strong class="vw_en">Q. Are you currently disclosing ESG information?</strong>
                 </div>
 
                 <ul class="info_chk_li">
                     <li>
                         <label class="chk_min" style="pointer-events: none;">
                             <input type="radio" name="chk01">
-                            <span>ESG 정보 미공시</span>
+                            <span>
+                                <span class="vw_kr">ESG 정보 미공시</span>
+                                <span class="vw_en">ESG information not disclosed</span>
+                            </span>
                         </label>
                     </li>
                     <li>
                         <label class="chk_min" style="pointer-events: none;">
                             <input type="radio" name="chk01">
-                            <span>ESG 정보 공시 준비 중</span>
+                            <span>
+                                <span class="vw_kr">ESG 정보 공시 준비 중</span>
+                                <span class="vw_en">ESG information in preparation</span>
+                            </span>
                         </label>
                     </li>
                     <li>
                         <label class="chk_min" style="pointer-events: none;">
                             <input type="radio" name="chk01">
-                            <span>ESG 정보 공시</span>
+                            <span>
+                                <span class="vw_kr">ESG 정보 공시</span>
+                                <span class="vw_en">ESG information disclosed</span>
+                            </span>
                         </label>
                     </li>
                     <li>
                         <label class="chk_min" style="pointer-events: none;">
                             <input type="radio" name="chk01">
-                            <span>검증된 ESG 정보 공시</span>
+                            <span>
+                                <span class="vw_kr">검증된 ESG 정보 공시</span>
+                                <span class="vw_en">Disclosure of verified ESG information</span>
+                            </span>
                         </label>
                     </li>
                     <li>
                         <label class="chk_min" style="pointer-events: none;">
                             <input type="radio" name="chk01">
-                            <span>정기적으로 검증된 ESG 정보 공시</span>
+                            <span>
+                                <span class="vw_kr">정기적으로 검증된 ESG 정보 공시</span>
+                                <span class="vw_en">Regular disclosure of verified ESG information</span>
+                            </span>
                         </label>
                     </li>
                 </ul>
@@ -441,7 +551,10 @@
             <!-- //info_box -->
 
             <div class="btns sm">
-                <button type="button" class="btn_save">평가하기</button>
+                <button type="button" class="btn_save">
+                    <span class="vw_kr">평가하기</span>
+                    <span class="vw_en">Start Assessment</span>
+                </button>
             </div>
         </div>
         <!-- //cnt_inner -->
@@ -452,8 +565,10 @@
 <!-- esg_dim_msg -->
 <div class="esg_dim_msg" style="display: none;">
     <div class="inner">
-        <p class="t1">ESG 정밀진단 최종 보고서 생성 중</p>
-        <p class="t2">NexDrive의 ESG 정밀진단 최종 보고서를 생성 중입니다.</p>
+        <p class="t1 vw_kr">ESG 정밀진단 최종 보고서 생성 중</p>
+        <p class="t2 vw_kr"><span class="selPrdName">NexDrive</span>의 ESG 정밀진단 최종 보고서를 생성 중입니다.</p>
+        <p class="t1 vw_en">Final ESG Assessment Report in Progress</p>
+        <p class="t2 vw_en">Generating the final ESG assessment report for Company <span class="selPrdName">NexDrive</span>.</p>
     </div>
 </div>
 <!-- //esg_dim_msg -->
@@ -563,17 +678,21 @@ function setProcProgressState(procKey, state, finalText) {
     const li = progress.children[index];
     if (!li) return;
 
-    const procTxt = li.querySelector(".proc_txt");
+    const procTxt = li.querySelector(".proc_txt.vw_kr");
+    const procTxtEn = li.querySelector(".proc_txt.vw_en");
 
     if (state === "active") {
         li.classList.add("on");
         if (procTxt) procTxt.textContent = "진단 중";
+        if (procTxtEn) procTxtEn.textContent = "Assessment in Progress";
     } else if (state === "done") {
         li.classList.remove("on");
         if (procTxt) procTxt.textContent = finalText || "등급";
+        if (procTxtEn) procTxtEn.textContent = finalText || "Grade";
     } else if (state === "reset") {
         li.classList.remove("on");
         if (procTxt) procTxt.textContent = "-";
+        if (procTxtEn) procTxtEn.textContent = "-";
     }
 }
 
@@ -798,13 +917,49 @@ function startSvgAndGrade(evalWrap, gradeEl) {
     });
 }
 
+function waitForUserPress(btn) {
+    return new Promise((resolve) => {
+        if (!btn) return resolve();
+
+        // 중복 실행 방지
+        let done = false;
+
+        const cleanup = () => {
+            btn.removeEventListener("click", onClick);
+            btn.removeEventListener("keydown", onKeyDown);
+        };
+
+        const finish = () => {
+            if (done) return;
+            done = true;
+            cleanup();
+            resolve();
+        };
+
+        const onClick = (e) => {
+            // 필요하면 e.preventDefault();
+            finish();
+        };
+
+        const onKeyDown = (e) => {
+            // 접근성: Enter / Space로도 진행
+            if (e.key === "Enter" || e.key === " " || e.code === "Space") {
+                e.preventDefault();
+                finish();
+            }
+        };
+
+        btn.addEventListener("click", onClick, { once: false });
+        btn.addEventListener("keydown", onKeyDown, { once: false });
+    });
+}
+
 // ------------------------------------------------------------
 // 팝업 기반 평가 플로우 (버튼 → 팝업 → grade)
 // ------------------------------------------------------------
 async function runPopupEvalFlow(li, evalWrap, gradeEl) {
     if (!evalWrap) return;
 
-    // HTML 패널 id(pop01, pop02, pop03)에 맞게 기본값은 pop01
     const panelId = li.dataset.panelId || "pop01";
 
     const btn = li.querySelector(".btn_item_eval");
@@ -818,33 +973,16 @@ async function runPopupEvalFlow(li, evalWrap, gradeEl) {
     await new Promise((resolve) => {
         gsap.fromTo(
             btn,
-            {
-                display: "",
-                autoAlpha: 0,
-                y: 10
-            },
-            {
-                autoAlpha: 1,
-                y: 0,
-                duration: 0.3,
-                ease: "power3.out",
-                onComplete: resolve
-            }
+            { display: "", autoAlpha: 0, y: 10 },
+            { autoAlpha: 1, y: 0, duration: 0.3, ease: "power3.out", onComplete: resolve }
         );
     });
 
-    // 2) 버튼 강하게 눌리는 모션
-    await new Promise((resolve) => {
-        gsap.to(btn, {
-            scale: 0.9,
-            y: 2,
-            duration: 0.18,
-            ease: "power2.out",
-            yoyo: true,
-            repeat: 1,
-            onComplete: resolve
-        });
-    });
+    // 2) 사용자가 직접 누를 때까지 대기
+    // (필요 시 포커스 부여)
+    btn.setAttribute("tabindex", "0");
+    //btn.focus({ preventScroll: true });
+    await waitForUserPress(btn);
 
     // 3) 팝업 내부 애니메이션 초기화 (openPanel 이전에 실행)
     if (typeof initPopupPanelState === "function") {
@@ -855,9 +993,7 @@ async function runPopupEvalFlow(li, evalWrap, gradeEl) {
     await new Promise((resolve) => {
         openPanel(panelId, () => {
             runPopupPanelSequence(panelId).then(() => {
-                closePanel(panelId, () => {
-                    resolve();
-                });
+                closePanel(panelId, () => resolve());
             });
         });
     });
@@ -871,20 +1007,13 @@ async function runPopupEvalFlow(li, evalWrap, gradeEl) {
             y: -6,
             duration: 0.25,
             ease: "power2.inOut",
-            onComplete: () => {
-                btn.remove();
-            }
+            onComplete: () => btn.remove()
         });
 
         if (gradeEl) {
             tl.to(
                 gradeEl,
-                {
-                    autoAlpha: 1,
-                    y: 0,
-                    duration: 0.3,
-                    ease: "power3.out"
-                },
+                { autoAlpha: 1, y: 0, duration: 0.3, ease: "power3.out" },
                 "-=0.1"
             );
         }
@@ -905,17 +1034,55 @@ function initPopupPanelState(panelId) {
     }
 }
 
+function scrollCntToReveal(el, opts = {}) {
+    if (!el) return;
+
+    const {
+        margin = 136,
+        duration = 0.35,
+        ease = "power2.out"
+    } = opts;
+
+    const cnt = el.closest(".cnt");
+    if (!cnt) return;
+
+    // 표시되기 전(display:none) 상태면 rect 계산이 무의미할 수 있으니 다음 프레임으로 미룸
+    requestAnimationFrame(() => {
+        const cntRect = cnt.getBoundingClientRect();
+        const elRect = el.getBoundingClientRect();
+
+        const above = elRect.top < (cntRect.top + margin);
+        const below = elRect.bottom > (cntRect.bottom - margin);
+
+        if (!above && !below) return;
+
+        const delta = above
+            ? (elRect.top - (cntRect.top + margin))
+            : (elRect.bottom - (cntRect.bottom - margin));
+
+        const target = cnt.scrollTop + delta;
+
+        // GSAP로 scrollTop을 부드럽게 이동
+        gsap.killTweensOf(cnt);
+        gsap.to(cnt, {
+            scrollTop: target,
+            duration,
+            ease
+        });
+    });
+}
+
 function initPopup01State(panel) {
     const grid = panel.querySelector(".info_grid");
     if (!grid) return;
 
     const blocks = grid.querySelectorAll("div");
-    if (blocks.length < 3) return;
+    if (blocks.length < 2) return;
 
     const totalEm   = blocks[0].querySelector(".t2 em");
     const perfEm    = blocks[1].querySelector(".t2 em");
-    const scoreEm   = blocks[2].querySelector(".t2.lg em");
-    const scoreSpan = blocks[2].querySelector(".t2.lg span");
+    // const scoreEm   = blocks[2].querySelector(".t2.lg em");
+    // const scoreSpan = blocks[2].querySelector(".t2.lg span");
     const btnSave   = panel.querySelector(".btn_save");
 
     // 숫자 클래스/텍스트 초기화 (0.0 대신 "-")
@@ -931,12 +1098,12 @@ function initPopup01State(panel) {
     }
 
     // 진단 점수는 텍스트는 그대로, 애니만 숨김 상태로 시작
-    if (scoreEm) {
-        gsap.set(scoreEm, { autoAlpha: 0, y: 4 });
-    }
-    if (scoreSpan) {
-        gsap.set(scoreSpan, { autoAlpha: 0, y: 4 });
-    }
+    // if (scoreEm) {
+    //     gsap.set(scoreEm, { autoAlpha: 0, y: 4 });
+    // }
+    // if (scoreSpan) {
+    //     gsap.set(scoreSpan, { autoAlpha: 0, y: 4 });
+    // }
 
     // 버튼 초기 상태
     if (btnSave) {
@@ -1010,18 +1177,18 @@ function runPopup01Sequence(panel) {
         }
 
         const blocks = grid.querySelectorAll("div");
-        if (blocks.length < 3) {
+        if (blocks.length < 2) {
             resolve();
             return;
         }
 
         const totalEm   = blocks[0].querySelector(".t2 em");
         const perfEm    = blocks[1].querySelector(".t2 em");
-        const scoreEm   = blocks[2].querySelector(".t2.lg em");
-        const scoreSpan = blocks[2].querySelector(".t2.lg span");
+        // const scoreEm   = blocks[2].querySelector(".t2.lg em");
+        // const scoreSpan = blocks[2].querySelector(".t2.lg span");
         const btnSave   = panel.querySelector(".btn_save");
 
-        if (!totalEm || !perfEm || !scoreSpan) {
+        if (!totalEm || !perfEm) {
             resolve();
             return;
         }
@@ -1108,24 +1275,24 @@ function runPopup01Sequence(panel) {
         .to({}, { duration: 0.5 });
 
         // 3) 진단 점수 fadeIn
-        if (scoreEm) {
-            tl.to(
-                [scoreEm, scoreSpan],
-                {
-                    autoAlpha: 1,
-                    y: 0,
-                    duration: 0.6,
-                    ease: "power2.out"
-                }
-            );
-        } else {
-            tl.to(scoreSpan, {
-                autoAlpha: 1,
-                y: 0,
-                duration: 0.6,
-                ease: "power2.out"
-            });
-        }
+        // if (scoreEm) {
+        //     tl.to(
+        //         [scoreEm, scoreSpan],
+        //         {
+        //             autoAlpha: 1,
+        //             y: 0,
+        //             duration: 0.6,
+        //             ease: "power2.out"
+        //         }
+        //     );
+        // } else {
+        //     tl.to(scoreSpan, {
+        //         autoAlpha: 1,
+        //         y: 0,
+        //         duration: 0.6,
+        //         ease: "power2.out"
+        //     });
+        // }
 
 
         // 4) 버튼 활성화 + "꾹 눌렀다 튕겨 올라오는" 강한 클릭 모션
@@ -1226,6 +1393,7 @@ function runPopup02Sequence(panel) {
         // 4) 버튼 활성화 + pop01 과 동일한 눌림 애니메이션
         if (btnSave) {
             tl.add(() => {
+                scrollCntToReveal(btnSave);
                 btnSave.disabled = false;
             });
 
@@ -1411,13 +1579,14 @@ function gate030103rendered() {
         ul.dataset.proc = procKey;
         ul.style.display = "none";
 
-        items.forEach(({ item, grade, popup, panelId }) => {
+        items.forEach(({ itemEn, item, grade, popup, panelId }) => {
             const li = document.createElement("li");
 
             li.innerHTML = `
                 <div class="name">
                     <span class="ico_esg ty_${procKey}"></span>
-                    <span class="txt">${item}</span>
+                    <span class="txt vw_kr">${item}</span>
+                    <span class="txt vw_en">${itemEn}</span>
                 </div>
                 <div class="progress_wrap">
                     <div class="progress_track">
@@ -1429,7 +1598,10 @@ function gate030103rendered() {
                     </span>
                 </div>
                 <div class="eval_wrap">
-                    <span class="btn_item_eval disabled" style="display:none;">평가하기</span>
+                    <span class="btn_item_eval disabled" style="display:none;">
+                        <span class="vw_kr">평가하기</span>
+                        <span class="vw_en">Assessment</span>
+                    </span>
                     <span class="grade">${grade}</span>
                 </div>
             `;
