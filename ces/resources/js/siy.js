@@ -1113,7 +1113,7 @@ function getGate03DiagData() {
                 { itemEn: "Child Labor Prohibition", item: "아동노동 금지", grade: "S" },
                 { itemEn: "Labor Relations", item: "노사관계 수준", grade: "S" },
                 { itemEn: "Occupational Safety & Health", item: "안전보건 관리체계", grade: "A+" },
-                { itemEn: "Safety & Health Activities", item: "안전보건 관리활동", grade: "B", popup: true, panelId: "pop02" },
+                { itemEn: "Safety & Health Activities", item: "안전보건 관리활동", grade: "A", popup: true, panelId: "pop02" },
                 { itemEn: "Community Engagement", item: "지역사회 공헌", grade: "A+" },
                 { itemEn: "Foreign Worker Management", item: "외국인근로자 근로 관리", grade: "B" },
                 { itemEn: "Supplier ESG Management", item: "협력사 및 공급망 관리", grade: "B" }
@@ -1132,7 +1132,7 @@ function getGate03DiagData() {
                 { itemEn: "Environmental Management", item: "환경경영체계", grade: "B+" },
                 { itemEn: "Environmental Permits Mgmt", item: "환경 인허가 관리", grade: "B" },
                 { itemEn: "GHG & Energy Management", item: "온실가스 및 에너지 관리", grade: "B" },
-                { itemEn: "GHG Emissions Reduction", item: "온실가스 배출량 감축", grade: "B+", popup: true, panelId: "pop01" },
+                { itemEn: "GHG Emissions Reduction", item: "온실가스 배출량 감축", grade: "B", popup: true, panelId: "pop01" },
                 { itemEn: "Energy Consumption Reduction", item: "에너지 사용량 감축", grade: "C" },
                 { itemEn: "Waste Management", item: "폐기물 관리", grade: "C" },
                 { itemEn: "Water Management", item: "용수 관리", grade: "A" },
@@ -1157,7 +1157,7 @@ function getGate03DiagData() {
                 { itemEn: "Child Labor Prohibition", item: "아동노동 금지", grade: "A" },
                 { itemEn: "Labor Relations", item: "노사관계 수준", grade: "A+" },
                 { itemEn: "Occupational Safety & Health", item: "안전보건 관리체계", grade: "A+" },
-                { itemEn: "Safety & Health Activities", item: "안전보건 관리활동", grade: "B", popup: true, panelId: "pop02" },
+                { itemEn: "Safety & Health Activities", item: "안전보건 관리활동", grade: "B+", popup: true, panelId: "pop02" },
                 { itemEn: "Community Engagement", item: "지역사회 공헌", grade: "A+" },
                 { itemEn: "Foreign Worker Management", item: "외국인근로자 근로 관리", grade: "B+" }
             ],
@@ -1165,7 +1165,7 @@ function getGate03DiagData() {
                 { itemEn: "Ethical Management", item: "윤리경영 정책", grade: "B+" },
                 { itemEn: "Anti-Corruption Practices", item: "부패 및 불공정거래 방지 활동", grade: "B+" },
                 { itemEn: "Whistleblowing System", item: "윤리준법 신고제도", grade: "B+" },
-                { itemEn: "ESG Disclosure", item: "ESG 정보 공시", grade: "A", popup: true, panelId: "pop03" },
+                { itemEn: "ESG Disclosure", item: "ESG 정보 공시", grade: "B+", popup: true, panelId: "pop03" },
                 { itemEn: "Business Stability", item: "경영 안정성", grade: "B" },
                 { itemEn: "Shareholder Rights", item: "주주권리", grade: "B" }
             ]
@@ -1175,7 +1175,7 @@ function getGate03DiagData() {
                 { itemEn: "Environmental Management", item: "환경경영체계", grade: "B+" },
                 { itemEn: "Environmental Permits Mgmt", item: "환경 인허가 관리", grade: "B" },
                 { itemEn: "GHG & Energy Management", item: "온실가스 및 에너지 관리", grade: "B" },
-                { itemEn: "GHG Emissions Reduction", item: "온실가스 배출량 감축", grade: "B+", popup: true, panelId: "pop01" },
+                { itemEn: "GHG Emissions Reduction", item: "온실가스 배출량 감축", grade: "C", popup: true, panelId: "pop01" },
                 { itemEn: "Energy Consumption Reduction", item: "에너지 사용량 감축", grade: "C" },
                 { itemEn: "Waste Management", item: "폐기물 관리", grade: "C" },
                 { itemEn: "Water Management", item: "용수 관리", grade: "A" },
@@ -1195,7 +1195,7 @@ function getGate03DiagData() {
                 { itemEn: "Child Labor Prohibition", item: "아동노동 금지", grade: "B" },
                 { itemEn: "Labor Relations", item: "노사관계 수준", grade: "B+" },
                 { itemEn: "Occupational Safety & Health", item: "안전보건 관리체계", grade: "C" },
-                { itemEn: "Safety & Health Activities", item: "안전보건 관리활동", grade: "B+", popup: true, panelId: "pop02" },
+                { itemEn: "Safety & Health Activities", item: "안전보건 관리활동", grade: "C", popup: true, panelId: "pop02" },
                 { itemEn: "Community Engagement", item: "지역사회 공헌", grade: "B+" },
                 { itemEn: "Foreign Worker Management", item: "외국인근로자 근로 관리", grade: "A" },
                 { itemEn: "Contractor Safety Management", item: "도급/용역/위탁 안전관리", grade: "C" },
@@ -1320,10 +1320,10 @@ function getGate03PopupDatas() {
                 d7: "(0점)"
             },
             pop02: {
-                chkIdx: [0]
+                chkIdx: [4]
             },
             pop03: {
-                chkIdx: 1
+                chkIdx: 0
             }
         }
     };
