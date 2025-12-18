@@ -18,11 +18,12 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // 2) 버튼 클릭 시 토글 + localStorage 저장
-  langBtn.addEventListener('click', function () { 
+  langBtn.addEventListener('click', function () {
     var currentId = body.id || 'lang_kr';
     var nextId    = currentId === 'lang_kr' ? 'lang_en' : 'lang_kr';
 
     body.id = nextId;                  // 실제 DOM 적용
     localStorage.setItem('siteLang', nextId); // 다음 페이지에서도 유지
+    $(document).trigger("app:langchange", [{ nextId }]);
   });
 });

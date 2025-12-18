@@ -599,12 +599,12 @@
 .slider_point {position: absolute;left: 50%;transform: translateX(-50%);width: 20px;height: 20px;background: #0071FE;border-radius: 50%;z-index:1;}
 
 /* dist_panel */
-.dist_panel {display:flex;justify-content:space-between;gap:180px;margin-top:120px;}
+.dist_panel {display:flex;justify-content:space-between;gap:120px;margin-top:120px;}
 .dist_panel .dist_chart {width:100%;}
-.dist_panel .dist_chart_inner {margin-right:-140px;height:1600px;}
+.dist_panel .dist_chart_inner {height:1600px;}
 .dist_panel .report_tit_box {margin:160px auto 80px;}
 
-.dist_panel .dist_side {flex:0 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;width:1060px;}
+.dist_panel .dist_side {flex:0 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;width:1160px;}
 .dist_panel .dist_side_inner {box-sizing:border-box;width:100%;padding:32px 60px 52px;border-radius: 30px;background: rgba(42, 55, 85, 0.40);}
 .dist_panel .dist_side_inner .tit {color: #FFF;font-size: 40px;font-weight: 700;line-height: 1.5;letter-spacing: -0.8px;}
 .dist_panel .dist_li {margin-top:28px;}
@@ -754,7 +754,7 @@
 .esg_modal > .inner > .top {padding:66px 16px 60px;text-align:center;background-color:#080A0C;border-radius:60px 60px 0 0;}
 .esg_modal > .inner > .top > .tit {color: #FFF;font-size: 72px;font-weight: 700;letter-spacing: -1.44px;}
 .esg_modal > .inner > .top > .tit_t1 {margin-top:24px;color: #FFF;font-size: 36px;font-weight: 400;letter-spacing: -0.72px;}
-.esg_modal .modal_cnt {padding:148px 60px 100px;border-radius:0 0 60px 60px;background-color:#1D222C;text-align:center;}
+.esg_modal.cert .modal_cnt {padding:148px 60px 100px;border-radius:60px;background-color:#1D222C;text-align:center;}
 
 .esg_modal .modal_cnt .effect_tit {position:relative;color: #FFF;font-size: 72px;font-weight: 700;letter-spacing: -1.44px;}
 .esg_modal .modal_cnt .effect_tit::before {content:'';display:block;position:absolute;left:0;top:-85px;width:100%;height:160px;background: url(../images/gate_03/effect_light.svg) no-repeat center;background-size:contain;mix-blend-mode: plus-lighter;}
@@ -777,7 +777,7 @@
 
 /* gate_03_05 */
 .esg_cont.step06 {overflow:hidden;display: flex;flex-direction: column;padding:0;}
-.esg_cont.step06 .esg_cont_inner {display:flex;flex-direction:column;padding:246px 0 0;overflow-y: auto;box-sizing:border-box;height:100%;}
+.esg_cont.step06 .esg_cont_inner {display:flex;flex-direction:column;padding:246px 0 82px;overflow-y: auto;box-sizing:border-box;height:100%;}
 .esg_cont.step06 .esg_cont_inner::-webkit-scrollbar {display: none;}
 
 .flex_cont {position:relative;padding:0 156px;}
@@ -847,7 +847,7 @@
     box-sizing:border-box;
     position:absolute;left:0;top:0;
     width:100%;height:100%;
-    padding:90px 0;
+    padding:90px 24px;
     background-repeat:no-repeat;
     background-position:center;
     background-size:cover;

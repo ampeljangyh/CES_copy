@@ -683,8 +683,8 @@ function setProcProgressState(procKey, state, finalText) {
 
     if (state === "active") {
         li.classList.add("on");
-        if (procTxt) procTxt.textContent = "진단 중";
-        if (procTxtEn) procTxtEn.textContent = "In Progress";
+        if (procTxt) procTxt.innerHTML = "<img src='../../resources/images/gate_03/loading.svg' alt=''>";
+        if (procTxtEn) procTxtEn.innerHTML = "<img src='../../resources/images/gate_03/loading.svg' alt=''>";
     } else if (state === "done") {
         li.classList.remove("on");
         if (procTxt) procTxt.textContent = finalText || "등급";

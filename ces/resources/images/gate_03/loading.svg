@@ -1,0 +1,29 @@
+<svg width="72" height="72" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    /* 느린 도트 로딩: 1.44s 무한 반복 */
+    .dot {
+      fill: #FFFFFF;
+      animation: dotPulse 1.44s ease-in-out infinite;
+      animation-delay: var(--delay);
+    }
+
+    @keyframes dotPulse {
+      0%, 100% { fill: #FFFFFF; }
+      50%      { fill: #8FD0FF; }
+    }
+  </style>
+
+  <!-- 12개 도트: 1.44s / 12 = 0.12s 간격으로 delay -->
+  <circle class="dot" cx="36"    cy="8"     r="4.2" style="--delay:0.00s" />
+  <circle class="dot" cx="50"    cy="11.75" r="4.2" style="--delay:0.12s" />
+  <circle class="dot" cx="60.25" cy="22"    r="4.2" style="--delay:0.24s" />
+  <circle class="dot" cx="64"    cy="36"    r="4.2" style="--delay:0.36s" />
+  <circle class="dot" cx="60.25" cy="50"    r="4.2" style="--delay:0.48s" />
+  <circle class="dot" cx="50"    cy="60.25" r="4.2" style="--delay:0.60s" />
+  <circle class="dot" cx="36"    cy="64"    r="4.2" style="--delay:0.72s" />
+  <circle class="dot" cx="22"    cy="60.25" r="4.2" style="--delay:0.84s" />
+  <circle class="dot" cx="11.75" cy="50"    r="4.2" style="--delay:0.96s" />
+  <circle class="dot" cx="8"     cy="36"    r="4.2" style="--delay:1.08s" />
+  <circle class="dot" cx="11.75" cy="22"    r="4.2" style="--delay:1.20s" />
+  <circle class="dot" cx="22"    cy="11.75" r="4.2" style="--delay:1.32s" />
+</svg>
