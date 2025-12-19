@@ -67,8 +67,13 @@
   // -----------------------------
   // CSS bar text updater (✅ panel scoped)
   // -----------------------------
-  function updateCssBarTextOnly(panelEl, metrics) {
+  function updateCssBarTextOnly(panelEl, metrics, opts) {
     if (!panelEl) return;
+
+    opts = opts || {};
+    var hideDash = !!opts.hideDash;            // ✅ '-' 라벨이면 숨김
+    var hideMode = opts.hideMode || 'display'; // 'display' | 'opacity'
+
     var mList = Array.isArray(metrics) ? metrics : [];
     var items = qa('.inve_examine_gp_item', panelEl);
     if (!items.length) return;
@@ -78,25 +83,56 @@
 
       var labelEl = q('.txt strong', item);
       var detailEl = q('.txt p', item);
+      var gaugeEl = q('.bar .gauge', item);
 
-      // ✅ metric이 없으면(데이터 부족/키 불일치) 기존 텍스트(한글)가 남지 않도록 '-'로 정리
+      // ✅ 매번 "보이게" 초기화 (언어 토글/재적용 대비)
+      item.style.display = '';
+      item.style.opacity = '';
+      item.style.pointerEvents = '';
+
+      // metric이 없으면 '-' 처리 or 숨김
       if (!m) {
+        if (hideDash) {
+          if (hideMode === 'opacity') {
+            item.style.opacity = '0';
+            item.style.pointerEvents = 'none';
+          } else {
+            item.style.display = 'none';
+          }
+          if (gaugeEl) gaugeEl.dataset.percent = '0';
+          return;
+        }
+
         if (labelEl) labelEl.textContent = '-';
         if (detailEl) detailEl.textContent = '-';
-        var g0 = q('.bar .gauge', item);
-        if (g0) g0.dataset.percent = '0';
+        if (gaugeEl) gaugeEl.dataset.percent = '0';
         return;
       }
 
-      if (labelEl && m.label != null) labelEl.textContent = m.label;
+      // 라벨 판정
+      var rawLabel = (m.label == null) ? '' : String(m.label).trim();
+      var isDash = (!rawLabel || rawLabel === '-' || rawLabel.toUpperCase() === 'N/A');
+
+      // ✅ 라벨이 '-'면 줄 전체 숨김
+      if (hideDash && isDash) {
+        if (hideMode === 'opacity') {
+          item.style.opacity = '0';
+          item.style.pointerEvents = 'none';
+        } else {
+          item.style.display = 'none';
+        }
+        if (gaugeEl) gaugeEl.dataset.percent = '0';
+        return;
+      }
+
+      // 정상 출력
+      if (labelEl) labelEl.textContent = rawLabel || '-';
 
       if (detailEl) {
         var d = (m.detail == null) ? '-' : String(m.detail).trim();
         detailEl.textContent = (!d || d.toUpperCase() === 'N/A') ? '-' : d;
       }
 
-      // width 애니메이션은 gate HTML에서 이미 돌고 있으니, 여기서는 dataset만 갱신
-      var gaugeEl = q('.bar .gauge', item);
       if (gaugeEl && m.score != null) {
         gaugeEl.dataset.percent = String(Number(m.score) || 0);
       }
@@ -133,7 +169,15 @@
 
       if (!barData || !Array.isArray(barData.metrics)) continue;
       var panel = getPanelByIndex(stepEl, i);
-      if (panel) updateCssBarTextOnly(panel, barData.metrics);
+      if (panel) {
+        if (type === 'growth') {
+          // ✅ 성장성(팔각형)만 '-' 라벨이면 줄 숨김
+          updateCssBarTextOnly(panel, barData.metrics, { hideDash: true, hideMode: 'opacity' });
+          // hideMode: 'opacity' 로 바꾸면 공간은 남기고 투명처리
+        } else {
+          updateCssBarTextOnly(panel, barData.metrics);
+        }
+      }
     }
   }
 

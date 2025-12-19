@@ -281,28 +281,69 @@
     if (badgeR && gradeLabelFn && barData.grade != null) badgeR.textContent = gradeLabelFn(barData.grade);
   }
 
-  function updateCssBarTextOnly(stepEl, metrics) {
+  function updateCssBarTextOnly(stepEl, metrics, opts) {
     if (!stepEl) return;
+    opts = opts || {};
+    const hideDash = !!opts.hideDash;                 // ✅ '-'일 때 숨김
+    const hideMode = opts.hideMode || 'display';      // 'display' | 'opacity'
+
     const mList = Array.isArray(metrics) ? metrics : [];
     const items = qa('.inve_examine_gp_item', stepEl);
     if (!items.length) return;
 
     items.forEach((item, idx) => {
       const m = mList[idx];
-      if (!m) return;
 
       const labelEl = q('.txt strong', item);
       const detailEl = q('.txt p', item);
       const gaugeEl = q('.bar .gauge', item);
 
-      if (labelEl && m.label != null) labelEl.textContent = m.label;
+      // 기본: 보이도록 복원 (토글/재적용 대비)
+      item.style.display = '';
+      item.style.opacity = '';
+      item.style.pointerEvents = '';
+
+      if (!m) {
+        // 데이터 자체가 없으면 그냥 숨기거나 '-' 처리 중 택1
+        if (hideDash) {
+          if (hideMode === 'opacity') {
+            item.style.opacity = '0';
+            item.style.pointerEvents = 'none';
+          } else {
+            item.style.display = 'none';
+          }
+          if (gaugeEl) gaugeEl.dataset.percent = '0';
+          return;
+        }
+        if (labelEl) labelEl.textContent = '-';
+        if (detailEl) detailEl.textContent = '-';
+        if (gaugeEl) gaugeEl.dataset.percent = '0';
+        return;
+      }
+
+      const rawLabel = (m.label == null) ? '' : String(m.label).trim();
+      const isDash = (!rawLabel || rawLabel === '-' || rawLabel.toUpperCase() === 'N/A');
+
+      // ✅ 라벨이 '-'면 줄 전체 숨김
+      if (hideDash && isDash) {
+        if (hideMode === 'opacity') {
+          item.style.opacity = '0';
+          item.style.pointerEvents = 'none';
+        } else {
+          item.style.display = 'none';
+        }
+        if (gaugeEl) gaugeEl.dataset.percent = '0';
+        return;
+      }
+
+      // 정상 출력
+      if (labelEl) labelEl.textContent = rawLabel || '-';
 
       if (detailEl) {
         const d = (m.detail == null) ? '-' : String(m.detail).trim();
         detailEl.textContent = (!d || d.toUpperCase() === 'N/A') ? '-' : d;
       }
 
-      // percent dataset은 업데이트하되 width는 유지
       if (gaugeEl) {
         const score = Number(m.score ?? 0) || 0;
         gaugeEl.dataset.percent = String(score);
@@ -334,15 +375,18 @@
     // StepLast: root 스코프에서만 (examine01 중복)
     const stepL = q('#techItemStepLast');
     if (stepL) {
-      // 버튼들의 data-target 순서대로 매핑
       const targets = qa('.step_examine_list [data-target]', stepL)
         .map(el => el.getAttribute('data-target'))
         .filter(Boolean);
+
       for (let i = 0; i < targets.length; i++) {
         const barData = (typeof getGrowthBarDetail === 'function') ? getGrowthBarDetail(lang, company, i) : null;
         if (!barData?.metrics) continue;
         const panel = q('#' + targets[i], stepL);
-        if (panel) updateCssBarTextOnly(panel, barData.metrics);
+
+        // ✅ 성장성 패널에서는 '-' 항목 숨김
+        if (panel) updateCssBarTextOnly(panel, barData.metrics, { hideDash: true, hideMode: 'opacity' });
+        // hideMode: 'opacity' 로 바꾸면 공간은 유지하고 투명 처리됨
       }
     }
   }
