@@ -1065,7 +1065,6 @@
 let language = localStorage.getItem('siteLang') === 'lang_kr' ? "kor" : "eng";
 const urlParams = new URLSearchParams(window.location.search);
 let currentCompany = urlParams.get('currentCompany');
-console.log(currentCompany);
 document.addEventListener('DOMContentLoaded', function () {
     // =====================================================================
     // 공통 유틸
@@ -1921,9 +1920,44 @@ function start() {
                     }
 
                     // 2) 팝업이 뜬 후 3초 뒤 페이지 이동
-                    // setTimeout(function () {
-                    //     window.location.href = '../gate01/gate_01_01_detail.html';
-                    // }, 3000);
+                    setTimeout(function () {
+                    var company = (currentCompany || '').trim();
+                    var url;
+
+                    switch (company) {
+                        case '듀셀바이오테라퓨틱스':
+                        url = '../gate01/gate_01_01_detail.html';
+                        break;
+
+                        case '포트래이':
+                        url = '../gate01/gate_01_03_detail.html';
+                        break;
+
+                        case '브이투브이':
+                        url = '../gate01/gate_01_04_detail.html';
+                        break;
+
+                        case '업사이트':
+                        url = '../gate01/gate_01_05_detail.html';
+                        break;
+
+                        case '워터베이션':
+                        url = '../gate01/gate_01_06_detail.html';
+                        break;
+
+                        case '뤼튼테크놀로지스':
+                        url = '../gate01/gate_01_07_detail.html';
+                        break;
+
+                        default:
+                        // 혹시 모를 예외 케이스
+                        console.warn('[redirect] unknown company:', company);
+                        url = '../gate01/gate_01_01_detail.html';
+                    }
+
+                    window.location.href = url;
+                    }, 3000);
+
 
                 }, 2000); // 팝업 등장까지 2초 딜레이
 
