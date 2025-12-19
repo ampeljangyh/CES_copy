@@ -5118,9 +5118,32 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
-<!-- 라운드 탭이 길어질 경우 스크롤 생기는 기능 -->
  <script>
-    
+// btn_list_cop 버튼 클릭 시 gate_01을 "완료 상태"로 로드
+(function () {
+  var BOOT_KEY = 'GATE01_BOOT_COMPLETE';
+
+  function bindBackBtn() {
+    var btn = document.querySelector('.btn_list_cop');
+    if (!btn) return;
+
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+
+      // ✅ gate_01에서 애니를 실행하지 말고 "완료화면"으로 고정하라고 신호
+      sessionStorage.setItem(BOOT_KEY, '1');
+
+      window.location.href = '../gate01/gate_01.html';
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindBackBtn);
+  } else {
+    bindBackBtn();
+  }
+})();
+
  </script>
 
  <!-- 프론트 -->
