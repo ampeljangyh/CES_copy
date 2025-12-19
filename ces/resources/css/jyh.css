@@ -1945,8 +1945,8 @@ body.kcon-pop-lock{position:fixed;width:100%;overflow:hidden;}
 .tech_gp_set .inve_examine_gp.siz_wd .inve_examine_gp_item .gp_item {flex: initial;}
 .com_wid_pop {display: none; opacity: 0;}
 .com_wid_pop .pop_centent {mix-blend-mode: screen;z-index: 9999;position: absolute;top: 0;left: 0;width: 100%;height: 100%;display: flex;justify-content: center;align-items: center;} 
-.com_wid_pop .pop_centent .img {width: 6.812vw;height: 1.638vw;margin: 0 auto;} 
-.com_wid_pop .pop_centent .img > img {height: 100%;width: 100%;object-fit: contain;} 
+.com_wid_pop .pop_centent .img {width: 6.812vw;height: 2.638vw;margin: 0 auto;} 
+.com_wid_pop .pop_centent .img > img {height: 100%;width: 100%;object-fit: contain; filter: grayscale(100%);} 
 .com_wid_pop .pop_centent .tit {line-height: 2.2vw;color: #FFF;text-align: center;font-size: 1.872vw;font-weight: 700;letter-spacing: -0.0374vw;margin-top: 0.910vw;} 
 .com_wid_pop .pop_centent .sub {color: #FFF;text-align: center;font-size: 1.040vw;font-weight: 400;letter-spacing: -0.0208vw;margin-top: 0.910vw;} 
 .com_wid_pop .pop_centent .v_box {width: 13.000vw;height: 7.306vw;margin: 0 auto;} 
@@ -2123,3 +2123,4 @@ html .new_gate_sec_01.no-blend-screen{mix-blend-mode:initial;}
 #lang_en .cel_wrap .left_tit{text-orientation: initial;font-size: 1.1458vw;letter-spacing: 0.1302vw;left: 3.3vw;bottom: 7.5vw;}
 #lang_en .cel_wrap .cel_content .left_line{left:-5.5vw;}
 #lang_en .toast_pop .inner{gap: 2.4948vw;}
+#lang_en .tech_process_box{width: 65.294vw;}
