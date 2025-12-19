@@ -183,7 +183,6 @@
     const biz = safeCall(window.getBizCapabilityData || getBizCapabilityData, lang, company);
     const bizLabelsRaw = biz?.items || null;
     const bizLabels = wrapRadarLabelsIfEng(bizLabelsRaw, lang);
-    console.log(bizLabels);
     const bizValues = (typeof getBizRadarValues === 'function') ? getBizRadarValues(company, lang) : null;
 
     radarLabelsOnly(window.techRadar01Ctrl, bizLabels, bizValues);

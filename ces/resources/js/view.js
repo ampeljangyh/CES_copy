@@ -73,10 +73,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function getBizComment(lang, company, itemName) {
-    console.log('itemName: ', itemName);
     const korData = COMPANY_DATA_KOR[company];
     const engData = COMPANY_DATA_ENG[company];
-    console.log('??',engData.bizComments[itemName]);
     return lang === "kor" ? korData.bizComments[itemName] || "" : engData.bizComments[itemName] || "";
   }
 
@@ -137,9 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 코멘트 변경
     const itemName = data.items[idx];
-    console.log('lang :', lang);
     const comment  = getBizComment(lang, company, itemName);
-    console.log('comment: ',comment);
     setComment(comment);
 
     // 오각형 레이더 전체 점수 갱신
