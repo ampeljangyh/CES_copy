@@ -22,10 +22,10 @@
 
   function getLang() {
     var v = null;
-    try { v = localStorage.getItem('siteLang'); } catch (_) {}
+    try { v = localStorage.getItem('siteLang'); } catch (_) { }
     v = normLang(v); if (v) return v;
 
-    try { v = localStorage.getItem('language'); } catch (_) {}
+    try { v = localStorage.getItem('language'); } catch (_) { }
     v = normLang(v); if (v) return v;
 
     v = normLang(window.language || window.siteLang);
@@ -248,18 +248,18 @@
     if (ctrl.data && typeof ctrl.update === 'function') {
       if (labels && Array.isArray(labels)) ctrl.data.labels = labels.slice();
       if (data && ctrl.data.datasets && ctrl.data.datasets[0]) ctrl.data.datasets[0].data = data.slice();
-      try { ctrl.update('none'); } catch (e) { try { ctrl.update(); } catch (_) {} }
+      try { ctrl.update('none'); } catch (e) { try { ctrl.update(); } catch (_) { } }
       return;
     }
     if (ctrl.chart && ctrl.chart.data && typeof ctrl.chart.update === 'function') {
       if (labels && Array.isArray(labels)) ctrl.chart.data.labels = labels.slice();
       if (data && ctrl.chart.data.datasets && ctrl.chart.data.datasets[0]) ctrl.chart.data.datasets[0].data = data.slice();
-      try { ctrl.chart.update('none'); } catch (e) { try { ctrl.chart.update(); } catch (_) {} }
+      try { ctrl.chart.update('none'); } catch (e) { try { ctrl.chart.update(); } catch (_) { } }
       return;
     }
 
     if (typeof ctrl.renderNow === 'function') {
-      try { ctrl.renderNow(); } catch (_) {}
+      try { ctrl.renderNow(); } catch (_) { }
     }
   }
 
@@ -273,18 +273,18 @@
     if (ctrl.data && typeof ctrl.update === 'function') {
       if (labels && Array.isArray(labels)) ctrl.data.labels = labels.slice();
       if (data && ctrl.data.datasets && ctrl.data.datasets[0]) ctrl.data.datasets[0].data = data.slice();
-      try { ctrl.update('none'); } catch (e) { try { ctrl.update(); } catch (_) {} }
+      try { ctrl.update('none'); } catch (e) { try { ctrl.update(); } catch (_) { } }
       return;
     }
     if (ctrl.chart && ctrl.chart.data && typeof ctrl.chart.update === 'function') {
       if (labels && Array.isArray(labels)) ctrl.chart.data.labels = labels.slice();
       if (data && ctrl.chart.data.datasets && ctrl.chart.data.datasets[0]) ctrl.chart.data.datasets[0].data = data.slice();
-      try { ctrl.chart.update('none'); } catch (e) { try { ctrl.chart.update(); } catch (_) {} }
+      try { ctrl.chart.update('none'); } catch (e) { try { ctrl.chart.update(); } catch (_) { } }
       return;
     }
 
     if (typeof ctrl.renderNow === 'function') {
-      try { ctrl.renderNow(); } catch (_) {}
+      try { ctrl.renderNow(); } catch (_) { }
     }
   }
 
@@ -313,6 +313,15 @@
     var bizBars = getBusinessBars(lang);
     var growth = getGrowthRadar(lang);
 
+    // ✅ ENG일 때만 레이더 라벨 줄바꿈(차트용)
+    var bizRadarLabels = wrapRadarLabelsIfEng(biz.labels, lang);
+    var techRadarLabels = wrapRadarLabelsIfEng(tech.labels, lang);
+    var marketRadarLabels = wrapRadarLabelsIfEng(market.labels, lang);
+    var growthRadarLabels = wrapRadarLabelsIfEng(growth.labels, lang);
+
+    // 바 차트는 줄바꿈 불필요(원하면 bar도 적용 가능하지만 보통 X)
+    var bizBarLabels = bizBars.labels;
+
     if (step01 && biz.labels.length) setStepNavLabels(step01, biz.labels);
     if (step02 && tech.labels.length) setStepNavLabels(step02, tech.labels);
     if (step03 && market.labels.length) setStepNavLabels(step03, market.labels);
@@ -321,12 +330,11 @@
 
     // charts: (HTML inline에서 생성된 컨트롤러에 주입)
     // ⚠ gate_01_01_ty_02_aset.html에서 techRadar01Ctrl/02Ctrl/03Ctrl/04Ctrl + techBar01Ctrl를 생성하고 있음
-    renderRadar(window.techRadar02Ctrl, biz.labels, biz.data);
-    renderRadar(window.techRadar01Ctrl, tech.labels, tech.data);
-    // techRadar03Ctrl는 canvasId 'techRadar02_01' 를 사용하지만, 컨트롤러 변수명은 techRadar03Ctrl
-    renderRadar(window.techRadar03Ctrl, market.labels, market.data);
-    renderBar(window.techBar01Ctrl, bizBars.labels, bizBars.data);
-    renderRadar(window.techRadar04Ctrl, growth.labels, growth.data);
+    renderRadar(window.techRadar02Ctrl, bizRadarLabels, biz.data);
+    renderRadar(window.techRadar01Ctrl, techRadarLabels, tech.data);
+    renderRadar(window.techRadar03Ctrl, marketRadarLabels, market.data);
+    renderBar(window.techBar01Ctrl, bizBarLabels, bizBars.data);
+    renderRadar(window.techRadar04Ctrl, growthRadarLabels, growth.data);
 
     // ✅ 좌측 CSS바 텍스트: step 내 모든 panel을 전부 갱신
     refreshBarsAllPanels(step01, lang, 'biz');
@@ -377,4 +385,49 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 
+  // -----------------------------
+  // Radar label wrapper (ENG only)
+  // - Chart.js radar point labels: Array form is multiline-safe
+  // -----------------------------
+  function wrapRadarLabelsIfEng(labels, lang, opts) {
+    if (!Array.isArray(labels)) return labels;
+    if (lang !== 'eng') return labels;
+
+    opts = opts || {};
+    var maxLineLen = opts.maxLineLen || 16;
+    var minBreakWordLen = opts.minBreakWordLen || 7;
+
+    return labels.map(function (s) {
+      if (!s) return s;
+      if (typeof s !== 'string') return s;
+      if (s.indexOf(' ') < 0) return s;
+      return wrapByWordsToLines(s, maxLineLen, minBreakWordLen); // ✅ returns array
+    });
+  }
+
+  function wrapByWordsToLines(text, maxLineLen, minBreakWordLen) {
+    var words = String(text).trim().split(/\s+/);
+    if (!words.length) return text;
+
+    var hasLongWord = words.some(function (w) { return w.length >= minBreakWordLen; });
+    var targetLen = hasLongWord ? Math.min(maxLineLen, 14) : maxLineLen;
+
+    var lines = [];
+    var line = '';
+
+    for (var i = 0; i < words.length; i++) {
+      var w = words[i];
+      var candidate = line ? (line + ' ' + w) : w;
+
+      if (candidate.length > targetLen && line) {
+        lines.push(line);
+        line = w;
+      } else {
+        line = candidate;
+      }
+    }
+    if (line) lines.push(line);
+
+    return lines; // ✅ array => multiline
+  }
 })();

@@ -26,6 +26,20 @@
  */
 
 (function () {
+  // ✅ FOUC 방지: 가능한 한 빨리 body 언어를 맞춘다
+  (function earlySetBodyLang() {
+    var early = getLang();           // localStorage/siteLang 기반
+    window.language = early;
+    if (document.body) {
+      document.body.id = (early === 'eng') ? 'lang_en' : 'lang_kr';
+    } else {
+      // body가 아직 없으면 DOMContentLoaded 때 한 번 더
+      document.addEventListener('DOMContentLoaded', function () {
+        document.body.id = (early === 'eng') ? 'lang_en' : 'lang_kr';
+      }, { once: true });
+    }
+  })();
+
   'use strict';
 
   // -------------------------
@@ -167,16 +181,22 @@
   function updateAllRadarsLabelsOnly(lang, company) {
     // Step01: 5각형
     const biz = safeCall(window.getBizCapabilityData || getBizCapabilityData, lang, company);
-    const bizLabels = biz?.items || null;
+    const bizLabelsRaw = biz?.items || null;
+    const bizLabels = wrapRadarLabelsIfEng(bizLabelsRaw, lang);
+    console.log(bizLabels);
     const bizValues = (typeof getBizRadarValues === 'function') ? getBizRadarValues(company, lang) : null;
+
     radarLabelsOnly(window.techRadar01Ctrl, bizLabels, bizValues);
 
     // Step02: 3각형
     // Step02: 3각형
     const tech = safeCall(window.getTechCompetitivenessData || getTechCompetitivenessData, lang, company);
-    const techLabels = tech?.items || null;
+    const techLabelsRaw = tech?.items || null;
+    const techLabels = wrapRadarLabelsIfEng(techLabelsRaw, lang);
     const techValues = (typeof getTechRadarValues === 'function') ? getTechRadarValues(company, lang) : null;
+
     radarLabelsOnly(window.techRadar02Ctrl, techLabels, techValues, 'techRadar02');
+
 
 
     // StepLast: 8각형 (labels는 getGrowthRadarValues에 이미 번역본이 있을 수도)
@@ -186,13 +206,18 @@
     if (typeof getGrowthRadarValues === 'function') {
       const g = getGrowthRadarValues(lang, company);
       if (g) {
-        gLabels = g.labels || null;
+        const raw = g.labels || null;
+        gLabels = wrapRadarLabelsIfEng(raw, lang);
         gValues = g.myScores || null;
       }
     } else {
       const model = safeCall(window.getGrowthModel || getGrowthModel, lang, company);
       if (model && Array.isArray(model.factors)) {
-        gLabels = model.factors.map(f => f.name || f.label || f.title).filter(Boolean);
+        const rawLabels = model.factors
+          .map(f => f.name || f.label || f.title)
+          .filter(Boolean);
+
+        gLabels = wrapRadarLabelsIfEng(rawLabels, lang);
         gValues = model.factors.map(f => f.score || 0);
       }
     }
@@ -212,14 +237,15 @@
     if (!visible) return;
 
     // labels / values 가져오기 (데이터는 그대로)
-    const labels = (typeof getTechCompetitivenessData === 'function')
+    const labelsRaw = (typeof getTechCompetitivenessData === 'function')
       ? (getTechCompetitivenessData(lang, company)?.items || null)
       : null;
 
+    const labels = wrapRadarLabelsIfEng(labelsRaw, lang);
     const values = (typeof getTechRadarValues === 'function')
       ? (getTechRadarValues(company, lang) || null)
       : null;
-    console.log(values);
+
     if (labels && ctrl.setLabels) ctrl.setLabels(labels);
     if (values && ctrl.setData) ctrl.setData(values);
 
@@ -397,10 +423,18 @@
   }
 
   // 초기: 현재 언어 기준으로 한 번 정렬(재생성 없이 텍스트 정합)
-  window.addEventListener('load', function () {
+  document.addEventListener('DOMContentLoaded', function () {
     bindLangChangedOnce();
-    // 초기에도 title/labels 정합 맞춤 (차트 start는 기존 로직이 하게 둠)
-    try { applyAllLangChange(getLang()); ensureTechRadar02HasData(); } catch (e) { console.error(e); }
+
+    try {
+      // ✅ 즉시 1회 적용 (딜레이 최소화)
+      applyAllLangChange(getLang());
+
+      // ✅ 삼각형은 생성 지연/가시성 이슈가 있어서 별도로 계속 보정
+      ensureTechRadar02HasData();
+    } catch (e) {
+      console.error(e);
+    }
   });
 
   // 외부에서도 호출 가능하게
@@ -425,7 +459,8 @@
         const tech = (typeof getTechCompetitivenessData === 'function')
           ? getTechCompetitivenessData(useLang, useCompany)
           : null;
-        const labels = tech?.items || null;
+        const labelsRaw = tech?.items || null;
+        const labels = wrapRadarLabelsIfEng(labelsRaw, useLang);
         const values = (typeof getTechRadarValues === 'function')
           ? getTechRadarValues(useCompany, useLang)
           : null;
@@ -463,9 +498,11 @@
         if (!Array.isArray(values)) values = getTechRadarValues(lang, company);
       }
 
-      const labels = (typeof getTechCompetitivenessData === 'function')
+      const labelsRaw = (typeof getTechCompetitivenessData === 'function')
         ? (getTechCompetitivenessData(lang, company)?.items || null)
         : null;
+
+      const labels = wrapRadarLabelsIfEng(labelsRaw, lang);
 
       // 값이 아직 준비 안 되었으면 기다림
       const valuesOk = Array.isArray(values) && values.length === 3 && values.every(v => typeof v === 'number' && isFinite(v));
@@ -496,4 +533,50 @@
 
     if (tries < maxTries) setTimeout(tick, 50);
   };
+
+  // 영문일 때만 레이더 라벨에 개행 삽입
+  function wrapRadarLabelsIfEng(labels, lang, opts) {
+    if (!Array.isArray(labels)) return labels;
+    if (lang !== 'eng') return labels;
+
+    opts = opts || {};
+    var maxLineLen = opts.maxLineLen || 16;
+    var minBreakWordLen = opts.minBreakWordLen || 7;
+
+    return labels.map(function (s) {
+      if (!s) return s;
+      if (typeof s !== 'string') return s;
+      if (s.indexOf(' ') < 0) return s; // 공백 없으면 그대로
+
+      // ✅ Chart.js 레이더 포인트 라벨은 "배열"이 멀티라인 확실
+      return wrapByWordsToLines(s, maxLineLen, minBreakWordLen);
+    });
+  }
+
+  function wrapByWordsToLines(text, maxLineLen, minBreakWordLen) {
+    var words = String(text).trim().split(/\s+/);
+    if (!words.length) return text;
+
+    var hasLongWord = words.some(function (w) { return w.length >= minBreakWordLen; });
+    var targetLen = hasLongWord ? Math.min(maxLineLen, 14) : maxLineLen;
+
+    var lines = [];
+    var line = '';
+
+    for (var i = 0; i < words.length; i++) {
+      var w = words[i];
+      var candidate = line ? (line + ' ' + w) : w;
+
+      if (candidate.length > targetLen && line) {
+        lines.push(line);
+        line = w;
+      } else {
+        line = candidate;
+      }
+    }
+    if (line) lines.push(line);
+
+    // ✅ 멀티라인은 배열
+    return lines;
+  }
 })();

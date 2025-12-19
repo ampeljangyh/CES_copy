@@ -987,28 +987,6 @@
                                                 </div>
                                             </div>
                                         </div> 
-                                        <div class="inve_examine_gp_item">
-                                            <div class="txt">
-                                                <strong>4-7년차 연구비 카드 사용건수</strong>
-                                                <p>0건</p>
-                                            </div>
-                                            <div class="gp_item">
-                                                <div class="bar">
-                                                    <span class="gauge" data-percent="60"></span>
-                                                </div>
-                                            </div>
-                                        </div> 
-                                        <div class="inve_examine_gp_item">
-                                            <div class="txt">
-                                                <strong>4-7년차 연구비 카드 사용건수</strong>
-                                                <p>0건</p>
-                                            </div>
-                                            <div class="gp_item">
-                                                <div class="bar">
-                                                    <span class="gauge" data-percent="60"></span>
-                                                </div>
-                                            </div>
-                                        </div> 
                                     </div>
                                 </div>
                                 <div class="tech_gp_box">
@@ -1543,70 +1521,132 @@ function start() {
 }
 
 
+    function wrapRadarLabelForInit(label, lang) {
+    if (lang !== 'eng') return label;
+    if (!label || typeof label !== 'string') return label;
+    if (label.indexOf(' ') < 0) return label;
+
+    var words = label.trim().split(/\s+/);
+    var hasLongWord = words.some(w => w.length >= 7);
+    var maxLen = hasLongWord ? 14 : 16;
+
+    var lines = [];
+    var line = '';
+
+    for (var i = 0; i < words.length; i++) {
+        var w = words[i];
+        var candidate = line ? (line + ' ' + w) : w;
+
+        if (candidate.length > maxLen && line) {
+        lines.push(line);
+        line = w;
+        } else {
+        line = candidate;
+        }
+    }
+    if (line) lines.push(line);
+
+    return lines; // ✅ Chart.js용 멀티라인
+    }
+
+    function wrapLabelsForInit(labels, lang) {
+    return labels.map(l => wrapRadarLabelForInit(l, lang));
+    }
+
+        // 언어 안전 처리
+    var lang = (window.language === 'eng') ? 'eng' : 'kor';
 
     // =====================================================================
-    // techRadar01 (5각형) 컨트롤러
+    // techRadar01 (5각형)
     // =====================================================================
     window.techRadar01Ctrl = createRadarController({
-        canvasId: 'techRadar01',
-        labels: [
-            '경영주 역량',
-            '관리 능력',
-            '기술개발능력',
-            '제품화 역량',
-            '수익 전망'
+    canvasId: 'techRadar01',
+    labels: wrapLabelsForInit({
+        eng: [
+        'Management capability',
+        'Operational management',
+        'Technology development',
+        'Commercialization capability',
+        'Revenue outlook'
         ],
-        // ★ 실제 데이터로 교체해서 사용 (0~100)
-        data: [60, 80, 75, 70, 40],
-        labelFontPx: 24,
-        datasetLabel: '평가'
+        kor: [
+        '경영주 역량',
+        '관리 능력',
+        '기술개발능력',
+        '제품화 역량',
+        '수익 전망'
+        ]
+    }[lang], lang),
+    data: [60, 80, 75, 70, 40],
+    labelFontPx: 24,
+    datasetLabel: (lang === 'eng') ? 'Evaluation' : '평가'
     });
 
     // =====================================================================
-    // techRadar02 (3각형) 컨트롤러
+    // techRadar02 (3각형)
     // =====================================================================
     window.techRadar02Ctrl = createRadarController({
-        canvasId: 'techRadar02',
-        labels: [
-            '기술 혁신성',
-            '시장 현황',
-            '제품 우위성'
+    canvasId: 'techRadar02',
+    labels: wrapLabelsForInit({
+        eng: [
+        'Technology innovation',
+        'Market status',
+        'Product advantage'
         ],
-        // ★ 실제 데이터로 교체해서 사용 (0~100)
-        data: [70, 80, 60],
-        labelFontPx: 24,
-        datasetLabel: '평가'
+        kor: [
+        '기술 혁신성',
+        '시장 현황',
+        '제품 우위성'
+        ]
+    }[lang], lang),
+    data: [70, 80, 60],
+    labelFontPx: 24,
+    datasetLabel: (lang === 'eng') ? 'Evaluation' : '평가'
     });
 
     // =====================================================================
-    // techRadar04 (8각형) 컨트롤러
+    // techRadar04 (8각형)
     // =====================================================================
     window.techRadar04Ctrl = createRadarController({
-        canvasId: 'techRadar04',
-        labels: [
-            '추가 투자금 유치',
-            '정부 출원금 확보',
-            '브랜드 홍보 전략',
-            '다양한 제휴 체결',
-            '외형 지표 가시화',
-            '해외 진출 활성화',
-            '우수한 인재 유치',
-            '높은 기술 준비도'
+    canvasId: 'techRadar04',
+    labels: wrapLabelsForInit({
+        eng: [
+        'Attract additional investment',
+        'Secure government funding',
+        'Brand promotion strategy',
+        'Establish diverse partnerships',
+        'Visibility of key performance indicators',
+        'Expansion into overseas markets',
+        'Attract high quality talent',
+        'High technology readiness'
         ],
-        // ★ 실제 데이터로 교체해서 사용 (0~100)
-        data: [70, 80, 60, 60, 60, 60, 60, 60],
-        labelFontPx: 24,
-        datasetLabel: '평가'
+        kor: [
+        '추가 투자금 유치',
+        '정부 출원금 확보',
+        '브랜드 홍보 전략',
+        '다양한 제휴 체결',
+        '외형 지표 가시화',
+        '해외 진출 활성화',
+        '우수한 인재 유치',
+        '높은 기술 준비도'
+        ]
+    }[lang], lang),
+    data: [70, 80, 60, 60, 60, 60, 60, 60],
+    labelFontPx: 24,
+    datasetLabel: (lang === 'eng') ? 'Evaluation' : '평가'
     });
 
-    // =============================================================
-    // 2개 지표용 바 차트 (캔버스 id = techBar01 가정)
-    // =============================================================
+    // =====================================================================
+    // bar chart
+    // =====================================================================
     window.techBar01Ctrl = createTechBarController({
-        canvasId: 'techBar01',
-        labels: ['제품 우위성', '시장 현황'],  // ← 필요에 맞게 수정
-        data:   [75, 60],                     // ← 0~100 값
-        labelFontPx: 24
+    canvasId: 'techBar01',
+    labels: {
+        eng: ['Product advantage', 'Market status'],
+        kor: ['제품 우위성', '시장 현황']
+    }[lang],
+    data: [75, 60],
+    labelFontPx: 24
     });
 
     
@@ -1952,7 +1992,7 @@ function start() {
                         default:
                         // 혹시 모를 예외 케이스
                         console.warn('[redirect] unknown company:', company);
-                        url = '../gate01/gate_01_01_detail.html';
+                        url = '../gate01/gate_01_07_detail.html';
                     }
 
                     window.location.href = url;
@@ -1979,6 +2019,27 @@ function start() {
         showItem(0);
     }, 2000);
 
+})();
+
+(function () {
+  var company = (currentCompany || '').trim();
+
+  var imageMap = {
+    '듀셀바이오테라퓨틱스': '../../resources/images/search_result_04.png',
+    '포트래이': '../../resources/images/search_result_05.jpg',
+    '브이투브이': '../../resources/images/search_result_03.jpg',
+    '업사이트': '../../resources/images/search_result_06.jpg',
+    '워터베이션': '../../resources/images/search_result_08.jpg',
+    '뤼튼테크놀로지스': '../../resources/images/search_result_11.jpg'
+  };
+
+  var imgSrc = imageMap[company] 
+    || '../../resources/images/search_result_11.jpg'; // 기본 이미지
+
+  var imgEl = document.querySelector('.com_wid_pop .img img');
+  if (imgEl) {
+    imgEl.src = imgSrc;
+  }
 })();
 
 </script>
