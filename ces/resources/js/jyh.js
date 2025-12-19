@@ -161,7 +161,185 @@ $(function () {
 
 
 
+
+
+
+    
+    
+    
+
+
+
+
 (() => {
+  // =========================================================
+  // ✅ [공통] btn_list_cop 클릭 시 gate_01.html "완료부팅"으로 이동
+  // =========================================================
+  const BOOT_KEY = 'GATE01_BOOT_COMPLETE';
+
+  function bindBackToGate01() {
+    const btn = document.querySelector('.btn_list_cop');
+    if (!btn) return;
+
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      try { sessionStorage.setItem(BOOT_KEY, '1'); } catch (err) {}
+      window.location.href = '../gate01/gate_01.html';
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindBackToGate01);
+  } else {
+    bindBackToGate01();
+  }
+
+  // =========================================================
+  // ✅ gate_01 페이지 DOM 없으면(상세페이지 등) 여기서 종료
+  // =========================================================
+  const gateSec = document.querySelector('.new_gate_sec_01');
+  const step1El = document.querySelector('.new_gate_01.step_01');
+  const step2El = document.querySelector('.new_gate_01.step_02');
+  const step3El = document.querySelector('.new_gate_01.step_03');
+  if (!gateSec || !step1El || !step2El) return;
+
+  // =========================================================
+  // ✅ 완료부팅(뒤로가기/리스트복귀) 모드
+  //    - gate_01 애니 시퀀스 실행 금지
+  //    - no-blend-screen 클래스 붙는 것도 영구 차단
+  // =========================================================
+  const FORCE_COMPLETE = (sessionStorage.getItem(BOOT_KEY) === '1');
+
+  function isBackForwardNav(e) {
+    const nav = performance.getEntriesByType('navigation')[0];
+    return !!(e && e.persisted) || (nav && nav.type === 'back_forward');
+  }
+
+  function injectCompleteLockCssOnce() {
+    if (document.getElementById('gate01-complete-lock')) return;
+
+    const style = document.createElement('style');
+    style.id = 'gate01-complete-lock';
+    style.type = 'text/css';
+    style.textContent = `
+      html.gate01-complete-lock *{
+        animation: none !important;
+        transition: none !important;
+      }
+
+      /* step들은 무조건 숨김 */
+      html.gate01-complete-lock .new_gate_01.step_01,
+      html.gate01-complete-lock .new_gate_01.step_02,
+      html.gate01-complete-lock .new_gate_01.step_03{
+        display: none !important;
+      }
+
+      /* search_complete만 고정 노출 */
+      html.gate01-complete-lock .search_complete,
+      html.gate01-complete-lock .gate_01 .search_complete{
+        display: flex !important;
+        opacity: 1 !important;
+        transform: translateY(0px) !important;
+        top: 0px !important;
+        pointer-events: auto !important;
+        z-index: 999 !important;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  // ✅ no-blend-screen이 "붙는 순간" 바로 떼버리는 영구 차단
+  function keepNoBlendOff() {
+    const sec = document.querySelector('.new_gate_sec_01');
+    if (!sec) return;
+
+    sec.classList.remove('no-blend-screen');
+
+    if (sec._noBlendObserver) return;
+    const mo = new MutationObserver(() => {
+      if (sec.classList.contains('no-blend-screen')) {
+        sec.classList.remove('no-blend-screen');
+      }
+    });
+    mo.observe(sec, { attributes: true, attributeFilter: ['class'] });
+    sec._noBlendObserver = mo;
+  }
+
+  function bootGate01Complete(consumesFlag) {
+    if (consumesFlag) {
+      try { sessionStorage.removeItem(BOOT_KEY); } catch (e) {}
+    }
+
+    document.documentElement.classList.add('gate01-complete-lock');
+    injectCompleteLockCssOnce();
+
+    // ✅ no-blend-screen 완전 차단
+    keepNoBlendOff();
+
+    // ✅ step_03: 요청 상태로 강제(숨김)
+    const step3 = document.querySelector('.new_gate_01.step_03');
+    if (step3) {
+      step3.classList.remove('on', 'is-leave');
+
+      step3.style.setProperty(
+        'transition',
+        'opacity 700ms cubic-bezier(0.22, 1, 0.36, 1), transform 700ms cubic-bezier(0.22, 1, 0.36, 1)',
+        'important'
+      );
+      step3.style.setProperty('will-change', 'opacity, transform', 'important');
+      step3.style.setProperty('opacity', '0', 'important');
+      step3.style.setProperty('transform', 'translateY(-0.52vw)', 'important');
+      step3.style.setProperty('display', 'none', 'important');
+    }
+
+    // ✅ search_complete: 요청 상태로 강제 고정(노출)
+    const sc =
+      document.querySelector('.gate_01 .search_complete') ||
+      document.querySelector('.search_complete');
+
+    if (sc) {
+      sc.dataset.active = '1';
+      sc.style.setProperty('display', 'flex', 'important');
+      sc.style.setProperty('will-change', 'top, opacity, transform', 'important');
+      sc.style.setProperty('opacity', '1', 'important');
+      sc.style.setProperty('transform', 'translateY(0px)', 'important');
+      sc.style.setProperty('top', '0px', 'important');
+      sc.style.setProperty('pointer-events', 'auto', 'important');
+      sc.style.setProperty('z-index', '999', 'important');
+    }
+
+    // ✅ 혹시 비디오가 돌고 있으면 정지
+    document.querySelectorAll('.new_gate_sec_01 .main_video video').forEach(v => {
+      try { v.pause(); } catch (e) {}
+    });
+  }
+
+  // ✅ bfcache(back/forward) 복귀에서도 락 적용
+  window.addEventListener('pageshow', (e) => {
+    const flag = (sessionStorage.getItem(BOOT_KEY) === '1');
+    const scActive = !!document.querySelector('.search_complete[data-active="1"]');
+
+    if (isBackForwardNav(e) && (flag || scActive || document.documentElement.classList.contains('gate01-complete-lock'))) {
+      bootGate01Complete(flag);
+    }
+    if (document.documentElement.classList.contains('gate01-complete-lock')) {
+      keepNoBlendOff();
+    }
+  });
+
+  // ✅ 최초 로드 시 완료부팅이면: 애니 자체 실행 금지(return)
+  if (FORCE_COMPLETE) {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => bootGate01Complete(true), { once: true });
+    } else {
+      bootGate01Complete(true);
+    }
+    return;
+  }
+
+  // =========================================================
+  // ✅ (이하: gate_01 애니 시퀀스)
+  // =========================================================
   const STEP_HOLD = 12500;
   const STEP_02_HOLD = 9000;
   const STEP_ANIM = 600;
@@ -173,38 +351,47 @@ $(function () {
   const CHAR_DUR   = 300;
   const P_STAGGER  = 500;
 
-  // ✅ 튜닝 (영상 관련 - 그대로 유지)
+  // ✅ 튜닝 (영상 관련)
   const STEP2_PRELOAD_BEFORE = 2200;
   const SECOND_LANG_DELAY    = 250;
   const CANPLAY_TIMEOUT      = 8000;
 
-  // ✅ step_03 연출 타임라인
-  const S3_TIT1_HOLD        = 2000;
-  const S3_FADE_OUT_TIT1    = 1500;
+  // ✅ step_03 시작 딜레이(요청: 2초)
+  const STEP3_START_DELAY = 2000;
+  // ✅ step_03 각 단계 시간 +1.5초(요청)
+  const STEP3_PLUS = 1500;
+  // ✅ step_03 모든 애니 끝난 뒤 search_complete 전환 전 대기(요청: 3초)
+  const STEP3_END_HOLD = 3000;
 
-  const S3_FADE_IN_TIT2     = 1000;
-  const S3_FADE_IN_TOPLINE  = 1000;
-  const S3_FADE_IN_TOPTIT   = 1000;
+  // ✅ step_03 타임라인(딜레이/홀드만 +1.5초 반영)
+  const S3_TIT1_HOLD            = 2000 + STEP3_PLUS;
+  const S3_FADE_OUT_TIT1        = 1500;
 
-  const S3_DELAY_TO_REMOVE_DF01 = 1000;
+  const S3_FADE_IN_TIT2         = 1000;
+  const S3_FADE_IN_TOPLINE      = 1000;
+  const S3_FADE_IN_TOPTIT       = 1000;
+
+  const S3_DELAY_TO_REMOVE_DF01 = 1000 + STEP3_PLUS;
   const S3_CELL_REMOVE_DUR      = 1000;
 
-  const S3_FADE_IN_POS01    = 1000;
+  const S3_FADE_IN_POS01        = 1000;
 
-  const S3_DELAY_TO_REMOVE_DF  = 1000;
-  const S3_DELAY_TO_POS02      = 1000;
-  const S3_FADE_IN_POS02       = 1000;
+  const S3_DELAY_TO_REMOVE_DF   = 1000 + STEP3_PLUS;
+  const S3_DELAY_TO_POS02       = 1000 + STEP3_PLUS;
+  const S3_FADE_IN_POS02        = 1000;
 
-  // ✅ pos01/pos02 유지시간(둘 다 같이 보이는 구간) +1초
-  const S3_POS_HOLD         = 2000; // (기존 1000 → 2000)
-  const S3_FADE_OUT_POS     = 1000;
-  const S3_TOAST_DELAY      = 1000;
-  const S3_TOAST_IN_DUR     = 700;
+  const S3_POS_HOLD             = 2000 + STEP3_PLUS;
+  const S3_FADE_OUT_POS         = 1000;
+  const S3_TOAST_DELAY          = 1000 + STEP3_PLUS;
+  const S3_TOAST_IN_DUR         = 700;
 
-  const S3_TO_SEARCH_FADE_DUR = 700;
+  const S3_TO_SEARCH_FADE_DUR   = 700;
 
   // ✅ pos 깜빡이: 3초
-  const POS_BLINK_TOTAL = 3000; // (기존 2000 → 3000)
+  const POS_BLINK_TOTAL = 3000;
+
+  // ✅ re_pub 페이드 속도
+  const REPUB_FADE_DUR = 600;
 
   const EASE_OUT = 'cubic-bezier(0.22, 1, 0.36, 1)';
   const VW_DOWN  = '0.5200vw';
@@ -236,6 +423,36 @@ $(function () {
     }
   };
 
+  // -----------------------------
+  // timer helpers
+  // -----------------------------
+  function setStepTimer(step3, fn, ms) {
+    if (!step3) return null;
+    step3._timers = step3._timers || [];
+    const id = setTimeout(fn, ms);
+    step3._timers.push(id);
+    return id;
+  }
+
+  function clearStep03Timers(step3) {
+    if (!step3) return;
+    if (step3._step3StartTimer) {
+      clearTimeout(step3._step3StartTimer);
+      step3._step3StartTimer = null;
+    }
+    if (step3._timers && step3._timers.length) {
+      step3._timers.forEach(t => clearTimeout(t));
+      step3._timers = [];
+    }
+    if (step3._repubTimers && step3._repubTimers.length) {
+      step3._repubTimers.forEach(t => clearTimeout(t));
+      step3._repubTimers = [];
+    }
+  }
+
+  // -----------------------------
+  // init sequence
+  // -----------------------------
   function initGate01Sequence() {
     const step1 = document.querySelector('.new_gate_01.step_01');
     const step2 = document.querySelector('.new_gate_01.step_02');
@@ -253,7 +470,7 @@ $(function () {
 
     playStepVideosSmooth(step1);
 
-    window.setTimeout(() => {
+    setTimeout(() => {
       primeStepVideos(step2);
     }, Math.max(0, STEP_HOLD - STEP2_PRELOAD_BEFORE));
 
@@ -275,7 +492,7 @@ $(function () {
       runCardSequence(cards, idx);
     }
 
-    window.setTimeout(() => {
+    setTimeout(() => {
       if (CROSSFADE_STEPS) {
         enterStep(step2);
         leaveStep(step1);
@@ -284,7 +501,7 @@ $(function () {
       }
 
       if (step3) {
-        window.setTimeout(() => {
+        setTimeout(() => {
           if (CROSSFADE_STEPS) {
             enterStep(step3);
             leaveStep(step2);
@@ -297,7 +514,7 @@ $(function () {
   }
 
   // -----------------------------
-  // VIDEO (그대로 유지)
+  // VIDEO
   // -----------------------------
   function setupAllGateVideos() {
     document.querySelectorAll('.new_gate_sec_01 .main_video video').forEach(v => {
@@ -434,8 +651,9 @@ $(function () {
 
     if (el.classList.contains('step_03')) {
       setNoBlendScreen(true);
-      runStep03Sequence(el);
-      bindStep03Button(el);
+
+      // ✅ step_03 시작(애니) 2초 딜레이 후 실행 + (cel + re_pub 같이 시작)
+      scheduleStep03Start(el);
     }
 
     syncNoBlendByState();
@@ -443,14 +661,19 @@ $(function () {
 
   function leaveStep(el, done) {
     el.classList.add('is-leave');
-    window.setTimeout(() => {
+    setTimeout(() => {
       el.classList.remove('on', 'is-leave');
       pauseStepVideos(el);
 
       if (el.classList.contains('step_03')) {
+        clearStep03Timers(el);
         el._step03Running = false;
         el._step03Done = false;
         el._toSearchRunning = false;
+
+        el._celDone = false;
+        el._repubDone = false;
+        el._repubRunning = false;
       }
 
       syncNoBlendByState();
@@ -470,18 +693,18 @@ $(function () {
 
     for (let i = startIdx; i < lastIdx; i++) {
       const t = (i - startIdx) * (CARD_HOLD + CARD_ANIM) + CARD_HOLD;
-      window.setTimeout(() => swapCardSequential(cards[i], cards[i + 1]), t);
+      setTimeout(() => swapCardSequential(cards[i], cards[i + 1]), t);
     }
 
     const lastOnTime = (lastIdx - startIdx) * (CARD_HOLD + CARD_ANIM);
-    window.setTimeout(() => clearCardOn(cards[lastIdx]), lastOnTime + CARD_HOLD);
+    setTimeout(() => clearCardOn(cards[lastIdx]), lastOnTime + CARD_HOLD);
   }
 
   function swapCardSequential(current, next) {
     if (!current || !next) return;
 
     current.classList.add('is-leave');
-    window.setTimeout(() => {
+    setTimeout(() => {
       current.classList.remove('on', 'is-leave');
       resetCardText(current);
 
@@ -493,7 +716,7 @@ $(function () {
   function clearCardOn(card) {
     if (!card) return;
     card.classList.add('is-leave');
-    window.setTimeout(() => {
+    setTimeout(() => {
       card.classList.remove('on', 'is-leave');
       resetCardText(card);
     }, CARD_ANIM);
@@ -572,120 +795,161 @@ $(function () {
     card.querySelectorAll('.bott_desc p').forEach(p => p.classList.remove('text_play'));
   }
 
-  // -----------------------------
+  // =========================================================
+  // ✅ step_03 시작/종료 제어(2초 딜레이 + 모두 끝나면 3초 후 search_complete)
+  // =========================================================
+  function scheduleStep03Start(step3) {
+    if (!step3) return;
+
+    clearStep03Timers(step3);
+
+    step3._step03Running = false;
+    step3._step03Done = false;
+    step3._toSearchRunning = false;
+
+    step3._celDone = false;
+    step3._repubDone = false;
+    step3._repubRunning = false;
+
+    step3._step3StartTimer = setTimeout(() => {
+      if (!step3.classList.contains('on')) return;
+
+      runStep03Sequence(step3);
+      bindStep03Button(step3);
+      runStep03RePubSequence(step3);
+    }, STEP3_START_DELAY);
+  }
+
+  function maybeGoSearchAfterStep03AllDone(step3) {
+    if (!step3) return;
+    if (!step3.classList.contains('on')) return;
+
+    if (!step3._celDone || !step3._repubDone) return;
+    if (step3._toSearchRunning) return;
+    step3._toSearchRunning = true;
+
+    step3._repubTimers = step3._repubTimers || [];
+    step3._repubTimers.push(setTimeout(() => {
+      if (!step3.classList.contains('on')) {
+        step3._toSearchRunning = false;
+        return;
+      }
+
+      hideStep03ToSearch(step3, S3_TO_SEARCH_FADE_DUR, () => {
+        showSearchComplete();
+        setNoBlendScreen(false);
+      });
+    }, STEP3_END_HOLD));
+  }
+
+  // =========================================================
   // ✅ SOFT BLINK (강제 적용 + 더 선명)
-  // -----------------------------
+  // =========================================================
   let _softBlinkStyleInjected = false;
 
   function ensureSoftBlinkStyle() {
-  if (_softBlinkStyleInjected) return;
-  _softBlinkStyleInjected = true;
+    if (_softBlinkStyleInjected) return;
+    _softBlinkStyleInjected = true;
 
-  const style = document.createElement('style');
-  style.type = 'text/css';
-  style.textContent = `
-    /* 기본(소프트) */
-    @keyframes celSoftBlink {
-      0%, 100% { opacity: 1; filter: brightness(1) contrast(1); transform: translateZ(0) scale(1); }
-      50%      { opacity: .78; filter: brightness(1.22) contrast(1.08); transform: translateZ(0) scale(1.012); }
-    }
-
-    /* ✅ pos01용(더 선명) */
-    @keyframes celSoftBlinkStrong {
-      0%, 100% {
-        opacity: 1;
-        filter: brightness(1) contrast(1) drop-shadow(0 0 0 rgba(120,200,255,0));
-        transform: translateZ(0) scale(1);
+    const style = document.createElement('style');
+    style.type = 'text/css';
+    style.textContent = `
+      @keyframes celSoftBlink {
+        0%, 100% { opacity: 1; filter: brightness(1) contrast(1); transform: translateZ(0) scale(1); }
+        50%      { opacity: .78; filter: brightness(1.22) contrast(1.08); transform: translateZ(0) scale(1.012); }
       }
-      50% {
-        opacity: .58; /* 더 확 떨어지게 */
-        filter: brightness(1.35) contrast(1.15) drop-shadow(0 0 0.6vw rgba(120,200,255,.35));
-        transform: translateZ(0) scale(1.02); /* 살짝만 펄스 */
+
+      @keyframes celSoftBlinkStrong {
+        0%, 100% {
+          opacity: 1;
+          filter: brightness(1) contrast(1) drop-shadow(0 0 0 rgba(120,200,255,0));
+          transform: translateZ(0) scale(1);
+        }
+        50% {
+          opacity: .58;
+          filter: brightness(1.35) contrast(1.15) drop-shadow(0 0 0.6vw rgba(120,200,255,.35));
+          transform: translateZ(0) scale(1.02);
+        }
       }
-    }
 
-    .cel_soft_blink {
-      animation: celSoftBlink 560ms ease-in-out infinite !important;
-      will-change: opacity, filter, transform;
-    }
-    .cel_soft_blink_strong {
-      animation: celSoftBlinkStrong 520ms ease-in-out infinite !important;
-      will-change: opacity, filter, transform;
-    }
+      .cel_soft_blink {
+        animation: celSoftBlink 560ms ease-in-out infinite !important;
+        will-change: opacity, filter, transform;
+      }
+      .cel_soft_blink_strong {
+        animation: celSoftBlinkStrong 520ms ease-in-out infinite !important;
+        will-change: opacity, filter, transform;
+      }
 
-    /* wrap 방식 강제 */
-    .cel_soft_blink_wrap .item,
-    .cel_soft_blink_wrap [class*="item"]{
-      animation: celSoftBlink 560ms ease-in-out infinite !important;
-      will-change: opacity, filter, transform;
-    }
-    .cel_soft_blink_wrap--strong .item,
-    .cel_soft_blink_wrap--strong [class*="item"]{
-      animation: celSoftBlinkStrong 520ms ease-in-out infinite !important;
-      will-change: opacity, filter, transform;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .cel_soft_blink,
-      .cel_soft_blink_strong,
       .cel_soft_blink_wrap .item,
-      .cel_soft_blink_wrap [class*="item"],
+      .cel_soft_blink_wrap [class*="item"]{
+        animation: celSoftBlink 560ms ease-in-out infinite !important;
+        will-change: opacity, filter, transform;
+      }
       .cel_soft_blink_wrap--strong .item,
       .cel_soft_blink_wrap--strong [class*="item"]{
-        animation: none !important;
+        animation: celSoftBlinkStrong 520ms ease-in-out infinite !important;
+        will-change: opacity, filter, transform;
       }
-    }
-  `;
-  document.head.appendChild(style);
-}
 
+      @media (prefers-reduced-motion: reduce) {
+        .cel_soft_blink,
+        .cel_soft_blink_strong,
+        .cel_soft_blink_wrap .item,
+        .cel_soft_blink_wrap [class*="item"],
+        .cel_soft_blink_wrap--strong .item,
+        .cel_soft_blink_wrap--strong [class*="item"]{
+          animation: none !important;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }
 
   function raf2(fn) {
     requestAnimationFrame(() => requestAnimationFrame(fn));
   }
 
-  // target 내부 selector(.item 등) 3초간 깜빡임
   function startSoftBlink(target, selector, totalMs, strength) {
-  if (!target) return;
-  ensureSoftBlinkStyle();
+    if (!target) return;
+    ensureSoftBlinkStyle();
 
-  const isStrong = (strength === 'strong');
+    const isStrong = (strength === 'strong');
 
-  target.classList.add('cel_soft_blink_wrap');
-  target.classList.toggle('cel_soft_blink_wrap--strong', isStrong);
+    target.classList.add('cel_soft_blink_wrap');
+    target.classList.toggle('cel_soft_blink_wrap--strong', isStrong);
 
-  let nodes = [];
-  if (selector) nodes = Array.from(target.querySelectorAll(selector));
-  if (!nodes.length) nodes = Array.from(target.querySelectorAll('.item'));
-  if (!nodes.length) nodes = [target];
+    let nodes = [];
+    if (selector) nodes = Array.from(target.querySelectorAll(selector));
+    if (!nodes.length) nodes = Array.from(target.querySelectorAll('.item'));
+    if (!nodes.length) nodes = [target];
 
-  if (target._softBlinkTimer) clearTimeout(target._softBlinkTimer);
+    if (target._softBlinkTimer) clearTimeout(target._softBlinkTimer);
 
-  nodes.forEach(n => {
-    n.classList.add(isStrong ? 'cel_soft_blink_strong' : 'cel_soft_blink');
-  });
-
-  target._softBlinkTimer = setTimeout(() => {
     nodes.forEach(n => {
-      n.classList.remove('cel_soft_blink');
-      n.classList.remove('cel_soft_blink_strong');
+      n.classList.add(isStrong ? 'cel_soft_blink_strong' : 'cel_soft_blink');
     });
-    target.classList.remove('cel_soft_blink_wrap');
-    target.classList.remove('cel_soft_blink_wrap--strong');
-    target._softBlinkTimer = null;
-  }, totalMs || 3000);
-}
 
+    target._softBlinkTimer = setTimeout(() => {
+      nodes.forEach(n => {
+        n.classList.remove('cel_soft_blink');
+        n.classList.remove('cel_soft_blink_strong');
+      });
+      target.classList.remove('cel_soft_blink_wrap');
+      target.classList.remove('cel_soft_blink_wrap--strong');
+      target._softBlinkTimer = null;
+    }, totalMs || 3000);
+  }
 
-  // -----------------------------
-  // ✅ step_03 sequence (pos blink 포함)
-  // -----------------------------
+  // =========================================================
+  // ✅ step_03 sequence (셀 연출)
+  // =========================================================
   function runStep03Sequence(step3) {
     if (!step3) return;
     if (step3._step03Running) return;
+
     step3._step03Running = true;
     step3._step03Done = false;
-    step3._toSearchRunning = false;
 
     const tit1    = step3.querySelector('.step_03_tit.in_step_01');
     const tit2    = step3.querySelector('.step_03_tit.in_step_02');
@@ -698,73 +962,68 @@ $(function () {
 
     resetStep03State({ step3, tit1, tit2, topLine, topTit, pos01, pos02, toast, celList });
 
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
+    // 타임라인 시작
+    setStepTimer(step3, () => {
+      setStepTimer(step3, () => {
+        removeClassSmooth(celList, 'ani_bg_df_01', S3_CELL_REMOVE_DUR);
 
-        setTimeout(() => {
+        // pos01 노출
+        fadeInUpY_WithDisplay(pos01, S3_FADE_IN_POS01, 'flex');
 
-          setTimeout(() => {
+        // pos01: 더 선명(Strong)
+        raf2(() => startSoftBlink(pos01, '.item', POS_BLINK_TOTAL, 'strong'));
 
-            removeClassSmooth(celList, 'ani_bg_df_01', S3_CELL_REMOVE_DUR);
+        // ✅ 기존 1초 → +1.5초
+        setStepTimer(step3, () => {
+          fadeOutUpX(tit1, S3_FADE_OUT_TIT1, () => {
+            runParallel([
+              (cb) => fadeInUpX(topLine, S3_FADE_IN_TOPLINE, cb),
+              (cb) => fadeInUpY_WithDisplay(topTit, S3_FADE_IN_TOPTIT, 'block', cb),
+              (cb) => fadeInUpX(tit2, S3_FADE_IN_TIT2, cb),
+            ], () => {
 
-            // pos01 노출
-            fadeInUpY_WithDisplay(pos01, S3_FADE_IN_POS01, 'flex');
+              setStepTimer(step3, () => {
+                // line_01~05 ani_bg_df 삭제 "완료" 후 pos02 노출
+                removeAniBgDfByLinesSequential(celList, S3_CELL_REMOVE_DUR, 500, () => {
 
-            // ✅ pos01: 더 선명하게(Strong)
-            raf2(() => startSoftBlink(pos01, '.item', POS_BLINK_TOTAL, 'strong'));
+                  setStepTimer(step3, () => {
+                    fadeInUpY_WithDisplay(pos02, S3_FADE_IN_POS02, 'block', () => {
 
-            setTimeout(() => {
-              fadeOutUpX(tit1, S3_FADE_OUT_TIT1, () => {
+                      raf2(() => startSoftBlink(pos02, '.item', POS_BLINK_TOTAL));
 
-                runParallel([
-                  (cb) => fadeInUpX(topLine, S3_FADE_IN_TOPLINE, cb),
-                  (cb) => fadeInUpY_WithDisplay(topTit, S3_FADE_IN_TOPTIT, 'block', cb),
-                  (cb) => fadeInUpX(tit2, S3_FADE_IN_TIT2, cb),
-                ], () => {
+                      setStepTimer(step3, () => {
+                        runParallel([
+                          (cb) => fadeOutUpY(pos01, S3_FADE_OUT_POS, cb),
+                          (cb) => fadeOutUpY(pos02, S3_FADE_OUT_POS, cb)
+                        ], () => {
 
-                  setTimeout(() => {
-                    // ✅ line_01~line_05 ani_bg_df 삭제가 "완료"된 다음에 pos02 노출로
-                    removeAniBgDfByLinesSequential(celList, S3_CELL_REMOVE_DUR, 500, function () {
+                          setStepTimer(step3, () => {
+                            toastIn(toast, S3_TOAST_IN_DUR);
+                            step3._step03Done = true;
 
-                      // ✅ pos02 노출 타이밍을 "조금 미루기" (여기 값 조절)
-                      setTimeout(() => {
-                        fadeInUpY_WithDisplay(pos02, S3_FADE_IN_POS02, 'block', () => {
+                            // ✅ 셀 연출 완료
+                            step3._celDone = true;
+                            maybeGoSearchAfterStep03AllDone(step3);
+                          }, S3_TOAST_DELAY);
 
-                          // ✅ pos02도 노출 직후 3초 깜빡임
-                          raf2(() => startSoftBlink(pos02, '.item', POS_BLINK_TOTAL));
-
-                          // ✅ 유지시간
-                          setTimeout(() => {
-                            runParallel([
-                              (cb) => fadeOutUpY(pos01, S3_FADE_OUT_POS, cb),
-                              (cb) => fadeOutUpY(pos02, S3_FADE_OUT_POS, cb)
-                            ], () => {
-                              setTimeout(() => {
-                                toastIn(toast, S3_TOAST_IN_DUR);
-                                step3._step03Done = true;
-                              }, S3_TOAST_DELAY);
-                            });
-                          }, S3_POS_HOLD);
                         });
-                      }, S3_DELAY_TO_POS02); // ✅ "완료 후" 딜레이로 의미 변경
+                      }, S3_POS_HOLD);
+
                     });
-                  }, S3_DELAY_TO_REMOVE_DF);
+                  }, S3_DELAY_TO_POS02);
+
                 });
-              });
-            }, 1000);
-          }, S3_DELAY_TO_REMOVE_DF01);
-        }, S3_TIT1_HOLD);
-      });
-    });
+              }, S3_DELAY_TO_REMOVE_DF);
+
+            });
+          });
+        }, 1000 + STEP3_PLUS);
+
+      }, S3_DELAY_TO_REMOVE_DF01);
+    }, S3_TIT1_HOLD);
   }
 
   function resetStep03State(o) {
-    if (o.step3) {
-      o.step3.style.transition = 'none';
-      o.step3.style.opacity = '';
-      o.step3.style.transform = '';
-      o.step3.style.display = '';
-    }
     if (o.tit1) {
       o.tit1.style.display = '';
       o.tit1.style.opacity = '1';
@@ -794,14 +1053,14 @@ $(function () {
       o.pos01.style.opacity = '0';
       o.pos01.style.transition = 'none';
       o.pos01.style.transform = `translateY(${VW_DOWN})`;
-      o.pos01.classList.remove('cel_soft_blink_wrap');
+      o.pos01.classList.remove('cel_soft_blink_wrap', 'cel_soft_blink_wrap--strong');
     }
     if (o.pos02) {
       o.pos02.style.display = '';
       o.pos02.style.opacity = '0';
       o.pos02.style.transition = 'none';
       o.pos02.style.transform = `translateY(${VW_DOWN})`;
-      o.pos02.classList.remove('cel_soft_blink_wrap');
+      o.pos02.classList.remove('cel_soft_blink_wrap', 'cel_soft_blink_wrap--strong');
     }
     if (o.toast) {
       o.toast.style.display = '';
@@ -816,6 +1075,121 @@ $(function () {
     }
   }
 
+  // =========================================================
+  // ✅ step_03 re_pub 연출(요청 순서 + 각 단계 +1.5초)
+  //    - 끝나면 _repubDone=true → "둘 다 끝"이면 3초 후 search_complete
+  // =========================================================
+  function prepFade(el) {
+    if (!el) return;
+    el.style.display = '';
+    el.style.opacity = '0';
+    el.style.transform = `translateY(${VW_DOWN})`;
+    el.style.transition = 'none';
+  }
+
+  function fadeInUpOpacity(el, dur, done) {
+    if (!el) { if (done) done(); return; }
+    el.style.willChange = 'opacity, transform';
+    el.style.display = '';
+    el.style.transition = 'none';
+    el.style.opacity = '0';
+    el.style.transform = `translateY(${VW_DOWN})`;
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        el.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+        setTimeout(() => { if (done) done(); }, dur);
+      });
+    });
+  }
+
+  function runStep03RePubSequence(step3) {
+  if (!step3) return;
+  if (step3._repubRunning) return;
+  step3._repubRunning = true;
+
+  step3._repubTimers = step3._repubTimers || [];
+
+  const rePub  = step3.querySelector('.re_pub_01');
+  if (!rePub) {
+    step3._repubDone = true;
+    maybeGoSearchAfterStep03AllDone(step3);
+    return;
+  }
+
+  const item01 = rePub.querySelector('.gp_in_items .gp_item.item_01');
+  const item02 = rePub.querySelector('.gp_in_items .gp_item.item_02');
+  const badge1 = rePub.querySelector('.gp_in_items .gp_item.item_03 > .badge_box:nth-child(1)'); // st_01
+  const badge2 = rePub.querySelector('.gp_in_items .gp_item.item_03 > .badge_box:nth-child(2)'); // st_02
+  const arrow  = rePub.querySelector('.content_gp .bott_arrow');
+
+  // 기본 준비(숨김)
+  prepFade(badge1);
+  prepFade(arrow);
+  prepFade(item02);
+  prepFade(badge2);
+
+  // ✅ 각 단계 간격(+1.5초 포함) — 기존 네 값 그대로 사용
+  const T_START  = 1000 + STEP3_PLUS; // 시작(이때 item01+badge1 동시)
+  const GAP_1    = 1000 + STEP3_PLUS; // badge1 → arrow
+  const GAP_2    = 500  + STEP3_PLUS; // arrow → (item02+badge2 동시)
+  const GAP_3    = 500  + STEP3_PLUS; // (기존 badge2 지연값을 유지하고 싶으면 여기 포함)
+
+  const tPair1 = T_START;
+  const tArrow = tPair1 + GAP_1;
+
+  // ✅ item02+badge2를 "동시에" 하되, 기존 템포 유지하려면 (GAP_2 + GAP_3) 시점에 묶는 게 자연스러움
+  const tPair2 = tArrow + GAP_2;
+
+  // -----------------------
+  // (동시1) item01 스타일 변경 + badge1(st_01) 노출
+  // -----------------------
+  step3._repubTimers.push(setTimeout(() => {
+    if (!step3.classList.contains('on')) return;
+
+    if (item01) {
+      // item_01 "애니" 느낌: box-shadow는 transition으로 부드럽게
+      item01.style.willChange = 'box-shadow';
+      item01.style.transition = `box-shadow ${REPUB_FADE_DUR}ms ${EASE_OUT}`;
+
+      item01.style.boxShadow = '18px 26px 27.9px 0 rgba(0, 0, 0, 0.63)';
+      item01.style.backgroundImage =
+        'linear-gradient(118deg, #040b14, #09336D), linear-gradient(90deg, #000, #000)';
+    }
+
+    // st_01 배지 동시 페이드인
+    fadeInUpOpacity(badge1, REPUB_FADE_DUR);
+  }, tPair1));
+
+  // -----------------------
+  // arrow 단독 노출(기존 흐름 유지)
+  // -----------------------
+  step3._repubTimers.push(setTimeout(() => {
+    if (!step3.classList.contains('on')) return;
+    fadeInUpOpacity(arrow, REPUB_FADE_DUR);
+  }, tArrow));
+
+  // -----------------------
+  // (동시2) item02 노출 + badge2(st_02) 노출 (동시에)
+  // -----------------------
+  step3._repubTimers.push(setTimeout(() => {
+    if (!step3.classList.contains('on')) return;
+
+    runParallel([
+      (cb) => fadeInUpOpacity(item02, REPUB_FADE_DUR, cb),
+      (cb) => fadeInUpOpacity(badge2, REPUB_FADE_DUR, cb),
+    ], () => {
+      step3._repubDone = true;
+      maybeGoSearchAfterStep03AllDone(step3);
+    });
+  }, tPair2));
+}
+
+  // =========================================================
+  // ✅ 버튼/전환
+  // =========================================================
   function bindStep03Button(step3) {
     if (!step3 || step3._bindCardListBtn) return;
     step3._bindCardListBtn = true;
@@ -850,12 +1224,12 @@ $(function () {
     setTimeout(() => {
       step3.classList.remove('on');
       try { pauseStepVideos(step3); } catch (e) {}
-
       step3.style.display = 'none';
+
+      clearStep03Timers(step3);
 
       step3._step03Running = false;
       step3._step03Done = false;
-
       syncNoBlendByState();
       if (typeof done === 'function') done();
     }, dur + 30);
@@ -902,6 +1276,9 @@ $(function () {
     setNoBlendScreen(step3On);
   }
 
+  // =========================================================
+  // ✅ cel_list 클래스 제거(스르륵) + line_01~05 순차 제거
+  // =========================================================
   function removeClassSmooth(celList, className, dur) {
     if (!celList) return;
 
@@ -941,70 +1318,69 @@ $(function () {
     });
   }
 
-  // ✅ selector로 특정 셀들만 골라서 className을 스르륵 제거
-function removeClassSmoothBySelector(celList, selector, className, dur) {
-  if (!celList) return;
+  function removeClassSmoothBySelector(celList, selector, className, dur) {
+    if (!celList) return;
 
-  const cells = Array.from(celList.querySelectorAll(selector));
-  if (!cells.length) return;
+    const cells = Array.from(celList.querySelectorAll(selector));
+    if (!cells.length) return;
 
-  cells.forEach(cell => {
-    const cs = getComputedStyle(cell);
+    cells.forEach(cell => {
+      const cs = getComputedStyle(cell);
 
-    if (cs.position === 'static') cell.style.position = 'relative';
-    cell.style.overflow = 'hidden';
-    cell.style.transition = `background-color ${dur}ms ${EASE_OUT}`;
+      if (cs.position === 'static') cell.style.position = 'relative';
+      cell.style.overflow = 'hidden';
+      cell.style.transition = `background-color ${dur}ms ${EASE_OUT}`;
 
-    const overlay = document.createElement('i');
-    overlay.style.position = 'absolute';
-    overlay.style.inset = '0';
-    overlay.style.pointerEvents = 'none';
-    overlay.style.zIndex = '2';
-    overlay.style.backgroundColor = cs.backgroundColor;
-    overlay.style.opacity = '1';
-    overlay.style.transform = 'translateY(0)';
-    overlay.style.willChange = 'opacity, transform';
-    overlay.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
+      const overlay = document.createElement('i');
+      overlay.style.position = 'absolute';
+      overlay.style.inset = '0';
+      overlay.style.pointerEvents = 'none';
+      overlay.style.zIndex = '2';
+      overlay.style.backgroundColor = cs.backgroundColor;
+      overlay.style.opacity = '1';
+      overlay.style.transform = 'translateY(0)';
+      overlay.style.willChange = 'opacity, transform';
+      overlay.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
 
-    cell.appendChild(overlay);
+      cell.appendChild(overlay);
 
-    // ✅ 요청한 클래스만 제거 (line_xx는 유지)
-    cell.classList.remove(className);
+      cell.classList.remove(className);
 
-    requestAnimationFrame(() => {
-      overlay.style.opacity = '0';
-      overlay.style.transform = `translateY(${VW_UP})`;
+      requestAnimationFrame(() => {
+        overlay.style.opacity = '0';
+        overlay.style.transform = `translateY(${VW_UP})`;
+      });
+
+      setTimeout(() => {
+        if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+      }, dur + 60);
+    });
+  }
+
+  function removeAniBgDfByLinesSequential(celList, dur, staggerMs, done) {
+    if (!celList) { if (done) done(); return; }
+
+    const lines = ['line_01','line_02','line_03','line_04','line_05'];
+    const gap   = (typeof staggerMs === 'number') ? staggerMs : 500;
+
+    lines.forEach((lineCls, idx) => {
+      setTimeout(() => {
+        removeClassSmoothBySelector(
+          celList,
+          `.cel_item.ani_bg_df.${lineCls}`,
+          'ani_bg_df',
+          dur
+        );
+      }, idx * gap);
     });
 
-    setTimeout(() => {
-      if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
-    }, dur + 60);
-  });
-}
+    const total = (lines.length - 1) * gap + dur + 80;
+    setTimeout(() => { if (done) done(); }, total);
+  }
 
-// ✅ line_01 → (0.5s) → line_02 → ... → line_05 순서로 ani_bg_df 제거
-function removeAniBgDfByLinesSequential(celList, dur, staggerMs, done) {
-  if (!celList) { if (done) done(); return; }
-
-  const lines = ['line_01','line_02','line_03','line_04','line_05'];
-  const gap   = (typeof staggerMs === 'number') ? staggerMs : 500;
-
-  lines.forEach((lineCls, idx) => {
-    setTimeout(() => {
-      removeClassSmoothBySelector(
-        celList,
-        `.cel_item.ani_bg_df.${lineCls}`,
-        'ani_bg_df',
-        dur
-      );
-    }, idx * gap);
-  });
-
-  // ✅ "전부 끝" 시점 = 마지막 라인 시작(4*gap) + 제거 애니 dur + 약간 버퍼
-  const total = (lines.length - 1) * gap + dur + 80;
-  setTimeout(() => { if (done) done(); }, total);
-}
-
+  // =========================================================
+  // ✅ fade helpers
+  // =========================================================
   function runParallel(fns, done) {
     let left = fns.length;
     if (!left) return done && done();
@@ -1083,12 +1459,16 @@ function removeAniBgDfByLinesSequential(celList, dur, staggerMs, done) {
     });
   }
 
+  // -----------------------------
+  // start
+  // -----------------------------
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initGate01Sequence);
   } else {
     initGate01Sequence();
   }
 })();
+
 
 
 

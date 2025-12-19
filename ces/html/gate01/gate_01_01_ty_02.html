@@ -1026,7 +1026,10 @@
                 <strong>Recommended Support<br>Products Maching</strong>
             </div>
             <div class="sub en_t">
-                <p>기술 평가 시스템을 통해 평가된 결과에 따른 현재 경영 상태에 가장 적합한 지원 상품을 조회 중입니다. </p>
+                <p>
+                    We are identifying the most suitable support products based on the results of the<br>
+                    technology assessment and the company’s current management status.
+                </p>
             </div>
             <div class="v_box">
                 <video src="../../resources/images/loading_img2.mp4" autoplay muted loop playsinline></video>
@@ -1301,7 +1304,7 @@ function start() {
     // ★ 타이밍 설정
     // 첫 점은 바로, 이후 점은 3초 간격
     var FIRST_DELAY    = (opts.firstDelay    != null) ? opts.firstDelay    : 0;     // 0초
-    var STEP_INTERVAL  = (opts.stepInterval  != null) ? opts.stepInterval  : 3200;  // 3초 간격
+    var STEP_INTERVAL  = (opts.stepInterval  != null) ? opts.stepInterval  : 2200;  // 3초 간격
     var POINT_DURATION = (opts.pointDuration != null) ? opts.pointDuration : 400;
     var SEG_DURATION   = (opts.segmentDuration != null) ? opts.segmentDuration : 600;
     var CLOSE_DELAY    = (opts.closeDelay    != null) ? opts.closeDelay    : 500;   // 마지막 점 찍히고 초 뒤
@@ -1673,351 +1676,330 @@ function start() {
 <!-- 평가 과정 애니매이션 -->
 <script>
 // =====================================================================
-// tech_process_item 전체 시퀀스 컨트롤러
+// tech_process_item 전체 시퀀스 컨트롤러 (통합본)
+// - step_examine: 다음 step on 들어갈 때 이전 step은 on 제거 + done
+// - gauge: 그룹 내 모든 gauge가 동시에 채워짐
 // =====================================================================
 (function () {
-    var GAUGE_DURATION      = 2000; // 한 그룹(inve_examine_step_xx)의 게이지가 다 차는데 걸리는 시간
-    var GROUP_FADE_TIME     = 600;  // inve_examine_step_xx 교체용 (위로 스르륵)
-    var ITEM_FADE_TIME      = 600;  // tech_process_item 교체용
-    var ON_DELAY_AFTER_BAR  = 500;  // bar 다 찬 뒤 step_examine 에 on 이 들어가기까지 대기
-    var HIDE_DELAY_AFTER_ON = 200;  // step_examine 에 on 이 들어간 뒤 group 이 사라지기까지 대기
-    var HOLD_AFTER_LIST     = 2000; // 한 tech_process_item의 step 리스트 끝난 뒤 유지 시간
+  var GAUGE_DURATION      = 1000; // 한 그룹(inve_examine_step_xx)의 게이지가 다 차는데 걸리는 시간(동시 진행)
+  var GROUP_FADE_TIME     = 600;  // inve_examine_step_xx 교체용 (위로 스르륵)
+  var ITEM_FADE_TIME      = 600;  // tech_process_item 교체용
+  var ON_DELAY_AFTER_BAR  = 500;  // bar 다 찬 뒤 step_examine 에 on 이 들어가기까지 대기
+  var HIDE_DELAY_AFTER_ON = 200;  // step_examine 에 on 이 들어간 뒤 group 이 사라지기까지 대기
+  var HOLD_AFTER_LIST     = 2000; // 한 tech_process_item의 step 리스트 끝난 뒤 유지 시간
 
-    var processItems = document.querySelectorAll('.tech_process_item');
-    if (!processItems.length) return;
+  var processItems = document.querySelectorAll('.tech_process_item');
+  if (!processItems.length) return;
 
-    // ---------------- 초기 상태 세팅 ----------------
-    processItems.forEach(function (item, idx) {
-        var isFirstItem = (idx === 0);
+  // ---------------- 초기 상태 세팅 ----------------
+  processItems.forEach(function (item, idx) {
+    var isFirstItem = (idx === 0);
 
-        item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
 
-        if (isFirstItem) {
-            item.style.display   = 'block';
-            item.style.opacity   = '1';
-            item.style.transform = 'translateY(0)';
-        } else {
-            item.style.display   = 'none';
-            item.style.opacity   = '0';
-            item.style.transform = 'translateY(10px)';
-        }
+    if (isFirstItem) {
+      item.style.display   = 'block';
+      item.style.opacity   = '1';
+      item.style.transform = 'translateY(0)';
+    } else {
+      item.style.display   = 'none';
+      item.style.opacity   = '0';
+      item.style.transform = 'translateY(10px)';
+    }
 
-        // 안쪽 step_examine on/done 초기화
-        var innerSteps = item.querySelectorAll('.step_examine_list [class^="step_examine_"]');
-        innerSteps.forEach(function (s) {
-            s.classList.remove('on', 'done');
-        });
-
-        // 게이지 초기 width 0
-        var gauges = item.querySelectorAll('.inve_examine_gp .bar .gauge');
-        gauges.forEach(function (g) {
-            g.style.width      = '0%';
-            g.style.transition = 'none';
-        });
-
-        // 각 item 안의 inve_examine_step_xx 그룹 초기 상태 세팅
-        var groups = item.querySelectorAll('.inve_examine_gp [id^="examine"]');
-
-        // 이 item 안에서 "첫 번째 step_examine"이 가리키는 target id (예: examine01)
-        var firstStep   = item.querySelector('.step_examine_list [class^="step_examine_"]');
-        var firstTarget = firstStep ? firstStep.getAttribute('data-target') : null;
-
-        groups.forEach(function (grp) {
-            // 노출될 때는 무조건 flex
-            grp.dataset.defaultDisplay = 'flex';
-            grp.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-
-            if (firstTarget && grp.id === firstTarget) {
-                // ★ 모든 tech_process_item 의 첫 번째 그룹(inve_examine_step_01)은
-                //   페이지 로드시 디폴트로 노출
-                grp.style.display   = 'flex';
-                grp.style.opacity   = '1';
-                grp.style.transform = 'translateY(0)';
-            } else {
-                grp.style.display   = 'none';
-                grp.style.opacity   = '0';
-                grp.style.transform = 'translateY(10px)';
-            }
-        });
+    // 안쪽 step_examine on/done 초기화
+    var innerSteps = item.querySelectorAll('.step_examine_list [class^="step_examine_"]');
+    innerSteps.forEach(function (s) {
+      s.classList.remove('on', 'done');
     });
 
-    // ---------------- 그룹 show / hide 헬퍼 ----------------
-    function showGroup(group) {
-        if (!group) return;
-        var def = group.dataset.defaultDisplay || 'flex';
-        group.style.display = def;
-        group.getBoundingClientRect(); // reflow
-        group.style.opacity   = '1';
-        group.style.transform = 'translateY(0)';
+    // 게이지 초기 width 0
+    var gauges = item.querySelectorAll('.inve_examine_gp .bar .gauge');
+    gauges.forEach(function (g) {
+      g.style.width      = '0%';
+      g.style.transition = 'none';
+    });
+
+    // 각 item 안의 inve_examine_step_xx 그룹 초기 상태 세팅
+    var groups = item.querySelectorAll('.inve_examine_gp [id^="examine"]');
+
+    // 이 item 안에서 "첫 번째 step_examine"이 가리키는 target id (예: examine01)
+    var firstStep   = item.querySelector('.step_examine_list [class^="step_examine_"]');
+    var firstTarget = firstStep ? firstStep.getAttribute('data-target') : null;
+
+    groups.forEach(function (grp) {
+      grp.dataset.defaultDisplay = 'flex';
+      grp.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+
+      if (firstTarget && grp.id === firstTarget) {
+        // 첫 그룹만 디폴트로 노출
+        grp.style.display   = 'flex';
+        grp.style.opacity   = '1';
+        grp.style.transform = 'translateY(0)';
+      } else {
+        grp.style.display   = 'none';
+        grp.style.opacity   = '0';
+        grp.style.transform = 'translateY(10px)';
+      }
+    });
+  });
+
+  // ---------------- 그룹 show / hide 헬퍼 ----------------
+  function showGroup(group) {
+    if (!group) return;
+    var def = group.dataset.defaultDisplay || 'flex';
+    group.style.display = def;
+    group.getBoundingClientRect(); // reflow
+    group.style.opacity   = '1';
+    group.style.transform = 'translateY(0)';
+  }
+
+  function hideGroup(group, callback) {
+    if (!group) {
+      if (typeof callback === 'function') callback();
+      return;
     }
-
-    function hideGroup(group, callback) {
-        if (!group) {
-            if (typeof callback === 'function') callback();
-            return;
-        }
-        group.style.opacity   = '0';
-        group.style.transform = 'translateY(-10px)';
-        setTimeout(function () {
-            group.style.display = 'none';
-            if (typeof callback === 'function') callback();
-        }, GROUP_FADE_TIME);
-    }
-
-    // ---------------- gauge 그룹(하나의 inve_examine_step_xx) 애니 + 자동 스크롤 ----------------
-    function animateGaugesInGroup(group) {
-        if (!group) return;
-
-        var gauges = group.querySelectorAll('.inve_examine_gp_item .bar .gauge');
-        var count  = gauges.length;
-        if (!count) return;
-
-        // 이 그룹 안의 모든 bar가 GAUGE_DURATION 안에 순서대로 다 차게
-        var perTime = GAUGE_DURATION / count;
-
-        // ★ 스크롤 컨테이너 = .tech_gp_set [class^="inve_examine_step_"] (그룹 자신)
-        var scroller = group;
-
-        function scrollIntoViewIfNeeded(target) {
-            if (!scroller) return;
-
-            var vRect = scroller.getBoundingClientRect();  // 스크롤 영역
-            var tRect = target.getBoundingClientRect();    // 타겟 bar 영역
-
-            // 아래로 가려지는 경우만 처리
-            if (tRect.bottom > vRect.bottom) {
-                var delta = (tRect.bottom - vRect.bottom) + 20; // 여유 20px 정도
-
-                scroller.scrollTo({
-                    top: scroller.scrollTop + delta,
-                    behavior: 'smooth'
-                });
-            }
-        }
-
-        gauges.forEach(function (gauge, idx) {
-            var percent = parseFloat(gauge.getAttribute('data-percent')) || 0;
-
-            // 초기화
-            gauge.style.transition = 'none';
-            gauge.style.width      = '0%';
-            gauge.getBoundingClientRect(); // reflow
-
-            setTimeout(function () {
-                // 이 gauge가 들어있는 아이템 기준으로 가려짐 체크
-                var item = gauge.closest('.inve_examine_gp_item') || gauge;
-
-                // 1) 이 bar가 채워지기 직전에, 가려질 위치면 먼저 스크롤
-                scrollIntoViewIfNeeded(item);
-
-                // 2) 그 다음 width 애니 시작
-                gauge.getBoundingClientRect(); // 한 번 더 reflow
-                gauge.style.transition = 'width ' + (perTime / 1000) + 's ease';
-                gauge.style.width      = percent + '%';
-            }, idx * perTime);
-        });
-    }
-
-    // ---------------- 현재 item 숨기고 다음 item 보여주기 ----------------
-    function hideItemAndShowNext(currentIndex) {
-        var itemCount = processItems.length;
-        var current   = processItems[currentIndex];
-        var nextIndex = currentIndex + 1;
-        var next      = processItems[nextIndex];
-
-        if (!next) return;
-
-        current.style.opacity   = '0';
-        current.style.transform = 'translateY(-10px)';
-
-        setTimeout(function () {
-            current.style.display = 'none';
-            showItem(nextIndex);
-        }, ITEM_FADE_TIME);
-    }
-
-    // ---------------- item 하나의 내부 step_examine / gauge / 그룹 시퀀스 ----------------
-    function runInnerStepsForItem(item, itemIndex, onComplete) {
-        var steps = item.querySelectorAll('.step_examine_list [class^="step_examine_"]');
-        var stepCount = steps.length;
-        if (!stepCount) {
-            if (typeof onComplete === 'function') onComplete();
-            return;
-        }
-
-        // 초기화
-        steps.forEach(function (s) {
-            s.classList.remove('on', 'done');
-        });
-
-        // 각 step_examine 이 어떤 그룹을 가리키는지 매핑
-        var groupsByStep = [];
-        for (var i = 0; i < stepCount; i++) {
-            var stepEl = steps[i];
-            var tid    = stepEl.getAttribute('data-target'); // "examine01" 등
-            groupsByStep[i] = tid ? item.querySelector('#' + tid) : null;
-        }
-
-        var lastIndex = stepCount - 1;
-
-        function runStep(stepIndex) {
-            if (stepIndex >= stepCount) {
-                if (typeof onComplete === 'function') onComplete();
-                return;
-            }
-
-            var isLastStep = (stepIndex === lastIndex);
-            var group      = groupsByStep[stepIndex];
-
-            // ---------------- 현재 그룹 노출 + 게이지 애니 시작 ----------------
-            if (group) {
-                showGroup(group);
-                animateGaugesInGroup(group);
-            }
-
-            // ★ bar 전체가 다 찬 뒤(GAUGE_DURATION) + 0.5초 후의 타이밍
-            setTimeout(function () {
-
-                // ★ step_examine_01 이 on 되는 타이밍에 차트 시작
-                if (stepIndex === 0) {
-                    if (itemIndex === 0 && typeof runTechRadar01 === 'function') {
-                        runTechRadar01();
-                    } else if (itemIndex === 1 && typeof runTechBar01 === 'function') {
-                        runTechRadar02();
-                    } else if (itemIndex === 2 && typeof runTechRadar04 === 'function') {
-                        runTechRadar04();
-                    }
-                }
-
-                if (isLastStep) {
-                    // 마지막 step: 이전 것들 done, 마지막만 on 유지
-                    for (var i = 0; i < stepCount; i++) {
-                        if (i < lastIndex) {
-                            steps[i].classList.remove('on');
-                            steps[i].classList.add('done');
-                        } else if (i === lastIndex) {
-                            steps[i].classList.add('on');
-                            steps[i].classList.remove('done');
-                        }
-                    }
-                    // 마지막 그룹은 그대로 유지
-                    if (typeof onComplete === 'function') onComplete();
-                } else {
-                    // 현재 step_examine 에 on
-                    steps[stepIndex].classList.add('on');
-                    steps[stepIndex].classList.remove('done');
-
-                    // ★ on 이 들어간 뒤 0.5초 후 → group 을 위로 스르륵 사라지게
-                    setTimeout(function () {
-                        hideGroup(group, function () {
-                            // 완전히 사라진 뒤 다음 step 으로
-                            runStep(stepIndex + 1);
-                        });
-                    }, HIDE_DELAY_AFTER_ON);
-                }
-            }, GAUGE_DURATION + ON_DELAY_AFTER_BAR); // "bar 완료 + 0.5초" 타이밍
-        }
-
-        // 첫 step 시작
-        runStep(0);
-    }
-
-    // ---------------- tech_process_item 하나 보여주고 내부 시퀀스 시작 ----------------
-    function showItem(index) {
-        var itemCount = processItems.length;
-        if (index < 0 || index >= itemCount) return;
-
-        var item   = processItems[index];
-        var isLast = (index === itemCount - 1);
-
-        item.style.display   = 'block';
-        item.style.transform = 'translateY(10px)';
-        item.style.opacity   = '0';
-
-        requestAnimationFrame(function () {
-            item.style.opacity   = '1';
-            item.style.transform = 'translateY(0)';
-        });
-
-        // 이 item 안에서만 step_examine / inve_examine_step_xx 시퀀스 진행
-        runInnerStepsForItem(item, index, function () {
-            if (isLast) {
-                // ★ 모든 tech_process_item 애니 종료 시점
-
-                var pop = document.querySelector('.com_wid_pop');
-
-                // 1) 2초 기다렸다가 팝업 등장
-                setTimeout(function () {
-                    if (pop) {
-                        pop.style.display    = 'flex';           // 레이아웃 활성화
-                        pop.style.opacity    = '0';
-                        pop.style.transition = 'opacity 0.6s ease';
-
-                        // 다음 프레임에서 opacity 1로 → 스르륵 등장
-                        requestAnimationFrame(function () {
-                            pop.style.opacity = '1';
-                        });
-                    }
-
-                    // 2) 팝업이 뜬 후 3초 뒤 페이지 이동
-                    setTimeout(function () {
-                    var company = (currentCompany || '').trim();
-                    var url;
-
-                    switch (company) {
-                        case '듀셀바이오테라퓨틱스':
-                        url = '../gate01/gate_01_01_detail.html';
-                        break;
-
-                        case '포트래이':
-                        url = '../gate01/gate_01_03_detail.html';
-                        break;
-
-                        case '브이투브이':
-                        url = '../gate01/gate_01_04_detail.html';
-                        break;
-
-                        case '업사이트':
-                        url = '../gate01/gate_01_05_detail.html';
-                        break;
-
-                        case '워터베이션':
-                        url = '../gate01/gate_01_06_detail.html';
-                        break;
-
-                        case '뤼튼테크놀로지스':
-                        url = '../gate01/gate_01_07_detail.html';
-                        break;
-
-                        default:
-                        // 혹시 모를 예외 케이스
-                        console.warn('[redirect] unknown company:', company);
-                        url = '../gate01/gate_01_07_detail.html';
-                    }
-
-                    window.location.href = url;
-                    }, 3000);
-
-
-                }, 2000); // 팝업 등장까지 2초 딜레이
-
-                return; // 마지막 아이템은 그대로 두고 끝
-            }
-
-            // 마지막이 아닌 경우: 일정 시간 유지 후 다음 item 으로
-            setTimeout(function () {
-                hideItemAndShowNext(index);
-            }, HOLD_AFTER_LIST);
-        });
-    }
-
-
-
-    // ---------------- 전체 시퀀스 시작 ----------------
-    // 페이지 로드 후 2초 뒤 step_01 시작
+    group.style.opacity   = '0';
+    group.style.transform = 'translateY(-10px)';
     setTimeout(function () {
-        showItem(0);
-    }, 2000);
+      group.style.display = 'none';
+      if (typeof callback === 'function') callback();
+    }, GROUP_FADE_TIME);
+  }
+
+  // ---------------- gauge 그룹(하나의 inve_examine_step_xx) 애니 (동시) + 자동 스크롤 ----------------
+  function animateGaugesInGroup(group) {
+    if (!group) return;
+
+    var gauges = group.querySelectorAll('.inve_examine_gp_item .bar .gauge');
+    var count  = gauges.length;
+    if (!count) return;
+
+    // 스크롤 컨테이너 = 그룹 자신
+    var scroller = group;
+
+    function scrollIntoViewIfNeeded(target) {
+      if (!scroller || !target) return;
+
+      var vRect = scroller.getBoundingClientRect();
+      var tRect = target.getBoundingClientRect();
+
+      if (tRect.bottom > vRect.bottom) {
+        var delta = (tRect.bottom - vRect.bottom) + 20;
+        scroller.scrollTo({
+          top: scroller.scrollTop + delta,
+          behavior: 'smooth'
+        });
+      }
+    }
+
+    // ✅ 동시 진행이므로, 마지막 아이템이 가려져 있으면 시작 전에 한 번만 스크롤
+    var lastItem = group.querySelector('.inve_examine_gp_item:last-child');
+    if (lastItem) scrollIntoViewIfNeeded(lastItem);
+
+    // ✅ 모든 gauge를 동시에 채움
+    gauges.forEach(function (gauge) {
+      var percent = parseFloat(gauge.getAttribute('data-percent')) || 0;
+
+      gauge.style.transition = 'none';
+      gauge.style.width      = '0%';
+      gauge.getBoundingClientRect(); // reflow
+
+      // 다음 프레임에 트랜지션 부여 후 width 변경
+      requestAnimationFrame(function () {
+        gauge.style.transition = 'width ' + (GAUGE_DURATION / 1000) + 's ease';
+        gauge.style.width      = percent + '%';
+      });
+    });
+  }
+
+  // ---------------- 현재 item 숨기고 다음 item 보여주기 ----------------
+  function hideItemAndShowNext(currentIndex) {
+    var itemCount = processItems.length;
+    var current   = processItems[currentIndex];
+    var nextIndex = currentIndex + 1;
+    var next      = processItems[nextIndex];
+
+    if (!next) return;
+
+    current.style.opacity   = '0';
+    current.style.transform = 'translateY(-10px)';
+
+    setTimeout(function () {
+      current.style.display = 'none';
+      showItem(nextIndex);
+    }, ITEM_FADE_TIME);
+  }
+
+  // ---------------- item 하나의 내부 step_examine / gauge / 그룹 시퀀스 ----------------
+  function runInnerStepsForItem(item, itemIndex, onComplete) {
+    var steps = item.querySelectorAll('.step_examine_list [class^="step_examine_"]');
+    var stepCount = steps.length;
+    if (!stepCount) {
+      if (typeof onComplete === 'function') onComplete();
+      return;
+    }
+
+    // 초기화
+    steps.forEach(function (s) {
+      s.classList.remove('on', 'done');
+    });
+
+    // 각 step_examine 이 어떤 그룹을 가리키는지 매핑
+    var groupsByStep = [];
+    for (var i = 0; i < stepCount; i++) {
+      var stepEl = steps[i];
+      var tid    = stepEl.getAttribute('data-target'); // "examine01" 등
+      groupsByStep[i] = tid ? item.querySelector('#' + tid) : null;
+    }
+
+    var lastIndex = stepCount - 1;
+
+    // ✅ 핵심: stepIndex가 "on 되는 순간" 기준으로
+    // - i < stepIndex : done
+    // - i == stepIndex: on
+    // - i > stepIndex : 초기
+    function applyStepStatus(activeIndex) {
+      for (var k = 0; k < stepCount; k++) {
+        if (k < activeIndex) {
+          steps[k].classList.remove('on');
+          steps[k].classList.add('done');
+        } else if (k === activeIndex) {
+          steps[k].classList.add('on');
+          steps[k].classList.remove('done');
+        } else {
+          steps[k].classList.remove('on', 'done');
+        }
+      }
+    }
+
+    function runStep(stepIndex) {
+      if (stepIndex >= stepCount) {
+        if (typeof onComplete === 'function') onComplete();
+        return;
+      }
+
+      var isLastStep = (stepIndex === lastIndex);
+      var group      = groupsByStep[stepIndex];
+
+      // 현재 그룹 노출 + 게이지 애니 시작(동시)
+      if (group) {
+        showGroup(group);
+        animateGaugesInGroup(group);
+      }
+
+      // bar 전체가 다 찬 뒤 + ON_DELAY_AFTER_BAR 후
+      setTimeout(function () {
+
+        // step_01이 on 되는 타이밍에 차트 시작(기존 로직 유지)
+        if (stepIndex === 0) {
+          if (itemIndex === 0 && typeof runTechRadar01 === 'function') {
+            runTechRadar01();
+          } else if (itemIndex === 1 && typeof runTechBar01 === 'function') {
+            runTechRadar02();
+          } else if (itemIndex === 2 && typeof runTechRadar04 === 'function') {
+            runTechRadar04();
+          }
+        }
+
+        // ✅ 여기서 "현재 step on" + "이전 step done" 처리
+        applyStepStatus(stepIndex);
+
+        if (isLastStep) {
+          // 마지막 step: on 유지 + 그룹 유지
+          if (typeof onComplete === 'function') onComplete();
+          return;
+        }
+
+        // 마지막이 아니면: on 들어간 뒤 잠깐 후 그룹 숨기고 다음 step
+        setTimeout(function () {
+          hideGroup(group, function () {
+            runStep(stepIndex + 1);
+          });
+        }, HIDE_DELAY_AFTER_ON);
+
+      }, GAUGE_DURATION + ON_DELAY_AFTER_BAR);
+    }
+
+    // 첫 step 시작
+    runStep(0);
+  }
+
+  // ---------------- tech_process_item 하나 보여주고 내부 시퀀스 시작 ----------------
+  function showItem(index) {
+    var itemCount = processItems.length;
+    if (index < 0 || index >= itemCount) return;
+
+    var item   = processItems[index];
+    var isLast = (index === itemCount - 1);
+
+    item.style.display   = 'block';
+    item.style.transform = 'translateY(10px)';
+    item.style.opacity   = '0';
+
+    requestAnimationFrame(function () {
+      item.style.opacity   = '1';
+      item.style.transform = 'translateY(0)';
+    });
+
+    runInnerStepsForItem(item, index, function () {
+      if (isLast) {
+        var pop = document.querySelector('.com_wid_pop');
+
+        setTimeout(function () {
+          if (pop) {
+            pop.style.display    = 'flex';
+            pop.style.opacity    = '0';
+            pop.style.transition = 'opacity 0.6s ease';
+            requestAnimationFrame(function () {
+              pop.style.opacity = '1';
+            });
+          }
+
+          setTimeout(function () {
+            var company = (currentCompany || '').trim();
+            var url;
+
+            switch (company) {
+              case '듀셀바이오테라퓨틱스':
+                url = '../gate01/gate_01_01_detail.html';
+                break;
+              case '포트래이':
+                url = '../gate01/gate_01_03_detail.html';
+                break;
+              case '브이투브이':
+                url = '../gate01/gate_01_04_detail.html';
+                break;
+              case '업사이트':
+                url = '../gate01/gate_01_05_detail.html';
+                break;
+              case '워터베이션':
+                url = '../gate01/gate_01_06_detail.html';
+                break;
+              case '뤼튼테크놀로지스':
+                url = '../gate01/gate_01_07_detail.html';
+                break;
+              default:
+                console.warn('[redirect] unknown company:', company);
+                url = '../gate01/gate_01_07_detail.html';
+            }
+
+            window.location.href = url;
+          }, 3000);
+
+        }, 2000);
+
+        return;
+      }
+
+      setTimeout(function () {
+        hideItemAndShowNext(index);
+      }, HOLD_AFTER_LIST);
+    });
+  }
+
+  // 첫 item 시작
+  showItem(0);
 
 })();
 
