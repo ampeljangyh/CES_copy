@@ -183,8 +183,8 @@
             <ul class="option_grid">
                 <li class="full opt_slider">
                     <div class="option_tit">
-                        <strong class="tit vw_kr">기업규모</strong>
-                        <strong class="tit vw_en">Company size</strong>
+                        <strong class="tit vw_kr">기업규모(매출액)</strong>
+                        <strong class="tit vw_en">Company size (Revenue)</strong>
                         <div class="info" id="scaleTxt">
                             <p class="vw_kr"><strong>300-500</strong> 억원</p>
                             <p class="vw_en"><strong>$20M-$34M</strong></p>
@@ -341,19 +341,19 @@
 function updateScaleTxt(el) {
     const SCALE_PARTS = {
         '0': {
-            kr: [{ strong: '300' }, { text: ' 억원 미만' }],
+            kr: [{ strong: '300' }, { text: ' 억 미만' }],
             en: [{ text: 'Less than ' }, { strong: '$20M' }]
         },
         '1': {
-            kr: [{ strong: '300-500' }, { text: ' 억원' }],
+            kr: [{ strong: '300-500' }, { text: ' 억' }],
             en: [{ strong: '$20M-$34M' }]
         },
         '2': {
-            kr: [{ strong: '500-1,500' }, { text: ' 억원' }],
+            kr: [{ strong: '500-1,500' }, { text: ' 억' }],
             en: [{ strong: '$34M-$100M' }]
         },
         '3': {
-            kr: [{ strong: '1,500' }, { text: ' 억원' }],
+            kr: [{ strong: '1,500' }, { text: ' 억 이상' }],
             en: [{ text: 'More than ' }, { strong: '$100M' }]
         }
     };
