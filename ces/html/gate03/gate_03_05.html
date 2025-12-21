@@ -106,7 +106,7 @@
 
                             <!-- bubble_li -->
                             <ul class="bubble_li">
-                                <li>
+                                <li style="display:none;">
                                     <span class="ico_esg ty_e">
                                         <span class="vw_kr">온실가스 및 에너지 관리</span>
                                         <span class="vw_en">GHG & Energy Management</span>
@@ -164,7 +164,7 @@
                             <strong class="t1 vw_kr">ESG 기반 맞춤형 금융상품 추천</strong>
                             <p class="t2 vw_kr"><span class="selPrdName">NexDrive</span>의 ESG 진단 결과를 반영하여,<br>Quick Win 과제를 신속히 이행할 수 있는 맞춤형 금융상품을 추천드립니다.</p>
 
-                            <strong class="t1 vw_en">ESG-Based Personalized Financial<br>Product Recommendations</strong>
+                            <strong class="t1 vw_en">Personalized ESG Financial Products</strong>
                             <p class="t2 vw_en">Based on <span class="selPrdName">NexDrive</span>’s ESG assessment results, we recommend personalized financial products<br>that support the rapid implementation of Quick Win initiatives</p>
 
                             <div class="pro_slide swiper">
@@ -241,8 +241,8 @@
                             <!-- esg_btns -->
                             <div class="esg_btns" id="btns01" style="display:none;">
                                 <button type="button" class="btn_other" id="btn01">
-                                    <span class="vw_kr">다른 기업 선택하기</span>
-                                    <span class="vw_en">Select Another Company</span>
+                                    <span class="vw_kr">지원 신청 하기</span>
+                                    <span class="vw_en">Apply for Support</span>
                                 </button>
                             </div>
                             <!-- //esg_btns -->
@@ -369,19 +369,24 @@
 <!-- //panel_side -->
 
 <!-- esg_modal -->
-<div class="esg_modal" id="modal01" style="display:none;">
+<div class="esg_modal cert" id="modal01" style="display:none;">
     <!-- inner -->
     <div class="inner">
-        <!-- top -->
-        <div class="top">
-            <strong class="tit">ESG 정밀진단 컨설팅 확인서 발급</strong>
-            <p class="tit_t1">NexDrive의 ESG 정밀진단 컨설팅 확인서가 발급되었습니다.</p>
-        </div>
-        <!-- //top -->
-
         <!-- modal_cnt -->
         <div class="modal_cnt">
+            <strong class="t1">
+                <span class="vw_kr">지원 신청 완료</span>
+                <span class="vw_en">Application Submitted</span>
+            </strong>
+            <p class="t2">
+                <span class="vw_kr" id="t1kr"></span>
+                <span class="vw_en" id="t1en"></span>
+            </p>
 
+            <button type="button" id="btn02" class="btn_primary">
+                <span class="vw_kr">다른 기업 선택하기</span>
+                <span class="vw_en">Select Another Company</span>
+            </button>
         </div>
         <!-- //modal_cnt -->
     </div>
@@ -414,8 +419,17 @@ const gate0305 = {
         this.btns   = document.querySelector('.esg_btns');
     },
 
+    applySelectedSlide(index) {
+        if (!this.swiper) return;
+
+        const slides = this.swiper.slides;
+        slides.forEach(s => s.classList.remove('is-selected'));
+
+        const target = slides[index];
+        if (target) target.classList.add('is-selected');
+    },
+
     initSwiper() {
-        // .pro_slide 존재 여부 체크(없으면 그냥 리턴)
         const proSlideEl = document.querySelector('.pro_slide');
         if (!proSlideEl || typeof Swiper === 'undefined') return;
 
@@ -428,31 +442,37 @@ const gate0305 = {
             on: {
                 slideChangeTransitionStart: () => {
                     if (this.isBoxVisible) {
-                        if (this.arrow) {
-                            gsap.to(this.arrow, { opacity: 0, duration: 0.2 });
-                        }
-                        if (this.msgs && this.msgs.length) {
-                            gsap.to(this.msgs, { opacity: 0, duration: 0.2 });
-                        }
+                        if (this.arrow) gsap.to(this.arrow, { opacity: 0, duration: 0.2 });
+                        if (this.msgs && this.msgs.length) gsap.to(this.msgs, { opacity: 0, duration: 0.2 });
                     }
                 },
 
                 slideChangeTransitionEnd: (swiper) => {
-                    this.updateArrowAndMsg(swiper.activeIndex);
-                    this.activeMsgIndex = swiper.activeIndex;
+                    // 실제 activeIndex 기반 스타일(원하면)
+                    // this.applySelectedSlide(swiper.activeIndex);
+
+                    // 현재 로직은 "클릭한 인덱스"를 기준으로 메시지를 맞추는 구조라서
+                    // activeMsgIndex(=사용자 선택 인덱스)를 기준으로 스타일 주는 게 일관됩니다.
+                    const idx = (this.activeMsgIndex >= 0) ? this.activeMsgIndex : swiper.activeIndex;
+                    this.applySelectedSlide(idx);
+
+                    this.updateArrowAndMsg(idx);
                 },
 
                 click: (swiper) => {
                     const clickedIndex = swiper.clickedIndex;
                     if (clickedIndex === undefined || clickedIndex === null) return;
 
+                    // 선택 스타일은 즉시 반영
+                    this.activeMsgIndex = clickedIndex;
+                    this.applySelectedSlide(clickedIndex);
+
                     swiper.slideTo(clickedIndex);
 
-                    // 슬라이드가 끝부분 등으로 이동이 없어서 transitionEnd가 안 뜨는 경우 강제 실행
                     setTimeout(() => {
                         if (!swiper.animating) {
                             this.updateArrowAndMsg(clickedIndex);
-                            this.activeMsgIndex = clickedIndex;
+                            this.applySelectedSlide(clickedIndex);
                         }
                     }, 50);
                 }
@@ -547,6 +567,15 @@ function gate0305onLoad() {
     gate0305.initSwiper();
 
     $('#btn01').on('click', function(){
+        const t1kr = $('.is-selected .vw_kr').text();
+        const t1en = $('.is-selected .vw_en').text();
+
+        $('#t1kr').text(t1kr);
+        $('#t1en').text(t1en);
+        openModal('modal01');
+    });
+
+    $('#btn02').on('click', function(){
         location.href = 'gate_03.html';
     });
 }
@@ -709,7 +738,8 @@ function runBubbleAnimation(onComplete, options = {}) {
         });
     }
 
-    next();
+    // next();
+    runStepTransition();
 }
 
 
@@ -717,6 +747,7 @@ function runBubbleAnimation(onComplete, options = {}) {
 function runStepTransition(prevTl) {
     let tl = prevTl || gsap.timeline();
 
+    tl.to({}, { duration: 2 });
     tl
         // STEP1 사라짐
         .to('.step1', {
@@ -785,6 +816,7 @@ function runStepTransition(prevTl) {
                 // 레이아웃/Swiper 반영 후 0번 메시지 출력
                 requestAnimationFrame(() => {
                     requestAnimationFrame(() => {
+                        gate0305.applySelectedSlide(0);
                         gate0305.updateArrowAndMsg(0);
                         gate0305.activeMsgIndex = 0;
                     });

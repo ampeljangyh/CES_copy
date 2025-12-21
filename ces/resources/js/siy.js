@@ -1051,12 +1051,12 @@ function getGate03DiagData() {
                 { itemEn: "Hazardous Chemicals Mgmt", item: "유해화학물질 관리", grade: "S" },
                 { itemEn: "Air Pollutant Mgmt", item: "대기오염물질 관리", grade: "S" },
                 { itemEn: "Water Pollutant Mgmt", item: "수질오염물질 관리", grade: "A+" },
-                { itemEn: "Scope 3 Emissions Framework", item: "Scope3 온실가스 배출량 산정 체계", grade: "B" },
+                { itemEn: "Scope 3 Emissions Framework", item: "Scope3 온실가스 배출량 산정 체계", grade: "B" }/*,
                 { itemEn: "Persistent Pollutants Mgmt", item: "잔류성 오염물질 관리", grade: "A+" },
                 { itemEn: "Battery Material Recycling", item: "배터리 규제 대상 원료 재활용", grade: "A" },
                 { itemEn: "Product Carbon Accounting", item: "제품 단위 온실가스 배출량 산정 체계", grade: "A+" },
                 { itemEn: "Sustainable Packaging", item: "포장재 감축 및 대체", grade: "A+" },
-                { itemEn: "Hazardous Substances in Products", item: "제품 내 유해물질 관리", grade: "A+" }
+                { itemEn: "Hazardous Substances in Products", item: "제품 내 유해물질 관리", grade: "A+" }*/
             ],
             s: [
                 { itemEn: "Human Rights Mgmt", item: "인권 관리", grade: "A+" },
@@ -1068,17 +1068,17 @@ function getGate03DiagData() {
                 { itemEn: "Child Labor Prohibition", item: "아동노동 금지", grade: "A+" },
                 { itemEn: "Labor Relations", item: "노사관계 수준", grade: "A+" },
                 { itemEn: "Occupational Safety & Health", item: "안전보건 관리체계", grade: "A+" },
-                { itemEn: "Safety & Health Activities", item: "안전보건 관리활동", grade: "S", popup: true, panelId: "pop02" },
-                { itemEn: "Community Engagement", item: "지역사회 공헌", grade: "B" },
+                { itemEn: "Safety & Health Activities", item: "안전보건 관리활동", grade: "S"/*, popup: true, panelId: "pop02"*/ },
+                { itemEn: "Community Engagement", item: "지역사회 공헌", grade: "B" }/*,
                 { itemEn: "Foreign Worker Management", item: "외국인근로자 근로 관리", grade: "A" },
                 { itemEn: "Responsible Sourcing", item: "책임있는 원부자재 조달 정책", grade: "S" },
-                { itemEn: "Supplier ESG Management", item: "협력사 및 공급망 관리", grade: "A+" }
+                { itemEn: "Supplier ESG Management", item: "협력사 및 공급망 관리", grade: "A+" }*/
             ],
             g: [
                 { itemEn: "Ethical Management", item: "윤리경영 정책", grade: "B+" },
                 { itemEn: "Anti-Corruption Practices", item: "부패 및 불공정거래 방지 활동", grade: "S" },
                 { itemEn: "Whistleblowing System", item: "윤리준법 신고제도", grade: "A" },
-                { itemEn: "ESG Disclosure", item: "ESG 정보 공시", grade: "A", popup: true, panelId: "pop03" },
+                { itemEn: "ESG Disclosure", item: "ESG 정보 공시", grade: "A"/*, popup: true, panelId: "pop03"*/ },
                 { itemEn: "Business Stability", item: "경영 안정성", grade: "A+" },
                 { itemEn: "Shareholder Rights", item: "주주권리", grade: "A" }
             ]
@@ -1095,13 +1095,13 @@ function getGate03DiagData() {
                 { itemEn: "Hazardous Chemicals Mgmt", item: "유해화학물질 관리", grade: "B" },
                 { itemEn: "Air Pollutant Mgmt", item: "대기오염물질 관리", grade: "A" },
                 { itemEn: "Water Pollutant Mgmt", item: "수질오염물질 관리", grade: "A+" },
-                { itemEn: "Scope 3 Emissions Framework", item: "Scope3 온실가스 배출량 산정 체계", grade: "A+" },
+                { itemEn: "Scope 3 Emissions Framework", item: "Scope3 온실가스 배출량 산정 체계", grade: "A+" }/*,
                 { itemEn: "Persistent Pollutants Mgmt", item: "잔류성 오염물질 관리", grade: "B" },
                 { itemEn: "Conflict Minerals Mgmt", item: "분쟁광물 관리", grade: "B" },
                 { itemEn: "Hazardous Substances in Products", item: "제품 내 유해물질 관리", grade: "B+" },
                 { itemEn: "Ozone-Depleting Substances", item: "오존층 관련 규제대상물질 관리", grade: "C" },
                 { itemEn: "Mercury Management", item: "수은 또는 수은 화합물 관리", grade: "B+" },
-                { itemEn: "Persistent Equipment Mgmt", item: "잔류성오염물질 함유 기기 관리", grade: "B+" }
+                { itemEn: "Persistent Equipment Mgmt", item: "잔류성오염물질 함유 기기 관리", grade: "B+" }*/
             ],
             s: [
                 { itemEn: "Human Rights Mgmt", item: "인권 관리", grade: "B" },
@@ -1113,16 +1113,16 @@ function getGate03DiagData() {
                 { itemEn: "Child Labor Prohibition", item: "아동노동 금지", grade: "S" },
                 { itemEn: "Labor Relations", item: "노사관계 수준", grade: "S" },
                 { itemEn: "Occupational Safety & Health", item: "안전보건 관리체계", grade: "A+" },
-                { itemEn: "Safety & Health Activities", item: "안전보건 관리활동", grade: "A", popup: true, panelId: "pop02" },
-                { itemEn: "Community Engagement", item: "지역사회 공헌", grade: "A+" },
+                { itemEn: "Safety & Health Activities", item: "안전보건 관리활동", grade: "A"/*, popup: true, panelId: "pop02"*/ },
+                { itemEn: "Community Engagement", item: "지역사회 공헌", grade: "A+" }/*,
                 { itemEn: "Foreign Worker Management", item: "외국인근로자 근로 관리", grade: "B" },
-                { itemEn: "Supplier ESG Management", item: "협력사 및 공급망 관리", grade: "B" }
+                { itemEn: "Supplier ESG Management", item: "협력사 및 공급망 관리", grade: "B" }*/
             ],
             g: [
                 { itemEn: "Ethical Management", item: "윤리경영 정책", grade: "S" },
                 { itemEn: "Anti-Corruption Practices", item: "부패 및 불공정거래 방지 활동", grade: "A+" },
                 { itemEn: "Whistleblowing System", item: "윤리준법 신고제도", grade: "B" },
-                { itemEn: "ESG Disclosure", item: "ESG 정보 공시", grade: "A+", popup: true, panelId: "pop03" },
+                { itemEn: "ESG Disclosure", item: "ESG 정보 공시", grade: "A+"/*, popup: true, panelId: "pop03"*/ },
                 { itemEn: "Business Stability", item: "경영 안정성", grade: "B" },
                 { itemEn: "Shareholder Rights", item: "주주권리", grade: "B+" }
             ]
@@ -1139,13 +1139,13 @@ function getGate03DiagData() {
                 { itemEn: "Hazardous Chemicals Mgmt", item: "유해화학물질 관리", grade: "B" },
                 { itemEn: "Air Pollutant Mgmt", item: "대기오염물질 관리", grade: "A" },
                 { itemEn: "Water Pollutant Mgmt", item: "수질오염물질 관리", grade: "B" },
-                { itemEn: "Scope 3 Emissions Framework", item: "Scope3 온실가스 배출량 산정 체계", grade: "B+" },
+                { itemEn: "Scope 3 Emissions Framework", item: "Scope3 온실가스 배출량 산정 체계", grade: "B+" }/*,
                 { itemEn: "Persistent Pollutants Mgmt", item: "잔류성 오염물질 관리", grade: "C" },
                 { itemEn: "Animal Testing Alternatives", item: "동물실험 축소 및 대체", grade: "C" },
                 { itemEn: "Invasive Species Mgmt", item: "생태계 교란 생물 반입/반출 관리", grade: "D" },
                 { itemEn: "Genetic Resources Mgmt", item: "해외 유전자원 관리", grade: "A+" },
                 { itemEn: "GMO Management", item: "유전자변형생물체 관리", grade: "A" },
-                { itemEn: "Endangered Species Mgmt", item: "멸종위기종 관리", grade: "D" }
+                { itemEn: "Endangered Species Mgmt", item: "멸종위기종 관리", grade: "D" }*/
             ],
             s: [
                 { itemEn: "Human Rights Mgmt", item: "인권 관리", grade: "A" },
@@ -1157,15 +1157,15 @@ function getGate03DiagData() {
                 { itemEn: "Child Labor Prohibition", item: "아동노동 금지", grade: "A" },
                 { itemEn: "Labor Relations", item: "노사관계 수준", grade: "A+" },
                 { itemEn: "Occupational Safety & Health", item: "안전보건 관리체계", grade: "A+" },
-                { itemEn: "Safety & Health Activities", item: "안전보건 관리활동", grade: "B+", popup: true, panelId: "pop02" },
-                { itemEn: "Community Engagement", item: "지역사회 공헌", grade: "A+" },
-                { itemEn: "Foreign Worker Management", item: "외국인근로자 근로 관리", grade: "B+" }
+                { itemEn: "Safety & Health Activities", item: "안전보건 관리활동", grade: "B+"/*, popup: true, panelId: "pop02"*/ },
+                { itemEn: "Community Engagement", item: "지역사회 공헌", grade: "A+" }/*,
+                { itemEn: "Foreign Worker Management", item: "외국인근로자 근로 관리", grade: "B+" }*/
             ],
             g: [
                 { itemEn: "Ethical Management", item: "윤리경영 정책", grade: "B+" },
                 { itemEn: "Anti-Corruption Practices", item: "부패 및 불공정거래 방지 활동", grade: "B+" },
                 { itemEn: "Whistleblowing System", item: "윤리준법 신고제도", grade: "B+" },
-                { itemEn: "ESG Disclosure", item: "ESG 정보 공시", grade: "B+", popup: true, panelId: "pop03" },
+                { itemEn: "ESG Disclosure", item: "ESG 정보 공시", grade: "B+"/*, popup: true, panelId: "pop03"*/ },
                 { itemEn: "Business Stability", item: "경영 안정성", grade: "B" },
                 { itemEn: "Shareholder Rights", item: "주주권리", grade: "B" }
             ]
@@ -1182,8 +1182,8 @@ function getGate03DiagData() {
                 { itemEn: "Hazardous Chemicals Mgmt", item: "유해화학물질 관리", grade: "B" },
                 { itemEn: "Air Pollutant Mgmt", item: "대기오염물질 관리", grade: "A" },
                 { itemEn: "Water Pollutant Mgmt", item: "수질오염물질 관리", grade: "B" },
-                { itemEn: "Scope 3 Emissions Framework", item: "Scope3 온실가스 배출량 산정 체계", grade: "B+" },
-                { itemEn: "Persistent Pollutants Mgmt", item: "잔류성 오염물질 관리", grade: "C" }
+                { itemEn: "Scope 3 Emissions Framework", item: "Scope3 온실가스 배출량 산정 체계", grade: "B+" }/*,
+                { itemEn: "Persistent Pollutants Mgmt", item: "잔류성 오염물질 관리", grade: "C" }*/
             ],
             s: [
                 { itemEn: "Human Rights Mgmt", item: "인권 관리", grade: "A" },
@@ -1195,19 +1195,19 @@ function getGate03DiagData() {
                 { itemEn: "Child Labor Prohibition", item: "아동노동 금지", grade: "B" },
                 { itemEn: "Labor Relations", item: "노사관계 수준", grade: "B+" },
                 { itemEn: "Occupational Safety & Health", item: "안전보건 관리체계", grade: "C" },
-                { itemEn: "Safety & Health Activities", item: "안전보건 관리활동", grade: "C", popup: true, panelId: "pop02" },
-                { itemEn: "Community Engagement", item: "지역사회 공헌", grade: "B+" },
+                { itemEn: "Safety & Health Activities", item: "안전보건 관리활동", grade: "C"/*, popup: true, panelId: "pop02"*/ },
+                { itemEn: "Community Engagement", item: "지역사회 공헌", grade: "B+" }/*,
                 { itemEn: "Foreign Worker Management", item: "외국인근로자 근로 관리", grade: "A" },
                 { itemEn: "Contractor Safety Management", item: "도급/용역/위탁 안전관리", grade: "C" },
                 { itemEn: "Information Security", item: "정보보호 관리체계", grade: "A+" },
                 { itemEn: "Working Hours Compliance", item: "근로시간 준수", grade: "B" },
-                { itemEn: "Personal Data Consent", item: "개인정보 수집 동의", grade: "A+" }
+                { itemEn: "Personal Data Consent", item: "개인정보 수집 동의", grade: "A+" }*/
             ],
             g: [
                 { itemEn: "Ethical Management", item: "윤리경영 정책", grade: "C" },
                 { itemEn: "Anti-Corruption Practices", item: "부패 및 불공정거래 방지 활동", grade: "B+" },
                 { itemEn: "Whistleblowing System", item: "윤리준법 신고제도", grade: "A+" },
-                { itemEn: "ESG Disclosure", item: "ESG 정보 공시", grade: "D", popup: true, panelId: "pop03" },
+                { itemEn: "ESG Disclosure", item: "ESG 정보 공시", grade: "D"/*, popup: true, panelId: "pop03"*/ },
                 { itemEn: "Business Stability", item: "경영 안정성", grade: "B+" },
                 { itemEn: "Shareholder Rights", item: "주주권리", grade: "B+" }
             ]

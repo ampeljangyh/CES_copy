@@ -85,17 +85,19 @@
 
         <div class="contents esg_cont step05" style="visibility: hidden;">
             <div class="esg_cont_inner">
-                <div class="esg_tit">
-                    <p class="vw_kr"><span class="selPrdName">NexDrive</span> (<span class="selPrdCategory">자동차</span>)</p>
-                    <strong class="vw_kr">ESG 정밀진단 최종보고서</strong>
-                    <p class="vw_en"><span class="selPrdName">NexDrive</span> (<span class="selPrdCategoryEn">Automotive</span>)</p>
-                    <strong class="vw_en">Final ESG Precision Assessment Report</strong>
-                </div>
-
                 <!-- report_panel -->
                 <div class="report_panel">
                     <!-- data-report : 1 -->
                     <div data-report="1" class="active">
+                        <!-- esg_tit -->
+                        <div class="esg_tit">
+                            <p class="vw_kr"><span class="selPrdName">NexDrive</span> (<span class="selPrdCategory">자동차</span>)</p>
+                            <strong class="vw_kr">ESG 정밀진단 최종보고서</strong>
+                            <p class="vw_en"><span class="selPrdName">NexDrive</span> (<span class="selPrdCategoryEn">Automotive</span>)</p>
+                            <strong class="vw_en">Final ESG Precision Assessment Report</strong>
+                        </div>
+                        <!-- //esg_tit -->
+
                         <!-- top -->
                         <div class="top">
                             <p class="tit vw_kr">1. ESG정밀진단 결과</p>
@@ -123,7 +125,7 @@
                                 <li class="active"></li>
                                 <li></li>
                                 <li></li>
-                                <li></li>
+                                <!-- <li></li> -->
                             </ul>
                             <!-- //current -->
                         </div>
@@ -133,10 +135,10 @@
                         <div class="scroll_cnts">
                             <!-- scroll_cnt -->
                             <div class="scroll_cnt cnt1">
-                                <div class="report_tit_box">
+                                <!-- <div class="report_tit_box">
                                     <strong class="report_tit vw_kr">ESG 정밀진단 종합 결과</strong>
                                     <strong class="report_tit vw_en">Comprehensive ESG Precision Assessment Results</strong>
-                                </div>
+                                </div> -->
 
                                 <!-- report_grid -->
                                 <ul class="report_grid" id="totalResult">
@@ -303,10 +305,10 @@
 
                             <!-- scroll_cnt -->
                             <div class="scroll_cnt cnt2" id="esgResult">
-                                <div class="report_tit_box">
+                                <!-- <div class="report_tit_box">
                                     <strong class="report_tit vw_kr">ESG정밀진단 분야별 결과</strong>
                                     <strong class="report_tit vw_en">ESG Precision Assessment Results by Sector</strong>
-                                </div>
+                                </div> -->
 
                                 <!-- report_tab_btns -->
                                 <div class="report_tab_btns">
@@ -651,8 +653,8 @@
                         <!-- report_btns -->
                         <div class="report_btns">
                             <button type="button" class="next">
-                                <span class="vw_kr">ESG 규제 대응 평가결과</span>
-                                <span class="vw_en">ESG Regulatory Compliance Result</span>
+                                <span class="vw_kr">TO-BE 이행 가이드</span>
+                                <span class="vw_en">Implementation Guide</span>
                             </button>
                         </div>
                         <!-- //report_btns -->
@@ -660,7 +662,7 @@
                     <!-- //data-report : 1 -->
 
                     <!-- data-report : 2 -->
-                    <div data-report="2" id="regResult">
+                    <div data-report="2" data-skip="true" id="regResult">
                         <!-- top -->
                         <div class="top">
                             <p class="tit vw_kr">2. ESG 규제 대응 평가결과</p>
@@ -974,13 +976,13 @@
                     <div data-report="3">
                         <!-- top -->
                         <div class="top">
-                            <p class="tit vw_kr">3. TO-BE 이행 가이드</p>
-                            <p class="tit vw_en">3. Implementation Guide</p>
+                            <p class="tit vw_kr">2. TO-BE 이행 가이드</p>
+                            <p class="tit vw_en">2. Implementation Guide</p>
 
                             <!-- current -->
                             <ul class="current">
                                 <li></li>
-                                <li></li>
+                                <!-- <li></li> -->
                                 <li class="active"></li>
                                 <li></li>
                             </ul>
@@ -992,11 +994,6 @@
                         <div class="dist_panel">
                             <!-- dist_chart -->
                             <div class="dist_chart">
-                                <div class="report_tit_box">
-                                    <strong class="report_tit vw_kr">개선과제 관리 우선 분포도</strong>
-                                    <strong class="report_tit vw_en">Improvement Priority Matrix</strong>
-                                </div>
-
                                 <div class="dist_chart_inner">
                                     <canvas id="report3-chart1" style="width:100%; height:100%;"></canvas>
                                 </div>
@@ -1039,31 +1036,10 @@
                                             </button>
                                         </li>
                                         <li>
-                                            <button type="button" class="btn_dist" disabled>
-                                                <span class="txt vw_kr">5. 유해화학물질 관리</span>
-                                                <span class="txt vw_en">5. Hazardous Chemicals Mgmt</span>
-                                                <span class="ico_esg ty_e"></span>
-                                            </button>
-                                        </li>
-                                        <li>
                                             <button type="button" class="btn_dist" onclick="openPanel('pop05',startAutoPrc, resetAutoPrc);">
-                                                <span class="txt vw_kr">6. ESG정보공시</span>
-                                                <span class="txt vw_en">6. ESG Disclosure</span>
+                                                <span class="txt vw_kr">5. ESG정보공시</span>
+                                                <span class="txt vw_en">5. ESG Disclosure</span>
                                                 <span class="ico_esg ty_g"></span>
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="btn_dist" disabled>
-                                                <span class="txt vw_kr">7. 폐기물 관리</span>
-                                                <span class="txt vw_en">7. Waste Management</span>
-                                                <span class="ico_esg ty_e"></span>
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="btn_dist" disabled>
-                                                <span class="txt vw_kr">8. 인권경영 관리체계</span>
-                                                <span class="txt vw_en">8. Human Rights Mgmt</span>
-                                                <span class="ico_esg ty_s"></span>
                                             </button>
                                         </li>
                                     </ul>
@@ -1075,23 +1051,9 @@
                                     <ul class="dist_li">
                                         <li>
                                             <button type="button" class="btn_dist" disabled>
-                                                <span class="txt vw_kr">9. 윤리준법 신고제도</span>
-                                                <span class="txt vw_en">9. Whistleblowing System</span>
+                                                <span class="txt vw_kr">6. 윤리준법 신고제도</span>
+                                                <span class="txt vw_en">6. Whistleblowing System</span>
                                                 <span class="ico_esg ty_g"></span>
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="btn_dist" disabled>
-                                                <span class="txt vw_kr">10. 책임 있는 원부자재 조달 정책</span>
-                                                <span class="txt vw_en">10. Responsible Sourcing</span>
-                                                <span class="ico_esg ty_s"></span>
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="btn_dist" disabled>
-                                                <span class="txt vw_kr">11. 근로자 생활시설 관리</span>
-                                                <span class="txt vw_en">11. Worker living Facility Management</span>
-                                                <span class="ico_esg ty_s"></span>
                                             </button>
                                         </li>
                                     </ul>
@@ -1103,23 +1065,16 @@
                                     <ul class="dist_li">
                                         <li>
                                             <button type="button" class="btn_dist" disabled>
-                                                <span class="txt vw_kr">12. 온실가스 배출량 산정체계</span>
-                                                <span class="txt vw_en">12. Scope 3 Emissions Framework</span>
+                                                <span class="txt vw_kr">7. 온실가스 배출량 산정체계</span>
+                                                <span class="txt vw_en">7. Scope 3 Emissions Framework</span>
                                                 <span class="ico_esg ty_e"></span>
                                             </button>
                                         </li>
                                         <li>
                                             <button type="button" class="btn_dist" disabled>
-                                                <span class="txt vw_kr">13. 도급·용역·위탁 안전관리</span>
-                                                <span class="txt vw_en">13. Contractor Safety Management</span>
+                                                <span class="txt vw_kr">8. 도급·용역·위탁 안전관리</span>
+                                                <span class="txt vw_en">8. Contractor Safety Management</span>
                                                 <span class="ico_esg ty_s"></span>
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="btn_dist" disabled>
-                                                <span class="txt vw_kr">14. 환경 영향 저감제품 개발</span>
-                                                <span class="txt vw_en">14. Development of environmentally friendly products</span>
-                                                <span class="ico_esg ty_e"></span>
                                             </button>
                                         </li>
                                     </ul>
@@ -1132,8 +1087,8 @@
                         <!-- report_btns -->
                         <div class="report_btns">
                             <button type="button" class="prev">
-                                <span class="vw_kr">ESG 규제 대응 평가결과</span>
-                                <span class="vw_en">ESG Regulatory Compliance Result</span>
+                                <span class="vw_kr">ESG 정밀진단 결과</span>
+                                <span class="vw_en"></span>
                             </button>
                             <button type="button" class="next">
                                 <span class="vw_kr">ESG 경영진단 확인서 확인</span>
@@ -1182,7 +1137,8 @@
 
             <!-- diag -->
             <div class="diag">
-                <img src="../../resources/images/gate_03/img_diag01.png" alt="온실가스 및 에너지 관리체계. 1. 정책 수립, 2. 배출량 산정, 3. KPI 및 목표 수립, 4. 감축 활동 실시, 5. 검증 및 공개">
+                <img class="vw_kr" src="../../resources/images/gate_03/img_diag01.png" alt="온실가스 및 에너지 관리체계. 1. 정책 수립, 2. 배출량 산정, 3. KPI 및 목표 수립, 4. 감축 활동 실시, 5. 검증 및 공개">
+                <img class="vw_en" src="../../resources/images/gate_03/img_diag01_en.png" alt="">
             </div>
             <!-- //diag -->
 
@@ -1442,7 +1398,8 @@
 
                 <!-- guide_diag_box -->
                 <div class="guide_diag_box">
-                    <img src="../../resources/images/gate_03/img_diag02.png" alt="">
+                    <img class="vw_kr" src="../../resources/images/gate_03/img_diag02.png" alt="">
+                    <img class="vw_en" src="../../resources/images/gate_03/img_diag02_en.png" alt="">
                 </div>
                 <!-- //guide_diag_box -->
             </div>
@@ -1825,7 +1782,8 @@
             </ul>
 
             <div class="sign">
-                <img class="sign_logo" src="../../resources/images/gate_03/img_logo.svg" alt="IBK기업은행">
+                <img class="sign_logo vw_kr" src="../../resources/images/gate_03/img_logo.svg" alt="IBK기업은행">
+                <img class="sign_logo vw_en" src="../../resources/images/gate_03/img_logo_en.svg" alt="Industrial Bank of Korea">
                 <img class="sign_badge" src="../../resources/images/gate_03/img_badge.svg" alt="IBK">
             </div>
 
@@ -1911,17 +1869,62 @@ function updateGuideFill($cnt, guideNumber) {
 function switchReport(action) {
     const $reports = $('[data-report]');
     const $current = $reports.filter('.active');
-    const currentIndex = parseInt($current.data('report'), 10);
 
-    const nextIndex = action === 'next' ? currentIndex + 1 : currentIndex - 1;
-    const $target = $reports.filter(`[data-report="${nextIndex}"]`);
+    // active가 없을 때 대비(초기값 1)
+    const currentIndex = parseInt($current.data('report') || 1, 10);
 
-    if (nextIndex === 4) {
-        openModal('modal01');
+    const step = (action === 'next') ? 1 : -1;
+
+    // report 인덱스 범위 계산
+    const indices = $reports.map((_, el) => parseInt($(el).data('report'), 10)).get();
+    if (!indices.length) return;
+
+    const minIndex = Math.min.apply(null, indices);
+    const maxIndex = Math.max.apply(null, indices);
+
+    // 특정 report가 스킵 대상인지 판단
+    const isSkipReport = (idx) => {
+        const $el = $reports.filter(`[data-report="${idx}"]`);
+        if ($el.length === 0) return true; // 없으면 스킵 취급
+        const v = $el.attr('data-skip');
+        return v === 'true' || v === true || v === '';
+    };
+
+    // 다음/이전으로 이동 가능한 "유효 report" 찾기
+    const findNextValidIndex = (fromIndex, stepDir) => {
+        let idx = fromIndex;
+
+        while (true) {
+            idx += stepDir;
+
+            // 범위를 벗어나면 더 이상 유효 report 없음
+            if (idx < minIndex || idx > maxIndex) return null;
+
+            // 스킵이면 계속 탐색
+            if (isSkipReport(idx)) continue;
+
+            // 실제 엘리먼트 존재 확인
+            const $target = $reports.filter(`[data-report="${idx}"]`);
+            if ($target.length === 0) continue;
+
+            return idx;
+        }
+    };
+
+    const nextValidIndex = findNextValidIndex(currentIndex, step);
+
+    // 여기서부터가 "안전한 모달 트리거" 핵심
+    if (nextValidIndex == null) {
+        if (action === 'next') {
+            openModal('modal01'); // 더 이상 보여줄 report가 없을 때 모달
+        }
         return;
     }
+
+    const $target = $reports.filter(`[data-report="${nextValidIndex}"]`);
     if ($target.length === 0) return;
 
+    // ---- 기존 동작 ----
     $reports.removeClass('active').hide();
     $target.addClass('active').show();
 
@@ -1941,10 +1944,11 @@ function switchReport(action) {
 
     $inner.on('wheel.autoScroll touchmove.autoScroll touchstart.autoScroll', stopAutoScroll);
 
-    renderReport(nextIndex);
+    renderReport(nextValidIndex);
 
     const activeTab = $target.find('.report_tab_btns button.active').data('tab') || 1;
-    renderReportTab(nextIndex, activeTab);
+    renderReportTab(nextValidIndex, activeTab);
+    // ---- 기존 동작 끝 ----
 }
 
 // report 1 기본 차트
@@ -2669,20 +2673,31 @@ function updateQuadrantScatterChartLanguage(canvasId, lang = getLanguageCode(), 
 function drawQuadrantScatterChart(
     canvasId,
     points = [
+        // ----------------------------
+        // 단기 (좌상단: x < 50, y >= 50)
+        // ----------------------------
+        { x: 30, y: 85, label: "6",  type: "G" },
+        // { x: 42, y: 58, label: "10", type: "S" },
+        // { x: 40, y: 65, label: "11", type: "S" },
+
+        // ----------------------------
+        // Quick Win (우상단: x >= 50, y >= 50)
+        // ----------------------------
         { x: 80, y: 85, label: "1", type: "E" },
         { x: 75, y: 90, label: "2", type: "S" },
         { x: 78, y: 88, label: "3", type: "S" },
         { x: 70, y: 82, label: "4", type: "E" },
-        { x: 60, y: 78, label: "5", type: "E" },
-        { x: 62, y: 80, label: "6", type: "G" },
-        { x: 72, y: 70, label: "7", type: "E" },
-        { x: 68, y: 88, label: "8", type: "S" },
-        { x: 30, y: 85, label: "9", type: "G" },
-        { x: 40, y: 65, label: "11", type: "S" },
-        { x: 42, y: 58, label: "10", type: "S" },
-        { x: 90, y: 44, label: "12", type: "E" },
-        { x: 78, y: 40, label: "13", type: "S" },
-        { x: 60, y: 42, label: "14", type: "E" }
+        { x: 62, y: 80, label: "5", type: "G" },
+        // { x: 60, y: 78, label: "5", type: "E" },
+        // { x: 72, y: 70, label: "7", type: "E" },
+        // { x: 68, y: 88, label: "8", type: "S" },
+
+        // ----------------------------
+        // 중장기 (우하단: x >= 50, y < 50)
+        // ----------------------------
+        { x: 90, y: 44, label: "7", type: "E" },
+        { x: 78, y: 40, label: "8", type: "S" }
+        // { x: 60, y: 42, label: "14", type: "E" }
     ],
     lang = getLanguageCode()
 ) {

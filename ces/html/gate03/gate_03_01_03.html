@@ -865,7 +865,15 @@ async function animateDiagItem(li, itemSlot) {
 
     if (isPopupMode) {
         // ▶ 팝업 브랜치: openPanel ~ closePanel 전체를 하나의 Promise로
-        evalPromise = runPopupEvalFlow(li, evalWrap, gradeEl);
+        evalPromise = runPopupEvalFlow(li, evalWrap, gradeEl, {
+            auto: true,
+            autoPressOptions: {
+                delayMs: 200,
+                pressDownMs: 90,
+                pressUpMs: 120,
+                pulse: true
+            }
+        });
     } else {
         // ▶ 자동 브랜치: SVG 체크 + grade (굳이 기다릴 필요 없으면 그대로 호출)
         startSvgAndGrade(evalWrap, gradeEl);
@@ -917,11 +925,81 @@ function startSvgAndGrade(evalWrap, gradeEl) {
     });
 }
 
+// ------------------------------------------------------------
+// Utils
+// ------------------------------------------------------------
+function delay(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/**
+ * 버튼을 실제 클릭 없이 "눌렸다가 올라오는" 연출만 하고 resolve.
+ * - 필요하면 여기서 btn.click()을 호출해도 됩니다(아래 주석 참고).
+ */
+function autoPressButton(btn, options = {}) {
+    const {
+        delayMs = 250,      // 버튼 등장 후 잠깐 텀
+        pressDownMs = 130,  // 눌림 시간
+        pressUpMs = 130,    // 복귀 시간
+        pulse = true,       // 시각적 강조(pulse) 여부
+        disablePointer = true
+    } = options;
+
+    return new Promise((resolve) => {
+        if (!btn) return resolve();
+
+        if (disablePointer) {
+            btn.style.pointerEvents = "none";
+        }
+
+        const tl = gsap.timeline({
+            onComplete: () => {
+                if (disablePointer) {
+                    btn.style.pointerEvents = "";
+                }
+                resolve();
+            }
+        });
+
+        // 버튼 등장 직후 약간의 텀
+        tl.to({}, { duration: delayMs / 1000 });
+
+        // (선택) 숨쉬듯 점멸(느린 페이드) - scale 변화 없음
+        if (pulse) {
+            const blinkCount = 2;          // 2~3회 (느리게 보이려면 2회 추천)
+            const toDimAlpha = 0.5;       // 너무 어두우면 0.7~0.8로 올리세요
+            const fadeOutDur = 0.4;       // 느리게: 0.40~0.55
+            const fadeInDur  = 0.4;       // 느리게: 0.40~0.55
+            const gapDur     = 0.2;       // 숨 고르기: 0.15~0.25
+
+            const baseAlpha = (btn._autoPressBaseAlpha ??= (gsap.getProperty(btn, "opacity") ?? 1));
+
+            for (let i = 0; i < blinkCount; i++) {
+                tl.to(btn, { opacity: toDimAlpha * baseAlpha, duration: fadeOutDur, ease: "sine.inOut" })
+                .to(btn, { opacity: baseAlpha,            duration: fadeInDur,  ease: "sine.inOut" });
+
+                if (i < blinkCount - 1) {
+                    tl.to({}, { duration: gapDur });
+                }
+            }
+        }
+
+        // "눌림" 연출
+        tl.to(btn, { scale: 0.9, y: 1, duration: pressDownMs / 1000, ease: "power2.out" })
+          .to(btn, { scale: 1.00, y: 0, duration: pressUpMs / 1000, ease: "power2.inOut" });
+
+        // 만약 기존 코드/로직이 click 이벤트에 의존한다면 여기서 실제 클릭을 발생시킬 수 있습니다.
+        // tl.call(() => btn.click());
+    });
+}
+
+// ------------------------------------------------------------
+// (기존) 사용자 입력 대기
+// ------------------------------------------------------------
 function waitForUserPress(btn) {
     return new Promise((resolve) => {
         if (!btn) return resolve();
 
-        // 중복 실행 방지
         let done = false;
 
         const cleanup = () => {
@@ -936,13 +1014,9 @@ function waitForUserPress(btn) {
             resolve();
         };
 
-        const onClick = (e) => {
-            // 필요하면 e.preventDefault();
-            finish();
-        };
+        const onClick = () => finish();
 
         const onKeyDown = (e) => {
-            // 접근성: Enter / Space로도 진행
             if (e.key === "Enter" || e.key === " " || e.code === "Space") {
                 e.preventDefault();
                 finish();
@@ -956,12 +1030,17 @@ function waitForUserPress(btn) {
 
 // ------------------------------------------------------------
 // 팝업 기반 평가 플로우 (버튼 → 팝업 → grade)
+// - options.auto = true 이면 사용자 입력 없이 완전 자동
 // ------------------------------------------------------------
-async function runPopupEvalFlow(li, evalWrap, gradeEl) {
+async function runPopupEvalFlow(li, evalWrap, gradeEl, options = {}) {
     if (!evalWrap) return;
 
-    const panelId = li.dataset.panelId || "pop01";
+    const {
+        auto = true,                 // 기본: 자동화
+        autoPressOptions = {}        // autoPressButton 옵션 전달
+    } = options;
 
+    const panelId = li.dataset.panelId || "pop01";
     const btn = li.querySelector(".btn_item_eval");
     if (!btn) return;
 
@@ -978,11 +1057,15 @@ async function runPopupEvalFlow(li, evalWrap, gradeEl) {
         );
     });
 
-    // 2) 사용자가 직접 누를 때까지 대기
-    // (필요 시 포커스 부여)
-    btn.setAttribute("tabindex", "0");
-    //btn.focus({ preventScroll: true });
-    await waitForUserPress(btn);
+    // 2) (핵심) 사용자 대기 대신 자동 프레스 연출로 대체
+    if (auto) {
+        // 자동 모드에서는 접근성 포커스/키 이벤트 자체가 필요 없으므로 생략(원하면 유지 가능)
+        btn.removeAttribute("tabindex");
+        await autoPressButton(btn, autoPressOptions);
+    } else {
+        btn.setAttribute("tabindex", "0");
+        await waitForUserPress(btn);
+    }
 
     // 3) 팝업 내부 애니메이션 초기화 (openPanel 이전에 실행)
     if (typeof initPopupPanelState === "function") {
@@ -1079,38 +1162,30 @@ function initPopup01State(panel) {
     const blocks = grid.querySelectorAll("div");
     if (blocks.length < 2) return;
 
-    const totalEm   = blocks[0].querySelector(".t2 em");
-    const perfEm    = blocks[1].querySelector(".t2 em");
-    // const scoreEm   = blocks[2].querySelector(".t2.lg em");
-    // const scoreSpan = blocks[2].querySelector(".t2.lg span");
-    const btnSave   = panel.querySelector(".btn_save");
+    const totalEm = blocks[0].querySelector(".t2 em");
+    const perfEm  = blocks[1].querySelector(".t2 em");
+    const btnSave = panel.querySelector(".btn_save");
 
-    // 숫자 클래스/텍스트 초기화 (0.0 대신 "-")
+    // 숫자 클래스/텍스트 초기화 ("-" 표시) + 숨김 상태로 시작
     if (totalEm) {
         totalEm.dataset.origClass = totalEm.className || "";
         totalEm.className = "";
         totalEm.textContent = "-";
+        gsap.set(totalEm, { autoAlpha: 0, y: 10, scale: 0.95 });
     }
     if (perfEm) {
         perfEm.dataset.origClass = perfEm.className || "";
         perfEm.className = "";
         perfEm.textContent = "-";
+        gsap.set(perfEm, { autoAlpha: 0, y: 10, scale: 0.95 });
     }
 
-    // 진단 점수는 텍스트는 그대로, 애니만 숨김 상태로 시작
-    // if (scoreEm) {
-    //     gsap.set(scoreEm, { autoAlpha: 0, y: 4 });
-    // }
-    // if (scoreSpan) {
-    //     gsap.set(scoreSpan, { autoAlpha: 0, y: 4 });
-    // }
-
-    // 버튼 초기 상태
     if (btnSave) {
         btnSave.disabled = true;
         gsap.set(btnSave, { scale: 1, y: 0 });
     }
 }
+
 
 function initPopup02State(panel) {
     // 체크박스 모두 해제 (애니메이션은 여기서부터 시작)
@@ -1165,43 +1240,31 @@ function runPopup01Sequence(panel) {
         const popupDatas = getCurrentPopupDatas();
         const data       = popupDatas && popupDatas.data;
         const popupData  = data && data.pop01;
-        if (!popupData) {
-            resolve();
-            return;
-        }
+        if (!popupData) return resolve();
 
         const grid = panel.querySelector(".info_grid");
-        if (!grid) {
-            resolve();
-            return;
-        }
+        if (!grid) return resolve();
 
         const blocks = grid.querySelectorAll("div");
-        if (blocks.length < 2) {
-            resolve();
-            return;
-        }
+        if (blocks.length < 2) return resolve();
 
-        const totalEm   = blocks[0].querySelector(".t2 em");
-        const perfEm    = blocks[1].querySelector(".t2 em");
-        // const scoreEm   = blocks[2].querySelector(".t2.lg em");
-        // const scoreSpan = blocks[2].querySelector(".t2.lg span");
-        const btnSave   = panel.querySelector(".btn_save");
+        const totalEm = blocks[0].querySelector(".t2 em");
+        const perfEm  = blocks[1].querySelector(".t2 em");
+        const btnSave = panel.querySelector(".btn_save");
 
-        if (!totalEm || !perfEm) {
-            resolve();
-            return;
-        }
+        if (!totalEm || !perfEm) return resolve();
 
         // 목표 값
-        const totalTarget =
+        const totalTargetRaw =
             typeof popupData.d4 === "number" ? popupData.d4 : parseFloat(popupData.d4);
+        const totalText = Number.isFinite(totalTargetRaw) ? totalTargetRaw.toFixed(1) : "-";
 
         const perfPercent =
             popupData.d5 && popupData.d5.percent != null ? popupData.d5.percent : 0;
 
         const perfSign      = perfPercent > 0 ? "▲ " : perfPercent < 0 ? "▼ " : "";
         const perfAbsTarget = Math.abs(perfPercent);
+        const perfText      = Number.isFinite(perfAbsTarget) ? (perfSign + perfAbsTarget.toFixed(1)) : "-";
 
         const totalClass = totalEm.dataset.origClass || "";
         const perfClass  =
@@ -1209,8 +1272,17 @@ function runPopup01Sequence(panel) {
             perfEm.dataset.origClass ||
             "";
 
-        const totalObj = { value: 0 };
-        const perfObj  = { value: 0 };
+        // "땅!" 등장 모션 헬퍼 (카운팅 없이 임팩트만)
+        const thumpIn = (tl, el) => {
+            return tl.fromTo(
+                el,
+                { autoAlpha: 0, y: 12, scale: 0.92 },
+                { autoAlpha: 1, y: 0, scale: 1.08, duration: 0.16, ease: "power3.out" }
+            )
+            .to(el, { scale: 1.00, duration: 0.22, ease: "power2.out" })
+            .to(el, { scale: 1.03, duration: 0.08, ease: "power2.out" }, "-=0.06")
+            .to(el, { scale: 1.00, duration: 0.12, ease: "power2.inOut" });
+        };
 
         const tl = gsap.timeline({
             defaults: { ease: "power2.out" },
@@ -1220,82 +1292,23 @@ function runPopup01Sequence(panel) {
         // 0) 팝업 열린 후 잠깐 정지
         tl.to({}, { duration: 0.5 });
 
-        // 1) 총 온실가스 감축률: 클래스 부여 후 카운트
+        // 1) 총 온실가스 감축률: 텍스트 즉시 세팅 → 땅! 등장
         tl.add(() => {
             if (totalClass) totalEm.className = totalClass;
+            totalEm.textContent = totalText;
         });
+        thumpIn(tl, totalEm);
+        tl.to({}, { duration: 0.8 }); // 읽는 시간
 
-        tl.to(totalObj, {
-            value: totalTarget,
-            duration: 2.0,
-            ease: "power1.out",
-            onUpdate: () => {
-                totalEm.textContent = totalObj.value.toFixed(1);
-            }
-        })
-        .fromTo(
-            totalEm,
-            { scale: 1 },
-            {
-                scale: 1.08,
-                duration: 0.2,
-                ease: "power1.out",
-                yoyo: true,
-                repeat: 1
-            },
-            "-=0.6"
-        )
-        .to({}, { duration: 1.0 }); // 읽는 시간
-
-        // 2) 성과(집약도): 클래스 부여 후 카운트 (이때부터 화살표 등장)
+        // 2) 성과(집약도): 텍스트 즉시 세팅 → 땅! 등장
         tl.add(() => {
             if (perfClass) perfEm.className = perfClass;
+            perfEm.textContent = perfText;
         });
+        thumpIn(tl, perfEm);
+        tl.to({}, { duration: 0.5 });
 
-        tl.to(perfObj, {
-            value: perfAbsTarget,
-            duration: 2.0,
-            ease: "power1.out",
-            onUpdate: () => {
-                perfEm.textContent = perfSign + perfObj.value.toFixed(1);
-            }
-        })
-        .fromTo(
-            perfEm,
-            { scale: 1 },
-            {
-                scale: 1.08,
-                duration: 0.2,
-                ease: "power1.out",
-                yoyo: true,
-                repeat: 1
-            },
-            "-=0.6"
-        )
-        .to({}, { duration: 0.5 });
-
-        // 3) 진단 점수 fadeIn
-        // if (scoreEm) {
-        //     tl.to(
-        //         [scoreEm, scoreSpan],
-        //         {
-        //             autoAlpha: 1,
-        //             y: 0,
-        //             duration: 0.6,
-        //             ease: "power2.out"
-        //         }
-        //     );
-        // } else {
-        //     tl.to(scoreSpan, {
-        //         autoAlpha: 1,
-        //         y: 0,
-        //         duration: 0.6,
-        //         ease: "power2.out"
-        //     });
-        // }
-
-
-        // 4) 버튼 활성화 + "꾹 눌렀다 튕겨 올라오는" 강한 클릭 모션
+        // 3) 버튼 활성화 + 클릭 모션(기존 유지)
         if (btnSave) {
             tl.add(() => {
                 btnSave.disabled = false;
@@ -1303,7 +1316,6 @@ function runPopup01Sequence(panel) {
 
             tl.to({}, { duration: 0.5 });
 
-            // 깊게 눌림 → 튕겨 올라옴 → 살짝 안정화
             tl.to(
                 btnSave,
                 {
@@ -1321,6 +1333,7 @@ function runPopup01Sequence(panel) {
         }
     });
 }
+
 
 function runPopup02Sequence(panel) {
     return new Promise((resolve) => {
