@@ -570,12 +570,12 @@ function updatePointLi($li, value) {
     const $pointTextEn = $li.find('.point.vw_en');
 
     if (value == null || isNaN(value)) {
-        $bar.css('width', '0%').attr('data-point', '');
+        $bar.css('--p', '0').attr('data-point', '');
         $pointText.text('-');
         $pointTextEn.text('-');
     } else {
         const v = Number(value);
-        $bar.css('width', v + '%').attr('data-point', v);
+        $bar.css('--p', v).attr('data-point', v);
         $pointText.text(formatPointText(v));
         $pointTextEn.text(formatPointTextEn(v));
     }
@@ -593,11 +593,11 @@ function updatePercentLi($li, value) {
     const $pointText = $li.find('.point');
 
     if (value == null || isNaN(value)) {
-        $bar.css('width', '0%').attr('data-point', '');
+        $bar.css('--p', '0').attr('data-point', '');
         $pointText.text('-');
     } else {
         const v = Number(value);
-        $bar.css('width', v + '%').attr('data-point', v);
+        $bar.css('--p', v).attr('data-point', v);
         $pointText.text(formatPercentText(v));
     }
 }

@@ -484,9 +484,16 @@
 .point_li .point_track {display:block;width:1260px;height:80px;margin-left:60px;}
 .point_li .point_track > .bar {
     display:block;
-    height:100%;
     background: linear-gradient(270deg, #A3A3A3 0%, #828282 100%);
-    animation: fillBar 1s ease-out reverse;
+    --dur-100: 1s;
+    --p: 0;
+
+    width: calc(var(--p) * 1%);
+    height:100%;
+    animation-name: fillBar;
+    animation-duration: calc(var(--dur-100) * var(--p) / 100);
+    animation-timing-function: linear;   /* “같은 속도”면 linear 권장 */
+    animation-fill-mode: both;
 }
 .point_li .point {display:block;margin-left:auto;text-align:right;color: #B5B5B5;font-size: 48px;font-weight: 500;letter-spacing: -0.96px;}
 .point_li .emph .name {color:#FFF;}
@@ -640,7 +647,8 @@
   to   { opacity: 0; visibility: hidden; }
 }
 @keyframes fillBar {
-    to   { width:0; }
+  from { width: 0; }
+  to   { width: calc(var(--p) * 1%); }
 }
 
 .panel_side.esg_guide .btn_panel_close {top:50%;transform: translateY(-50%);}
@@ -781,7 +789,7 @@
 
 /* gate_03_05 */
 .esg_cont.step06 {overflow:hidden;display: flex;flex-direction: column;padding:0;}
-.esg_cont.step06 .esg_cont_inner {display:flex;flex-direction:column;padding:246px 0 82px;overflow-y: auto;box-sizing:border-box;height:100%;}
+.esg_cont.step06 .esg_cont_inner {display:flex;flex-direction:column;padding:600px 0 82px;overflow-y: auto;box-sizing:border-box;height:100%;}
 .esg_cont.step06 .esg_cont_inner::-webkit-scrollbar {display: none;}
 
 .flex_cont {position:relative;padding:0 156px;}
