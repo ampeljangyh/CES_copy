@@ -366,11 +366,21 @@
     // 바 차트는 줄바꿈 불필요(원하면 bar도 적용 가능하지만 보통 X)
     var bizBarLabels = bizBars.labels;
 
-    if (step01 && biz.labels.length) setStepNavLabels(step01, biz.labels);
-    if (step02 && tech.labels.length) setStepNavLabels(step02, tech.labels);
-    if (step03 && market.labels.length) setStepNavLabels(step03, market.labels);
-    if (step04 && bizBars.labels.length) setStepNavLabels(step04, bizBars.labels);
-    if (stepLast && growth.labels.length) setStepNavLabels(stepLast, growth.labels);
+    // ✅ step_examine_list 줄바꿈 CSS 보장(1회)
+    ensureStepNavPreLineCSS();
+
+    // ✅ step nav 줄바꿈 적용(ENG only)
+    var bizNavLabels = wrapNavLabelsIfEng(biz.labels, lang);
+    var techNavLabels = wrapNavLabelsIfEng(tech.labels, lang);
+    var marketNavLabels = wrapNavLabelsIfEng(market.labels, lang);
+    var bizBarNavLabels = wrapNavLabelsIfEng(bizBars.labels, lang);
+    var growthNavLabels = wrapNavLabelsIfEng(growth.labels, lang);
+
+    if (step01 && bizNavLabels.length) setStepNavLabels(step01, bizNavLabels);
+    if (step02 && techNavLabels.length) setStepNavLabels(step02, techNavLabels);
+    if (step03 && marketNavLabels.length) setStepNavLabels(step03, marketNavLabels);
+    if (step04 && bizBarNavLabels.length) setStepNavLabels(step04, bizBarNavLabels);
+    if (stepLast && growthNavLabels.length) setStepNavLabels(stepLast, growthNavLabels);
 
     // charts: (HTML inline에서 생성된 컨트롤러에 주입)
     // ⚠ gate_01_01_ty_02_aset.html에서 techRadar01Ctrl/02Ctrl/03Ctrl/04Ctrl + techBar01Ctrl를 생성하고 있음
@@ -473,5 +483,53 @@
     if (line) lines.push(line);
 
     return lines; // ✅ array => multiline
+  }
+
+  // =========================
+  // Step nav(label) multiline (ENG only)
+  // - DOM 텍스트는 '\n'로 넣고, CSS pre-line 필요
+  // =========================
+  function wrapNavLabelsIfEng(labels, lang, opts) {
+    if (!Array.isArray(labels)) return labels;
+    if (lang !== 'eng') return labels;
+
+    opts = opts || {};
+    var maxLineLen = opts.maxLineLen || 16;
+    var minBreakWordLen = opts.minBreakWordLen || 7;
+
+    return labels.map(function (s) {
+      if (!s) return s;
+      if (typeof s !== 'string') return s;
+      if (s.indexOf(' ') < 0) return s;
+
+      var lines = wrapByWordsToLines(s, maxLineLen, minBreakWordLen);
+      return Array.isArray(lines) ? lines.join('\n') : String(lines);
+    });
+  }
+
+  function ensureStepNavPreLineCSS() {
+    if (window.__asitStepNavPreLineCSS) return;
+    window.__asitStepNavPreLineCSS = true;
+
+    // Step01~StepLast 전부(01/02/03/04/Last) 줄바꿈 허용
+    var css = `
+    #techItemStep01 .step_examine_list ul li span,
+    #techItemStep01 .step_examine_list ul li div span:last-child,
+    #techItemStep02 .step_examine_list ul li span,
+    #techItemStep02 .step_examine_list ul li div span:last-child,
+    #techItemStep03 .step_examine_list ul li span,
+    #techItemStep03 .step_examine_list ul li div span:last-child,
+    #techItemStep04 .step_examine_list ul li span,
+    #techItemStep04 .step_examine_list ul li div span:last-child,
+    #techItemStepLast .step_examine_list ul li span,
+    #techItemStepLast .step_examine_list ul li div span:last-child {
+      white-space: pre-line;
+    }
+  `;
+
+    var style = document.createElement('style');
+    style.type = 'text/css';
+    style.appendChild(document.createTextNode(css));
+    document.head.appendChild(style);
   }
 })();

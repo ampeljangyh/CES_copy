@@ -26,21 +26,62 @@
  */
 
 (function () {
-  // ✅ FOUC 방지: 가능한 한 빨리 body 언어를 맞춘다
+  'use strict';
+
+  // -------------------------
+  // helpers
+  // -------------------------
+  function q(sel, root) { return (root || document).querySelector(sel); }
+  function qa(sel, root) { return Array.from((root || document).querySelectorAll(sel)); }
+  function setText(el, t) { if (el && t != null) el.textContent = String(t); }
+
+  // ✅ localStorage까지 보는 "진짜" getLang (초기 FOUC 방지용)
+  function normLang(v) {
+    if (!v) return null;
+    v = String(v).toLowerCase();
+    if (v === 'lang_en' || v === 'en' || v === 'eng') return 'eng';
+    if (v === 'lang_kr' || v === 'kr' || v === 'ko' || v === 'kor') return 'kor';
+    return null;
+  }
+
+  function getLang() {
+    var v = null;
+
+    // 1) localStorage 우선
+    try { v = localStorage.getItem('siteLang'); } catch (_) { }
+    v = normLang(v); if (v) return v;
+
+    try { v = localStorage.getItem('language'); } catch (_) { }
+    v = normLang(v); if (v) return v;
+
+    // 2) 전역 변수
+    v = normLang(window.language || window.siteLang || (typeof language !== 'undefined' ? language : null));
+    if (v) return v;
+
+    // 3) body id fallback
+    return (document.body && document.body.id === 'lang_en') ? 'eng' : 'kor';
+  }
+
+  function setLang(lang) {
+    window.language = lang;
+    try { language = lang; } catch (_) { }
+    if (document.body) document.body.id = (lang === 'eng') ? 'lang_en' : 'lang_kr';
+  }
+
+  // ✅ FOUC 방지: getLang 정의 "후" 실행해야 안전함
   (function earlySetBodyLang() {
-    var early = getLang();           // localStorage/siteLang 기반
+    var early = getLang();
     window.language = early;
+
     if (document.body) {
       document.body.id = (early === 'eng') ? 'lang_en' : 'lang_kr';
-    } else {
-      // body가 아직 없으면 DOMContentLoaded 때 한 번 더
-      document.addEventListener('DOMContentLoaded', function () {
-        document.body.id = (early === 'eng') ? 'lang_en' : 'lang_kr';
-      }, { once: true });
+      return;
     }
-  })();
 
-  'use strict';
+    document.addEventListener('DOMContentLoaded', function () {
+      document.body.id = (early === 'eng') ? 'lang_en' : 'lang_kr';
+    }, { once: true });
+  })();
 
   // -------------------------
   // helpers
@@ -108,31 +149,43 @@
   }
 
   function applyStepToggleLabels(lang, company) {
-    // Step01
+    // ✅ nav 줄바꿈 CSS 보장(1회)
+    ensureStepNavPreLineCSS();
+
+    // Step01 (오각형)
     const biz = safeCall(window.getBizCapabilityData || getBizCapabilityData, lang, company);
     if (biz && Array.isArray(biz.items)) {
+      const navLabels = wrapNavLabelsIfEng(biz.items, lang);
+
       qa('#techItemStep01 .step_examine_list [data-target]').forEach((el, i) => {
-        const span = el.querySelectorAll('span')[1];
-        if (span && biz.items[i] != null) span.textContent = biz.items[i];
+        const spans = el.querySelectorAll('span');
+        const span = spans.length >= 2 ? spans[1] : spans[0]; // ✅ 2개면 2번째, 아니면 1번째
+        if (span && navLabels[i] != null) span.textContent = navLabels[i];
       });
     }
 
-    // Step02
+    // Step02 (삼각형)
     const tech = safeCall(window.getTechCompetitivenessData || getTechCompetitivenessData, lang, company);
     if (tech && Array.isArray(tech.items)) {
+      const navLabels = wrapNavLabelsIfEng(tech.items, lang);
+
       qa('#techItemStep02 .step_examine_list [data-target]').forEach((el, i) => {
-        const span = el.querySelectorAll('span')[1];
-        if (span && tech.items[i] != null) span.textContent = tech.items[i];
+        const spans = el.querySelectorAll('span');
+        const span = spans.length >= 2 ? spans[1] : spans[0]; // ✅ 2개면 2번째, 아니면 1번째
+        if (span && navLabels[i] != null) span.textContent = navLabels[i];
       });
     }
 
-    // StepLast (가능하면 model.factors name)
+    // StepLast (팔각형)
     const model = safeCall(window.getGrowthModel || getGrowthModel, lang, company);
     if (model && Array.isArray(model.factors)) {
+      const rawNames = model.factors.map(f => f?.name || f?.label || f?.title || '');
+      const navLabels = wrapNavLabelsIfEng(rawNames, lang);
+
       qa('#techItemStepLast .step_examine_list [data-target]').forEach((el, i) => {
-        const span = el.querySelectorAll('span')[1];
-        const name = model.factors[i]?.name || model.factors[i]?.label || model.factors[i]?.title;
-        if (span && name) span.textContent = name;
+        const spans = el.querySelectorAll('span');
+        const span = spans.length >= 2 ? spans[1] : spans[0]; // ✅ 2개면 2번째, 아니면 1번째
+        if (span && navLabels[i]) span.textContent = navLabels[i];
       });
     }
   }
@@ -426,6 +479,7 @@
   // public: 한 번에 적용
   // -------------------------
   function applyAllLangChange(lang) {
+    ensureStepNavPreLineCSS();
     const company = (typeof currentCompany !== 'undefined') ? currentCompany : null;
     if (!company) return;
 
@@ -621,5 +675,49 @@
 
     // ✅ 멀티라인은 배열
     return lines;
+  }
+
+  // =========================
+  // Step nav(label) multiline (ENG only)
+  // - DOM 텍스트는 '\n' 문자열로 넣고, CSS pre-line 필요
+  // =========================
+  function wrapNavLabelsIfEng(labels, lang, opts) {
+    if (!Array.isArray(labels)) return labels;
+    if (lang !== 'eng') return labels;
+
+    opts = opts || {};
+    var maxLineLen = opts.maxLineLen || 16;
+    var minBreakWordLen = opts.minBreakWordLen || 7;
+
+    return labels.map(function (s) {
+      if (!s) return s;
+      if (typeof s !== 'string') return s;
+      if (s.indexOf(' ') < 0) return s;
+
+      var lines = wrapByWordsToLines(s, maxLineLen, minBreakWordLen); // 이미 너 파일에 있음
+      return Array.isArray(lines) ? lines.join('\n') : String(lines);
+    });
+  }
+
+  function ensureStepNavPreLineCSS() {
+    if (window.__ty02StepNavPreLineCSS) return;
+    window.__ty02StepNavPreLineCSS = true;
+
+    /* step_examine_list 라벨 전체(오각형/삼각형/팔각형) 줄바꿈 허용 */
+    var css = `
+    #techItemStep01 .step_examine_list ul li span,
+    #techItemStep01 .step_examine_list ul li div span:last-child,
+    #techItemStep02 .step_examine_list ul li span,
+    #techItemStep02 .step_examine_list ul li div span:last-child,
+    #techItemStepLast .step_examine_list ul li span,
+    #techItemStepLast .step_examine_list ul li div span:last-child {
+      white-space: pre-line;
+    }
+  `;
+
+    var style = document.createElement('style');
+    style.type = 'text/css';
+    style.appendChild(document.createTextNode(css));
+    document.head.appendChild(style);
   }
 })();
