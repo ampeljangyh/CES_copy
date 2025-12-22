@@ -45,7 +45,7 @@
                             <a href="../main.html" class="menu_item ico_01">메인</a>
                         </li>
                         <li>
-                            <a href="../gate01/gate_01.html" class="menu_item ico_02 active">기술 금융 시스템</a>
+                            <a href="../gate01/gate_01.html" class="menu_item ico_02 active">新 기술평가 시스템</a>
                         </li>
                         <li>
                             <a href="../gate02/gate_02.html" class="menu_item ico_03">K-콘텐츠 투자</a>
@@ -1049,6 +1049,7 @@
 
 <!-- techRadar01 방사형, 바형 차트 -->
 <script>
+
 let language = localStorage.getItem('siteLang') === 'lang_kr' ? "kor" : "eng";
 const urlParams = new URLSearchParams(window.location.search);
 let currentCompany = urlParams.get('currentCompany');
@@ -1677,6 +1678,7 @@ function start() {
         if (techRadar04Ctrl) techRadar04Ctrl.start();
     };
 });
+
 </script>
 
 <!-- 평가 과정 애니매이션 -->
@@ -1696,6 +1698,8 @@ function start() {
   var ON_DELAY_AFTER_BAR  = 500;  // bar 다 찬 뒤 step_examine 에 on 이 들어가기까지 대기
   var HIDE_DELAY_AFTER_ON = 200;  // step_examine 에 on 이 들어간 뒤 group 이 사라지기까지 대기
   var HOLD_AFTER_LIST     = 2000; // 한 tech_process_item의 step 리스트 끝난 뒤 유지 시간
+
+
 
   // ✅ 타이틀 전환 애니 시간
   var TIT_FADE_TIME       = 600;
