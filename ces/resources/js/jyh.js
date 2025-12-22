@@ -170,1304 +170,1355 @@ $(function () {
 
 
 
-
-(() => {
-  // =========================================================
-  // ✅ [공통] btn_list_cop 클릭 시 gate_01.html "완료부팅"으로 이동
-  // =========================================================
-  const BOOT_KEY = 'GATE01_BOOT_COMPLETE';
-
-  function bindBackToGate01() {
-    const btn = document.querySelector('.btn_list_cop');
-    if (!btn) return;
-
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      try { sessionStorage.setItem(BOOT_KEY, '1'); } catch (err) {}
-      window.location.href = '../gate01/gate_01.html';
-    });
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', bindBackToGate01);
-  } else {
-    bindBackToGate01();
-  }
-
-  // =========================================================
-  // ✅ gate_01 페이지 DOM 없으면(상세페이지 등) 여기서 종료
-  // =========================================================
-  const gateSec = document.querySelector('.new_gate_sec_01');
-  const step1El = document.querySelector('.new_gate_01.step_01');
-  const step2El = document.querySelector('.new_gate_01.step_02');
-  const step3El = document.querySelector('.new_gate_01.step_03');
-  if (!gateSec || !step1El || !step2El) return;
-
-  // =========================================================
-  // ✅ 완료부팅(뒤로가기/리스트복귀) 모드
-  //    - gate_01 애니 시퀀스 실행 금지
-  //    - no-blend-screen 클래스 붙는 것도 영구 차단
-  // =========================================================
-  const FORCE_COMPLETE = (sessionStorage.getItem(BOOT_KEY) === '1');
-
-  function isBackForwardNav(e) {
-    const nav = performance.getEntriesByType('navigation')[0];
-    return !!(e && e.persisted) || (nav && nav.type === 'back_forward');
-  }
-
-  function injectCompleteLockCssOnce() {
-    if (document.getElementById('gate01-complete-lock')) return;
-
-    const style = document.createElement('style');
-    style.id = 'gate01-complete-lock';
-    style.type = 'text/css';
-    style.textContent = `
-      html.gate01-complete-lock *{
-        animation: none !important;
-        transition: none !important;
-      }
-
-      /* step들은 무조건 숨김 */
-      html.gate01-complete-lock .new_gate_01.step_01,
-      html.gate01-complete-lock .new_gate_01.step_02,
-      html.gate01-complete-lock .new_gate_01.step_03{
-        display: none !important;
-      }
-
-      /* search_complete만 고정 노출 */
-      html.gate01-complete-lock .search_complete,
-      html.gate01-complete-lock .gate_01 .search_complete{
-        display: flex !important;
-        opacity: 1 !important;
-        transform: translateY(0px) !important;
-        top: 0px !important;
-        pointer-events: auto !important;
-        z-index: 999 !important;
-      }
-    `;
-    document.head.appendChild(style);
-  }
-
-  // ✅ no-blend-screen이 "붙는 순간" 바로 떼버리는 영구 차단
-  function keepNoBlendOff() {
-    const sec = document.querySelector('.new_gate_sec_01');
-    if (!sec) return;
-
-    sec.classList.remove('no-blend-screen');
-
-    if (sec._noBlendObserver) return;
-    const mo = new MutationObserver(() => {
-      if (sec.classList.contains('no-blend-screen')) {
-        sec.classList.remove('no-blend-screen');
-      }
-    });
-    mo.observe(sec, { attributes: true, attributeFilter: ['class'] });
-    sec._noBlendObserver = mo;
-  }
-
-  function bootGate01Complete(consumesFlag) {
-    if (consumesFlag) {
-      try { sessionStorage.removeItem(BOOT_KEY); } catch (e) {}
-    }
-
-    document.documentElement.classList.add('gate01-complete-lock');
-    injectCompleteLockCssOnce();
-
-    // ✅ no-blend-screen 완전 차단
-    keepNoBlendOff();
-
-    // ✅ step_03: 요청 상태로 강제(숨김)
-    const step3 = document.querySelector('.new_gate_01.step_03');
-    if (step3) {
-      step3.classList.remove('on', 'is-leave');
-
-      step3.style.setProperty(
-        'transition',
-        'opacity 700ms cubic-bezier(0.22, 1, 0.36, 1), transform 700ms cubic-bezier(0.22, 1, 0.36, 1)',
-        'important'
-      );
-      step3.style.setProperty('will-change', 'opacity, transform', 'important');
-      step3.style.setProperty('opacity', '0', 'important');
-      step3.style.setProperty('transform', 'translateY(-0.52vw)', 'important');
-      step3.style.setProperty('display', 'none', 'important');
-    }
-
-    // ✅ search_complete: 요청 상태로 강제 고정(노출)
-    const sc =
-      document.querySelector('.gate_01 .search_complete') ||
-      document.querySelector('.search_complete');
-
-    if (sc) {
-      sc.dataset.active = '1';
-      sc.style.setProperty('display', 'flex', 'important');
-      sc.style.setProperty('will-change', 'top, opacity, transform', 'important');
-      sc.style.setProperty('opacity', '1', 'important');
-      sc.style.setProperty('transform', 'translateY(0px)', 'important');
-      sc.style.setProperty('top', '0px', 'important');
-      sc.style.setProperty('pointer-events', 'auto', 'important');
-      sc.style.setProperty('z-index', '999', 'important');
-    }
-
-    // ✅ 혹시 비디오가 돌고 있으면 정지
-    document.querySelectorAll('.new_gate_sec_01 .main_video video').forEach(v => {
-      try { v.pause(); } catch (e) {}
-    });
-  }
-
-  // ✅ bfcache(back/forward) 복귀에서도 락 적용
-  window.addEventListener('pageshow', (e) => {
-    const flag = (sessionStorage.getItem(BOOT_KEY) === '1');
-    const scActive = !!document.querySelector('.search_complete[data-active="1"]');
-
-    if (isBackForwardNav(e) && (flag || scActive || document.documentElement.classList.contains('gate01-complete-lock'))) {
-      bootGate01Complete(flag);
-    }
-    if (document.documentElement.classList.contains('gate01-complete-lock')) {
-      keepNoBlendOff();
-    }
-  });
-
-  // ✅ 최초 로드 시 완료부팅이면: 애니 자체 실행 금지(return)
-  if (FORCE_COMPLETE) {
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => bootGate01Complete(true), { once: true });
-    } else {
-      bootGate01Complete(true);
-    }
-    return;
-  }
-
-  // =========================================================
-  // ✅ (이하: gate_01 애니 시퀀스)
-  // =========================================================
-  const STEP_HOLD = 12500;
-  const STEP_02_HOLD = 9000;
-  const STEP_ANIM = 600;
-  const CARD_HOLD = 3000;
-  const CARD_ANIM = 500;
-  const CROSSFADE_STEPS = false;
-
-  const TEXT_TOTAL = 1000;
-  const CHAR_DUR   = 300;
-  const P_STAGGER  = 500;
-
-  // ✅ 튜닝 (영상 관련)
-  const STEP2_PRELOAD_BEFORE = 2200;
-  const SECOND_LANG_DELAY    = 250;
-  const CANPLAY_TIMEOUT      = 8000;
-
-  // ✅ step_03 시작 딜레이(요청: 2초)
-  const STEP3_START_DELAY = 2000;
-  // ✅ step_03 각 단계 시간 +1.5초(요청)
-  const STEP3_PLUS = 1500;
-  // ✅ step_03 모든 애니 끝난 뒤 search_complete 전환 전 대기(요청: 3초)
-  const STEP3_END_HOLD = 3000;
-
-  // ✅ step_03 타임라인(딜레이/홀드만 +1.5초 반영)
-  const S3_TIT1_HOLD            = 2000 + STEP3_PLUS;
-  const S3_FADE_OUT_TIT1        = 1500;
-
-  const S3_FADE_IN_TIT2         = 1000;
-  const S3_FADE_IN_TOPLINE      = 1000;
-  const S3_FADE_IN_TOPTIT       = 1000;
-
-  const S3_DELAY_TO_REMOVE_DF01 = 1000 + STEP3_PLUS;
-  const S3_CELL_REMOVE_DUR      = 1000;
-
-  const S3_FADE_IN_POS01        = 1000;
-
-  const S3_DELAY_TO_REMOVE_DF   = 1000 + STEP3_PLUS;
-  const S3_DELAY_TO_POS02       = 1000 + STEP3_PLUS;
-  const S3_FADE_IN_POS02        = 1000;
-
-  const S3_POS_HOLD             = 2000 + STEP3_PLUS;
-  const S3_FADE_OUT_POS         = 1000;
-  const S3_TOAST_DELAY          = 1000 + STEP3_PLUS;
-  const S3_TOAST_IN_DUR         = 700;
-
-  const S3_TO_SEARCH_FADE_DUR   = 700;
-
-  // ✅ pos 깜빡이: 3초
-  const POS_BLINK_TOTAL = 3000;
-
-  // ✅ re_pub 페이드 속도
-  const REPUB_FADE_DUR = 600;
-
-  const EASE_OUT = 'cubic-bezier(0.22, 1, 0.36, 1)';
-  const VW_DOWN  = '0.5200vw';
-  const VW_UP    = '-0.5200vw';
-
-  let currentLang = document.documentElement.classList.contains('lang-en') ? 'en_t' : 'kr_t';
-
-  window.setGateLang = function (lang) {
-    const nextLang = (lang === 'en' || lang === 'en_t') ? 'en_t' : 'kr_t';
-    if (nextLang === currentLang) return;
-
-    const prevLang = currentLang;
-    currentLang = nextLang;
-
-    document.documentElement.classList.toggle('lang-en', currentLang === 'en_t');
-    document.documentElement.classList.toggle('lang-kr', currentLang === 'kr_t');
-
-    syncNoBlendByState();
-
-    const activeStep =
-      document.querySelector('.new_gate_sec_01 .new_gate_01.on') ||
-      document.querySelector('.new_gate_sec_01 .new_gate_01.step_01');
-
-    if (activeStep) {
-      syncStepLangVideosOnce(activeStep, prevLang, currentLang);
-
-      const onCard = activeStep.querySelector('.gate_01_card_item.on');
-      if (onCard) requestAnimationFrame(() => playCardText(onCard));
-    }
-  };
-
-  // -----------------------------
-  // timer helpers
-  // -----------------------------
-  function setStepTimer(step3, fn, ms) {
-    if (!step3) return null;
-    step3._timers = step3._timers || [];
-    const id = setTimeout(fn, ms);
-    step3._timers.push(id);
-    return id;
-  }
-
-  function clearStep03Timers(step3) {
-    if (!step3) return;
-    if (step3._step3StartTimer) {
-      clearTimeout(step3._step3StartTimer);
-      step3._step3StartTimer = null;
-    }
-    if (step3._timers && step3._timers.length) {
-      step3._timers.forEach(t => clearTimeout(t));
-      step3._timers = [];
-    }
-    if (step3._repubTimers && step3._repubTimers.length) {
-      step3._repubTimers.forEach(t => clearTimeout(t));
-      step3._repubTimers = [];
-    }
-  }
-
-  // -----------------------------
-  // init sequence
-  // -----------------------------
-  function initGate01Sequence() {
-    const step1 = document.querySelector('.new_gate_01.step_01');
-    const step2 = document.querySelector('.new_gate_01.step_02');
-    const step3 = document.querySelector('.new_gate_01.step_03');
-    if (!step1 || !step2) return;
-
-    if (!document.documentElement.classList.contains('lang-kr') && !document.documentElement.classList.contains('lang-en')) {
-      document.documentElement.classList.add(currentLang === 'en_t' ? 'lang-en' : 'lang-kr');
-    }
-
-    setupAllGateVideos();
-
-    pauseStepVideos(step2);
-    if (step3) pauseStepVideos(step3);
-
-    playStepVideosSmooth(step1);
-
-    setTimeout(() => {
-      primeStepVideos(step2);
-    }, Math.max(0, STEP_HOLD - STEP2_PRELOAD_BEFORE));
-
-    requestAnimationFrame(() => prepareAllDescText(step1));
-
-    step1.classList.add('on');
-    step2.classList.remove('on', 'is-leave');
-    if (step3) step3.classList.remove('on', 'is-leave');
-
-    syncNoBlendByState();
-
-    const cards = Array.from(step1.querySelectorAll('.gate_01_card_item'));
-    if (cards.length) {
-      let idx = cards.findIndex(el => el.classList.contains('on'));
-      if (idx < 0) idx = 0;
-
-      cards.forEach((el, i) => el.classList.toggle('on', i === idx));
-      requestAnimationFrame(() => playCardText(cards[idx]));
-      runCardSequence(cards, idx);
-    }
-
-    setTimeout(() => {
-      if (CROSSFADE_STEPS) {
-        enterStep(step2);
-        leaveStep(step1);
-      } else {
-        leaveStep(step1, () => enterStep(step2));
-      }
-
-      if (step3) {
-        setTimeout(() => {
-          if (CROSSFADE_STEPS) {
-            enterStep(step3);
-            leaveStep(step2);
-          } else {
-            leaveStep(step2, () => enterStep(step3));
-          }
-        }, STEP_02_HOLD);
-      }
-    }, STEP_HOLD);
-  }
-
-  // -----------------------------
-  // VIDEO
-  // -----------------------------
-  function setupAllGateVideos() {
-    document.querySelectorAll('.new_gate_sec_01 .main_video video').forEach(v => {
-      v.muted = true;
-      v.setAttribute('muted', '');
-      v.setAttribute('playsinline', '');
-      v.setAttribute('webkit-playsinline', '');
-      v.setAttribute('disablepictureinpicture', '');
-
-      v.autoplay = false;
-      v.removeAttribute('autoplay');
-
-      v.preload = 'metadata';
-      try { v.pause(); } catch (e) {}
-    });
-  }
-
-  function primeStepVideos(step) {
-    if (!step) return;
-    step.querySelectorAll('.main_video video').forEach(v => {
-      v.preload = 'auto';
-      try { v.load(); } catch (e) {}
-    });
-  }
-
-  function playStepVideosSmooth(step) {
-    if (!step) return;
-
-    const kr = step.querySelector('.main_video video.kr_t');
-    const en = step.querySelector('.main_video video.en_t');
-    if (!kr || !en) return;
-
-    const primary = (currentLang === 'en_t') ? en : kr;
-    const second  = (currentLang === 'en_t') ? kr : en;
-
-    waitCanPlay(primary, CANPLAY_TIMEOUT).then(() => {
-      safePlay(primary);
-
-      setTimeout(() => {
-        waitCanPlay(second, CANPLAY_TIMEOUT).then(() => {
-          syncOneToAnother(second, primary);
-          safePlay(second);
+    (() => {
+      // =========================================================
+      // ✅ [공통] btn_list_cop 클릭 시 gate_01.html "완료부팅"으로 이동
+      // =========================================================
+      const BOOT_KEY = 'GATE01_BOOT_COMPLETE';
+    
+      function bindBackToGate01() {
+        const btn = document.querySelector('.btn_list_cop');
+        if (!btn) return;
+    
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          try { sessionStorage.setItem(BOOT_KEY, '1'); } catch (err) {}
+          window.location.href = '../gate01/gate_01.html';
         });
-      }, SECOND_LANG_DELAY);
-    });
-  }
-
-  function pauseStepVideos(step) {
-    if (!step) return;
-    step.querySelectorAll('.main_video video').forEach(v => {
-      try { v.pause(); } catch (e) {}
-    });
-  }
-
-  function syncStepLangVideosOnce(step, fromLang, toLang) {
-    const from = step.querySelector(`.main_video video.${fromLang}`);
-    const to   = step.querySelector(`.main_video video.${toLang}`);
-    if (!from || !to) return;
-
-    waitCanPlay(to, CANPLAY_TIMEOUT).then(() => {
-      syncOneToAnother(to, from);
-      safePlay(to);
-    });
-  }
-
-  function syncOneToAnother(target, base) {
-    if (!target || !base) return;
-
-    const t = clampTime(base.currentTime, target.duration);
-    try {
-      if (typeof target.fastSeek === 'function') target.fastSeek(t);
-      else if (Math.abs((target.currentTime || 0) - t) > 0.12) target.currentTime = t;
-    } catch (e) {}
-  }
-
-  function clampTime(t, duration) {
-    if (!isFinite(t)) return 0;
-    if (!isFinite(duration) || duration <= 0) return t;
-    return Math.min(t, Math.max(0, duration - 0.12));
-  }
-
-  function safePlay(v) {
-    if (!v) return;
-    const p = v.play && v.play();
-    if (p && typeof p.catch === 'function') p.catch(() => {});
-  }
-
-  function waitCanPlay(video, timeoutMs) {
-    return new Promise(resolve => {
-      if (!video) return resolve();
-      if (video.readyState >= 2) return resolve();
-
-      let done = false;
-      const t = setTimeout(finish, timeoutMs);
-
-      function finish() {
-        if (done) return;
-        done = true;
-        clearTimeout(t);
-        cleanup();
-        resolve();
       }
-      function onReady() {
-        if (video.readyState >= 2) finish();
+    
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bindBackToGate01);
+      } else {
+        bindBackToGate01();
       }
-      function cleanup() {
-        video.removeEventListener('loadeddata', onReady);
-        video.removeEventListener('canplay', onReady);
-        video.removeEventListener('canplaythrough', onReady);
-        video.removeEventListener('error', finish);
-        video.removeEventListener('stalled', finish);
-        video.removeEventListener('abort', finish);
+    
+      // =========================================================
+      // ✅ gate_01 페이지 DOM 없으면(상세페이지 등) 여기서 종료
+      // =========================================================
+      const gateSec = document.querySelector('.new_gate_sec_01');
+      const step1El = document.querySelector('.new_gate_01.step_01');
+      const step2El = document.querySelector('.new_gate_01.step_02');
+      const step3El = document.querySelector('.new_gate_01.step_03');
+      if (!gateSec || !step1El || !step2El) return;
+    
+      // =========================================================
+      // ✅ 완료부팅(뒤로가기/리스트복귀) 모드
+      //    - gate_01 애니 시퀀스 실행 금지
+      //    - no-blend-screen 클래스 붙는 것도 영구 차단
+      // =========================================================
+      const FORCE_COMPLETE = (sessionStorage.getItem(BOOT_KEY) === '1');
+    
+      function isBackForwardNav(e) {
+        const nav = performance.getEntriesByType('navigation')[0];
+        return !!(e && e.persisted) || (nav && nav.type === 'back_forward');
       }
-
-      video.addEventListener('loadeddata', onReady);
-      video.addEventListener('canplay', onReady);
-      video.addEventListener('canplaythrough', onReady);
-      video.addEventListener('error', finish, { once: true });
-      video.addEventListener('stalled', finish, { once: true });
-      video.addEventListener('abort', finish, { once: true });
-
-      try { video.load(); } catch (e) {}
-    });
-  }
-
-  // -----------------------------
-  // STEP / CARD
-  // -----------------------------
-  function enterStep(el) {
-    el.classList.add('on');
-
-    playStepVideosSmooth(el);
-    primeStepVideos(nextStepOf(el));
-
-    if (el.classList.contains('step_03')) {
-      setNoBlendScreen(true);
-
-      // ✅ step_03 시작(애니) 2초 딜레이 후 실행 + (cel + re_pub 같이 시작)
-      scheduleStep03Start(el);
-    }
-
-    syncNoBlendByState();
-  }
-
-  function leaveStep(el, done) {
-    el.classList.add('is-leave');
-    setTimeout(() => {
-      el.classList.remove('on', 'is-leave');
-      pauseStepVideos(el);
-
-      if (el.classList.contains('step_03')) {
-        clearStep03Timers(el);
-        el._step03Running = false;
-        el._step03Done = false;
-        el._toSearchRunning = false;
-
-        el._celDone = false;
-        el._repubDone = false;
-        el._repubRunning = false;
+    
+      function injectCompleteLockCssOnce() {
+        if (document.getElementById('gate01-complete-lock')) return;
+    
+        const style = document.createElement('style');
+        style.id = 'gate01-complete-lock';
+        style.type = 'text/css';
+        style.textContent = `
+          html.gate01-complete-lock *{
+            animation: none !important;
+            transition: none !important;
+          }
+    
+          /* step들은 무조건 숨김 */
+          html.gate01-complete-lock .new_gate_01.step_01,
+          html.gate01-complete-lock .new_gate_01.step_02,
+          html.gate01-complete-lock .new_gate_01.step_03{
+            display: none !important;
+          }
+    
+          /* toast_pop도 무조건 숨김 */
+          html.gate01-complete-lock .toast_pop{
+            display: none !important;
+          }
+    
+          /* search_complete만 고정 노출 */
+          html.gate01-complete-lock .search_complete,
+          html.gate01-complete-lock .gate_01 .search_complete{
+            display: flex !important;
+            opacity: 1 !important;
+            transform: translateY(0px) !important;
+            top: 0px !important;
+            pointer-events: auto !important;
+            z-index: 999 !important;
+          }
+        `;
+        document.head.appendChild(style);
       }
-
-      syncNoBlendByState();
-      if (typeof done === 'function') done();
-    }, STEP_ANIM);
-  }
-
-  function nextStepOf(stepEl) {
-    if (!stepEl) return null;
-    if (stepEl.classList.contains('step_01')) return document.querySelector('.new_gate_01.step_02');
-    if (stepEl.classList.contains('step_02')) return document.querySelector('.new_gate_01.step_03');
-    return null;
-  }
-
-  function runCardSequence(cards, startIdx) {
-    const lastIdx = cards.length - 1;
-
-    for (let i = startIdx; i < lastIdx; i++) {
-      const t = (i - startIdx) * (CARD_HOLD + CARD_ANIM) + CARD_HOLD;
-      setTimeout(() => swapCardSequential(cards[i], cards[i + 1]), t);
-    }
-
-    const lastOnTime = (lastIdx - startIdx) * (CARD_HOLD + CARD_ANIM);
-    setTimeout(() => clearCardOn(cards[lastIdx]), lastOnTime + CARD_HOLD);
-  }
-
-  function swapCardSequential(current, next) {
-    if (!current || !next) return;
-
-    current.classList.add('is-leave');
-    setTimeout(() => {
-      current.classList.remove('on', 'is-leave');
-      resetCardText(current);
-
-      next.classList.add('on');
-      requestAnimationFrame(() => playCardText(next));
-    }, CARD_ANIM);
-  }
-
-  function clearCardOn(card) {
-    if (!card) return;
-    card.classList.add('is-leave');
-    setTimeout(() => {
-      card.classList.remove('on', 'is-leave');
-      resetCardText(card);
-    }, CARD_ANIM);
-  }
-
-  // -----------------------------
-  // TEXT
-  // -----------------------------
-  function prepareAllDescText(root) {
-    root.querySelectorAll('.bott_desc p').forEach(p => splitToChars(p));
-  }
-
-  function splitToChars(p) {
-    if (!p || p.dataset.split === '1') return;
-
-    let idx = 0;
-    const frag = document.createDocumentFragment();
-    Array.from(p.childNodes).forEach(node => frag.appendChild(processNode(node)));
-
-    p.textContent = '';
-    p.appendChild(frag);
-    p.dataset.split = '1';
-
-    function processNode(node) {
-      if (node.nodeType === 3) {
-        const text = node.nodeValue || '';
-        const f = document.createDocumentFragment();
-        for (const ch of text) {
-          const span = document.createElement('span');
-          span.className = 'char';
-          span.style.setProperty('--i', idx++);
-          span.textContent = (ch === ' ') ? '\u00A0' : ch;
-          f.appendChild(span);
+    
+      // ✅ no-blend-screen이 "붙는 순간" 바로 떼버리는 영구 차단
+      function keepNoBlendOff() {
+        const sec = document.querySelector('.new_gate_sec_01');
+        if (!sec) return;
+    
+        sec.classList.remove('no-blend-screen');
+    
+        if (sec._noBlendObserver) return;
+        const mo = new MutationObserver(() => {
+          if (sec.classList.contains('no-blend-screen')) {
+            sec.classList.remove('no-blend-screen');
+          }
+        });
+        mo.observe(sec, { attributes: true, attributeFilter: ['class'] });
+        sec._noBlendObserver = mo;
+      }
+    
+      function bootGate01Complete(consumesFlag) {
+        if (consumesFlag) {
+          try { sessionStorage.removeItem(BOOT_KEY); } catch (e) {}
         }
-        return f;
+    
+        document.documentElement.classList.add('gate01-complete-lock');
+        injectCompleteLockCssOnce();
+    
+        // ✅ no-blend-screen 완전 차단
+        keepNoBlendOff();
+    
+        // ✅ step_03: 요청 상태로 강제(숨김)
+        const step3 = document.querySelector('.new_gate_01.step_03');
+        if (step3) {
+          step3.classList.remove('on', 'is-leave');
+    
+          step3.style.setProperty(
+            'transition',
+            'opacity 700ms cubic-bezier(0.22, 1, 0.36, 1), transform 700ms cubic-bezier(0.22, 1, 0.36, 1)',
+            'important'
+          );
+          step3.style.setProperty('will-change', 'opacity, transform', 'important');
+          step3.style.setProperty('opacity', '0', 'important');
+          step3.style.setProperty('transform', 'translateY(-0.52vw)', 'important');
+          step3.style.setProperty('display', 'none', 'important');
+        }
+    
+        // ✅ toast_pop 숨김(기본 css: opacity 0 / bottom -9vw)
+        const toast = document.querySelector('.gate_01 .toast_pop') || document.querySelector('.toast_pop');
+        if (toast) {
+          toast.dataset.active = '0';
+          toast.style.setProperty('display', 'none', 'important');
+          toast.style.setProperty('opacity', '0', 'important');
+          toast.style.setProperty('bottom', '-9vw', 'important');
+          toast.style.setProperty('pointer-events', 'none', 'important');
+        }
+    
+        // ✅ search_complete: 요청 상태로 강제 고정(노출)
+        const sc =
+          document.querySelector('.gate_01 .search_complete') ||
+          document.querySelector('.search_complete');
+    
+        if (sc) {
+          sc.dataset.active = '1';
+          sc.style.setProperty('display', 'flex', 'important');
+          sc.style.setProperty('will-change', 'top, opacity, transform', 'important');
+          sc.style.setProperty('opacity', '1', 'important');
+          sc.style.setProperty('transform', 'translateY(0px)', 'important');
+          sc.style.setProperty('top', '0px', 'important');
+          sc.style.setProperty('pointer-events', 'auto', 'important');
+          sc.style.setProperty('z-index', '999', 'important');
+        }
+    
+        // ✅ 혹시 비디오가 돌고 있으면 정지
+        document.querySelectorAll('.new_gate_sec_01 .main_video video').forEach(v => {
+          try { v.pause(); } catch (e) {}
+        });
       }
-
-      if (node.nodeType === 1) {
-        const tag = node.tagName.toUpperCase();
-        if (tag === 'BR') return node.cloneNode(true);
-
-        const el = node.cloneNode(false);
-        Array.from(node.childNodes).forEach(child => el.appendChild(processNode(child)));
-        return el;
-      }
-
-      return document.createTextNode('');
-    }
-  }
-
-  function playCardText(card) {
-    if (!card) return;
-
-    const ps = Array.from(card.querySelectorAll(`.bott_desc.${currentLang} p[data-split="1"]`));
-    ps.forEach((p, pi) => {
-      p.classList.remove('text_play');
-
-      const chars = p.querySelectorAll('.char');
-      const n = chars.length;
-
-      const pDelay = pi * P_STAGGER;
-      p.style.setProperty('--p-delay', pDelay + 'ms');
-      p.style.setProperty('--char-dur', CHAR_DUR + 'ms');
-
-      const availableTotal = Math.max(CHAR_DUR, TEXT_TOTAL - pDelay);
-      const charDelay = (n > 1) ? Math.max(0, (availableTotal - CHAR_DUR) / (n - 1)) : 0;
-      p.style.setProperty('--char-delay', charDelay + 'ms');
-
-      void p.offsetWidth;
-      p.classList.add('text_play');
-    });
-  }
-
-  function resetCardText(card) {
-    if (!card) return;
-    card.querySelectorAll('.bott_desc p').forEach(p => p.classList.remove('text_play'));
-  }
-
-  // =========================================================
-  // ✅ step_03 시작/종료 제어(2초 딜레이 + 모두 끝나면 3초 후 search_complete)
-  // =========================================================
-  function scheduleStep03Start(step3) {
-    if (!step3) return;
-
-    clearStep03Timers(step3);
-
-    step3._step03Running = false;
-    step3._step03Done = false;
-    step3._toSearchRunning = false;
-
-    step3._celDone = false;
-    step3._repubDone = false;
-    step3._repubRunning = false;
-
-    step3._step3StartTimer = setTimeout(() => {
-      if (!step3.classList.contains('on')) return;
-
-      runStep03Sequence(step3);
-      bindStep03Button(step3);
-      runStep03RePubSequence(step3);
-    }, STEP3_START_DELAY);
-  }
-
-  function maybeGoSearchAfterStep03AllDone(step3) {
-    if (!step3) return;
-    if (!step3.classList.contains('on')) return;
-
-    if (!step3._celDone || !step3._repubDone) return;
-    if (step3._toSearchRunning) return;
-    step3._toSearchRunning = true;
-
-    step3._repubTimers = step3._repubTimers || [];
-    step3._repubTimers.push(setTimeout(() => {
-      if (!step3.classList.contains('on')) {
-        step3._toSearchRunning = false;
+    
+      // ✅ bfcache(back/forward) 복귀에서도 락 적용
+      window.addEventListener('pageshow', (e) => {
+        const flag = (sessionStorage.getItem(BOOT_KEY) === '1');
+        const scActive = !!document.querySelector('.search_complete[data-active="1"]');
+    
+        if (isBackForwardNav(e) && (flag || scActive || document.documentElement.classList.contains('gate01-complete-lock'))) {
+          bootGate01Complete(flag);
+        }
+        if (document.documentElement.classList.contains('gate01-complete-lock')) {
+          keepNoBlendOff();
+        }
+      });
+    
+      // ✅ 최초 로드 시 완료부팅이면: 애니 자체 실행 금지(return)
+      if (FORCE_COMPLETE) {
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', () => bootGate01Complete(true), { once: true });
+        } else {
+          bootGate01Complete(true);
+        }
         return;
       }
-
-      hideStep03ToSearch(step3, S3_TO_SEARCH_FADE_DUR, () => {
-        showSearchComplete();
-        setNoBlendScreen(false);
-      });
-    }, STEP3_END_HOLD));
-  }
-
-  // =========================================================
-  // ✅ SOFT BLINK (강제 적용 + 더 선명)
-  // =========================================================
-  let _softBlinkStyleInjected = false;
-
-  function ensureSoftBlinkStyle() {
-    if (_softBlinkStyleInjected) return;
-    _softBlinkStyleInjected = true;
-
-    const style = document.createElement('style');
-    style.type = 'text/css';
-    style.textContent = `
-      @keyframes celSoftBlink {
-        0%, 100% { opacity: 1; filter: brightness(1) contrast(1); transform: translateZ(0) scale(1); }
-        50%      { opacity: .78; filter: brightness(1.22) contrast(1.08); transform: translateZ(0) scale(1.012); }
-      }
-
-      @keyframes celSoftBlinkStrong {
-        0%, 100% {
-          opacity: 1;
-          filter: brightness(1) contrast(1) drop-shadow(0 0 0 rgba(120,200,255,0));
-          transform: translateZ(0) scale(1);
+    
+      // =========================================================
+      // ✅ (이하: gate_01 애니 시퀀스)
+      // =========================================================
+      const STEP_HOLD = 12500;
+      const STEP_02_HOLD = 9000;
+      const STEP_ANIM = 600;
+      const CARD_HOLD = 3000;
+      const CARD_ANIM = 500;
+      const CROSSFADE_STEPS = false;
+    
+      const TEXT_TOTAL = 1000;
+      const CHAR_DUR   = 300;
+      const P_STAGGER  = 500;
+    
+      // ✅ 튜닝 (영상 관련)
+      const STEP2_PRELOAD_BEFORE = 2200;
+      const SECOND_LANG_DELAY    = 250;
+      const CANPLAY_TIMEOUT      = 8000;
+    
+      // ✅ step_03 시작 딜레이
+      const STEP3_START_DELAY = 2000;
+    
+      // ✅ step_03 전반 간격
+      const STEP3_PLUS = 500;
+    
+      // ✅ step_03 타임라인
+      const S3_TIT1_HOLD            = 2000 + STEP3_PLUS;
+      const S3_FADE_OUT_TIT1        = 1500;
+    
+      const S3_FADE_IN_TIT2         = 1000;
+      const S3_FADE_IN_TOPLINE      = 1000;
+      const S3_FADE_IN_TOPTIT       = 1000;
+    
+      const S3_DELAY_TO_REMOVE_DF01 = 1000 + STEP3_PLUS;
+      const S3_CELL_REMOVE_DUR      = 1000;
+    
+      const S3_FADE_IN_POS01        = 1000;
+    
+      const S3_DELAY_TO_REMOVE_DF   = 1000 + STEP3_PLUS;
+      const S3_DELAY_TO_POS02       = 1000 + STEP3_PLUS;
+      const S3_FADE_IN_POS02        = 1000;
+    
+      const S3_POS_HOLD             = 2000 + STEP3_PLUS;
+      const S3_FADE_OUT_POS         = 1000;
+    
+      // ✅ step_03 사라지는 시간(페이드아웃)
+      const S3_TO_SEARCH_FADE_DUR   = 700;
+    
+      // ✅ pos 깜빡이: 3초
+      const POS_BLINK_TOTAL = 3000;
+    
+      // ✅ re_pub 페이드 속도
+      const REPUB_FADE_DUR = 600;
+    
+      // ✅ re_pub 종료 후 toast 노출 딜레이/속도
+      const TOAST_AFTER_REPUB_DELAY = 2000;
+      const TOAST_FADE_DUR          = 500;
+    
+      // ✅ toast 기본/노출 bottom 값 (기본 css 참고)
+      const TOAST_HIDE_BOTTOM = '-9vw'; // 기본 css
+      const TOAST_SHOW_BOTTOM = '0vw';  // 필요하면 여기만 조정
+    
+      const EASE_OUT = 'cubic-bezier(0.22, 1, 0.36, 1)';
+      const VW_DOWN  = '0.5200vw';
+      const VW_UP    = '-0.5200vw';
+    
+      let currentLang = document.documentElement.classList.contains('lang-en') ? 'en_t' : 'kr_t';
+    
+      window.setGateLang = function (lang) {
+        const nextLang = (lang === 'en' || lang === 'en_t') ? 'en_t' : 'kr_t';
+        if (nextLang === currentLang) return;
+    
+        const prevLang = currentLang;
+        currentLang = nextLang;
+    
+        document.documentElement.classList.toggle('lang-en', currentLang === 'en_t');
+        document.documentElement.classList.toggle('lang-kr', currentLang === 'kr_t');
+    
+        syncNoBlendByState();
+    
+        const activeStep =
+          document.querySelector('.new_gate_sec_01 .new_gate_01.on') ||
+          document.querySelector('.new_gate_sec_01 .new_gate_01.step_01');
+    
+        if (activeStep) {
+          syncStepLangVideosOnce(activeStep, prevLang, currentLang);
+    
+          const onCard = activeStep.querySelector('.gate_01_card_item.on');
+          if (onCard) requestAnimationFrame(() => playCardText(onCard));
         }
-        50% {
-          opacity: .58;
-          filter: brightness(1.35) contrast(1.15) drop-shadow(0 0 0.6vw rgba(120,200,255,.35));
-          transform: translateZ(0) scale(1.02);
+      };
+    
+      // -----------------------------
+      // timer helpers
+      // -----------------------------
+      function setStepTimer(step3, fn, ms) {
+        if (!step3) return null;
+        step3._timers = step3._timers || [];
+        const id = setTimeout(fn, ms);
+        step3._timers.push(id);
+        return id;
+      }
+    
+      function clearStep03Timers(step3) {
+        if (!step3) return;
+    
+        if (step3._step3StartTimer) {
+          clearTimeout(step3._step3StartTimer);
+          step3._step3StartTimer = null;
+        }
+        if (step3._timers && step3._timers.length) {
+          step3._timers.forEach(t => clearTimeout(t));
+          step3._timers = [];
+        }
+        if (step3._repubTimers && step3._repubTimers.length) {
+          step3._repubTimers.forEach(t => clearTimeout(t));
+          step3._repubTimers = [];
+        }
+    
+        // ✅ toast 타이머/상태 초기화
+        if (step3._toastTimer) {
+          clearTimeout(step3._toastTimer);
+          step3._toastTimer = null;
+        }
+        step3._toastScheduled = false;
+      }
+    
+      // -----------------------------
+      // init sequence
+      // -----------------------------
+      function initGate01Sequence() {
+        const step1 = document.querySelector('.new_gate_01.step_01');
+        const step2 = document.querySelector('.new_gate_01.step_02');
+        const step3 = document.querySelector('.new_gate_01.step_03');
+        if (!step1 || !step2) return;
+    
+        if (!document.documentElement.classList.contains('lang-kr') && !document.documentElement.classList.contains('lang-en')) {
+          document.documentElement.classList.add(currentLang === 'en_t' ? 'lang-en' : 'lang-kr');
+        }
+    
+        setupAllGateVideos();
+    
+        pauseStepVideos(step2);
+        if (step3) pauseStepVideos(step3);
+    
+        // toast는 시작 시 숨김 (기본 css 기준)
+        hideToastPop(0);
+    
+        playStepVideosSmooth(step1);
+    
+        setTimeout(() => {
+          primeStepVideos(step2);
+        }, Math.max(0, STEP_HOLD - STEP2_PRELOAD_BEFORE));
+    
+        requestAnimationFrame(() => prepareAllDescText(step1));
+    
+        step1.classList.add('on');
+        step2.classList.remove('on', 'is-leave');
+        if (step3) step3.classList.remove('on', 'is-leave');
+    
+        syncNoBlendByState();
+    
+        const cards = Array.from(step1.querySelectorAll('.gate_01_card_item'));
+        if (cards.length) {
+          let idx = cards.findIndex(el => el.classList.contains('on'));
+          if (idx < 0) idx = 0;
+    
+          cards.forEach((el, i) => el.classList.toggle('on', i === idx));
+          requestAnimationFrame(() => playCardText(cards[idx]));
+          runCardSequence(cards, idx);
+        }
+    
+        setTimeout(() => {
+          if (CROSSFADE_STEPS) {
+            enterStep(step2);
+            leaveStep(step1);
+          } else {
+            leaveStep(step1, () => enterStep(step2));
+          }
+    
+          if (step3) {
+            setTimeout(() => {
+              if (CROSSFADE_STEPS) {
+                enterStep(step3);
+                leaveStep(step2);
+              } else {
+                leaveStep(step2, () => enterStep(step3));
+              }
+            }, STEP_02_HOLD);
+          }
+        }, STEP_HOLD);
+      }
+    
+      // -----------------------------
+      // VIDEO
+      // -----------------------------
+      function setupAllGateVideos() {
+        document.querySelectorAll('.new_gate_sec_01 .main_video video').forEach(v => {
+          v.muted = true;
+          v.setAttribute('muted', '');
+          v.setAttribute('playsinline', '');
+          v.setAttribute('webkit-playsinline', '');
+          v.setAttribute('disablepictureinpicture', '');
+    
+          v.autoplay = false;
+          v.removeAttribute('autoplay');
+    
+          v.preload = 'metadata';
+          try { v.pause(); } catch (e) {}
+        });
+      }
+    
+      function primeStepVideos(step) {
+        if (!step) return;
+        step.querySelectorAll('.main_video video').forEach(v => {
+          v.preload = 'auto';
+          try { v.load(); } catch (e) {}
+        });
+      }
+    
+      function playStepVideosSmooth(step) {
+        if (!step) return;
+    
+        const kr = step.querySelector('.main_video video.kr_t');
+        const en = step.querySelector('.main_video video.en_t');
+        if (!kr || !en) return;
+    
+        const primary = (currentLang === 'en_t') ? en : kr;
+        const second  = (currentLang === 'en_t') ? kr : en;
+    
+        waitCanPlay(primary, CANPLAY_TIMEOUT).then(() => {
+          safePlay(primary);
+    
+          setTimeout(() => {
+            waitCanPlay(second, CANPLAY_TIMEOUT).then(() => {
+              syncOneToAnother(second, primary);
+              safePlay(second);
+            });
+          }, SECOND_LANG_DELAY);
+        });
+      }
+    
+      function pauseStepVideos(step) {
+        if (!step) return;
+        step.querySelectorAll('.main_video video').forEach(v => {
+          try { v.pause(); } catch (e) {}
+        });
+      }
+    
+      function syncStepLangVideosOnce(step, fromLang, toLang) {
+        const from = step.querySelector(`.main_video video.${fromLang}`);
+        const to   = step.querySelector(`.main_video video.${toLang}`);
+        if (!from || !to) return;
+    
+        waitCanPlay(to, CANPLAY_TIMEOUT).then(() => {
+          syncOneToAnother(to, from);
+          safePlay(to);
+        });
+      }
+    
+      function syncOneToAnother(target, base) {
+        if (!target || !base) return;
+    
+        const t = clampTime(base.currentTime, target.duration);
+        try {
+          if (typeof target.fastSeek === 'function') target.fastSeek(t);
+          else if (Math.abs((target.currentTime || 0) - t) > 0.12) target.currentTime = t;
+        } catch (e) {}
+      }
+    
+      function clampTime(t, duration) {
+        if (!isFinite(t)) return 0;
+        if (!isFinite(duration) || duration <= 0) return t;
+        return Math.min(t, Math.max(0, duration - 0.12));
+      }
+    
+      function safePlay(v) {
+        if (!v) return;
+        const p = v.play && v.play();
+        if (p && typeof p.catch === 'function') p.catch(() => {});
+      }
+    
+      function waitCanPlay(video, timeoutMs) {
+        return new Promise(resolve => {
+          if (!video) return resolve();
+          if (video.readyState >= 2) return resolve();
+    
+          let done = false;
+          const t = setTimeout(finish, timeoutMs);
+    
+          function finish() {
+            if (done) return;
+            done = true;
+            clearTimeout(t);
+            cleanup();
+            resolve();
+          }
+          function onReady() {
+            if (video.readyState >= 2) finish();
+          }
+          function cleanup() {
+            video.removeEventListener('loadeddata', onReady);
+            video.removeEventListener('canplay', onReady);
+            video.removeEventListener('canplaythrough', onReady);
+            video.removeEventListener('error', finish);
+            video.removeEventListener('stalled', finish);
+            video.removeEventListener('abort', finish);
+          }
+    
+          video.addEventListener('loadeddata', onReady);
+          video.addEventListener('canplay', onReady);
+          video.addEventListener('canplaythrough', onReady);
+          video.addEventListener('error', finish, { once: true });
+          video.addEventListener('stalled', finish, { once: true });
+          video.addEventListener('abort', finish, { once: true });
+    
+          try { video.load(); } catch (e) {}
+        });
+      }
+    
+      // -----------------------------
+      // STEP / CARD
+      // -----------------------------
+      function enterStep(el) {
+        el.classList.add('on');
+    
+        playStepVideosSmooth(el);
+        primeStepVideos(nextStepOf(el));
+    
+        if (el.classList.contains('step_03')) {
+          setNoBlendScreen(true);
+    
+          // step_03 들어올 때 toast는 일단 숨김 (기본 css 기준)
+          hideToastPop(0);
+    
+          // ✅ step_03 시작(애니) 2초 딜레이 후 실행 + (cel + re_pub 같이 시작)
+          scheduleStep03Start(el);
+        }
+    
+        syncNoBlendByState();
+      }
+    
+      function leaveStep(el, done) {
+        el.classList.add('is-leave');
+        setTimeout(() => {
+          el.classList.remove('on', 'is-leave');
+          pauseStepVideos(el);
+    
+          if (el.classList.contains('step_03')) {
+            clearStep03Timers(el);
+            el._step03Running = false;
+            el._step03Done = false;
+            el._toSearchRunning = false;
+    
+            el._celDone = false;
+            el._repubDone = false;
+            el._repubRunning = false;
+    
+            // ✅ toast 강제 숨김
+            hideToastPop(0);
+          }
+    
+          syncNoBlendByState();
+          if (typeof done === 'function') done();
+        }, STEP_ANIM);
+      }
+    
+      function nextStepOf(stepEl) {
+        if (!stepEl) return null;
+        if (stepEl.classList.contains('step_01')) return document.querySelector('.new_gate_01.step_02');
+        if (stepEl.classList.contains('step_02')) return document.querySelector('.new_gate_01.step_03');
+        return null;
+      }
+    
+      function runCardSequence(cards, startIdx) {
+        const lastIdx = cards.length - 1;
+    
+        for (let i = startIdx; i < lastIdx; i++) {
+          const t = (i - startIdx) * (CARD_HOLD + CARD_ANIM) + CARD_HOLD;
+          setTimeout(() => swapCardSequential(cards[i], cards[i + 1]), t);
+        }
+    
+        const lastOnTime = (lastIdx - startIdx) * (CARD_HOLD + CARD_ANIM);
+        setTimeout(() => clearCardOn(cards[lastIdx]), lastOnTime + CARD_HOLD);
+      }
+    
+      function swapCardSequential(current, next) {
+        if (!current || !next) return;
+    
+        current.classList.add('is-leave');
+        setTimeout(() => {
+          current.classList.remove('on', 'is-leave');
+          resetCardText(current);
+    
+          next.classList.add('on');
+          requestAnimationFrame(() => playCardText(next));
+        }, CARD_ANIM);
+      }
+    
+      function clearCardOn(card) {
+        if (!card) return;
+        card.classList.add('is-leave');
+        setTimeout(() => {
+          card.classList.remove('on', 'is-leave');
+          resetCardText(card);
+        }, CARD_ANIM);
+      }
+    
+      // -----------------------------
+      // TEXT
+      // -----------------------------
+      function prepareAllDescText(root) {
+        root.querySelectorAll('.bott_desc p').forEach(p => splitToChars(p));
+      }
+    
+      function splitToChars(p) {
+        if (!p || p.dataset.split === '1') return;
+    
+        let idx = 0;
+        const frag = document.createDocumentFragment();
+        Array.from(p.childNodes).forEach(node => frag.appendChild(processNode(node)));
+    
+        p.textContent = '';
+        p.appendChild(frag);
+        p.dataset.split = '1';
+    
+        function processNode(node) {
+          if (node.nodeType === 3) {
+            const text = node.nodeValue || '';
+            const f = document.createDocumentFragment();
+            for (const ch of text) {
+              const span = document.createElement('span');
+              span.className = 'char';
+              span.style.setProperty('--i', idx++);
+              span.textContent = (ch === ' ') ? '\u00A0' : ch;
+              f.appendChild(span);
+            }
+            return f;
+          }
+    
+          if (node.nodeType === 1) {
+            const tag = node.tagName.toUpperCase();
+            if (tag === 'BR') return node.cloneNode(true);
+    
+            const el = node.cloneNode(false);
+            Array.from(node.childNodes).forEach(child => el.appendChild(processNode(child)));
+            return el;
+          }
+    
+          return document.createTextNode('');
         }
       }
-
-      .cel_soft_blink {
-        animation: celSoftBlink 560ms ease-in-out infinite !important;
-        will-change: opacity, filter, transform;
+    
+      function playCardText(card) {
+        if (!card) return;
+    
+        const ps = Array.from(card.querySelectorAll(`.bott_desc.${currentLang} p[data-split="1"]`));
+        ps.forEach((p, pi) => {
+          p.classList.remove('text_play');
+    
+          const chars = p.querySelectorAll('.char');
+          const n = chars.length;
+    
+          const pDelay = pi * P_STAGGER;
+          p.style.setProperty('--p-delay', pDelay + 'ms');
+          p.style.setProperty('--char-dur', CHAR_DUR + 'ms');
+    
+          const availableTotal = Math.max(CHAR_DUR, TEXT_TOTAL - pDelay);
+          const charDelay = (n > 1) ? Math.max(0, (availableTotal - CHAR_DUR) / (n - 1)) : 0;
+          p.style.setProperty('--char-delay', charDelay + 'ms');
+    
+          void p.offsetWidth;
+          p.classList.add('text_play');
+        });
       }
-      .cel_soft_blink_strong {
-        animation: celSoftBlinkStrong 520ms ease-in-out infinite !important;
-        will-change: opacity, filter, transform;
+    
+      function resetCardText(card) {
+        if (!card) return;
+        card.querySelectorAll('.bott_desc p').forEach(p => p.classList.remove('text_play'));
       }
-
-      .cel_soft_blink_wrap .item,
-      .cel_soft_blink_wrap [class*="item"]{
-        animation: celSoftBlink 560ms ease-in-out infinite !important;
-        will-change: opacity, filter, transform;
+    
+      // =========================================================
+      // ✅ step_03 시작/종료 제어
+      // =========================================================
+      function scheduleStep03Start(step3) {
+        if (!step3) return;
+    
+        clearStep03Timers(step3);
+    
+        step3._step03Running = false;
+        step3._step03Done = false;
+        step3._toSearchRunning = false;
+    
+        step3._celDone = false;
+        step3._repubDone = false;
+        step3._repubRunning = false;
+    
+        step3._step3StartTimer = setTimeout(() => {
+          if (!step3.classList.contains('on')) return;
+    
+          runStep03Sequence(step3);
+          runStep03RePubSequence(step3);
+          // 버튼 바인딩은 toast 노출 시점에 붙음(scheduleToastAfterRepubDone 내부)
+        }, STEP3_START_DELAY);
       }
-      .cel_soft_blink_wrap--strong .item,
-      .cel_soft_blink_wrap--strong [class*="item"]{
-        animation: celSoftBlinkStrong 520ms ease-in-out infinite !important;
-        will-change: opacity, filter, transform;
+    
+      // =========================================================
+      // ✅ SOFT BLINK
+      // =========================================================
+      let _softBlinkStyleInjected = false;
+    
+      function ensureSoftBlinkStyle() {
+        if (_softBlinkStyleInjected) return;
+        _softBlinkStyleInjected = true;
+    
+        const style = document.createElement('style');
+        style.type = 'text/css';
+        style.textContent = `
+          @keyframes celSoftBlink {
+            0%, 100% { opacity: 1; filter: brightness(1) contrast(1); transform: translateZ(0) scale(1); }
+            50%      { opacity: .78; filter: brightness(1.22) contrast(1.08); transform: translateZ(0) scale(1.012); }
+          }
+    
+          @keyframes celSoftBlinkStrong {
+            0%, 100% {
+              opacity: 1;
+              filter: brightness(1) contrast(1) drop-shadow(0 0 0 rgba(120,200,255,0));
+              transform: translateZ(0) scale(1);
+            }
+            50% {
+              opacity: .58;
+              filter: brightness(1.35) contrast(1.15) drop-shadow(0 0 0.6vw rgba(120,200,255,.35));
+              transform: translateZ(0) scale(1.02);
+            }
+          }
+    
+          .cel_soft_blink { animation: celSoftBlink 560ms ease-in-out infinite !important; will-change: opacity, filter, transform; }
+          .cel_soft_blink_strong { animation: celSoftBlinkStrong 520ms ease-in-out infinite !important; will-change: opacity, filter, transform; }
+    
+          .cel_soft_blink_wrap .item,
+          .cel_soft_blink_wrap [class*="item"]{
+            animation: celSoftBlink 560ms ease-in-out infinite !important;
+            will-change: opacity, filter, transform;
+          }
+          .cel_soft_blink_wrap--strong .item,
+          .cel_soft_blink_wrap--strong [class*="item"]{
+            animation: celSoftBlinkStrong 520ms ease-in-out infinite !important;
+            will-change: opacity, filter, transform;
+          }
+    
+          @media (prefers-reduced-motion: reduce) {
+            .cel_soft_blink,
+            .cel_soft_blink_strong,
+            .cel_soft_blink_wrap .item,
+            .cel_soft_blink_wrap [class*="item"],
+            .cel_soft_blink_wrap--strong .item,
+            .cel_soft_blink_wrap--strong [class*="item"]{
+              animation: none !important;
+            }
+          }
+        `;
+        document.head.appendChild(style);
       }
-
-      @media (prefers-reduced-motion: reduce) {
-        .cel_soft_blink,
-        .cel_soft_blink_strong,
-        .cel_soft_blink_wrap .item,
-        .cel_soft_blink_wrap [class*="item"],
-        .cel_soft_blink_wrap--strong .item,
-        .cel_soft_blink_wrap--strong [class*="item"]{
-          animation: none !important;
-        }
+    
+      function raf2(fn) {
+        requestAnimationFrame(() => requestAnimationFrame(fn));
       }
-    `;
-    document.head.appendChild(style);
-  }
-
-  function raf2(fn) {
-    requestAnimationFrame(() => requestAnimationFrame(fn));
-  }
-
-  function startSoftBlink(target, selector, totalMs, strength) {
-    if (!target) return;
-    ensureSoftBlinkStyle();
-
-    const isStrong = (strength === 'strong');
-
-    target.classList.add('cel_soft_blink_wrap');
-    target.classList.toggle('cel_soft_blink_wrap--strong', isStrong);
-
-    let nodes = [];
-    if (selector) nodes = Array.from(target.querySelectorAll(selector));
-    if (!nodes.length) nodes = Array.from(target.querySelectorAll('.item'));
-    if (!nodes.length) nodes = [target];
-
-    if (target._softBlinkTimer) clearTimeout(target._softBlinkTimer);
-
-    nodes.forEach(n => {
-      n.classList.add(isStrong ? 'cel_soft_blink_strong' : 'cel_soft_blink');
-    });
-
-    target._softBlinkTimer = setTimeout(() => {
-      nodes.forEach(n => {
-        n.classList.remove('cel_soft_blink');
-        n.classList.remove('cel_soft_blink_strong');
-      });
-      target.classList.remove('cel_soft_blink_wrap');
-      target.classList.remove('cel_soft_blink_wrap--strong');
-      target._softBlinkTimer = null;
-    }, totalMs || 3000);
-  }
-
-  // =========================================================
-  // ✅ step_03 sequence (셀 연출)
-  // =========================================================
-  function runStep03Sequence(step3) {
-    if (!step3) return;
-    if (step3._step03Running) return;
-
-    step3._step03Running = true;
-    step3._step03Done = false;
-
-    const tit1    = step3.querySelector('.step_03_tit.in_step_01');
-    const tit2    = step3.querySelector('.step_03_tit.in_step_02');
-    const topLine = step3.querySelector('.cel_content .top_line');
-    const topTit  = step3.querySelector('.cel_wrap .top_tit');
-    const pos01   = step3.querySelector('.cel_wrap .cel_pos_01');
-    const pos02   = step3.querySelector('.cel_wrap .cel_pos_02');
-    const toast   = step3.querySelector('.toast_pop');
-    const celList = step3.querySelector('.cel_list');
-
-    resetStep03State({ step3, tit1, tit2, topLine, topTit, pos01, pos02, toast, celList });
-
-    // 타임라인 시작
-    setStepTimer(step3, () => {
-      setStepTimer(step3, () => {
-        removeClassSmooth(celList, 'ani_bg_df_01', S3_CELL_REMOVE_DUR);
-
-        // pos01 노출
-        fadeInUpY_WithDisplay(pos01, S3_FADE_IN_POS01, 'flex');
-
-        // pos01: 더 선명(Strong)
-        raf2(() => startSoftBlink(pos01, '.item', POS_BLINK_TOTAL, 'strong'));
-
-        // ✅ 기존 1초 → +1.5초
+    
+      function startSoftBlink(target, selector, totalMs, strength) {
+        if (!target) return;
+        ensureSoftBlinkStyle();
+    
+        const isStrong = (strength === 'strong');
+    
+        target.classList.add('cel_soft_blink_wrap');
+        target.classList.toggle('cel_soft_blink_wrap--strong', isStrong);
+    
+        let nodes = [];
+        if (selector) nodes = Array.from(target.querySelectorAll(selector));
+        if (!nodes.length) nodes = Array.from(target.querySelectorAll('.item'));
+        if (!nodes.length) nodes = [target];
+    
+        if (target._softBlinkTimer) clearTimeout(target._softBlinkTimer);
+    
+        nodes.forEach(n => n.classList.add(isStrong ? 'cel_soft_blink_strong' : 'cel_soft_blink'));
+    
+        target._softBlinkTimer = setTimeout(() => {
+          nodes.forEach(n => {
+            n.classList.remove('cel_soft_blink');
+            n.classList.remove('cel_soft_blink_strong');
+          });
+          target.classList.remove('cel_soft_blink_wrap');
+          target.classList.remove('cel_soft_blink_wrap--strong');
+          target._softBlinkTimer = null;
+        }, totalMs || 3000);
+      }
+    
+      // =========================================================
+      // ✅ cel_list 클래스 제거(스르륵) + line_01~05 순차 제거
+      // =========================================================
+      function removeClassSmooth(celList, className, dur) {
+        if (!celList) return;
+    
+        const cells = Array.from(celList.querySelectorAll(`.cel_item.${className}`));
+        if (!cells.length) return;
+    
+        cells.forEach(cell => {
+          const cs = getComputedStyle(cell);
+    
+          if (cs.position === 'static') cell.style.position = 'relative';
+          cell.style.overflow = 'hidden';
+          cell.style.transition = `background-color ${dur}ms ${EASE_OUT}`;
+    
+          const overlay = document.createElement('i');
+          overlay.style.position = 'absolute';
+          overlay.style.inset = '0';
+          overlay.style.pointerEvents = 'none';
+          overlay.style.zIndex = '2';
+          overlay.style.backgroundColor = cs.backgroundColor;
+          overlay.style.opacity = '1';
+          overlay.style.transform = 'translateY(0)';
+          overlay.style.willChange = 'opacity, transform';
+          overlay.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
+    
+          cell.appendChild(overlay);
+    
+          cell.classList.remove(className);
+    
+          requestAnimationFrame(() => {
+            overlay.style.opacity = '0';
+            overlay.style.transform = `translateY(${VW_UP})`;
+          });
+    
+          setTimeout(() => {
+            if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+          }, dur + 60);
+        });
+      }
+    
+      function removeClassSmoothBySelector(celList, selector, className, dur) {
+        if (!celList) return;
+    
+        const cells = Array.from(celList.querySelectorAll(selector));
+        if (!cells.length) return;
+    
+        cells.forEach(cell => {
+          const cs = getComputedStyle(cell);
+    
+          if (cs.position === 'static') cell.style.position = 'relative';
+          cell.style.overflow = 'hidden';
+          cell.style.transition = `background-color ${dur}ms ${EASE_OUT}`;
+    
+          const overlay = document.createElement('i');
+          overlay.style.position = 'absolute';
+          overlay.style.inset = '0';
+          overlay.style.pointerEvents = 'none';
+          overlay.style.zIndex = '2';
+          overlay.style.backgroundColor = cs.backgroundColor;
+          overlay.style.opacity = '1';
+          overlay.style.transform = 'translateY(0)';
+          overlay.style.willChange = 'opacity, transform';
+          overlay.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
+    
+          cell.appendChild(overlay);
+    
+          cell.classList.remove(className);
+    
+          requestAnimationFrame(() => {
+            overlay.style.opacity = '0';
+            overlay.style.transform = `translateY(${VW_UP})`;
+          });
+    
+          setTimeout(() => {
+            if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+          }, dur + 60);
+        });
+      }
+    
+      function removeAniBgDfByLinesSequential(celList, dur, staggerMs, done) {
+        if (!celList) { if (done) done(); return; }
+    
+        const lines = ['line_01','line_02','line_03','line_04','line_05'];
+        const gap   = (typeof staggerMs === 'number') ? staggerMs : 500;
+    
+        lines.forEach((lineCls, idx) => {
+          setTimeout(() => {
+            removeClassSmoothBySelector(
+              celList,
+              `.cel_item.ani_bg_df.${lineCls}`,
+              'ani_bg_df',
+              dur
+            );
+          }, idx * gap);
+        });
+    
+        const total = (lines.length - 1) * gap + dur + 80;
+        setTimeout(() => { if (done) done(); }, total);
+      }
+    
+      // =========================================================
+      // ✅ step_03 sequence (셀 연출)
+      // =========================================================
+      function runStep03Sequence(step3) {
+        if (!step3) return;
+        if (step3._step03Running) return;
+    
+        step3._step03Running = true;
+        step3._step03Done = false;
+    
+        const tit1    = step3.querySelector('.step_03_tit.in_step_01');
+        const tit2    = step3.querySelector('.step_03_tit.in_step_02');
+        const topLine = step3.querySelector('.cel_content .top_line');
+        const topTit  = step3.querySelector('.cel_wrap .top_tit');
+        const pos01   = step3.querySelector('.cel_wrap .cel_pos_01');
+        const pos02   = step3.querySelector('.cel_wrap .cel_pos_02');
+        const celList = step3.querySelector('.cel_list');
+    
+        resetStep03State({ tit1, tit2, topLine, topTit, pos01, pos02, celList });
+    
+        // 타임라인 시작
         setStepTimer(step3, () => {
-          fadeOutUpX(tit1, S3_FADE_OUT_TIT1, () => {
-            runParallel([
-              (cb) => fadeInUpX(topLine, S3_FADE_IN_TOPLINE, cb),
-              (cb) => fadeInUpY_WithDisplay(topTit, S3_FADE_IN_TOPTIT, 'block', cb),
-              (cb) => fadeInUpX(tit2, S3_FADE_IN_TIT2, cb),
-            ], () => {
-
-              setStepTimer(step3, () => {
-                // line_01~05 ani_bg_df 삭제 "완료" 후 pos02 노출
-                removeAniBgDfByLinesSequential(celList, S3_CELL_REMOVE_DUR, 500, () => {
-
+          setStepTimer(step3, () => {
+            removeClassSmooth(celList, 'ani_bg_df_01', S3_CELL_REMOVE_DUR);
+    
+            // pos01 노출
+            fadeInUpY_WithDisplay(pos01, S3_FADE_IN_POS01, 'flex');
+            raf2(() => startSoftBlink(pos01, '.item', POS_BLINK_TOTAL, 'strong'));
+    
+            setStepTimer(step3, () => {
+              fadeOutUpX(tit1, S3_FADE_OUT_TIT1, () => {
+                runParallel([
+                  (cb) => fadeInUpX(topLine, S3_FADE_IN_TOPLINE, cb),
+                  (cb) => fadeInUpY_WithDisplay(topTit, S3_FADE_IN_TOPTIT, 'block', cb),
+                  (cb) => fadeInUpX(tit2, S3_FADE_IN_TIT2, cb),
+                ], () => {
+    
                   setStepTimer(step3, () => {
-                    fadeInUpY_WithDisplay(pos02, S3_FADE_IN_POS02, 'block', () => {
-
-                      raf2(() => startSoftBlink(pos02, '.item', POS_BLINK_TOTAL));
-
+                    // line_01~05 ani_bg_df 삭제 "완료" 후 pos02 노출
+                    removeAniBgDfByLinesSequential(celList, S3_CELL_REMOVE_DUR, 500, () => {
+    
                       setStepTimer(step3, () => {
-                        runParallel([
-                          (cb) => fadeOutUpY(pos01, S3_FADE_OUT_POS, cb),
-                          (cb) => fadeOutUpY(pos02, S3_FADE_OUT_POS, cb)
-                        ], () => {
-
+                        fadeInUpY_WithDisplay(pos02, S3_FADE_IN_POS02, 'block', () => {
+                          raf2(() => startSoftBlink(pos02, '.item', POS_BLINK_TOTAL));
+    
+                          // pos 유지 후 pos 페이드아웃
                           setStepTimer(step3, () => {
-                            toastIn(toast, S3_TOAST_IN_DUR);
-                            step3._step03Done = true;
-
-                            // ✅ 셀 연출 완료
-                            step3._celDone = true;
-                            maybeGoSearchAfterStep03AllDone(step3);
-                          }, S3_TOAST_DELAY);
-
+                            runParallel([
+                              (cb) => fadeOutUpY(pos01, S3_FADE_OUT_POS, cb),
+                              (cb) => fadeOutUpY(pos02, S3_FADE_OUT_POS, cb)
+                            ], () => {
+                              step3._step03Done = true;
+                              step3._celDone = true;
+                              // ✅ 자동 전환은 "toast → 버튼 클릭"으로만
+                            });
+                          }, S3_POS_HOLD);
+    
                         });
-                      }, S3_POS_HOLD);
-
+                      }, S3_DELAY_TO_POS02);
+    
                     });
-                  }, S3_DELAY_TO_POS02);
-
+                  }, S3_DELAY_TO_REMOVE_DF);
+    
                 });
-              }, S3_DELAY_TO_REMOVE_DF);
-
+              });
+            }, 1000 + STEP3_PLUS);
+    
+          }, S3_DELAY_TO_REMOVE_DF01);
+        }, S3_TIT1_HOLD);
+      }
+    
+      function resetStep03State(o) {
+        if (o.tit1) {
+          o.tit1.style.display = '';
+          o.tit1.style.opacity = '1';
+          o.tit1.style.transition = 'none';
+          o.tit1.style.transform = 'translate(-50%, 0)';
+        }
+        if (o.tit2) {
+          o.tit2.style.display = '';
+          o.tit2.style.opacity = '0';
+          o.tit2.style.transition = 'none';
+          o.tit2.style.transform = `translate(-50%, ${VW_DOWN})`;
+        }
+        if (o.topLine) {
+          o.topLine.style.display = '';
+          o.topLine.style.opacity = '0';
+          o.topLine.style.transition = 'none';
+          o.topLine.style.transform = `translate(-50%, ${VW_DOWN})`;
+        }
+        if (o.topTit) {
+          o.topTit.style.display = 'none';
+          o.topTit.style.opacity = '0';
+          o.topTit.style.transition = 'none';
+          o.topTit.style.transform = `translateY(${VW_DOWN})`;
+        }
+        if (o.pos01) {
+          o.pos01.style.display = '';
+          o.pos01.style.opacity = '0';
+          o.pos01.style.transition = 'none';
+          o.pos01.style.transform = `translateY(${VW_DOWN})`;
+          o.pos01.classList.remove('cel_soft_blink_wrap', 'cel_soft_blink_wrap--strong');
+        }
+        if (o.pos02) {
+          o.pos02.style.display = '';
+          o.pos02.style.opacity = '0';
+          o.pos02.style.transition = 'none';
+          o.pos02.style.transform = `translateY(${VW_DOWN})`;
+          o.pos02.classList.remove('cel_soft_blink_wrap', 'cel_soft_blink_wrap--strong');
+        }
+      }
+    
+      // =========================================================
+      // ✅ step_03 re_pub 연출
+      //    - ✅ re_pub_01 종료 후 2초 뒤 toast_pop 노출
+      // =========================================================
+      function prepFade(el) {
+        if (!el) return;
+        el.style.display = '';
+        el.style.opacity = '0';
+        el.style.transform = `translateY(${VW_DOWN})`;
+        el.style.transition = 'none';
+      }
+    
+      function fadeInUpOpacity(el, dur, done) {
+        if (!el) { if (done) done(); return; }
+        el.style.willChange = 'opacity, transform';
+        el.style.display = '';
+        el.style.transition = 'none';
+        el.style.opacity = '0';
+        el.style.transform = `translateY(${VW_DOWN})`;
+    
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            el.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+            setTimeout(() => { if (done) done(); }, dur);
+          });
+        });
+      }
+    
+      function runStep03RePubSequence(step3) {
+        if (!step3) return;
+        if (step3._repubRunning) return;
+        step3._repubRunning = true;
+    
+        step3._repubTimers = step3._repubTimers || [];
+    
+        const rePub  = step3.querySelector('.re_pub_01');
+        if (!rePub) {
+          step3._repubDone = true;
+          scheduleToastAfterRepubDone(step3);
+          return;
+        }
+    
+        const item01 = rePub.querySelector('.gp_in_items .gp_item.item_01');
+        const item02 = rePub.querySelector('.gp_in_items .gp_item.item_02');
+        const badge1 = rePub.querySelector('.gp_in_items .gp_item.item_03 > .badge_box:nth-child(1)'); // st_01
+        const badge2 = rePub.querySelector('.gp_in_items .gp_item.item_03 > .badge_box:nth-child(2)'); // st_02
+        const arrow  = rePub.querySelector('.content_gp .bott_arrow');
+    
+        prepFade(badge1);
+        prepFade(arrow);
+        prepFade(item02);
+        prepFade(badge2);
+    
+        const T_START  = 1000 + STEP3_PLUS; // item01+badge1
+        const GAP_1    = 1000 + STEP3_PLUS; // → arrow
+        const GAP_2    = 500  + STEP3_PLUS; // → item02+badge2
+    
+        const tPair1 = T_START;
+        const tArrow = tPair1 + GAP_1;
+        const tPair2 = tArrow + GAP_2;
+    
+        step3._repubTimers.push(setTimeout(() => {
+          if (!step3.classList.contains('on')) return;
+    
+          if (item01) {
+            item01.style.willChange = 'box-shadow';
+            item01.style.transition = `box-shadow ${REPUB_FADE_DUR}ms ${EASE_OUT}`;
+            item01.style.boxShadow = '18px 26px 27.9px 0 rgba(0, 0, 0, 0.63)';
+            item01.style.backgroundImage =
+              'linear-gradient(118deg, #040b14, #09336D), linear-gradient(90deg, #000, #000)';
+          }
+    
+          fadeInUpOpacity(badge1, REPUB_FADE_DUR);
+        }, tPair1));
+    
+        step3._repubTimers.push(setTimeout(() => {
+          if (!step3.classList.contains('on')) return;
+          fadeInUpOpacity(arrow, REPUB_FADE_DUR);
+        }, tArrow));
+    
+        step3._repubTimers.push(setTimeout(() => {
+          if (!step3.classList.contains('on')) return;
+    
+          runParallel([
+            (cb) => fadeInUpOpacity(item02, REPUB_FADE_DUR, cb),
+            (cb) => fadeInUpOpacity(badge2, REPUB_FADE_DUR, cb),
+          ], () => {
+            // ✅ re_pub_01 애니 종료 시점
+            step3._repubDone = true;
+    
+            // ✅ 여기서부터 2초 후 toast_pop 노출
+            scheduleToastAfterRepubDone(step3);
+          });
+        }, tPair2));
+      }
+    
+      // =========================================================
+      // ✅ toast_pop 제어 (기본 css: opacity 0 / bottom -9vw)
+      //    - show: opacity 1 / bottom 0vw (TOAST_SHOW_BOTTOM)
+      // =========================================================
+      function getToastPop() {
+        return (
+          document.querySelector('.gate_01 .toast_pop') ||
+          document.querySelector('.toast_pop')
+        );
+      }
+    
+      function showToastPop(dur) {
+        const toast = getToastPop();
+        if (!toast) return;
+    
+        toast.dataset.active = '1';
+        toast.style.willChange = 'opacity, bottom';
+        toast.style.display = 'flex'; // 필요하면 'block'로 변경
+        toast.style.pointerEvents = 'auto';
+    
+        // 기본 상태 강제 (CSS 기준)
+        toast.style.transition = 'none';
+        toast.style.opacity = '0';
+        toast.style.bottom = TOAST_HIDE_BOTTOM;
+    
+        void toast.offsetHeight;
+    
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            toast.style.transition = `opacity ${dur}ms ${EASE_OUT}, bottom ${dur}ms ${EASE_OUT}`;
+            toast.style.opacity = '1';
+            toast.style.bottom = TOAST_SHOW_BOTTOM;
+          });
+        });
+      }
+    
+      function hideToastPop(dur, done) {
+        const toast = getToastPop();
+        if (!toast) { if (done) done(); return; }
+    
+        // 즉시 숨김
+        if (!dur || dur <= 0) {
+          toast.dataset.active = '0';
+          toast.style.display = 'none';
+          toast.style.opacity = '0';
+          toast.style.bottom = TOAST_HIDE_BOTTOM;
+          toast.style.transition = '';
+          toast.style.pointerEvents = '';
+          if (done) done();
+          return;
+        }
+    
+        toast.style.willChange = 'opacity, bottom';
+        toast.style.transition = `opacity ${dur}ms ${EASE_OUT}, bottom ${dur}ms ${EASE_OUT}`;
+    
+        requestAnimationFrame(() => {
+          toast.style.opacity = '0';
+          toast.style.bottom = TOAST_HIDE_BOTTOM;
+        });
+    
+        setTimeout(() => {
+          toast.dataset.active = '0';
+          toast.style.display = 'none';
+          if (done) done();
+        }, dur + 30);
+      }
+    
+      function scheduleToastAfterRepubDone(step3) {
+        if (!step3) return;
+        if (!step3.classList.contains('on')) return;
+        if (step3._toastScheduled) return;
+    
+        step3._toastScheduled = true;
+    
+        step3._toastTimer = setTimeout(() => {
+          if (!step3.classList.contains('on')) return;
+    
+          showToastPop(TOAST_FADE_DUR);
+    
+          // toast 안 버튼 바인딩(노출 시점에 보장)
+          bindStep03Button(step3);
+        }, TOAST_AFTER_REPUB_DELAY);
+      }
+    
+      // =========================================================
+      // ✅ 버튼/전환
+      //    - toast_pop 내 #cardListShow 클릭 → search_complete 노출
+      // =========================================================
+      function bindStep03Button(step3) {
+        if (!step3) return;
+    
+        const btn = document.getElementById('cardListShow');
+        if (!btn) return;
+    
+        if (step3._bindCardListBtn) return;
+        step3._bindCardListBtn = true;
+    
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+    
+          if (step3._toSearchRunning) return;
+          step3._toSearchRunning = true;
+    
+          // ✅ toast 닫고 → step_03 페이드아웃 → search_complete 노출
+          hideToastPop(250, () => {
+            hideStep03ToSearch(step3, S3_TO_SEARCH_FADE_DUR, () => {
+              showSearchComplete();
+              setNoBlendScreen(false);
             });
           });
-        }, 1000 + STEP3_PLUS);
-
-      }, S3_DELAY_TO_REMOVE_DF01);
-    }, S3_TIT1_HOLD);
-  }
-
-  function resetStep03State(o) {
-    if (o.tit1) {
-      o.tit1.style.display = '';
-      o.tit1.style.opacity = '1';
-      o.tit1.style.transition = 'none';
-      o.tit1.style.transform = 'translate(-50%, 0)';
-    }
-    if (o.tit2) {
-      o.tit2.style.display = '';
-      o.tit2.style.opacity = '0';
-      o.tit2.style.transition = 'none';
-      o.tit2.style.transform = `translate(-50%, ${VW_DOWN})`;
-    }
-    if (o.topLine) {
-      o.topLine.style.display = '';
-      o.topLine.style.opacity = '0';
-      o.topLine.style.transition = 'none';
-      o.topLine.style.transform = `translate(-50%, ${VW_DOWN})`;
-    }
-    if (o.topTit) {
-      o.topTit.style.display = 'none';
-      o.topTit.style.opacity = '0';
-      o.topTit.style.transition = 'none';
-      o.topTit.style.transform = `translateY(${VW_DOWN})`;
-    }
-    if (o.pos01) {
-      o.pos01.style.display = '';
-      o.pos01.style.opacity = '0';
-      o.pos01.style.transition = 'none';
-      o.pos01.style.transform = `translateY(${VW_DOWN})`;
-      o.pos01.classList.remove('cel_soft_blink_wrap', 'cel_soft_blink_wrap--strong');
-    }
-    if (o.pos02) {
-      o.pos02.style.display = '';
-      o.pos02.style.opacity = '0';
-      o.pos02.style.transition = 'none';
-      o.pos02.style.transform = `translateY(${VW_DOWN})`;
-      o.pos02.classList.remove('cel_soft_blink_wrap', 'cel_soft_blink_wrap--strong');
-    }
-    if (o.toast) {
-      o.toast.style.display = '';
-      o.toast.style.opacity = '0';
-      o.toast.style.transition = 'none';
-      o.toast.style.bottom = '-9vw';
-    }
-    if (o.celList) {
-      o.celList.querySelectorAll('.cel_item').forEach(cell => {
-        cell.style.transition = 'background-color 1000ms ease';
-      });
-    }
-  }
-
-  // =========================================================
-  // ✅ step_03 re_pub 연출(요청 순서 + 각 단계 +1.5초)
-  //    - 끝나면 _repubDone=true → "둘 다 끝"이면 3초 후 search_complete
-  // =========================================================
-  function prepFade(el) {
-    if (!el) return;
-    el.style.display = '';
-    el.style.opacity = '0';
-    el.style.transform = `translateY(${VW_DOWN})`;
-    el.style.transition = 'none';
-  }
-
-  function fadeInUpOpacity(el, dur, done) {
-    if (!el) { if (done) done(); return; }
-    el.style.willChange = 'opacity, transform';
-    el.style.display = '';
-    el.style.transition = 'none';
-    el.style.opacity = '0';
-    el.style.transform = `translateY(${VW_DOWN})`;
-
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        el.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
-        el.style.opacity = '1';
-        el.style.transform = 'translateY(0)';
-        setTimeout(() => { if (done) done(); }, dur);
-      });
-    });
-  }
-
-  function runStep03RePubSequence(step3) {
-  if (!step3) return;
-  if (step3._repubRunning) return;
-  step3._repubRunning = true;
-
-  step3._repubTimers = step3._repubTimers || [];
-
-  const rePub  = step3.querySelector('.re_pub_01');
-  if (!rePub) {
-    step3._repubDone = true;
-    maybeGoSearchAfterStep03AllDone(step3);
-    return;
-  }
-
-  const item01 = rePub.querySelector('.gp_in_items .gp_item.item_01');
-  const item02 = rePub.querySelector('.gp_in_items .gp_item.item_02');
-  const badge1 = rePub.querySelector('.gp_in_items .gp_item.item_03 > .badge_box:nth-child(1)'); // st_01
-  const badge2 = rePub.querySelector('.gp_in_items .gp_item.item_03 > .badge_box:nth-child(2)'); // st_02
-  const arrow  = rePub.querySelector('.content_gp .bott_arrow');
-
-  // 기본 준비(숨김)
-  prepFade(badge1);
-  prepFade(arrow);
-  prepFade(item02);
-  prepFade(badge2);
-
-  // ✅ 각 단계 간격(+1.5초 포함) — 기존 네 값 그대로 사용
-  const T_START  = 1000 + STEP3_PLUS; // 시작(이때 item01+badge1 동시)
-  const GAP_1    = 1000 + STEP3_PLUS; // badge1 → arrow
-  const GAP_2    = 500  + STEP3_PLUS; // arrow → (item02+badge2 동시)
-  const GAP_3    = 500  + STEP3_PLUS; // (기존 badge2 지연값을 유지하고 싶으면 여기 포함)
-
-  const tPair1 = T_START;
-  const tArrow = tPair1 + GAP_1;
-
-  // ✅ item02+badge2를 "동시에" 하되, 기존 템포 유지하려면 (GAP_2 + GAP_3) 시점에 묶는 게 자연스러움
-  const tPair2 = tArrow + GAP_2;
-
-  // -----------------------
-  // (동시1) item01 스타일 변경 + badge1(st_01) 노출
-  // -----------------------
-  step3._repubTimers.push(setTimeout(() => {
-    if (!step3.classList.contains('on')) return;
-
-    if (item01) {
-      // item_01 "애니" 느낌: box-shadow는 transition으로 부드럽게
-      item01.style.willChange = 'box-shadow';
-      item01.style.transition = `box-shadow ${REPUB_FADE_DUR}ms ${EASE_OUT}`;
-
-      item01.style.boxShadow = '18px 26px 27.9px 0 rgba(0, 0, 0, 0.63)';
-      item01.style.backgroundImage =
-        'linear-gradient(118deg, #040b14, #09336D), linear-gradient(90deg, #000, #000)';
-    }
-
-    // st_01 배지 동시 페이드인
-    fadeInUpOpacity(badge1, REPUB_FADE_DUR);
-  }, tPair1));
-
-  // -----------------------
-  // arrow 단독 노출(기존 흐름 유지)
-  // -----------------------
-  step3._repubTimers.push(setTimeout(() => {
-    if (!step3.classList.contains('on')) return;
-    fadeInUpOpacity(arrow, REPUB_FADE_DUR);
-  }, tArrow));
-
-  // -----------------------
-  // (동시2) item02 노출 + badge2(st_02) 노출 (동시에)
-  // -----------------------
-  step3._repubTimers.push(setTimeout(() => {
-    if (!step3.classList.contains('on')) return;
-
-    runParallel([
-      (cb) => fadeInUpOpacity(item02, REPUB_FADE_DUR, cb),
-      (cb) => fadeInUpOpacity(badge2, REPUB_FADE_DUR, cb),
-    ], () => {
-      step3._repubDone = true;
-      maybeGoSearchAfterStep03AllDone(step3);
-    });
-  }, tPair2));
-}
-
-  // =========================================================
-  // ✅ 버튼/전환
-  // =========================================================
-  function bindStep03Button(step3) {
-    if (!step3 || step3._bindCardListBtn) return;
-    step3._bindCardListBtn = true;
-
-    const btn = document.getElementById('cardListShow');
-    if (!btn) return;
-
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-
-      if (!step3._step03Done) return;
-      if (step3._toSearchRunning) return;
-      step3._toSearchRunning = true;
-
-      hideStep03ToSearch(step3, S3_TO_SEARCH_FADE_DUR, () => {
-        showSearchComplete();
+        });
+      }
+    
+      function hideStep03ToSearch(step3, dur, done) {
+        if (!step3) { if (done) done(); return; }
+    
+        step3.style.willChange = 'opacity, transform';
+        step3.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
+        requestAnimationFrame(() => {
+          step3.style.opacity = '0';
+          step3.style.transform = `translateY(${VW_UP})`;
+        });
+    
+        setTimeout(() => {
+          step3.classList.remove('on');
+          try { pauseStepVideos(step3); } catch (e) {}
+          step3.style.display = 'none';
+    
+          clearStep03Timers(step3);
+    
+          step3._step03Running = false;
+          step3._step03Done = false;
+          syncNoBlendByState();
+          if (typeof done === 'function') done();
+        }, dur + 30);
+      }
+    
+      function showSearchComplete() {
+        const sc =
+          document.querySelector('.gate_01 .search_complete') ||
+          document.querySelector('.search_complete');
+        if (!sc) return;
+    
+        // search_complete 뜰 때 toast는 숨김
+        hideToastPop(0);
+    
+        sc.style.display = 'flex';
+        sc.dataset.active = '1';
+    
+        sc.style.willChange = 'top, opacity, transform';
+        sc.style.opacity = '0';
+        sc.style.transform = `translateY(${VW_DOWN})`;
+        sc.style.top = '120vw';
+        sc.style.pointerEvents = 'auto';
+        sc.style.zIndex = '999';
+    
+        void sc.offsetHeight;
+    
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            sc.style.opacity = '1';
+            sc.style.transform = 'translateY(0)';
+            sc.style.top = '0';
+          });
+        });
+    
         setNoBlendScreen(false);
-      });
-    });
-  }
-
-  function hideStep03ToSearch(step3, dur, done) {
-    if (!step3) { if (done) done(); return; }
-
-    step3.style.willChange = 'opacity, transform';
-    step3.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
-    requestAnimationFrame(() => {
-      step3.style.opacity = '0';
-      step3.style.transform = `translateY(${VW_UP})`;
-    });
-
-    setTimeout(() => {
-      step3.classList.remove('on');
-      try { pauseStepVideos(step3); } catch (e) {}
-      step3.style.display = 'none';
-
-      clearStep03Timers(step3);
-
-      step3._step03Running = false;
-      step3._step03Done = false;
-      syncNoBlendByState();
-      if (typeof done === 'function') done();
-    }, dur + 30);
-  }
-
-  function showSearchComplete() {
-    const sc =
-      document.querySelector('.gate_01 .search_complete') ||
-      document.querySelector('.search_complete');
-    if (!sc) return;
-
-    sc.style.display = 'flex';
-    sc.dataset.active = '1';
-
-    sc.style.willChange = 'top, opacity, transform';
-    sc.style.opacity = '0';
-    sc.style.transform = `translateY(${VW_DOWN})`;
-    sc.style.top = '120vw';
-    sc.style.pointerEvents = 'auto';
-    sc.style.zIndex = '999';
-
-    void sc.offsetHeight;
-
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        sc.style.opacity = '1';
-        sc.style.transform = 'translateY(0)';
-        sc.style.top = '0';
-      });
-    });
-
-    setNoBlendScreen(false);
-  }
-
-  function setNoBlendScreen(on) {
-    const sec = document.querySelector('.new_gate_sec_01');
-    if (!sec) return;
-    sec.classList.toggle('no-blend-screen', !!on);
-  }
-
-  function syncNoBlendByState() {
-    const step3 = document.querySelector('.new_gate_01.step_03');
-    const step3On = !!(step3 && step3.classList.contains('on'));
-    setNoBlendScreen(step3On);
-  }
-
-  // =========================================================
-  // ✅ cel_list 클래스 제거(스르륵) + line_01~05 순차 제거
-  // =========================================================
-  function removeClassSmooth(celList, className, dur) {
-    if (!celList) return;
-
-    const cells = Array.from(celList.querySelectorAll(`.cel_item.${className}`));
-    if (!cells.length) return;
-
-    cells.forEach(cell => {
-      const cs = getComputedStyle(cell);
-
-      if (cs.position === 'static') cell.style.position = 'relative';
-      cell.style.overflow = 'hidden';
-      cell.style.transition = `background-color ${dur}ms ${EASE_OUT}`;
-
-      const overlay = document.createElement('i');
-      overlay.style.position = 'absolute';
-      overlay.style.inset = '0';
-      overlay.style.pointerEvents = 'none';
-      overlay.style.zIndex = '2';
-      overlay.style.backgroundColor = cs.backgroundColor;
-      overlay.style.opacity = '1';
-      overlay.style.transform = 'translateY(0)';
-      overlay.style.willChange = 'opacity, transform';
-      overlay.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
-
-      cell.appendChild(overlay);
-
-      cell.classList.remove(className);
-
-      requestAnimationFrame(() => {
-        overlay.style.opacity = '0';
-        overlay.style.transform = `translateY(${VW_UP})`;
-      });
-
-      setTimeout(() => {
-        if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
-      }, dur + 60);
-    });
-  }
-
-  function removeClassSmoothBySelector(celList, selector, className, dur) {
-    if (!celList) return;
-
-    const cells = Array.from(celList.querySelectorAll(selector));
-    if (!cells.length) return;
-
-    cells.forEach(cell => {
-      const cs = getComputedStyle(cell);
-
-      if (cs.position === 'static') cell.style.position = 'relative';
-      cell.style.overflow = 'hidden';
-      cell.style.transition = `background-color ${dur}ms ${EASE_OUT}`;
-
-      const overlay = document.createElement('i');
-      overlay.style.position = 'absolute';
-      overlay.style.inset = '0';
-      overlay.style.pointerEvents = 'none';
-      overlay.style.zIndex = '2';
-      overlay.style.backgroundColor = cs.backgroundColor;
-      overlay.style.opacity = '1';
-      overlay.style.transform = 'translateY(0)';
-      overlay.style.willChange = 'opacity, transform';
-      overlay.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
-
-      cell.appendChild(overlay);
-
-      cell.classList.remove(className);
-
-      requestAnimationFrame(() => {
-        overlay.style.opacity = '0';
-        overlay.style.transform = `translateY(${VW_UP})`;
-      });
-
-      setTimeout(() => {
-        if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
-      }, dur + 60);
-    });
-  }
-
-  function removeAniBgDfByLinesSequential(celList, dur, staggerMs, done) {
-    if (!celList) { if (done) done(); return; }
-
-    const lines = ['line_01','line_02','line_03','line_04','line_05'];
-    const gap   = (typeof staggerMs === 'number') ? staggerMs : 500;
-
-    lines.forEach((lineCls, idx) => {
-      setTimeout(() => {
-        removeClassSmoothBySelector(
-          celList,
-          `.cel_item.ani_bg_df.${lineCls}`,
-          'ani_bg_df',
-          dur
-        );
-      }, idx * gap);
-    });
-
-    const total = (lines.length - 1) * gap + dur + 80;
-    setTimeout(() => { if (done) done(); }, total);
-  }
-
-  // =========================================================
-  // ✅ fade helpers
-  // =========================================================
-  function runParallel(fns, done) {
-    let left = fns.length;
-    if (!left) return done && done();
-    fns.forEach(fn => fn(() => { if (--left === 0 && done) done(); }));
-  }
-
-  function fadeOutUpX(el, dur, done) {
-    if (!el) { if (done) done(); return; }
-    el.style.willChange = 'opacity, transform';
-    el.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
-    requestAnimationFrame(() => {
-      el.style.opacity = '0';
-      el.style.transform = `translate(-50%, ${VW_UP})`;
-    });
-    setTimeout(() => { if (done) done(); }, dur);
-  }
-
-  function fadeInUpX(el, dur, done) {
-    if (!el) { if (done) done(); return; }
-    el.style.willChange = 'opacity, transform';
-    el.style.display = '';
-    el.style.transition = 'none';
-    el.style.opacity = '0';
-    el.style.transform = `translate(-50%, ${VW_DOWN})`;
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
+      }
+    
+      function setNoBlendScreen(on) {
+        const sec = document.querySelector('.new_gate_sec_01');
+        if (!sec) return;
+        sec.classList.toggle('no-blend-screen', !!on);
+      }
+    
+      function syncNoBlendByState() {
+        const step3 = document.querySelector('.new_gate_01.step_03');
+        const step3On = !!(step3 && step3.classList.contains('on'));
+        setNoBlendScreen(step3On);
+      }
+    
+      // =========================================================
+      // ✅ fade helpers
+      // =========================================================
+      function runParallel(fns, done) {
+        let left = fns.length;
+        if (!left) return done && done();
+        fns.forEach(fn => fn(() => { if (--left === 0 && done) done(); }));
+      }
+    
+      function fadeOutUpX(el, dur, done) {
+        if (!el) { if (done) done(); return; }
+        el.style.willChange = 'opacity, transform';
         el.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
-        el.style.opacity = '1';
-        el.style.transform = 'translate(-50%, 0)';
+        requestAnimationFrame(() => {
+          el.style.opacity = '0';
+          el.style.transform = `translate(-50%, ${VW_UP})`;
+        });
         setTimeout(() => { if (done) done(); }, dur);
-      });
-    });
-  }
-
-  function fadeInUpY_WithDisplay(el, dur, displayValue, done) {
-    if (!el) { if (done) done(); return; }
-    el.style.willChange = 'opacity, transform';
-    el.style.transition = 'none';
-    el.style.display = displayValue || 'block';
-    el.style.opacity = '0';
-    el.style.transform = `translateY(${VW_DOWN})`;
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
+      }
+    
+      function fadeInUpX(el, dur, done) {
+        if (!el) { if (done) done(); return; }
+        el.style.willChange = 'opacity, transform';
+        el.style.display = '';
+        el.style.transition = 'none';
+        el.style.opacity = '0';
+        el.style.transform = `translate(-50%, ${VW_DOWN})`;
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            el.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
+            el.style.opacity = '1';
+            el.style.transform = 'translate(-50%, 0)';
+            setTimeout(() => { if (done) done(); }, dur);
+          });
+        });
+      }
+    
+      function fadeInUpY_WithDisplay(el, dur, displayValue, done) {
+        if (!el) { if (done) done(); return; }
+        el.style.willChange = 'opacity, transform';
+        el.style.transition = 'none';
+        el.style.display = displayValue || 'block';
+        el.style.opacity = '0';
+        el.style.transform = `translateY(${VW_DOWN})`;
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            el.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+            setTimeout(() => { if (done) done(); }, dur);
+          });
+        });
+      }
+    
+      function fadeOutUpY(el, dur, done) {
+        if (!el) { if (done) done(); return; }
+        el.style.willChange = 'opacity, transform';
         el.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
-        el.style.opacity = '1';
-        el.style.transform = 'translateY(0)';
+        requestAnimationFrame(() => {
+          el.style.opacity = '0';
+          el.style.transform = `translateY(${VW_UP})`;
+        });
         setTimeout(() => { if (done) done(); }, dur);
-      });
-    });
-  }
+      }
+    
+      // -----------------------------
+      // start
+      // -----------------------------
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initGate01Sequence);
+      } else {
+        initGate01Sequence();
+      }
+    })();
+    
+    
 
-  function fadeOutUpY(el, dur, done) {
-    if (!el) { if (done) done(); return; }
-    el.style.willChange = 'opacity, transform';
-    el.style.transition = `opacity ${dur}ms ${EASE_OUT}, transform ${dur}ms ${EASE_OUT}`;
-    requestAnimationFrame(() => {
-      el.style.opacity = '0';
-      el.style.transform = `translateY(${VW_UP})`;
-    });
-    setTimeout(() => { if (done) done(); }, dur);
-  }
 
-  function toastIn(toast, dur) {
-    if (!toast) return;
-    toast.style.willChange = 'opacity, bottom';
-    toast.style.display = '';
-    toast.style.transition = 'none';
-    toast.style.opacity = '0';
-    toast.style.bottom = '-9vw';
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        toast.style.transition = `opacity ${dur}ms ${EASE_OUT}, bottom ${dur}ms ${EASE_OUT}`;
-        toast.style.opacity = '1';
-        toast.style.bottom = '0';
-      });
-    });
-  }
-
-  // -----------------------------
-  // start
-  // -----------------------------
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initGate01Sequence);
-  } else {
-    initGate01Sequence();
-  }
-})();
 
 
 

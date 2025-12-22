@@ -84,22 +84,38 @@
             <div class="contents">
                 <div class="contents_01">
                     <section class="tech_process_wrap">
-                        <div class="tech_process_tit_box">
+                        <div class="tech_process_tit_box thec_pro_tit_01">
                             <div class="tech_process_img">
                                 <video src="../../resources/images/loading_img2.mp4" autoplay muted loop
                                     playsinline></video>
                             </div>
                             <div class="tech_process_tit kr_t">
                                 <strong class="tit">기술 평가</strong>
-                                <p class="sub">해당 스타트업의 보유 기술의 가치를 평가하여 지원 가능한 상품을 제안합니다.</p>
-                                <p class="sub_02">* 해당 평가는 IBK만의 기술 평가 시스템을 통해 분석됩니다. </p>
+                                <p class="sub">기업의 보유 기술의 가치를 평가하여 지원 가능한 상품을 제안합니다.</p>
+                                <p class="sub_02">* 해당 평가는 IBK만의 新 기술 평가 시스템을 통해 분석됩니다.</p>
                             </div>
                             <div class="tech_process_tit en_t">
                                 <strong class="tit">Technology Assesment</strong>
                                 <p class="sub">By assessing the value of the startup’s technology,<br>we recommend the
                                     financial products it is eligible for.</p>
-                                <p class="sub_02">* This assessment is conducted using IBK’s proprietary Tech Evaluation
-                                    System.</p>
+                                <p class="sub_02">* This assessment is conducted through IBK’s proprietary New Tech Evaluation System.</p>
+                            </div>
+                        </div>
+                        <div class="tech_process_tit_box thec_pro_tit_02">
+                            <div class="tech_process_img">
+                                <video src="../../resources/images/loading_img2.mp4" autoplay muted loop
+                                    playsinline></video>
+                            </div>
+                            <div class="tech_process_tit kr_t">
+                                <strong class="tit">미래 성장성 평가</strong>
+                                <p class="sub">기업의 미래 성장 가치를 평가하여 지원 가능한 상품을 제안합니다.</p>
+                                <p class="sub_02">* 해당 평가는 IBK만의 新 기술 평가 시스템을 통해 분석됩니다.</p>
+                            </div>
+                            <div class="tech_process_tit en_t">
+                                <strong class="tit">Growth Potential Assessment</strong>
+                                <p class="sub">By assessing the value of the startup’s technology,<br>we recommend the
+                                    financial products it is eligible for.</p>
+                                <p class="sub_02">* This assessment is conducted through IBK’s proprietary New Tech Evaluation System.</p>
                             </div>
                         </div>
 
@@ -1233,7 +1249,7 @@
                     <img src="../../resources/images/search_result_07.jpg">
                 </div>
                 <div class="tit kr_t">
-                    <strong>추천 지원 상품 매칭 중</strong>
+                    <strong>AI를 통한 최적의 금융상품 분석 중</strong>
                 </div>
                 <div class="sub kr_t">
                     <p>기술 평가 시스템을 통해 평가된 결과에 따른 현재 경영 상태에 가장 적합한 지원 상품을 조회 중입니다. </p>
@@ -1258,912 +1274,977 @@
 
 <!-- techRadar01 방사형, 바형 차트 -->
 <script>
-    let language = localStorage.getItem('siteLang') === 'lang_kr' ? "kor" : "eng";
-    let currentCompany = "에이에스이티";
-    document.addEventListener('DOMContentLoaded', function () {
-        // =====================================================================
-        // 공통 유틸
-        // =====================================================================
-        // 디자인 px → 실제 px (1px = 0.0260vw 기준)
-        function radarPx(px) {
-            var vw = px * 0.0260;               // px → vw
-            return window.innerWidth * vw / 100; // vw → 실제 px
+let language = localStorage.getItem('siteLang') === 'lang_kr' ? "kor" : "eng";
+let currentCompany = "에이에스이티";
+
+document.addEventListener('DOMContentLoaded', function () {
+  // =====================================================================
+  // 공통 유틸
+  // =====================================================================
+  function radarPx(px) {
+    var vw = px * 0.0260;
+    return window.innerWidth * vw / 100;
+  }
+
+  function easeInQuad(t) {
+    t = Math.max(0, Math.min(1, t));
+    return t * t;
+  }
+
+  // =====================================================================
+  // 레이다 커스텀 드로우 플러그인
+  // =====================================================================
+  function createRadarDrawPlugin(canvasId, state, opts) {
+    return {
+      id: 'radarDraw_' + canvasId,
+      afterDatasetsDraw(chart) {
+        if (!chart.canvas || chart.canvas.id !== canvasId) return;
+
+        var meta = chart.getDatasetMeta(0);
+        var points = meta.data || [];
+        if (!points.length) return;
+
+        var ctx = chart.ctx;
+        var baseRadius = radarPx(opts.pointRadiusPx || 8);
+        var lineWidth = radarPx(opts.lineWidthPx || 2);
+
+        ctx.save();
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        // 선(세그먼트)
+        if (Array.isArray(state.segmentProgress)) {
+          var segLen = state.segmentProgress.length;
+          var pointLen = points.length;
+
+          for (var i = 0; i < segLen && pointLen > 0; i++) {
+            var prog = state.segmentProgress[i] || 0;
+            if (prog <= 0) continue;
+
+            var p0 = points[i];
+            var p1 = (i === pointLen - 1) ? points[0] : points[i + 1];
+            if (!p0 || !p1) continue;
+
+            var t = Math.min(prog, 1);
+
+            var x1 = p0.x, y1 = p0.y;
+            var x2 = p1.x, y2 = p1.y;
+            var xt = x1 + (x2 - x1) * t;
+            var yt = y1 + (y2 - y1) * t;
+
+            ctx.save();
+            ctx.strokeStyle = opts.lineColor || '#1d7bff';
+            ctx.lineWidth = lineWidth;
+            ctx.globalAlpha = t;
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(xt, yt);
+            ctx.stroke();
+            ctx.restore();
+          }
         }
 
-        function easeInQuad(t) {
-            t = Math.max(0, Math.min(1, t));
-            return t * t; // 처음 천천히, 마지막 빠르게
+        // 점
+        if (Array.isArray(state.pointProgress)) {
+          for (var j = 0; j < points.length; j++) {
+            var pProg = state.pointProgress[j] || 0;
+            if (pProg <= 0) continue;
+
+            var p = points[j];
+            var r = baseRadius * Math.min(pProg, 1);
+
+            ctx.save();
+            ctx.fillStyle = opts.pointColor || '#1d7bff';
+            ctx.globalAlpha = pProg;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+          }
         }
 
-        // 캔버스별 커스텀 드로우 플러그인 생성
-        function createRadarDrawPlugin(canvasId, state, opts) {
-            return {
-                id: 'radarDraw_' + canvasId,
-                afterDatasetsDraw(chart) {
-                    if (!chart.canvas || chart.canvas.id !== canvasId) return;
+        // 면 채우기
+        if (state.fillProgress > 0 && points.length > 2) {
+          var alpha = Math.min(state.fillProgress, 1);
 
-                    var meta = chart.getDatasetMeta(0);
-                    var points = meta.data || [];
-                    if (!points.length) return;
+          ctx.save();
+          ctx.beginPath();
+          ctx.moveTo(points[0].x, points[0].y);
+          for (var k = 1; k < points.length; k++) ctx.lineTo(points[k].x, points[k].y);
+          ctx.closePath();
 
-                    var ctx = chart.ctx;
-                    var baseRadius = radarPx(opts.pointRadiusPx || 8); // 점 반지름(px 기준)
-                    var lineWidth = radarPx(opts.lineWidthPx || 2);  // 선 두께(px 기준)
-
-                    ctx.save();
-                    ctx.lineCap = 'round';
-                    ctx.lineJoin = 'round';
-
-                    // ---------------- 선(세그먼트) ----------------
-                    if (Array.isArray(state.segmentProgress)) {
-                        var segLen = state.segmentProgress.length;
-                        var pointLen = points.length;
-
-                        for (var i = 0; i < segLen && pointLen > 0; i++) {
-                            var prog = state.segmentProgress[i] || 0;
-                            if (prog <= 0) continue;
-
-                            var p0 = points[i];
-                            var p1 = (i === pointLen - 1) ? points[0] : points[i + 1];
-                            if (!p0 || !p1) continue;
-
-                            var t = Math.min(prog, 1);
-
-                            var x1 = p0.x, y1 = p0.y;
-                            var x2 = p1.x, y2 = p1.y;
-                            var xt = x1 + (x2 - x1) * t;
-                            var yt = y1 + (y2 - y1) * t;
-
-                            ctx.save();
-                            ctx.strokeStyle = opts.lineColor || '#1d7bff';
-                            ctx.lineWidth = lineWidth;
-                            ctx.globalAlpha = t; // opacity 0→1
-                            ctx.beginPath();
-                            ctx.moveTo(x1, y1);
-                            ctx.lineTo(xt, yt);
-                            ctx.stroke();
-                            ctx.restore();
-                        }
-                    }
-
-                    // ---------------- 점 ----------------
-                    if (Array.isArray(state.pointProgress)) {
-                        for (var j = 0; j < points.length; j++) {
-                            var pProg = state.pointProgress[j] || 0;
-                            if (pProg <= 0) continue;
-
-                            var p = points[j];
-                            var r = baseRadius * Math.min(pProg, 1);
-
-                            ctx.save();
-                            ctx.fillStyle = opts.pointColor || '#1d7bff';
-                            ctx.globalAlpha = pProg; // opacity 0→1
-                            ctx.beginPath();
-                            ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
-                            ctx.fill();
-                            ctx.restore();
-                        }
-                    }
-
-                    // ---------------- 면 채우기 ----------------
-                    if (state.fillProgress > 0 && points.length > 2) {
-                        var alpha = Math.min(state.fillProgress, 1);
-
-                        ctx.save();
-                        ctx.beginPath();
-                        ctx.moveTo(points[0].x, points[0].y);
-                        for (var k = 1; k < points.length; k++) {
-                            ctx.lineTo(points[k].x, points[k].y);
-                        }
-                        ctx.closePath();
-
-                        ctx.globalAlpha = alpha;
-                        ctx.fillStyle = opts.fillColor || 'rgba(29, 123, 255, 0.35)';
-                        ctx.fill();
-                        ctx.restore();
-                    }
-
-                    ctx.restore();
-                }
-            };
+          ctx.globalAlpha = alpha;
+          ctx.fillStyle = opts.fillColor || 'rgba(29, 123, 255, 0.35)';
+          ctx.fill();
+          ctx.restore();
         }
 
-        // =====================================================================
-        // 공통 컨트롤러 생성 함수
-        //   - canvasId, labels, data만 다르게 넣으면 3각형/5각형/10각형 공통 사용
-        //   - 반환값: { start(), chart, setData(), setLabels() }
-        // =====================================================================
-        function createRadarController(opts) {
-            var canvasId = opts.canvasId;
-            var labels = (opts.labels || []).slice();
-            var data = (opts.data || []).slice();
-            var fontPx = opts.labelFontPx || 24;
+        ctx.restore();
+      }
+    };
+  }
 
-            var canvas = document.getElementById(canvasId);
-            if (!canvas) return null;
+  // =====================================================================
+  // 레이다 컨트롤러
+  //  - ✅ 점-점 간격 2초(STEP_INTERVAL=2000)로 기본값 변경
+  // =====================================================================
+  function createRadarController(opts) {
+    var canvasId = opts.canvasId;
+    var labels = (opts.labels || []).slice();
+    var data = (opts.data || []).slice();
+    var fontPx = opts.labelFontPx || 24;
 
-            var ctx = canvas.getContext('2d');
-            var n = data.length;
+    var canvas = document.getElementById(canvasId);
+    if (!canvas) return null;
 
-            var state = {
-                pointProgress: new Array(n).fill(0),
-                segmentProgress: new Array(n).fill(0),
-                fillProgress: 0,
-                animating: false,
-                chart: null
-            };
+    var ctx = canvas.getContext('2d');
+    var n = data.length;
 
-            var drawPlugin = createRadarDrawPlugin(canvasId, state, opts);
-            var fontSize = radarPx(fontPx);
+    var state = {
+      pointProgress: new Array(n).fill(0),
+      segmentProgress: new Array(n).fill(0),
+      fillProgress: 0,
+      animating: false,
+      chart: null
+    };
 
-            var chart = new Chart(ctx, {
-                type: 'radar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: opts.datasetLabel || '',
-                        data: new Array(n).fill(0), // 처음에는 0
-                        borderColor: 'rgba(0,0,0,0)',
-                        backgroundColor: 'rgba(0,0,0,0)',
-                        borderWidth: 0,
-                        pointBackgroundColor: 'rgba(0,0,0,0)',
-                        pointBorderColor: 'rgba(0,0,0,0)',
-                        pointRadius: 0,
-                        pointHoverRadius: 0,
-                        fill: false
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    animation: false,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: { enabled: false }
-                    },
-                    scales: {
-                        r: {
-                            min: 0,
-                            max: 100,
-                            ticks: {
-                                display: false,
-                                stepSize: 20
-                            },
-                            grid: {
-                                color: opts.gridColor || 'rgba(241, 241, 241, 0.6)'
-                            },
-                            angleLines: {
-                                color: opts.gridColor || 'rgba(241, 241, 241, 0.6)'
-                            },
-                            pointLabels: {
-                                color: opts.labelColor || '#ffffff',
-                                font: {
-                                    size: fontSize, // 24px → vw 환산 값
-                                    family: opts.fontFamily || 'Pretendard, Noto Sans KR, sans-serif'
-                                },
-                                padding: radarPx(opts.labelPaddingPx || 10)
-                            }
-                        }
-                    }
-                },
-                plugins: [drawPlugin]
-            });
+    var drawPlugin = createRadarDrawPlugin(canvasId, state, opts);
+    var fontSize = radarPx(fontPx);
 
-            state.chart = chart;
-
-            // ---------- 공통 애니 유틸 ----------
-            function animateValue(duration, onUpdate, onComplete) {
-                var start = performance.now();
-                function frame(now) {
-                    var tRaw = (now - start) / duration;
-                    var tNorm = Math.max(0, Math.min(1, tRaw));
-                    var eased = easeInQuad(tNorm); // 처음 천천히 → 마지막 빠르게
-
-                    onUpdate(eased);
-                    chart.update();
-
-                    if (tNorm < 1) {
-                        requestAnimationFrame(frame);
-                    } else if (typeof onComplete === 'function') {
-                        onComplete();
-                    }
-                }
-                requestAnimationFrame(frame);
+    var chart = new Chart(ctx, {
+      type: 'radar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: opts.datasetLabel || '',
+          data: new Array(n).fill(0),
+          borderColor: 'rgba(0,0,0,0)',
+          backgroundColor: 'rgba(0,0,0,0)',
+          borderWidth: 0,
+          pointBackgroundColor: 'rgba(0,0,0,0)',
+          pointBorderColor: 'rgba(0,0,0,0)',
+          pointRadius: 0,
+          pointHoverRadius: 0,
+          fill: false
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: false }
+        },
+        scales: {
+          r: {
+            min: 0,
+            max: 100,
+            ticks: { display: false, stepSize: 20 },
+            grid: { color: opts.gridColor || 'rgba(241, 241, 241, 0.6)' },
+            angleLines: { color: opts.gridColor || 'rgba(241, 241, 241, 0.6)' },
+            pointLabels: {
+              color: opts.labelColor || '#ffffff',
+              font: {
+                size: fontSize,
+                family: opts.fontFamily || 'Pretendard, Noto Sans KR, sans-serif'
+              },
+              padding: radarPx(opts.labelPaddingPx || 10)
             }
-
-            function animatePoint(index, duration) {
-                if (index < 0 || index >= state.pointProgress.length) return;
-                animateValue(duration, function (eased) {
-                    state.pointProgress[index] = eased;
-                });
-            }
-
-            function animateSegment(index, duration) {
-                if (index < 0 || index >= state.segmentProgress.length) return;
-                animateValue(duration, function (eased) {
-                    state.segmentProgress[index] = eased;
-                });
-            }
-
-            function animateFill(duration) {
-                animateValue(duration, function (eased) {
-                    state.fillProgress = eased;
-                }, function () {
-                    state.animating = false;
-                });
-            }
-
-            var timers = [];
-            function clearTimers() {
-                while (timers.length) clearTimeout(timers.pop());
-            }
-
-
-            // ---------- 실제 시퀀스 ----------
-            function start() {
-                clearTimers();
-                var n = data.length;
-                if (!n) return;
-
-                chart.data.labels = labels.slice();
-                chart.data.datasets[0].data = data.slice();
-
-                state.pointProgress = new Array(n).fill(0);
-                state.segmentProgress = new Array(n).fill(0);
-                state.fillProgress = 0;
-                state.animating = true;
-
-                chart.update();
-
-                // ★ 타이밍 설정
-                // 첫 점은 바로, 이후 점은 3초 간격
-                var FIRST_DELAY = (opts.firstDelay != null) ? opts.firstDelay : 0;     // 0초
-                var STEP_INTERVAL = (opts.stepInterval != null) ? opts.stepInterval : 3200;  // 3초 간격
-                var POINT_DURATION = (opts.pointDuration != null) ? opts.pointDuration : 400;
-                var SEG_DURATION = (opts.segmentDuration != null) ? opts.segmentDuration : 600;
-                var CLOSE_DELAY = (opts.closeDelay != null) ? opts.closeDelay : 500;   // 마지막 점 찍히고 초 뒤
-                var FILL_DURATION = (opts.fillDuration != null) ? opts.fillDuration : 700;
-
-                // n개의 점 + (중간) 세그먼트
-                for (let i = 0; i < n; i++) {
-                    (function (index) {
-                        var time = FIRST_DELAY + index * STEP_INTERVAL;
-
-                        var tid = setTimeout(function () {
-                            // 점 찍기
-                            animatePoint(index, POINT_DURATION);
-
-                            // ★ 수정 전
-                            // if (index > 0 && index < n - 1) {
-                            //     var segIdx = index - 1;
-                            //     animateSegment(segIdx, SEG_DURATION);
-                            // }
-
-                            // ★ 수정 후 : 두 번째 점부터는 무조건 직전 점과 연결
-                            if (index > 0) {
-                                var segIdx = index - 1; // 1→seg0, 2→seg1, 3→seg2, 4→seg3 ...
-                                animateSegment(segIdx, SEG_DURATION);
-                            }
-                        }, time);
-                        timers.push(tid);
-                    })(i);
-                }
-
-
-                // 마지막 점이 찍히는 시점
-                var lastIndex = n - 1;
-                var lastPointTime = FIRST_DELAY + lastIndex * STEP_INTERVAL;
-
-                // 마지막 점 찍힌 후 0.5초 뒤:
-                //   - 마지막 세그먼트: (마지막 점) ↔ (첫 번째 점)
-                //   - 선 애니 시작과 거의 동시에 면 채우기 시작
-                var tid2 = setTimeout(function () {
-                    // 4번째-5번째 선은 위 for 루프에서 이미 그렸고,
-                    // 여기서는 5번째-1번째 선 (segment lastIndex)을 그림
-                    animateSegment(lastIndex, SEG_DURATION);
-
-                    // 선 그리기와 거의 동시에 면 채우기 시작 (스르륵)
-                    animateFill(FILL_DURATION);
-                }, lastPointTime + CLOSE_DELAY);
-                timers.push(tid2);
-            }
-
-
-
-            return {
-                start: start,
-                chart: chart,
-
-                setData: function (newData) {
-                    data = (newData || []).slice();
-                },
-                setLabels: function (newLabels) {
-                    labels = (newLabels || []).slice();
-                },
-
-                // ✅ (추가) 현재 data로 "완성된 상태"를 즉시 그리기 (애니/타이머 없음)
-                renderNow: function () {
-                    clearTimers(); // start에서 쓰는 timers 정리(있으면)
-                    var n = data.length;
-                    if (!n) return;
-
-                    chart.data.labels = labels.slice();
-                    chart.data.datasets[0].data = data.slice();
-
-                    // 완성 상태로 세팅
-                    state.pointProgress = new Array(n).fill(1);
-                    state.segmentProgress = new Array(n).fill(1);
-                    state.fillProgress = 1;
-                    state.animating = false;
-
-                    chart.update(); // 1회 렌더
-                },
-
-                // ✅ (추가) 라벨만 바꾸고 즉시 반영 (데이터/애니 그대로)
-                updateLabelsOnly: function (newLabels) {
-                    labels = (newLabels || []).slice();
-                    chart.data.labels = labels.slice();
-                    chart.update(); // 애니 옵션 자체가 false라 1회 렌더만 됨
-                }
-            };
-
+          }
         }
-
-        // =============================================================
-        // 2개 지표용 바 차트 컨트롤러
-        //  - radarPx, easeInQuad 는 위에서 정의돼 있다고 가정
-        // =============================================================
-        function createTechBarController(opts) {
-            var canvasId = opts.canvasId;
-            var labels = (opts.labels || []).slice(); // 예: ['기술 혁신성', '시장 현황']
-            var data = (opts.data || []).slice(); // 예: [70, 80] (0~100)
-            var fontPx = opts.labelFontPx || 24;
-
-            var canvas = document.getElementById(canvasId);
-            if (!canvas) return null;
-
-            var ctx = canvas.getContext('2d');
-            var n = data.length;
-
-            var fontSize = radarPx(fontPx);
-
-            var chart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        data: new Array(n).fill(0),   // 처음엔 0에서 시작
-                        backgroundColor: 'rgba(29, 123, 255, 0.35)',
-                        borderColor: '#1d7bff',
-                        borderWidth: radarPx(2),
-                        borderRadius: radarPx(4),
-                        barPercentage: 0.4,
-                        categoryPercentage: 0.6
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    animation: false, // 기본 애니 끄고 직접 제어
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: { enabled: false }
-                    },
-                    scales: {
-                        x: {
-                            grid: {
-                                display: false
-                            },
-                            ticks: {
-                                color: '#ffffff',
-                                font: {
-                                    size: fontSize,
-                                    family: 'Pretendard, Noto Sans KR, sans-serif'
-                                }
-                            }
-                        },
-                        y: {
-                            min: 0,
-                            max: 100,
-                            ticks: {
-                                display: false
-                            },
-                            grid: {
-                                color: opts.gridColor || 'rgba(241, 241, 241, 0.6)',
-                                lineWidth: radarPx(1)
-                            }
-                        }
-                    }
-                }
-            });
-
-            // 공통 값 애니 유틸
-            function animateValue(duration, onUpdate, onComplete) {
-                var start = performance.now();
-                function frame(now) {
-                    var tRaw = (now - start) / duration;
-                    var tNorm = Math.max(0, Math.min(1, tRaw));
-                    var eased = easeInQuad(tNorm);
-
-                    onUpdate(eased);
-                    chart.update();
-
-                    if (tNorm < 1) {
-                        requestAnimationFrame(frame);
-                    } else if (typeof onComplete === 'function') {
-                        onComplete();
-                    }
-                }
-                requestAnimationFrame(frame);
-            }
-
-            function start() {
-                if (!n) return;
-
-                // 초기화
-                chart.data.datasets[0].data = new Array(n).fill(0);
-                chart.update();
-
-                var BAR_DURATION = opts.barDuration || 2000;   // 각 막대 애니 시간 2초
-                var FIRST_DELAY = opts.firstDelay || 0;      // 필요하면 처음 딜레이
-
-                function animateBar(index) {
-                    if (index >= n) return;
-
-                    var target = data[index];
-
-                    animateValue(BAR_DURATION, function (eased) {
-                        // 아래→위로 그려지도록 값 0→target
-                        chart.data.datasets[0].data[index] = target * eased;
-                    }, function () {
-                        // 이 막대가 끝나면 바로 다음 막대 시작
-                        animateBar(index + 1);
-                    });
-                }
-
-                setTimeout(function () {
-                    animateBar(0);   // 첫 번째 막대 시작
-                }, FIRST_DELAY);
-            }
-
-            return {
-                start: start,
-                chart: chart,
-                setData: function (newData) {
-                    data = (newData || []).slice();
-                },
-                setLabels: function (newLabels) {
-                    labels = (newLabels || []).slice();
-                }
-            };
-        }
-
-
-
-        // =====================================================================
-        // techRadar01 (5각형) 컨트롤러
-        // =====================================================================
-        window.techRadar01Ctrl = createRadarController({
-            canvasId: 'techRadar01',
-            labels: [
-                '기술 개발 현황',
-                '기술 개발 능력',
-                '기술 혁신성',
-                '기술자립도 및 확장성',
-                '기술 보호성'
-            ],
-            // ★ 실제 데이터로 교체해서 사용 (0~100)
-            data: [30, 90, 30, 50, 70],
-            labelFontPx: 24,
-            datasetLabel: '평가'
-        });
-
-        // =====================================================================
-        // techRadar02 (3각형) 컨트롤러
-        // =====================================================================
-        window.techRadar02Ctrl = createRadarController({
-            canvasId: 'techRadar02',
-            labels: [
-                '기업가 정신과 신뢰',
-                '최고 경영자',
-                '경영진'
-            ],
-            // ★ 실제 데이터로 교체해서 사용 (0~100)
-            data: [70, 70, 50],
-            labelFontPx: 24,
-            datasetLabel: '평가'
-        });
-
-        // =====================================================================
-        // techRadar02 (3각형) 컨트롤러
-        // =====================================================================
-        window.techRadar03Ctrl = createRadarController({
-            canvasId: 'techRadar02_01',
-            labels: [
-                '시장 현황',
-                '경쟁상황',
-                '제품 경쟁력'
-            ],
-            // ★ 실제 데이터로 교체해서 사용 (0~100)
-            data: [70, 50, 30],
-            labelFontPx: 24,
-            datasetLabel: '평가'
-        });
-
-        // =====================================================================
-        // techRadar04 (8각형) 컨트롤러
-        // =====================================================================
-        window.techRadar04Ctrl = createRadarController({
-            canvasId: 'techRadar04',
-            labels: [
-                '추가 투자금 유치',
-                '정부 출원금 확보',
-                '높은 기술 준비도',
-                '브랜드 홍보 전략',
-                '외형 지표 가시화',
-                '다양한 제휴 체결',
-                '우수한 인재 유치',
-                '사전적 영업 수행'
-            ],
-            // ★ 실제 데이터로 교체해서 사용 (0~100)
-            data: [0, 99.5, 99.2, 97.5, 99.5, 99.8, 98, 62.8],
-            labelFontPx: 24,
-            datasetLabel: '평가'
-        });
-
-        // =============================================================
-        // 2개 지표용 바 차트 (캔버스 id = techBar01 가정)
-        // =============================================================
-        window.techBar01Ctrl = createTechBarController({
-            canvasId: 'techBar01',
-            labels: ['사업능력', '향후 전망'],  // ← 필요에 맞게 수정
-            data: [50, 30],                     // ← 0~100 값
-            labelFontPx: 24
-        });
-
-
-
-        // =====================================================================
-        // 전역 함수로 노출 → 원하는 타이밍에 호출해서 시작
-        //   예) runTechRadar01();  runTechRadar02();
-        // =====================================================================
-        window.runTechRadar01 = function () {
-            if (techRadar01Ctrl) techRadar01Ctrl.start();
-        };
-        window.runTechRadar02 = function () {
-            if (techRadar02Ctrl) techRadar02Ctrl.start();
-        };
-        window.runTechBar01 = function () {
-            if (techBar01Ctrl) techBar01Ctrl.start();
-        };
-        window.runTechRadar03 = function () {
-            if (techRadar03Ctrl) techRadar03Ctrl.start();
-        };
-        window.runTechRadar04 = function () {
-            if (techRadar04Ctrl) techRadar04Ctrl.start();
-        };
+      },
+      plugins: [drawPlugin]
     });
+
+    state.chart = chart;
+
+    function animateValue(duration, onUpdate, onComplete) {
+      var start = performance.now();
+      function frame(now) {
+        var tRaw = (now - start) / duration;
+        var tNorm = Math.max(0, Math.min(1, tRaw));
+        var eased = easeInQuad(tNorm);
+
+        onUpdate(eased);
+        chart.update();
+
+        if (tNorm < 1) requestAnimationFrame(frame);
+        else if (typeof onComplete === 'function') onComplete();
+      }
+      requestAnimationFrame(frame);
+    }
+
+    function animatePoint(index, duration) {
+      if (index < 0 || index >= state.pointProgress.length) return;
+      animateValue(duration, function (eased) {
+        state.pointProgress[index] = eased;
+      });
+    }
+
+    function animateSegment(index, duration) {
+      if (index < 0 || index >= state.segmentProgress.length) return;
+      animateValue(duration, function (eased) {
+        state.segmentProgress[index] = eased;
+      });
+    }
+
+    function animateFill(duration) {
+      animateValue(duration, function (eased) {
+        state.fillProgress = eased;
+      }, function () {
+        state.animating = false;
+      });
+    }
+
+    var timers = [];
+    function clearTimers() {
+      while (timers.length) clearTimeout(timers.pop());
+    }
+
+    function start() {
+      clearTimers();
+      var n = data.length;
+      if (!n) return;
+
+      chart.data.labels = labels.slice();
+      chart.data.datasets[0].data = data.slice();
+
+      state.pointProgress = new Array(n).fill(0);
+      state.segmentProgress = new Array(n).fill(0);
+      state.fillProgress = 0;
+      state.animating = true;
+
+      chart.update();
+
+      // ★ 타이밍 설정
+      var FIRST_DELAY    = (opts.firstDelay != null) ? opts.firstDelay : 0;
+      var STEP_INTERVAL  = (opts.stepInterval != null) ? opts.stepInterval : 2000; // ✅ 2초 간격
+      var POINT_DURATION = (opts.pointDuration != null) ? opts.pointDuration : 400;
+      var SEG_DURATION   = (opts.segmentDuration != null) ? opts.segmentDuration : 600;
+      var CLOSE_DELAY    = (opts.closeDelay != null) ? opts.closeDelay : 500;
+      var FILL_DURATION  = (opts.fillDuration != null) ? opts.fillDuration : 700;
+
+      for (let i = 0; i < n; i++) {
+        (function (index) {
+          var time = FIRST_DELAY + index * STEP_INTERVAL;
+
+          var tid = setTimeout(function () {
+            animatePoint(index, POINT_DURATION);
+
+            // 두 번째 점부터는 직전 점과 연결
+            if (index > 0) {
+              var segIdx = index - 1;
+              animateSegment(segIdx, SEG_DURATION);
+            }
+          }, time);
+
+          timers.push(tid);
+        })(i);
+      }
+
+      var lastIndex = n - 1;
+      var lastPointTime = FIRST_DELAY + lastIndex * STEP_INTERVAL;
+
+      var tid2 = setTimeout(function () {
+        // 마지막 점 ↔ 첫 점 닫기
+        animateSegment(lastIndex, SEG_DURATION);
+        animateFill(FILL_DURATION);
+      }, lastPointTime + CLOSE_DELAY);
+
+      timers.push(tid2);
+    }
+
+    return {
+      start: start,
+      chart: chart,
+      setData: function (newData) { data = (newData || []).slice(); },
+      setLabels: function (newLabels) { labels = (newLabels || []).slice(); },
+
+      renderNow: function () {
+        clearTimers();
+        var n = data.length;
+        if (!n) return;
+
+        chart.data.labels = labels.slice();
+        chart.data.datasets[0].data = data.slice();
+
+        state.pointProgress = new Array(n).fill(1);
+        state.segmentProgress = new Array(n).fill(1);
+        state.fillProgress = 1;
+        state.animating = false;
+
+        chart.update();
+      },
+
+      updateLabelsOnly: function (newLabels) {
+        labels = (newLabels || []).slice();
+        chart.data.labels = labels.slice();
+        chart.update();
+      }
+    };
+  }
+
+  // =====================================================================
+  // 2개 지표용 바 차트 컨트롤러
+  //  - ✅ 기본(초기)에는 바가 "안 보이게"(투명/보더0) 세팅
+  //  - ✅ start 호출 시에만 색/보더 복구 후 애니 시작
+  //  - ✅ 바 1개 채우고 다음 바 = 2초 간격(BAR_DURATION=2000)
+  // =====================================================================
+  function createTechBarController(opts) {
+    var canvasId = opts.canvasId;
+    var labels = (opts.labels || []).slice();
+    var data = (opts.data || []).slice();
+    var fontPx = opts.labelFontPx || 24;
+
+    var canvas = document.getElementById(canvasId);
+    if (!canvas) return null;
+
+    var ctx = canvas.getContext('2d');
+    var n = data.length;
+    var fontSize = radarPx(fontPx);
+
+    // ✅ "보이는" 스타일(동작 시 적용)
+    var V_BG   = opts.bgColor     || 'rgba(29, 123, 255, 0.35)';
+    var V_LINE = opts.borderColor || '#1d7bff';
+    var V_W    = (opts.borderWidthPx != null) ? radarPx(opts.borderWidthPx) : radarPx(2);
+
+    // ✅ "숨김" 스타일(초기 디폴트)
+    var H_BG   = 'rgba(29, 123, 255, 0)';
+    var H_LINE = 'rgba(29, 123, 255, 0)';
+    var H_W    = 0;
+
+    var chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          data: new Array(n).fill(0),
+
+          // ✅ 초기엔 안보이게
+          backgroundColor: H_BG,
+          borderColor: H_LINE,
+          borderWidth: H_W,
+
+          borderRadius: radarPx(4),
+          barPercentage: 0.4,
+          categoryPercentage: 0.6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: false }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: {
+              color: '#ffffff',
+              font: { size: fontSize, family: 'Pretendard, Noto Sans KR, sans-serif' }
+            }
+          },
+          y: {
+            min: 0,
+            max: 100,
+            ticks: { display: false },
+            grid: {
+              color: opts.gridColor || 'rgba(241, 241, 241, 0.6)',
+              lineWidth: radarPx(1)
+            }
+          }
+        }
+      }
+    });
+
+    function animateValue(duration, onUpdate, onComplete) {
+      var start = performance.now();
+      function frame(now) {
+        var tRaw = (now - start) / duration;
+        var tNorm = Math.max(0, Math.min(1, tRaw));
+        var eased = easeInQuad(tNorm);
+
+        onUpdate(eased);
+        chart.update();
+
+        if (tNorm < 1) requestAnimationFrame(frame);
+        else if (typeof onComplete === 'function') onComplete();
+      }
+      requestAnimationFrame(frame);
+    }
+
+    function hideBarsDefault() {
+      chart.data.datasets[0].backgroundColor = H_BG;
+      chart.data.datasets[0].borderColor = H_LINE;
+      chart.data.datasets[0].borderWidth = H_W;
+      chart.data.datasets[0].data = new Array(n).fill(0);
+      chart.update();
+    }
+
+    function showBarsStyle() {
+      chart.data.datasets[0].backgroundColor = V_BG;
+      chart.data.datasets[0].borderColor = V_LINE;
+      chart.data.datasets[0].borderWidth = V_W;
+    }
+
+    // ✅ 생성 직후 “바 안보임” 상태 확정
+    hideBarsDefault();
+
+    function start() {
+      if (!n) return;
+
+      // ✅ 동작 시에만 바 스타일 복구 + 0으로 초기화
+      showBarsStyle();
+      chart.data.labels = labels.slice();
+      chart.data.datasets[0].data = new Array(n).fill(0);
+      chart.update();
+
+      var BAR_DURATION = (opts.barDuration != null) ? opts.barDuration : 2000; // ✅ 2초
+      var FIRST_DELAY  = (opts.firstDelay != null) ? opts.firstDelay : 0;
+
+      function animateBar(index) {
+        if (index >= n) return;
+
+        var target = data[index];
+
+        animateValue(BAR_DURATION, function (eased) {
+          chart.data.datasets[0].data[index] = target * eased;
+        }, function () {
+          // ✅ 바로 다음 바 시작(= 시작 간격이 2초로 떨어짐)
+          animateBar(index + 1);
+        });
+      }
+
+      setTimeout(function () {
+        animateBar(0);
+      }, FIRST_DELAY);
+    }
+
+    return {
+      start: start,
+      chart: chart,
+      setData: function (newData) {
+        data = (newData || []).slice();
+        n = data.length;
+      },
+      setLabels: function (newLabels) {
+        labels = (newLabels || []).slice();
+        chart.data.labels = labels.slice();
+        chart.update();
+      }
+    };
+  }
+
+  // =====================================================================
+  // 컨트롤러 생성부 (네 원본 그대로)
+  // =====================================================================
+  window.techRadar01Ctrl = createRadarController({
+    canvasId: 'techRadar01',
+    labels: ['기술 개발 현황','기술 개발 능력','기술 혁신성','기술자립도 및 확장성','기술 보호성'],
+    data: [30, 90, 30, 50, 70],
+    labelFontPx: 24,
+    datasetLabel: '평가'
+  });
+
+  window.techRadar02Ctrl = createRadarController({
+    canvasId: 'techRadar02',
+    labels: ['기업가 정신과 신뢰','최고 경영자','경영진'],
+    data: [70, 70, 50],
+    labelFontPx: 24,
+    datasetLabel: '평가'
+  });
+
+  window.techRadar03Ctrl = createRadarController({
+    canvasId: 'techRadar02_01',
+    labels: ['시장 현황','경쟁상황','제품 경쟁력'],
+    data: [70, 50, 30],
+    labelFontPx: 24,
+    datasetLabel: '평가'
+  });
+
+  window.techRadar04Ctrl = createRadarController({
+    canvasId: 'techRadar04',
+    labels: ['추가 투자금 유치','정부 출원금 확보','높은 기술 준비도','브랜드 홍보 전략','외형 지표 가시화','다양한 제휴 체결','우수한 인재 유치','사전적 영업 수행'],
+    data: [0, 99.5, 99.2, 97.5, 99.5, 99.8, 98, 62.8],
+    labelFontPx: 24,
+    datasetLabel: '평가'
+  });
+
+  window.techBar01Ctrl = createTechBarController({
+    canvasId: 'techBar01',
+    labels: ['사업능력', '향후 전망'],
+    data: [50, 30],
+    labelFontPx: 24
+    // barDuration: 2000 // 필요하면 명시 가능(기본 2000)
+  });
+
+  // =====================================================================
+  // 전역 실행 함수 (네 원본 그대로)
+  // =====================================================================
+  window.runTechRadar01 = function () { if (techRadar01Ctrl) techRadar01Ctrl.start(); };
+  window.runTechRadar02 = function () { if (techRadar02Ctrl) techRadar02Ctrl.start(); };
+  window.runTechBar01   = function () { if (techBar01Ctrl)  techBar01Ctrl.start(); };
+  window.runTechRadar03 = function () { if (techRadar03Ctrl) techRadar03Ctrl.start(); };
+  window.runTechRadar04 = function () { if (techRadar04Ctrl) techRadar04Ctrl.start(); };
+});
+
 </script>
 
 <!-- 평가 과정 애니매이션 -->
 <script>
-    // =====================================================================
-    // tech_process_item 전체 시퀀스 컨트롤러
-    // =====================================================================
-    (function () {
-        var GAUGE_DURATION = 2000; // 한 그룹(inve_examine_step_xx)의 게이지가 다 차는데 걸리는 시간
-        var GROUP_FADE_TIME = 600;  // inve_examine_step_xx 교체용 (위로 스르륵)
-        var ITEM_FADE_TIME = 600;  // tech_process_item 교체용
-        var ON_DELAY_AFTER_BAR = 500;  // bar 다 찬 뒤 step_examine 에 on 이 들어가기까지 대기
-        var HIDE_DELAY_AFTER_ON = 200;  // step_examine 에 on 이 들어간 뒤 group 이 사라지기까지 대기
-        var HOLD_AFTER_LIST = 2000; // 한 tech_process_item의 step 리스트 끝난 뒤 유지 시간
+// =====================================================================
+// tech_process_item 전체 시퀀스 컨트롤러 + 타이틀(tit_01 -> tit_02) 전환 통합본
+// - step_01~step_04: thec_pro_tit_01 유지
+// - step_last 시작 시: thec_pro_tit_01 완전 제거 후 thec_pro_tit_02 display:block로 노출 + 스르륵
+// - gauge: 그룹 내 모든 gauge "동시" 채우기
+// - step_examine: 다음 step on 들어갈 때 이전 step은 on 제거 + done, 마지막 step은 on 유지
+// =====================================================================
+(function () {
+  var GAUGE_DURATION      = 1000; // 한 그룹(inve_examine_step_xx)의 게이지가 다 차는데 걸리는 시간
+  var GROUP_FADE_TIME     = 600;  // inve_examine_step_xx 교체용 (위로 스르륵)
+  var ITEM_FADE_TIME      = 600;  // tech_process_item 교체용
+  var ON_DELAY_AFTER_BAR  = 500;  // bar 다 찬 뒤 step_examine 에 on 이 들어가기까지 대기
+  var HIDE_DELAY_AFTER_ON = 200;  // step_examine 에 on 이 들어간 뒤 group 이 사라지기까지 대기
+  var HOLD_AFTER_LIST     = 2000; // 한 tech_process_item의 step 리스트 끝난 뒤 유지 시간
 
-        var processItems = document.querySelectorAll('.tech_process_item');
-        if (!processItems.length) return;
+  // 타이틀 전환 시간(ITEM_FADE_TIME와 맞춤)
+  var TIT_FADE_TIME = 600;
 
-        // ---------------- 초기 상태 세팅 ----------------
-        processItems.forEach(function (item, idx) {
-            var isFirstItem = (idx === 0);
+  // ✅ 섹션 범위로 스코프 고정
+  var wrap = document.querySelector('.tech_process_wrap');
+  if (!wrap) return;
 
-            item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  var processItems = wrap.querySelectorAll('.tech_process_box .tech_process_item');
+  if (!processItems.length) return;
 
-            if (isFirstItem) {
-                item.style.display = 'block';
-                item.style.opacity = '1';
-                item.style.transform = 'translateY(0)';
-            } else {
-                item.style.display = 'none';
-                item.style.opacity = '0';
-                item.style.transform = 'translateY(10px)';
-            }
+  // =========================
+  // 타이틀 박스(tit_01 / tit_02)
+  // =========================
+  var tit01 = wrap.querySelector('.tech_process_tit_box.thec_pro_tit_01');
+  var tit02 = wrap.querySelector('.tech_process_tit_box.thec_pro_tit_02');
 
-            // 안쪽 step_examine on/done 초기화
-            var innerSteps = item.querySelectorAll('.step_examine_list [class^="step_examine_"]');
-            innerSteps.forEach(function (s) {
-                s.classList.remove('on', 'done');
-            });
+  var _titMode = '01';
+  var _titSwitching = false;
 
-            // 게이지 초기 width 0
-            var gauges = item.querySelectorAll('.inve_examine_gp .bar .gauge');
-            gauges.forEach(function (g) {
-                g.style.width = '0%';
-                g.style.transition = 'none';
-            });
+  function onTransitionEndOnce(el, cb, fallbackMs) {
+    if (!el) { cb && cb(); return; }
+    var called = false;
 
-            // 각 item 안의 inve_examine_step_xx 그룹 초기 상태 세팅
-            var groups = item.querySelectorAll('.inve_examine_gp [id^="examine"]');
+    function done() {
+      if (called) return;
+      called = true;
+      el.removeEventListener('transitionend', handler);
+      cb && cb();
+    }
+    function handler(e) {
+      if (e && e.target !== el) return;
+      done();
+    }
 
-            // 이 item 안에서 "첫 번째 step_examine"이 가리키는 target id (예: examine01)
-            var firstStep = item.querySelector('.step_examine_list [class^="step_examine_"]');
-            var firstTarget = firstStep ? firstStep.getAttribute('data-target') : null;
+    el.addEventListener('transitionend', handler);
 
-            groups.forEach(function (grp) {
-                // 노출될 때는 무조건 flex
-                grp.dataset.defaultDisplay = 'flex';
-                grp.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    setTimeout(function () {
+      done();
+    }, (fallbackMs || 0) + 50);
+  }
 
-                if (firstTarget && grp.id === firstTarget) {
-                    // ★ 모든 tech_process_item 의 첫 번째 그룹(inve_examine_step_01)은
-                    //   페이지 로드시 디폴트로 노출
-                    grp.style.display = 'flex';
-                    grp.style.opacity = '1';
-                    grp.style.transform = 'translateY(0)';
-                } else {
-                    grp.style.display = 'none';
-                    grp.style.opacity = '0';
-                    grp.style.transform = 'translateY(10px)';
-                }
-            });
+  function fadeOutUpHide(el, dur, done) {
+    if (!el) { done && done(); return; }
+
+    el.style.willChange = 'opacity, transform';
+    el.style.transition = 'opacity ' + dur + 'ms ease, transform ' + dur + 'ms ease';
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(-10px)';
+
+    onTransitionEndOnce(el, function () {
+      el.style.display = 'none'; // ✅ 완전 제거(영역 없어짐)
+      done && done();
+    }, dur);
+  }
+
+  function fadeInUpShow(el, dur, displayValue, done) {
+    if (typeof displayValue === 'function') {
+      done = displayValue;
+      displayValue = null;
+    }
+    if (!el) { done && done(); return; }
+
+    el.style.willChange = 'opacity, transform';
+    el.style.transition = 'none';
+
+    // ✅ thec_pro_tit_02는 노출 시 무조건 block
+    if (el.classList && el.classList.contains('thec_pro_tit_02')) {
+      el.style.display = 'block';
+    } else {
+      el.style.display = displayValue || 'block';
+    }
+
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(10px)';
+    el.getBoundingClientRect(); // reflow
+
+    requestAnimationFrame(function () {
+      el.style.transition = 'opacity ' + dur + 'ms ease, transform ' + dur + 'ms ease';
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(0)';
+    });
+
+    onTransitionEndOnce(el, function () {
+      done && done();
+    }, dur);
+  }
+
+  function initTitleBoxes() {
+    // 초기: tit01 보이고, tit02 숨김 (CSS가 어떻든 JS로 맞춤)
+    if (tit01) {
+      tit01.style.display = 'block';
+      tit01.style.opacity = '1';
+      tit01.style.transform = 'translateY(0)';
+      tit01.style.transition = 'opacity ' + TIT_FADE_TIME + 'ms ease, transform ' + TIT_FADE_TIME + 'ms ease';
+    }
+    if (tit02) {
+      tit02.style.display = 'none'; // ✅ 기본 숨김
+      tit02.style.opacity = '0';
+      tit02.style.transform = 'translateY(10px)';
+      tit02.style.transition = 'opacity ' + TIT_FADE_TIME + 'ms ease, transform ' + TIT_FADE_TIME + 'ms ease';
+    }
+    _titMode = '01';
+    _titSwitching = false;
+  }
+
+  // step_last 시작할 때만 tit01 -> tit02 전환
+  function ensureTitleForItem(item, done) {
+    if (!tit01 || !tit02) { done && done(); return; }
+
+    var isLast = item && item.classList && item.classList.contains('step_last');
+
+    if (!isLast) {
+      // step_01~step_04: tit01 유지
+      if (_titMode !== '01') {
+        tit02.style.display = 'none';
+        tit02.style.opacity = '0';
+        tit02.style.transform = 'translateY(10px)';
+
+        tit01.style.display = 'block';
+        tit01.style.opacity = '1';
+        tit01.style.transform = 'translateY(0)';
+
+        _titMode = '01';
+      }
+      done && done();
+      return;
+    }
+
+    // step_last: tit02가 보여야 함
+    if (_titMode === '02' || _titSwitching) {
+      done && done();
+      return;
+    }
+
+    _titSwitching = true;
+
+    // ✅ tit01 완전 제거(transition 끝 + display:none) 후 tit02 등장
+    fadeOutUpHide(tit01, TIT_FADE_TIME, function () {
+      fadeInUpShow(tit02, TIT_FADE_TIME, 'block', function () {
+        _titMode = '02';
+        _titSwitching = false;
+        done && done();
+      });
+    });
+  }
+
+  initTitleBoxes();
+
+  // ---------------- 초기 상태 세팅 ----------------
+  processItems.forEach(function (item, idx) {
+    var isFirstItem = (idx === 0);
+
+    item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+
+    if (isFirstItem) {
+      item.style.display   = 'block';
+      item.style.opacity   = '1';
+      item.style.transform = 'translateY(0)';
+    } else {
+      item.style.display   = 'none';
+      item.style.opacity   = '0';
+      item.style.transform = 'translateY(10px)';
+    }
+
+    // 안쪽 step_examine on/done 초기화
+    var innerSteps = item.querySelectorAll('.step_examine_list [class^="step_examine_"]');
+    innerSteps.forEach(function (s) {
+      s.classList.remove('on', 'done');
+    });
+
+    // 게이지 초기 width 0
+    var gauges = item.querySelectorAll('.inve_examine_gp .bar .gauge');
+    gauges.forEach(function (g) {
+      g.style.width      = '0%';
+      g.style.transition = 'none';
+    });
+
+    // 각 item 안의 inve_examine_step_xx 그룹 초기 상태 세팅
+    var groups = item.querySelectorAll('.inve_examine_gp [id^="examine"]');
+
+    var firstStep   = item.querySelector('.step_examine_list [class^="step_examine_"]');
+    var firstTarget = firstStep ? firstStep.getAttribute('data-target') : null;
+
+    groups.forEach(function (grp) {
+      grp.dataset.defaultDisplay = 'flex';
+      grp.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+
+      if (firstTarget && grp.id === firstTarget) {
+        grp.style.display   = 'flex';
+        grp.style.opacity   = '1';
+        grp.style.transform = 'translateY(0)';
+      } else {
+        grp.style.display   = 'none';
+        grp.style.opacity   = '0';
+        grp.style.transform = 'translateY(10px)';
+      }
+    });
+  });
+
+  // ---------------- 그룹 show / hide 헬퍼 ----------------
+  function showGroup(group) {
+    if (!group) return;
+    var def = group.dataset.defaultDisplay || 'flex';
+    group.style.display = def;
+
+    try { group.scrollTop = 0; } catch (e) {}
+
+    group.getBoundingClientRect(); // reflow
+    group.style.opacity   = '1';
+    group.style.transform = 'translateY(0)';
+  }
+
+  function hideGroup(group, callback) {
+    if (!group) {
+      if (typeof callback === 'function') callback();
+      return;
+    }
+    group.style.opacity   = '0';
+    group.style.transform = 'translateY(-10px)';
+    setTimeout(function () {
+      group.style.display = 'none';
+      if (typeof callback === 'function') callback();
+    }, GROUP_FADE_TIME);
+  }
+
+  // ---------------- gauge 그룹(하나의 inve_examine_step_xx) 애니 (✅동시) + 자동 스크롤 ----------------
+  function animateGaugesInGroup(group) {
+    if (!group) return;
+
+    var gauges = group.querySelectorAll('.inve_examine_gp_item .bar .gauge');
+    if (!gauges.length) return;
+
+    var scroller = group;
+
+    function scrollIntoViewIfNeeded(target) {
+      if (!scroller || !target) return;
+
+      var vRect = scroller.getBoundingClientRect();
+      var tRect = target.getBoundingClientRect();
+
+      if (tRect.bottom > vRect.bottom) {
+        var delta = (tRect.bottom - vRect.bottom) + 20;
+        scroller.scrollTo({
+          top: scroller.scrollTop + delta,
+          behavior: 'smooth'
         });
+      }
+    }
 
-        // ---------------- 그룹 show / hide 헬퍼 ----------------
-        function showGroup(group) {
-            if (!group) return;
-            var def = group.dataset.defaultDisplay || 'flex';
-            group.style.display = def;
-            group.getBoundingClientRect(); // reflow
-            group.style.opacity = '1';
-            group.style.transform = 'translateY(0)';
+    // ✅ 동시 진행: 시작 전에 마지막 아이템이 가려져 있으면 한번만 스크롤
+    var lastItem = group.querySelector('.inve_examine_gp_item:last-child');
+    if (lastItem) scrollIntoViewIfNeeded(lastItem);
+
+    // 1) 전부 0으로 리셋(transition 제거)
+    gauges.forEach(function (g) {
+      g.style.transition = 'none';
+      g.style.width = '0%';
+    });
+
+    // reflow
+    group.getBoundingClientRect();
+
+    // 2) 다음 프레임에서 전부 동시에 채우기
+    requestAnimationFrame(function () {
+      gauges.forEach(function (g) {
+        var percent = parseFloat(g.getAttribute('data-percent')) || 0;
+        g.style.transition = 'width ' + (GAUGE_DURATION / 1000) + 's ease';
+        g.style.width = percent + '%';
+      });
+    });
+  }
+
+  // ---------------- 현재 item 숨기고 다음 item 보여주기 ----------------
+  function hideItemAndShowNext(currentIndex) {
+    var current   = processItems[currentIndex];
+    var nextIndex = currentIndex + 1;
+    var next      = processItems[nextIndex];
+    if (!next) return;
+
+    current.style.opacity   = '0';
+    current.style.transform = 'translateY(-10px)';
+
+    setTimeout(function () {
+      current.style.display = 'none';
+      showItem(nextIndex);
+    }, ITEM_FADE_TIME);
+  }
+
+  // ---------------- item 하나의 내부 step_examine / gauge / 그룹 시퀀스 ----------------
+  function runInnerStepsForItem(item, itemIndex, onComplete) {
+    var steps = item.querySelectorAll('.step_examine_list [class^="step_examine_"]');
+    var stepCount = steps.length;
+    if (!stepCount) {
+      if (typeof onComplete === 'function') onComplete();
+      return;
+    }
+
+    // 초기화
+    steps.forEach(function (s) {
+      s.classList.remove('on', 'done');
+    });
+
+    // 각 step_examine 이 어떤 그룹을 가리키는지 매핑
+    var groupsByStep = [];
+    for (var i = 0; i < stepCount; i++) {
+      var stepEl = steps[i];
+      var tid    = stepEl.getAttribute('data-target'); // "examine01" 등
+      groupsByStep[i] = tid ? item.querySelector('#' + tid) : null;
+    }
+
+    var lastIndex = stepCount - 1;
+
+    // ✅ 다음 step on 들어갈 때 이전 step은 done, 마지막은 on 유지
+    function applyStepStatus(activeIndex) {
+      for (var k = 0; k < stepCount; k++) {
+        if (k < activeIndex) {
+          steps[k].classList.remove('on');
+          steps[k].classList.add('done');
+        } else if (k === activeIndex) {
+          steps[k].classList.add('on');
+          steps[k].classList.remove('done');
+        } else {
+          steps[k].classList.remove('on', 'done');
+        }
+      }
+    }
+
+    function runStep(stepIndex) {
+      if (stepIndex >= stepCount) {
+        if (typeof onComplete === 'function') onComplete();
+        return;
+      }
+
+      var isLastStep = (stepIndex === lastIndex);
+      var group      = groupsByStep[stepIndex];
+
+      if (group) {
+        showGroup(group);
+        animateGaugesInGroup(group); // ✅ 동시 채움
+      }
+
+      // bar 전체가 다 찬 뒤(GAUGE_DURATION) + ON_DELAY_AFTER_BAR 후
+      setTimeout(function () {
+        // step_examine_01 이 on 되는 타이밍에 차트 시작 (네 원본 로직 유지)
+        if (stepIndex === 0) {
+          if (itemIndex === 0 && typeof runTechRadar02 === 'function') {
+            runTechRadar02();
+          } else if (itemIndex === 1 && typeof runTechRadar01 === 'function') {
+            runTechRadar01();
+          } else if (itemIndex === 2 && typeof runTechRadar03 === 'function') {
+            runTechRadar03();
+          } else if (itemIndex === 3 && typeof runTechBar01 === 'function') {
+            runTechBar01();
+          } else if (itemIndex === 4 && typeof runTechRadar04 === 'function') {
+            runTechRadar04();
+          }
         }
 
-        function hideGroup(group, callback) {
-            if (!group) {
-                if (typeof callback === 'function') callback();
-                return;
-            }
-            group.style.opacity = '0';
-            group.style.transform = 'translateY(-10px)';
-            setTimeout(function () {
-                group.style.display = 'none';
-                if (typeof callback === 'function') callback();
-            }, GROUP_FADE_TIME);
+        // ✅ step 상태 반영
+        applyStepStatus(stepIndex);
+
+        if (isLastStep) {
+          // 마지막 step: on 유지 + 그룹 유지
+          if (typeof onComplete === 'function') onComplete();
+          return;
         }
 
-        // ---------------- gauge 그룹(하나의 inve_examine_step_xx) 애니 + 자동 스크롤 ----------------
-        function animateGaugesInGroup(group) {
-            if (!group) return;
-
-            var gauges = group.querySelectorAll('.inve_examine_gp_item .bar .gauge');
-            var count = gauges.length;
-            if (!count) return;
-
-            // 이 그룹 안의 모든 bar가 GAUGE_DURATION 안에 순서대로 다 차게
-            var perTime = GAUGE_DURATION / count;
-
-            // ★ 스크롤 컨테이너 = .tech_gp_set [class^="inve_examine_step_"] (그룹 자신)
-            var scroller = group;
-
-            function scrollIntoViewIfNeeded(target) {
-                if (!scroller) return;
-
-                var vRect = scroller.getBoundingClientRect();  // 스크롤 영역
-                var tRect = target.getBoundingClientRect();    // 타겟 bar 영역
-
-                // 아래로 가려지는 경우만 처리
-                if (tRect.bottom > vRect.bottom) {
-                    var delta = (tRect.bottom - vRect.bottom) + 20; // 여유 20px 정도
-
-                    scroller.scrollTo({
-                        top: scroller.scrollTop + delta,
-                        behavior: 'smooth'
-                    });
-                }
-            }
-
-            gauges.forEach(function (gauge, idx) {
-                var percent = parseFloat(gauge.getAttribute('data-percent')) || 0;
-
-                // 초기화
-                gauge.style.transition = 'none';
-                gauge.style.width = '0%';
-                gauge.getBoundingClientRect(); // reflow
-
-                setTimeout(function () {
-                    // 이 gauge가 들어있는 아이템 기준으로 가려짐 체크
-                    var item = gauge.closest('.inve_examine_gp_item') || gauge;
-
-                    // 1) 이 bar가 채워지기 직전에, 가려질 위치면 먼저 스크롤
-                    scrollIntoViewIfNeeded(item);
-
-                    // 2) 그 다음 width 애니 시작
-                    gauge.getBoundingClientRect(); // 한 번 더 reflow
-                    gauge.style.transition = 'width ' + (perTime / 1000) + 's ease';
-                    gauge.style.width = percent + '%';
-                }, idx * perTime);
-            });
-        }
-
-        // ---------------- 현재 item 숨기고 다음 item 보여주기 ----------------
-        function hideItemAndShowNext(currentIndex) {
-            var itemCount = processItems.length;
-            var current = processItems[currentIndex];
-            var nextIndex = currentIndex + 1;
-            var next = processItems[nextIndex];
-
-            if (!next) return;
-
-            current.style.opacity = '0';
-            current.style.transform = 'translateY(-10px)';
-
-            setTimeout(function () {
-                current.style.display = 'none';
-                showItem(nextIndex);
-            }, ITEM_FADE_TIME);
-        }
-
-        // ---------------- item 하나의 내부 step_examine / gauge / 그룹 시퀀스 ----------------
-        function runInnerStepsForItem(item, itemIndex, onComplete) {
-            var steps = item.querySelectorAll('.step_examine_list [class^="step_examine_"]');
-            var stepCount = steps.length;
-            if (!stepCount) {
-                if (typeof onComplete === 'function') onComplete();
-                return;
-            }
-
-            // 초기화
-            steps.forEach(function (s) {
-                s.classList.remove('on', 'done');
-            });
-
-            // 각 step_examine 이 어떤 그룹을 가리키는지 매핑
-            var groupsByStep = [];
-            for (var i = 0; i < stepCount; i++) {
-                var stepEl = steps[i];
-                var tid = stepEl.getAttribute('data-target'); // "examine01" 등
-                groupsByStep[i] = tid ? item.querySelector('#' + tid) : null;
-            }
-
-            var lastIndex = stepCount - 1;
-
-            function runStep(stepIndex) {
-                if (stepIndex >= stepCount) {
-                    if (typeof onComplete === 'function') onComplete();
-                    return;
-                }
-
-                var isLastStep = (stepIndex === lastIndex);
-                var group = groupsByStep[stepIndex];
-
-                // ---------------- 현재 그룹 노출 + 게이지 애니 시작 ----------------
-                if (group) {
-                    showGroup(group);
-                    animateGaugesInGroup(group);
-                }
-
-                // ★ bar 전체가 다 찬 뒤(GAUGE_DURATION) + 0.5초 후의 타이밍
-                setTimeout(function () {
-
-                    // ★ step_examine_01 이 on 되는 타이밍에 차트 시작
-                    if (stepIndex === 0) {
-                        if (itemIndex === 0 && typeof runTechRadar02 === 'function') {
-                            runTechRadar02();
-                        } else if (itemIndex === 1 && typeof runTechRadar01 === 'function') {
-                            runTechRadar01();
-                        } else if (itemIndex === 2 && typeof runTechRadar03 === 'function') {
-                            runTechRadar03();
-                        } else if (itemIndex === 3 && typeof runTechBar01 === 'function') {
-                            runTechBar01();
-                        } else if (itemIndex === 4 && typeof runTechRadar04 === 'function') {
-                            runTechRadar04();
-                        }
-                    }
-
-                    if (isLastStep) {
-                        // 마지막 step: 이전 것들 done, 마지막만 on 유지
-                        for (var i = 0; i < stepCount; i++) {
-                            if (i < lastIndex) {
-                                steps[i].classList.remove('on');
-                                steps[i].classList.add('done');
-                            } else if (i === lastIndex) {
-                                steps[i].classList.add('on');
-                                steps[i].classList.remove('done');
-                            }
-                        }
-                        // 마지막 그룹은 그대로 유지
-                        if (typeof onComplete === 'function') onComplete();
-                    } else {
-                        // 현재 step_examine 에 on
-                        steps[stepIndex].classList.add('on');
-                        steps[stepIndex].classList.remove('done');
-
-                        // ★ on 이 들어간 뒤 0.5초 후 → group 을 위로 스르륵 사라지게
-                        setTimeout(function () {
-                            hideGroup(group, function () {
-                                // 완전히 사라진 뒤 다음 step 으로
-                                runStep(stepIndex + 1);
-                            });
-                        }, HIDE_DELAY_AFTER_ON);
-                    }
-                }, GAUGE_DURATION + ON_DELAY_AFTER_BAR); // "bar 완료 + 0.5초" 타이밍
-            }
-
-            // 첫 step 시작
-            runStep(0);
-        }
-
-        // ---------------- tech_process_item 하나 보여주고 내부 시퀀스 시작 ----------------
-        function showItem(index) {
-            var itemCount = processItems.length;
-            if (index < 0 || index >= itemCount) return;
-
-            var item = processItems[index];
-            var isLast = (index === itemCount - 1);
-
-            item.style.display = 'block';
-            item.style.transform = 'translateY(10px)';
-            item.style.opacity = '0';
-
-            requestAnimationFrame(function () {
-                item.style.opacity = '1';
-                item.style.transform = 'translateY(0)';
-            });
-
-            // 이 item 안에서만 step_examine / inve_examine_step_xx 시퀀스 진행
-            runInnerStepsForItem(item, index, function () {
-                if (isLast) {
-                    // ★ 모든 tech_process_item 애니 종료 시점
-
-                    var pop = document.querySelector('.com_wid_pop');
-
-                    // 1) 2초 기다렸다가 팝업 등장
-                    setTimeout(function () {
-                        if (pop) {
-                            pop.style.display = 'flex';           // 레이아웃 활성화
-                            pop.style.opacity = '0';
-                            pop.style.transition = 'opacity 0.6s ease';
-
-                            // 다음 프레임에서 opacity 1로 → 스르륵 등장
-                            requestAnimationFrame(function () {
-                                pop.style.opacity = '1';
-                            });
-                        }
-
-                        // 2) 팝업이 뜬 후 3초 뒤 페이지 이동
-                        setTimeout(function () {
-                            window.location.href = '../gate01/gate_01_02_detail.html';
-                        }, 3000);
-
-                    }, 2000); // 팝업 등장까지 2초 딜레이
-
-                    return; // 마지막 아이템은 그대로 두고 끝
-                }
-
-                // 마지막이 아닌 경우: 일정 시간 유지 후 다음 item 으로
-                setTimeout(function () {
-                    hideItemAndShowNext(index);
-                }, HOLD_AFTER_LIST);
-            });
-        }
-
-
-
-        // ---------------- 전체 시퀀스 시작 ----------------
-        // 페이지 로드 후 2초 뒤 step_01 시작
+        // 마지막이 아니면: on 들어간 뒤 잠깐 후 그룹 숨기고 다음 step
         setTimeout(function () {
-            showItem(0);
-        }, 2000);
+          hideGroup(group, function () {
+            runStep(stepIndex + 1);
+          });
+        }, HIDE_DELAY_AFTER_ON);
 
-    })();
+      }, GAUGE_DURATION + ON_DELAY_AFTER_BAR);
+    }
+
+    runStep(0);
+  }
+
+  // ---------------- tech_process_item 하나 보여주고 내부 시퀀스 시작 ----------------
+  function showItem(index) {
+    if (index < 0 || index >= processItems.length) return;
+
+    var item   = processItems[index];
+    var isLast = (index === processItems.length - 1);
+
+    // ✅ step_last 시작 전에 타이틀 전환(필요 시) 완료 후 item 애니 시작
+    ensureTitleForItem(item, function () {
+      item.style.display   = 'block';
+      item.style.transform = 'translateY(10px)';
+      item.style.opacity   = '0';
+
+      requestAnimationFrame(function () {
+        item.style.opacity   = '1';
+        item.style.transform = 'translateY(0)';
+      });
+
+      runInnerStepsForItem(item, index, function () {
+        if (isLast) {
+          var pop = document.querySelector('.com_wid_pop');
+
+          setTimeout(function () {
+            if (pop) {
+              pop.style.display    = 'flex';
+              pop.style.opacity    = '0';
+              pop.style.transition = 'opacity 0.6s ease';
+              requestAnimationFrame(function () {
+                pop.style.opacity = '1';
+              });
+            }
+
+            setTimeout(function () {
+              window.location.href = '../gate01/gate_01_02_detail.html';
+            }, 3000);
+
+          }, 2000);
+
+          return;
+        }
+
+        setTimeout(function () {
+          hideItemAndShowNext(index);
+        }, HOLD_AFTER_LIST);
+      });
+    });
+  }
+
+  // ---------------- 전체 시퀀스 시작 ----------------
+  // 페이지 로드 후 2초 뒤 step_01 시작
+  setTimeout(function () {
+    showItem(0);
+  }, 2000);
+
+})();
 
 </script>
 

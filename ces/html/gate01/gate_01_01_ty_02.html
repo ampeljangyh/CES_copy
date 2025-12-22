@@ -83,19 +83,34 @@
         <div class="contents">
             <div class="contents_01">
                 <section class="tech_process_wrap">
-                    <div class="tech_process_tit_box">
+                    <div class="tech_process_tit_box thec_pro_tit_01">
                         <div class="tech_process_img">
                             <video src="../../resources/images/loading_img2.mp4" autoplay muted loop playsinline></video>
                         </div>
                         <div class="tech_process_tit kr_t">
                             <strong class="tit">기술 평가</strong>
-                            <p class="sub">해당 스타트업의 보유 기술의 가치를 평가하여 지원 가능한 상품을 제안합니다.</p>
-                            <p class="sub_02">* 해당 평가는 IBK만의 기술 평가 시스템을 통해 분석됩니다. </p>
+                            <p class="sub">기업의 보유 기술의 가치를 평가하여 지원 가능한 상품을 제안합니다.</p>
+                            <p class="sub_02">* 해당 평가는 IBK만의 新 기술 평가 시스템을 통해 분석됩니다.</p>
                         </div>
                         <div class="tech_process_tit en_t">
                             <strong class="tit">Technology Assesment</strong>
-                            <p class="sub">By assessing the value of the startup’s technology,<br>we recommend the financial products it is eligible for.</p>
-                            <p class="sub_02">* This assessment is conducted using IBK’s proprietary Tech Evaluation System.</p>
+                            <p class="sub">Technology Assesment to recommend eligible products.</p>
+                            <p class="sub_02">* This assessment is conducted through IBK’s proprietary New Tech Evaluation System.</p>
+                        </div>
+                    </div>
+                    <div class="tech_process_tit_box thec_pro_tit_02">
+                        <div class="tech_process_img">
+                            <video src="../../resources/images/loading_img2.mp4" autoplay muted loop playsinline></video>
+                        </div>
+                        <div class="tech_process_tit kr_t">
+                            <strong class="tit">미래 성장성 평가</strong>
+                            <p class="sub">기업의 미래 성장 가치를 평가하여 지원 가능한 상품을 제안합니다.</p>
+                            <p class="sub_02">* 해당 평가는 IBK만의 新 기술 평가 시스템을 통해 분석됩니다.</p>
+                        </div>
+                        <div class="tech_process_tit en_t">
+                            <strong class="tit">Growth Potential Assessment</strong>
+                            <p class="sub">Assessing future growth potential to recommend eligible products.</p>
+                            <p class="sub_02">* This assessment is conducted through IBK’s proprietary New Tech Evaluation System.</p>
                         </div>
                     </div>
 
@@ -1016,7 +1031,7 @@
                 <img src="../../resources/images/search_result_05.jpg">
             </div>
             <div class="tit kr_t">
-                <strong>추천 지원 상품 매칭 중</strong>
+                <strong>AI를 통한 최적의 금융상품 분석 중</strong>
             </div>
             <div class="sub kr_t">
                 <p>기술 평가 시스템을 통해 평가된 결과에 따른 현재 경영 상태에 가장 적합한 지원 상품을 조회 중입니다. </p>
@@ -1679,6 +1694,9 @@ function start() {
 // tech_process_item 전체 시퀀스 컨트롤러 (통합본)
 // - step_examine: 다음 step on 들어갈 때 이전 step은 on 제거 + done
 // - gauge: 그룹 내 모든 gauge가 동시에 채워짐
+// - ✅ 타이틀 전환 추가(HTML 기준: tech_process_item.step_last일 때만 02)
+//   * step_last 아닌 동안: .thec_pro_tit_01 유지
+//   * step_last 시작 시: 01 완전 제거(display:none) 후 02 등장(display/opacity/transform)
 // =====================================================================
 (function () {
   var GAUGE_DURATION      = 1000; // 한 그룹(inve_examine_step_xx)의 게이지가 다 차는데 걸리는 시간(동시 진행)
@@ -1688,8 +1706,165 @@ function start() {
   var HIDE_DELAY_AFTER_ON = 200;  // step_examine 에 on 이 들어간 뒤 group 이 사라지기까지 대기
   var HOLD_AFTER_LIST     = 2000; // 한 tech_process_item의 step 리스트 끝난 뒤 유지 시간
 
+  // ✅ 타이틀 전환 애니 시간
+  var TIT_FADE_TIME       = 600;
+
   var processItems = document.querySelectorAll('.tech_process_item');
   if (!processItems.length) return;
+
+  // =========================================================
+  // ✅ TITLE SWITCH (01 -> 02 only on step_last item)
+  // =========================================================
+  var tit01 = document.querySelector('.tech_process_tit_box.thec_pro_tit_01');
+  var tit02 = document.querySelector('.tech_process_tit_box.thec_pro_tit_02');
+
+  var _titMode = null;          // '01' | '02'
+  var _titSwitching = false;
+
+  function getDefaultDisplay(el) {
+    if (!el) return 'flex';
+    if (!el.dataset.defaultDisplay) {
+      var cs = getComputedStyle(el);
+      el.dataset.defaultDisplay = (cs.display && cs.display !== 'none') ? cs.display : 'flex';
+    }
+    return el.dataset.defaultDisplay || 'flex';
+  }
+
+  function onTransitionEndOnce(el, done, fallbackMs) {
+    if (!el) { done && done(); return; }
+    var called = false;
+
+    function finish() {
+      if (called) return;
+      called = true;
+      el.removeEventListener('transitionend', onEnd);
+      done && done();
+    }
+    function onEnd(e) {
+      // opacity/transform 중 하나만 와도 종료
+      finish();
+    }
+
+    el.addEventListener('transitionend', onEnd);
+    setTimeout(finish, (fallbackMs || 0) + 80);
+  }
+
+  function hideInstant(el) {
+    if (!el) return;
+    el.style.willChange = 'opacity, transform';
+    el.style.transition = 'none';
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(-10px)';
+    el.style.display = 'none';
+  }
+
+  function showInstant(el) {
+    if (!el) return;
+    el.style.willChange = 'opacity, transform';
+    el.style.transition = 'none';
+    el.style.display = getDefaultDisplay(el);
+    el.style.opacity = '1';
+    el.style.transform = 'translateY(0)';
+  }
+
+  // 01 사라짐(완전 제거) → 콜백
+  function fadeOutUpThenHide(el, dur, done) {
+    if (!el) { done && done(); return; }
+
+    // 혹시 이미 none이면 바로 종료
+    var cs = getComputedStyle(el);
+    if (cs.display === 'none' || parseFloat(cs.opacity || '0') === 0) {
+      el.style.display = 'none';
+      done && done();
+      return;
+    }
+
+    el.style.willChange = 'opacity, transform';
+    el.style.display = getDefaultDisplay(el);
+    el.style.transition = 'opacity ' + dur + 'ms ease, transform ' + dur + 'ms ease';
+
+    requestAnimationFrame(function () {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(-10px)';
+    });
+
+    onTransitionEndOnce(el, function () {
+      el.style.display = 'none'; // ✅ 완전 제거
+      done && done();
+    }, dur);
+  }
+
+  // 02 등장(아래에서 위로 + opacity)
+  function fadeInUpShow(el, dur, done) {
+  if (!el) { done && done(); return; }
+
+  el.style.willChange = 'opacity, transform';
+  el.style.transition = 'none';
+
+  // ✅ thec_pro_tit_02는 무조건 block으로 노출
+  if (el.classList && el.classList.contains('thec_pro_tit_02')) {
+    el.style.display = 'block';
+  } else {
+    el.style.display = getDefaultDisplay(el);
+  }
+
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(10px)';
+  el.getBoundingClientRect(); // reflow
+
+  requestAnimationFrame(function () {
+    el.style.transition = 'opacity ' + dur + 'ms ease, transform ' + dur + 'ms ease';
+    el.style.opacity = '1';
+    el.style.transform = 'translateY(0)';
+  });
+
+  onTransitionEndOnce(el, function () {
+    done && done();
+  }, dur);
+}
+
+
+  function setTitle01(immediate) {
+    if (_titMode === '01' && !_titSwitching) return;
+
+    _titSwitching = false;
+    _titMode = '01';
+
+    // 02는 기본 CSS가 display:none/opacity:0 라도 확실히 숨김
+    hideInstant(tit02);
+
+    if (immediate) {
+      showInstant(tit01);
+    } else {
+      showInstant(tit01);
+    }
+  }
+
+  function setTitle02_afterTitle01Gone() {
+    if (_titMode === '02' || _titSwitching) return;
+    _titSwitching = true;
+
+    // 02는 대기 상태로 고정
+    if (tit02) {
+      tit02.style.transition = 'none';
+      tit02.style.display = 'none';
+      tit02.style.opacity = '0';
+      tit02.style.transform = 'translateY(10px)';
+    }
+
+    // ✅ 01 완전 제거 후 02 등장 (끊김 방지)
+    fadeOutUpThenHide(tit01, TIT_FADE_TIME, function () {
+      requestAnimationFrame(function () {
+        fadeInUpShow(tit02, TIT_FADE_TIME, function () {
+          _titMode = '02';
+          _titSwitching = false;
+        });
+      });
+    });
+  }
+
+  // 초기 타이틀 상태(항상 01)
+  setTitle01(true);
 
   // ---------------- 초기 상태 세팅 ----------------
   processItems.forEach(function (item, idx) {
@@ -1723,7 +1898,6 @@ function start() {
     // 각 item 안의 inve_examine_step_xx 그룹 초기 상태 세팅
     var groups = item.querySelectorAll('.inve_examine_gp [id^="examine"]');
 
-    // 이 item 안에서 "첫 번째 step_examine"이 가리키는 target id (예: examine01)
     var firstStep   = item.querySelector('.step_examine_list [class^="step_examine_"]');
     var firstTarget = firstStep ? firstStep.getAttribute('data-target') : null;
 
@@ -1732,7 +1906,6 @@ function start() {
       grp.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
 
       if (firstTarget && grp.id === firstTarget) {
-        // 첫 그룹만 디폴트로 노출
         grp.style.display   = 'flex';
         grp.style.opacity   = '1';
         grp.style.transform = 'translateY(0)';
@@ -1775,7 +1948,6 @@ function start() {
     var count  = gauges.length;
     if (!count) return;
 
-    // 스크롤 컨테이너 = 그룹 자신
     var scroller = group;
 
     function scrollIntoViewIfNeeded(target) {
@@ -1793,11 +1965,9 @@ function start() {
       }
     }
 
-    // ✅ 동시 진행이므로, 마지막 아이템이 가려져 있으면 시작 전에 한 번만 스크롤
     var lastItem = group.querySelector('.inve_examine_gp_item:last-child');
     if (lastItem) scrollIntoViewIfNeeded(lastItem);
 
-    // ✅ 모든 gauge를 동시에 채움
     gauges.forEach(function (gauge) {
       var percent = parseFloat(gauge.getAttribute('data-percent')) || 0;
 
@@ -1805,7 +1975,6 @@ function start() {
       gauge.style.width      = '0%';
       gauge.getBoundingClientRect(); // reflow
 
-      // 다음 프레임에 트랜지션 부여 후 width 변경
       requestAnimationFrame(function () {
         gauge.style.transition = 'width ' + (GAUGE_DURATION / 1000) + 's ease';
         gauge.style.width      = percent + '%';
@@ -1815,7 +1984,6 @@ function start() {
 
   // ---------------- 현재 item 숨기고 다음 item 보여주기 ----------------
   function hideItemAndShowNext(currentIndex) {
-    var itemCount = processItems.length;
     var current   = processItems[currentIndex];
     var nextIndex = currentIndex + 1;
     var next      = processItems[nextIndex];
@@ -1840,25 +2008,19 @@ function start() {
       return;
     }
 
-    // 초기화
     steps.forEach(function (s) {
       s.classList.remove('on', 'done');
     });
 
-    // 각 step_examine 이 어떤 그룹을 가리키는지 매핑
     var groupsByStep = [];
     for (var i = 0; i < stepCount; i++) {
       var stepEl = steps[i];
-      var tid    = stepEl.getAttribute('data-target'); // "examine01" 등
+      var tid    = stepEl.getAttribute('data-target');
       groupsByStep[i] = tid ? item.querySelector('#' + tid) : null;
     }
 
     var lastIndex = stepCount - 1;
 
-    // ✅ 핵심: stepIndex가 "on 되는 순간" 기준으로
-    // - i < stepIndex : done
-    // - i == stepIndex: on
-    // - i > stepIndex : 초기
     function applyStepStatus(activeIndex) {
       for (var k = 0; k < stepCount; k++) {
         if (k < activeIndex) {
@@ -1882,36 +2044,32 @@ function start() {
       var isLastStep = (stepIndex === lastIndex);
       var group      = groupsByStep[stepIndex];
 
-      // 현재 그룹 노출 + 게이지 애니 시작(동시)
       if (group) {
         showGroup(group);
         animateGaugesInGroup(group);
       }
 
-      // bar 전체가 다 찬 뒤 + ON_DELAY_AFTER_BAR 후
       setTimeout(function () {
 
-        // step_01이 on 되는 타이밍에 차트 시작(기존 로직 유지)
+        // step_01이 on 되는 타이밍에 차트 시작(기존 로직 유지 + 안전 보강)
         if (stepIndex === 0) {
           if (itemIndex === 0 && typeof runTechRadar01 === 'function') {
             runTechRadar01();
-          } else if (itemIndex === 1 && typeof runTechBar01 === 'function') {
-            runTechRadar02();
+          } else if (itemIndex === 1) {
+            if (typeof runTechRadar02 === 'function') runTechRadar02();
+            else if (typeof runTechBar01 === 'function') runTechBar01();
           } else if (itemIndex === 2 && typeof runTechRadar04 === 'function') {
             runTechRadar04();
           }
         }
 
-        // ✅ 여기서 "현재 step on" + "이전 step done" 처리
         applyStepStatus(stepIndex);
 
         if (isLastStep) {
-          // 마지막 step: on 유지 + 그룹 유지
           if (typeof onComplete === 'function') onComplete();
           return;
         }
 
-        // 마지막이 아니면: on 들어간 뒤 잠깐 후 그룹 숨기고 다음 step
         setTimeout(function () {
           hideGroup(group, function () {
             runStep(stepIndex + 1);
@@ -1921,7 +2079,6 @@ function start() {
       }, GAUGE_DURATION + ON_DELAY_AFTER_BAR);
     }
 
-    // 첫 step 시작
     runStep(0);
   }
 
@@ -1932,6 +2089,13 @@ function start() {
 
     var item   = processItems[index];
     var isLast = (index === itemCount - 1);
+
+    // ✅ 핵심: item이 step_last면 타이틀 02로 전환, 아니면 01 유지
+    if (item.classList.contains('step_last')) {
+      setTitle02_afterTitle01Gone();
+    } else {
+      setTitle01(false);
+    }
 
     item.style.display   = 'block';
     item.style.transform = 'translateY(10px)';
@@ -1961,24 +2125,12 @@ function start() {
             var url;
 
             switch (company) {
-              case '듀셀바이오테라퓨틱스':
-                url = '../gate01/gate_01_01_detail.html';
-                break;
-              case '포트래이':
-                url = '../gate01/gate_01_03_detail.html';
-                break;
-              case '브이투브이':
-                url = '../gate01/gate_01_04_detail.html';
-                break;
-              case '업사이트':
-                url = '../gate01/gate_01_05_detail.html';
-                break;
-              case '워터베이션':
-                url = '../gate01/gate_01_06_detail.html';
-                break;
-              case '뤼튼테크놀로지스':
-                url = '../gate01/gate_01_07_detail.html';
-                break;
+              case '듀셀바이오테라퓨틱스': url = '../gate01/gate_01_01_detail.html'; break;
+              case '포트래이':             url = '../gate01/gate_01_03_detail.html'; break;
+              case '브이투브이':           url = '../gate01/gate_01_04_detail.html'; break;
+              case '업사이트':             url = '../gate01/gate_01_05_detail.html'; break;
+              case '워터베이션':           url = '../gate01/gate_01_06_detail.html'; break;
+              case '뤼튼테크놀로지스':     url = '../gate01/gate_01_07_detail.html'; break;
               default:
                 console.warn('[redirect] unknown company:', company);
                 url = '../gate01/gate_01_07_detail.html';
