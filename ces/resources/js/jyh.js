@@ -354,7 +354,7 @@ $(function () {
       // =========================================================
       // ✅ (이하: gate_01 애니 시퀀스)
       // =========================================================
-      const STEP_HOLD = 12500;
+      const STEP_HOLD = 8000;          // ✅ step_01 애니(진행) 시간: 8초
       const STEP_02_HOLD = 9000;
       const STEP_ANIM = 600;
       const CARD_HOLD = 3000;
@@ -410,8 +410,8 @@ $(function () {
       const TOAST_FADE_DUR          = 500;
     
       // ✅ toast 기본/노출 bottom 값 (기본 css 참고)
-      const TOAST_HIDE_BOTTOM = '-9vw'; // 기본 css
-      const TOAST_SHOW_BOTTOM = '0vw';  // 필요하면 여기만 조정
+      const TOAST_HIDE_BOTTOM = '-9vw';
+      const TOAST_SHOW_BOTTOM = '0vw';
     
       const EASE_OUT = 'cubic-bezier(0.22, 1, 0.36, 1)';
       const VW_DOWN  = '0.5200vw';
@@ -501,6 +501,7 @@ $(function () {
     
         playStepVideosSmooth(step1);
     
+        // step_02 영상 프라임(로드) 타이밍 유지 (STEP_HOLD가 8초로 바뀌어도 자동 계산)
         setTimeout(() => {
           primeStepVideos(step2);
         }, Math.max(0, STEP_HOLD - STEP2_PRELOAD_BEFORE));
@@ -523,14 +524,14 @@ $(function () {
           runCardSequence(cards, idx);
         }
     
+        // ✅ 8초 후 step_02 애니 "즉시" 진행 (step_01은 동시에 leave)
         setTimeout(() => {
-          if (CROSSFADE_STEPS) {
-            enterStep(step2);
-            leaveStep(step1);
-          } else {
-            leaveStep(step1, () => enterStep(step2));
-          }
+          // step_02는 즉시 enter → 8초 타이밍에 바로 시작
+          enterStep(step2);
+          // step_01은 동시에 사라짐(leave)
+          leaveStep(step1);
     
+          // step_02 유지 후 step_03 진입 (기존 로직 유지)
           if (step3) {
             setTimeout(() => {
               if (CROSSFADE_STEPS) {
@@ -814,12 +815,12 @@ $(function () {
           const chars = p.querySelectorAll('.char');
           const n = chars.length;
     
-          const pDelay = pi * P_STAGGER;
+          const pDelay = pi * 500;
           p.style.setProperty('--p-delay', pDelay + 'ms');
-          p.style.setProperty('--char-dur', CHAR_DUR + 'ms');
+          p.style.setProperty('--char-dur', 300 + 'ms');
     
-          const availableTotal = Math.max(CHAR_DUR, TEXT_TOTAL - pDelay);
-          const charDelay = (n > 1) ? Math.max(0, (availableTotal - CHAR_DUR) / (n - 1)) : 0;
+          const availableTotal = Math.max(300, 1000 - pDelay);
+          const charDelay = (n > 1) ? Math.max(0, (availableTotal - 300) / (n - 1)) : 0;
           p.style.setProperty('--char-delay', charDelay + 'ms');
     
           void p.offsetWidth;
@@ -1070,12 +1071,10 @@ $(function () {
     
         resetStep03State({ tit1, tit2, topLine, topTit, pos01, pos02, celList });
     
-        // 타임라인 시작
         setStepTimer(step3, () => {
           setStepTimer(step3, () => {
             removeClassSmooth(celList, 'ani_bg_df_01', S3_CELL_REMOVE_DUR);
     
-            // pos01 노출
             fadeInUpY_WithDisplay(pos01, S3_FADE_IN_POS01, 'flex');
             raf2(() => startSoftBlink(pos01, '.item', POS_BLINK_TOTAL, 'strong'));
     
@@ -1088,14 +1087,12 @@ $(function () {
                 ], () => {
     
                   setStepTimer(step3, () => {
-                    // line_01~05 ani_bg_df 삭제 "완료" 후 pos02 노출
                     removeAniBgDfByLinesSequential(celList, S3_CELL_REMOVE_DUR, 500, () => {
     
                       setStepTimer(step3, () => {
                         fadeInUpY_WithDisplay(pos02, S3_FADE_IN_POS02, 'block', () => {
                           raf2(() => startSoftBlink(pos02, '.item', POS_BLINK_TOTAL));
     
-                          // pos 유지 후 pos 페이드아웃
                           setStepTimer(step3, () => {
                             runParallel([
                               (cb) => fadeOutUpY(pos01, S3_FADE_OUT_POS, cb),
@@ -1103,7 +1100,6 @@ $(function () {
                             ], () => {
                               step3._step03Done = true;
                               step3._celDone = true;
-                              // ✅ 자동 전환은 "toast → 버튼 클릭"으로만
                             });
                           }, S3_POS_HOLD);
     
@@ -1164,7 +1160,6 @@ $(function () {
     
       // =========================================================
       // ✅ step_03 re_pub 연출
-      //    - ✅ re_pub_01 종료 후 2초 뒤 toast_pop 노출
       // =========================================================
       function prepFade(el) {
         if (!el) return;
@@ -1208,8 +1203,8 @@ $(function () {
     
         const item01 = rePub.querySelector('.gp_in_items .gp_item.item_01');
         const item02 = rePub.querySelector('.gp_in_items .gp_item.item_02');
-        const badge1 = rePub.querySelector('.gp_in_items .gp_item.item_03 > .badge_box:nth-child(1)'); // st_01
-        const badge2 = rePub.querySelector('.gp_in_items .gp_item.item_03 > .badge_box:nth-child(2)'); // st_02
+        const badge1 = rePub.querySelector('.gp_in_items .gp_item.item_03 > .badge_box:nth-child(1)');
+        const badge2 = rePub.querySelector('.gp_in_items .gp_item.item_03 > .badge_box:nth-child(2)');
         const arrow  = rePub.querySelector('.content_gp .bott_arrow');
     
         prepFade(badge1);
@@ -1217,9 +1212,9 @@ $(function () {
         prepFade(item02);
         prepFade(badge2);
     
-        const T_START  = 1000 + STEP3_PLUS; // item01+badge1
-        const GAP_1    = 1000 + STEP3_PLUS; // → arrow
-        const GAP_2    = 500  + STEP3_PLUS; // → item02+badge2
+        const T_START  = 1000 + STEP3_PLUS;
+        const GAP_1    = 1000 + STEP3_PLUS;
+        const GAP_2    = 500  + STEP3_PLUS;
     
         const tPair1 = T_START;
         const tArrow = tPair1 + GAP_1;
@@ -1251,18 +1246,14 @@ $(function () {
             (cb) => fadeInUpOpacity(item02, REPUB_FADE_DUR, cb),
             (cb) => fadeInUpOpacity(badge2, REPUB_FADE_DUR, cb),
           ], () => {
-            // ✅ re_pub_01 애니 종료 시점
             step3._repubDone = true;
-    
-            // ✅ 여기서부터 2초 후 toast_pop 노출
             scheduleToastAfterRepubDone(step3);
           });
         }, tPair2));
       }
     
       // =========================================================
-      // ✅ toast_pop 제어 (기본 css: opacity 0 / bottom -9vw)
-      //    - show: opacity 1 / bottom 0vw (TOAST_SHOW_BOTTOM)
+      // ✅ toast_pop 제어
       // =========================================================
       function getToastPop() {
         return (
@@ -1277,10 +1268,9 @@ $(function () {
     
         toast.dataset.active = '1';
         toast.style.willChange = 'opacity, bottom';
-        toast.style.display = 'flex'; // 필요하면 'block'로 변경
+        toast.style.display = 'flex';
         toast.style.pointerEvents = 'auto';
     
-        // 기본 상태 강제 (CSS 기준)
         toast.style.transition = 'none';
         toast.style.opacity = '0';
         toast.style.bottom = TOAST_HIDE_BOTTOM;
@@ -1300,7 +1290,6 @@ $(function () {
         const toast = getToastPop();
         if (!toast) { if (done) done(); return; }
     
-        // 즉시 숨김
         if (!dur || dur <= 0) {
           toast.dataset.active = '0';
           toast.style.display = 'none';
@@ -1338,15 +1327,12 @@ $(function () {
           if (!step3.classList.contains('on')) return;
     
           showToastPop(TOAST_FADE_DUR);
-    
-          // toast 안 버튼 바인딩(노출 시점에 보장)
           bindStep03Button(step3);
         }, TOAST_AFTER_REPUB_DELAY);
       }
     
       // =========================================================
       // ✅ 버튼/전환
-      //    - toast_pop 내 #cardListShow 클릭 → search_complete 노출
       // =========================================================
       function bindStep03Button(step3) {
         if (!step3) return;
@@ -1363,7 +1349,6 @@ $(function () {
           if (step3._toSearchRunning) return;
           step3._toSearchRunning = true;
     
-          // ✅ toast 닫고 → step_03 페이드아웃 → search_complete 노출
           hideToastPop(250, () => {
             hideStep03ToSearch(step3, S3_TO_SEARCH_FADE_DUR, () => {
               showSearchComplete();
@@ -1403,7 +1388,6 @@ $(function () {
           document.querySelector('.search_complete');
         if (!sc) return;
     
-        // search_complete 뜰 때 toast는 숨김
         hideToastPop(0);
     
         sc.style.display = 'flex';
@@ -1515,6 +1499,7 @@ $(function () {
         initGate01Sequence();
       }
     })();
+    
     
     
 
