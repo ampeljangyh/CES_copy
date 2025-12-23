@@ -1980,40 +1980,29 @@ function start() {
     if (!group) return;
 
     var gauges = group.querySelectorAll('.inve_examine_gp_item .bar .gauge');
-    var count  = gauges.length;
-    if (!count) return;
+    if (!gauges.length) return;
 
-    var scroller = group;
-
-    function scrollIntoViewIfNeeded(target) {
-      if (!scroller || !target) return;
-
-      var vRect = scroller.getBoundingClientRect();
-      var tRect = target.getBoundingClientRect();
-
-      if (tRect.bottom > vRect.bottom) {
-        var delta = (tRect.bottom - vRect.bottom) + 20;
-        scroller.scrollTo({
-          top: scroller.scrollTop + delta,
-          behavior: 'smooth'
-        });
-      }
-    }
-
-    var lastItem = group.querySelector('.inve_examine_gp_item:last-child');
-    if (lastItem) scrollIntoViewIfNeeded(lastItem);
-
+    // ✅ 1) 일단 0%로 초기화 (transition 없이)
     gauges.forEach(function (gauge) {
-      var percent = parseFloat(gauge.getAttribute('data-percent')) || 0;
+        gauge.style.transition = 'none';
+        gauge.style.width = '0%';
+    });
 
-      gauge.style.transition = 'none';
-      gauge.style.width      = '0%';
-      gauge.getBoundingClientRect();
+    // ✅ 2) display 변경 직후엔 레이아웃이 아직 불안정할 수 있어서
+    //    "다음 프레임" + "그 다음 프레임"에 퍼센트 적용
+    requestAnimationFrame(function () {
+        // 한번 더: display:none -> flex 직후 안정화
+        requestAnimationFrame(function () {
+            gauges.forEach(function (gauge) {
+                var percent = parseFloat(gauge.getAttribute('data-percent')) || 0;
 
-      requestAnimationFrame(function () {
-        gauge.style.transition = 'width ' + (GAUGE_DURATION / 1000) + 's ease';
-        gauge.style.width      = percent + '%';
-      });
+                // 레이아웃 플러시 (transition 적용 전에 한 번)
+                gauge.getBoundingClientRect();
+
+                gauge.style.transition = 'width ' + (GAUGE_DURATION / 1000) + 's ease';
+                gauge.style.width = percent + '%';
+            });
+        });
     });
   }
 
