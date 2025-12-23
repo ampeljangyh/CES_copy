@@ -1504,7 +1504,7 @@ body.kcon-pop-lock{position:fixed;width:100%;overflow:hidden;}
 .detail_info_pop .detail_tab_cont .tab_cont {display:none;width:100%;}
 .detail_info_pop .detail_tab_cont .tab_cont.on {display:inline-block;}
 .tab_round_ty {border-radius:2.6vw;border:0.026vw solid #FFF;display:flex;justify-content:space-around;width:33.384vw;margin:0 auto;}
-.tab_round_ty .tab_btn {min-width:8.8vw;color:#FFF;font-size:0.936vw;font-weight:400;letter-spacing:-0.01872vw;}
+.tab_round_ty .tab_btn {min-width:11vw;color:#FFF;font-size:0.936vw;font-weight:400;letter-spacing:-0.01872vw;}
 .tab_round_ty .tab_btn.on {color:#1D222C;font-weight:600;border-radius:2.6vw;border:0.026vw solid #FFF;background:#FFF;padding:0.702vw 0;}
 .new_pop_r .tab_round_ty .tab_btn {width:100%;}
 .tab_round_ty.wid_ty {width:max-content;}
