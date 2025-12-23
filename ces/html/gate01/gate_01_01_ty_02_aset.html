@@ -1764,7 +1764,8 @@ document.addEventListener('DOMContentLoaded', function () {
     labels: ['추가 투자금 유치','정부 출원금 확보','높은 기술 준비도','브랜드 홍보 전략','외형 지표 가시화','다양한 제휴 체결','우수한 인재 유치','사전적 영업 수행'],
     data: [0, 99.5, 99.2, 97.5, 99.5, 99.8, 98, 62.8],
     labelFontPx: 24,
-    datasetLabel: '평가'
+    datasetLabel: '평가',
+    stepInterval: 2200,   // ✅ 점과 점 사이
   });
 
   window.techBar01Ctrl = createTechBarController({

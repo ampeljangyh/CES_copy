@@ -1643,7 +1643,8 @@ function start() {
     }[lang], lang),
     data: [70, 80, 60, 60, 60, 60, 60, 60],
     labelFontPx: 24,
-    datasetLabel: (lang === 'eng') ? 'Evaluation' : '평가'
+    datasetLabel: (lang === 'eng') ? 'Evaluation' : '평가',
+    stepInterval: 2200,   // ✅ 점과 점 사이
     });
 
     // =====================================================================
