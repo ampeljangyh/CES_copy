@@ -266,6 +266,26 @@
                                                 </div>
                                             </div>
                                         </div> 
+                                        <div class="inve_examine_gp_item">
+                                            <div class="txt">
+                                                <strong>수익 창출 역량</strong>
+                                            </div>
+                                            <div class="gp_item">
+                                                <div class="bar">
+                                                    <span class="gauge" data-percent="60"></span>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <div class="inve_examine_gp_item">
+                                            <div class="txt">
+                                                <strong>수익 창출 역량</strong>
+                                            </div>
+                                            <div class="gp_item">
+                                                <div class="bar">
+                                                    <span class="gauge" data-percent="60"></span>
+                                                </div>
+                                            </div>
+                                        </div> 
                                     </div>
 
                                     <div class="inve_examine_step_04" id="examine04">
@@ -1563,7 +1583,7 @@ function start() {
     }
 
         // 언어 안전 처리
-    var lang = (window.language === 'eng') ? 'eng' : 'kor';
+    var lang = language;
 
     // =====================================================================
     // techRadar01 (5각형)
@@ -1932,46 +1952,74 @@ function start() {
   }
 
   // ---------------- gauge 그룹(하나의 inve_examine_step_xx) 애니 (동시) + 자동 스크롤 ----------------
-  function animateGaugesInGroup(group) {
+//   function animateGaugesInGroup(group) {
+//     if (!group) return;
+
+//     var gauges = group.querySelectorAll('.inve_examine_gp_item .bar .gauge');
+//     var count  = gauges.length;
+//     if (!count) return;
+
+//     var scroller = group;
+
+//     function scrollIntoViewIfNeeded(target) {
+//       if (!scroller || !target) return;
+
+//       var vRect = scroller.getBoundingClientRect();
+//       var tRect = target.getBoundingClientRect();
+
+//       if (tRect.bottom > vRect.bottom) {
+//         var delta = (tRect.bottom - vRect.bottom) + 20;
+//         scroller.scrollTo({
+//           top: scroller.scrollTop + delta,
+//           behavior: 'smooth'
+//         });
+//       }
+//     }
+
+//     var lastItem = group.querySelector('.inve_examine_gp_item:last-child');
+//     if (lastItem) scrollIntoViewIfNeeded(lastItem);
+
+//     gauges.forEach(function (gauge) {
+//       var percent = parseFloat(gauge.getAttribute('data-percent')) || 0;
+
+//       gauge.style.transition = 'none';
+//       gauge.style.width      = '0%';
+//       gauge.getBoundingClientRect(); // reflow
+
+//       requestAnimationFrame(function () {
+//         gauge.style.transition = 'width ' + (GAUGE_DURATION / 1000) + 's ease';
+//         gauge.style.width      = percent + '%';
+//       });
+//     });
+//   }
+
+  function applyGaugeWidths(group, withAnim) {
     if (!group) return;
 
     var gauges = group.querySelectorAll('.inve_examine_gp_item .bar .gauge');
-    var count  = gauges.length;
-    if (!count) return;
+    gauges.forEach(function (g) {
+        var p = parseFloat(g.getAttribute('data-percent'));
+        if (!isFinite(p)) p = 0;
+        p = Math.max(0, Math.min(100, p));
 
-    var scroller = group;
+        // width 적용이 확실히 먹게
+        g.style.display = 'block'; // 안전장치
+        g.style.width = p + '%';
 
-    function scrollIntoViewIfNeeded(target) {
-      if (!scroller || !target) return;
-
-      var vRect = scroller.getBoundingClientRect();
-      var tRect = target.getBoundingClientRect();
-
-      if (tRect.bottom > vRect.bottom) {
-        var delta = (tRect.bottom - vRect.bottom) + 20;
-        scroller.scrollTo({
-          top: scroller.scrollTop + delta,
-          behavior: 'smooth'
-        });
-      }
-    }
-
-    var lastItem = group.querySelector('.inve_examine_gp_item:last-child');
-    if (lastItem) scrollIntoViewIfNeeded(lastItem);
-
-    gauges.forEach(function (gauge) {
-      var percent = parseFloat(gauge.getAttribute('data-percent')) || 0;
-
-      gauge.style.transition = 'none';
-      gauge.style.width      = '0%';
-      gauge.getBoundingClientRect(); // reflow
-
-      requestAnimationFrame(function () {
-        gauge.style.transition = 'width ' + (GAUGE_DURATION / 1000) + 's ease';
-        gauge.style.width      = percent + '%';
-      });
+        if (withAnim) {
+            g.style.transition = 'none';
+            g.style.width = '0%';
+            g.getBoundingClientRect(); // reflow
+            requestAnimationFrame(function () {
+                g.style.transition = 'width 1s ease';
+                g.style.width = p + '%';
+            });
+        } else {
+            g.style.transition = 'none';
+            g.style.width = p + '%';
+        }
     });
-  }
+  }   
 
   // ---------------- 현재 item 숨기고 다음 item 보여주기 ----------------
   function hideItemAndShowNext(currentIndex) {
@@ -2037,7 +2085,9 @@ function start() {
 
       if (group) {
         showGroup(group);
-        animateGaugesInGroup(group);
+        requestAnimationFrame(function () {
+            applyGaugeWidths(group, true);
+        });
       }
 
       setTimeout(function () {
@@ -2142,8 +2192,9 @@ function start() {
   }
 
   // 첫 item 시작
-  showItem(0);
-
+  document.addEventListener('DOMContentLoaded', function () {
+    showItem(0);
+  });
 })();
 
 (function () {

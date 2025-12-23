@@ -6,10 +6,10 @@ const COMPANY_DATA_KOR = {
     bizCapability: {
       grade: "C",
       owner: {
-        grade: "B",
-        experience: null,
+        grade: "A",
+        experience: "A",
         techKnowledge: "A",
-        techManagement: "B+"
+        techManagement: "A"
       },
       management: {
         grade: "C+",
@@ -170,23 +170,23 @@ const COMPANY_DATA_KOR = {
     evaluation: {
       // 기업역량
       companyCapability: {
-        grade: "B",
+        grade: "A",
         entrepreneurshipTrust: {
-          grade: "B",
-          entrepreneurship: "B",
-          reliability: "B"
+          grade: "A",
+          entrepreneurship: "A",
+          reliability: "A"
         },
         ceo: {
-          grade: "B",
-          sameIndustryExperience: "C",
-          techKnowledge: "A",
-          techUnderstanding: "B"
+          grade: "A",
+          sameIndustryExperience: "B",
+          techKnowledge: "A+",
+          techUnderstanding: "A"
         },
         executives: {
-          grade: "C",
-          executiveExpertise: "B",
-          executiveCapitalParticipation: "E",
-          teamworkWithOwner: "B"
+          grade: "B",
+          executiveExpertise: "A",
+          executiveCapitalParticipation: "B",
+          teamworkWithOwner: "A"
         }
       },
 
@@ -399,10 +399,10 @@ const COMPANY_DATA_KOR = {
     bizCapability: {
       grade: "C+",
       owner: {
-        grade: "B",
-        experience: "C",
+        grade: "A",
+        experience: "A",
         techKnowledge: "A",
-        techManagement: "B+"
+        techManagement: "A"
       },
       management: {
         grade: "E",
@@ -605,10 +605,10 @@ const COMPANY_DATA_KOR = {
     bizCapability: {
       grade: "C",
       owner: {
-        grade: "D",
-        experience: "D",
-        techKnowledge: "E",
-        techManagement: "C"
+        grade: "A",
+        experience: "A",
+        techKnowledge: "A",
+        techManagement: "A"
       },
       management: {
         grade: "D+",
@@ -791,10 +791,10 @@ const COMPANY_DATA_KOR = {
     bizCapability: {
       grade: "D+",
       owner: {
-        grade: "C+",
-        experience: "C",
-        techKnowledge: "C",
-        techManagement: "C+"
+        grade: "A",
+        experience: "A",
+        techKnowledge: "A",
+        techManagement: "A"
       },
       management: {
         grade: "B+",
@@ -1004,10 +1004,10 @@ const COMPANY_DATA_KOR = {
     bizCapability: {
       grade: "D",
       owner: {
-        grade: "E+",
-        experience: "E+",
-        techKnowledge: "E",
-        techManagement: "C+"
+        grade: "A",
+        experience: "A",
+        techKnowledge: "A",
+        techManagement: "A"
       },
       management: {
         grade: "E",
@@ -1217,9 +1217,9 @@ const COMPANY_DATA_KOR = {
     bizCapability: {
       grade: "C+",
       owner: {
-        grade: "C",
-        experience: "E+",
-        techKnowledge: "B",
+        grade: "A",
+        experience: "A",
+        techKnowledge: "A",
         techManagement: "A"
       },
       management: {
@@ -1426,10 +1426,10 @@ const COMPANY_DATA_ENG = {
     bizCapability: {
       grade: "C",
       owner: {
-        grade: "B",
+        grade: "A",
         experience: "A",
-        techKnowledge: "B+",
-        techManagement: "C+"
+        techKnowledge: "A",
+        techManagement: "A"
       },
       management: {
         grade: "B+",
@@ -1607,23 +1607,23 @@ From a product competitiveness perspective, the company meets requirements relat
     evaluation: {
       // 기업역량
       companyCapability: {
-        grade: "B",
+        grade: "A",
         entrepreneurshipTrust: {
-          grade: "B",
-          entrepreneurship: "B",
-          reliability: "B"
+          grade: "A",
+          entrepreneurship: "A",
+          reliability: "A"
         },
         ceo: {
-          grade: "B",
-          sameIndustryExperience: "C",
-          techKnowledge: "A",
-          techUnderstanding: "B"
+          grade: "A",
+          sameIndustryExperience: "B",
+          techKnowledge: "A+",
+          techUnderstanding: "A"
         },
         executives: {
-          grade: "C",
-          executiveExpertise: "B",
-          executiveCapitalParticipation: "E",
-          teamworkWithOwner: "B"
+          grade: "B",
+          executiveExpertise: "A",
+          executiveCapitalParticipation: "B",
+          teamworkWithOwner: "A"
         }
       },
 
@@ -1863,10 +1863,10 @@ Therefore, the company’s growth potential and profitability are both evaluated
     bizCapability: {
       grade: "C+",
       owner: {
-        grade: "B",
-        experience: "C",
+        grade: "A",
+        experience: "A",
         techKnowledge: "A",
-        techManagement: "B+"
+        techManagement: "A"
       },
       management: {
         grade: "E",
@@ -2070,10 +2070,10 @@ Therefore, the company’s growth potential and profitability are both evaluated
     bizCapability: {
       grade: "C",
       owner: {
-        grade: "D",
-        experience: "D",
-        techKnowledge: "E",
-        techManagement: "C"
+        grade: "A",
+        experience: "A",
+        techKnowledge: "A",
+        techManagement: "A"
       },
       management: {
         grade: "D+",
@@ -2276,10 +2276,10 @@ Therefore, the product superiority is evaluated as average.`
     bizCapability: {
       grade: "D+",
       owner: {
-        grade: "C+",
-        experience: "C",
-        techKnowledge: "C",
-        techManagement: "C+"
+        grade: "A",
+        experience: "A",
+        techKnowledge: "A",
+        techManagement: "A"
       },
       management: {
         grade: "B+",
@@ -2493,10 +2493,10 @@ However, in consideration of the characteristics of an early-stage startup, the 
     bizCapability: {
       grade: "D",
       owner: {
-        grade: "E+",
-        experience: "E+",
-        techKnowledge: "E",
-        techManagement: "C+"
+        grade: "A",
+        experience: "A",
+        techKnowledge: "A",
+        techManagement: "A"
       },
       management: {
         grade: "E",
@@ -2709,9 +2709,9 @@ However, in consideration of the unique characteristics of a startup, the produc
     bizCapability: {
       grade: "C+",
       owner: {
-        grade: "C",
-        experience: "E+",
-        techKnowledge: "B",
+        grade: "A",
+        experience: "A",
+        techKnowledge: "A",
         techManagement: "A"
       },
       management: {
