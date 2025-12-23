@@ -354,10 +354,10 @@ $(function () {
       // =========================================================
       // ✅ (이하: gate_01 애니 시퀀스)
       // =========================================================
-      const STEP_HOLD = 10000;          // ✅ step_01 애니(진행) 시간: 8초
+      const STEP_HOLD = 16000;          // ✅ step_01 애니(진행) 시간: 8초
       const STEP_02_HOLD = 9000;
       const STEP_ANIM = 600;
-      const CARD_HOLD = 3000;
+      const CARD_HOLD = 4800;
       const CARD_ANIM = 500;
       const CROSSFADE_STEPS = false;
     
@@ -3446,3 +3446,20 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+
+
+
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+  var video = document.querySelector('.new_gate_01.step_01 .main_video > video');
+  if (!video) return;
+
+  // 재생 속도 1 -> 0.7
+  video.playbackRate = 0.8;
+
+  // (자동재생/재로드 등으로 초기화되는 경우 대비)
+  video.addEventListener('loadedmetadata', function () {
+    video.playbackRate = 0.8;
+  });
+});
