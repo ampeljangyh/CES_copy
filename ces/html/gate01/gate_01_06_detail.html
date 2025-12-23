@@ -1713,13 +1713,27 @@
           </div>
       </div>
       <div class="btn_at">
-        <button type="button" class="btn">
-          <span class="kr_t">다른 기업 보기  ➔</span>
-          <span class="en_t">View the List of Companies  ➔</span>
+        <button type="button" class="btn pop_close_btn">
+          <span class="kr_t">부스 위치 닫기</span>
+          <span class="en_t">Close</span>
+        </button>
+        <button type="button" class="btn at_btn">
+          <span class="kr_t">다른 기업 보기</span>
+          <span class="en_t">View Another Company</span>
         </button>
       </div>
   </div>
 </div>
+
+
+<style>
+  .loca_pop .loca_map .pin {
+          top: -0.8vw;
+      left: 1vw;
+      width: 1.6146vw;
+      height: 2.0833vw;
+  }
+</style>
 
 
 <!-- 성장 자세히보기 프로세스 팝업 -->
@@ -4930,13 +4944,38 @@ document.addEventListener('DOMContentLoaded', function(){
  <script>
 // btn_list_cop + loca_pop_02(.btn_at .btn) 클릭 시 gate_01을 "완료 상태"로 로드
 (function () {
-  var BOOT_KEY = 'GATE01_BOOT_COMPLETE';
+  var BOOT_KEY   = 'GATE01_BOOT_COMPLETE';
   var TARGET_URL = '../gate01/gate_01.html';
 
   function goGate01Complete(e) {
     if (e) e.preventDefault();
-    sessionStorage.setItem(BOOT_KEY, '1');
+    try { sessionStorage.setItem(BOOT_KEY, '1'); } catch (err) {}
     window.location.href = TARGET_URL;
+  }
+
+  function closePop(el) {
+    if (!el) return;
+
+    // (권장) 기존 close 버튼이 있으면 그 클릭을 먼저 태움
+    var closeBtn = el.querySelector('.pop_close');
+    if (closeBtn && typeof closeBtn.click === 'function') {
+      try { closeBtn.click(); return; } catch (e) {}
+    }
+
+    // fallback: 강제 숨김
+    el.classList.remove('on', 'open', 'active');
+    el.style.display = 'none';
+    el.style.opacity = '0';
+    el.style.visibility = 'hidden';
+    el.style.pointerEvents = 'none';
+  }
+
+  function closeLocaPops(e) {
+    if (e) e.preventDefault();
+
+    // .loca_pop (일반) + .loca_pop_02 둘 다 닫기
+    closePop(document.querySelector('.loca_pop'));      // 존재하면 닫힘
+    closePop(document.querySelector('.loca_pop_02'));   // 존재하면 닫힘
   }
 
   function bind() {
@@ -4946,10 +4985,16 @@ document.addEventListener('DOMContentLoaded', function(){
       listBtn.addEventListener('click', goGate01Complete);
     }
 
-    // 2) 추가: loca_pop_02 내부 btn_at의 btn
-    var pop02Btn = document.querySelector('.loca_pop_02 .btn_at .btn');
-    if (pop02Btn) {
-      pop02Btn.addEventListener('click', goGate01Complete);
+    // 2) loca_pop_02 내부 "다른 기업 보기" 버튼(at_btn) → gate_01 완료 상태 로드
+    var atBtn = document.querySelector('.loca_pop_02 .btn_at .at_btn');
+    if (atBtn) {
+      atBtn.addEventListener('click', goGate01Complete);
+    }
+
+    // 3) btn_at 내 "부스 위치 닫기" 버튼(pop_close_btn) → loca_pop / loca_pop_02 닫기
+    var closeBtn = document.querySelector('.loca_pop_02 .btn_at .pop_close_btn');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeLocaPops);
     }
   }
 
