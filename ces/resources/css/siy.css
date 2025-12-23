@@ -81,7 +81,7 @@
 .esg_tit > p {font-size:52px;letter-spacing:-1px;}
 .esg_tit > strong {display:block;margin-top:25px;font-size:100px;font-weight:700;letter-spacing:-2px;}
 
-.esg_select_msg {width:1282px;margin:124px auto 0;padding:76px 102px;border-radius:30px;text-align:center;color:#fff;background-color:rgba(42, 55, 85, 0.77);}
+.esg_select_msg {width:1500px;margin:124px auto 0;padding:76px 102px;border-radius:30px;text-align:center;color:#fff;background-color:rgba(42, 55, 85, 0.77);}
 .esg_select_msg .t1 {font-size:60px;font-weight:700;letter-spacing:-1.2px;}
 .esg_select_msg .t2 {margin-top:28px;font-size:40px;font-weight:500;letter-spacing:-1px;}
 
@@ -206,8 +206,10 @@
         0 0 20px rgba(217,229,254,0.10);
 }
 
-.option_slider_labels {display:flex;align-items:center;justify-content:space-between;margin-top:60px;padding:0 62px;}
+.option_slider_labels {display:flex;align-items:center;justify-content:space-between;margin-top:60px;}
 .option_slider_labels > li {display: flex;justify-content:center;width:0;}
+.option_slider_labels > li:first-child {justify-content: flex-start;}
+.option_slider_labels > li:last-child {justify-content: flex-end;}
 .option_slider_labels > li > span {display:block;font-size: 32px;font-weight: 500;letter-spacing: -0.64px;color: #FFF;white-space:nowrap;}
 
 .option_li {display: grid;grid-template-columns:repeat(auto-fill, minmax(600px, auto));grid-auto-rows: auto;gap:25px 100px;}

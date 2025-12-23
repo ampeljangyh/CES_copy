@@ -45,7 +45,7 @@
                             <a href="../main.html" class="menu_item ico_01">메인</a>
                         </li>
                         <li>
-                            <a href="../gate01/gate_01.html" class="menu_item ico_02 active">기술 금융 시스템</a>
+                            <a href="../gate01/gate_01.html" class="menu_item ico_02 active">新 기술평가 시스템</a>
                         </li>
                         <li>
                             <a href="../gate02/gate_02.html" class="menu_item ico_03">K-콘텐츠 투자</a>
@@ -275,7 +275,7 @@
                                                     <span class="gauge" data-percent="60"></span>
                                                 </div>
                                             </div>
-                                        </div> 
+                                        </div>
                                         <div class="inve_examine_gp_item">
                                             <div class="txt">
                                                 <strong>수익 창출 역량</strong>
@@ -285,7 +285,7 @@
                                                     <span class="gauge" data-percent="60"></span>
                                                 </div>
                                             </div>
-                                        </div> 
+                                        </div>
                                     </div>
 
                                     <div class="inve_examine_step_04" id="examine04">
@@ -1069,6 +1069,7 @@
 
 <!-- techRadar01 방사형, 바형 차트 -->
 <script>
+
 let language = localStorage.getItem('siteLang') === 'lang_kr' ? "kor" : "eng";
 const urlParams = new URLSearchParams(window.location.search);
 let currentCompany = urlParams.get('currentCompany');
@@ -1662,7 +1663,8 @@ function start() {
     }[lang], lang),
     data: [70, 80, 60, 60, 60, 60, 60, 60],
     labelFontPx: 24,
-    datasetLabel: (lang === 'eng') ? 'Evaluation' : '평가'
+    datasetLabel: (lang === 'eng') ? 'Evaluation' : '평가',
+    stepInterval: 2200,   // ✅ 점과 점 사이
     });
 
     // =====================================================================
@@ -1697,6 +1699,7 @@ function start() {
         if (techRadar04Ctrl) techRadar04Ctrl.start();
     };
 });
+
 </script>
 
 <!-- 평가 과정 애니매이션 -->
@@ -1708,17 +1711,31 @@ function start() {
 // - ✅ 타이틀 전환 추가(HTML 기준: tech_process_item.step_last일 때만 02)
 //   * step_last 아닌 동안: .thec_pro_tit_01 유지
 //   * step_last 시작 시: 01 완전 제거(display:none) 후 02 등장(display/opacity/transform)
+// - ✅ [요구 반영]
+//   1) stepIndex=0 그룹 게이지: 1초(=GAUGE_DURATION) 채움
+//   2) 게이지 완료 후 1초 뒤 차트 start(runTechRadarXX / runTechBar01)
+//   3) 차트 첫 점(=차트 FIRST_DELAY) 찍힌 뒤 1초 후 step_examine_01 on
+// - ✅ [추가 요구]
+//   thec_pro_tit_02 애니 동작(완료) 후 1초 뒤 step_last 아이템 애니 시작
 // =====================================================================
 (function () {
-  var GAUGE_DURATION      = 1000; // 한 그룹(inve_examine_step_xx)의 게이지가 다 차는데 걸리는 시간(동시 진행)
-  var GROUP_FADE_TIME     = 600;  // inve_examine_step_xx 교체용 (위로 스르륵)
-  var ITEM_FADE_TIME      = 600;  // tech_process_item 교체용
-  var ON_DELAY_AFTER_BAR  = 500;  // bar 다 찬 뒤 step_examine 에 on 이 들어가기까지 대기
-  var HIDE_DELAY_AFTER_ON = 200;  // step_examine 에 on 이 들어간 뒤 group 이 사라지기까지 대기
-  var HOLD_AFTER_LIST     = 2000; // 한 tech_process_item의 step 리스트 끝난 뒤 유지 시간
+  var GAUGE_DURATION      = 1000;
+  var GROUP_FADE_TIME     = 600;
+  var ITEM_FADE_TIME      = 600;
+  var ON_DELAY_AFTER_BAR  = 500;
+  var HIDE_DELAY_AFTER_ON = 200;
+  var HOLD_AFTER_LIST     = 2000;
 
   // ✅ 타이틀 전환 애니 시간
   var TIT_FADE_TIME       = 600;
+
+  // ✅ [추가] step_01 타이밍 체인 설정
+  var AFTER_GAUGE_TO_CHART_DELAY         = 500;  // (주석과 값이 다르면 값이 우선)
+  var CHART_FIRST_POINT_DELAY            = 1000; // ⚠️ 차트 코드의 FIRST_DELAY(첫 점 딜레이)와 동일하게
+  var AFTER_FIRST_POINT_TO_STEP_ON_DELAY = 0;    // 첫 점 찍힌 뒤 step_examine_01 on 추가딜레이
+
+  // ✅ [추가] tit_02 애니 완료 후 step_last 아이템 시작 딜레이
+  var AFTER_TIT02_TO_STEP_LAST_ITEM_DELAY = 200;
 
   var processItems = document.querySelectorAll('.tech_process_item');
   if (!processItems.length) return;
@@ -1729,8 +1746,19 @@ function start() {
   var tit01 = document.querySelector('.tech_process_tit_box.thec_pro_tit_01');
   var tit02 = document.querySelector('.tech_process_tit_box.thec_pro_tit_02');
 
-  var _titMode = null;          // '01' | '02'
+  var _titMode = null;
   var _titSwitching = false;
+
+  // ✅ switching 중 콜백 대기열
+  var _titWaiters = [];
+
+  function flushTitleWaiters() {
+    if (!_titWaiters.length) return;
+    var list = _titWaiters.splice(0, _titWaiters.length);
+    list.forEach(function (fn) {
+      try { fn && fn(); } catch (e) {}
+    });
+  }
 
   function getDefaultDisplay(el) {
     if (!el) return 'flex';
@@ -1751,10 +1779,7 @@ function start() {
       el.removeEventListener('transitionend', onEnd);
       done && done();
     }
-    function onEnd(e) {
-      // opacity/transform 중 하나만 와도 종료
-      finish();
-    }
+    function onEnd() { finish(); }
 
     el.addEventListener('transitionend', onEnd);
     setTimeout(finish, (fallbackMs || 0) + 80);
@@ -1778,11 +1803,9 @@ function start() {
     el.style.transform = 'translateY(0)';
   }
 
-  // 01 사라짐(완전 제거) → 콜백
   function fadeOutUpThenHide(el, dur, done) {
     if (!el) { done && done(); return; }
 
-    // 혹시 이미 none이면 바로 종료
     var cs = getComputedStyle(el);
     if (cs.display === 'none' || parseFloat(cs.opacity || '0') === 0) {
       el.style.display = 'none';
@@ -1800,81 +1823,85 @@ function start() {
     });
 
     onTransitionEndOnce(el, function () {
-      el.style.display = 'none'; // ✅ 완전 제거
+      el.style.display = 'none';
       done && done();
     }, dur);
   }
 
-  // 02 등장(아래에서 위로 + opacity)
   function fadeInUpShow(el, dur, done) {
-  if (!el) { done && done(); return; }
+    if (!el) { done && done(); return; }
 
-  el.style.willChange = 'opacity, transform';
-  el.style.transition = 'none';
+    el.style.willChange = 'opacity, transform';
+    el.style.transition = 'none';
 
-  // ✅ thec_pro_tit_02는 무조건 block으로 노출
-  if (el.classList && el.classList.contains('thec_pro_tit_02')) {
-    el.style.display = 'block';
-  } else {
-    el.style.display = getDefaultDisplay(el);
+    // ✅ thec_pro_tit_02는 무조건 block
+    if (el.classList && el.classList.contains('thec_pro_tit_02')) {
+      el.style.display = 'block';
+    } else {
+      el.style.display = getDefaultDisplay(el);
+    }
+
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(10px)';
+    el.getBoundingClientRect();
+
+    requestAnimationFrame(function () {
+      el.style.transition = 'opacity ' + dur + 'ms ease, transform ' + dur + 'ms ease';
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(0)';
+    });
+
+    onTransitionEndOnce(el, function () {
+      done && done();
+    }, dur);
   }
-
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(10px)';
-  el.getBoundingClientRect(); // reflow
-
-  requestAnimationFrame(function () {
-    el.style.transition = 'opacity ' + dur + 'ms ease, transform ' + dur + 'ms ease';
-    el.style.opacity = '1';
-    el.style.transform = 'translateY(0)';
-  });
-
-  onTransitionEndOnce(el, function () {
-    done && done();
-  }, dur);
-}
-
 
   function setTitle01(immediate) {
     if (_titMode === '01' && !_titSwitching) return;
 
     _titSwitching = false;
     _titMode = '01';
+    _titWaiters.length = 0; // ✅ 대기중 콜백 제거(01로 복귀 시)
 
-    // 02는 기본 CSS가 display:none/opacity:0 라도 확실히 숨김
     hideInstant(tit02);
-
-    if (immediate) {
-      showInstant(tit01);
-    } else {
-      showInstant(tit01);
-    }
+    showInstant(tit01);
   }
 
-  function setTitle02_afterTitle01Gone() {
-    if (_titMode === '02' || _titSwitching) return;
-    _titSwitching = true;
+  // ✅ 콜백 지원: tit02 등장 애니 "완료" 시 done 호출
+  function setTitle02_afterTitle01Gone(done) {
+    if (!tit01 || !tit02) { done && done(); return; }
 
-    // 02는 대기 상태로 고정
-    if (tit02) {
-      tit02.style.transition = 'none';
-      tit02.style.display = 'none';
-      tit02.style.opacity = '0';
-      tit02.style.transform = 'translateY(10px)';
+    // 이미 02 상태면 즉시
+    if (_titMode === '02' && !_titSwitching) { done && done(); return; }
+
+    // 스위칭 중이면 완료 후 호출
+    if (_titSwitching) {
+      if (typeof done === 'function') _titWaiters.push(done);
+      return;
     }
 
-    // ✅ 01 완전 제거 후 02 등장 (끊김 방지)
+    _titSwitching = true;
+    if (typeof done === 'function') _titWaiters.push(done);
+
+    // 02는 대기 상태
+    tit02.style.transition = 'none';
+    tit02.style.display = 'none';
+    tit02.style.opacity = '0';
+    tit02.style.transform = 'translateY(10px)';
+
+    // 01 완전 제거 후 02 등장
     fadeOutUpThenHide(tit01, TIT_FADE_TIME, function () {
       requestAnimationFrame(function () {
         fadeInUpShow(tit02, TIT_FADE_TIME, function () {
           _titMode = '02';
           _titSwitching = false;
+          flushTitleWaiters();
         });
       });
     });
   }
 
-  // 초기 타이틀 상태(항상 01)
+  // 초기 타이틀
   setTitle01(true);
 
   // ---------------- 초기 상태 세팅 ----------------
@@ -1893,20 +1920,17 @@ function start() {
       item.style.transform = 'translateY(10px)';
     }
 
-    // 안쪽 step_examine on/done 초기화
     var innerSteps = item.querySelectorAll('.step_examine_list [class^="step_examine_"]');
     innerSteps.forEach(function (s) {
       s.classList.remove('on', 'done');
     });
 
-    // 게이지 초기 width 0
     var gauges = item.querySelectorAll('.inve_examine_gp .bar .gauge');
     gauges.forEach(function (g) {
       g.style.width      = '0%';
       g.style.transition = 'none';
     });
 
-    // 각 item 안의 inve_examine_step_xx 그룹 초기 상태 세팅
     var groups = item.querySelectorAll('.inve_examine_gp [id^="examine"]');
 
     var firstStep   = item.querySelector('.step_examine_list [class^="step_examine_"]');
@@ -1933,7 +1957,7 @@ function start() {
     if (!group) return;
     var def = group.dataset.defaultDisplay || 'flex';
     group.style.display = def;
-    group.getBoundingClientRect(); // reflow
+    group.getBoundingClientRect();
     group.style.opacity   = '1';
     group.style.transform = 'translateY(0)';
   }
@@ -1951,75 +1975,47 @@ function start() {
     }, GROUP_FADE_TIME);
   }
 
-  // ---------------- gauge 그룹(하나의 inve_examine_step_xx) 애니 (동시) + 자동 스크롤 ----------------
-//   function animateGaugesInGroup(group) {
-//     if (!group) return;
-
-//     var gauges = group.querySelectorAll('.inve_examine_gp_item .bar .gauge');
-//     var count  = gauges.length;
-//     if (!count) return;
-
-//     var scroller = group;
-
-//     function scrollIntoViewIfNeeded(target) {
-//       if (!scroller || !target) return;
-
-//       var vRect = scroller.getBoundingClientRect();
-//       var tRect = target.getBoundingClientRect();
-
-//       if (tRect.bottom > vRect.bottom) {
-//         var delta = (tRect.bottom - vRect.bottom) + 20;
-//         scroller.scrollTo({
-//           top: scroller.scrollTop + delta,
-//           behavior: 'smooth'
-//         });
-//       }
-//     }
-
-//     var lastItem = group.querySelector('.inve_examine_gp_item:last-child');
-//     if (lastItem) scrollIntoViewIfNeeded(lastItem);
-
-//     gauges.forEach(function (gauge) {
-//       var percent = parseFloat(gauge.getAttribute('data-percent')) || 0;
-
-//       gauge.style.transition = 'none';
-//       gauge.style.width      = '0%';
-//       gauge.getBoundingClientRect(); // reflow
-
-//       requestAnimationFrame(function () {
-//         gauge.style.transition = 'width ' + (GAUGE_DURATION / 1000) + 's ease';
-//         gauge.style.width      = percent + '%';
-//       });
-//     });
-//   }
-
-  function applyGaugeWidths(group, withAnim) {
+  // ---------------- gauge 그룹 애니 (동시) + 자동 스크롤 ----------------
+  function animateGaugesInGroup(group) {
     if (!group) return;
 
     var gauges = group.querySelectorAll('.inve_examine_gp_item .bar .gauge');
-    gauges.forEach(function (g) {
-        var p = parseFloat(g.getAttribute('data-percent'));
-        if (!isFinite(p)) p = 0;
-        p = Math.max(0, Math.min(100, p));
+    var count  = gauges.length;
+    if (!count) return;
 
-        // width 적용이 확실히 먹게
-        g.style.display = 'block'; // 안전장치
-        g.style.width = p + '%';
+    var scroller = group;
 
-        if (withAnim) {
-            g.style.transition = 'none';
-            g.style.width = '0%';
-            g.getBoundingClientRect(); // reflow
-            requestAnimationFrame(function () {
-                g.style.transition = 'width 1s ease';
-                g.style.width = p + '%';
-            });
-        } else {
-            g.style.transition = 'none';
-            g.style.width = p + '%';
-        }
+    function scrollIntoViewIfNeeded(target) {
+      if (!scroller || !target) return;
+
+      var vRect = scroller.getBoundingClientRect();
+      var tRect = target.getBoundingClientRect();
+
+      if (tRect.bottom > vRect.bottom) {
+        var delta = (tRect.bottom - vRect.bottom) + 20;
+        scroller.scrollTo({
+          top: scroller.scrollTop + delta,
+          behavior: 'smooth'
+        });
+      }
+    }
+
+    var lastItem = group.querySelector('.inve_examine_gp_item:last-child');
+    if (lastItem) scrollIntoViewIfNeeded(lastItem);
+
+    gauges.forEach(function (gauge) {
+      var percent = parseFloat(gauge.getAttribute('data-percent')) || 0;
+
+      gauge.style.transition = 'none';
+      gauge.style.width      = '0%';
+      gauge.getBoundingClientRect();
+
+      requestAnimationFrame(function () {
+        gauge.style.transition = 'width ' + (GAUGE_DURATION / 1000) + 's ease';
+        gauge.style.width      = percent + '%';
+      });
     });
-  }   
+  }
 
   // ---------------- 현재 item 숨기고 다음 item 보여주기 ----------------
   function hideItemAndShowNext(currentIndex) {
@@ -2038,6 +2034,21 @@ function start() {
     }, ITEM_FADE_TIME);
   }
 
+  // ✅ 차트 시작 호출(아이템별 조건 유지)
+  function startChartForItemIndex(itemIndex) {
+    if (itemIndex === 0 && typeof runTechRadar01 === 'function') {
+      runTechRadar01(); return;
+    }
+    if (itemIndex === 1) {
+      if (typeof runTechRadar02 === 'function') runTechRadar02();
+      else if (typeof runTechBar01 === 'function') runTechBar01();
+      return;
+    }
+    if (itemIndex === 2 && typeof runTechRadar04 === 'function') {
+      runTechRadar04(); return;
+    }
+  }
+
   // ---------------- item 하나의 내부 step_examine / gauge / 그룹 시퀀스 ----------------
   function runInnerStepsForItem(item, itemIndex, onComplete) {
     var steps = item.querySelectorAll('.step_examine_list [class^="step_examine_"]');
@@ -2046,6 +2057,10 @@ function start() {
       if (typeof onComplete === 'function') onComplete();
       return;
     }
+
+    item._runId = (item._runId || 0) + 1;
+    var runId = item._runId;
+    function alive() { return item._runId === runId; }
 
     steps.forEach(function (s) {
       s.classList.remove('on', 'done');
@@ -2075,6 +2090,8 @@ function start() {
     }
 
     function runStep(stepIndex) {
+      if (!alive()) return;
+
       if (stepIndex >= stepCount) {
         if (typeof onComplete === 'function') onComplete();
         return;
@@ -2085,24 +2102,49 @@ function start() {
 
       if (group) {
         showGroup(group);
-        requestAnimationFrame(function () {
-            applyGaugeWidths(group, true);
-        });
+        animateGaugesInGroup(group);
+      }
+
+      if (stepIndex === 0) {
+        // (A) 차트 start: 게이지(1s) 완료 후 AFTER_GAUGE_TO_CHART_DELAY
+        setTimeout(function () {
+          if (!alive()) return;
+          if (getComputedStyle(item).display === 'none') return;
+          startChartForItemIndex(itemIndex);
+        }, GAUGE_DURATION + AFTER_GAUGE_TO_CHART_DELAY);
+
+        // (B) 첫 step on: 게이지1s + 차트딜레이 + 첫점딜레이 + 추가딜레이
+        var delayToFirstOn =
+          GAUGE_DURATION +
+          AFTER_GAUGE_TO_CHART_DELAY +
+          CHART_FIRST_POINT_DELAY +
+          AFTER_FIRST_POINT_TO_STEP_ON_DELAY;
+
+        setTimeout(function () {
+          if (!alive()) return;
+
+          applyStepStatus(stepIndex);
+
+          if (isLastStep) {
+            if (typeof onComplete === 'function') onComplete();
+            return;
+          }
+
+          setTimeout(function () {
+            if (!alive()) return;
+            hideGroup(group, function () {
+              if (!alive()) return;
+              runStep(stepIndex + 1);
+            });
+          }, HIDE_DELAY_AFTER_ON);
+
+        }, delayToFirstOn);
+
+        return;
       }
 
       setTimeout(function () {
-
-        // step_01이 on 되는 타이밍에 차트 시작(기존 로직 유지 + 안전 보강)
-        if (stepIndex === 0) {
-          if (itemIndex === 0 && typeof runTechRadar01 === 'function') {
-            runTechRadar01();
-          } else if (itemIndex === 1) {
-            if (typeof runTechRadar02 === 'function') runTechRadar02();
-            else if (typeof runTechBar01 === 'function') runTechBar01();
-          } else if (itemIndex === 2 && typeof runTechRadar04 === 'function') {
-            runTechRadar04();
-          }
-        }
+        if (!alive()) return;
 
         applyStepStatus(stepIndex);
 
@@ -2112,7 +2154,9 @@ function start() {
         }
 
         setTimeout(function () {
+          if (!alive()) return;
           hideGroup(group, function () {
+            if (!alive()) return;
             runStep(stepIndex + 1);
           });
         }, HIDE_DELAY_AFTER_ON);
@@ -2131,64 +2175,71 @@ function start() {
     var item   = processItems[index];
     var isLast = (index === itemCount - 1);
 
-    // ✅ 핵심: item이 step_last면 타이틀 02로 전환, 아니면 01 유지
-    if (item.classList.contains('step_last')) {
-      setTitle02_afterTitle01Gone();
-    } else {
-      setTitle01(false);
-    }
+    function startItemAnimation() {
+      item.style.display   = 'block';
+      item.style.transform = 'translateY(10px)';
+      item.style.opacity   = '0';
 
-    item.style.display   = 'block';
-    item.style.transform = 'translateY(10px)';
-    item.style.opacity   = '0';
+      requestAnimationFrame(function () {
+        item.style.opacity   = '1';
+        item.style.transform = 'translateY(0)';
+      });
 
-    requestAnimationFrame(function () {
-      item.style.opacity   = '1';
-      item.style.transform = 'translateY(0)';
-    });
-
-    runInnerStepsForItem(item, index, function () {
-      if (isLast) {
-        var pop = document.querySelector('.com_wid_pop');
-
-        setTimeout(function () {
-          if (pop) {
-            pop.style.display    = 'flex';
-            pop.style.opacity    = '0';
-            pop.style.transition = 'opacity 0.6s ease';
-            requestAnimationFrame(function () {
-              pop.style.opacity = '1';
-            });
-          }
+      runInnerStepsForItem(item, index, function () {
+        if (isLast) {
+          var pop = document.querySelector('.com_wid_pop');
 
           setTimeout(function () {
-            var company = (currentCompany || '').trim();
-            var url;
-
-            switch (company) {
-              case '듀셀바이오테라퓨틱스': url = '../gate01/gate_01_01_detail.html'; break;
-              case '포트래이':             url = '../gate01/gate_01_03_detail.html'; break;
-              case '브이투브이':           url = '../gate01/gate_01_04_detail.html'; break;
-              case '업사이트':             url = '../gate01/gate_01_05_detail.html'; break;
-              case '워터베이션':           url = '../gate01/gate_01_06_detail.html'; break;
-              case '뤼튼테크놀로지스':     url = '../gate01/gate_01_07_detail.html'; break;
-              default:
-                console.warn('[redirect] unknown company:', company);
-                url = '../gate01/gate_01_07_detail.html';
+            if (pop) {
+              pop.style.display    = 'flex';
+              pop.style.opacity    = '0';
+              pop.style.transition = 'opacity 0.6s ease';
+              requestAnimationFrame(function () {
+                pop.style.opacity = '1';
+              });
             }
 
-            window.location.href = url;
-          }, 3000);
+            setTimeout(function () {
+              var company = (currentCompany || '').trim();
+              var url;
 
-        }, 2000);
+              switch (company) {
+                case '듀셀바이오테라퓨틱스': url = '../gate01/gate_01_01_detail.html'; break;
+                case '포트래이':             url = '../gate01/gate_01_03_detail.html'; break;
+                case '브이투브이':           url = '../gate01/gate_01_04_detail.html'; break;
+                case '업사이트':             url = '../gate01/gate_01_05_detail.html'; break;
+                case '워터베이션':           url = '../gate01/gate_01_06_detail.html'; break;
+                case '뤼튼테크놀로지스':     url = '../gate01/gate_01_07_detail.html'; break;
+                default:
+                  console.warn('[redirect] unknown company:', company);
+                  url = '../gate01/gate_01_07_detail.html';
+              }
 
-        return;
-      }
+              window.location.href = url;
+            }, 3000);
 
-      setTimeout(function () {
-        hideItemAndShowNext(index);
-      }, HOLD_AFTER_LIST);
-    });
+          }, 2000);
+
+          return;
+        }
+
+        setTimeout(function () {
+          hideItemAndShowNext(index);
+        }, HOLD_AFTER_LIST);
+      });
+    }
+
+    // ✅ 핵심: step_last면 tit02 애니 완료 후 1초 뒤 아이템 시작
+    if (item.classList.contains('step_last')) {
+      setTitle02_afterTitle01Gone(function () {
+        setTimeout(function () {
+          startItemAnimation();
+        }, AFTER_TIT02_TO_STEP_LAST_ITEM_DELAY);
+      });
+    } else {
+      setTitle01(false);
+      startItemAnimation();
+    }
   }
 
   // 첫 item 시작

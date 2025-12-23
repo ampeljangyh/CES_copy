@@ -45,7 +45,7 @@
                                 <a href="../main.html" class="menu_item ico_01">메인</a>
                             </li>
                             <li>
-                                <a href="../gate01/gate_01.html" class="menu_item ico_02 active">기술 금융 시스템</a>
+                                <a href="../gate01/gate_01.html" class="menu_item ico_02 active">新 기술평가 시스템</a>
                             </li>
                             <li>
                                 <a href="../gate02/gate_02.html" class="menu_item ico_03">K-콘텐츠 투자</a>
@@ -1764,7 +1764,8 @@ document.addEventListener('DOMContentLoaded', function () {
     labels: ['추가 투자금 유치','정부 출원금 확보','높은 기술 준비도','브랜드 홍보 전략','외형 지표 가시화','다양한 제휴 체결','우수한 인재 유치','사전적 영업 수행'],
     data: [0, 99.5, 99.2, 97.5, 99.5, 99.8, 98, 62.8],
     labelFontPx: 24,
-    datasetLabel: '평가'
+    datasetLabel: '평가',
+    stepInterval: 2200,   // ✅ 점과 점 사이
   });
 
   window.techBar01Ctrl = createTechBarController({
@@ -1795,17 +1796,31 @@ document.addEventListener('DOMContentLoaded', function () {
 // - step_last 시작 시: thec_pro_tit_01 완전 제거 후 thec_pro_tit_02 display:block로 노출 + 스르륵
 // - gauge: 그룹 내 모든 gauge "동시" 채우기
 // - step_examine: 다음 step on 들어갈 때 이전 step은 on 제거 + done, 마지막 step은 on 유지
+// - ✅ [타이밍 동일 반영]
+//   1) stepIndex=0 게이지 1초
+//   2) 게이지 완료 후 0.5초 뒤 차트 start
+//   3) 차트 첫 점 찍힌 뒤 0.5초 후 step_examine_01 on
+// - ✅ [추가 요구]
+//   thec_pro_tit_02 애니 "완료" 후 1초 뒤 step_last 아이템 애니 시작
 // =====================================================================
 (function () {
-  var GAUGE_DURATION      = 1000; // 한 그룹(inve_examine_step_xx)의 게이지가 다 차는데 걸리는 시간
-  var GROUP_FADE_TIME     = 600;  // inve_examine_step_xx 교체용 (위로 스르륵)
-  var ITEM_FADE_TIME      = 600;  // tech_process_item 교체용
-  var ON_DELAY_AFTER_BAR  = 500;  // bar 다 찬 뒤 step_examine 에 on 이 들어가기까지 대기
-  var HIDE_DELAY_AFTER_ON = 200;  // step_examine 에 on 이 들어간 뒤 group 이 사라지기까지 대기
-  var HOLD_AFTER_LIST     = 2000; // 한 tech_process_item의 step 리스트 끝난 뒤 유지 시간
+  var GAUGE_DURATION      = 1000;
+  var GROUP_FADE_TIME     = 600;
+  var ITEM_FADE_TIME      = 600;
+  var ON_DELAY_AFTER_BAR  = 500;
+  var HIDE_DELAY_AFTER_ON = 200;
+  var HOLD_AFTER_LIST     = 2000;
 
-  // 타이틀 전환 시간(ITEM_FADE_TIME와 맞춤)
+  // 타이틀 전환 시간
   var TIT_FADE_TIME = 600;
+
+  // ✅ stepIndex=0 전용 타이밍 체인
+  var AFTER_GAUGE_TO_CHART_DELAY          = 500;  // 게이지 완료 후 0.5초 뒤 차트 start
+  var CHART_FIRST_POINT_DELAY             = 0;    // ⚠️ 차트 FIRST_DELAY와 동일하게 (첫 점이 바로면 0)
+  var AFTER_FIRST_POINT_TO_STEP_ON_DELAY  = 500;  // 첫 점 찍힌 뒤 0.5초 후 step on
+
+  // ✅ [추가] tit02 애니 완료 후 step_last 아이템 시작 딜레이
+  var AFTER_TIT02_TO_STEP_LAST_ITEM_DELAY = 200;
 
   // ✅ 섹션 범위로 스코프 고정
   var wrap = document.querySelector('.tech_process_wrap');
@@ -1839,10 +1854,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     el.addEventListener('transitionend', handler);
-
-    setTimeout(function () {
-      done();
-    }, (fallbackMs || 0) + 50);
+    setTimeout(done, (fallbackMs || 0) + 50);
   }
 
   function fadeOutUpHide(el, dur, done) {
@@ -1854,7 +1866,7 @@ document.addEventListener('DOMContentLoaded', function () {
     el.style.transform = 'translateY(-10px)';
 
     onTransitionEndOnce(el, function () {
-      el.style.display = 'none'; // ✅ 완전 제거(영역 없어짐)
+      el.style.display = 'none';
       done && done();
     }, dur);
   }
@@ -1878,7 +1890,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     el.style.opacity = '0';
     el.style.transform = 'translateY(10px)';
-    el.getBoundingClientRect(); // reflow
+    el.getBoundingClientRect();
 
     requestAnimationFrame(function () {
       el.style.transition = 'opacity ' + dur + 'ms ease, transform ' + dur + 'ms ease';
@@ -1892,7 +1904,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function initTitleBoxes() {
-    // 초기: tit01 보이고, tit02 숨김 (CSS가 어떻든 JS로 맞춤)
     if (tit01) {
       tit01.style.display = 'block';
       tit01.style.opacity = '1';
@@ -1900,7 +1911,7 @@ document.addEventListener('DOMContentLoaded', function () {
       tit01.style.transition = 'opacity ' + TIT_FADE_TIME + 'ms ease, transform ' + TIT_FADE_TIME + 'ms ease';
     }
     if (tit02) {
-      tit02.style.display = 'none'; // ✅ 기본 숨김
+      tit02.style.display = 'none';
       tit02.style.opacity = '0';
       tit02.style.transform = 'translateY(10px)';
       tit02.style.transition = 'opacity ' + TIT_FADE_TIME + 'ms ease, transform ' + TIT_FADE_TIME + 'ms ease';
@@ -1909,14 +1920,12 @@ document.addEventListener('DOMContentLoaded', function () {
     _titSwitching = false;
   }
 
-  // step_last 시작할 때만 tit01 -> tit02 전환
   function ensureTitleForItem(item, done) {
     if (!tit01 || !tit02) { done && done(); return; }
 
     var isLast = item && item.classList && item.classList.contains('step_last');
 
     if (!isLast) {
-      // step_01~step_04: tit01 유지
       if (_titMode !== '01') {
         tit02.style.display = 'none';
         tit02.style.opacity = '0';
@@ -1932,7 +1941,7 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
-    // step_last: tit02가 보여야 함
+    // step_last인데 이미 02면(전환 애니 없음) 바로 진행
     if (_titMode === '02' || _titSwitching) {
       done && done();
       return;
@@ -1940,12 +1949,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     _titSwitching = true;
 
-    // ✅ tit01 완전 제거(transition 끝 + display:none) 후 tit02 등장
+    // ✅ tit01 완전 제거 -> tit02 등장(애니 완료) -> 1초 후 done
     fadeOutUpHide(tit01, TIT_FADE_TIME, function () {
       fadeInUpShow(tit02, TIT_FADE_TIME, 'block', function () {
         _titMode = '02';
         _titSwitching = false;
-        done && done();
+
+        setTimeout(function () {
+          done && done();
+        }, AFTER_TIT02_TO_STEP_LAST_ITEM_DELAY);
       });
     });
   }
@@ -1968,20 +1980,17 @@ document.addEventListener('DOMContentLoaded', function () {
       item.style.transform = 'translateY(10px)';
     }
 
-    // 안쪽 step_examine on/done 초기화
     var innerSteps = item.querySelectorAll('.step_examine_list [class^="step_examine_"]');
     innerSteps.forEach(function (s) {
       s.classList.remove('on', 'done');
     });
 
-    // 게이지 초기 width 0
     var gauges = item.querySelectorAll('.inve_examine_gp .bar .gauge');
     gauges.forEach(function (g) {
       g.style.width      = '0%';
       g.style.transition = 'none';
     });
 
-    // 각 item 안의 inve_examine_step_xx 그룹 초기 상태 세팅
     var groups = item.querySelectorAll('.inve_examine_gp [id^="examine"]');
 
     var firstStep   = item.querySelector('.step_examine_list [class^="step_examine_"]');
@@ -2011,7 +2020,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     try { group.scrollTop = 0; } catch (e) {}
 
-    group.getBoundingClientRect(); // reflow
+    group.getBoundingClientRect();
     group.style.opacity   = '1';
     group.style.transform = 'translateY(0)';
   }
@@ -2029,7 +2038,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }, GROUP_FADE_TIME);
   }
 
-  // ---------------- gauge 그룹(하나의 inve_examine_step_xx) 애니 (✅동시) + 자동 스크롤 ----------------
   function animateGaugesInGroup(group) {
     if (!group) return;
 
@@ -2053,20 +2061,16 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
 
-    // ✅ 동시 진행: 시작 전에 마지막 아이템이 가려져 있으면 한번만 스크롤
     var lastItem = group.querySelector('.inve_examine_gp_item:last-child');
     if (lastItem) scrollIntoViewIfNeeded(lastItem);
 
-    // 1) 전부 0으로 리셋(transition 제거)
     gauges.forEach(function (g) {
       g.style.transition = 'none';
       g.style.width = '0%';
     });
 
-    // reflow
     group.getBoundingClientRect();
 
-    // 2) 다음 프레임에서 전부 동시에 채우기
     requestAnimationFrame(function () {
       gauges.forEach(function (g) {
         var percent = parseFloat(g.getAttribute('data-percent')) || 0;
@@ -2076,7 +2080,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // ---------------- 현재 item 숨기고 다음 item 보여주기 ----------------
   function hideItemAndShowNext(currentIndex) {
     var current   = processItems[currentIndex];
     var nextIndex = currentIndex + 1;
@@ -2092,7 +2095,15 @@ document.addEventListener('DOMContentLoaded', function () {
     }, ITEM_FADE_TIME);
   }
 
-  // ---------------- item 하나의 내부 step_examine / gauge / 그룹 시퀀스 ----------------
+  // ✅ 아이템별 차트 시작 매핑(원본 그대로)
+  function startChartForItemIndex(itemIndex) {
+    if (itemIndex === 0 && typeof runTechRadar02 === 'function') return runTechRadar02();
+    if (itemIndex === 1 && typeof runTechRadar01 === 'function') return runTechRadar01();
+    if (itemIndex === 2 && typeof runTechRadar03 === 'function') return runTechRadar03();
+    if (itemIndex === 3 && typeof runTechBar01   === 'function') return runTechBar01();
+    if (itemIndex === 4 && typeof runTechRadar04 === 'function') return runTechRadar04();
+  }
+
   function runInnerStepsForItem(item, itemIndex, onComplete) {
     var steps = item.querySelectorAll('.step_examine_list [class^="step_examine_"]');
     var stepCount = steps.length;
@@ -2101,22 +2112,24 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
-    // 초기화
+    // ✅ run 보호(아이템 전환 시 이전 타이머 무효)
+    item._runId = (item._runId || 0) + 1;
+    var runId = item._runId;
+    function alive() { return item._runId === runId; }
+
     steps.forEach(function (s) {
       s.classList.remove('on', 'done');
     });
 
-    // 각 step_examine 이 어떤 그룹을 가리키는지 매핑
     var groupsByStep = [];
     for (var i = 0; i < stepCount; i++) {
       var stepEl = steps[i];
-      var tid    = stepEl.getAttribute('data-target'); // "examine01" 등
+      var tid    = stepEl.getAttribute('data-target');
       groupsByStep[i] = tid ? item.querySelector('#' + tid) : null;
     }
 
     var lastIndex = stepCount - 1;
 
-    // ✅ 다음 step on 들어갈 때 이전 step은 done, 마지막은 on 유지
     function applyStepStatus(activeIndex) {
       for (var k = 0; k < stepCount; k++) {
         if (k < activeIndex) {
@@ -2132,6 +2145,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function runStep(stepIndex) {
+      if (!alive()) return;
+
       if (stepIndex >= stepCount) {
         if (typeof onComplete === 'function') onComplete();
         return;
@@ -2142,38 +2157,61 @@ document.addEventListener('DOMContentLoaded', function () {
 
       if (group) {
         showGroup(group);
-        animateGaugesInGroup(group); // ✅ 동시 채움
+        animateGaugesInGroup(group);
       }
 
-      // bar 전체가 다 찬 뒤(GAUGE_DURATION) + ON_DELAY_AFTER_BAR 후
-      setTimeout(function () {
-        // step_examine_01 이 on 되는 타이밍에 차트 시작 (네 원본 로직 유지)
-        if (stepIndex === 0) {
-          if (itemIndex === 0 && typeof runTechRadar02 === 'function') {
-            runTechRadar02();
-          } else if (itemIndex === 1 && typeof runTechRadar01 === 'function') {
-            runTechRadar01();
-          } else if (itemIndex === 2 && typeof runTechRadar03 === 'function') {
-            runTechRadar03();
-          } else if (itemIndex === 3 && typeof runTechBar01 === 'function') {
-            runTechBar01();
-          } else if (itemIndex === 4 && typeof runTechRadar04 === 'function') {
-            runTechRadar04();
-          }
-        }
+      // ✅ stepIndex=0만 "차트/첫 on 타이밍" 커스텀
+      if (stepIndex === 0) {
+        setTimeout(function () {
+          if (!alive()) return;
+          if (getComputedStyle(item).display === 'none') return;
+          startChartForItemIndex(itemIndex);
+        }, GAUGE_DURATION + AFTER_GAUGE_TO_CHART_DELAY);
 
-        // ✅ step 상태 반영
+        var delayToFirstOn =
+          GAUGE_DURATION +
+          AFTER_GAUGE_TO_CHART_DELAY +
+          CHART_FIRST_POINT_DELAY +
+          AFTER_FIRST_POINT_TO_STEP_ON_DELAY;
+
+        setTimeout(function () {
+          if (!alive()) return;
+
+          applyStepStatus(0);
+
+          if (isLastStep) {
+            if (typeof onComplete === 'function') onComplete();
+            return;
+          }
+
+          setTimeout(function () {
+            if (!alive()) return;
+            hideGroup(group, function () {
+              if (!alive()) return;
+              runStep(1);
+            });
+          }, HIDE_DELAY_AFTER_ON);
+
+        }, delayToFirstOn);
+
+        return;
+      }
+
+      // ✅ 나머지 step은 기존 로직 유지
+      setTimeout(function () {
+        if (!alive()) return;
+
         applyStepStatus(stepIndex);
 
         if (isLastStep) {
-          // 마지막 step: on 유지 + 그룹 유지
           if (typeof onComplete === 'function') onComplete();
           return;
         }
 
-        // 마지막이 아니면: on 들어간 뒤 잠깐 후 그룹 숨기고 다음 step
         setTimeout(function () {
+          if (!alive()) return;
           hideGroup(group, function () {
+            if (!alive()) return;
             runStep(stepIndex + 1);
           });
         }, HIDE_DELAY_AFTER_ON);
@@ -2184,14 +2222,12 @@ document.addEventListener('DOMContentLoaded', function () {
     runStep(0);
   }
 
-  // ---------------- tech_process_item 하나 보여주고 내부 시퀀스 시작 ----------------
   function showItem(index) {
     if (index < 0 || index >= processItems.length) return;
 
     var item   = processItems[index];
     var isLast = (index === processItems.length - 1);
 
-    // ✅ step_last 시작 전에 타이틀 전환(필요 시) 완료 후 item 애니 시작
     ensureTitleForItem(item, function () {
       item.style.display   = 'block';
       item.style.transform = 'translateY(10px)';
@@ -2211,9 +2247,7 @@ document.addEventListener('DOMContentLoaded', function () {
               pop.style.display    = 'flex';
               pop.style.opacity    = '0';
               pop.style.transition = 'opacity 0.6s ease';
-              requestAnimationFrame(function () {
-                pop.style.opacity = '1';
-              });
+              requestAnimationFrame(function () { pop.style.opacity = '1'; });
             }
 
             setTimeout(function () {
@@ -2232,7 +2266,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // ---------------- 전체 시퀀스 시작 ----------------
   // 페이지 로드 후 2초 뒤 step_01 시작
   setTimeout(function () {
     showItem(0);

@@ -354,10 +354,10 @@ $(function () {
       // =========================================================
       // ✅ (이하: gate_01 애니 시퀀스)
       // =========================================================
-      const STEP_HOLD = 8000;          // ✅ step_01 애니(진행) 시간: 8초
+      const STEP_HOLD = 16000;          // ✅ step_01 애니(진행) 시간: 8초
       const STEP_02_HOLD = 9000;
       const STEP_ANIM = 600;
-      const CARD_HOLD = 3000;
+      const CARD_HOLD = 4800;
       const CARD_ANIM = 500;
       const CROSSFADE_STEPS = false;
     
@@ -501,7 +501,7 @@ $(function () {
     
         playStepVideosSmooth(step1);
     
-        // step_02 영상 프라임(로드) 타이밍 유지 (STEP_HOLD가 8초로 바뀌어도 자동 계산)
+        // step_02 영상 프라임(로드)
         setTimeout(() => {
           primeStepVideos(step2);
         }, Math.max(0, STEP_HOLD - STEP2_PRELOAD_BEFORE));
@@ -524,14 +524,11 @@ $(function () {
           runCardSequence(cards, idx);
         }
     
-        // ✅ 8초 후 step_02 애니 "즉시" 진행 (step_01은 동시에 leave)
+        // ✅ 8초 후 step_02 애니 "즉시" 진행
         setTimeout(() => {
-          // step_02는 즉시 enter → 8초 타이밍에 바로 시작
           enterStep(step2);
-          // step_01은 동시에 사라짐(leave)
           leaveStep(step1);
     
-          // step_02 유지 후 step_03 진입 (기존 로직 유지)
           if (step3) {
             setTimeout(() => {
               if (CROSSFADE_STEPS) {
@@ -684,10 +681,10 @@ $(function () {
         if (el.classList.contains('step_03')) {
           setNoBlendScreen(true);
     
-          // step_03 들어올 때 toast는 일단 숨김 (기본 css 기준)
+          // step_03 들어올 때 toast는 일단 숨김
           hideToastPop(0);
     
-          // ✅ step_03 시작(애니) 2초 딜레이 후 실행 + (cel + re_pub 같이 시작)
+          // ✅ step_03 시작(애니) 2초 딜레이 후 실행
           scheduleStep03Start(el);
         }
     
@@ -815,12 +812,12 @@ $(function () {
           const chars = p.querySelectorAll('.char');
           const n = chars.length;
     
-          const pDelay = pi * 500;
+          const pDelay = pi * P_STAGGER;
           p.style.setProperty('--p-delay', pDelay + 'ms');
-          p.style.setProperty('--char-dur', 300 + 'ms');
+          p.style.setProperty('--char-dur', CHAR_DUR + 'ms');
     
-          const availableTotal = Math.max(300, 1000 - pDelay);
-          const charDelay = (n > 1) ? Math.max(0, (availableTotal - 300) / (n - 1)) : 0;
+          const availableTotal = Math.max(CHAR_DUR, TEXT_TOTAL - pDelay);
+          const charDelay = (n > 1) ? Math.max(0, (availableTotal - CHAR_DUR) / (n - 1)) : 0;
           p.style.setProperty('--char-delay', charDelay + 'ms');
     
           void p.offsetWidth;
@@ -854,7 +851,6 @@ $(function () {
     
           runStep03Sequence(step3);
           runStep03RePubSequence(step3);
-          // 버튼 바인딩은 toast 노출 시점에 붙음(scheduleToastAfterRepubDone 내부)
         }, STEP3_START_DELAY);
       }
     
@@ -1203,8 +1199,8 @@ $(function () {
     
         const item01 = rePub.querySelector('.gp_in_items .gp_item.item_01');
         const item02 = rePub.querySelector('.gp_in_items .gp_item.item_02');
-        const badge1 = rePub.querySelector('.gp_in_items .gp_item.item_03 > .badge_box:nth-child(1)');
-        const badge2 = rePub.querySelector('.gp_in_items .gp_item.item_03 > .badge_box:nth-child(2)');
+        const badge1 = rePub.querySelector('.gp_in_items .gp_item.item_03 > .badge_box:nth-child(1)'); // st_01
+        const badge2 = rePub.querySelector('.gp_in_items .gp_item.item_03 > .badge_box:nth-child(2)'); // st_02
         const arrow  = rePub.querySelector('.content_gp .bott_arrow');
     
         prepFade(badge1);
@@ -1212,9 +1208,9 @@ $(function () {
         prepFade(item02);
         prepFade(badge2);
     
-        const T_START  = 1000 + STEP3_PLUS;
-        const GAP_1    = 1000 + STEP3_PLUS;
-        const GAP_2    = 500  + STEP3_PLUS;
+        const T_START  = 1000 + STEP3_PLUS; // item01+badge1
+        const GAP_1    = 1000 + STEP3_PLUS; // → arrow
+        const GAP_2    = 500  + STEP3_PLUS; // → item02 (그 후 1초 뒤 badge2)
     
         const tPair1 = T_START;
         const tArrow = tPair1 + GAP_1;
@@ -1239,16 +1235,46 @@ $(function () {
           fadeInUpOpacity(arrow, REPUB_FADE_DUR);
         }, tArrow));
     
+        // =========================================================
+        // ✅✅✅ [여기가 수정된 부분]
+        // - 기존: item02 + badge2 동시 노출
+        // - 변경: item02 노출 시작 → 1초 뒤 badge2 노출 시작
+        // =========================================================
         step3._repubTimers.push(setTimeout(() => {
           if (!step3.classList.contains('on')) return;
     
-          runParallel([
-            (cb) => fadeInUpOpacity(item02, REPUB_FADE_DUR, cb),
-            (cb) => fadeInUpOpacity(badge2, REPUB_FADE_DUR, cb),
-          ], () => {
+          // 1) item02 먼저 노출
+          if (item02) {
+            fadeInUpOpacity(item02, REPUB_FADE_DUR);
+          }
+    
+          // 2) item02 노출 "시작 후" 1초 뒤 st_02 노출
+          const delay = item02 ? 1000 : 0;
+          const tid = setTimeout(() => {
+            if (!step3.classList.contains('on')) return;
+    
+            if (!badge2) {
+              // badge2가 없으면 repub 종료 처리
+              step3._repubDone = true;
+              scheduleToastAfterRepubDone(step3);
+              return;
+            }
+    
+            fadeInUpOpacity(badge2, REPUB_FADE_DUR, () => {
+              // ✅ re_pub_01 애니 종료 시점
+              step3._repubDone = true;
+              scheduleToastAfterRepubDone(step3);
+            });
+          }, delay);
+    
+          step3._repubTimers.push(tid);
+    
+          // item02도 badge2도 없을 때 방어
+          if (!item02 && !badge2) {
             step3._repubDone = true;
             scheduleToastAfterRepubDone(step3);
-          });
+          }
+    
         }, tPair2));
       }
     
@@ -1499,6 +1525,7 @@ $(function () {
         initGate01Sequence();
       }
     })();
+    
     
     
     
@@ -3419,3 +3446,20 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+
+
+
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+  var video = document.querySelector('.new_gate_01.step_01 .main_video > video');
+  if (!video) return;
+
+  // 재생 속도 1 -> 0.7
+  video.playbackRate = 0.8;
+
+  // (자동재생/재로드 등으로 초기화되는 경우 대비)
+  video.addEventListener('loadedmetadata', function () {
+    video.playbackRate = 0.8;
+  });
+});
