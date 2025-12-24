@@ -104,17 +104,33 @@
                         <video src="../../resources/images/gate_02/film.mp4" autoplay muted loop playsinline></video>
                     </div>
 
+                    <div class="con_step con_step_01">
+                        <ul>
+                            <li class="on">
+                                <div class="step_con_item">
+                                    <span class="step_num"><span>01</span></span>
+                                    <span class="step_tit kr_t">투자 적격 여부</span>
+                                    <span class="step_tit en_t">Investment<br>Eligibility</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="step_con_item">
+                                    <span class="step_num"><span>02</span></span>
+                                    <span class="step_tit kr_t">투자 여부 검토</span>
+                                    <span class="step_tit en_t">Investment<br>Decision Review</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="step_con_item">
+                                    <span class="step_num"><span>03</span></span>
+                                    <span class="step_tit kr_t">조정 계수 반영</span>
+                                    <span class="step_tit en_t">Adjustment<br>Factor Applied</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
                     <div class="inve_confirm_box">
-                        <div class="shiny_step dot_cs">
-                            <ul>
-                                <li class="on">
-                                </li>
-                                <li>
-                                </li>
-                                <li>
-                                </li>
-                            </ul>
-                        </div>
                         <div class="inve_confirm_tit kr_t">
                             <strong>투자 적격 여부</strong>
                             <p>
@@ -203,18 +219,34 @@
                         </div>
                     </div>
 
+
+                    <div class="con_step con_step_02">
+                        <ul>
+                            <li>
+                                <div class="step_con_item">
+                                    <span class="step_num"><span>01</span></span>
+                                    <span class="step_tit kr_t">투자 적격 여부</span>
+                                    <span class="step_tit en_t">Investment<br>Eligibility</span>
+                                </div>
+                            </li>
+                            <li class="on">
+                                <div class="step_con_item">
+                                    <span class="step_num"><span>02</span></span>
+                                    <span class="step_tit kr_t">투자 여부 검토</span>
+                                    <span class="step_tit en_t">Investment<br>Decision Review</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="step_con_item">
+                                    <span class="step_num"><span>03</span></span>
+                                    <span class="step_tit kr_t">조정 계수 반영</span>
+                                    <span class="step_tit en_t">Adjustment<br>Factor Applied</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                     <div class="inve_examine_box">
                         <div class="inve_examine_inner">
-                            <div class="shiny_step dot_cs">
-                                <ul>
-                                    <li>
-                                    </li>
-                                    <li class="on">
-                                    </li>
-                                    <li>
-                                    </li>
-                                </ul>
-                            </div>
                             <div class="inve_examine_tit kr_t">
                                 <strong>투자 여부 검토 </strong>
                                 <p>
@@ -557,17 +589,33 @@
                         </div>
                     </div>
 
+
+                    <div class="con_step con_step_03">
+                        <ul>
+                            <li>
+                                <div class="step_con_item">
+                                    <span class="step_num"><span>01</span></span>
+                                    <span class="step_tit kr_t">투자 적격 여부</span>
+                                    <span class="step_tit en_t">Investment<br>Eligibility</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="step_con_item">
+                                    <span class="step_num"><span>02</span></span>
+                                    <span class="step_tit kr_t">투자 여부 검토</span>
+                                    <span class="step_tit en_t">Investment<br>Decision Review</span>
+                                </div>
+                            </li>
+                            <li class="on">
+                                <div class="step_con_item">
+                                    <span class="step_num"><span>03</span></span>
+                                    <span class="step_tit kr_t">조정 계수 반영</span>
+                                    <span class="step_tit en_t">Adjustment<br>Factor Applied</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                     <div class="inve_adj_box">
-                        <div class="shiny_step dot_cs">
-                            <ul>
-                                <li>
-                                </li>
-                                <li>
-                                </li> 
-                                <li class="on">
-                                </li>
-                            </ul>
-                        </div>
                         <div class="inve_adj_tit kr_t">
                             <strong>조정계수 반영</strong>
                             <p>
@@ -1383,6 +1431,113 @@ document.addEventListener('DOMContentLoaded', function () {
     var pop02           = document.querySelector('.gate_02.sub [class*="gate_02"] .inve_pop.pop_02');
     var pop03           = document.querySelector('.gate_02.sub [class*="gate_02"] .inve_pop.pop_03'); // ★ 신규 팝업
 
+    // =========================================================
+    // ✅✅✅ con_step 제어 (display:none ↔ opacity + translateY)
+    // - CSS 기본: opacity:0; display:none;
+    // - 이전 con_step은 완전히 사라진 뒤(next display:none) 다음 con_step 노출
+    // =========================================================
+    var conSteps = document.querySelectorAll('.gate_02.sub [class*="gate_02"] .con_step');
+    var currentConStep = null;
+
+    var CONSTEP_IN_Y   = 12;   // 아래에서 올라오듯
+    var CONSTEP_OUT_Y  = -12;  // 위로 사라지듯
+    var CONSTEP_DUR    = 450;  // ms
+    var CONSTEP_DISPLAY = 'block'; // 필요시 'flex'로 변경
+
+    function initConSteps() {
+        if (!conSteps || !conSteps.length) return;
+
+        conSteps.forEach(function (el) {
+            // 기본 상태(숨김 보장)
+            el.style.display = 'none';
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(' + CONSTEP_IN_Y + 'px)';
+            el.style.willChange = 'opacity, transform';
+        });
+
+        // 기본 con_step_01 노출
+        var first = getConStepEl(1);
+        if (first) {
+            currentConStep = first;
+            showConStep(first, true);
+        }
+    }
+
+    function getConStepEl(stepNum) {
+        if (!conSteps || !conSteps.length) return null;
+        var cls = 'con_step_0' + stepNum;
+
+        for (var i = 0; i < conSteps.length; i++) {
+            if (conSteps[i].classList.contains(cls)) return conSteps[i];
+        }
+        return null;
+    }
+
+    function showConStep(el, immediate) {
+        if (!el) return;
+
+        el.style.display = CONSTEP_DISPLAY;
+
+        // 등장 준비
+        el.style.transition = 'none';
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(' + CONSTEP_IN_Y + 'px)';
+
+        // reflow
+        el.getBoundingClientRect();
+
+        if (immediate) {
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0px)';
+            return;
+        }
+
+        requestAnimationFrame(function () {
+            el.style.transition =
+                'opacity ' + CONSTEP_DUR + 'ms ease, transform ' + CONSTEP_DUR + 'ms ease';
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0px)';
+        });
+    }
+
+    function hideConStep(el, done) {
+        if (!el) { if (done) done(); return; }
+
+        el.style.transition =
+            'opacity ' + CONSTEP_DUR + 'ms ease, transform ' + CONSTEP_DUR + 'ms ease';
+
+        requestAnimationFrame(function () {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(' + CONSTEP_OUT_Y + 'px)';
+        });
+
+        setTimeout(function () {
+            el.style.display = 'none';
+            if (done) done();
+        }, CONSTEP_DUR + 30);
+    }
+
+    function setConStep(stepNum) {
+        var next = getConStepEl(stepNum);
+        if (!next) return;
+
+        if (currentConStep === next) return;
+
+        if (currentConStep) {
+            var prev = currentConStep;
+            hideConStep(prev, function () {
+                showConStep(next, false);
+                currentConStep = next;
+            });
+        } else {
+            showConStep(next, false);
+            currentConStep = next;
+        }
+    }
+
+    // con_step 초기화
+    initConSteps();
+
     if (!confirmCursor && !examineCursor && !adjCursor) return;
 
     // --------------------------------------------------------------------
@@ -1844,17 +1999,17 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function radarAnimateFill(duration, onComplete) {
-    if (!movieRadar) return;
+        if (!movieRadar) return;
 
-    radarAnimateValue(duration, function(eased) {
-        movieRadarFillProgress = eased;
-    }, function() {
-        movieRadarAnimating = false;
-        if (typeof onComplete === 'function') {
-            onComplete();
-        }
-    });
-}
+        radarAnimateValue(duration, function(eased) {
+            movieRadarFillProgress = eased;
+        }, function() {
+            movieRadarAnimating = false;
+            if (typeof onComplete === 'function') {
+                onComplete();
+            }
+        });
+    }
     
     function animateMovieRadar() {
         if (!movieRadar) return;
@@ -1898,161 +2053,151 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     })();
 
-// --------------------------------------------------------------------
-// adj_box 끝난 후 confirm_wrap → movie_closed → inve_result
-// --------------------------------------------------------------------
-function runConfirmWrapSequence() {
-    if (!confirmWrap) {
-        if (inveResult) {
-            inveResult.classList.add('fade-in-up');
-            var resultHandler2 = function (rv2) {
-                if (rv2.propertyName !== 'opacity') return;
-                inveResult.removeEventListener('transitionend', resultHandler2);
+    // --------------------------------------------------------------------
+    // adj_box 끝난 후 confirm_wrap → movie_closed → inve_result
+    // --------------------------------------------------------------------
+    function runConfirmWrapSequence() {
+        if (!confirmWrap) {
+            if (inveResult) {
+                inveResult.classList.add('fade-in-up');
+                var resultHandler2 = function (rv2) {
+                    if (rv2.propertyName !== 'opacity') return;
+                    inveResult.removeEventListener('transitionend', resultHandler2);
+                    startInveInfoAnimation();
+                };
+                inveResult.addEventListener('transitionend', resultHandler2);
+            } else {
                 startInveInfoAnimation();
-            };
-            inveResult.addEventListener('transitionend', resultHandler2);
-        } else {
-            startInveInfoAnimation();
+            }
+            return;
         }
-        return;
-    }
 
-    // adj 애니 끝난 시점에서 약간의 딜레이 후 confirmWrap 종료
-    setTimeout(function () {
-        confirmWrap.classList.add('fade-out-up');
+        setTimeout(function () {
+            confirmWrap.classList.add('fade-out-up');
 
-        var handler = function (e) {
-            if (e.propertyName !== 'opacity') return;
-            confirmWrap.removeEventListener('transitionend', handler);
+            var handler = function (e) {
+                if (e.propertyName !== 'opacity') return;
+                confirmWrap.removeEventListener('transitionend', handler);
 
-            setTimeout(function () {
-                confirmWrap.style.display = 'none';
+                setTimeout(function () {
+                    confirmWrap.style.display = 'none';
 
-                // movie_closed → inve_result
-                if (movieClosed) {
-                    movieClosed.style.display = 'flex';
-                    movieClosed.classList.remove('fade-out-up');
-                    movieClosed.classList.add('fade-in-up');
+                    if (movieClosed) {
+                        movieClosed.style.display = 'flex';
+                        movieClosed.classList.remove('fade-out-up');
+                        movieClosed.classList.add('fade-in-up');
 
-                    // ▼ movie_closed 내부 모든 ing_01 / ing_02 (kr_t + en_t 포함)
-                    var ing01List = movieClosed.querySelectorAll('.ing_01');
-                    var ing02List = movieClosed.querySelectorAll('.ing_02');
+                        var ing01List = movieClosed.querySelectorAll('.ing_01');
+                        var ing02List = movieClosed.querySelectorAll('.ing_02');
 
-                    var ING_HOLD_TIME = 2000; // ing_01, ing_02 각각 2초 유지
-                    var ING_FADE_TIME = 600;  // 위로 스르륵 애니 시간(0.6s)
+                        var ING_HOLD_TIME = 2000;
+                        var ING_FADE_TIME = 600;
 
-                    // movie_closed 전체가 끝난 뒤 inve_result로 넘어가는 함수
-                    function startMovieClosedFadeOut() {
-                        movieClosed.classList.remove('fade-in-up');
-                        movieClosed.classList.add('fade-out-up');
+                        function startMovieClosedFadeOut() {
+                            movieClosed.classList.remove('fade-in-up');
+                            movieClosed.classList.add('fade-out-up');
 
-                        var closedHandler = function (ev) {
-                            if (ev.propertyName !== 'opacity') return;
-                            movieClosed.removeEventListener('transitionend', closedHandler);
+                            var closedHandler = function (ev) {
+                                if (ev.propertyName !== 'opacity') return;
+                                movieClosed.removeEventListener('transitionend', closedHandler);
 
-                            movieClosed.style.display = 'none';
+                                movieClosed.style.display = 'none';
 
-                            if (inveResult) {
-                                inveResult.classList.add('fade-in-up');
+                                if (inveResult) {
+                                    inveResult.classList.add('fade-in-up');
 
-                                var resultHandler = function (rv) {
-                                    if (rv.propertyName !== 'opacity') return;
-                                    inveResult.removeEventListener('transitionend', resultHandler);
+                                    var resultHandler = function (rv) {
+                                        if (rv.propertyName !== 'opacity') return;
+                                        inveResult.removeEventListener('transitionend', resultHandler);
+                                        startInveInfoAnimation();
+                                    };
+                                    inveResult.addEventListener('transitionend', resultHandler);
+                                } else {
                                     startInveInfoAnimation();
-                                };
-                                inveResult.addEventListener('transitionend', resultHandler);
-                            } else {
-                                startInveInfoAnimation();
+                                }
+                            };
+
+                            movieClosed.addEventListener('transitionend', closedHandler);
+                        }
+
+                        function showIng02AndThenClose() {
+                            if (ing02List.length) {
+                                ing02List.forEach(function (el) {
+                                    el.style.display   = 'inline-block';
+                                    el.getBoundingClientRect();
+                                    el.style.opacity   = '1';
+                                    el.style.transform = 'translateY(0)';
+                                });
                             }
-                        };
 
-                        movieClosed.addEventListener('transitionend', closedHandler);
-                    }
+                            setTimeout(function () {
+                                startMovieClosedFadeOut();
+                            }, ING_HOLD_TIME);
+                        }
 
-                    // ing_02 노출 후 2초 유지 → movie_closed 종료
-                    function showIng02AndThenClose() {
-                        if (ing02List.length) {
-                            ing02List.forEach(function (el) {
+                        if (ing01List.length || ing02List.length) {
+                            ing01List.forEach(function (el) {
                                 el.style.display   = 'inline-block';
-                                // reflow
-                                el.getBoundingClientRect();
                                 el.style.opacity   = '1';
                                 el.style.transform = 'translateY(0)';
+                                el.style.transition = 'opacity ' + (ING_FADE_TIME / 1000) + 's ease, transform ' + (ING_FADE_TIME / 1000) + 's ease';
+                            });
+
+                            ing02List.forEach(function (el) {
+                                el.style.display   = 'inline-block';
+                                el.style.opacity   = '0';
+                                el.style.transform = 'translateY(10px)';
+                                el.style.transition = 'opacity ' + (ING_FADE_TIME / 1000) + 's ease, transform ' + (ING_FADE_TIME / 1000) + 's ease';
                             });
                         }
 
-                        // ing_02 상태로 2초 유지 후 movie_closed 페이드아웃
                         setTimeout(function () {
-                            startMovieClosedFadeOut();
-                        }, ING_HOLD_TIME);
-                    }
+                            if (!ing01List.length) {
+                                showIng02AndThenClose();
+                                return;
+                            }
 
-                    // 초기 상태 세팅
-                    if (ing01List.length || ing02List.length) {
-                        ing01List.forEach(function (el) {
-                            el.style.display   = 'inline-block';
-                            el.style.opacity   = '1';
-                            el.style.transform = 'translateY(0)';
-                            el.style.transition = 'opacity ' + (ING_FADE_TIME / 1000) + 's ease, transform ' + (ING_FADE_TIME / 1000) + 's ease';
-                        });
-
-                        ing02List.forEach(function (el) {
-                            el.style.display   = 'inline-block';
-                            el.style.opacity   = '0';
-                            el.style.transform = 'translateY(10px)';
-                            el.style.transition = 'opacity ' + (ING_FADE_TIME / 1000) + 's ease, transform ' + (ING_FADE_TIME / 1000) + 's ease';
-                        });
-                    }
-
-                    // movie_closed 뜬 뒤 2초 동안 ing_01 유지 후 → 사라지게
-                    setTimeout(function () {
-                        // ing_01이 하나도 없으면 바로 ing_02 단계로
-                        if (!ing01List.length) {
-                            showIng02AndThenClose();
-                            return;
-                        }
-
-                        // ing_01 위로 스르륵 사라지기 (opacity 0 + translateY(-10px))
-                        ing01List.forEach(function (el) {
-                            el.style.opacity   = '0';
-                            el.style.transform = 'translateY(-10px)';
-                        });
-
-                        // 애니 끝나는 시점(0.6s 후)에 display:none 하고 ing_02 노출
-                        setTimeout(function () {
                             ing01List.forEach(function (el) {
-                                el.style.display = 'none';
+                                el.style.opacity   = '0';
+                                el.style.transform = 'translateY(-10px)';
                             });
-                            showIng02AndThenClose();
-                        }, ING_FADE_TIME);
-                    }, ING_HOLD_TIME);
 
-                } else {
-                    // movie_closed 요소가 없을 때는 기존 로직 그대로
-                    if (inveResult) {
-                        inveResult.classList.add('fade-in-up');
-                        var resultHandler2 = function (rv2) {
-                            if (rv2.propertyName !== 'opacity') return;
-                            inveResult.removeEventListener('transitionend', resultHandler2);
-                            startInveInfoAnimation();
-                        };
-                        inveResult.addEventListener('transitionend', resultHandler2);
+                            setTimeout(function () {
+                                ing01List.forEach(function (el) {
+                                    el.style.display = 'none';
+                                });
+                                showIng02AndThenClose();
+                            }, ING_FADE_TIME);
+                        }, ING_HOLD_TIME);
+
                     } else {
-                        startInveInfoAnimation();
+                        if (inveResult) {
+                            inveResult.classList.add('fade-in-up');
+                            var resultHandler2 = function (rv2) {
+                                if (rv2.propertyName !== 'opacity') return;
+                                inveResult.removeEventListener('transitionend', resultHandler2);
+                                startInveInfoAnimation();
+                            };
+                            inveResult.addEventListener('transitionend', resultHandler2);
+                        } else {
+                            startInveInfoAnimation();
+                        }
                     }
-                }
-            }, 500);
-        };
+                }, 500);
+            };
 
-        confirmWrap.addEventListener('transitionend', handler);
+            confirmWrap.addEventListener('transitionend', handler);
 
-    }, 500);
-}
+        }, 500);
+    }
 
     // --------------------------------------------------------------------
     // examine_box → fade-out-up + adj_box fade-in-up
     // --------------------------------------------------------------------
     function endExamineAndStartAdj(){
+        // ✅ con_step_03
+        setConStep(3);
+
         if (!examineBoxWrap) {
             runAdjBoxSequence();
             return;
@@ -2073,384 +2218,360 @@ function runConfirmWrapSequence() {
         }, 700);
     }
 
-// --------------------------------------------------------------------
-// inve_adj_box 시퀀스
-//   - p01~p03는 끝까지 노출하지 않음
-//   - adj_box 내 버튼 애니 끝나는 시점에 p04만 노출 + 커서 75% 이동
-//   - 그 후 2초 뒤 pop_03 오픈
-// --------------------------------------------------------------------
-function runAdjBoxSequence(){
-    if (!adjBoxWrap) {
-        runConfirmWrapSequence();
-        return;
-    }
+    // --------------------------------------------------------------------
+    // inve_adj_box 시퀀스
+    // --------------------------------------------------------------------
+    function runAdjBoxSequence(){
+        // ✅ con_step_03 (방어)
+        setConStep(3);
 
-    var ADJ_DISPLAY_DELAY = 500;
+        if (!adjBoxWrap) {
+            runConfirmWrapSequence();
+            return;
+        }
 
-    adjBoxWrap.classList.remove('fade-out-up');
-    adjBoxWrap.classList.add('fade-in-up');
+        var ADJ_DISPLAY_DELAY = 500;
 
-    setTimeout(function () {
-        adjBoxWrap.style.display = 'block';
+        adjBoxWrap.classList.remove('fade-out-up');
+        adjBoxWrap.classList.add('fade-in-up');
 
-        setTimeout(function(){
-            var btnSets = adjBoxWrap.querySelectorAll('.inve_adj_list .btn_set');
-            var maxIdx  = btnSets.length;
+        setTimeout(function () {
+            adjBoxWrap.style.display = 'block';
 
-            if (!maxIdx) {
-                runConfirmWrapSequence();
-                return;
-            }
+            setTimeout(function(){
+                var btnSets = adjBoxWrap.querySelectorAll('.inve_adj_list .btn_set');
+                var maxIdx  = btnSets.length;
 
-            var adjList = document.querySelector('.gate_02.sub [class*="gate_02"] .inve_adj_list');
+                if (!maxIdx) {
+                    runConfirmWrapSequence();
+                    return;
+                }
 
-            // p01~p04 텍스트 수집
-            var adjTexts = [];
-            for (var i = 1; i <= 4; i++) {
-                var t = adjBoxWrap.querySelector('.p0' + i);
-                if (t) adjTexts.push(t);
-            }
+                var adjList = document.querySelector('.gate_02.sub [class*="gate_02"] .inve_adj_list');
 
-            // ★ 모든 텍스트 처음에는 숨김 (p01~p03 포함)
-            if (adjTexts.length) {
-                adjTexts.forEach(function(el){
-                    el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-                    el.style.display    = 'none';
-                    el.style.opacity    = 0;
-                    el.style.transform  = 'translateY(10px)';
-                });
-            }
+                var adjTexts = [];
+                for (var i = 1; i <= 4; i++) {
+                    var t = adjBoxWrap.querySelector('.p0' + i);
+                    if (t) adjTexts.push(t);
+                }
 
-            // ★ 마지막에 p04만 노출
-            function showAdjResultText() {
-                if (!adjTexts.length) return;
-                // p04가 adjTexts[3]이라고 가정, 없으면 마지막 요소 사용
-                var idx    = Math.min(3, adjTexts.length - 1);
-                var target = adjTexts[idx];
-                if (!target) return;
+                if (adjTexts.length) {
+                    adjTexts.forEach(function(el){
+                        el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                        el.style.display    = 'none';
+                        el.style.opacity    = 0;
+                        el.style.transform  = 'translateY(10px)';
+                    });
+                }
 
-                target.style.display = 'block';
-                target.getBoundingClientRect(); // reflow
-                target.style.opacity   = 1;
-                target.style.transform = 'translateY(0)';
-            }
+                function showAdjResultText() {
+                    if (!adjTexts.length) return;
+                    var idx    = Math.min(3, adjTexts.length - 1);
+                    var target = adjTexts[idx];
+                    if (!target) return;
 
-            // 버튼 span.on + 스크롤 애니 (기존 그대로)
-            var targetMap = [1, 1, 1, 0, 1, 1, 1];
+                    target.style.display = 'block';
+                    target.getBoundingClientRect();
+                    target.style.opacity   = 1;
+                    target.style.transform = 'translateY(0)';
+                }
 
-            for (let i = 0; i < maxIdx && i < targetMap.length; i++) {
-                (function(index){
-                    setTimeout(function(){
-                        var btn   = btnSets[index];
-                        var spans = btn.querySelectorAll('span');
-                        if (!spans.length) return;
+                var targetMap = [1, 1, 1, 0, 1, 1, 1];
 
-                        spans.forEach(function(s){ s.classList.remove('on'); });
+                for (let i = 0; i < maxIdx && i < targetMap.length; i++) {
+                    (function(index){
+                        setTimeout(function(){
+                            var btn   = btnSets[index];
+                            var spans = btn.querySelectorAll('span');
+                            if (!spans.length) return;
 
-                        var tIdx = targetMap[index];
-                        if (spans[tIdx]) {
-                            spans[tIdx].classList.add('on');
+                            spans.forEach(function(s){ s.classList.remove('on'); });
 
-                            if (adjList) {
-                                var li = btn.closest('li');
-                                if (li) {
-                                    var listRect = adjList.getBoundingClientRect();
-                                    var liRect   = li.getBoundingClientRect();
+                            var tIdx = targetMap[index];
+                            if (spans[tIdx]) {
+                                spans[tIdx].classList.add('on');
 
-                                    if (liRect.bottom > listRect.bottom) {
-                                        var delta        = liRect.bottom - listRect.bottom;
-                                        var newScrollTop = adjList.scrollTop + delta + 25;
+                                if (adjList) {
+                                    var li = btn.closest('li');
+                                    if (li) {
+                                        var listRect = adjList.getBoundingClientRect();
+                                        var liRect   = li.getBoundingClientRect();
 
-                                        adjList.scrollTo({
-                                            top: newScrollTop,
-                                            behavior: 'smooth'
-                                        });
+                                        if (liRect.bottom > listRect.bottom) {
+                                            var delta        = liRect.bottom - listRect.bottom;
+                                            var newScrollTop = adjList.scrollTop + delta + 25;
+
+                                            adjList.scrollTo({
+                                                top: newScrollTop,
+                                                behavior: 'smooth'
+                                            });
+                                        }
                                     }
                                 }
                             }
-                        }
-                    }, index * 1000);
-                })(i);
-            }
-
-            var labels          = ['비적합','기준충족','적합','매우적합'];
-            var cursorPositions = [0, 30, 60, 85]; // 수치는 그대로 유지
-            var CURSOR_TOTAL    = 7000;
-
-            if (adjCursor)    adjCursor.style.left = '0.4vw';
-            if (cursorText)   cursorText.textContent = ''; // 중간 단계 텍스트 없음
-
-            var totalBtnDuration = (Math.min(maxIdx, targetMap.length) - 1) * 1000;
-            if (totalBtnDuration < 0) totalBtnDuration = 0;
-
-            var endDelay = Math.max(totalBtnDuration, CURSOR_TOTAL) + 500;
-
-            // ★ adj 애니 끝나는 시점: 커서 75% 이동 + p04 노출 + 라벨 변경
-            setTimeout(function(){
-                var FINAL_CURSOR = 50;  // 요청: 75%까지 이동
-
-                if (adjCursor) {
-                    moveAdjCursor(FINAL_CURSOR);
-                }
-                if (cursorText) {
-                    cursorText.textContent = labels[3]; // '매우적합'
-                }
-                if (adjTexts.length) {
-                    showAdjResultText(); // p04만 노출
+                        }, index * 1000);
+                    })(i);
                 }
 
-                // ★ 여기서부터 2초 후에 pop_03 띄우기
-                setTimeout(function () {
-                    showPop03();
-                }, 2000);
+                var labels          = ['비적합','기준충족','적합','매우적합'];
+                var CURSOR_TOTAL    = 7000;
 
-            }, endDelay);
+                if (adjCursor)    adjCursor.style.left = '0.4vw';
+                if (cursorText)   cursorText.textContent = '';
 
-        }, 400);
+                var totalBtnDuration = (Math.min(maxIdx, targetMap.length) - 1) * 1000;
+                if (totalBtnDuration < 0) totalBtnDuration = 0;
 
-    }, ADJ_DISPLAY_DELAY);
-}
+                var endDelay = Math.max(totalBtnDuration, CURSOR_TOTAL) + 500;
 
-// --------------------------------------------------------------------
-// inve_examine_box 시퀀스 (팝업 01에서 시작)
-//   - 각 step의 모든 gauge 가 찬 뒤 → 해당 점/선 애니 시작
-//   - 마지막 step 에서 방사형 그래프(점+선+면) 완성 후 1초 뒤 final_cursor 이동
-// --------------------------------------------------------------------
-function startExamineSequence() {
-    // confirmBoxWrap 사라지기
-    if (confirmBoxWrap) {
-        confirmBoxWrap.classList.add('fade-out-up');
-        setTimeout(function () {
-            confirmBoxWrap.style.display = 'none';
-        }, 600);
+                setTimeout(function(){
+                    var FINAL_CURSOR = 50;
+
+                    if (adjCursor) {
+                        moveAdjCursor(FINAL_CURSOR);
+                    }
+                    if (cursorText) {
+                        cursorText.textContent = labels[3];
+                    }
+                    if (adjTexts.length) {
+                        showAdjResultText();
+                    }
+
+                    setTimeout(function () {
+                        showPop03();
+                    }, 2000);
+
+                }, endDelay);
+
+            }, 400);
+
+        }, ADJ_DISPLAY_DELAY);
     }
 
-    // examine 박스가 없으면 바로 adj로
-    if (!examineBoxWrap) {
-        endExamineAndStartAdj();
-        return;
-    }
+    // --------------------------------------------------------------------
+    // inve_examine_box 시퀀스 (팝업 01에서 시작)
+    // --------------------------------------------------------------------
+    function startExamineSequence() {
+        // ✅ con_step_02
+        setConStep(2);
 
-    // examine 박스 표시
-    examineBoxWrap.style.display = 'block';
-    examineBoxWrap.getBoundingClientRect();
-    examineBoxWrap.classList.add('fade-in-up');
-
-    // ★ 레이더 시퀀스 초기화
-    if (typeof animateMovieRadar === 'function') {
-        animateMovieRadar();
-    }
-
-    // p01~p04 텍스트 수집 (마지막에 p04만 노출)
-    var examineTexts = [];
-    for (var i = 1; i <= 4; i++) {
-        var t = examineBoxWrap.querySelector('.p0' + i);
-        if (t) examineTexts.push(t);
-    }
-
-    examineTexts.forEach(function (el) {
-        el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-        el.style.display    = 'none';
-        el.style.opacity    = 0;
-        el.style.transform  = 'translateY(10px)';
-    });
-
-    function showFinalResultText() {
-        if (!examineTexts.length) return;
-        var idx    = Math.min(3, examineTexts.length - 1); // p04 기준
-        var target = examineTexts[idx];
-        if (!target) return;
-
-        target.style.display = 'block';
-        target.getBoundingClientRect();
-        target.style.opacity   = 1;
-        target.style.transform = 'translateY(0)';
-    }
-
-// gauge, radar 모두 준비 후 2초 뒤부터 step 진행 시작
-setTimeout(function () {
-
-  var STEP_DURATION = 1500; // 한 step 내 gauge 가 모두 차는 총 시간
-
-  var steps         = document.querySelectorAll('.step_examine_list [class^="step_examine_"]');
-  var examineGroups = document.querySelectorAll('[class^="inve_examine_step_"]');
-
-  if (!steps.length || !examineGroups.length) {
-    endExamineAndStartAdj();
-    return;
-  }
-
-  var totalSteps = steps.length;
-
-  // 그룹 초기화
-  examineGroups.forEach(function (grp) {
-    grp.style.display = 'none';
-    grp.classList.remove('fade-in-up', 'fade-out-up');
-
-    var gauges = grp.querySelectorAll('.inve_examine_gp_item .bar .gauge');
-    gauges.forEach(function (g) {
-      g.style.transition = 'none';
-      g.style.width      = '0%';
-    });
-  });
-
-  // gauge 채우기 (한 group 내 모든 bar가 STEP_DURATION 안에 순차 채워짐)
-  function animateGauges(group, onComplete) {
-    var bars     = group.querySelectorAll('.inve_examine_gp_item .bar');
-    var barCount = bars.length;
-    if (!barCount) {
-      if (typeof onComplete === 'function') onComplete();
-      return;
-    }
-
-    var perTime = STEP_DURATION / barCount;
-
-    bars.forEach(function (bar, idx) {
-      var gauge = bar.querySelector('.gauge');
-      if (!gauge) return;
-
-      var target = parseFloat(gauge.getAttribute('data-percent')) || 100;
-
-      gauge.style.transition = 'none';
-      gauge.style.width      = '0%';
-      gauge.getBoundingClientRect();
-
-      setTimeout(function () {
-        gauge.style.transition = 'width ' + (perTime / 1000) + 's ease';
-        gauge.style.width      = target + '%';
-      }, idx * perTime);
-    });
-
-    setTimeout(function () {
-      if (typeof onComplete === 'function') onComplete();
-    }, STEP_DURATION);
-  }
-
-  // 각 step 에 대해 gauge 가 다 찬 뒤에 레이더 점/선/면을 그리는 헬퍼
-  function animateRadarForStep(stepIndex, isLastStep, onRadarComplete) {
-    if (!movieRadar || !movieRadarAnimating) {
-      if (typeof onRadarComplete === 'function') onRadarComplete();
-      return;
-    }
-
-    var totalPoints  = movieRadarPointProgress.length;
-    var segmentCount = movieRadarSegmentProgress.length;
-
-    var POINT_DURATION = 400;
-    var SEG_DURATION   = 500;
-    var FILL_DURATION  = 600;
-    var FILL_DELAY_ADD = 1000;
-
-    if (stepIndex < totalPoints) {
-      radarAnimatePoint(stepIndex, POINT_DURATION);
-    }
-
-    if (!isLastStep) {
-      if (stepIndex > 0) {
-        var segIdx = stepIndex - 1;
-        if (segIdx >= 0 && segIdx < segmentCount) {
-          radarAnimateSegment(segIdx, SEG_DURATION);
+        if (confirmBoxWrap) {
+            confirmBoxWrap.classList.add('fade-out-up');
+            setTimeout(function () {
+                confirmBoxWrap.style.display = 'none';
+            }, 600);
         }
-      }
-      if (typeof onRadarComplete === 'function') onRadarComplete();
-      return;
-    }
 
-    var lastPointIndex = Math.min(totalPoints - 1, stepIndex);
+        if (!examineBoxWrap) {
+            endExamineAndStartAdj();
+            return;
+        }
 
-    var segIdxPrev  = lastPointIndex - 1;
-    var segIdxClose = lastPointIndex;
+        examineBoxWrap.style.display = 'block';
+        examineBoxWrap.getBoundingClientRect();
+        examineBoxWrap.classList.add('fade-in-up');
 
-    if (segIdxPrev >= 0 && segIdxPrev < segmentCount) {
-      radarAnimateSegment(segIdxPrev, SEG_DURATION);
-    }
+        if (typeof animateMovieRadar === 'function') {
+            animateMovieRadar();
+        }
 
-    if (segIdxClose >= 0 && segIdxClose < segmentCount) {
-      setTimeout(function () {
-        radarAnimateSegment(segIdxClose, SEG_DURATION);
-      }, SEG_DURATION);
-    }
+        var examineTexts = [];
+        for (var i = 1; i <= 4; i++) {
+            var t = examineBoxWrap.querySelector('.p0' + i);
+            if (t) examineTexts.push(t);
+        }
 
-    setTimeout(function () {
-      radarAnimateFill(FILL_DURATION, function () {
-        if (typeof onRadarComplete === 'function') onRadarComplete();
-      });
-    }, SEG_DURATION + FILL_DELAY_ADD);
-  }
-
-  // ✅ 상단 step 상태 업데이트 (요구사항 반영)
-  // - 현재 step만 on
-  // - 다음 step이 on 되는 순간, 이전 step은 done (on 제거)
-  function updateStepIndicator(stepIndex) {
-    steps.forEach(function (el, i) {
-      el.classList.remove('on', 'done');
-      if (i < stepIndex) el.classList.add('done');  // 이미 지난 건 done
-      if (i === stepIndex) el.classList.add('on');  // 현재만 on
-    });
-  }
-
-  function showStep(stepIndex) {
-    var lastIndex = totalSteps - 1;
-
-    if (stepIndex > lastIndex || stepIndex >= examineGroups.length) {
-      endExamineAndStartAdj();
-      return;
-    }
-
-    // ✅ 변경된 방식 적용
-    updateStepIndicator(stepIndex);
-
-    var currentGroup = examineGroups[stepIndex];
-
-    currentGroup.style.display = 'flex';
-    currentGroup.classList.remove('fade-out-up');
-    currentGroup.classList.add('fade-in-up');
-
-    // 1) gauge 채우기부터 시작
-    animateGauges(currentGroup, function () {
-      var isLastStep = (stepIndex === lastIndex);
-
-      // 2) gauge 가 모두 찬 뒤 → 해당 step 레이더 점/선 애니 시작
-      if (isLastStep) {
-        animateRadarForStep(stepIndex, true, function () {
-          var FINAL_CURSOR      = 75;
-          var HOLD_AFTER_LAST   = 2000;
-
-          setTimeout(function () {
-            moveExamineCursor(FINAL_CURSOR);
-            showFinalResultText();
-          }, 1000);
-
-          setTimeout(function () {
-            showPop02();
-          }, 2000 + HOLD_AFTER_LAST);
+        examineTexts.forEach(function (el) {
+            el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+            el.style.display    = 'none';
+            el.style.opacity    = 0;
+            el.style.transform  = 'translateY(10px)';
         });
 
-      } else {
-        animateRadarForStep(stepIndex, false, null);
+        function showFinalResultText() {
+            if (!examineTexts.length) return;
+            var idx    = Math.min(3, examineTexts.length - 1);
+            var target = examineTexts[idx];
+            if (!target) return;
 
-        currentGroup.classList.remove('fade-in-up');
-        currentGroup.classList.add('fade-out-up');
+            target.style.display = 'block';
+            target.getBoundingClientRect();
+            target.style.opacity   = 1;
+            target.style.transform = 'translateY(0)';
+        }
 
-        var hideHandler = function (ev) {
-          if (ev.propertyName !== 'opacity') return;
-          currentGroup.removeEventListener('transitionend', hideHandler);
+        setTimeout(function () {
+            var STEP_DURATION = 1500;
 
-          currentGroup.style.display = 'none';
-          showStep(stepIndex + 1);
-        };
+            var steps         = document.querySelectorAll('.step_examine_list [class^="step_examine_"]');
+            var examineGroups = document.querySelectorAll('[class^="inve_examine_step_"]');
 
-        currentGroup.addEventListener('transitionend', hideHandler);
-      }
-    });
-  }
+            if (!steps.length || !examineGroups.length) {
+                endExamineAndStartAdj();
+                return;
+            }
 
-  // 첫 단계 시작
-  showStep(0);
+            var totalSteps = steps.length;
 
-}, 2000);
+            examineGroups.forEach(function (grp) {
+                grp.style.display = 'none';
+                grp.classList.remove('fade-in-up', 'fade-out-up');
 
-}
+                var gauges = grp.querySelectorAll('.inve_examine_gp_item .bar .gauge');
+                gauges.forEach(function (g) {
+                    g.style.transition = 'none';
+                    g.style.width      = '0%';
+                });
+            });
+
+            function animateGauges(group, onComplete) {
+                var bars     = group.querySelectorAll('.inve_examine_gp_item .bar');
+                var barCount = bars.length;
+                if (!barCount) {
+                    if (typeof onComplete === 'function') onComplete();
+                    return;
+                }
+
+                var perTime = STEP_DURATION / barCount;
+
+                bars.forEach(function (bar, idx) {
+                    var gauge = bar.querySelector('.gauge');
+                    if (!gauge) return;
+
+                    var target = parseFloat(gauge.getAttribute('data-percent')) || 100;
+
+                    gauge.style.transition = 'none';
+                    gauge.style.width      = '0%';
+                    gauge.getBoundingClientRect();
+
+                    setTimeout(function () {
+                        gauge.style.transition = 'width ' + (perTime / 1000) + 's ease';
+                        gauge.style.width      = target + '%';
+                    }, idx * perTime);
+                });
+
+                setTimeout(function () {
+                    if (typeof onComplete === 'function') onComplete();
+                }, STEP_DURATION);
+            }
+
+            function animateRadarForStep(stepIndex, isLastStep, onRadarComplete) {
+                if (!movieRadar || !movieRadarAnimating) {
+                    if (typeof onRadarComplete === 'function') onRadarComplete();
+                    return;
+                }
+
+                var totalPoints  = movieRadarPointProgress.length;
+                var segmentCount = movieRadarSegmentProgress.length;
+
+                var POINT_DURATION = 400;
+                var SEG_DURATION   = 500;
+                var FILL_DURATION  = 600;
+                var FILL_DELAY_ADD = 1000;
+
+                if (stepIndex < totalPoints) {
+                    radarAnimatePoint(stepIndex, POINT_DURATION);
+                }
+
+                if (!isLastStep) {
+                    if (stepIndex > 0) {
+                        var segIdx = stepIndex - 1;
+                        if (segIdx >= 0 && segIdx < segmentCount) {
+                            radarAnimateSegment(segIdx, SEG_DURATION);
+                        }
+                    }
+                    if (typeof onRadarComplete === 'function') onRadarComplete();
+                    return;
+                }
+
+                var lastPointIndex = Math.min(totalPoints - 1, stepIndex);
+
+                var segIdxPrev  = lastPointIndex - 1;
+                var segIdxClose = lastPointIndex;
+
+                if (segIdxPrev >= 0 && segIdxPrev < segmentCount) {
+                    radarAnimateSegment(segIdxPrev, SEG_DURATION);
+                }
+
+                if (segIdxClose >= 0 && segIdxClose < segmentCount) {
+                    setTimeout(function () {
+                        radarAnimateSegment(segIdxClose, SEG_DURATION);
+                    }, SEG_DURATION);
+                }
+
+                setTimeout(function () {
+                    radarAnimateFill(FILL_DURATION, function () {
+                        if (typeof onRadarComplete === 'function') onRadarComplete();
+                    });
+                }, SEG_DURATION + FILL_DELAY_ADD);
+            }
+
+            function updateStepIndicator(stepIndex) {
+                steps.forEach(function (el, i) {
+                    el.classList.remove('on', 'done');
+                    if (i < stepIndex) el.classList.add('done');
+                    if (i === stepIndex) el.classList.add('on');
+                });
+            }
+
+            function showStep(stepIndex) {
+                var lastIndex = totalSteps - 1;
+
+                if (stepIndex > lastIndex || stepIndex >= examineGroups.length) {
+                    endExamineAndStartAdj();
+                    return;
+                }
+
+                updateStepIndicator(stepIndex);
+
+                var currentGroup = examineGroups[stepIndex];
+
+                currentGroup.style.display = 'flex';
+                currentGroup.classList.remove('fade-out-up');
+                currentGroup.classList.add('fade-in-up');
+
+                animateGauges(currentGroup, function () {
+                    var isLastStep = (stepIndex === lastIndex);
+
+                    if (isLastStep) {
+                        animateRadarForStep(stepIndex, true, function () {
+                            var FINAL_CURSOR      = 75;
+                            var HOLD_AFTER_LAST   = 2000;
+
+                            setTimeout(function () {
+                                moveExamineCursor(FINAL_CURSOR);
+                                showFinalResultText();
+                            }, 1000);
+
+                            setTimeout(function () {
+                                showPop02();
+                            }, 2000 + HOLD_AFTER_LAST);
+                        });
+
+                    } else {
+                        animateRadarForStep(stepIndex, false, null);
+
+                        currentGroup.classList.remove('fade-in-up');
+                        currentGroup.classList.add('fade-out-up');
+
+                        var hideHandler = function (ev) {
+                            if (ev.propertyName !== 'opacity') return;
+                            currentGroup.removeEventListener('transitionend', hideHandler);
+
+                            currentGroup.style.display = 'none';
+                            showStep(stepIndex + 1);
+                        };
+
+                        currentGroup.addEventListener('transitionend', hideHandler);
+                    }
+                });
+            }
+
+            showStep(0);
+
+        }, 2000);
+    }
+
     // --------------------------------------------------------------------
     // pop_01 / pop_02 / pop_03 제어
     // --------------------------------------------------------------------
@@ -2464,7 +2585,6 @@ setTimeout(function () {
 
     function showPop02() {
         if (!pop02) {
-            // pop_02가 없으면 바로 adj 시퀀스로
             endExamineAndStartAdj();
             return;
         }
@@ -2473,14 +2593,12 @@ setTimeout(function () {
 
     function showPop03() {
         if (!pop03) {
-            // pop_03이 없으면 바로 movie_closed / inve_result 시퀀스로
             runConfirmWrapSequence();
             return;
         }
         pop03.classList.add('is-active');
     }
 
-    // 팝업 버튼 이벤트: pop_01 → examine, pop_02 → adj, pop_03 → movie_closed
     if (pop01) {
         var pop01Btn = pop01.querySelector('.btn_next');
         if (pop01Btn) {
@@ -2496,7 +2614,6 @@ setTimeout(function () {
         if (pop02Btn) {
             pop02Btn.addEventListener('click', function () {
                 pop02.classList.remove('is-active');
-                // ★ pop_02 → adj_box 시퀀스 시작
                 endExamineAndStartAdj();
             });
         }
@@ -2507,7 +2624,6 @@ setTimeout(function () {
         if (pop03Btn) {
             pop03Btn.addEventListener('click', function () {
                 pop03.classList.remove('is-active');
-                // ★ pop_03 → movie_closed / inve_result 시퀀스
                 runConfirmWrapSequence();
             });
         }
@@ -2515,8 +2631,6 @@ setTimeout(function () {
 
     // --------------------------------------------------------------------
     // 커서 & confirm/examine 시퀀스 시작
-    //   - inve_confirm_box 커서 6초 지연 후 한 번에 99% 이동
-    //   - 커서 이동 끝난 후 1.5초 뒤 pop_01 노출
     // --------------------------------------------------------------------
     setTimeout(function () {
         if (cursorText) {

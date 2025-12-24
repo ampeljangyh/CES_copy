@@ -104,17 +104,32 @@
                         <video src="../../resources/images/gate_02/film.mp4" autoplay muted loop playsinline></video>
                     </div>
 
+                    <div class="con_step con_step_01">
+                        <ul>
+                            <li class="on">
+                                <div class="step_con_item">
+                                    <span class="step_num"><span>01</span></span>
+                                    <span class="step_tit kr_t">투자 적격 여부</span>
+                                    <span class="step_tit en_t">Investment<br>Eligibility</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="step_con_item">
+                                    <span class="step_num"><span>02</span></span>
+                                    <span class="step_tit kr_t">투자 여부 검토</span>
+                                    <span class="step_tit en_t">Investment<br>Decision Review</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="step_con_item">
+                                    <span class="step_num"><span>03</span></span>
+                                    <span class="step_tit kr_t">조정 계수 반영</span>
+                                    <span class="step_tit en_t">Adjustment<br>Factor Applied</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                     <div class="inve_confirm_box">
-                        <div class="shiny_step dot_cs">
-                            <ul>
-                                <li class="on">
-                                </li>
-                                <li>
-                                </li>
-                                <li>
-                                </li>
-                            </ul>
-                        </div>
                         <div class="inve_confirm_tit kr_t">
                             <strong>투자 적격 여부</strong>
                             <p>
@@ -203,18 +218,33 @@
                         </div>
                     </div>
 
+                    <div class="con_step con_step_02">
+                        <ul>
+                            <li>
+                                <div class="step_con_item">
+                                    <span class="step_num"><span>01</span></span>
+                                    <span class="step_tit kr_t">투자 적격 여부</span>
+                                    <span class="step_tit en_t">Investment<br>Eligibility</span>
+                                </div>
+                            </li>
+                            <li class="on">
+                                <div class="step_con_item">
+                                    <span class="step_num"><span>02</span></span>
+                                    <span class="step_tit kr_t">투자 여부 검토</span>
+                                    <span class="step_tit en_t">Investment<br>Decision Review</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="step_con_item">
+                                    <span class="step_num"><span>03</span></span>
+                                    <span class="step_tit kr_t">조정 계수 반영</span>
+                                    <span class="step_tit en_t">Adjustment<br>Factor Applied</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                     <div class="inve_examine_box">
                         <div class="inve_examine_inner">
-                            <div class="shiny_step dot_cs">
-                                <ul>
-                                    <li>
-                                    </li>
-                                    <li class="on">
-                                    </li>
-                                    <li>
-                                    </li>
-                                </ul>
-                            </div>
                             <div class="inve_examine_tit kr_t">
                                 <strong>투자 여부 검토 </strong>
                                 <p>
@@ -557,17 +587,32 @@
                         </div>
                     </div>
 
+                    <div class="con_step con_step_03">
+                        <ul>
+                            <li>
+                                <div class="step_con_item">
+                                    <span class="step_num"><span>01</span></span>
+                                    <span class="step_tit kr_t">투자 적격 여부</span>
+                                    <span class="step_tit en_t">Investment<br>Eligibility</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="step_con_item">
+                                    <span class="step_num"><span>02</span></span>
+                                    <span class="step_tit kr_t">투자 여부 검토</span>
+                                    <span class="step_tit en_t">Investment<br>Decision Review</span>
+                                </div>
+                            </li>
+                            <li class="on">
+                                <div class="step_con_item">
+                                    <span class="step_num"><span>03</span></span>
+                                    <span class="step_tit kr_t">조정 계수 반영</span>
+                                    <span class="step_tit en_t">Adjustment<br>Factor Applied</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                     <div class="inve_adj_box">
-                        <div class="shiny_step dot_cs">
-                            <ul>
-                                <li>
-                                </li>
-                                <li>
-                                </li> 
-                                <li class="on">
-                                </li>
-                            </ul>
-                        </div>
                         <div class="inve_adj_tit kr_t">
                             <strong>조정계수 반영</strong>
                             <p>
@@ -1392,6 +1437,113 @@ document.addEventListener('DOMContentLoaded', function () {
     var pop02           = document.querySelector('.gate_02.sub [class*="gate_02"] .inve_pop.pop_02');
     var pop03           = document.querySelector('.gate_02.sub [class*="gate_02"] .inve_pop.pop_03'); // ★ 추가 팝업
 
+    // =========================================================
+    // ✅✅✅ con_step 제어 (display:none ↔ opacity + translateY)
+    // - CSS 기본: opacity:0; display:none;
+    // - 이전 con_step은 완전히 사라진 뒤(next display:none) 다음 con_step 노출
+    // =========================================================
+    var conSteps = document.querySelectorAll('.gate_02.sub [class*="gate_02"] .con_step');
+    var currentConStep = null;
+
+    var CONSTEP_IN_Y   = 12;   // 아래에서 올라오듯
+    var CONSTEP_OUT_Y  = -12;  // 위로 사라지듯
+    var CONSTEP_DUR    = 450;  // ms
+    var CONSTEP_DISPLAY = 'block'; // 필요시 'flex'로 변경
+
+    function initConSteps() {
+        if (!conSteps || !conSteps.length) return;
+
+        conSteps.forEach(function (el) {
+            // 기본 상태(숨김 보장)
+            el.style.display = 'none';
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(' + CONSTEP_IN_Y + 'px)';
+            el.style.willChange = 'opacity, transform';
+        });
+
+        // 기본 con_step_01 노출
+        var first = getConStepEl(1);
+        if (first) {
+            currentConStep = first;
+            showConStep(first, true);
+        }
+    }
+
+    function getConStepEl(stepNum) {
+        if (!conSteps || !conSteps.length) return null;
+        var cls = 'con_step_0' + stepNum;
+
+        for (var i = 0; i < conSteps.length; i++) {
+            if (conSteps[i].classList.contains(cls)) return conSteps[i];
+        }
+        return null;
+    }
+
+    function showConStep(el, immediate) {
+        if (!el) return;
+
+        el.style.display = CONSTEP_DISPLAY;
+
+        // 등장 준비
+        el.style.transition = 'none';
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(' + CONSTEP_IN_Y + 'px)';
+
+        // reflow
+        el.getBoundingClientRect();
+
+        if (immediate) {
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0px)';
+            return;
+        }
+
+        requestAnimationFrame(function () {
+            el.style.transition =
+                'opacity ' + CONSTEP_DUR + 'ms ease, transform ' + CONSTEP_DUR + 'ms ease';
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0px)';
+        });
+    }
+
+    function hideConStep(el, done) {
+        if (!el) { if (done) done(); return; }
+
+        el.style.transition =
+            'opacity ' + CONSTEP_DUR + 'ms ease, transform ' + CONSTEP_DUR + 'ms ease';
+
+        requestAnimationFrame(function () {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(' + CONSTEP_OUT_Y + 'px)';
+        });
+
+        setTimeout(function () {
+            el.style.display = 'none';
+            if (done) done();
+        }, CONSTEP_DUR + 30);
+    }
+
+    function setConStep(stepNum) {
+        var next = getConStepEl(stepNum);
+        if (!next) return;
+
+        if (currentConStep === next) return;
+
+        if (currentConStep) {
+            var prev = currentConStep;
+            hideConStep(prev, function () {
+                showConStep(next, false);
+                currentConStep = next;
+            });
+        } else {
+            showConStep(next, false);
+            currentConStep = next;
+        }
+    }
+
+    // con_step 초기화
+    initConSteps();
+
     if (!confirmCursor && !examineCursor && !adjCursor) return;
 
     // --------------------------------------------------------------------
@@ -1569,6 +1721,9 @@ document.addEventListener('DOMContentLoaded', function () {
     if (confirmCursor)  { confirmCursor.style.left     = '0.4vw'; }
     if (examineCursor)  { examineCursor.style.left     = '0.4vw'; }
     if (adjCursor)      { adjCursor.style.left         = '0.4vw'; }
+
+    // ✅✅✅ 디폴트 con_step_01 유지(안전하게 한번 세팅)
+    setConStep(1);
 
     // --------------------------------------------------------------------
     // Chart.js 레이더 차트: 그리드만 먼저, 점/선/면은 커스텀 애니메이션
@@ -2092,6 +2247,9 @@ function runConfirmWrapSequence() {
     //   (실제 전환은 pop_02 버튼에서 호출)
     // --------------------------------------------------------------------
     function endExamineAndStartAdj(){
+        // ✅✅✅ adj 활성화 단계: con_step_03
+        setConStep(3);
+
         if (!examineBoxWrap) {
             runAdjBoxSequence();
             return;
@@ -2119,6 +2277,9 @@ function runConfirmWrapSequence() {
 //   - 그 후 2초 뒤 pop_03 오픈
 // --------------------------------------------------------------------
 function runAdjBoxSequence(){
+    // ✅✅✅ adj 활성화 단계: con_step_03 (방어)
+    setConStep(3);
+
     if (!adjBoxWrap) {
         runConfirmWrapSequence();
         return;
@@ -2256,6 +2417,8 @@ function runAdjBoxSequence(){
 //   - 마지막 step 에서 방사형 그래프(점+선+면) 완성 후 1초 뒤 final_cursor 이동
 // --------------------------------------------------------------------
 function startExamineSequence() {
+    // ✅✅✅ examine 활성화 단계: con_step_02
+    setConStep(2);
     // confirmBoxWrap 사라지기
     if (confirmBoxWrap) {
         confirmBoxWrap.classList.add('fade-out-up');
