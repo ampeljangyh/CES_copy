@@ -285,6 +285,7 @@ body {font-family: 'Pretendard', "TWKEverett", "Apple SD Gothic Neo", "Malgun Go
 .gate_wrap .gate_inner > ul > li.active > [class*="gate_item_"]::after {content: "";display: inline-block;width: 100%;height: 100%;position: absolute;top: 0;left: 0;inset: 0;background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #284486 100%);z-index: -1;}
 .gate_wrap .gate_inner > ul > li.active {border:0.130vw solid transparent;box-shadow:0 0 0.520vw 0.117vw rgba(217,229,254,0.10),0 0 1.3884vw 0 rgba(217,229,254,0.10),0 0 1.443vw 0 rgba(217,229,254,0.10),0 0 0.6266vw 0 rgba(217,229,254,0.10),0 0 0.3458vw 0 rgba(217,229,254,0.10),0 0 1.1934vw 0 rgba(217,229,254,0.10);background-image:linear-gradient(#182133,#182133),linear-gradient(90deg,#D9E5FE,#2f86ff);background-origin:border-box;background-clip:padding-box,border-box;border-radius:1.302vw;}
 .gate_wrap .gate_inner .gate_tab_ico {cursor: pointer;z-index: 9;width: 1.9531vw;height: 1.9531vw;position: absolute;top: 1.2760vw;right: 1.7448vw; background: url(../../resources/images/i.svg) center / contain no-repeat;}
+#lang_kr .gate_wrap .gate_inner .gate_tab_ico {width: 4.1vw;height: 2.2vw;background-color: #FFFFFF;border-radius: 0.63vw;display: flex;justify-content: center;align-items: center;font-size: 1.2vw;font-weight: 700;}
 
 /* 텍스트 박스: 기본 위치 + top 애니메이션 가능하게 */
 .gate_txt {width:100%;position:absolute;top:12.3438vw;left:50%;transform:translateX(-50%);transition:top 0.6s ease,transform 0.6s ease;}
@@ -1185,7 +1186,7 @@ body.kcon-pop-lock{position:fixed;width:100%;overflow:hidden;}
 .contents_detail .cop_cont_wrap .cop_cont_tit > span {color: #FFF;font-size: 0.8334vw;font-weight: 500;letter-spacing: -0.0198vw;}
 .contents_detail .cop_cont_wrap .cop_cont_desc {margin-top: 1.196vw;}
 .contents_detail .cop_cont_wrap .cop_cont_desc > p {color: rgba(255, 255, 255, 0.80);font-size: 0.86vw;font-weight: 400;line-height: 150%;letter-spacing: -0.0198vw;}
-.contents_detail .cop_cont_grp_wrap {margin-top: 0.286vw;height: 26.4725vw;position: absolute;bottom: 0vw;width: 49.8542vw;}
+.contents_detail .cop_cont_grp_wrap {margin-top: 0.286vw;height: 26.4725vw;position: absolute;bottom: 1.5vw;width: 49.8542vw;}
 .contents_detail .cop_cont_grp_wrap .cop_cont_grp_inner {height: 100%; position: relative;}
 .contents_detail .cop_cont_grp_wrap .cop_cont_grp_inner .cop_cont_grp {height: 100%;}
 .contents_detail .cop_cont_grp_wrap .cop_cont_grp_detail {position: absolute;bottom: 5.5vw;left: 23.5%;display: inline-block;text-align: center;}
@@ -1983,7 +1984,7 @@ body.kcon-pop-lock{position:fixed;width:100%;overflow:hidden;}
 #lang_kr .contents_detail .cop_cont_wrap.en_t  {display: none;}
 #lang_kr .contents_detail .cop_cont_wrap.kr_t {display: flex;gap: 1.4583vw;}
 
-.contents_detail .cop_cont_wrap .cop_cont_inner {position: relative;height: 28.3073vw;box-sizing: border-box; width: 52.0833vw;border-radius: 0.78vw;background: rgba(36, 40, 47, 0.6);margin-top: 1.014vw;padding: 1.768vw 1.82vw 1.95vw 1.404vw;}
+.contents_detail .cop_cont_wrap .cop_cont_inner {position: relative;height: 30.3073vw;box-sizing: border-box; width: 52.0833vw;border-radius: 0.78vw;background: rgba(36, 40, 47, 0.6);margin-top: 1.014vw;padding: 1.768vw 1.82vw 1.95vw 1.404vw;}
 .contents_detail .cop_cont_wrap .apply_ty_02 {flex: 1;border-radius: 0.78vw;background: rgba(36, 40, 47, 0.6);margin-top: 1.014vw;padding: 1.4vw 1.82vw 0 1.404vw;}
 .contents_detail .cop_cont_wrap .apply_ty_02 .apply_inner {text-align: center;}
 .contents_detail .cop_cont_wrap .apply_ty_02 .apply_inner .tit {color: #FFF;text-align: center;font-size: 0.8333vw;font-weight: 700;letter-spacing: -0.0167vw;border-radius: 0.3906vw;background: #284486;padding: 0.5208vw 1.4583vw;display: inline-block;}
@@ -2119,7 +2120,7 @@ body.kcon-pop-lock{position:fixed;width:100%;overflow:hidden;}
 .cel_wrap .cel_content .left_line::before{background:url(../images/cel_arrow_01.svg) center / contain no-repeat; content:""; display:inline-block; height:100%; width:1vw;}
 .toast_pop{ z-index: 1;justify-content: center;position:absolute;box-sizing:border-box; border:0.130vw solid transparent; box-shadow:0 0 0.520vw 0.117vw rgba(217, 229, 254, 0.10), 0 0 1.3884vw 0 rgba(217, 229, 254, 0.10), 0 0 1.443vw 0 rgba(217, 229, 254, 0.10), 0 0 0.6266vw 0 rgba(217, 229, 254, 0.10), 0 0 0.3458vw 0 rgba(217, 229, 254, 0.10), 0 0 1.1934vw 0 rgba(217, 229, 254, 0.10); background-image:linear-gradient(#202B44, #202B44), linear-gradient(90deg, #D9E5FE, #2f86ff); background-origin:border-box; background-clip:padding-box, border-box; padding:2.4219vw 0 2.0573vw;text-align:center;border-radius: 1.3021vw;top: 50%;left: 50%; transform: translate(-50%, -50%);width: 30.3854vw;}
 .toast_pop .inner{display:flex; justify-content:center; align-items:center; gap:0.4948vw;flex-flow: column;}
-.toast_pop .inner > p{color:#FFF;font-size: 1.6667vw;font-weight: 500; letter-spacing:-0.0188vw;line-height: 2.4vw;}
+.toast_pop .inner > p{color:#FFF;font-size: 1.2500vw;font-weight: 500; letter-spacing:-0.0188vw;line-height: 1.8vw;}
 .toast_pop .inner .btn_box > button{color:#FFF; font-size:1.248vw; font-weight:800; letter-spacing:-0.0167vw;border-radius: 0.5208vw;background: #0071FE;padding: 1.0677vw 2.4479vw;box-sizing:border-box;}
 .toast_pop .inner .btn_box {margin-top: 2.1875vw;}
 .toast_pop_box {position: absolute;inset: 0;z-index: 2500;display: flex;justify-content: center;align-items: center;padding: 0.625vw;box-sizing: border-box;background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 50%, #152A5E 100%);opacity: 0;visibility: hidden;pointer-events: none;transition: opacity .35s ease;}
@@ -2203,7 +2204,7 @@ html .new_gate_sec_01.no-blend-screen{mix-blend-mode:initial;}
 #lang_en .new_gate_01.step_03 .re_pub_01 .gp_in_items .gp_item.item_03 > .badge_box:nth-child(1) {right: -18.5vw;}
 #lang_en .new_gate_01.step_03 .re_pub_01 .gp_in_items .gp_item.item_03 > .badge_box:nth-child(2) {right: -18.5vw;top: 18.8vw;}
 #lang_en .new_gate_01.step_03 .re_pub_01 .gp_in_items .gp_item.item_03 .badge::before {left: -4.5vw;}
-#lang_en .toast_pop .inner > p {font-size: 1.55vw;letter-spacing: -0.05vw;}
+#lang_en .toast_pop .inner > p {font-size: 1.25vw;letter-spacing: -0.05vw;}
 
 .loca_pop.loca_pop_02 .loca_pop_inner {height: 38.9323vw;}
 .loca_pop_02 .btn_at {text-align: center;margin: 3.4375vw 0;display: flex;gap: 1.2240vw;justify-content: center;}

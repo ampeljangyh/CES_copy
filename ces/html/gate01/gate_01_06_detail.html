@@ -2276,20 +2276,27 @@ function designPxToRealPx(px) {
   return vwToPx(vw);
 }
 
-// 글자 / 선 두께
-function getFontSizePx()   { return designPxToRealPx(38); }
-function getLineWidthPx()  { return designPxToRealPx(5); }
+function getFontSizePx() { return designPxToRealPx(38); }
+function getLineWidthPx() { return designPxToRealPx(5); }
 
 /****************************
- * 데이터 정의 (공통)
+ * 데이터 정의 (8년차)
  ****************************/
-let labels = ['1','2','3','4','5','6','7','8','9'];
+let labels = ['1','2','3','4','5','6','7','8'];
 
-const dataBase      = [10,10,10,10,10,10,10,10,10];
-const dataIndustry  = [10,10,10,10,10,10,10,10,10];
-const dataBefore    = [10,16.25,22.5,28.75,35,41.25,47.5,53.75,60];
-const dataAfter     = [10,16.25,22.5,42.08,61.67,81.25,100.83,120.42,140];
-const dataBenchmark = [10,32,53,73,93,112,130,148,165];
+const dataBase = new Array(labels.length).fill(0);
+
+// ✅ 최적 궤도(white, 8단계)
+const dataOptimal = [1839, 2999, 4541, 5445, 7413, 9319, 13000, 18000];
+
+// ✅ 산업평균(white dashed, 8단계)
+const dataIndustry = [556, 1323, 1773, 2207, 2596, 2974, 3500, 3900];
+
+// ✅ 현재(blue, 1~4년차까지만)
+const dataCurrent = [1000, 1767, 2217, 3074, null, null, null, null];
+
+// ✅ 성장 예측(red, 버튼 클릭 시 4→5년차만: 4년차(3074) → 5년차(6000))
+const dataForecastFull = [null, null, null, 3074, 6000, null, null, null];
 
 // 차트 인스턴스
 window.growthChartKrInstance = null;
@@ -2303,41 +2310,10 @@ function getCurrentLangFromBody() {
   if (id.indexOf('lang_en') !== -1) return 'en';
   return 'kr';
 }
-
-function getStageLabels(lang) {
-  if (lang === 'en') {
-    return [
-      'Early Stage',
-      'Growth Stage',
-      'Mature / Stable Stage',
-      'Sustainable Growth'
-    ];
-  } else {
-    return [
-      '초기',
-      '성장기',
-      '성숙 안정기',
-      '지속성장'
-    ];
-  }
-}
-
-function getRightLabels(lang) {
-  if (lang === 'en') {
-    return [
-      'Optimal Path',
-      'Growth Projection',
-      'Current',
-      'Industry Average'
-    ];
-  } else {
-    return [
-      '최적 궤도',
-      '성장 예측',
-      '현재',
-      '산업평균'
-    ];
-  }
+function getYearTickLabel(lang, index) {
+  const n = index + 1;
+  if (lang === 'en') return `Year ${n}`;
+  return `${n}년차`;
 }
 
 /****************************
@@ -2350,18 +2326,24 @@ function createGrowthChart(canvasId, lang) {
   const ctx = canvas.getContext('2d');
 
   const lineWidth = getLineWidthPx();
-  const fontSize  = getFontSizePx();
+  const fontSize = getFontSizePx();
 
-  // 오른쪽 padding 더 크게 → 그래프와 오른쪽 텍스트 분리
-  const leftPaddingFactor  = 0.8;
-  const rightPaddingFactor = 6; // kr/en 공통 넉넉하게
+  const leftPaddingFactor = 0.8;
+  const rightPaddingFactor = 6;
 
-  const COLOR_AFTER    = '#db1e1e';
-  const COLOR_BEFORE   = '#0071FE';
-  const COLOR_BENCH    = '#ffffff';
+  const COLOR_OPTIMAL  = '#ffffff';
   const COLOR_INDUSTRY = '#ffffff';
+  const COLOR_CURRENT  = '#0071FE';
+  const COLOR_FORECAST = '#db1e1e';
 
-  const stageLabels = getStageLabels(lang);
+  const maxVal = Math.max(
+    0,
+    ...dataOptimal,
+    ...dataIndustry,
+    ...dataCurrent.filter(v => typeof v === 'number' && isFinite(v)),
+    ...dataForecastFull.filter(v => typeof v === 'number' && isFinite(v))
+  );
+  const yMax = Math.ceil(maxVal / 1000) * 1000 + 1000;
 
   const chart = new Chart(ctx, {
     type: 'line',
@@ -2392,34 +2374,35 @@ function createGrowthChart(canvasId, lang) {
           fill: false
         },
         {
-          // 현재 (파란 라인) – 면 투명
-          label: 'before',
-          data: dataBefore,
-          borderColor: COLOR_BEFORE,
-          borderWidth: lineWidth,
-          backgroundColor: 'rgba(0,0,0,0)',
-          fill: false,
-          pointRadius: 0,
-          pointHoverRadius: 0,
-          tension: 0
-        },
-        {
-          // 성장 예측 (빨간 라인) – 처음엔 hidden + border alpha 0
-          label: 'after',
-          data: dataAfter.slice(),
-          borderColor: 'rgba(219,30,30,0)', // alpha 0으로 시작
+          label: 'current',
+          data: dataCurrent.slice(),
+          borderColor: COLOR_CURRENT,
           borderWidth: lineWidth,
           backgroundColor: 'rgba(0,0,0,0)',
           fill: false,
           pointRadius: 0,
           pointHoverRadius: 0,
           tension: 0,
+          spanGaps: false
+        },
+        {
+          // 성장 예측(빨간 라인)
+          label: 'forecast',
+          data: new Array(labels.length).fill(null),
+          borderColor: 'rgba(219,30,30,0)',
+          borderWidth: lineWidth,
+          backgroundColor: 'rgba(0,0,0,0)',
+          fill: false,
+          pointRadius: 0,
+          pointHoverRadius: 0,
+          tension: 0,
+          spanGaps: true,
           hidden: true
         },
         {
-          label: 'benchmark',
-          data: dataBenchmark,
-          borderColor: COLOR_BENCH,
+          label: 'optimal',
+          data: dataOptimal,
+          borderColor: COLOR_OPTIMAL,
           borderWidth: lineWidth,
           backgroundColor: 'rgba(0,0,0,0)',
           fill: false,
@@ -2432,7 +2415,7 @@ function createGrowthChart(canvasId, lang) {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      animation: false, // 기본 애니 끄고 커스텀으로
+      animation: false,
       plugins: {
         legend: { display: false },
         tooltip: { enabled: false }
@@ -2452,121 +2435,103 @@ function createGrowthChart(canvasId, lang) {
             autoSkip: false,
             maxTicksLimit: labels.length,
             callback: function (value, index) {
-              if (index === 0) return stageLabels[0];
-              if (index === 2) return stageLabels[1];
-              if (index === 5) return stageLabels[2];
-              if (index === 8) return stageLabels[3];
-              return '';
+              const langNow = getCurrentLangFromBody();
+              return getYearTickLabel(langNow, index);
             }
           }
         },
         y: {
           display: false,
           min: 0,
-          max: 170
+          max: yMax
         }
       },
       layout: {
         padding: {
-          top:    fontSize * 2.8,
+          top: fontSize * 2.8,
           bottom: fontSize * 2.4,
-          left:   fontSize * leftPaddingFactor,
-          right:  fontSize * rightPaddingFactor
+          left: fontSize * leftPaddingFactor,
+          right: fontSize * rightPaddingFactor
         }
       }
     },
     plugins: [
-      /* 1) 성장 예측 오른쪽 텍스트 라벨 */
+      /* 1) 우측 라벨(최적 궤도 / 산업평균) - 마지막 값 높이에 자동 정렬 */
       {
         id: 'rightLabels',
         afterDraw(chart) {
           const { ctx, chartArea } = chart;
+          const yScale = chart.scales && chart.scales.y;
+          if (!yScale) return;
 
-          const lang        = getCurrentLangFromBody();
-          const rightLabels = getRightLabels(lang);
+          const langNow = getCurrentLangFromBody();
+          const txtOptimal  = (langNow === 'en') ? 'Optimal Path'     : '최적 궤도';
+          const txtIndustry = (langNow === 'en') ? 'Industry Average' : '산업평균';
 
-          const baseFontSize   = getFontSizePx();      // x축에 쓰는 기본 폰트
-          const fontSizeRight  = baseFontSize * 0.8;   // 오른쪽 라벨은 살짝 더 작게
-          const lineGap        = fontSizeRight * 1.2;  // 줄 간격은 조금 더 넓게
+          const baseFontSize  = getFontSizePx();
+          const fontSizeRight = baseFontSize * 0.8;
+
+          function toWordLinesIfEn(text) {
+            if (langNow !== 'en') return [text];
+            return (text || '').trim().split(/\s+/);
+          }
+
+          function drawLines(lines, x, yCenter) {
+            const lineGap = fontSizeRight * 1.2;
+            const totalH  = lineGap * (lines.length - 1);
+
+            for (let i = 0; i < lines.length; i++) {
+              const y = yCenter - totalH / 2 + i * lineGap;
+              ctx.fillText(lines[i], x, y);
+            }
+          }
 
           const edgeOffset = designPxToRealPx(20);
-          const x          = chartArea.right + edgeOffset;
+          const x = chartArea.right + edgeOffset;
 
-          const top    = chartArea.top;
-          const bottom = chartArea.bottom;
-          const pos    = [0.03, 0.2, 0.65, 0.94];
+          function lastFinite(arr) {
+            for (let i = arr.length - 1; i >= 0; i--) {
+              const v = arr[i];
+              if (typeof v === 'number' && isFinite(v)) return v;
+            }
+            return null;
+          }
 
-          const COLOR_AFTER    = '#db1e1e';
-          const COLOR_BEFORE   = '#0071FE';
-          const COLOR_BENCH    = '#fff';
-          const COLOR_INDUSTRY = '#ffffff';
+          const industryLast = lastFinite(dataIndustry);
+          const optimalLast  = lastFinite(dataOptimal);
 
-          const colorsRight = [
-            COLOR_BENCH,
-            COLOR_AFTER,
-            COLOR_BEFORE,
-            COLOR_INDUSTRY
-          ];
+          function clampY(y) {
+            const pad = designPxToRealPx(6);
+            return Math.max(chartArea.top + pad, Math.min(chartArea.bottom - pad, y));
+          }
 
-          // 성장 예측 라벨 알파 (기본 0 → 버튼 클릭 후 1까지 애니메이션)
-          const forecastAlpha = (typeof chart.$labelForecastAlpha === 'number')
-            ? chart.$labelForecastAlpha
-            : 0;
+          const yIndustry = (industryLast == null) ? (chartArea.bottom) : clampY(yScale.getPixelForValue(industryLast));
+          const yOptimal  = (optimalLast  == null) ? (chartArea.top)    : clampY(yScale.getPixelForValue(optimalLast));
 
           ctx.save();
-          ctx.font         = `${fontSizeRight}px Pretendard, "Noto Sans KR", sans-serif`;
+          ctx.font = `${fontSizeRight}px Pretendard, "Noto Sans KR", sans-serif`;
           ctx.textBaseline = 'middle';
-          ctx.textAlign    = 'left';
+          ctx.textAlign = 'left';
+          ctx.fillStyle = '#fff';
+          ctx.globalAlpha = 1;
 
-          rightLabels.forEach((txt, idx) => {
-            // idx === 1 이 성장 예측
-            if (idx === 1 && forecastAlpha <= 0) {
-              // 아직 안 나올 타이밍이면 스킵
-              return;
-            }
-
-            const yBase = top + (bottom - top) * pos[idx];
-
-            ctx.save();
-            ctx.fillStyle   = colorsRight[idx];
-            ctx.globalAlpha = (idx === 1 ? forecastAlpha : 1);
-
-            // 영문 & 공백 있는 라벨은 2줄로
-            if (lang === 'en' && txt.indexOf(' ') !== -1) {
-              const parts = txt.split(' ');
-              let firstLine, secondLine;
-
-              if (parts.length === 2) {
-                firstLine  = parts[0];
-                secondLine = parts[1];
-              } else {
-                firstLine  = parts.slice(0, parts.length - 1).join(' ');
-                secondLine = parts[parts.length - 1];
-              }
-
-              ctx.fillText(firstLine,  x, yBase - lineGap / 2);
-              ctx.fillText(secondLine, x, yBase + lineGap / 2);
-            } else {
-              ctx.fillText(txt, x, yBase);
-            }
-
-            ctx.restore();
-          });
+          drawLines(toWordLinesIfEn(txtOptimal), x, yOptimal);
+          drawLines(toWordLinesIfEn(txtIndustry), x, yIndustry);
 
           ctx.restore();
         }
       },
 
-      /* 2) after 라인을 왼쪽→오른쪽으로 잘라서 보여주는 clip 플러그인 */
+      /* 2) forecast 라인 reveal clip */
       {
         id: 'lineRevealClip',
         beforeDatasetDraw(chart, args) {
           const dataset = chart.data.datasets[args.index];
-          if (!dataset || dataset.label !== 'after') return;
+          if (!dataset || dataset.label !== 'forecast' || dataset.hidden) return;
 
           const progress =
-            typeof chart.$lineRevealProgress === 'number'
-              ? chart.$lineRevealProgress
+            typeof chart.$forecastRevealProgress === 'number'
+              ? chart.$forecastRevealProgress
               : 0;
 
           const { ctx, chartArea } = chart;
@@ -2575,15 +2540,215 @@ function createGrowthChart(canvasId, lang) {
           ctx.save();
           ctx.beginPath();
 
-          // progress 비율만큼만 가로 방향으로 보이도록 clip
           const width = (right - left) * progress;
           ctx.rect(left, top, width, bottom - top);
           ctx.clip();
         },
         afterDatasetDraw(chart, args) {
           const dataset = chart.data.datasets[args.index];
-          if (!dataset || dataset.label !== 'after') return;
-          const { ctx } = chart;
+          if (!dataset || dataset.label !== 'forecast' || dataset.hidden) return;
+          chart.ctx.restore();
+        }
+      },
+
+      /* 3) forecast 라인 끝 화살표 */
+      {
+        id: 'forecastArrow',
+        afterDatasetsDraw(chart) {
+          const { ctx, chartArea } = chart;
+          const dsIndex = chart.data.datasets.findIndex(d => d.label === 'forecast');
+          if (dsIndex < 0) return;
+
+          const ds = chart.data.datasets[dsIndex];
+          if (!ds || ds.hidden) return;
+
+          const meta = chart.getDatasetMeta(dsIndex);
+          if (!meta || !meta.data || !meta.data.length) return;
+
+          const progress = (typeof chart.$forecastRevealProgress === 'number') ? chart.$forecastRevealProgress : 0;
+          if (progress <= 0) return;
+
+          const clipRight = chartArea.left + (chartArea.right - chartArea.left) * progress;
+
+          const pts = meta.data;
+          let pPrev = null;
+          let pLast = null;
+
+          for (let i = 0; i < pts.length; i++) {
+            const v = ds.data[i];
+            const p = pts[i];
+            if (!p || typeof v !== 'number' || !isFinite(v)) continue;
+
+            if (p.x <= clipRight + 0.5) {
+              pPrev = pLast;
+              pLast = p;
+            }
+          }
+
+          if (!pPrev || !pLast) return;
+
+          const dx = pLast.x - pPrev.x;
+          const dy = pLast.y - pPrev.y;
+          const len = Math.hypot(dx, dy);
+          if (!len) return;
+
+          const ux = dx / len;
+          const uy = dy / len;
+
+          const baseSize = Math.max(designPxToRealPx(18), getLineWidthPx() * 3);
+          const headLen = baseSize;
+          const headWid = baseSize * 0.75;
+
+          const tipX = pLast.x;
+          const tipY = pLast.y;
+
+          const baseX = tipX - ux * headLen;
+          const baseY = tipY - uy * headLen;
+
+          const px = -uy;
+          const py = ux;
+
+          const leftX  = baseX + px * (headWid / 2);
+          const leftY  = baseY + py * (headWid / 2);
+          const rightX = baseX - px * (headWid / 2);
+          const rightY = baseY - py * (headWid / 2);
+
+          const alpha = Math.min(1, Math.max(0, progress));
+          const color = `rgba(219,30,30,${alpha})`;
+
+          ctx.save();
+          ctx.beginPath();
+          ctx.rect(chartArea.left, chartArea.top, (chartArea.right - chartArea.left) * progress, chartArea.bottom - chartArea.top);
+          ctx.clip();
+
+          ctx.fillStyle = color;
+          ctx.beginPath();
+          ctx.moveTo(tipX, tipY);
+          ctx.lineTo(leftX, leftY);
+          ctx.lineTo(rightX, rightY);
+          ctx.closePath();
+          ctx.fill();
+
+          ctx.restore();
+        }
+      },
+
+      /* 4) 하단 뱃지(현재/성장예측) */
+      {
+        id: 'bottomLegend',
+        afterDraw(chart) {
+          const { ctx, chartArea } = chart;
+          const xScale = chart.scales && chart.scales.x;
+          if (!xScale) return;
+
+          const langNow = getCurrentLangFromBody();
+          const txtCurrent = (langNow === 'en') ? 'Current' : '현재';
+          const txtForecast = (langNow === 'en') ? 'Growth Forecast' : '성장 예측';
+
+          const cCurrent = '#0071FE';
+          const cForecast = '#db1e1e';
+
+          const baseFontSize = getFontSizePx();
+          const fontSizeLegend = baseFontSize * 0.85;
+
+          const lineW = Math.max(4, getLineWidthPx() * 1.8);
+
+          const iconW = fontSizeLegend * 1.3;
+          const gapIconText = fontSizeLegend * 0.6;
+          const gapItems = fontSizeLegend * 1.4;
+          const padX = fontSizeLegend * 1.1;
+          const padY = fontSizeLegend * 0.6;
+
+          ctx.save();
+          ctx.font = `700 ${fontSizeLegend}px Pretendard, "Noto Sans KR", sans-serif`;
+          ctx.textBaseline = 'middle';
+          ctx.textAlign = 'left';
+
+          const wCurText = ctx.measureText(txtCurrent).width;
+          const wForText = ctx.measureText(txtForecast).width;
+
+          const itemW1 = iconW + gapIconText + wCurText;
+          const itemW2 = iconW + gapIconText + wForText;
+
+          const totalW = padX * 2 + itemW1 + gapItems + itemW2;
+          const h = fontSizeLegend + padY * 2;
+
+          const cx = (chartArea.left + chartArea.right) / 2;
+          const x = cx - totalW / 2;
+
+          const marginTop = designPxToRealPx(16);
+          const marginBottom = designPxToRealPx(10);
+
+          let yCenter = xScale.bottom + marginTop + h / 2;
+
+          const yMax = chart.height - marginBottom - h / 2;
+          if (yCenter > yMax) yCenter = yMax;
+
+          const yMin = xScale.bottom + h / 2;
+          if (yCenter < yMin) yCenter = yMin;
+
+          const y = yCenter - h / 2;
+
+          function roundRect(x, y, w, h, r) {
+            const rr = Math.min(r, w / 2, h / 2);
+            ctx.beginPath();
+            ctx.moveTo(x + rr, y);
+            ctx.arcTo(x + w, y, x + w, y + h, rr);
+            ctx.arcTo(x + w, y + h, x, y + h, rr);
+            ctx.arcTo(x, y + h, x, y, rr);
+            ctx.arcTo(x, y, x + w, y, rr);
+            ctx.closePath();
+          }
+
+          const r = h / 2;
+          roundRect(x, y, totalW, h, r);
+          ctx.fillStyle = 'rgba(35, 35, 35, 0.88)';
+          ctx.fill();
+          ctx.lineWidth = 1;
+          ctx.strokeStyle = 'rgba(255,255,255,0.10)';
+          ctx.stroke();
+
+          let penX = x + padX;
+          const cy = yCenter;
+
+          // current line
+          ctx.save();
+          ctx.strokeStyle = cCurrent;
+          ctx.lineWidth = lineW;
+          ctx.lineCap = 'round';
+          ctx.beginPath();
+          ctx.moveTo(penX, cy);
+          ctx.lineTo(penX + iconW, cy);
+          ctx.stroke();
+          ctx.restore();
+
+          penX += iconW + gapIconText;
+
+          ctx.save();
+          ctx.fillStyle = cCurrent;
+          ctx.fillText(txtCurrent, penX, cy);
+          ctx.restore();
+
+          penX += wCurText + gapItems;
+
+          // forecast line
+          ctx.save();
+          ctx.strokeStyle = cForecast;
+          ctx.lineWidth = lineW;
+          ctx.lineCap = 'round';
+          ctx.beginPath();
+          ctx.moveTo(penX, cy);
+          ctx.lineTo(penX + iconW, cy);
+          ctx.stroke();
+          ctx.restore();
+
+          penX += iconW + gapIconText;
+
+          ctx.save();
+          ctx.fillStyle = cForecast;
+          ctx.fillText(txtForecast, penX, cy);
+          ctx.restore();
+
           ctx.restore();
         }
       }
@@ -2591,9 +2756,8 @@ function createGrowthChart(canvasId, lang) {
   });
 
   chart.$lang = lang;
-  chart.$labelForecastAlpha = 0;   // 성장예측 텍스트 처음엔 숨김
-  chart.$afterAnimated      = false; // 빨간 라인 애니 1회 제한
-  chart.$lineRevealProgress = 0;   // 0~1, clip 비율
+  chart.$forecastAnimated = false;
+  chart.$forecastRevealProgress = 0;
 
   return chart;
 }
@@ -2606,7 +2770,6 @@ function ensureKrChart() {
     window.growthChartKrInstance = createGrowthChart('growthChartKr', 'kr');
   }
 }
-
 function ensureEnChart() {
   if (!window.growthChartEnInstance) {
     window.growthChartEnInstance = createGrowthChart('growthChartEn', 'en');
@@ -2620,28 +2783,29 @@ function resizeGrowthChart(chart) {
   if (!chart) return;
 
   const newLineWidth = getLineWidthPx();
-  const newFontSize  = getFontSizePx();
-  const leftPaddingFactor  = 0.8;
+  const newFontSize = getFontSizePx();
+  const leftPaddingFactor = 0.8;
   const rightPaddingFactor = 6;
 
   chart.data.datasets.forEach(ds => {
-    if (ds.label !== 'baseline') {
-      ds.borderWidth = newLineWidth;
+    if (ds.label !== 'baseline') ds.borderWidth = newLineWidth;
+    if (ds.label === 'industry') {
+      ds.borderDash = [designPxToRealPx(12), designPxToRealPx(12)];
     }
   });
 
-  chart.options.scales.x.ticks.font.size   = newFontSize;
-  chart.options.scales.x.ticks.padding     = designPxToRealPx(24);
+  chart.options.scales.x.ticks.font.size = newFontSize;
+  chart.options.scales.x.ticks.padding = designPxToRealPx(24);
   chart.options.scales.x.ticks.minRotation = 0;
   chart.options.scales.x.ticks.maxRotation = 0;
-  chart.options.scales.x.ticks.autoSkip    = false;
+  chart.options.scales.x.ticks.autoSkip = false;
   chart.options.scales.x.ticks.maxTicksLimit = labels.length;
 
   chart.options.layout.padding = {
-    top:    newFontSize * 2.8,
+    top: newFontSize * 2.8,
     bottom: newFontSize * 2.4,
-    left:   newFontSize * leftPaddingFactor,
-    right:  newFontSize * rightPaddingFactor
+    left: newFontSize * leftPaddingFactor,
+    right: newFontSize * rightPaddingFactor
   };
 
   chart.update();
@@ -2649,44 +2813,33 @@ function resizeGrowthChart(chart) {
 
 /****************************
  * 성장 예측(빨간 라인) 애니메이션
- *  - 데이터는 그대로 두고
- *  - clip 비율(chart.$lineRevealProgress)만 0→1로
- *  - 왼쪽 → 오른쪽으로 부드럽게 그려지게
  ****************************/
-function animateAfterLine(chart, duration) {
-  if (!chart || chart.$afterAnimated) return;
+function animateForecastLine(chart, duration) {
+  if (!chart || chart.$forecastAnimated) return;
 
-  const ds = chart.data.datasets.find(ds => ds.label === 'after');
+  const ds = chart.data.datasets.find(ds => ds.label === 'forecast');
   if (!ds) return;
 
-  ds.hidden = false; // 보이게 전환
+  ds.data = dataForecastFull.slice(); // ✅ 4→5년차(6000)
+  ds.hidden = false;
 
   const startTime = performance.now();
-  chart.$afterAnimated      = true;
-  chart.$lineRevealProgress = 0;
+  chart.$forecastAnimated = true;
+  chart.$forecastRevealProgress = 0;
 
   function frame(now) {
     let t = (now - startTime) / duration;
     if (t > 1) t = 1;
     if (t < 0) t = 0;
 
-    const eased = t * t; // 약한 ease-in
+    const eased = t * t;
+    chart.$forecastRevealProgress = eased;
+    ds.borderColor = `rgba(219,30,30,${eased})`;
 
-    // clip 비율 업데이트
-    chart.$lineRevealProgress = eased;
+    chart.update('none');
 
-    // alpha도 같이 올리기 (선 + 오른쪽 "성장 예측" 레이블)
-    const alpha = eased;
-    ds.borderColor            = `rgba(219,30,30,${alpha})`;
-    chart.$labelForecastAlpha = alpha;
-
-    chart.update('none'); // 내부 애니 없이 바로 그리기
-
-    if (t < 1) {
-      requestAnimationFrame(frame);
-    }
+    if (t < 1) requestAnimationFrame(frame);
   }
-
   requestAnimationFrame(frame);
 }
 
@@ -2697,13 +2850,13 @@ window.addEventListener('load', function () {
   const lang = getCurrentLangFromBody();
   if (lang === 'en') {
     ensureEnChart();
-    ensureKrChart(); // 둘 다 만들어두기
+    ensureKrChart();
     language = 'eng';
     renderBizCapabilityView(language, currentCompany);
     renderGrowthView(language, currentCompany);
   } else {
     ensureKrChart();
-    ensureEnChart(); // 둘 다 만들어두기
+    ensureEnChart();
     language = 'kor';
     renderBizCapabilityView(language, currentCompany);
     renderGrowthView(language, currentCompany);
@@ -2719,23 +2872,22 @@ window.addEventListener('resize', function () {
  * DOM 준비 후 버튼 이벤트들
  ****************************/
 document.addEventListener('DOMContentLoaded', function () {
-  const appBtn    = document.getElementById('appBtn');
-  const step1     = document.querySelector('.apply_step_01');
-  const step2     = document.querySelector('.apply_step_02');
+  const appBtn = document.getElementById('appBtn');
+  const step1 = document.querySelector('.apply_step_01');
+  const step2 = document.querySelector('.apply_step_02');
   const applyBott = document.querySelector('.apply_bott');
 
-  /***** step show/hide 초기 세팅 (opacity 0일 때 영역 제거) *****/
   function initStepStates() {
     if (step1) {
-      step1.style.display    = 'block';
-      step1.style.opacity    = '1';
-      step1.style.transform  = 'translateY(0)';
+      step1.style.display = 'block';
+      step1.style.opacity = '1';
+      step1.style.transform = 'translateY(0)';
       step1.style.transition = 'opacity .5s ease, transform .5s ease';
     }
     if (step2) {
-      step2.style.display    = 'none';
-      step2.style.opacity    = '0';
-      step2.style.transform  = 'translateY(20px)';
+      step2.style.display = 'none';
+      step2.style.opacity = '0';
+      step2.style.transform = 'translateY(20px)';
       step2.style.transition = 'opacity .5s ease, transform .5s ease';
     }
   }
@@ -2743,27 +2895,25 @@ document.addEventListener('DOMContentLoaded', function () {
   function hideStep(el, duration) {
     if (!el) return;
     duration = duration || 500;
-    el.style.opacity   = '0';
+    el.style.opacity = '0';
     el.style.transform = 'translateY(-20px)';
     setTimeout(function () {
-      el.style.display = 'none'; // opacity 0이 되면 영역 제거
+      el.style.display = 'none';
     }, duration);
   }
 
   function showStep(el) {
     if (!el) return;
-    el.style.display   = 'block';
-    el.style.opacity   = '0';
+    el.style.display = 'block';
+    el.style.opacity = '0';
     el.style.transform = 'translateY(20px)';
-    // reflow 강제
     void el.offsetWidth;
-    el.style.opacity   = '1';
+    el.style.opacity = '1';
     el.style.transform = 'translateY(0)';
   }
 
   initStepStates();
 
-  /***** 언어 토글 버튼 (.btn_lang) *****/
   const langBtn = document.querySelector('.btn_lang');
   if (langBtn) {
     langBtn.addEventListener('click', function () {
@@ -2784,27 +2934,19 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  /***** appBtn 타임라인 *****/
   if (appBtn) {
     appBtn.addEventListener('click', function () {
-      // 여러 번 클릭 방지
       if (appBtn.classList.contains('is-running')) return;
       appBtn.classList.add('is-running');
 
-      // apply_bott 열기
-      if (applyBott) {
-        applyBott.classList.add('on');
-      }
-
-      // 1) step1 사라지기 (opacity 0 + 위로, 끝나면 display:none)
+      if (applyBott) applyBott.classList.add('on');
       hideStep(step1, 500);
 
-      // 2) 국가별 apply_item 순차 on (kr_t & en_t 동시 인덱스 기준)
       const krItems = document.querySelectorAll('.cop_cont_wrap.kr_t .item_list .apply_item');
       const enItems = document.querySelectorAll('.cop_cont_wrap.en_t .item_list .apply_item');
 
-      const itemInterval = 1000; // 1초 간격
-      const maxLen       = Math.max(krItems.length, enItems.length);
+      const itemInterval = 1000;
+      const maxLen = Math.max(krItems.length, enItems.length);
 
       for (let i = 0; i < maxLen; i++) {
         const delay = i * itemInterval;
@@ -2816,28 +2958,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
       const lastItemTime = maxLen > 0 ? (maxLen - 1) * itemInterval : 0;
 
-      // 3) 마지막 apply_item on 시점 + 1초 뒤 → 두 그래프 모두 동작 시작
       setTimeout(function () {
         ensureKrChart();
         ensureEnChart();
 
-        if (window.growthChartKrInstance) {
-          animateAfterLine(window.growthChartKrInstance, 1500);
-        }
-        if (window.growthChartEnInstance) {
-          animateAfterLine(window.growthChartEnInstance, 1500);
-        }
+        if (window.growthChartKrInstance) animateForecastLine(window.growthChartKrInstance, 1500);
+        if (window.growthChartEnInstance) animateForecastLine(window.growthChartEnInstance, 1500);
 
-        // 4) 그래프 동작 시작 후 1초 뒤 → step2 노출
         setTimeout(function () {
           showStep(step2);
           appBtn.classList.remove('is-running');
         }, 2000);
 
-      }, lastItemTime + 1000); // 마지막 아이템 on 된 뒤 + 1초
+      }, lastItemTime + 1000);
     });
   }
 });
+
 
 
 
