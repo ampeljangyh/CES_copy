@@ -167,18 +167,23 @@ $(function () {
 
 (() => {
   // =========================================================
-  // ✅ [공통] btn_list_cop 클릭 시 gate_01.html "완료부팅"으로 이동
+  // ✅ [공통] btn_list_cop 또는 at_btn 클릭 시 gate_01.html "완료부팅"으로 이동
   // =========================================================
   const BOOT_KEY = 'GATE01_BOOT_COMPLETE';
 
   function bindBackToGate01() {
-    const btn = document.querySelector('.btn_list_cop');
-    if (!btn) return;
+    if (document._boundBackToGate01) return;
+    document._boundBackToGate01 = true;
 
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      try { sessionStorage.setItem(BOOT_KEY, '1'); } catch (err) {}
-      window.location.href = '../gate01/gate_01.html';
+    const btns = document.querySelectorAll('.btn_list_cop, .at_btn');
+    if (!btns || !btns.length) return;
+
+    btns.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        try { sessionStorage.setItem(BOOT_KEY, '1'); } catch (err) {}
+        window.location.href = '../gate01/gate_01.html';
+      });
     });
   }
 
@@ -197,14 +202,218 @@ $(function () {
   if (!gateSec || !step1El || !step2El) return;
 
   // =========================================================
-  // ✅ 완료부팅(뒤로가기/리스트복귀) 모드
+  // ✅ 공통 유틸: back/forward 네비게이션 감지
   // =========================================================
-  const FORCE_COMPLETE = (sessionStorage.getItem(BOOT_KEY) === '1');
-
   function isBackForwardNav(e) {
     const nav = performance.getEntriesByType('navigation')[0];
     return !!(e && e.persisted) || (nav && nav.type === 'back_forward');
   }
+
+  // =========================================================
+  // ✅✅✅ search_complete 도넛 슬라이더 (완료부팅/일반 모두 적용)
+  // - 카드(li)가 나중에 렌더/주입돼도 "성공할 때까지 재시도"
+  // - li 변경되면 자동 refresh + relayout
+  // =========================================================
+  function initSearchCompleteDonutOnce() {
+    if (document._scDonutInited) return true;
+
+    const scene = document.querySelector('.search_complete_list');
+    const list  = scene ? scene.querySelector(':scope > ul') : null;
+    if (!scene || !list) return false;
+
+    let itemEls = Array.from(list.children);
+    if (!itemEls.length) return false;
+
+    document._scDonutInited = true;
+
+    let angle = 0;
+    let velocity = 0;
+    let isDragging = false;
+    let lastX = 0;
+    let lastT = 0;
+    let rafId = null;
+
+    list.style.position = 'relative';
+    list.style.width = '100%';
+    list.style.height = '100%';
+    list.style.transformStyle = 'preserve-3d';
+    list.style.transformOrigin = '50% 50%';
+    scene.style.touchAction = 'pan-y';
+
+    function refreshItems() {
+      itemEls = Array.from(list.children);
+    }
+
+    function layoutCards() {
+      refreshItems();
+      const total = itemEls.length;
+      if (!total) return;
+
+      const radius = 24;      // vw
+      const minScale = 0.9;
+      const maxScale = 1.2;
+      const maxYOffset = 12;  // vw
+
+      itemEls.forEach((li, index) => {
+        const theta = (360 / total) * index + angle;
+        const rad = theta * Math.PI / 180;
+
+        const x = Math.sin(rad) * radius;
+        const depth = (Math.cos(rad) + 1) / 2;
+
+        const scale = minScale + (maxScale - minScale) * depth;
+        const opacity = 0.4 + 0.6 * depth;
+        const zIndex = 100 + Math.round(depth * 100);
+
+        const yOffset = (1 - depth) * maxYOffset;
+
+        li.style.position = 'absolute';
+        li.style.left = '50%';
+        li.style.top = '50%';
+        li.style.transform = `
+          translate3d(${x}vw, -50%, 0)
+          translateY(-${yOffset}vw)
+          scale(${scale})
+        `;
+        li.style.zIndex = zIndex;
+        li.style.opacity = opacity;
+      });
+    }
+
+    function stopInertia() {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+
+    function startInertia() {
+      stopInertia();
+      const friction = 0.92;
+
+      const tick = () => {
+        velocity *= friction;
+        if (Math.abs(velocity) < 0.001) {
+          velocity = 0;
+          rafId = null;
+          return;
+        }
+        angle += velocity;
+        layoutCards();
+        rafId = requestAnimationFrame(tick);
+      };
+
+      rafId = requestAnimationFrame(tick);
+    }
+
+    function pxToDeg(dxPx) {
+      const w = Math.max(320, window.innerWidth || 1920);
+      return (dxPx / w) * 220;
+    }
+
+    function onDown(e) {
+      isDragging = true;
+      stopInertia();
+      velocity = 0;
+
+      lastX = e.clientX;
+      lastT = performance.now();
+
+      try { scene.setPointerCapture && scene.setPointerCapture(e.pointerId); } catch (err) {}
+    }
+
+    function onMove(e) {
+      if (!isDragging) return;
+
+      const now = performance.now();
+      const dx = e.clientX - lastX;
+      const dt = Math.max(16, now - lastT);
+
+      const dAng = pxToDeg(dx);
+      angle += dAng;
+      velocity = dAng * (16 / dt);
+
+      lastX = e.clientX;
+      lastT = now;
+
+      layoutCards();
+    }
+
+    function onUp() {
+      if (!isDragging) return;
+      isDragging = false;
+      if (Math.abs(velocity) > 0.02) startInertia();
+    }
+
+    function onWheel(e) {
+      const dy = e.deltaY || 0;
+      angle += pxToDeg(dy) * 0.25;
+      layoutCards();
+    }
+
+    if (!scene._scDonutBound) {
+      scene._scDonutBound = true;
+
+      scene.addEventListener('pointerdown', onDown);
+      window.addEventListener('pointermove', onMove);
+      window.addEventListener('pointerup', onUp);
+      window.addEventListener('pointercancel', onUp);
+      scene.addEventListener('wheel', onWheel, { passive: true });
+
+      window.addEventListener('resize', () => {
+        layoutCards();
+      });
+    }
+
+    if (!list._scDonutObs) {
+      const obs = new MutationObserver(() => {
+        layoutCards();
+      });
+      obs.observe(list, { childList: true });
+      list._scDonutObs = obs;
+    }
+
+    layoutCards();
+    document._scDonutRelayout = layoutCards;
+
+    return true;
+  }
+
+  function ensureSearchCompleteDonut() {
+    if (document._scDonutInited) {
+      if (document._scDonutRelayout) document._scDonutRelayout();
+      return;
+    }
+
+    if (document._scDonutEnsuring) return;
+    document._scDonutEnsuring = true;
+
+    let tries = 0;
+    const MAX_TRIES = 80;   // 8초
+    const INTERVAL = 100;
+
+    const tick = () => {
+      const ok = initSearchCompleteDonutOnce();
+      if (ok) {
+        document._scDonutEnsuring = false;
+        if (document._scDonutRelayout) document._scDonutRelayout();
+        return;
+      }
+
+      tries++;
+      if (tries >= MAX_TRIES) {
+        document._scDonutEnsuring = false;
+        return;
+      }
+
+      setTimeout(tick, INTERVAL);
+    };
+
+    requestAnimationFrame(() => requestAnimationFrame(tick));
+  }
+
+  // =========================================================
+  // ✅ 완료부팅(뒤로가기/리스트복귀) 모드
+  // =========================================================
+  const FORCE_COMPLETE = (sessionStorage.getItem(BOOT_KEY) === '1');
 
   function injectCompleteLockCssOnce() {
     if (document.getElementById('gate01-complete-lock')) return;
@@ -260,61 +469,8 @@ $(function () {
     sec._noBlendObserver = mo;
   }
 
-  function bootGate01Complete(consumesFlag) {
-    if (consumesFlag) {
-      try { sessionStorage.removeItem(BOOT_KEY); } catch (e) {}
-    }
-
-    document.documentElement.classList.add('gate01-complete-lock');
-    injectCompleteLockCssOnce();
-
-    keepNoBlendOff();
-
-    hideToastPop(0);
-
-    const sc =
-      document.querySelector('.gate_01 .search_complete') ||
-      document.querySelector('.search_complete');
-
-    if (sc) {
-      sc.dataset.active = '1';
-      sc.style.setProperty('display', 'flex', 'important');
-      sc.style.setProperty('will-change', 'top, opacity, transform', 'important');
-      sc.style.setProperty('opacity', '1', 'important');
-      sc.style.setProperty('transform', 'translateY(0px)', 'important');
-      sc.style.setProperty('top', '0px', 'important');
-      sc.style.setProperty('pointer-events', 'auto', 'important');
-      sc.style.setProperty('z-index', '999', 'important');
-    }
-
-    document.querySelectorAll('.new_gate_sec_01 .main_video video').forEach(v => {
-      try { v.pause(); } catch (e) {}
-    });
-  }
-
-  window.addEventListener('pageshow', (e) => {
-    const flag = (sessionStorage.getItem(BOOT_KEY) === '1');
-    const scActive = !!document.querySelector('.search_complete[data-active="1"]');
-
-    if (isBackForwardNav(e) && (flag || scActive || document.documentElement.classList.contains('gate01-complete-lock'))) {
-      bootGate01Complete(flag);
-    }
-    if (document.documentElement.classList.contains('gate01-complete-lock')) {
-      keepNoBlendOff();
-    }
-  });
-
-  if (FORCE_COMPLETE) {
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => bootGate01Complete(true), { once: true });
-    } else {
-      bootGate01Complete(true);
-    }
-    return;
-  }
-
   // =========================================================
-  // ✅ (이하: gate_01 애니 시퀀스)  step_01 → step_02까지만
+  // ✅ 시퀀스 파라미터
   // =========================================================
   const STEP_HOLD = 15000;
   const STEP_ANIM = 600;
@@ -408,12 +564,8 @@ $(function () {
       const els = getStep2TitleTy02Els();
       if (!els.length) return false;
 
-      // 락이 아니면 CSS 복귀
-      if (!_ty02Locked) {
-        els.forEach(el => { el.style.opacity = ''; });
-      }
+      if (!_ty02Locked) els.forEach(el => { el.style.opacity = ''; });
 
-      // 각 el에 옵저버 부착(중복 방지)
       els.forEach(el => {
         if (el._ty02Mo) return;
 
@@ -437,9 +589,276 @@ $(function () {
     }
   }
 
-  // -----------------------------
-  // init sequence
-  // -----------------------------
+  // =========================================================
+  // ✅ toast_pop_box 제어 (전역 구조: body 하단)
+  // =========================================================
+  function getToastBox() {
+    return document.querySelector('.toast_pop_box');
+  }
+
+  function showToastPop(dur) {
+    const box = getToastBox();
+    if (!box) return;
+
+    // ✅ toast 노출 순간부터 ty_02(kr/en) opacity:0 유지
+    setStep2TitleTy02Lock(true);
+    enforceStep2TitleTy02Lock();
+
+    box.dataset.active = '1';
+    box.style.willChange = 'opacity';
+    box.style.transition = `opacity ${dur}ms ease`;
+
+    box.style.visibility = 'visible';
+    box.style.pointerEvents = 'none';
+    box.style.opacity = '0';
+
+    void box.offsetHeight;
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        box.style.opacity = '1';
+        box.style.pointerEvents = 'auto';
+
+        requestAnimationFrame(enforceStep2TitleTy02Lock);
+        requestAnimationFrame(enforceStep2TitleTy02Lock);
+      });
+    });
+  }
+
+  function hideToastPop(dur, done) {
+    const box = getToastBox();
+    if (!box) { if (done) done(); return; }
+
+    if (!dur || dur <= 0) {
+      box.dataset.active = '0';
+      box.style.transition = '';
+      box.style.opacity = '0';
+      box.style.visibility = 'hidden';
+      box.style.pointerEvents = 'none';
+
+      enforceStep2TitleTy02Lock();
+      if (done) done();
+      return;
+    }
+
+    box.style.willChange = 'opacity';
+    box.style.transition = `opacity ${dur}ms ease`;
+    box.style.pointerEvents = 'none';
+
+    requestAnimationFrame(() => {
+      box.style.opacity = '0';
+      enforceStep2TitleTy02Lock();
+    });
+
+    setTimeout(() => {
+      box.dataset.active = '0';
+      box.style.visibility = 'hidden';
+      box.style.pointerEvents = 'none';
+
+      enforceStep2TitleTy02Lock();
+      if (done) done();
+      requestAnimationFrame(enforceStep2TitleTy02Lock);
+    }, dur + 30);
+  }
+
+  // =========================================================
+  // ✅ search_complete 초기화/노출
+  // =========================================================
+  function getSearchComplete() {
+    return document.querySelector('.gate_01 .search_complete') || document.querySelector('.search_complete');
+  }
+
+  function setSearchCompleteInitial() {
+    const sc = getSearchComplete();
+    if (!sc) return;
+
+    sc.dataset.active = '0';
+    sc.style.willChange = 'top, opacity, transform';
+    sc.style.pointerEvents = 'none';
+
+    sc.style.top = '120vw';
+    sc.style.opacity = '0';
+    sc.style.transform = 'translateY(0.5200vw)';
+  }
+
+  function showSearchComplete() {
+    const sc = getSearchComplete();
+    if (!sc) return;
+
+    enforceStep2TitleTy02Lock();
+
+    sc.dataset.active = '1';
+    sc.style.display = 'flex';
+    sc.style.willChange = 'top, opacity, transform';
+    sc.style.zIndex = '999';
+    sc.style.pointerEvents = 'none';
+
+    sc.style.top = '120vw';
+    sc.style.opacity = '0';
+    sc.style.transform = 'translateY(0.5200vw)';
+
+    void sc.offsetHeight;
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        sc.style.top = '0';
+        sc.style.opacity = '1';
+        sc.style.transform = 'translateY(0)';
+        sc.style.pointerEvents = 'auto';
+
+        requestAnimationFrame(enforceStep2TitleTy02Lock);
+
+        // ✅✅✅ search_complete 노출 직후 도넛 적용(카드가 늦게 렌더돼도 재시도)
+        ensureSearchCompleteDonut();
+      });
+    });
+  }
+
+  // =========================================================
+  // ✅ #cardListShow 클릭 → toast 닫기 + step_02 제거 + search_complete 노출
+  // =========================================================
+  function bindToastButtonToSearchComplete(step2) {
+    if (document._bindCardListShow) return;
+    document._bindCardListShow = true;
+
+    document.addEventListener('click', (e) => {
+      const btn = e.target && e.target.closest && e.target.closest('#cardListShow');
+      if (!btn) return;
+
+      e.preventDefault();
+
+      // 클릭 순간부터도 0 유지
+      setStep2TitleTy02Lock(true);
+      enforceStep2TitleTy02Lock();
+
+      if (step2 && step2._toSearchRunning) return;
+      if (step2) step2._toSearchRunning = true;
+
+      hideToastPop(TOAST_FADE_DUR, () => {
+        enforceStep2TitleTy02Lock();
+
+        hideStep02ToSearch(step2, 600, () => {
+          enforceStep2TitleTy02Lock();
+          requestAnimationFrame(enforceStep2TitleTy02Lock);
+
+          showSearchComplete();
+        });
+      });
+    });
+  }
+
+  function hideStep02ToSearch(step2, dur, done) {
+    if (!step2) { if (done) done(); return; }
+
+    enforceStep2TitleTy02Lock();
+
+    step2.style.willChange = 'opacity, transform';
+    step2.style.transition = `opacity ${dur}ms ease, transform ${dur}ms ease`;
+
+    requestAnimationFrame(() => {
+      step2.style.opacity = '0';
+      step2.style.transform = `translateY(${VW_UP})`;
+      enforceStep2TitleTy02Lock();
+    });
+
+    setTimeout(() => {
+      step2.classList.remove('on', 'is-leave');
+
+      try { pauseStepVideos(step2); } catch (e) {}
+      clearStep02Toast(step2);
+
+      enforceStep2TitleTy02Lock();
+
+      step2.style.display = 'none';
+      if (typeof done === 'function') done();
+    }, dur + 30);
+  }
+
+  function clearStep02Toast(step2) {
+    if (!step2) return;
+
+    if (step2._toastTimer) {
+      clearTimeout(step2._toastTimer);
+      step2._toastTimer = null;
+    }
+    if (step2._toastFallbackTimer) {
+      clearTimeout(step2._toastFallbackTimer);
+      step2._toastFallbackTimer = null;
+    }
+
+    step2._toastScheduled = false;
+  }
+
+  // =========================================================
+  // ✅ 완료부팅 진입 처리
+  // =========================================================
+  function bootGate01Complete(consumesFlag) {
+    if (consumesFlag) {
+      try { sessionStorage.removeItem(BOOT_KEY); } catch (e) {}
+    }
+
+    document.documentElement.classList.add('gate01-complete-lock');
+    injectCompleteLockCssOnce();
+
+    keepNoBlendOff();
+
+    // toast 숨김
+    hideToastPop(0);
+
+    // search_complete 고정 노출
+    const sc =
+      document.querySelector('.gate_01 .search_complete') ||
+      document.querySelector('.search_complete');
+
+    if (sc) {
+      sc.dataset.active = '1';
+      sc.style.setProperty('display', 'flex', 'important');
+      sc.style.setProperty('will-change', 'top, opacity, transform', 'important');
+      sc.style.setProperty('opacity', '1', 'important');
+      sc.style.setProperty('transform', 'translateY(0px)', 'important');
+      sc.style.setProperty('top', '0px', 'important');
+      sc.style.setProperty('pointer-events', 'auto', 'important');
+      sc.style.setProperty('z-index', '999', 'important');
+    }
+
+    // ✅✅✅ 완료부팅에서도 도넛 적용(성공할 때까지 재시도)
+    ensureSearchCompleteDonut();
+
+    // 비디오 정지
+    document.querySelectorAll('.new_gate_sec_01 .main_video video').forEach(v => {
+      try { v.pause(); } catch (e) {}
+    });
+  }
+
+  // ✅ bfcache(back/forward) 복귀에서도 락 적용 + 도넛 재적용
+  window.addEventListener('pageshow', (e) => {
+    const flag = (sessionStorage.getItem(BOOT_KEY) === '1');
+    const scActive = !!document.querySelector('.search_complete[data-active="1"]');
+
+    if (isBackForwardNav(e) && (flag || scActive || document.documentElement.classList.contains('gate01-complete-lock'))) {
+      bootGate01Complete(flag);
+    }
+
+    if (scActive) ensureSearchCompleteDonut();
+
+    if (document.documentElement.classList.contains('gate01-complete-lock')) {
+      keepNoBlendOff();
+    }
+  });
+
+  // ✅ 최초 로드 시 완료부팅이면: 애니 자체 실행 금지(return)
+  if (FORCE_COMPLETE) {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => bootGate01Complete(true), { once: true });
+    } else {
+      bootGate01Complete(true);
+    }
+    return;
+  }
+
+  // =========================================================
+  // ✅ gate_01 시퀀스
+  // =========================================================
   function initGate01Sequence() {
     const step1 = document.querySelector('.new_gate_01.step_01');
     const step2 = document.querySelector('.new_gate_01.step_02');
@@ -462,8 +881,10 @@ $(function () {
 
     bindToastButtonToSearchComplete(step2);
 
+    // step_01 비디오 재생(kr/en 둘 다 속도 반영: step_01=0.7)
     playStepVideosSmooth(step1);
 
+    // step_02 프라임
     setTimeout(() => {
       primeStepVideos(step2);
     }, Math.max(0, STEP_HOLD - STEP2_PRELOAD_BEFORE));
@@ -483,6 +904,7 @@ $(function () {
       runCardSequence(cards, idx);
     }
 
+    // step_01 끝 → step_02
     setTimeout(() => {
       enterStep(step2);
       leaveStep(step1);
@@ -526,6 +948,7 @@ $(function () {
     const primary = (currentLang === 'en_t') ? en : kr;
     const second  = (currentLang === 'en_t') ? kr : en;
 
+    // ✅ step_01만 0.7 (kr/en 둘 다 적용)
     const rate = step.classList.contains('step_01') ? 0.7 : 1;
     try { primary.playbackRate = rate; } catch (e) {}
     try { second.playbackRate  = rate; } catch (e) {}
@@ -628,7 +1051,7 @@ $(function () {
     playStepVideosSmooth(el);
 
     if (el.classList.contains('step_02')) {
-      // ✅ step_02 진입 시에는 "토스트 전"이므로 락 해제(=보임)
+      // ✅ step_02 진입 시에는 토스트 전이므로 락 해제(=CSS대로 보임)
       setStep2TitleTy02Lock(false);
       hideToastPop(0);
 
@@ -682,13 +1105,13 @@ $(function () {
     clearStep02Toast(step2);
 
     if (!TOAST_AFTER_STEP2_VIDEO_END_DELAY || TOAST_AFTER_STEP2_VIDEO_END_DELAY <= 0) {
-      showToastPop(TOAST_FADE_DUR); // ✅ 여기서 ty_02 락(0) 걸림 (kr/en 둘 다)
+      showToastPop(TOAST_FADE_DUR);
       return;
     }
 
     step2._toastTimer = setTimeout(() => {
       if (!step2.classList.contains('on')) return;
-      showToastPop(TOAST_FADE_DUR); // ✅ 여기서 ty_02 락(0) 걸림 (kr/en 둘 다)
+      showToastPop(TOAST_FADE_DUR);
     }, TOAST_AFTER_STEP2_VIDEO_END_DELAY);
   }
 
@@ -808,207 +1231,6 @@ $(function () {
     card.querySelectorAll('.bott_desc p').forEach(p => p.classList.remove('text_play'));
   }
 
-  // =========================================================
-  // ✅ toast_pop_box 제어 (전역 구조: body 하단)
-  // =========================================================
-  function getToastBox() {
-    return document.querySelector('.toast_pop_box');
-  }
-
-  function showToastPop(dur) {
-    const box = getToastBox();
-    if (!box) return;
-
-    // ✅✅✅ 요구사항: toast 노출 순간 ty_02(kr/en) 즉시 opacity:0
-    setStep2TitleTy02Lock(true);
-    enforceStep2TitleTy02Lock();
-
-    box.dataset.active = '1';
-    box.style.willChange = 'opacity';
-    box.style.transition = `opacity ${dur}ms ease`;
-
-    box.style.visibility = 'visible';
-    box.style.pointerEvents = 'none';
-    box.style.opacity = '0';
-
-    void box.offsetHeight;
-
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        box.style.opacity = '1';
-        box.style.pointerEvents = 'auto';
-
-        // ✅ 2프레임 방어(깜빡임/복구 방지)
-        requestAnimationFrame(enforceStep2TitleTy02Lock);
-        requestAnimationFrame(enforceStep2TitleTy02Lock);
-      });
-    });
-  }
-
-  function hideToastPop(dur, done) {
-    const box = getToastBox();
-    if (!box) { if (done) done(); return; }
-
-    if (!dur || dur <= 0) {
-      box.dataset.active = '0';
-      box.style.transition = '';
-      box.style.opacity = '0';
-      box.style.visibility = 'hidden';
-      box.style.pointerEvents = 'none';
-
-      enforceStep2TitleTy02Lock();
-
-      if (done) done();
-      return;
-    }
-
-    box.style.willChange = 'opacity';
-    box.style.transition = `opacity ${dur}ms ease`;
-    box.style.pointerEvents = 'none';
-
-    requestAnimationFrame(() => {
-      box.style.opacity = '0';
-      enforceStep2TitleTy02Lock();
-    });
-
-    setTimeout(() => {
-      box.dataset.active = '0';
-      box.style.visibility = 'hidden';
-      box.style.pointerEvents = 'none';
-
-      enforceStep2TitleTy02Lock();
-      if (done) done();
-      requestAnimationFrame(enforceStep2TitleTy02Lock);
-    }, dur + 30);
-  }
-
-  // =========================================================
-  // ✅ search_complete 초기화/노출
-  // =========================================================
-  function getSearchComplete() {
-    return document.querySelector('.gate_01 .search_complete') || document.querySelector('.search_complete');
-  }
-
-  function setSearchCompleteInitial() {
-    const sc = getSearchComplete();
-    if (!sc) return;
-
-    sc.dataset.active = '0';
-    sc.style.willChange = 'top, opacity, transform';
-    sc.style.pointerEvents = 'none';
-
-    sc.style.top = '120vw';
-    sc.style.opacity = '0';
-    sc.style.transform = 'translateY(0.5200vw)';
-  }
-
-  function showSearchComplete() {
-    const sc = getSearchComplete();
-    if (!sc) return;
-
-    // ✅ search_complete 노출 순간에도 ty_02(kr/en)는 계속 0 유지
-    enforceStep2TitleTy02Lock();
-
-    sc.dataset.active = '1';
-    sc.style.display = 'flex';
-    sc.style.willChange = 'top, opacity, transform';
-    sc.style.zIndex = '999';
-    sc.style.pointerEvents = 'none';
-
-    sc.style.top = '120vw';
-    sc.style.opacity = '0';
-    sc.style.transform = 'translateY(0.5200vw)';
-
-    void sc.offsetHeight;
-
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        sc.style.top = '0';
-        sc.style.opacity = '1';
-        sc.style.transform = 'translateY(0)';
-        sc.style.pointerEvents = 'auto';
-
-        requestAnimationFrame(enforceStep2TitleTy02Lock);
-      });
-    });
-  }
-
-  // =========================================================
-  // ✅ #cardListShow 클릭 → toast 닫기 + step_02 제거 + search_complete 노출
-  // =========================================================
-  function bindToastButtonToSearchComplete(step2) {
-    if (document._bindCardListShow) return;
-    document._bindCardListShow = true;
-
-    document.addEventListener('click', (e) => {
-      const btn = e.target && e.target.closest && e.target.closest('#cardListShow');
-      if (!btn) return;
-
-      e.preventDefault();
-
-      // ✅ 클릭 순간에도 kr/en 둘 다 0 강제
-      setStep2TitleTy02Lock(true);
-      enforceStep2TitleTy02Lock();
-
-      if (step2 && step2._toSearchRunning) return;
-      if (step2) step2._toSearchRunning = true;
-
-      hideToastPop(TOAST_FADE_DUR, () => {
-        enforceStep2TitleTy02Lock();
-
-        hideStep02ToSearch(step2, 600, () => {
-          enforceStep2TitleTy02Lock();
-          requestAnimationFrame(enforceStep2TitleTy02Lock);
-
-          showSearchComplete();
-        });
-      });
-    });
-  }
-
-  function hideStep02ToSearch(step2, dur, done) {
-    if (!step2) { if (done) done(); return; }
-
-    enforceStep2TitleTy02Lock();
-
-    step2.style.willChange = 'opacity, transform';
-    step2.style.transition = `opacity ${dur}ms ease, transform ${dur}ms ease`;
-
-    requestAnimationFrame(() => {
-      step2.style.opacity = '0';
-      step2.style.transform = `translateY(${VW_UP})`;
-      enforceStep2TitleTy02Lock();
-    });
-
-    setTimeout(() => {
-      step2.classList.remove('on', 'is-leave');
-
-      try { pauseStepVideos(step2); } catch (e) {}
-      clearStep02Toast(step2);
-
-      enforceStep2TitleTy02Lock();
-
-      step2.style.display = 'none';
-
-      if (typeof done === 'function') done();
-    }, dur + 30);
-  }
-
-  function clearStep02Toast(step2) {
-    if (!step2) return;
-
-    if (step2._toastTimer) {
-      clearTimeout(step2._toastTimer);
-      step2._toastTimer = null;
-    }
-    if (step2._toastFallbackTimer) {
-      clearTimeout(step2._toastFallbackTimer);
-      step2._toastFallbackTimer = null;
-    }
-
-    step2._toastScheduled = false;
-  }
-
   // -----------------------------
   // start
   // -----------------------------
@@ -1031,169 +1253,6 @@ $(function () {
 
 
 
-
-/* ------------------------------------
-   팝업 내 "기업 보기" 버튼 클릭 시
-   팝업 닫고 processing_end 적용
-   ------------------------------------ */
-$('.search_process_pop .btn_card_list').on('click', function () {
-    $('.search_process_pop').removeClass('is-active');
-
-    $('.contents_01')
-        .removeClass('processing pop_on') // pop_on도 같이 제거
-        .addClass('processing_end');
-});
-
-
-
-
-
-
-
-
-
-
-// ===============================
-// 검색 결과 도넛 슬라이더 (카드 크기 고정)
-// ===============================
-const scene = document.querySelector('.search_complete_list');
-// 🔹 .search_complete_list 바로 아래의 ul만 선택
-const list  = scene ? scene.querySelector(':scope > ul') : null;
-// 🔹 그 ul의 "직계 자식 li"만 카드로 사용 → bottom 안 li는 제외
-const itemEls = list ? Array.from(list.children) : [];
-
-if (scene && list && itemEls.length) {
-
-  let angle = 0;        // 전체 회전 각도
-  let velocity = 0;     // 관성 속도
-  let isDragging = false;
-  let startX = 0;
-
-  // 🔹 45도 위에서 내려다보는 느낌
-  list.style.position = 'relative';
-  list.style.width    = '100%';
-  list.style.height   = '100%';
-  list.style.transformStyle = 'preserve-3d';
-  list.style.transformOrigin = '50% 50%';
-
-  // 카드 배치 함수
-function layoutCards() {
-  const total = itemEls.length;
-  if (!total) return;
-
-  const radius   = 24;   // 도넛 반지름 (vw)
-  const minScale = 0.9; // 가장 뒤쪽 카드 크기
-  const maxScale = 1.2;  // 정면 카드 크기
-  const maxYOffset = 12;  // 옆으로 갈수록 위로 올라가는 최대 값 (vw)
-
-  itemEls.forEach((li, index) => {
-    const theta = (360 / total) * index + angle; // 각 카드의 현재 각도
-    const rad   = theta * Math.PI / 180;
-
-    // 원형 x 위치
-    const x = Math.sin(rad) * radius;            // -radius ~ radius
-
-    // cos 값으로 앞/뒤 깊이 계산 (0~1)
-    const depth = (Math.cos(rad) + 1) / 2;       // 0(뒤) ~ 1(앞)
-
-    // 깊이에 따른 scale / opacity / z-index
-    const scale   = minScale + (maxScale - minScale) * depth;
-    const opacity = 0.4 + 0.6 * depth;          // 0.4 ~ 1.0
-    const zIndex  = 100 + Math.round(depth * 100);
-
-    // 🔹 옆/뒤로 갈수록 위로 살짝 더 올리기
-    // depth가 작을수록(옆/뒤) yOffset이 커짐
-    const yOffset = (1 - depth) * maxYOffset;   // 0 ~ maxYOffset (vw)
-
-    li.style.position = 'absolute';
-    li.style.left     = '50%';
-    li.style.top      = '50%';
-    li.style.transform = `
-      translate3d(${x}vw, -50%, 0)
-      translateY(-${yOffset}vw)
-      scale(${scale})
-    `;
-    li.style.zIndex   = zIndex;
-    li.style.opacity  = opacity;
-  });
-}
-
-
-
-
-
-
-  // 초기 배치
-  layoutCards();
-
-  // 관성 회전 애니메이션
-  function animate() {
-    if (!isDragging) {
-      angle += velocity;
-      velocity *= 0.85;                 // 마찰 계수
-
-      if (Math.abs(velocity) < 0.001) {
-        velocity = 0;
-      }
-      layoutCards();
-    }
-    requestAnimationFrame(animate);
-  }
-  animate();
-
-  // -----------------------
-  // 입력 이벤트 (휠, 드래그, 터치)
-  // -----------------------
-
-  // 마우스 휠로 회전
-  scene.addEventListener('wheel', e => {
-    e.preventDefault();
-    velocity += e.deltaY * 0.03;        // 스크롤 방향에 따라 속도 부여
-  }, { passive: false });
-
-  // 드래그 시작
-  scene.addEventListener('mousedown', e => {
-    isDragging = true;
-    startX = e.clientX;
-  });
-
-  // 드래그 중
-  window.addEventListener('mousemove', e => {
-    if (!isDragging) return;
-    const delta = e.clientX - startX;
-    angle += delta * 0.2;               // 이동량 → 각도
-    velocity = delta * 0.15;            // 관성값 갱신
-    startX = e.clientX;
-    layoutCards();
-  });
-
-  // 드래그 종료
-  window.addEventListener('mouseup', () => {
-    isDragging = false;
-  });
-
-  // 터치 시작
-  scene.addEventListener('touchstart', e => {
-    if (!e.touches.length) return;
-    isDragging = true;
-    startX = e.touches[0].clientX;
-  });
-
-  // 터치 이동
-  scene.addEventListener('touchmove', e => {
-    if (!isDragging || !e.touches.length) return;
-    const delta = e.touches[0].clientX - startX;
-    angle += delta * 0.2;
-    velocity = delta * 0.15;
-    startX = e.touches[0].clientX;
-    layoutCards();
-  });
-
-  // 터치 종료
-  scene.addEventListener('touchend', () => {
-    isDragging = false;
-  });
-}
 
 
 
