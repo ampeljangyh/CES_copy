@@ -1414,11 +1414,11 @@ body.kcon-pop-lock{position:fixed;width:100%;overflow:hidden;}
 .loca_pop .pop_close span::before,.loca_pop .pop_close span::after {content:"";position:absolute;left:50%;top:50%;width:100%;height:0.2vw;background:#fff;transform-origin:center;}
 .loca_pop .pop_close span::before {transform:translate(-50%,-50%) rotate(45deg);}
 .loca_pop .pop_close span::after {transform:translate(-50%,-50%) rotate(-45deg);}
-.loca_pop .loca_pop_inner {border-radius:1.56vw;background:#1D222C;width: 50.0000vw;height: 32.9323vw;z-index:1;position:relative;}
+.loca_pop .loca_pop_inner {border-radius:1.56vw;background:#1D222C;width: 50.0000vw;height: auto;z-index:1;position:relative;}
 .loca_pop .loca_pop_inner .tit {text-align:center;margin-top:3.796vw;}
 .loca_pop .loca_pop_inner .tit > strong {color:#FFF;font-size: 2.5000vw;font-weight: 600;letter-spacing:-0.0666vw;}
 .loca_pop .loca_pop_inner .tit > p {color:#FFF;font-size:1.248vw;font-weight:400;letter-spacing:-0.0250vw;margin-top:0.884vw;}
-.loca_pop .loca_map {position:relative;width: 28.4896vw;height: 17.1875vw;margin:2.548vw auto 0;}
+.loca_pop .loca_map {position:relative;width: 32.5000vw;height: 19.6354vw;margin:2.548vw auto 0;}
 .loca_pop .loca_map .img_box > img {mix-blend-mode:screen;height:100%;width: 100%; object-fit: cover;}
 .loca_pop .loca_map .pin {position:absolute;width:3.328vw;height:4.316vw;top:0.5vw;left:26vw;opacity:0;transform:translate3d(0,0,0);transform-origin:50% 100%;}
 .loca_pop.is-open .loca_map .pin {animation:pinAppear 0.6s ease forwards;animation-delay:1s;}
@@ -2206,7 +2206,6 @@ html .new_gate_sec_01.no-blend-screen{mix-blend-mode:initial;}
 #lang_en .new_gate_01.step_03 .re_pub_01 .gp_in_items .gp_item.item_03 .badge::before {left: -4.5vw;}
 #lang_en .toast_pop .inner > p {font-size: 1.25vw;letter-spacing: -0.05vw;}
 
-.loca_pop.loca_pop_02 .loca_pop_inner {height: 38.9323vw;}
 .loca_pop_02 .btn_at {text-align: center;margin: 3.4375vw 0;display: flex;gap: 1.2240vw;justify-content: center;}
 .loca_pop_02 .btn_at .btn{border-radius: 0.5208vw;background: #0071FE;padding: 0.9896vw 2.5521vw;}
 .loca_pop_02 .btn_at .btn > span{color: #FFF;font-size: 1.2500vw;font-weight: 700;letter-spacing: -0.0250vw;}
@@ -2250,3 +2249,10 @@ html .new_gate_sec_01.no-blend-screen{mix-blend-mode:initial;}
 .gate_tab_con .tab_con.on {display: inline-block; opacity: 1;}
 .gate_tab_con .tab_con > span {color: #FFF;font-size: 1.0417vw;font-weight: 800;letter-spacing: -0.0208vw;display: inline-block; margin-bottom: 1.5104vw;}
 .gate_tab_con .con_item_list {display: flex;gap: 0.7813vw;flex-direction:column;}
+
+.loca_info_list {margin: 2.8125vw auto 3.3854vw;width: 32.5000vw;display: flex;  align-items: center; flex-wrap: wrap;gap:1.3281vw;row-gap: 0.9896vw;}
+.loca_info_list .loca_item {width:calc(25% - 1vw);display: flex;align-items: center;gap: 0.4948vw;}
+.loca_info_list > .loca_item:nth-child(3) .loca_img_logo {height: 1.8vw;}
+.loca_info_list .loca_item > span {width: 1.2240vw;height: 1.2240vw;border-radius: 10vw;background: #0071FE;color: #FFF;font-size: 0.6250vw;font-weight: 700;display: flex;justify-content: center;align-items: center;}
+.loca_info_list .loca_item .loca_img_logo {height: 1.1719vw;width: 5vw;}
+.loca_info_list .loca_item .loca_img_logo > img {filter: grayscale(100%);mix-blend-mode: screen;height: 100%;width: 100%; object-fit: contain;}
