@@ -1559,9 +1559,6 @@ From a product competitiveness perspective, the company meets requirements relat
 
   "에이에스이티": {
     // ============================
-    // 1) 평가 등급 구조
-    // ============================
-    // ============================
     // 1) 기술사업 역량 (점수)
     // ============================
     bizCapability: {
@@ -1601,67 +1598,75 @@ From a product competitiveness perspective, the company meets requirements relat
     },
 
     // ============================
-    // 2) 코멘트
+    // 2) 기술사업 역량 (코멘트)
     // ============================
-    comments: {
-      "경영 역량": `CEO Park Seok-jeong has established clear goals for managing the company and has concrete methods for achieving them. Given the nature of the business, qualities such as self-regulation and decisiveness in business decision-making, willingness to take risks in new fields, active execution to resolve such risks, and the ability to think beyond conventional technology-business frameworks are essential. The CEO is assessed to possess all these qualities. Accordingly, the CEO is evaluated as having a good level of entrepreneurial spirit.
-
-Within the past year, the company has had no cases of wage arrears or failure to comply with transaction conditions with buyers. Based on the CEO’s career background ((H)EMT Co., Ltd., Renault Korea Motors, etc.), external activities, and network development, the CEO’s external credibility is considered good. In addition, there have been no instances of salaries paid to non–full-time personnel, and short-term loans and advances account for less than 3% of total assets in the financial statements. Therefore, the CEO’s reliability is also assessed as good.
-
-The CEO earned a Ph.D. in Materials Science and Engineering from Korea University in February 2024, and over 17 years has accumulated experience related to the company’s core technologies at organizations such as HEMT Co., Ltd., Renault Korea Motors, and Hyundai Motor Company. Considering the CEO’s length of service in the industry and major career history, the industry experience level related to the company’s technological field is evaluated as average, while the level of technical knowledge is assessed as excellent.Based on a deep understanding of the company’s core technology, the CEO has developed detailed plans for each stage from technology development to mass production and commercialization. The CEO also analyzes and forecasts demand in the target market, identifies sales channels, and reviews applicable regulations and policies, establishing corresponding strategies for each factor. Given that these elements directly contribute to current business operations, the CEO’s technical understanding is assessed as good.
-
-Aside from the CEO, the company has two key executives:
-Executive Director Chu Hyun-seok, responsible for overall technology
-Executive Director Ji Mok-hyun, responsible for business planning
-Considering the final academic background and relevant career experience of these executives, both are evaluated as top-level technical professionals. However, the two key executives hold no equity stake in the company. Therefore, taking into account the company’s history and scale, the executive team's expertise is assessed as good, while their capital participation level is deemed weak.
-
-There have been no major management changes within the past year, and the detailed matters and overall decisions required for business advancement are considered reasonable. Accordingly, the teamwork between the executive team and the CEO is assessed as good.`,
-      "기술성": `The company has achieved three cases of technology development related to its core technologies (composite electrolyte membranes for lithium secondary batteries and semi-/all-solid-state battery manufacturing technologies), such as next-generation all-solid-state electrolyte membranes for secondary batteries and Ag low-loading anode seed technology. It has also received a total of five awards (including the Excellent Award at the “Challenge! K-Startup Grand Finals” from the Minister, and the Grand Prize at the “G-Valley Startup Competition” from the Mayor of Seoul), as well as one certification (Venture Company).
-Therefore, the company’s technology development and award achievements are assessed as insufficient.
-
-The company owns one registered patent and three patent applications, through which it has established certain technological barriers. However, considering the company’s current status and business plans, additional intellectual property acquisition is necessary. Thus, the company’s intellectual property holdings are evaluated as insufficient.
-Over the last two years, the ratio of R&D expenditure to sales recorded in the financial statements is 3,975%, which is extremely high compared to the industry average of 2.04%. However, the absolute size of the R&D investment itself is not large. Therefore, the company’s R&D investment level is considered average.
-
-The company has operated its corporate-affiliated research institute since April 2024 for approximately 1 year and 2 months, and has secured technical personnel for development and research, including two top-level engineers, one senior engineer, one intermediate engineer, and three other technical staff.
-Accordingly, the company’s dedicated R&D organization is evaluated as good, and its technical personnel capability is assessed as excellent. The company’s lead researcher has been involved from the planning stage of the core technology to the present, and the other key technical personnel have not resigned within the past year. Additionally, new technical staff have been recruited during the year, enabling the company to maintain overall technical direction and capabilities. Therefore, the company’s technical personnel management is evaluated as good.
-
-The technology under evaluation—composite electrolyte membranes for lithium secondary batteries and semi-/all-solid-state battery manufacturing technology—aims to address fire-safety issues and achieve high-energy-density (450 Wh/kg or higher) next-generation secondary batteries capable of ultra-fast charging (10C-rate or higher).
-It is differentiated from conventional liquid-electrolyte-based secondary battery technologies and aligns well with market needs. Therefore, the innovativeness of the company’s technology item is assessed as average.
-
-In the technology life cycle, the company’s technology is in the introduction stage, requiring further validation of its applicability. Accordingly, its position in the technology life cycle is assessed as insufficient.
-
-Although the technology makes a significant contribution to the production and operation of core products, additional complementary technologies are required for raw material supply and development (e.g., oxide electrolytes for all-solid-state batteries, cathode materials, high-conductivity polymers). Therefore, the technological independence level is evaluated as average.
-
-The company’s core technology can potentially be applied to other industries, offering a certain degree of versatility; however, its fundamental originality is limited. Thus, the technological spillover effect is assessed as average. The company’s core technology has completed prototype development and is at the POC (Proof of Concept) stage. Therefore, the technological completeness is evaluated as average. The development cost and duration required for the company’s core technology are significant, and the company has secured intellectual property rights to establish technological barriers. Accordingly, the difficulty of imitation is assessed as good.
-
-Although the company’s amount of intellectual property rights is insufficient considering its operational history and scale, it employs various supplementary technology-protection measures, such as appointing a dedicated technology-protection officer, tiered access control for key data, and security agreements for employees upon joining and leaving the company.
-Thus, the company’s technology protection capability is assessed as average.`,
-      "시장성": `In this evaluation, the Korean lithium-ion battery electrolyte market was selected as the target market, considering the company’s primary evaluated technology product (composite electrolyte membrane) and its major expected sales region.
-
-The Korean lithium-ion battery electrolyte market grew from 209.8 billion KRW in 2019 to 270.1 billion KRW in 2021, reflecting 13.5% growth, and is projected to reach 841.2 billion KRW by 2026 with an average annual growth rate (CAGR) of 25.5% (TDB Technology Market Report, Aug. 2023). Accordingly, the market size of the company’s target market is evaluated as average, while the market growth potential is assessed as good.
-
-In the company’s target market, multiple competitors—including the company—appropriately share the market. The market allows providers to deliver differentiated value to customers both functionally and in convenience, reducing the likelihood of negative effects from excessive competition. However, the market already includes dominant companies and leading products.
-Given the characteristics of the company’s products, which carry a high proportion of fixed costs, achieving stable profitability may be difficult during periods of economic fluctuation. Therefore, the competitive landscape is evaluated as average.
-
-The government has announced over 38 trillion KRW in policy financing to support all sectors of the secondary battery industry and has released a public–private joint innovation strategy to foster the related industrial ecosystem. Considering these factors, the related regulations and laws are evaluated as good.
-Entering the target market requires substantial capital, and existing market participants already have a relative advantage in manufacturing costs due to operational efficiency. On the other hand, product segmentation within the target market is still limited, making it easier for new entrants to position themselves strategically. Entry into existing distribution networks is also relatively accessible. Accordingly, the ease of market entry is evaluated as average.
-
-The company’s solid electrolyte membrane demonstrates quality competitiveness compared to existing liquid electrolytes. However, as the technology is currently in the POC stage with battery manufacturers, and as both domestic and foreign competitors have not yet succeeded in commercializing similar technologies, a direct comparison between commercialized products is not possible. Therefore, the comparative advantage over competing products is evaluated as insufficient.`,
-      "사업성": `The company aims to manufacture its core products—solid-state electrolyte membranes and anode seeds—itself, while planning to outsource the production of semi-/all-solid-state batteries to external manufacturers in the future. Accordingly, the feasibility of the production plan is evaluated as average.
-
-The company has selected key competitors within the market and is actively analyzing them. It has also established detailed marketing strategies, including specific action plans and associated costs, to secure customers. However, the company does not appear to have a dedicated marketing department. Therefore, the feasibility of the sales plan is evaluated as average.
-
-Although the company has not yet secured sales channels, it is scheduled to conduct product testing with LG Energy Solution and Ubatt starting from September 2025, which indicates that it is meeting customer requirements and can verify objective purchasing interest. Thus, the status of sales channel acquisition is assessed as average.
-
-The company has raised 4.1 billion KRW through a pre-Series A funding round from Kiwoom Investment and Quantum Ventures Korea, and has also procured capital through SME policy funds (TIPS R&D) and bank loans. Accordingly, the company’s capital raising capability is evaluated as average.
-
-As of 2024, the company has not yet generated profit from mass production, but future sales improvements are expected through the mass production of solid-state electrolyte membranes and anode seeds.
-Meanwhile, the company’s operating profit is -33,403.7%, significantly lower than the industry average of -0.1%, indicating a weak growth rate. However, operating profit is expected to improve through the expansion of sales channels.
-Therefore, the company’s growth potential and profitability are both evaluated as insufficient.`
+    bizComments: {
+      "CEO capabiity": `CEO Choi Sang-su has 6 years of work experience in the same industry as the company’s business, and 4 years of accumulated technical experience in the same field as the technology under evaluation, starting after graduating from high school. According to the technical knowledge level assessment criteria, this corresponds to the category of “other technical personnel.”
+In addition, based on the CEO’s understanding of the evaluated technology, his commercialization capability—including planning ability, information-gathering capability, and reliability—is assessed as average.
+Therefore, the CEO’s overall competency is evaluated as insufficient.`,
+      "Management capability": `Based on a review of the company’s technical personnel management systems and regulations—such as incentive programs, retention and recruitment of key employees, and welfare and training—the company’s technical employees management capability is assessed as average.
+The company has a management team consisting of one intermediate-level engineer, and none of the management members hold any equity in the company.
+Therefore, the company’s overall management capability is evaluated as insufficient.`,
+      "Technology development capability": `The company operates a corporate-affiliated research institute registered with the Korea Industrial Technology Association under the Technology Development Promotion Act. Over the past three years, its average R&D investment ratio is 210%. The company has a total of 11 personnel engaged in R&D (design planning) or production management (process technology, quality control, design execution, etc.), consisting of 1 senior engineer, 2 intermediate engineers, 6 junior engineers, and 2 other technical employees. In addition, over the past three years, the company has achieved three technology development results : Distributed logistics system using “Last Mile Box”, Vision-based cargo classification system and method, Large-scale cargo sorting and management system and method. It has also achieved one technology commercialization result : High-efficiency goods installation system using distributed fulfillment As of the evaluation date, the company holds one valid certification (Venture Business Certification), along with 2 registered patents, 7 patent applications, 5 registered designs, and 6 registered trademarks.
+Therefore, the company’s technology development capability is evaluated as good.`,
+      "commercialization capability": `The company operates with its own facilities, and based on a comprehensive evaluation of its production infrastructure—including production facilities, production employees, ease of procuring raw and subsidiary materials, and quality management level—its overall production capability is assessed as average.
+In terms of investment scale adequacy, the current level of investment required for commercialization is considered highly appropriate, and the feasibility of securing additional investment in the future is judged to be high.
+From the perspective of capital raising capability, the company is capable of securing the funds necessary for commercialization, though the level of funding is not deemed fully sufficient.
+Therefore, the company’s commercialization capability is evaluated as average.`,
+      "Profit outlook": `A review was conducted to determine whether the company’s overall marketing strategy—including market size analysis, competitor analysis, marketing mix, and advertising or promotional strategies—is planned reasonably and based on objective data. As a result, the company’s marketing capability is evaluated as good.
+The company has stable, long-term customers; however, some of these relationships are partially unstable, and the company is currently in the process of establishing additional sales channels.
+In addition, over the past three years, the company’s operating profit has been –181,900.78%, significantly below the industry average, indicating that its revenue-generation capability is weak.
+Therefore, the company’s profit outlook is evaluated as average.`
     },
 
     // ============================
-    // 3) 재무정보
+    // 3) 기술 경쟁력 (점수)
+    // ============================
+    techCompetitiveness: {
+      grade: "B",
+      innovation: {
+        grade: "B+",
+        differentiation: "B+",
+        imitationDifficulty: "B+",
+        completeness: "B",
+        independence: "A",
+        scalability: "C+"
+      },
+      market: {
+        grade: "B",
+        marketSize: "A+",
+        growth: "C",
+        structure: "C+"
+      },
+      productAdvantage: {
+        grade: "C+",
+        awareness: "C+",
+        marketSecuring: "C+",
+        competitiveness: "C+"
+      }
+    },
+
+    // ============================
+    // 4) 기술 경쟁력 (코멘트)
+    // ============================
+    techComments: {
+      "technology innovation": `An assessment of the differentiation of the company’s technology shows that the technology itself is innovative, and its differentiating attributes are comparable to those of existing and competing technologies. The technology is judged to be in the mature stage of its life cycle.
+Furthermore, based on an evaluation of factors such as development cost, development duration, intellectual property registration, ease of reverse engineering, and the technology’s impact on business activities, the technology is determined to be difficult to imitate.
+
+The technology under evaluation is assessed to be in the mass-production stage in terms of technological completeness, and in terms of technological independence, it is judged to make a very high contribution to the production and operation of the technological product.
+Regarding technological scalability, the technology is currently utilized only within its specific industrial field, and its potential for expansion into new fields is considered average.
+Therefore, the technology’s technological innovativeness is evaluated as good.`,
+      "market status": `The target market size related to the company’s evaluated technology is assessed as very large. Based on a comparison of the average sales growth rate of the industry over the past three years with the overall industrial sales growth rate, the historical market growth rate is calculated to be 29.06%, and future market growth is not expected.
+Additionally, a comprehensive evaluation of factors such as market concentration, differentiation, cost structure, early-market characteristics, policies and regulations, and demand characteristics indicates that the market structure and characteristics are assessed as average.
+Therefore, the overall market status is evaluated as good.`,
+      "Product superiority": `Considering factors such as customer demand characteristics, sensitivity to economic fluctuations and price changes, brand recognition, and customer loyalty within the market in which the company’s service operates, the company’s service awareness is evaluated as average.
+An assessment of the company’s ability to secure and maintain market share within the target market—based on the competitiveness of its services—indicates that its market acquisition potential is evaluated as average.
+Furthermore, after evaluating the presence of competing products, as well as relative price competitiveness, quality competitiveness, convenience and design competitiveness, and potential customer willingness to switch, the company’s comparative advantage over competing products is assessed as average.
+Therefore, the product superiority is evaluated as average.`
+    },
+
+    // ============================
+    // 5) 재무정보
     // ============================
     finance: {
       "2022": {
@@ -1691,7 +1696,7 @@ Therefore, the company’s growth potential and profitability are both evaluated
     },
 
     // ============================
-    // 4) 모형 결과 (성장성/미래지수)
+    // 6) 모형 결과 (성장성/미래지수)
     // ============================
     modelResult: {
       totalScore: 99.71,
