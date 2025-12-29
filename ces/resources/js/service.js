@@ -12,67 +12,37 @@ function getBizCapabilityData(language, company) {
 
   if (!korData || !engData) return null;
 
-  const isASET = company === "에이에스이티";
-
   let items = [];
   let order = [];
   let grades = [];
 
   if (language === "kor") {
-    if (isASET) {
-      items = ["기업가 정신과 신뢰", "최고 경영자", "경영진"];
-      order = ["entrepreneurshipTrust", "ceo", "executives"];
-      grades = order.map(key => korData?.evaluation?.companyCapability?.[key]?.grade ?? "");
-    } else {
-      items = ["경영주 역량", "관리 능력", "기술 개발 능력", "제품화 역량", "수익 전망"];
-      order = ["owner", "management", "techDevelopment", "productization", "profit"];
-      grades = order.map(key => korData?.bizCapability?.[key]?.grade ?? "");
-    }
+    items = ["경영주 역량", "관리 능력", "기술 개발 능력", "제품화 역량", "수익 전망"];
+    order = ["owner", "management", "techDevelopment", "productization", "profit"];
+    grades = order.map(key => korData?.bizCapability?.[key]?.grade ?? "");
   } else if (language === "eng") {
-    if (isASET) {
-      items = ["entrepreuneurial spirit and credibility", "CEO / Top management", "Executive team (Managers)"];
-      order = ["entrepreneurshipTrust", "ceo", "executives"];
-      grades = order.map(key => engData?.evaluation?.companyCapability?.[key]?.grade ?? "");
-    } else {
-      items = ["CEO capabiity", "Management capability", "Technology development capability", "commercialization capability", "Profit outlook"];
-      order = ["owner", "management", "techDevelopment", "productization", "profit"];
-      grades = order.map(key => engData?.bizCapability?.[key]?.grade ?? "");
-    }
+    items = ["CEO capabiity", "Management capability", "Technology development capability", "commercialization capability", "Profit outlook"];
+    order = ["owner", "management", "techDevelopment", "productization", "profit"];
+    grades = order.map(key => engData?.bizCapability?.[key]?.grade ?? "");
   }
 
-  // ✅ ASET는 comments / evaluation.companyCapability.grade 를 써야 함
   const comments =
     language === "kor"
-      ? (isASET ? (korData?.comments ?? {}) : (korData?.bizComments ?? {}))
-      : (isASET ? (engData?.comments ?? {}) : (engData?.bizComments ?? {}));
+      ? (korData?.bizComments ?? {}) : (engData?.bizComments ?? {});
 
   const totalGrade =
     language === "kor"
-      ? (isASET ? (korData?.evaluation?.companyCapability?.grade ?? "") : (korData?.bizCapability?.grade ?? ""))
-      : (isASET ? (engData?.evaluation?.companyCapability?.grade ?? "") : (engData?.bizCapability?.grade ?? ""));
+      ? (korData?.bizCapability?.grade ?? "") : (engData?.bizCapability?.grade ?? "");
 
   return { items, grades, comments, totalGrade };
 }
 
-const ASET_COMMENT_MAP = {
-  "기업가 정신과 신뢰": "경영 역량",
-  "최고 경영자": "경영 역량",
-  "경영진": "경영 역량"
-  // (원하면 여기서 더 세분화 가능)
-};
-
 function getBizComment(language, company, itemName) {
   const korData = COMPANY_DATA_KOR?.[company];
   const engData = COMPANY_DATA_ENG?.[company];
-  const isASET = company === "에이에스이티";
 
   const data = language === "kor" ? korData : engData;
   if (!data) return "";
-
-  if (isASET) {
-    const key = ASET_COMMENT_MAP[itemName];
-    return key ? (data.comments?.[key] ?? "") : "";
-  }
 
   // 기존 회사들
   const map = language === "kor" ? data.bizComments : data.bizComments;
@@ -85,39 +55,10 @@ function getBizComment(language, company, itemName) {
 function getTechCompetitivenessData(language, company) {
   const korData = COMPANY_DATA_KOR?.[company];
   const engData = COMPANY_DATA_ENG?.[company];
-  const isASET = company === "에이에스이티";
 
   const data = (language === "kor") ? korData : (language === "eng") ? engData : null;
   if (!data) return null;
 
-  // ✅ ASET 전용: Step2 = 기술성(technology) 하위 5개로 구성
-  if (isASET) {
-    const tech = data.evaluation?.technology;
-    if (!tech) return null;
-
-    const itemsKor = ["개발 실적/수상", "개발 역량", "혁신성", "자립/확장성", "보호수준"];
-    const itemsEng = ["Development & Awards", "Development Capability", "Innovation", "Independence & Expansion", "Protection"];
-    const items = (language === "kor") ? itemsKor : itemsEng;
-
-    // 5개 탭의 grade (각 덩어리의 grade)
-    const grades = [
-      tech.devStatus?.grade,
-      tech.devCapability?.grade,
-      tech.innovation?.grade,
-      tech.independenceExpansion?.grade,
-      tech.protection?.grade
-    ];
-
-    return {
-      totalGrade: tech.grade ?? "",
-      items,
-      grades,
-      // ASET 코멘트는 data.comments에 "기술성"으로 묶여 있으니
-      comments: data.comments ?? {}   // 필요하면 view에서 "기술성" 키로 꺼내 쓰도록
-    };
-  }
-
-  // ✅ 기존 회사들
   const tech = data.techCompetitiveness;
   if (!tech) return null;
 
@@ -169,7 +110,6 @@ function getBizRadarValues(company, language) {
     return [0, 0, 0, 0, 0];
   }
 
-  // 1) 기존 회사들: bizCapability가 있는 경우 (듀셀 등)
   if (data.bizCapability) {
     const biz = data.bizCapability;
     return [
@@ -181,22 +121,6 @@ function getBizRadarValues(company, language) {
     ];
   }
 
-  // 2) 에이에스이티처럼 bizCapability가 없고 evaluation.companyCapability만 있는 경우
-  const cc = data.evaluation && data.evaluation.companyCapability;
-  if (cc) {
-    // [경영주, 관리, 개발, 제품화, 수익] 자리에 최대한 비슷하게 매핑
-    const grades = [
-      cc.entrepreneurshipTrust && cc.entrepreneurshipTrust.grade, // 경영주
-      cc.ceo && cc.ceo.grade,                                     // 관리 (대표이사)
-      cc.executives && cc.executives.grade,                       // 개발/경영진
-      cc.grade,                                                   // 제품화 (전체 기업역량 등급)
-      cc.grade                                                    // 수익 (전체 기업역량 등급 재사용)
-    ];
-
-    return grades.map(g => gradeToScore(g));
-  }
-
-  // 3) 그래도 없으면 안전하게 0으로 채움
   return [0, 0, 0, 0, 0];
 }
 
@@ -209,20 +133,6 @@ function getTechRadarValues(company, language) {
 
   if (!data) return [];
 
-  const isASET = company === "에이에스이티";
-
-  // ✅ ASET: 4축(기업역량/기술성/시장성/사업성) 레이더
-  if (isASET) {
-    const e = data.evaluation || {};
-    return [
-      gradeToScore(e.companyCapability?.grade),
-      gradeToScore(e.technology?.grade),
-      gradeToScore(e.market?.grade),
-      gradeToScore(e.business?.grade)
-    ];
-  }
-
-  // ✅ 기존 회사: 3축(기술혁신성/시장현황/제품우위성)
   const tech = data.techCompetitiveness;
   if (!tech) return [0, 0, 0];
 
@@ -339,256 +249,6 @@ const BIZ_BAR_CONFIG_ENG = [
   }
 ];
 
-// 에이에스이티 전용 기업역량 바차트 설정
-const ASIT_BIZ_BAR_CONFIG_KOR = [
-  {
-    key: "entrepreneurshipTrust",
-    title: "기업가 정신과 신뢰",
-    fields: [
-      { prop: "entrepreneurship", label: "기업가 정신" },
-      { prop: "reliability", label: "신뢰성" }
-    ]
-  },
-  {
-    key: "ceo",
-    title: "최고 경영자",
-    fields: [
-      { prop: "sameIndustryExperience", label: "동업종 경험" },
-      { prop: "techKnowledge", label: "기술 지식" },
-      { prop: "techUnderstanding", label: "기술 이해도" }
-    ]
-  },
-  {
-    key: "executives",
-    title: "경영진",
-    fields: [
-      { prop: "executiveExpertise", label: "경영진 전문성" },
-      { prop: "executiveCapitalParticipation", label: "경영진 자본 참여도" },
-      { prop: "teamworkWithOwner", label: "경영주와의 팀워크" }
-    ]
-  }
-];
-
-const ASIT_BIZ_BAR_CONFIG_ENG = [
-  {
-    key: "entrepreneurshipTrust",
-    title: "entrepreuneurial spirit and credibility",
-    fields: [
-      { prop: "entrepreneurship", label: "entrepreuneurial spirit" },
-      { prop: "reliability", label: "reliability" }
-    ]
-  },
-  {
-    key: "ceo",
-    title: "CEO / Top management",
-    fields: [
-      { prop: "sameIndustryExperience", label: "Experience in the same industry" },
-      { prop: "techKnowledge", label: "Technical knowledge" },
-      { prop: "techUnderstanding", label: "Technical understanding" }
-    ]
-  },
-  {
-    key: "executives",
-    title: "Executive team (Managers)",
-    fields: [
-      { prop: "executiveExpertise", label: "Executive expertise" },
-      { prop: "executiveCapitalParticipation", label: "executive captal participation" },
-      { prop: "teamworkWithOwner", label: "teamwork with the managers/executives" }
-    ]
-  }
-];
-
-// 에이에스이티 전용: 기술성 바차트 구성
-const ASIT_TECH_BAR_CONFIG_KOR = [
-  {
-    key: "devStatus",
-    title: "기술 개발 현황",
-    fields: [
-      { prop: "devAndAwards", label: "기술개발 및 수상실적" },
-      { prop: "ipHolding", label: "지식재산권 등 보유현황" },
-      { prop: "rndInvestment", label: "연구개발 투자" }
-    ]
-  },
-  {
-    key: "devCapability",
-    title: "기술 개발 능력",
-    fields: [
-      { prop: "devOrg", label: "기술개발 전담조직" },
-      { prop: "techStaff", label: "기술인력" },
-      { prop: "techStaffManagement", label: "기술인력 관리" }
-    ]
-  },
-  {
-    key: "innovation",
-    title: "기술 혁신성",
-    fields: [
-      { prop: "itemInnovation", label: "아이템의 혁신성" },
-      { prop: "lifecyclePosition", label: "기술의 수명주기상 위치" }
-    ]
-  },
-  {
-    key: "independenceExpansion",
-    title: "기술자립도 및 확장성",
-    fields: [
-      { prop: "independence", label: "기술의 자립도" },
-      { prop: "rippleEffect", label: "기술적 파급효과" },
-      { prop: "completeness", label: "기술의 완성도" }
-    ]
-  },
-  {
-    key: "protection",
-    title: "기술 보호성",
-    fields: [
-      { prop: "imitationDifficulty", label: "모방의 난이도" },
-      { prop: "protectionLevel", label: "기술보호" }
-    ]
-  }
-];
-
-const ASIT_TECH_BAR_CONFIG_ENG = [
-  {
-    key: "devStatus",
-    title: "status of technology development",
-    fields: [
-      { prop: "devAndAwards", label: "technology development and award acheivments" },
-      { prop: "ipHolding", label: "status of intellectual property rights" },
-      { prop: "rndInvestment", label: "R&D investment" }
-    ]
-  },
-  {
-    key: "devCapability",
-    title: "Technology development capability",
-    fields: [
-      { prop: "devOrg", label: "dedicated R&D organization" },
-      { prop: "techStaff", label: "technical employees" },
-      { prop: "techStaffManagement", label: "technical employees managment" }
-    ]
-  },
-  {
-    key: "innovation",
-    title: "technology innovation",
-    fields: [
-      { prop: "itemInnovation", label: "innovation of the item" },
-      { prop: "lifecyclePosition", label: "position in the technology lifecycle" }
-    ]
-  },
-  {
-    key: "independenceExpansion",
-    title: "technological independence and scalability",
-    fields: [
-      { prop: "independence", label: "degree of technological independence" },
-      { prop: "rippleEffect", label: "technological ripple effect" },
-      { prop: "completeness", label: "technological completness" }
-    ]
-  },
-  {
-    key: "protection",
-    title: "technology pretectability / security",
-    fields: [
-      { prop: "imitationDifficulty", label: "difficulty of imitation" },
-      { prop: "protectionLevel", label: "technlogy protection" }
-    ]
-  }
-];
-
-// 에이에스이티 전용: 시장성 바차트 구성
-const ASIT_MARKET_BAR_CONFIG_KOR = [
-  {
-    key: "marketStatus",
-    title: "시장 현황",
-    fields: [
-      { prop: "marketSize", label: "시장규모" },
-      { prop: "marketGrowth", label: "시장 성장성" }
-    ]
-  },
-  {
-    key: "competition",
-    title: "경쟁상황",
-    fields: [
-      { prop: "competitionStatus", label: "경쟁 상황" },
-      { prop: "regulation", label: "법규제 등 제약/장려요인" },
-      { prop: "entryEase", label: "시장 진입 용이성" }
-    ]
-  },
-  {
-    key: "productCompetitiveness",
-    title: "제품 경쟁력",
-    fields: [
-      { prop: "comparativeAdvantage", label: "경쟁제품과 비교 우위성" }
-    ]
-  }
-];
-
-const ASIT_MARKET_BAR_CONFIG_ENG = [
-  {
-    key: "marketStatus",
-    title: "market status",
-    fields: [
-      { prop: "marketSize", label: "market size" },
-      { prop: "marketGrowth", label: "market growth potential" }
-    ]
-  },
-  {
-    key: "competition",
-    title: "regulations and laws",
-    fields: [
-      { prop: "competitionStatus", label: "regulations and laws" },
-      { prop: "regulation", label: "regulations and laws" },
-      { prop: "entryEase", label: "ease of market entry" }
-    ]
-  },
-  {
-    key: "productCompetitiveness",
-    title: "product competivness",
-    fields: [
-      { prop: "comparativeAdvantage", label: "comparative advantage over competing products" }
-    ]
-  }
-];
-
-// 에이에스이티 전용: 사업성 바차트 구성
-const ASIT_BUSINESS_BAR_CONFIG_KOR = [
-  {
-    key: "capability",
-    title: "사업능력",
-    fields: [
-      { prop: "productionPlan", label: "생산계획의 타당성" },
-      { prop: "salesPlan", label: "판매계획의 타당성" },
-      { prop: "salesSecuring", label: "판매처 확보여부" },
-      { prop: "capitalRaising", label: "자본조달 능력" }
-    ]
-  },
-  {
-    key: "outlook",
-    title: "향후 전망",
-    fields: [
-      { prop: "growthOutlook", label: "성장 전망" },
-      { prop: "profitOutlook", label: "수익 전망" }
-    ]
-  }
-];
-
-const ASIT_BUSINESS_BAR_CONFIG_ENG = [
-  {
-    key: "capability",
-    title: "business capability",
-    fields: [
-      { prop: "productionPlan", label: "feasibility pf production plan" },
-      { prop: "salesPlan", label: "feasibility of sales plan" },
-      { prop: "salesSecuring", label: "availability of secured sales channels/outlets" },
-      { prop: "capitalRaising", label: "capital raising ability" }
-    ]
-  },
-  {
-    key: "outlook",
-    title: "futur outlook",
-    fields: [
-      { prop: "growthOutlook", label: "growth outlook" },
-      { prop: "profitOutlook", label: "profit outlook" }
-    ]
-  }
-];
-
 // 기술경쟁력(3각형) 서브 항목 정의
 const TECH_BAR_CONFIG_KOR = [
   {
@@ -692,39 +352,6 @@ function getBizBarDetail(language, company, index) {
 
   if (!korData || !engData) return null;
 
-  // 에이에스이티: evaluation.companyCapability 세부 항목으로 바차트 구성
-  if (company === "에이에스이티") {
-    const evalData = korData.evaluation && korData.evaluation.companyCapability;
-    if (!evalData) return null;
-
-    let conf;
-    if (language === 'kor') {
-      conf = ASIT_BIZ_BAR_CONFIG_KOR[index];
-    } else if (language === 'eng') {
-      conf = ASIT_BIZ_BAR_CONFIG_ENG[index];
-    }
-    if (!conf) return null;
-
-    const block = evalData[conf.key];   // entrepreneurshipTrust / ceo / executives
-    if (!block) return null;
-
-    const metrics = conf.fields.map(f => {
-      const g = block[f.prop];          // 예: block.entrepreneurship
-      return {
-        label: f.label,                 // 예: "기업가 정신"
-        grade: g,
-        score: gradeToScore(g)
-      };
-    });
-
-    return {
-      title: conf.title,                // "기업가 정신과 신뢰" 같은 블록 이름
-      grade: block.grade,               // 블록 전체 등급 (B, C 등)
-      metrics                           // 세부 항목들
-    };
-  }
-
-  // 기본 구조(듀셀 등) 처리
   let biz;
   if (language === "kor") {
     biz = korData.bizCapability;
@@ -769,39 +396,6 @@ function getTechBarDetail(language, company, index) {
 
   if (!korData || !engData) return null;
 
-  // 에이에스이티: evaluation.technology 기반
-  if (company === "에이에스이티") {
-    const tech = korData.evaluation && korData.evaluation.technology;
-    if (!tech) return null;
-
-    let conf;
-    if (language === 'kor') {
-      conf = ASIT_TECH_BAR_CONFIG_KOR[index];
-    } else if (language === 'eng') {
-      conf = ASIT_TECH_BAR_CONFIG_ENG[index];
-    }
-    if (!conf) return null;
-
-    const block = tech[conf.key];
-    if (!block) return null;
-
-    const metrics = conf.fields.map(f => {
-      const g = block[f.prop];
-      return {
-        label: f.label,
-        score: gradeToScore(g),
-        detail: ""
-      };
-    });
-
-    return {
-      title: conf.title,
-      grade: block.grade,
-      metrics
-    };
-  }
-
-  // 기존 회사들: techCompetitiveness + TECH_BAR_CONFIG 그대로 사용
   const techComp = language === "kor"
     ? korData.techCompetitiveness
     : engData.techCompetitiveness;
@@ -825,74 +419,6 @@ function getTechBarDetail(language, company, index) {
       label: f.label,
       grade: g,
       score: gradeToScore(g)
-    };
-  });
-
-  return {
-    title: conf.title,
-    grade: block.grade,
-    metrics
-  };
-}
-
-function getMarketBarDetail(language, company, index) {
-  const korData = COMPANY_DATA_KOR[company];
-  if (company !== "에이에스이티" || !korData || !korData.evaluation) return null;
-
-  const market = korData.evaluation.market;
-  if (!market) return null;
-
-  let conf;
-  if (language === 'kor') {
-    conf = ASIT_MARKET_BAR_CONFIG_KOR[index];
-  } else if (language === 'eng') {
-    conf = ASIT_MARKET_BAR_CONFIG_ENG[index];
-  }
-  if (!conf) return null;
-
-  const block = market[conf.key];
-  if (!block) return null;
-
-  const metrics = conf.fields.map(f => {
-    const g = block[f.prop];
-    return {
-      label: f.label,
-      score: gradeToScore(g),
-      detail: ""
-    };
-  });
-
-  return {
-    title: conf.title,
-    grade: block.grade,
-    metrics
-  };
-}
-
-function getBusinessBarDetail(language, company, index) {
-  const korData = COMPANY_DATA_KOR[company];
-  if (company !== "에이에스이티" || !korData || !korData.evaluation) return null;
-
-  const biz = korData.evaluation.business;
-  if (!biz) return null;
-
-  let conf;
-  if (language === 'kor') {
-    conf = ASIT_BUSINESS_BAR_CONFIG_KOR[index];
-  } else if (language === 'eng') {
-    conf = ASIT_BUSINESS_BAR_CONFIG_ENG[index];
-  }
-  if (!conf) return null;
-
-  const block = biz[conf.key];
-  if (!block) return null;
-
-  const metrics = conf.fields.map(f => {
-    const g = block[f.prop];
-    return {
-      label: f.label,
-      score: gradeToScore(g),
-      detail: ""
     };
   });
 
