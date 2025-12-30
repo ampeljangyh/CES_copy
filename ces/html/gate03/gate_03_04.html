@@ -2029,7 +2029,24 @@ function renderReportTab(reportNo, tabNo) {
                     gradientStart: "#4091B9",
                     gradientEnd: "#286786"
                 });
-                drawEsgRadarChart('report1-tab1-chart2','e');
+
+                drawEsgRadarChart('report1-tab1-chart2', 'e', getLanguageCode(), {
+                    theme: {
+                        dataset: {
+                            company: {
+                                borderColor: "#286786",
+                                backgroundColor: "rgba(40, 103, 134, 0.3)",
+                                pointBackgroundColor: "#286786"
+                            }
+                        }
+                    },
+                    legend: {
+                        button: {
+                            company:  { bg: "#286786" }
+                        }
+                    }
+                });
+
                 break;
             case 2:
                 distribution = [0, 3, 15.2, 34.8, 30.3, 16.7, 0];
@@ -2040,7 +2057,24 @@ function renderReportTab(reportNo, tabNo) {
                     gradientStart: "#387D82",
                     gradientEnd: "#27575A"
                 });
-                drawEsgRadarChart('report1-tab2-chart2','s');
+                
+                drawEsgRadarChart('report1-tab2-chart2', 's', getLanguageCode(), {
+                    theme: {
+                        dataset: {
+                            company: {
+                                borderColor: "#27575A",
+                                backgroundColor: "rgba(39, 87, 90, 0.3)",
+                                pointBackgroundColor: "#27575A"
+                            }
+                        }
+                    },
+                    legend: {
+                        button: {
+                            company:  { bg: "#27575A" }
+                        }
+                    }
+                });
+
                 break;
             case 3:
                 distribution = [18.2, 19.7, 18.2, 24.2, 13.6, 6.1, 0];
@@ -2051,7 +2085,23 @@ function renderReportTab(reportNo, tabNo) {
                     gradientStart: "#5D69E5",
                     gradientEnd: "#3A42B8"
                 });
-                drawEsgRadarChart('report1-tab3-chart2','g');
+
+                drawEsgRadarChart('report1-tab3-chart2', 'g', getLanguageCode(), {
+                    theme: {
+                        dataset: {
+                            company: {
+                                borderColor: "#3A42B8",
+                                backgroundColor: "rgba(58, 66, 184, 0.3)",
+                                pointBackgroundColor: "#3A42B8"
+                            }
+                        }
+                    },
+                    legend: {
+                        button: {
+                            company:  { bg: "#3A42B8" }
+                        }
+                    }
+                });
                 break;
         }
     }
@@ -2455,7 +2505,7 @@ function updateEsTrendChartLegend(canvasId, lang = getLanguageCode(), updateMode
 // ---------------------------------------------------------------------
 // chart4
 // ---------------------------------------------------------------------
-function drawEsgRadarChart(canvasId, type, lang = getLanguageCode()) {
+function drawEsgRadarChart(canvasId, type, lang = getLanguageCode(), userOptions = {}) {
     const canvas = document.getElementById(canvasId);
     if (!canvas) return;
 
@@ -2477,6 +2527,70 @@ function drawEsgRadarChart(canvasId, type, lang = getLanguageCode()) {
     };
     const T = I18N[lang] || I18N.lang_en;
 
+    // ------------------------------------------------------------
+    // Theme (차트 테마: dataset + scale 스타일)
+    // ------------------------------------------------------------
+    const defaultTheme = {
+        dataset: {
+            company: {
+                borderColor: "#4091B9",
+                borderWidth: 8,
+                backgroundColor: "rgba(64,145,185,0.3)",
+                pointRadius: 12,
+                pointBackgroundColor: "#4091B9",
+                pointBorderColor: "#4091B9",
+                pointBorderWidth: 0
+            },
+            industry: {
+                borderColor: "#EBEBEB",
+                borderWidth: 2,
+                backgroundColor: "rgba(235,235,235,0.3)",
+                pointRadius: 0,
+                pointHoverRadius: 0
+            }
+        },
+        scale: {
+            gridColor: "rgba(255,255,255,0.14)",
+            angleLineColor: "rgba(255,255,255,0.2)",
+            angleLineWidth: 1,
+            labelColor: "#FFFFFF",
+            labelFontSize: 32,
+            labelFontFamily: "Pretendard",
+            labelPadding: 20
+        }
+    };
+
+    const theme = {
+        dataset: {
+            company: { ...defaultTheme.dataset.company, ...(userOptions?.theme?.dataset?.company || {}) },
+            industry: { ...defaultTheme.dataset.industry, ...(userOptions?.theme?.dataset?.industry || {}) }
+        },
+        scale: { ...defaultTheme.scale, ...(userOptions?.theme?.scale || {}) }
+    };
+
+    // ------------------------------------------------------------
+    // Legend Options (범례 버튼: background + text만 커스텀)
+    // ------------------------------------------------------------
+    const legendOpt = {
+        // 기본: 클릭 비활성(토글 금지)
+        enableToggle: Boolean(userOptions?.legend?.enableToggle),
+
+        // 버튼 스타일: background + text(color)만 허용
+        button: {
+            company: {
+                text: userOptions?.legend?.button?.company?.text || "#FFFFFF",
+                bg: userOptions?.legend?.button?.company?.bg || "#0071FE"
+            },
+            industry: {
+                text: userOptions?.legend?.button?.industry?.text || "#FFFFFF",
+                bg: userOptions?.legend?.button?.industry?.bg || "#5B79A6"
+            }
+        }
+    };
+
+    // ------------------------------------------------------------
+    // Data
+    // ------------------------------------------------------------
     const labels = details.map((item) => {
         if (lang === "lang_en") return (item.textEn || "").trim();
         return (item.text || "").trim();
@@ -2493,7 +2607,8 @@ function drawEsgRadarChart(canvasId, type, lang = getLanguageCode()) {
         const v = companyValues[idx];
         if (!isFinite(v) || v <= 0) return 0;
 
-        const diff = Math.random() * 30 + 5;
+        // 동종 평균 0 ~ 30 빼기
+        const diff = Math.random() * 30;
         const val = v - diff;
         return val < 0 ? 0 : parseFloat(val.toFixed(1));
     });
@@ -2507,24 +2622,14 @@ function drawEsgRadarChart(canvasId, type, lang = getLanguageCode()) {
                     esKey: "company",
                     label: T.company,
                     data: companyValues,
-                    borderColor: "#4091B9",
-                    borderWidth: 8,
-                    backgroundColor: "rgba(64,145,185,0.3)",
-                    pointRadius: 12,
-                    pointBackgroundColor: "#4091B9",
-                    pointBorderColor: "#4091B9",
-                    pointBorderWidth: 0,
+                    ...theme.dataset.company,
                     tension: 0
                 },
                 {
                     esKey: "industry",
                     label: T.industry,
                     data: industryValues,
-                    borderColor: "#EBEBEB",
-                    borderWidth: 1,
-                    backgroundColor: "rgba(235,235,235,0.3)",
-                    pointRadius: 0,
-                    pointHoverRadius: 0,
+                    ...theme.dataset.industry,
                     tension: 0
                 }
             ]
@@ -2533,7 +2638,11 @@ function drawEsgRadarChart(canvasId, type, lang = getLanguageCode()) {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-                legend: { display: false },
+                // 기본 범례가 켜지더라도 클릭 토글이 발생하지 않게 차단
+                legend: {
+                    display: false,
+                    onClick: () => {}
+                },
                 tooltip: { enabled: false }
             },
             scales: {
@@ -2541,12 +2650,12 @@ function drawEsgRadarChart(canvasId, type, lang = getLanguageCode()) {
                     min: 0,
                     max: 100,
                     ticks: { display: false },
-                    grid: { color: "rgba(255,255,255,0.14)" },
-                    angleLines: { color: "rgba(255,255,255,0.2)", lineWidth: 1 },
+                    grid: { color: theme.scale.gridColor },
+                    angleLines: { color: theme.scale.angleLineColor, lineWidth: theme.scale.angleLineWidth },
                     pointLabels: {
-                        color: "#FFFFFF",
-                        font: { size: 32, family: "Pretendard" },
-                        padding: 20
+                        color: theme.scale.labelColor,
+                        font: { size: theme.scale.labelFontSize, family: theme.scale.labelFontFamily },
+                        padding: theme.scale.labelPadding
                     }
                 }
             }
@@ -2556,30 +2665,70 @@ function drawEsgRadarChart(canvasId, type, lang = getLanguageCode()) {
     // 언어 업데이트에 재사용할 데이터만 저장(언어 변경용)
     chart.$i18n = { details };
 
+    // ------------------------------------------------------------
+    // Custom legend buttons (.btnCompany / .btnIndustry)
+    // - default: click disabled
+    // - style: background + text only
+    // ------------------------------------------------------------
     const chartRoot = canvas.closest(".chart4");
     if (chartRoot) {
-        const btnCompany = chartRoot.querySelector(".btnCompany");
-        const btnIndustry = chartRoot.querySelector(".btnIndustry");
+        const applyBtnStyle = (btn, style) => {
+            if (!btn) return;
+            btn.style.color = style.text;
+            btn.style.background = style.bg;
+        };
+
+        const makeStatic = (el) => {
+            const clone = el.cloneNode(true);
+            el.parentNode.replaceChild(clone, el);
+
+            clone.classList.add("is-static");
+            clone.setAttribute("aria-disabled", "true");
+            clone.style.pointerEvents = "none"; // 클릭 완전 차단
+            return clone;
+        };
+
+        let btnCompany = chartRoot.querySelector(".btnCompany");
+        let btnIndustry = chartRoot.querySelector(".btnIndustry");
 
         if (btnCompany) {
-            btnCompany.onclick = () => {
-                const isActive = btnCompany.classList.toggle("active");
-                chart.data.datasets[0].hidden = !isActive;
-                chart.update("none");
-            };
+            if (!legendOpt.enableToggle) btnCompany = makeStatic(btnCompany);
+            applyBtnStyle(btnCompany, legendOpt.button.company);
         }
 
         if (btnIndustry) {
-            btnIndustry.onclick = () => {
-                const isActive = btnIndustry.classList.toggle("active");
-                chart.data.datasets[1].hidden = !isActive;
-                chart.update("none");
-            };
+            if (!legendOpt.enableToggle) btnIndustry = makeStatic(btnIndustry);
+            applyBtnStyle(btnIndustry, legendOpt.button.industry);
         }
 
+        // 기본: 둘 다 항상 표시
         chart.data.datasets[0].hidden = false;
         chart.data.datasets[1].hidden = false;
         chart.update("none");
+
+        // enableToggle=true일 때만 토글 동작 부여(선택)
+        if (legendOpt.enableToggle) {
+            if (btnCompany) {
+                btnCompany.classList.add("active");
+                btnCompany.onclick = () => {
+                    const isActive = btnCompany.classList.toggle("active");
+                    chart.data.datasets[0].hidden = !isActive;
+                    chart.update("none");
+                };
+            }
+
+            if (btnIndustry) {
+                btnIndustry.classList.add("active");
+                btnIndustry.onclick = () => {
+                    const isActive = btnIndustry.classList.toggle("active");
+                    chart.data.datasets[1].hidden = !isActive;
+                    chart.update("none");
+                };
+            }
+        } else {
+            if (btnCompany) btnCompany.classList.add("active");
+            if (btnIndustry) btnIndustry.classList.add("active");
+        }
     }
 
     // 언어 변경 이벤트 바인딩(중복 방지: namespace off/on)
