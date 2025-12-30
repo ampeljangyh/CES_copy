@@ -2042,7 +2042,7 @@ body.kcon-pop-lock{position:fixed;width:100%;overflow:hidden;}
 .new_gate_01.step_01 {position: absolute;top: 0;left: 0;width: 100%;height: 100%;}
 .new_gate_01.step_01 .inner{position: relative;}
 .new_gate_01.step_01 .main_video > video{mix-blend-mode: screen;width: 100%;height: 100%;object-fit: cover;}
-.new_gate_01.step_01 .tit{position:absolute;top:0;left:50%;transform:translateX(-50%);text-align:center;padding:5.1302vw 0 0;box-sizing:border-box;}
+.new_gate_01.step_01 .tit{position:absolute;top:0;left:50%;transform:translateX(-50%);text-align:center;padding:6.1302vw 0 0;box-sizing:border-box;width: 100%;}
 .new_gate_01.step_01 .tit>strong{color:#FFF;font-size:1.6667vw;font-weight:700;letter-spacing:-0.0333vw;}
 .new_gate_01.step_01 .tit>p{color:#FFF;font-size:1.2500vw;font-weight:300;letter-spacing:-0.0250vw;margin-top:0.6510vw;}
 .new_gate_01.step_01 .gate_01_card_list{text-align:center;width:100%;}
