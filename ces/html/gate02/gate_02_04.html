@@ -123,8 +123,8 @@
                             <li>
                                 <div class="step_con_item">
                                     <span class="step_num"><span>03</span></span>
-                                    <span class="step_tit kr_t">조정 계수 반영</span>
-                                    <span class="step_tit en_t">Adjustment<br>Factor Applied</span>
+                                    <span class="step_tit kr_t">IBK가중치 반영</span>
+                                    <span class="step_tit en_t">Application of<br>IBK Weights</span>
                                 </div>
                             </li>
                         </ul>
@@ -554,7 +554,7 @@
                                             <div class="cursor_text p01"><span class="kr_t"></span><span class="en_t"></span></div>
                                             <div class="cursor_text p02"><span class="kr_t"></span><span class="en_t"></span></div>
                                             <div class="cursor_text p03"><span class="kr_t"></span><span class="en_t"></span></div>
-                                            <div class="cursor_text p04"><span class="kr_t">매우 적합</span><span class="en_t">Very<br>Eligible</span></div>
+                                            <div class="cursor_text p04"><span class="kr_t">기준 충족</span><span class="en_t">Requirement Met</span></div>
                                         </div>
                                     </div>
                                 </div>
@@ -903,7 +903,7 @@
                     <div class="info kr_t">
                         <strong class="tit">투자 여부</strong>
                         <div class="result">
-                            <span>충족</span>
+                            <span>기준 충족</span>
                         </div>
                         <div class="sub">
                             <span>해당 영화는 IBK의 투자 기준을 충족하였습니다.</span>
@@ -915,7 +915,7 @@
                     <div class="info en_t">
                         <strong class="tit">Investment Decision</strong>
                         <div class="result">
-                            <span>Eligible</span>
+                            <span>Requirement Met</span>
                         </div>
                         <div class="sub">
                             <span>This film meets IBK’s investment requirements</span>
@@ -1018,7 +1018,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
 
-      var multiplier = (num + 1) / 100; // (수익률 + 1) / 100 배
+      var multiplier = (num) / 100; // (수익률 + 1) / 100 배
       var result = principal * multiplier;
 
       var target05 = data05Els[idx];
@@ -2640,7 +2640,7 @@ setTimeout(function () {
       // 2) gauge 가 모두 찬 뒤 → 해당 step 레이더 점/선 애니 시작
       if (isLastStep) {
         animateRadarForStep(stepIndex, true, function () {
-          var FINAL_CURSOR      = 99;
+          var FINAL_CURSOR      = 96;
           var HOLD_AFTER_LAST   = 2000;
 
           setTimeout(function () {
