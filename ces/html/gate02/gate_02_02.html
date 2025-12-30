@@ -123,8 +123,8 @@
                             <li>
                                 <div class="step_con_item">
                                     <span class="step_num"><span>03</span></span>
-                                    <span class="step_tit kr_t">조정 계수 반영</span>
-                                    <span class="step_tit en_t">Adjustment<br>Factor Applied</span>
+                                    <span class="step_tit kr_t">IBK가중치 반영</span>
+                                    <span class="step_tit en_t">Application of<br>IBK Weights</span>
                                 </div>
                             </li>
                         </ul>
@@ -942,7 +942,7 @@
                             <span>This film meets IBK’s investment requirements</span>
                         </div>
                         <div class="q">
-                            <span>View final investment returns?</span>
+                            <span>View the final investment decision?</span>
                         </div>
                     </div>
                     <div class="btn">
@@ -1039,7 +1039,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
 
-      var multiplier = (num + 1) / 100; // (수익률 + 1) / 100 배
+      var multiplier = (num) / 100; // (수익률 + 1) / 100 배
       var result = principal * multiplier;
 
       var target05 = data05Els[idx];
