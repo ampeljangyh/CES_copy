@@ -1755,7 +1755,7 @@ Therefore, the product superiority is evaluated as average.`
         { key: "Talent Acquisition", label: "Salary in Year 3", detail: "$3.19K", score: 100 },
 
         { key: "Proactive Sales", label: "Number of Hubble Data Records Prior to the Establishment Date", detail: "0", score: 10 },
-        { key: "Proactive Sales", label: "Sales made in year 2", detail: "$0M", score: 10 },
+        { key: "Proactive Sales", label: "Sales Made in Year 2", detail: "$0M", score: 10 },
         { key: "Proactive Sales", label: "-", detail: "", score: 0 },
         { key: "Proactive Sales", label: "-", detail: "", score: 0 },
         { key: "Proactive Sales", label: "-", detail: "", score: 0 }
