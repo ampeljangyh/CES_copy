@@ -55,11 +55,11 @@ document.addEventListener("DOMContentLoaded", () => {
       biz = engData.bizCapability;
       return {
         items: [
-          "CEO capabiity",
-          "Management capability",
-          "Technology development capability",
-          "commercialization capability",
-          "Profit outlook"
+          "CEO Capabiity",
+          "Management Capability",
+          "Technology Development Capability",
+          "Commercialization Capability",
+          "Profit Outlook"
         ],
         grades: [
           biz.owner.grade,

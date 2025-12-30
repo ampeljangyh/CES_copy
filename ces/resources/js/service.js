@@ -21,7 +21,7 @@ function getBizCapabilityData(language, company) {
     order = ["owner", "management", "techDevelopment", "productization", "profit"];
     grades = order.map(key => korData?.bizCapability?.[key]?.grade ?? "");
   } else if (language === "eng") {
-    items = ["CEO capabiity", "Management capability", "Technology development capability", "commercialization capability", "Profit outlook"];
+    items = ["CEO Capabiity", "Management Capability", "Technology Development Capability", "Commercialization Capability", "Profit Outlook"];
     order = ["owner", "management", "techDevelopment", "productization", "profit"];
     grades = order.map(key => engData?.bizCapability?.[key]?.grade ?? "");
   }
@@ -66,7 +66,7 @@ function getTechCompetitivenessData(language, company) {
     totalGrade: tech.grade,
     items: (language === "kor")
       ? ["기술 혁신성", "시장 현황", "제품 우위성"]
-      : ["technology innovation", "market status", "Product superiority"],
+      : ["Technology Innovation", "Market Status", "Product Superiority"],
     grades: [
       tech.innovation?.grade,
       tech.market?.grade,

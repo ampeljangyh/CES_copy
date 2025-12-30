@@ -294,9 +294,10 @@ body {font-family: 'Pretendard', "TWKEverett", "Apple SD Gothic Neo", "Malgun Go
 .gate_txt .desc > p {font-size:1.250vw;font-weight:500;margin-top: 0.7vw;}
 
 /* desc_sub: 기본은 아래 + 투명 (공간 유지) */
-.gate_txt .desc_sub {color:#FFF;text-align:center;line-height:normal;margin-top:5vw;opacity:0;transform:translateY(1.042vw);transition:opacity 0.4s ease,transform 0.4s ease;}
+.gate_txt .desc_sub {color:#FFF;text-align:center;line-height:normal;margin-top:2.3438vw;opacity:0;transform:translateY(1.042vw);transition:opacity 0.4s ease,transform 0.4s ease;}
 .gate_txt .desc_sub > p {font-size:1.354vw;font-weight:500;letter-spacing:-0.041vw;}
 .gate_txt .desc_sub > p > span {font-size:1.250vw;font-weight:400;letter-spacing:-0.037vw;display:block;margin-top:0.417vw;}
+#lang_en .gate_txt .desc_sub > p > span {margin-top:0.3906vw;}
 .btn_gate_in {display:inline-block;margin-top:1.484vw;padding:0.807vw 2.161vw;box-shadow:0 0 0.521vw 0.117vw rgba(217,229,254,0.10),0 0 1.380vw 0 rgba(217,229,254,0.10),0 0 1.432vw 0 rgba(217,229,254,0.10),0 0 0.625vw 0 rgba(217,229,254,0.10),0 0 0.339vw 0 rgba(217,229,254,0.10),0 0 1.198vw 0 rgba(217,229,254,0.10);color:#FFF;border-radius:2.604vw;font-size:1.250vw;font-style:normal;letter-spacing:-0.0007vw;text-align:center;font-weight:500;line-height:normal;text-transform:uppercase;border:0.130vw solid transparent;background-image:linear-gradient(#182133,#182133),linear-gradient(90deg,#D9E5FE,#2f86ff);background-origin:border-box;background-clip:padding-box,border-box;}
 .gate_ico {width: 14.17vw;height: 2.71vw;margin:0.4vw auto 0;}
 .gate_ico > img {width:100%;}
@@ -305,7 +306,7 @@ body {font-family: 'Pretendard', "TWKEverett", "Apple SD Gothic Neo", "Malgun Go
 .gate_wrap .gate_inner > ul > li > div.on .gate_txt {top:5.7083vw;}
 .gate_wrap .gate_inner > ul > li > div.on .gate_txt .desc_sub {opacity:1;transform:translateY(0);}
 .gate_wrap .gate_inner > ul > li > div.on {background:linear-gradient(180deg,rgba(0,0,0,0) 0%,#284486 100%);z-index:1;}
-.gate_wrap .gate_inner > ul > li:nth-child(1) .gate_txt .desc_sub {margin-top: 4vw;}
+.gate_wrap .gate_inner > ul > li:nth-child(1) .gate_txt .desc_sub {margin-top: 2.3438vw;}
 .gate_wrap .gate_wrap .gate_inner > ul > li:nth-child(1) > div.on .gate_txt {top: 12.3438vw;}
 .gate_wrap .gate_inner > ul > li:nth-child(1) > div.on .gate_txt {top: 4.7083vw;}
 .gate_wrap .gate_inner > ul > li:nth-child(3) > div.on .gate_txt {top: 6.7083vw;}
@@ -1701,11 +1702,8 @@ body.kcon-pop-lock{position:fixed;width:100%;overflow:hidden;}
 
 /* 영문용 */
 #lang_en .gate_txt .desc {line-height: 0.75;}
-#lang_en .gate_txt .desc > strong {font-size: 2.125vw; line-height: 2vw;}
-#lang_en .gate_txt .desc > p {margin-top: 1.5vw;line-height: 1.4;font-size: 1.1vw;}
-#lang_en .gate_txt .desc_sub {margin-top: 3vw;}
-#lang_en .gate_txt .desc_sub > p {font-size: 1.2vw;line-height: 1.2;}
-#lang_en .gate_txt .desc_sub > p > span {margin-top: 1vw;font-size: 1.1vw;}
+#lang_en .gate_txt .desc > strong {font-size: 2.5vw;}
+#lang_en .gate_txt .desc > p {line-height: 1.4;}
 #lang_en .gate_wrap .gate_inner > ul > li:nth-child(1) > div.on .gate_txt {top: 4.7083vw;}
 #lang_en .gate_wrap .gate_inner > ul > li:nth-child(3) > div.on .gate_txt {top: 5.7083vw;}
 #lang_en #container.started .sub_tit > p {line-height: 2.2vw;}
