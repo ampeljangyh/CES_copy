@@ -276,12 +276,11 @@
                                         <div class="cop_logo">
                                             <img src="../../resources/images/search_result_07.jpg">
                                         </div>
-                                        <div class="grp_tg_bar">
-                                            <div class="grd_bar"></div>
-                                            <div class="point">
-                                                <span class="dotd"></span>
-                                                <span class="line"></span>
-                                            </div>
+                                    </div>
+                                    <div class="grp_tg_bar">
+                                        <div class="point">
+                                            <span class="dotd"></span>
+                                            <span class="line"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -296,7 +295,7 @@
                                             <img src="../../resources/images/dollar_3d.png" />
                                         </div>
                                         <div class="item_tit">
-                                            <span>산업부 기술신기업대출</span>
+                                            <span>산업부 기술혁신 기업대출</span>
                                         </div>
                                         <div class="com_icon">
                                             <span>지원 <br>완료 시</span>
@@ -344,12 +343,11 @@
                                         <div class="cop_logo">
                                             <img src="../../resources/images/search_result_07.jpg">
                                         </div>
-                                        <div class="grp_tg_bar">
-                                            <div class="grd_bar"></div>
-                                            <div class="point">
-                                                <span class="dotd"></span>
-                                                <span class="line"></span>
-                                            </div>
+                                    </div>
+                                    <div class="grp_tg_bar">
+                                        <div class="point">
+                                            <span class="dotd"></span>
+                                            <span class="line"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -364,7 +362,7 @@
                                             <img src="../../resources/images/dollar_3d.png" />
                                         </div>
                                         <div class="item_tit">
-                                            <span>Industrial Technology<br>Startup Loan </span>
+                                            <span>MOTIE Technology Innovation <br>Business Loan</span>
                                         </div>
                                         <div class="com_icon">
                                             <span>If Support Completed</span>
@@ -1933,12 +1931,12 @@
               <video class="cir" src="../../resources/images/new_pop.mp4" autoplay muted loop playsinline></video>
             </div>
             <div class="tit">
-              <strong>산업부 기술 신기업대출</strong>
+              <strong>산업부 기술혁신 기업대출</strong>
             </div>
             <div class="add_pop_cont_list">
               <div class="item ty_01">
                 <p>
-                  산업기술 R&D과제 수행 성공기업 및 우수기술 보유 기업 등에게 개발기술의 사업화자금을 지원하는 대출상품
+                  산업기술 R&D과제 수행 성공기업 및 우수기술 보유 기업 등에 <br>개발기술의 사업화자금을 지원하는 대출상품
                 </p>
               </div>
               <div class="item ty_02">
@@ -1946,7 +1944,7 @@
                   <span>가입조건</span>
                 </div> 
                 <div class="list_box">
-                    <p>산업부에서 추천한 R&D 과제 성공·수행중인 중소·중견기업으로 기술등급(TCB) T5 이상에 해당하는 기업 또는 '기술혁신전문대출 R&D사업화 보증지원 업무협약'에 의한 보증을 받은 기업</p>
+                    <p>산업부에서 추천한 R&D 과제 성공·수행중인 중소·중견기업으로 <br>기술등급(TCB) T5 이상에 해당하는 기업 또는 '기술혁신전문대출 R&D사업화 보증지원 업무협약'에 의한 보증을 받은 기업</p>
                 </div>
               </div>
               <div class="item ty_02">
@@ -1973,7 +1971,7 @@
               <video class="cir" src="../../resources/images/new_pop.mp4" autoplay muted loop playsinline></video>
             </div>
             <div class="tit">
-              <strong>Industrial Technology<br>Startup Loan </strong>
+              <strong>MOTIE Technology Innovation <br>Business Loan</strong>
             </div>
             <div class="add_pop_cont_list">
               <div class="item ty_01">
@@ -2149,7 +2147,12 @@
 <style>
   .contents_detail .cop_cont_grp_wrap .cop_cont_grp_detail {
     left: 11% !important;
-    bottom: 8.3vw !important;
+    bottom: 9.8vw !important;
+  }
+    .contents_detail .cop_cont_grp_wrap .grp_tg_bar {
+    position: absolute;
+    bottom: 7.9vw;
+    left: 7.6vw;
   }
 </style>
 
@@ -2351,10 +2354,10 @@ const dataOptimal = [1496, 5175, 9052, 10341, 12922, 13374, 15000, 16000];
 const dataIndustry = [667, 1684, 2326, 2834, 3288, 3689, 4000, 4400];
 
 // ✅ 현재(blue, 1~2년차까지만)
-const dataCurrent = [800, 1800, null, null, null, null, null, null];
+const dataCurrent = [1000, 3000, null, null, null, null, null, null];
 
 // ✅ 성장 예측(red, 버튼 클릭 시 2~3년차만: 2년차(1800) → 3년차(6500))
-const dataForecastFull = [null, 1800, 6500, null, null, null, null, null];
+const dataForecastFull = [null, 3000, 7200, null, null, null, null, null];
 
 // 차트 인스턴스
 window.growthChartKrInstance = null;
@@ -2720,7 +2723,7 @@ function createGrowthChart(canvasId, lang) {
           const h = fontSizeLegend + padY * 2;
 
           const cx = (chartArea.left + chartArea.right) / 2;
-          const x = cx - totalW / 2;
+          const x = cx - totalW / 2 + vwToPx(1.8229);
 
           const marginTop = designPxToRealPx(16);
           const marginBottom = designPxToRealPx(10);

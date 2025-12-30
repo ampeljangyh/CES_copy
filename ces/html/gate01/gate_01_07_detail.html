@@ -243,7 +243,7 @@
 
                     <div class="grade_box kr_t">
                       <strong>AI 진단 결과</strong>
-                        <p>뤼튼테크놀로지스는 데이터, 네트워크, AI산업에서 기술 준비도와 외형 지표 가시화를 바탕으로 혁신성과 성장 잠재력을 입증 중이며, 특히 당기순이익률, ROE, ROA 등 지표에서 산업 내 최고 수준의 성과를 기록하며 투자 관점에서 강점을 보이고 있습니다. 기술 기반 혁신성과 재무적 성장세가 긍정적이나 수익성 개선을 통해 지속 가능한 성장 동력을 강화할 필요가 있습니다.</p>
+                        <p>뤼튼테크놀로지스는 데이터, 네트워크, AI산업에서 기술 준비도와 외형 지표 가시화를 바탕으로 혁신성과 성장 잠재력을 입증 중이며, 특히 당기순이익률, ROE, ROA 등 지표에서 산업 내 최고 수준의 성과를 <br>기록하며 투자 관점에서 강점을 보이고 있습니다. 기술 기반 혁신성과 재무적 성장세가 긍정적이나 수익성 개선을 통해 지속 가능한 성장 동력을 강화할 필요가 있습니다.</p>
                     </div>
                     <div class="grade_box en_t">
                       <strong>AI Assessment Results</strong>
@@ -276,12 +276,11 @@
                                         <div class="cop_logo">
                                             <img src="../../resources/images/search_result_11.jpg">
                                         </div>
-                                        <div class="grp_tg_bar">
-                                            <div class="grd_bar"></div>
-                                            <div class="point">
-                                                <span class="dotd"></span>
-                                                <span class="line"></span>
-                                            </div>
+                                    </div>
+                                    <div class="grp_tg_bar">
+                                        <div class="point">
+                                            <span class="dotd"></span>
+                                            <span class="line"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -344,12 +343,11 @@
                                         <div class="cop_logo">
                                             <img src="../../resources/images/search_result_11.jpg">
                                         </div>
-                                        <div class="grp_tg_bar">
-                                            <div class="grd_bar"></div>
-                                            <div class="point">
-                                                <span class="dotd"></span>
-                                                <span class="line"></span>
-                                            </div>
+                                    </div>
+                                    <div class="grp_tg_bar">
+                                        <div class="point">
+                                            <span class="dotd"></span>
+                                            <span class="line"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -1996,7 +1994,7 @@
               <video class="cir" src="../../resources/images/new_pop.mp4" autoplay muted loop playsinline></video>
             </div>
             <div class="tit">
-              <strong>기술 금융 특별 프로그램</strong>
+              <strong>기술금융 특별 프로그램</strong>
             </div>
             <div class="add_pop_cont_list">
               <div class="item ty_01">
@@ -2022,7 +2020,7 @@
                     <li>
                       <span>대출 건별 신용금액 1억원 이상 또는 전액 신용대출</span>
                       <p>
-                        * 법적설립일로부터 7년이내 기업, 세부내용은 기술금융 경영실적 평가기준과 동일<br>
+                        * 법적설립일로부터 7년이내 기업<br>
                         ** 창업기업 외 기업
                       </p>
                     </li>
@@ -2078,7 +2076,7 @@
                       <span>Companies classified as Normal or Watch under the Early Warning System</span>
                       <p>
                         Notes<br>
-                        * Start-up companies: Firms established within the last 7 years; detailed criteria follow the Technology Finance Performance Evaluation Standards.<br>
+                        * Start-up companies: Firms established within the last 7 years<br>
                         ** General companies: Firms other than start-ups.
                       </p>
                     </li>
@@ -2126,7 +2124,7 @@
             <div class="add_pop_cont_list">
               <div class="item ty_01">
                 <p>
-                  추가 투자자금 유치와 기술 역량 확장을 통해 산업 내 경쟁력을 공고히 할 수 있을 것으로 기대
+                  추가 투자자금 유치와 기술 역량 확장을 통해 <br>산업 내 경쟁력을 공고히 할 수 있을 것으로 기대
                 </p>
               </div>
             </div>
@@ -2159,6 +2157,11 @@
 <style>
   .contents_detail .cop_cont_grp_wrap .cop_cont_grp_detail {
     left: 34% !important;bottom: 9.3vw !important;
+  }
+  .contents_detail .cop_cont_grp_wrap .grp_tg_bar {
+    position: absolute;
+    bottom: 7.7vw;
+    left: 19.6vw;
   }
 </style>
 
@@ -2747,7 +2750,7 @@ function createGrowthChart(canvasId, lang) {
           const h = fontSizeLegend + padY * 2;
 
           const cx = (chartArea.left + chartArea.right) / 2;
-          const x = cx - totalW / 2;
+          const x = cx - totalW / 2 + vwToPx(1.8229);
 
           const marginTop = designPxToRealPx(16);
           const marginBottom = designPxToRealPx(10);

@@ -275,12 +275,11 @@
                                         <div class="cop_logo">
                                             <img src="../../resources/images/search_result_03.jpg">
                                         </div>
-                                        <div class="grp_tg_bar">
-                                            <div class="grd_bar"></div>
-                                            <div class="point">
-                                                <span class="dotd"></span>
-                                                <span class="line"></span>
-                                            </div>
+                                    </div>
+                                    <div class="grp_tg_bar">
+                                        <div class="point">
+                                            <span class="dotd"></span>
+                                            <span class="line"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -343,12 +342,11 @@
                                         <div class="cop_logo">
                                             <img src="../../resources/images/search_result_03.jpg">
                                         </div>
-                                        <div class="grp_tg_bar">
-                                            <div class="grd_bar"></div>
-                                            <div class="point">
-                                                <span class="dotd"></span>
-                                                <span class="line"></span>
-                                            </div>
+                                    </div>
+                                    <div class="grp_tg_bar">
+                                        <div class="point">
+                                            <span class="dotd"></span>
+                                            <span class="line"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -1909,7 +1907,7 @@
               <video class="cir" src="../../resources/images/new_pop.mp4" autoplay muted loop playsinline></video>
             </div>
             <div class="tit">
-              <strong>기술 금융 특별 프로그램</strong>
+              <strong>기술금융 특별 프로그램</strong>
             </div>
             <div class="add_pop_cont_list">
               <div class="item ty_01">
@@ -1935,7 +1933,7 @@
                     <li>
                       <span>대출 건별 신용금액 1억원 이상 또는 전액 신용대출</span>
                       <p>
-                        * 법적설립일로부터 7년이내 기업, 세부내용은 기술금융 경영실적 평가기준과 동일<br>
+                        * 법적설립일로부터 7년이내 기업<br>
                         ** 창업기업 외 기업
                       </p>
                     </li>
@@ -1991,7 +1989,7 @@
                       <span>Companies classified as Normal or Watch under the Early Warning System</span>
                       <p>
                         Notes<br>
-                        * Start-up companies: Firms established within the last 7 years; detailed criteria follow the Technology Finance Performance Evaluation Standards.<br>
+                        * Start-up companies: Firms established within the last 7 years<br>
                         ** General companies: Firms other than start-ups.
                       </p>
                     </li>
@@ -2072,7 +2070,12 @@
 <style>
   .contents_detail .cop_cont_grp_wrap .cop_cont_grp_detail {
     left: 33% !important;
-    bottom: 16.7vw !important;
+    bottom: 11.5vw !important;
+  }
+    .contents_detail .cop_cont_grp_wrap .grp_tg_bar {
+    position: absolute;
+    bottom: 9.4vw;
+    left: 19.6vw;
   }
 </style>
 
@@ -2275,10 +2278,10 @@ const dataOptimal = [1839, 2999, 4541, 5445, 7413, 9319, 13000, 18000];
 const dataIndustry = [556, 1323, 1773, 2207, 2596, 2974, 3500, 3900];
 
 // ✅ 현재(blue, 1~4년차까지만)
-const dataCurrent = [1000, 1767, 2135, 10759, null, null, null, null];
+const dataCurrent = [1000, 1767, 2135, 5000, null, null, null, null];
 
 // ✅ 성장 예측(red, 버튼 클릭 시 4→5년차만: 4년차(10759) → 5년차(18000))
-const dataForecastFull = [null, null, null, 10759, 18000, null, null, null];
+const dataForecastFull = [null, null, null, 5000, 7000, null, null, null];
 
 // 차트 인스턴스
 window.growthChartKrInstance = null;
@@ -2658,7 +2661,7 @@ function createGrowthChart(canvasId, lang) {
           const h = fontSizeLegend + padY * 2;
 
           const cx = (chartArea.left + chartArea.right) / 2;
-          const x = cx - totalW / 2;
+          const x = cx - totalW / 2 + vwToPx(1.8229);
 
           const marginTop = designPxToRealPx(16);
           const marginBottom = designPxToRealPx(10);

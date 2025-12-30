@@ -275,12 +275,11 @@
                                         <div class="cop_logo">
                                             <img src="../../resources/images/search_result_06.jpg">
                                         </div>
-                                        <div class="grp_tg_bar">
-                                            <div class="grd_bar"></div>
-                                            <div class="point">
-                                                <span class="dotd"></span>
-                                                <span class="line"></span>
-                                            </div>
+                                    </div>
+                                    <div class="grp_tg_bar">
+                                        <div class="point">
+                                            <span class="dotd"></span>
+                                            <span class="line"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -343,12 +342,11 @@
                                         <div class="cop_logo">
                                             <img src="../../resources/images/search_result_06.jpg">
                                         </div>
-                                        <div class="grp_tg_bar">
-                                            <div class="grd_bar"></div>
-                                            <div class="point">
-                                                <span class="dotd"></span>
-                                                <span class="line"></span>
-                                            </div>
+                                    </div>
+                                    <div class="grp_tg_bar">
+                                        <div class="point">
+                                            <span class="dotd"></span>
+                                            <span class="line"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -523,7 +521,7 @@
                                     <span>대표상품</span>
                                 </div>
                                 <div class="desc">
-                                    <p>AI활용 스마트 건설 공정관리 솔루션</p>
+                                    <p>AI활용 스마트 건설 공정관리<br> 솔루션</p>
                                 </div>
                             </div>
                         </div>
@@ -1854,7 +1852,7 @@
             <div class="add_pop_cont_list">
               <div class="item ty_01">
                 <p>
-                  사업전망이 양호하고 기술력이 우수한 미래성장동력 창업기업의 기술개발과 사업성장에 필요한 자금을 지원하는 대출상품
+                  사업전망이 양호하고 기술력이 우수한 미래성장동력 창업기업 기술개발과 사업성장에 필요한 자금을 지원하는 대출상품
                 </p>
               </div>
               <div class="item ty_02">
@@ -1862,7 +1860,7 @@
                   <span>가입조건</span>
                 </div> 
                 <div class="list_box">
-                    <p>창업일로부터 7년이 경과하지 않은 중소기업으로 하며 아래와 같이 구분하여 지원</p>
+                    <p>창업일로부터 7년이 경과하지 않은 중소기업으로 하며 <br>아래와 같이 구분하여 지원</p>
                   <ul>
                     <li>
                       <span>신용보증서 발급기업 : 신용보증기금, 기술보증기금, 지역신용보증재단으로부터 85% 이상 보증서를 발급받은 기업</span>
@@ -1871,13 +1869,13 @@
                       <span>초기 창업기업 : 창업일로부터 3년이 경과하지 않은 기업</span>
                     </li>
                     <li>
-                      <span>창조경제혁신센터 추천기업 : 창조경제혁신센터장의 추천을 받은 기업</span>
+                      <span>창조경제혁신센터 추천기업 : 창조경제혁신센터장 추천을 받은 기업</span>
                     </li>
                     <li>
-                      <span>우수기술 보유기업 : 당행 신용등급 BBB 이상이면서 당행 또는 기술신용평가기관 기술등급 T4 이상인 기업</span>
+                      <span>우수기술 보유기업 : 당행 신용등급 BBB 이상이면서 당행 또는 <br>기술신용평가기관 기술등급 T4 이상인 기업</span>
                     </li>
                     <li>
-                      <span>북한이탈주민 창업·고용기업 : ․북한이탈주민이 창업하였거나, 정규직원의 50% 이상이 북한이탈주민인 기업</span>
+                      <span>북한이탈주민 창업·고용기업 : ․북한이탈주민이 창업하였거나, <br>정규직원의 50% 이상이 북한이탈주민인 기업</span>
                     </li>
                   </ul>
                 </div>
@@ -2056,7 +2054,12 @@
 
 <style>
   .contents_detail .cop_cont_grp_wrap .cop_cont_grp_detail {
-    left: 34% !important;bottom: 8.7vw !important;
+    left: 34% !important;bottom: 9.4vw !important;
+  }
+    .contents_detail .cop_cont_grp_wrap .grp_tg_bar {
+    position: absolute;
+    bottom: 7.7vw;
+    left: 19.6vw;
   }
 </style>
 
@@ -2257,10 +2260,10 @@ const dataOptimal = [1839, 2999, 4541, 5445, 7413, 9319, 13000, 18000];
 const dataIndustry = [556, 1323, 1773, 2207, 2596, 2974, 3500, 3900];
 
 // ✅ 현재(blue, 1~4년차까지만)
-const dataCurrent = [1000, 1767, 2217, 2651, null, null, null, null];
+const dataCurrent = [1000, 1767, 2217, 3074, null, null, null, null];
 
 // ✅ 성장 예측(red, 버튼 클릭 시 4~5년차만: 4년차(2651) → 5년차(6000))
-const dataForecastFull = [null, null, null, 2651, 6000, null, null, null];
+const dataForecastFull = [null, null, null, 3074, 6000, null, null, null];
 
 // 차트 인스턴스
 window.growthChartKrInstance = null;
@@ -2626,7 +2629,7 @@ function createGrowthChart(canvasId, lang) {
           const h = fontSizeLegend + padY * 2;
 
           const cx = (chartArea.left + chartArea.right) / 2;
-          const x = cx - totalW / 2;
+          const x = cx - totalW / 2 + vwToPx(1.8229);
 
           const marginTop = designPxToRealPx(16);
           const marginBottom = designPxToRealPx(10);

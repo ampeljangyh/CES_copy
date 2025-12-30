@@ -1384,7 +1384,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var canvasId = opts.canvasId;
     var labels = (opts.labels || []).slice();
     var data = (opts.data || []).slice();
-    var fontPx = opts.labelFontPx || 24;
+    var fontPx = opts.labelFontPx || 32;
 
     var canvas = document.getElementById(canvasId);
     if (!canvas) return null;
@@ -1587,7 +1587,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var canvasId = opts.canvasId;
     var labels = (opts.labels || []).slice();
     var data = (opts.data || []).slice();
-    var fontPx = opts.labelFontPx || 24;
+    var fontPx = opts.labelFontPx || 32;
 
     var canvas = document.getElementById(canvasId);
     if (!canvas) return null;
@@ -1737,7 +1737,7 @@ document.addEventListener('DOMContentLoaded', function () {
     canvasId: 'techRadar01',
     labels: ['기술 개발 현황','기술 개발 능력','기술 혁신성','기술자립도 및 확장성','기술 보호성'],
     data: [30, 90, 30, 50, 70],
-    labelFontPx: 24,
+    labelFontPx: 32,
     datasetLabel: '평가'
   });
 
@@ -1745,7 +1745,7 @@ document.addEventListener('DOMContentLoaded', function () {
     canvasId: 'techRadar02',
     labels: ['기업가 정신과 신뢰','최고 경영자','경영진'],
     data: [70, 70, 50],
-    labelFontPx: 24,
+    labelFontPx: 32,
     datasetLabel: '평가'
   });
 
@@ -1753,7 +1753,7 @@ document.addEventListener('DOMContentLoaded', function () {
     canvasId: 'techRadar02_01',
     labels: ['시장 현황','경쟁상황','제품 경쟁력'],
     data: [70, 50, 30],
-    labelFontPx: 24,
+    labelFontPx: 32,
     datasetLabel: '평가'
   });
 
@@ -1761,7 +1761,7 @@ document.addEventListener('DOMContentLoaded', function () {
     canvasId: 'techRadar04',
     labels: ['추가 투자금 유치','정부 출원금 확보','높은 기술 준비도','브랜드 홍보 전략','외형 지표 가시화','다양한 제휴 체결','우수한 인재 유치','사전적 영업 수행'],
     data: [0, 99.5, 99.2, 97.5, 99.5, 99.8, 98, 62.8],
-    labelFontPx: 24,
+    labelFontPx: 32,
     datasetLabel: '평가',
     stepInterval: 2200,   // ✅ 점과 점 사이
   });
@@ -1770,7 +1770,7 @@ document.addEventListener('DOMContentLoaded', function () {
     canvasId: 'techBar01',
     labels: ['사업능력', '향후 전망'],
     data: [50, 30],
-    labelFontPx: 24
+    labelFontPx: 32
     // barDuration: 2000 // 필요하면 명시 가능(기본 2000)
   });
 

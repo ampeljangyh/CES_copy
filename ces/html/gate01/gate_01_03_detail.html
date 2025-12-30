@@ -242,7 +242,7 @@
 
                     <div class="grade_box kr_t">
                       <strong>AI 진단 결과</strong>
-                        <p>포트래이는 바이오헬스 산업에서 높은 준비도와 R&D 역량을 기반으로 안정적인 성장 기반을 구축하고 있습니다. 정부 출연금 확보와 부채비율 개선을 통해 재무적 안정성이 강화되었으며, 수익성 개선을 통한 성장 지속력 강화가 향후 과제로 판단됩니다.</p>
+                        <p>포트래이는 바이오헬스 산업에서 높은 준비도와 R&D 역량을 기반으로 안정적인 성장 기반을 구축하고 있습니다. 정부 출연금 확보와 부채비율 개선을 통해 재무적 안정성이 강화되었으며, 수익성 개선을 통한 <br>성장 지속력 강화가 향후 과제로 판단됩니다.</p>
                     </div>
                     <div class="grade_box en_t">
                       <strong>AI Assessment Results</strong>
@@ -275,12 +275,11 @@
                                         <div class="cop_logo">
                                             <img src="../../resources/images/search_result_05.jpg">
                                         </div>
-                                        <div class="grp_tg_bar">
-                                            <div class="grd_bar"></div>
-                                            <div class="point">
-                                                <span class="dotd"></span>
-                                                <span class="line"></span>
-                                            </div>
+                                    </div>
+                                    <div class="grp_tg_bar">
+                                        <div class="point">
+                                            <span class="dotd"></span>
+                                            <span class="line"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -344,12 +343,11 @@
                                         <div class="cop_logo">
                                             <img src="../../resources/images/search_result_05.jpg">
                                         </div>
-                                        <div class="grp_tg_bar">
-                                            <div class="grd_bar"></div>
-                                            <div class="point">
-                                                <span class="dotd"></span>
-                                                <span class="line"></span>
-                                            </div>
+                                    </div>
+                                    <div class="grp_tg_bar">
+                                        <div class="point">
+                                            <span class="dotd"></span>
+                                            <span class="line"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -2617,7 +2615,7 @@
                   <span>가입조건</span>
                 </div> 
                 <div class="list_box">
-                    <p>다음 中 하나에 해당하는 창업 7년 이내 중소기업으로, 신용등급 BB 이상이고, 기업신용위험지표 미저촉 기업</p>
+                    <p>다음 中 하나에 해당하는 창업 7년 이내 중소기업으로, <br>신용등급 BB 이상이고, 기업신용위험지표 미저촉 기업</p>
                   <ul>
                     <li>
                       <span>혁신성장 영위기업 ② 소･부･장 영위기업 中 혁신 업종*</span>
@@ -2748,7 +2746,12 @@
 
 <style>
   .contents_detail .cop_cont_grp_wrap .cop_cont_grp_detail {
-    left: 21% !important;bottom: 9.7vw !important;
+    left: 21% !important;bottom: 11vw !important;
+  }
+    .contents_detail .cop_cont_grp_wrap .grp_tg_bar {
+    position: absolute;
+    bottom: 9.3vw;
+    left: 13.7vw;
   }
 </style>
 
@@ -2951,10 +2954,10 @@ const dataOptimal = [1219, 3285, 5286, 6907, 8327, 9292, 12000, 13500];
 const dataIndustry = [901, 2090, 2660, 3144, 3576, 3906, 4500, 4850];
 
 // ✅ 현재(blue, 1~3년차까지만)
-const dataCurrent = [1000, 2500, 2800, null, null, null, null, null];
+const dataCurrent = [1000, 2500, 3800, null, null, null, null, null];
 
 // ✅ 성장 예측(red, 버튼 클릭 시 3→4년차만: 3년차(2800) → 4년차(5800))
-const dataForecastFull = [null, null, 2800, 5800, null, null, null, null];
+const dataForecastFull = [null, null, 3800, 5800, null, null, null, null];
 
 // 차트 인스턴스
 window.growthChartKrInstance = null;
@@ -3334,7 +3337,7 @@ function createGrowthChart(canvasId, lang) {
           const h = fontSizeLegend + padY * 2;
 
           const cx = (chartArea.left + chartArea.right) / 2;
-          const x = cx - totalW / 2;
+          const x = cx - totalW / 2 + vwToPx(1.8229);
 
           const marginTop = designPxToRealPx(16);
           const marginBottom = designPxToRealPx(10);

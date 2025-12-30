@@ -1190,7 +1190,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var canvasId = opts.canvasId;
         var labels   = (opts.labels || []).slice();
         var data     = (opts.data   || []).slice();
-        var fontPx   = opts.labelFontPx || 24;
+        var fontPx   = opts.labelFontPx || 32;
 
         var canvas = document.getElementById(canvasId);
         if (!canvas) return null;
@@ -1429,7 +1429,7 @@ function start() {
     var canvasId = opts.canvasId;
     var labels = (opts.labels || []).slice(); // 예: ['기술 혁신성', '시장 현황']
     var data = (opts.data || []).slice(); // 예: [70, 80] (0~100)
-    var fontPx = opts.labelFontPx || 24;
+    var fontPx = opts.labelFontPx || 32;
 
     var canvas = document.getElementById(canvasId);
     if (!canvas) return null;
@@ -1608,7 +1608,7 @@ function start() {
         ]
     }[lang], lang),
     data: [60, 80, 75, 70, 40],
-    labelFontPx: 24,
+    labelFontPx: 32,
     datasetLabel: (lang === 'eng') ? 'Evaluation' : '평가'
     });
 
@@ -1630,7 +1630,7 @@ function start() {
         ]
     }[lang], lang),
     data: [70, 80, 60],
-    labelFontPx: 24,
+    labelFontPx: 32,
     datasetLabel: (lang === 'eng') ? 'Evaluation' : '평가'
     });
 
@@ -1662,7 +1662,7 @@ function start() {
         ]
     }[lang], lang),
     data: [70, 80, 60, 60, 60, 60, 60, 60],
-    labelFontPx: 24,
+    labelFontPx: 32,
     datasetLabel: (lang === 'eng') ? 'Evaluation' : '평가',
     stepInterval: 2200,   // ✅ 점과 점 사이
     });
@@ -1677,7 +1677,7 @@ function start() {
         kor: ['제품 우위성', '시장 현황']
     }[lang],
     data: [75, 60],
-    labelFontPx: 24
+    labelFontPx: 32
     });
 
     

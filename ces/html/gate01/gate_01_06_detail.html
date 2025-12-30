@@ -277,12 +277,11 @@
                                         <div class="cop_logo">
                                             <img src="../../resources/images/search_result_08.jpg">
                                         </div>
-                                        <div class="grp_tg_bar">
-                                            <div class="grd_bar"></div>
-                                            <div class="point">
-                                                <span class="dotd"></span>
-                                                <span class="line"></span>
-                                            </div>
+                                    </div>
+                                    <div class="grp_tg_bar">
+                                        <div class="point">
+                                            <span class="dotd"></span>
+                                            <span class="line"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -346,12 +345,11 @@
                                         <div class="cop_logo">
                                             <img src="../../resources/images/search_result_08.jpg">
                                         </div>
-                                        <div class="grp_tg_bar">
-                                            <div class="grd_bar"></div>
-                                            <div class="point">
-                                                <span class="dotd"></span>
-                                                <span class="line"></span>
-                                            </div>
+                                    </div>
+                                    <div class="grp_tg_bar">
+                                        <div class="point">
+                                            <span class="dotd"></span>
+                                            <span class="line"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -1935,7 +1933,7 @@
             <div class="add_pop_cont_list">
               <div class="item ty_01">
                 <p>
-                  성장 잠재력이 높기 때문에 사업 확장성 측면에서 추가 투자가 필요
+                  성장 잠재력이 높기 때문에 사업 확장성 측면에서 <br>추가 투자가 필요
                 </p>
               </div>
               <!-- <div class="item ty_02">
@@ -2055,12 +2053,12 @@
               <video class="cir" src="../../resources/images/new_pop.mp4" autoplay muted loop playsinline></video>
             </div>
             <div class="tit">
-              <strong>IP 사업화 자금 대출</strong>
+              <strong>IP사업화자금대출</strong>
             </div>
             <div class="add_pop_cont_list">
               <div class="item ty_01">
                 <p>
-                  담보력은 약하나 기술력을 보유한 기업에 게 지식재산권을 담보로 자금을 지원하는 대출
+                  담보력은 약하나 기술력을 보유한 기업에 게 지식재산권을 <br>담보로 자금을 지원하는 대출
                 </p>
               </div>
               <div class="item ty_02">
@@ -2070,7 +2068,7 @@
                 <div class="list_box">
                   <ul>
                     <li>
-                      <span>당행 신용평가등급 A-이상이면서 기술등급 T4 이상, 또는 신용평가등급 BBB+ 이상이면서 TCB T3 이상 기업</span>
+                      <span>당행 신용평가등급 A-이상이면서 기술등급 T4 이상, <br>또는 신용평가등급 BBB+ 이상이면서 TCB T3 이상 기업</span>
                     </li>
                     <li>
                       <span>조기경보기업(예비주의, 주의, 경보)이 아닌 기업</span>
@@ -2182,6 +2180,11 @@
   .contents_detail .cop_cont_grp_wrap .cop_cont_grp_detail {
     left: 34% !important;
     bottom: 9.1vw !important;
+  }
+    .contents_detail .cop_cont_grp_wrap .grp_tg_bar {
+    position: absolute;
+    bottom: 7.7vw;
+    left: 19.6vw;
   }
 </style>
 
@@ -2767,7 +2770,7 @@ function createGrowthChart(canvasId, lang) {
           const h = fontSizeLegend + padY * 2;
 
           const cx = (chartArea.left + chartArea.right) / 2;
-          const x = cx - totalW / 2;
+          const x = cx - totalW / 2 + vwToPx(1.8229);
 
           const marginTop = designPxToRealPx(16);
           const marginBottom = designPxToRealPx(10);
