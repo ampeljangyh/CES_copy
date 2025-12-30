@@ -21,7 +21,7 @@ function getBizCapabilityData(language, company) {
     order = ["owner", "management", "techDevelopment", "productization", "profit"];
     grades = order.map(key => korData?.bizCapability?.[key]?.grade ?? "");
   } else if (language === "eng") {
-    items = ["CEO capabiity", "Management capability", "Technology development capability", "commercialization capability", "Profit outlook"];
+    items = ["CEO Capabiity", "Management Capability", "Technology Development Capability", "Commercialization Capability", "Profit Outlook"];
     order = ["owner", "management", "techDevelopment", "productization", "profit"];
     grades = order.map(key => engData?.bizCapability?.[key]?.grade ?? "");
   }
@@ -66,7 +66,7 @@ function getTechCompetitivenessData(language, company) {
     totalGrade: tech.grade,
     items: (language === "kor")
       ? ["기술 혁신성", "시장 현황", "제품 우위성"]
-      : ["technology innovation", "market status", "Product superiority"],
+      : ["Technology Innovation", "Market Status", "Product Superiority"],
     grades: [
       tech.innovation?.grade,
       tech.market?.grade,
@@ -202,49 +202,49 @@ const BIZ_BAR_CONFIG_KOR = [
 const BIZ_BAR_CONFIG_ENG = [
   {
     key: "owner",
-    title: "CEO capabiity",
+    title: "CEO Capabiity",
     fields: [
-      { prop: "experience", label: "Experience in the same industry" },
-      { prop: "techKnowledge", label: "Technical knowledge" },
-      { prop: "techManagement", label: "Technology management / skills managment" }
+      { prop: "experience", label: "Experience in the Same Industry" },
+      { prop: "techKnowledge", label: "Technical Knowledge" },
+      { prop: "techManagement", label: "Technology Management / Skills Managment" }
     ]
   },
   {
     key: "management",
-    title: "Management capability",
+    title: "Management Capability",
     fields: [
-      { prop: "techStaffManagement", label: "Technical employees management (human ressources)" },
-      { prop: "executiveExpertise", label: "Executive expertise" },
-      { prop: "capitalParticipation", label: "Executive capital participation" }
+      { prop: "techStaffManagement", label: "Technical Employees Management (Human Ressources)" },
+      { prop: "executiveExpertise", label: "Executive Expertise" },
+      { prop: "capitalParticipation", label: "Executive Capital Participation" }
     ]
   },
   {
     key: "techDevelopment",
-    title: "Technology development capability",
+    title: "Technology Development Capability",
     fields: [
-      { prop: "rndOrg", label: "R&D organization" },
-      { prop: "rndInvestment", label: "R&D investment ratio" },
-      { prop: "techExpertise", label: "Technical employee expertise" },
-      { prop: "awards", label: "Technology development & award/certification achievments" },
-      { prop: "ipStatus", label: "intellectual property rights" }
+      { prop: "rndOrg", label: "R&D Organization" },
+      { prop: "rndInvestment", label: "R&D Investment Ratio" },
+      { prop: "techExpertise", label: "Technical Employee Expertise" },
+      { prop: "awards", label: "Technology Development & Award/Certification Achievments" },
+      { prop: "ipStatus", label: "Intellectual Property Rights" }
     ]
   },
   {
     key: "productization",
-    title: "commercialization capability",
+    title: "Commercialization Capability",
     fields: [
-      { prop: "productionCapability", label: "production capability" },
-      { prop: "investmentAdequacy", label: "appropriateness of investment scale" },
-      { prop: "capitalRaising", label: "capital raising ability" }
+      { prop: "productionCapability", label: "Production Capability" },
+      { prop: "investmentAdequacy", label: "Appropriateness of Investment Scale" },
+      { prop: "capitalRaising", label: "Capital Raising Ability" }
     ]
   },
   {
     key: "profit",
-    title: "Profit outlook",
+    title: "Profit Outlook",
     fields: [
-      { prop: "marketing", label: "Marketing capability" },
-      { prop: "salesStability", label: "diversity and stability of sales channels/outlets" },
-      { prop: "revenueCreation", label: "profit-generation capability" }
+      { prop: "marketing", label: "Marketing Capability" },
+      { prop: "salesStability", label: "Diversity and Stability of Sales Channels/Outlets" },
+      { prop: "revenueCreation", label: "Profit-Generation Capability" }
     ]
   }
 ];
@@ -285,31 +285,31 @@ const TECH_BAR_CONFIG_KOR = [
 const TECH_BAR_CONFIG_ENG = [
   {
     key: "innovation",
-    title: "technology innovation",
+    title: "Technology Innovation",
     fields: [
-      { prop: "differentiation", label: "differenciation of technology" },
-      { prop: "imitationDifficulty", label: "difficulty of imitation" },
-      { prop: "completeness", label: "technologicy completness" },
-      { prop: "independence", label: "technology independence" },
-      { prop: "scalability", label: "technologicy scalability" }
+      { prop: "differentiation", label: "Differenciation of Technology" },
+      { prop: "imitationDifficulty", label: "Difficulty of Imitation" },
+      { prop: "completeness", label: "Technologicy Completness" },
+      { prop: "independence", label: "Technology Independence" },
+      { prop: "scalability", label: "Technologicy Scalability" }
     ]
   },
   {
     key: "market",
-    title: "Market status",
+    title: "Market Status",
     fields: [
-      { prop: "marketSize", label: "Market size" },
-      { prop: "growth", label: "Market growth potential" },
-      { prop: "structure", label: "Market structure and characteristics" }
+      { prop: "marketSize", label: "Market Size" },
+      { prop: "growth", label: "Market Growth Potential" },
+      { prop: "structure", label: "Market Structure and Characteristics" }
     ]
   },
   {
     key: "productAdvantage",
-    title: "Product superiority",
+    title: "Product Superiority",
     fields: [
-      { prop: "awareness", label: "awarness / recognition" },
-      { prop: "marketSecuring", label: "Market acquisition possibility" },
-      { prop: "competitiveness", label: "comparative advantage over competing products" }
+      { prop: "awareness", label: "Awarness / Recognition" },
+      { prop: "marketSecuring", label: "Market Acquisition Possibility" },
+      { prop: "competitiveness", label: "Comparative Advantage Over Competing Products" }
     ]
   }
 ];

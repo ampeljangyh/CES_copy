@@ -118,10 +118,10 @@ const COMPANY_DATA_KOR = {
         { key: "추가 투자금 유치", label: "4년차투자유치금액", detail: "90.0억 원", score: 100 },
         { key: "추가 투자금 유치", label: "5년차VCTOP20투자유치금액", detail: "-억 원", score: 10 },
 
-        { key: "정부 출연금 확보", label: "4년차RND금액", detail: "10.0억 원", score: 100 },
-        { key: "정부 출연금 확보", label: "4-7년차RND수행건수", detail: "-건", score: 10 },
+        { key: "정부 출연금 확보", label: "4년차R&D금액", detail: "10.0억 원", score: 100 },
+        { key: "정부 출연금 확보", label: "4-7년차R&D수행건수", detail: "-건", score: 10 },
         { key: "정부 출연금 확보", label: "4-7년차연구비카드사용건수", detail: "-건", score: 10 },
-        { key: "정부 출연금 확보", label: "5년차RND금액", detail: "-억 원", score: 10 },
+        { key: "정부 출연금 확보", label: "5년차R&D금액", detail: "-억 원", score: 10 },
         { key: "정부 출연금 확보", label: "-", detail: "", score: 0 },
 
         { key: "브랜드 홍보 전략", label: "4-7년차브랜드지재권종류", detail: "0.5비율", score: 100 },
@@ -306,9 +306,9 @@ const COMPANY_DATA_KOR = {
 
         { key: "정부 출연금 확보", label: "1-3년차연구비카드사용건수", detail: "0.3건", score: 100 },
         { key: "정부 출연금 확보", label: "1-3년차최초연구비카드사용시점", detail: "13.0개월", score: 30 },
-        { key: "정부 출연금 확보", label: "1-3년차최초RND수행시점", detail: "13.0개월", score: 40 },
-        { key: "정부 출연금 확보", label: "1-3년차RND수행건수", detail: "0.3건", score: 100 },
-        { key: "정부 출연금 확보", label: "2년차RND금액", detail: "1.7억 원", score: 100 },
+        { key: "정부 출연금 확보", label: "1-3년차최초R&D수행시점", detail: "13.0개월", score: 40 },
+        { key: "정부 출연금 확보", label: "1-3년차R&D수행건수", detail: "0.3건", score: 100 },
+        { key: "정부 출연금 확보", label: "2년차R&D금액", detail: "1.7억 원", score: 100 },
 
         { key: "높은 기술 준비도", label: "1-3년차특허출원건수", detail: "0.3건", score: 100 },
         { key: "높은 기술 준비도", label: "1-3년차특허등록건수", detail: "0.3건", score: 100 },
@@ -510,10 +510,10 @@ const COMPANY_DATA_KOR = {
         { key: "추가 투자금 유치", label: "4-7년차VCTOP20투자건수", detail: "-건", score: 10 },
         { key: "추가 투자금 유치", label: "5년차투자유치금액", detail: "-억 원", score: 10 },
 
-        { key: "정부 출연금 확보", label: "4년차RND금액", detail: "10.5억 원", score: 100 },
-        { key: "정부 출연금 확보", label: "4-7년차RND수행건수", detail: "-건", score: 10 },
+        { key: "정부 출연금 확보", label: "4년차R&D금액", detail: "10.5억 원", score: 100 },
+        { key: "정부 출연금 확보", label: "4-7년차R&D수행건수", detail: "-건", score: 10 },
         { key: "정부 출연금 확보", label: "4-7년차연구비카드사용건수", detail: "-건", score: 10 },
-        { key: "정부 출연금 확보", label: "5년차RND금액", detail: "-억 원", score: 10 },
+        { key: "정부 출연금 확보", label: "5년차R&D금액", detail: "-억 원", score: 10 },
         { key: "정부 출연금 확보", label: "-", detail: "", score: 0 },
 
         { key: "브랜드 홍보 전략", label: "4-7년차브랜드지재권종류", detail: "0.5비율", score: 100 },
@@ -696,10 +696,10 @@ const COMPANY_DATA_KOR = {
         { key: "추가 투자금 유치", label: "5년차VCTOP20투자유치금액", detail: "-억 원", score: 10 },
         { key: "추가 투자금 유치", label: "4-7년차VCTOP20투자건수", detail: "-건", score: 10 },
 
-        { key: "정부 출연금 확보", label: "4년차RND금액", detail: "-억 원", score: 10 },
-        { key: "정부 출연금 확보", label: "4-7년차RND수행건수", detail: "-건", score: 10 },
+        { key: "정부 출연금 확보", label: "4년차R&D금액", detail: "-억 원", score: 10 },
+        { key: "정부 출연금 확보", label: "4-7년차R&D수행건수", detail: "-건", score: 10 },
         { key: "정부 출연금 확보", label: "4-7년차연구비카드사용건수", detail: "-건", score: 10 },
-        { key: "정부 출연금 확보", label: "5년차RND금액", detail: "-억 원", score: 10 },
+        { key: "정부 출연금 확보", label: "5년차R&D금액", detail: "-억 원", score: 10 },
         { key: "정부 출연금 확보", label: "-", detail: "", score: 0 },
 
         { key: "브랜드 홍보 전략", label: "4-7년차전체기사검색건수", detail: "1.5건", score: 100 },
@@ -909,10 +909,10 @@ const COMPANY_DATA_KOR = {
         { key: "추가 투자금 유치", label: "5년차VCTOP20투자유치금액", detail: "-억 원", score: 10 },
         { key: "추가 투자금 유치", label: "4-7년차VCTOP20투자건수", detail: "-건", score: 10 },
 
-        { key: "정부 출연금 확보", label: "4년차RND금액", detail: "0.7억 원", score: 100 },
-        { key: "정부 출연금 확보", label: "4-7년차RND수행건수", detail: "0.5건", score: 100 },
+        { key: "정부 출연금 확보", label: "4년차R&D금액", detail: "0.7억 원", score: 100 },
+        { key: "정부 출연금 확보", label: "4-7년차R&D수행건수", detail: "0.5건", score: 100 },
         { key: "정부 출연금 확보", label: "4-7년차연구비카드사용건수", detail: "-건", score: 10 },
-        { key: "정부 출연금 확보", label: "5년차RND금액", detail: "-억 원", score: 10 },
+        { key: "정부 출연금 확보", label: "5년차R&D금액", detail: "-억 원", score: 10 },
         { key: "정부 출연금 확보", label: "-", detail: "", score: 0 },
 
         { key: "브랜드 홍보 전략", label: "4-7년차전체기사검색건수", detail: "6.0건", score: 100 },
@@ -1122,10 +1122,10 @@ const COMPANY_DATA_KOR = {
         { key: "추가 투자금 유치", label: "1-3년차투자기사검색건수", detail: "7.0건", score: 100 },
         { key: "추가 투자금 유치", label: "1-3년차VCTOP20투자건수", detail: "-건", score: 10 },
 
-        { key: "정부 출연금 확보", label: "2년차RND금액규모", detail: "0.6억 원", score: 100 },
-        { key: "정부 출연금 확보", label: "1-3년차RND수행건수", detail: "0.3건", score: 100 },
-        { key: "정부 출연금 확보", label: "1-3년차최초RND수행시점", detail: "18.0개월", score: 40 },
-        { key: "정부 출연금 확보", label: "3년차RND금액규모", detail: "-억 원", score: 10 },
+        { key: "정부 출연금 확보", label: "2년차R&D금액규모", detail: "0.6억 원", score: 100 },
+        { key: "정부 출연금 확보", label: "1-3년차R&D수행건수", detail: "0.3건", score: 100 },
+        { key: "정부 출연금 확보", label: "1-3년차최초R&D수행시점", detail: "18.0개월", score: 40 },
+        { key: "정부 출연금 확보", label: "3년차R&D금액규모", detail: "-억 원", score: 10 },
         { key: "정부 출연금 확보", label: "-", detail: "", score: 0 },
 
         { key: "외형 지표 가시화", label: "2년차자본규모", detail: "2.0억 원", score: 70 },
@@ -1141,7 +1141,7 @@ const COMPANY_DATA_KOR = {
         { key: "높은 기술 준비도", label: "-", detail: "", score: 0 },
         
         { key: "초격차 기술 개발", label: "1-3년차특허초격차키워드검색건수", detail: "-건", score: 10 },
-        { key: "초격차 기술 개발", label: "1-3년차RND초격차키워드검색건수", detail: "-건", score: 10 },
+        { key: "초격차 기술 개발", label: "1-3년차R&D초격차키워드검색건수", detail: "-건", score: 10 },
         { key: "초격차 기술 개발", label: "-", detail: "", score: 0 },
         { key: "초격차 기술 개발", label: "-", detail: "", score: 0 },
         { key: "초격차 기술 개발", label: "-", detail: "", score: 0 },
@@ -1328,8 +1328,8 @@ const COMPANY_DATA_KOR = {
         { key: "추가 투자금 유치", label: "4-7년차투자기사검색건수", detail: "51.0건", score: 100 },
         { key: "추가 투자금 유치", label: "4-7년차VCTOP20투자건수", detail: "-건", score: 10 },
 
-        { key: "정부 출연금 확보", label: "4-7년차RND수행건수", detail: "-건", score: 10 },
-        { key: "정부 출연금 확보", label: "4년차RND금액규모", detail: "-억 원", score: 10 },
+        { key: "정부 출연금 확보", label: "4-7년차R&D수행건수", detail: "-건", score: 10 },
+        { key: "정부 출연금 확보", label: "4년차R&D금액규모", detail: "-억 원", score: 10 },
         { key: "정부 출연금 확보", label: "-", detail: "", score: 0 },
         { key: "정부 출연금 확보", label: "-", detail: "", score: 0 },
         { key: "정부 출연금 확보", label: "-", detail: "", score: 0 },
@@ -1340,7 +1340,7 @@ const COMPANY_DATA_KOR = {
         { key: "외형 지표 가시화", label: "-", detail: "", score: 0 },
         { key: "외형 지표 가시화", label: "-", detail: "", score: 0 },
 
-        { key: "초격차 기술 개발", label: "4-7년차RND초격차키워드검색건수", detail: "-건", score: 10 },
+        { key: "초격차 기술 개발", label: "4-7년차R&D초격차키워드검색건수", detail: "-건", score: 10 },
         { key: "초격차 기술 개발", label: "4-7년차특허초격차키워드검색건수", detail: "-건", score: 10 },
         { key: "초격차 기술 개발", label: "-", detail: "", score: 0 },
         { key: "초격차 기술 개발", label: "-", detail: "", score: 0 },
@@ -1420,19 +1420,19 @@ const COMPANY_DATA_ENG = {
     // 2) 기술사업 역량 (코멘트)
     // ============================
     bizComments: {
-      "CEO capabiity": `The CEO, Lee Min-woo, founded the company in 2021, he is leading the company’s technology business management and continues to operate it to the present day. Lee Min-woo’s experience in related industries is assessed to be 14 years and 7 months, which places his level of industry experience at an average level.
+      "CEO Capabiity": `The CEO, Lee Min-woo, founded the company in 2021, he is leading the company’s technology business management and continues to operate it to the present day. Lee Min-woo’s experience in related industries is assessed to be 14 years and 7 months, which places his level of industry experience at an average level.
 Considering the CEO’s academic background and the length of his technical experience, he is regarded as a top-level technical professional, and his level of technical knowledge is evaluated as excellent.
 Meanwhile, as he satisfies evaluation criteria such as business planning, information-gathering capability, technology strategy, and entrepreneurial spirit, his technology management capabilities are also considered to be good.`,
-      "Management capability": `The company demonstrates a good level of technical employees management capability, as it meets key criteria such as retention of core manpower, employee welfare and training, new recruitment, and goal management.
+      "Management Capability": `The company demonstrates a good level of technical employees management capability, as it meets key criteria such as retention of core manpower, employee welfare and training, new recruitment, and goal management.
 Considering the technical level and composition of the major management team, the company retains two top-level experts, and thus the executive expertise is evaluated as good.
 As a general corporation, the combined equity held by Kim Chi-hwa and Hyun Jong-hong amounts to 1.37%, which indicates that the executive capital participation level is insufficient.`,
-      "Technology development capability": `The company has been operating its affiliated corporate research institute for approximately 3 years and 3 months. Although no realized sales have been confirmed, its R&D investment amount is identified as 0.00% compared to the industry average, and the company employs a total of 17 technical personnel.
+      "Technology Development Capability": `The company has been operating its affiliated corporate research institute for approximately 3 years and 3 months. Although no realized sales have been confirmed, its R&D investment amount is identified as 0.00% compared to the industry average, and the company employs a total of 17 technical personnel.
 The company has achieved 10 cases of technology development and commercialization, consisting of 9 technology development cases and 1 certification. Considering these outcomes comprehensively, the company’s technology development and award  performance is evaluated as good.
 The company holds a total of 7 intellectual property rights, and therefore its intellectual property portfolio is assessed as being at an average level.`,
-      "commercialization capability": `The company manufactures its products and services itself, and as it meets the criteria for production facility scale, production facility standards, production workforce availability, and production workforce capability, its overall production capacity is assessed as good.
+      "Commercialization Capability": `The company manufactures its products and services itself, and as it meets the criteria for production facility scale, production facility standards, production workforce availability, and production workforce capability, its overall production capacity is assessed as good.
 Since the company’s technological products are still in the pre-commercialization stage, the investment scale and feasibility for commercialization are evaluated as good.
 Meanwhile, considering the company’s funding capabilities for commercialization and its existing assets, its capital procurement ability is also assessed as good.`,
-      "Profit outlook": `The company satisfies key criteria such as market research, environmental analysis, marketing strategy, and feasibility for securing sales channels, and therefore nd therefore its marketing capability is assessed as good.
+      "Profit Outlook": `The company satisfies key criteria such as market research, environmental analysis, marketing strategy, and feasibility for securing sales channels, and therefore nd therefore its marketing capability is assessed as good.
 However, as the company has not yet secured major sales channels, and considering that it has only recently acquired a new one, the diversity and stability of its sales channels are evaluated as insufficient.
 Its profit-generation capability is assessed as weak.`
     },
@@ -1468,14 +1468,14 @@ Its profit-generation capability is assessed as weak.`
     // 4) 기술 경쟁력 (코멘트)
     // ============================
     techComments: {
-      "technology innovation": `The technology under evaluation is identified as a cell-based artificial platelet production platform. This technology is considered innovative, with differentiating factors that are similar to comparable technologies, and is assessed as being at a mature stage.
+      "Technology Innovation": `The technology under evaluation is identified as a cell-based artificial platelet production platform. This technology is considered innovative, with differentiating factors that are similar to comparable technologies, and is assessed as being at a mature stage.
 Meanwhile, as it satisfies criteria related to development cost, development period, technology protection, and entry barriers, the difficulty of imitation is evaluated as good.
 Given that the technology is currently at the prototype development (pre-clinical preparation) stage, its level of technological completeness is assessed as insufficient.
 The technology’s technological independence is considered to be average, and its technological scalability is also assessed as average.`,
-      "market status": `The target market—the medical and pharmaceutical R&D sector—is expected to reach 3,910.5 billion KRW by 2025, and thus the market size is evaluated as excellent.
+      "Market Status": `The target market—the medical and pharmaceutical R&D sector—is expected to reach 3,910.5 billion KRW by 2025, and thus the market size is evaluated as excellent.
 The sales growth rate of this sector is approximately 53.69%, compared to the overall industry, and considering the CAGR of the target market, it is expected to experience continued growth going forward.
 Meanwhile, as the target market meets key criteria such as market concentration, differentiation, cost structure, and policy/regulatory factors, its market structure and characteristics are assessed as good.`,
-      "Product superiority": `The product awareness was assessed as insufficient, as it met the criteria of threat of substitutes and purchase motivation.
+      "Product Superiority": `The product awareness was assessed as insufficient, as it met the criteria of threat of substitutes and purchase motivation.
 Meanwhile, as it satisfies evaluation factors such as competitive advantage, supplier bargaining power, and buyer bargaining power, the company’s market acquisition potential is assessed as average.
 From a product competitiveness perspective, the company meets requirements related to quality competitiveness, convenience and design competitiveness, customer willingness to switch to its products, and the absence of cost constraints when switching. Accordingly, its comparative advantage over competing products is evaluated as good.`
     },
@@ -1506,53 +1506,53 @@ From a product competitiveness perspective, the company meets requirements relat
       ],
 
       barScores: [
-        { key: "Investment", label: "4–7-year investment stage", detail: "1.5step", score: 100 },
-        { key: "Investment", label: "Number of investments during years 4–7", detail: "0.3case", score: 100 },
-        { key: "Investment", label: "Number of investment-related news articles found during years 4–7", detail: "1.5case", score: 100 },
-        { key: "Investment", label: "4th-year investment amount", detail: "$6.1M", score: 100 },
-        { key: "Investment", label: "Number of VC Top 20 investments secured in year 5", detail: "$-M", score: 10 },
+        { key: "Investment", label: "4–7-Year Investment Stage", detail: "1.5", score: 100 },
+        { key: "Investment", label: "Number of Investments During Years 4–7", detail: "0.3", score: 100 },
+        { key: "Investment", label: "Number of Investment-Related News Articles Found During Years 4–7", detail: "1.5", score: 100 },
+        { key: "Investment", label: "4th-Year Investment Amount", detail: "$6.1M", score: 100 },
+        { key: "Investment", label: "Number of VC Top 20 Investments Secured in Year 5", detail: "$0M", score: 10 },
 
-        { key: "Government Grants", label: "Total amount of R&D investment in year 4", detail: "$0.7M", score: 100 },
-        { key: "Government Grants", label: "Number of R&D projects executed in years 4–7", detail: "-case", score: 0 },
-        { key: "Government Grants", label: "Number of research expense card transactions during years 4–7", detail: "-case", score: 10 },
-        { key: "Government Grants", label: "Total amount of R&D investment in year 5", detail: "$-M", score: 10 },
+        { key: "Government Grants", label: "Total Amount of R&D Investment in Year 4", detail: "$0.7M", score: 100 },
+        { key: "Government Grants", label: "Number of R&D Projects Executed in Years 4–7", detail: "0", score: 0 },
+        { key: "Government Grants", label: "Number of Research Expense Card Transactions During Years 4–7", detail: "0", score: 10 },
+        { key: "Government Grants", label: "Total Amount of R&D Investment in Year 5", detail: "$0M", score: 10 },
         { key: "Government Grants", label: "-", detail: "", score: 0 },
 
-        { key: "Brand Promotion", label: "Brand-related intellectual property applications filed during years 4–7", detail: "0.5ratio", score: 100 },
-        { key: "Brand Promotion", label: "Number of trademark applications filed during years 4–7", detail: "0.8case", score: 100 },
-        { key: "Brand Promotion", label: "Total number of news articles found during years 4–7", detail: "8.0case", score: 100 },
-        { key: "Brand Promotion", label: "Number of trademark applications filed during years 5", detail: "-ratio", score: 10 },
-        { key: "Brand Promotion", label: "Number of trademark applications filed during years 4", detail: "-ratio", score: 10 },
+        { key: "Brand Promotion", label: "Brand-Related Intellectual Property Applications Filed During Years 4–7", detail: "0.5", score: 100 },
+        { key: "Brand Promotion", label: "Number of Trademark Applications Filed During Years 4–7", detail: "0.8", score: 100 },
+        { key: "Brand Promotion", label: "Total Number of News Articles Found During Years 4–7", detail: "8.0", score: 100 },
+        { key: "Brand Promotion", label: "Number of Trademark Applications Filed During Years 5", detail: "0", score: 10 },
+        { key: "Brand Promotion", label: "Number of Trademark Applications Filed During Years 4", detail: "0", score: 10 },
 
-        { key: "Partnerships", label: "Number of partnership-related news articles identified during years 4–7", detail: "-case", score: 10 },
+        { key: "Partnerships", label: "Number of Partnership-Related News Articles Identified During Years 4–7", detail: "0", score: 10 },
         { key: "Partnerships", label: "-", detail: "", score: 0 },
         { key: "Partnerships", label: "-", detail: "", score: 0 },
         { key: "Partnerships", label: "-", detail: "", score: 0 },
         { key: "Partnerships", label: "-", detail: "", score: 0 },
 
-        { key: "External Performance", label: "Employment growth rate in year 5", detail: "0.2%", score: 70 },
-        { key: "External Performance", label: "Number of performance-themed news articles identified during years 4-7", detail: "8.0case", score: 100 },
+        { key: "External Performance", label: "Employment Growth Rate in Year 5", detail: "0.2%", score: 70 },
+        { key: "External Performance", label: "Number of Performance-Themed News Articles Identified During Years 4-7", detail: "8.0", score: 100 },
         { key: "External Performance", label: "-", detail: "", score: 0 },
         { key: "External Performance", label: "-", detail: "", score: 0 },
         { key: "External Performance", label: "-", detail: "", score: 0 },
 
-        { key: "Overseas Expansion", label: "Number of articles on international market expansion identified in years 4-7", detail: "0.5case", score: 100 },
+        { key: "Overseas Expansion", label: "Number of Articles on International Market Expansion Identified in Years 4-7", detail: "0.5", score: 100 },
         { key: "Overseas Expansion", label: "-", detail: "", score: 0 },
         { key: "Overseas Expansion", label: "-", detail: "", score: 0 },
         { key: "Overseas Expansion", label: "-", detail: "", score: 0 },
         { key: "Overseas Expansion", label: "-", detail: "", score: 0 },
 
-        { key: "Talent Acquisition", label: "salary in year 4 ", detail: "$3.33K", score: 100 },
-        { key: "Talent Acquisition", label: "Hiring/Resignation ratio in year 4", detail: "0.8ratio", score: 50 },
-        { key: "Talent Acquisition", label: "Hiring/Resignation ratio in year 5", detail: "2.0ratio", score: 90 },
-        { key: "Talent Acquisition", label: "salary in year 5", detail: "$3.27K", score: 100 },
-        { key: "Talent Acquisition", label: "Employment certification status during years 4–7 ", detail: "-case", score: 10 },
+        { key: "Talent Acquisition", label: "Salary in Year 4 ", detail: "$3.33K", score: 100 },
+        { key: "Talent Acquisition", label: "Hiring/Resignation Ratio in Year 4", detail: "0.8", score: 50 },
+        { key: "Talent Acquisition", label: "Hiring/Resignation Ratio in Year 5", detail: "2.0", score: 90 },
+        { key: "Talent Acquisition", label: "Salary in Year 5", detail: "$3.27K", score: 100 },
+        { key: "Talent Acquisition", label: "Employment Certification Status During Years 4–7 ", detail: "0", score: 10 },
 
-        { key: "Technology Readiness", label: "Technology certification status during years 4–7 ", detail: "1.0case", score: 90 },
-        { key: "Technology Readiness", label: "Number of patent registrations during years 4–7", detail: "0.5case", score: 100 },
-        { key: "Technology Readiness", label: "Patent application-to-registration ratio in year 4", detail: "0.5case", score: 100 },
-        { key: "Technology Readiness", label: "Number of patent applications in years 4–7", detail: "0.3case", score: 100 },
-        { key: "Technology Readiness", label: "Number of research lab accreditations during 4–7", detail: "-case", score: 10 }
+        { key: "Technology Readiness", label: "Technology Certification Status During Years 4–7 ", detail: "1.0", score: 90 },
+        { key: "Technology Readiness", label: "Number of Patent Registrations During Years 4–7", detail: "0.5", score: 100 },
+        { key: "Technology Readiness", label: "Patent Application-to-Registration Ratio in Year 4", detail: "0.5", score: 100 },
+        { key: "Technology Readiness", label: "Number of Patent Applications in Years 4–7", detail: "0.3", score: 100 },
+        { key: "Technology Readiness", label: "Number of Research Lab Accreditations During 4–7", detail: "0", score: 10 }
       ]
     }
   },
@@ -1601,19 +1601,19 @@ From a product competitiveness perspective, the company meets requirements relat
     // 2) 기술사업 역량 (코멘트)
     // ============================
     bizComments: {
-      "CEO capabiity": `CEO Choi Sang-su has 6 years of work experience in the same industry as the company’s business, and 4 years of accumulated technical experience in the same field as the technology under evaluation, starting after graduating from high school. According to the technical knowledge level assessment criteria, this corresponds to the category of “other technical personnel.”
+      "CEO Capabiity": `CEO Choi Sang-su has 6 years of work experience in the same industry as the company’s business, and 4 years of accumulated technical experience in the same field as the technology under evaluation, starting after graduating from high school. According to the technical knowledge level assessment criteria, this corresponds to the category of “other technical personnel.”
 In addition, based on the CEO’s understanding of the evaluated technology, his commercialization capability—including planning ability, information-gathering capability, and reliability—is assessed as average.
 Therefore, the CEO’s overall competency is evaluated as insufficient.`,
-      "Management capability": `Based on a review of the company’s technical personnel management systems and regulations—such as incentive programs, retention and recruitment of key employees, and welfare and training—the company’s technical employees management capability is assessed as average.
+      "Management Capability": `Based on a review of the company’s technical personnel management systems and regulations—such as incentive programs, retention and recruitment of key employees, and welfare and training—the company’s technical employees management capability is assessed as average.
 The company has a management team consisting of one intermediate-level engineer, and none of the management members hold any equity in the company.
 Therefore, the company’s overall management capability is evaluated as insufficient.`,
-      "Technology development capability": `The company operates a corporate-affiliated research institute registered with the Korea Industrial Technology Association under the Technology Development Promotion Act. Over the past three years, its average R&D investment ratio is 210%. The company has a total of 11 personnel engaged in R&D (design planning) or production management (process technology, quality control, design execution, etc.), consisting of 1 senior engineer, 2 intermediate engineers, 6 junior engineers, and 2 other technical employees. In addition, over the past three years, the company has achieved three technology development results : Distributed logistics system using “Last Mile Box”, Vision-based cargo classification system and method, Large-scale cargo sorting and management system and method. It has also achieved one technology commercialization result : High-efficiency goods installation system using distributed fulfillment As of the evaluation date, the company holds one valid certification (Venture Business Certification), along with 2 registered patents, 7 patent applications, 5 registered designs, and 6 registered trademarks.
+      "Technology Development Capability": `The company operates a corporate-affiliated research institute registered with the Korea Industrial Technology Association under the Technology Development Promotion Act. Over the past three years, its average R&D investment ratio is 210%. The company has a total of 11 personnel engaged in R&D (design planning) or production management (process technology, quality control, design execution, etc.), consisting of 1 senior engineer, 2 intermediate engineers, 6 junior engineers, and 2 other technical employees. In addition, over the past three years, the company has achieved three technology development results : Distributed logistics system using “Last Mile Box”, Vision-based cargo classification system and method, Large-scale cargo sorting and management system and method. It has also achieved one technology commercialization result : High-efficiency goods installation system using distributed fulfillment As of the evaluation date, the company holds one valid certification (Venture Business Certification), along with 2 registered patents, 7 patent applications, 5 registered designs, and 6 registered trademarks.
 Therefore, the company’s technology development capability is evaluated as good.`,
-      "commercialization capability": `The company operates with its own facilities, and based on a comprehensive evaluation of its production infrastructure—including production facilities, production employees, ease of procuring raw and subsidiary materials, and quality management level—its overall production capability is assessed as average.
+      "Commercialization Capability": `The company operates with its own facilities, and based on a comprehensive evaluation of its production infrastructure—including production facilities, production employees, ease of procuring raw and subsidiary materials, and quality management level—its overall production capability is assessed as average.
 In terms of investment scale adequacy, the current level of investment required for commercialization is considered highly appropriate, and the feasibility of securing additional investment in the future is judged to be high.
 From the perspective of capital raising capability, the company is capable of securing the funds necessary for commercialization, though the level of funding is not deemed fully sufficient.
 Therefore, the company’s commercialization capability is evaluated as average.`,
-      "Profit outlook": `A review was conducted to determine whether the company’s overall marketing strategy—including market size analysis, competitor analysis, marketing mix, and advertising or promotional strategies—is planned reasonably and based on objective data. As a result, the company’s marketing capability is evaluated as good.
+      "Profit Outlook": `A review was conducted to determine whether the company’s overall marketing strategy—including market size analysis, competitor analysis, marketing mix, and advertising or promotional strategies—is planned reasonably and based on objective data. As a result, the company’s marketing capability is evaluated as good.
 The company has stable, long-term customers; however, some of these relationships are partially unstable, and the company is currently in the process of establishing additional sales channels.
 In addition, over the past three years, the company’s operating profit has been –181,900.78%, significantly below the industry average, indicating that its revenue-generation capability is weak.
 Therefore, the company’s profit outlook is evaluated as average.`
@@ -1650,16 +1650,16 @@ Therefore, the company’s profit outlook is evaluated as average.`
     // 4) 기술 경쟁력 (코멘트)
     // ============================
     techComments: {
-      "technology innovation": `An assessment of the differentiation of the company’s technology shows that the technology itself is innovative, and its differentiating attributes are comparable to those of existing and competing technologies. The technology is judged to be in the mature stage of its life cycle.
+      "Technology Innovation": `An assessment of the differentiation of the company’s technology shows that the technology itself is innovative, and its differentiating attributes are comparable to those of existing and competing technologies. The technology is judged to be in the mature stage of its life cycle.
 Furthermore, based on an evaluation of factors such as development cost, development duration, intellectual property registration, ease of reverse engineering, and the technology’s impact on business activities, the technology is determined to be difficult to imitate.
 
 The technology under evaluation is assessed to be in the mass-production stage in terms of technological completeness, and in terms of technological independence, it is judged to make a very high contribution to the production and operation of the technological product.
 Regarding technological scalability, the technology is currently utilized only within its specific industrial field, and its potential for expansion into new fields is considered average.
 Therefore, the technology’s technological innovativeness is evaluated as good.`,
-      "market status": `The target market size related to the company’s evaluated technology is assessed as very large. Based on a comparison of the average sales growth rate of the industry over the past three years with the overall industrial sales growth rate, the historical market growth rate is calculated to be 29.06%, and future market growth is not expected.
+      "Market Status": `The target market size related to the company’s evaluated technology is assessed as very large. Based on a comparison of the average sales growth rate of the industry over the past three years with the overall industrial sales growth rate, the historical market growth rate is calculated to be 29.06%, and future market growth is not expected.
 Additionally, a comprehensive evaluation of factors such as market concentration, differentiation, cost structure, early-market characteristics, policies and regulations, and demand characteristics indicates that the market structure and characteristics are assessed as average.
 Therefore, the overall market status is evaluated as good.`,
-      "Product superiority": `Considering factors such as customer demand characteristics, sensitivity to economic fluctuations and price changes, brand recognition, and customer loyalty within the market in which the company’s service operates, the company’s service awareness is evaluated as average.
+      "Product Superiority": `Considering factors such as customer demand characteristics, sensitivity to economic fluctuations and price changes, brand recognition, and customer loyalty within the market in which the company’s service operates, the company’s service awareness is evaluated as average.
 An assessment of the company’s ability to secure and maintain market share within the target market—based on the competitiveness of its services—indicates that its market acquisition potential is evaluated as average.
 Furthermore, after evaluating the presence of competing products, as well as relative price competitiveness, quality competitiveness, convenience and design competitiveness, and potential customer willingness to switch, the company’s comparative advantage over competing products is assessed as average.
 Therefore, the product superiority is evaluated as average.`
@@ -1712,50 +1712,50 @@ Therefore, the product superiority is evaluated as average.`
       ],
 
       barScores: [
-        { key: "Investment", label: "Number of investment-related news articles found during years 1–3", detail: "-case", score: 10 },
-        { key: "Investment", label: "Amount of VC Top 20 investment secured in year 3", detail: "$-M", score: 10 },
-        { key: "Investment", label: "Amount of VC Top 20 investment secured in year 4", detail: "$-M", score: 10 },
-        { key: "Investment", label: "Investment amount secured in year 2", detail: "$-M", score: 10 },
-        { key: "Investment", label: "Investment amount secured in year 3", detail: "$-M", score: 10 },
+        { key: "Investment", label: "Number of Investment-Related News Articles Found During Years 1–3", detail: "0", score: 10 },
+        { key: "Investment", label: "Amount of VC Top 20 Investment Secured in Year 3", detail: "$0M", score: 10 },
+        { key: "Investment", label: "Amount of VC Top 20 Investment Secured in Year 4", detail: "$0M", score: 10 },
+        { key: "Investment", label: "Investment Amount Secured in Year 2", detail: "$0M", score: 10 },
+        { key: "Investment", label: "Investment Amount Secured in Year 3", detail: "$0M", score: 10 },
 
-        { key: "Government Grants", label: "Number of research expense card transactions during years 1–3", detail: "0.3case", score: 100 },
-        { key: "Government Grants", label: "Timing of the initial research funding card transaction during years 1-3", detail: "13.0months", score: 30 },
-        { key: "Government Grants", label: "Timing of the initial R&D implementation during years 1-3", detail: "13.0months", score: 40 },
-        { key: "Government Grants", label: "Number of R&D projects executed in years 1–3", detail: "0.3case", score: 100 },
-        { key: "Government Grants", label: "Total amount of R&D investment in year 2", detail: "$0.1M", score: 100 },
+        { key: "Government Grants", label: "Number of Research Expense Card Transactions During Years 1–3", detail: "0.3", score: 100 },
+        { key: "Government Grants", label: "Timing of the Tnitial Research Funding Card Transaction During Years 1-3", detail: "13.0", score: 30 },
+        { key: "Government Grants", label: "Timing of the Initial R&D Implementation During Years 1-3", detail: "13.0", score: 40 },
+        { key: "Government Grants", label: "Number of R&D Projects Executed in Years 1–3", detail: "0.3", score: 100 },
+        { key: "Government Grants", label: "Total Amount of R&D Investment in Year 2", detail: "$0.1M", score: 100 },
 
-        { key: "Technology Readiness", label: "Number of patent applications in years 1–3", detail: "0.3case", score: 100 },
-        { key: "Technology Readiness", label: "Number of patent registrations during years 1–3", detail: "0.3case", score: 100 },
-        { key: "Technology Readiness", label: "Number of research lab accreditations during 1–3", detail: "0.7case", score: 100 },
-        { key: "Technology Readiness", label: "Technology certification status during years 1–3", detail: "0.7case", score: 100 },
-        { key: "Technology Readiness", label: "Patent application-to-registration ratio in year 3", detail: "1.0ratio", score: 100 },
+        { key: "Technology Readiness", label: "Number of Patent Applications in Years 1–3", detail: "0.3", score: 100 },
+        { key: "Technology Readiness", label: "Number of Patent Registrations During Years 1–3", detail: "0.3", score: 100 },
+        { key: "Technology Readiness", label: "Number of Research Lab Accreditations During 1–3", detail: "0.7", score: 100 },
+        { key: "Technology Readiness", label: "Technology Certification Status During Years 1–3", detail: "0.7", score: 100 },
+        { key: "Technology Readiness", label: "Patent Application-to-Registration Ratio in Year 3", detail: "1.0", score: 100 },
 
-        { key: "Brand Promotion", label: "Number of patent registrations during years 1–3", detail: "14.7case", score: 100 },
-        { key: "Brand Promotion", label: "Trademark application-to-registration ratio in year 2", detail: "-ratio", score: 10 },
-        { key: "Brand Promotion", label: "Number of trademark registrations during years 1–3", detail: "-case", score: 10 },
-        { key: "Brand Promotion", label: "Number of trademark applications during years 1–3", detail: "-case", score: 10 },
-        { key: "Brand Promotion", label: "Trademark application-to-registration ratio in year 3", detail: "-ratio", score: 10 },
+        { key: "Brand Promotion", label: "Number of Patent Registrations During Years 1–3", detail: "14.7", score: 100 },
+        { key: "Brand Promotion", label: "Trademark Application-to-Registration Ratio in Year 2", detail: "0", score: 10 },
+        { key: "Brand Promotion", label: "Number of Trademark Registrations During Years 1–3", detail: "0", score: 10 },
+        { key: "Brand Promotion", label: "Number of Trademark Applications During Years 1–3", detail: "0", score: 10 },
+        { key: "Brand Promotion", label: "Trademark Application-to-Registration Ratio in Year 3", detail: "0", score: 10 },
 
-        { key: "External Performance", label: "Number of performance-related news articles identified during years 1–3", detail: "14.7case", score: 100 },
-        { key: "External Performance", label: "Capital in year 2", detail: "$2.7M", score: 100 },
-        { key: "External Performance", label: "Total assets in year 2", detail: "$3.1M", score: 100 },
+        { key: "External Performance", label: "Number of Performance-Related News Articles Identified During Years 1–3", detail: "14.7", score: 100 },
+        { key: "External Performance", label: "Capital in Year 2", detail: "$2.7M", score: 100 },
+        { key: "External Performance", label: "Total Assets in Year 2", detail: "$3.1M", score: 100 },
         { key: "External Performance", label: "-", detail: "", score: 0 },
         { key: "External Performance", label: "-", detail: "", score: 0 },
 
-        { key: "Partnerships", label: "Number of partnership-related news articles identified during years 1–3", detail: "6.0case", score: 100 },
+        { key: "Partnerships", label: "Number of Partnership-Related News Articles Identified During Years 1–3", detail: "6.0", score: 100 },
         { key: "Partnerships", label: "-", detail: "", score: 0 },
         { key: "Partnerships", label: "-", detail: "", score: 0 },
         { key: "Partnerships", label: "-", detail: "", score: 0 },
         { key: "Partnerships", label: "-", detail: "", score: 0 },
 
-        { key: "Talent Acquisition", label: "Hiring/Resignation ratio in year 2", detail: "5.0ratio", score: 100 },
-        { key: "Talent Acquisition", label: "Number of address changes during years 1–3", detail: "0.3case", score: 10 },
-        { key: "Talent Acquisition", label: "Hiring/Resignation ratio in year 3", detail: "2.0ratio", score: 70 },
-        { key: "Talent Acquisition", label: "Salary in year 2", detail: "$3.53K", score: 100 },
-        { key: "Talent Acquisition", label: "Salary in year 3", detail: "$3.19K", score: 100 },
+        { key: "Talent Acquisition", label: "Hiring/Resignation Ratio in Year 2", detail: "5.0", score: 100 },
+        { key: "Talent Acquisition", label: "Number of Address Changes During Years 1–3", detail: "0.3", score: 10 },
+        { key: "Talent Acquisition", label: "Hiring/Resignation Ratio in Year 3", detail: "2.0", score: 70 },
+        { key: "Talent Acquisition", label: "Salary in Year 2", detail: "$3.53K", score: 100 },
+        { key: "Talent Acquisition", label: "Salary in Year 3", detail: "$3.19K", score: 100 },
 
-        { key: "Proactive Sales", label: "Number of Hubble data records prior to the establishment date", detail: "-case", score: 10 },
-        { key: "Proactive Sales", label: "Sales made in year 2", detail: "$-M", score: 10 },
+        { key: "Proactive Sales", label: "Number of Hubble Data Records Prior to the Establishment Date", detail: "0", score: 10 },
+        { key: "Proactive Sales", label: "Sales made in year 2", detail: "$0M", score: 10 },
         { key: "Proactive Sales", label: "-", detail: "", score: 0 },
         { key: "Proactive Sales", label: "-", detail: "", score: 0 },
         { key: "Proactive Sales", label: "-", detail: "", score: 0 }
@@ -1807,23 +1807,23 @@ Therefore, the product superiority is evaluated as average.`
     // 2) 기술사업 역량 (코멘트)
     // ============================
     bizComments: {
-      "CEO capabiity": `CEO Lee Dae-seung (Master’s degree in Clinical Medicine) has previous work experience at Innovant Technologies and the Armed Forces Seoul District Hospital, and founded the company in 2021, where he continues to lead its management.
+      "CEO Capabiity": `CEO Lee Dae-seung (Master’s degree in Clinical Medicine) has previous work experience at Innovant Technologies and the Armed Forces Seoul District Hospital, and founded the company in 2021, where he continues to lead its management.
 
 □ Considering the CEO’s 12 years and 1 month of experience in the same industry, his industry experience level is assessed as average.
 □ Based on the CEO’s academic background and technical experience, he is regarded as a top-level technical expert, and his technical knowledge level is evaluated as excellent.
 □ As he satisfies criteria such as business planning, information-gathering capability, technology strategy, and entrepreneurial spirit, his technology management capability is assessed as good.`,
-      "Management capability": `□ As the company meets criteria related to the retention of key personnel, employee welfare and training, and goal management, its technical employees management capability is evaluated as average.
+      "Management Capability": `□ As the company meets criteria related to the retention of key personnel, employee welfare and training, and goal management, its technical employees management capability is evaluated as average.
 □ Since the company does not have any manager other than the CEO, its executive expertise is assessed as weak.
 □ As there are no executives holding equity, the executive capital participation level is also evaluated as weak.`,
-      "Technology development capability": `□The company has operated its corporate-affiliated research institute for approximately 3 years and 9 months, and therefore its R&D organization is evaluated as good.
+      "Technology Development Capability": `□The company has operated its corporate-affiliated research institute for approximately 3 years and 9 months, and therefore its R&D organization is evaluated as good.
 □Considering that the company’s R&D investment ratio is 411.32% (which is 32,644.44% above the industry average), its R&D investment ratio is assessed as excellent.
 □With a total of 17 technical employees — consisting of 4 top-level engineers, 1 senior engineer, 5 intermediate engineers, 2 junior engineers, 1 other technical staff, and in production management, 1 senior engineer, 2 intermediate engineers, and 1 other technical staff — the company’s technical employees expertise is evaluated as excellent.
 □Based on the company’s 9 cases of technology development and commercialization (5 technology development cases, 1 product commercialization case, and 3 certifications), its technology development and award (certification) performance is assessed as average.
 □The company holds a total of 35 intellectual property rights (7 registered patents, 26 registered designs, 1 registered trademark, and 1 patent application), and therefore its intellectual property holdings are evaluated as excellent.`,
-      "commercialization capability": `□The company manufactures its products and services itself, and as it meets criteria related to production facility scale, production workforce availability, production workforce capability, and quality management capacity, its overall production capability is evaluated as good.
+      "Commercialization Capability": `□The company manufactures its products and services itself, and as it meets criteria related to production facility scale, production workforce availability, production workforce capability, and quality management capacity, its overall production capability is evaluated as good.
 □The company’s technological products are in the post-commercialization stage, and the investment scale and feasibility for business commercialization are assessed as good.
 □Considering the company’s funding channels for commercialization and its existing assets, its capital raising capability is evaluated as average.`,
-      "Profit outlook": `□As the company satisfies criteria such as market research, environmental analysis, marketing strategy, feasibility, and securing a dedicated department, its marketing capability is evaluated as excellent.
+      "Profit Outlook": `□As the company satisfies criteria such as market research, environmental analysis, marketing strategy, feasibility, and securing a dedicated department, its marketing capability is evaluated as excellent.
 □The company’s major customers include Seoul National University Hospital, LegoChem Biosciences, Inc., and Kangstem Biotech Co., Ltd. Although it has stable primary buyers, some degree of variability remains; therefore, the diversity and stability of its sales channels are evaluated as good.
 □Considering that the company’s average operating profit is -613.09%, which is -11,745.02% below the industry average, its profit-generation capability is assessed as weak.`
     },
@@ -1859,15 +1859,15 @@ Therefore, the product superiority is evaluated as average.`
     // 4) 기술 경쟁력 (코멘트)
     // ============================
     techComments: {
-      "technology innovation": `□The technology under evaluation (a drug-analysis technology utilizing spatial transcriptomics and AI) is classified as an incremental improvement technology, with relatively strong differentiating factors and characteristics of a mature technology. Accordingly, its technological differentiation is evaluated as good.
+      "Technology Innovation": `□The technology under evaluation (a drug-analysis technology utilizing spatial transcriptomics and AI) is classified as an incremental improvement technology, with relatively strong differentiating factors and characteristics of a mature technology. Accordingly, its technological differentiation is evaluated as good.
 □As it satisfies criteria related to development cost, development period, technology protection, and entry barriers, the difficulty of imitation is evaluated as good.
 □Given that the technology has been in the post-approval, commercialization stage for four years, its technological completeness is assessed as good.
 □The technological independence of the technology is evaluated as good.
 □Although the application field of the technology is somewhat limited, it has potential for expansion; therefore, its technological scalability is assessed as average.`,
-      "market status": `□Considering the projected 2025 market size of 3,910.5 billion KRW for the target market (medical and pharmaceutical R&D), the market size is evaluated as excellent.
+      "Market Status": `□Considering the projected 2025 market size of 3,910.5 billion KRW for the target market (medical and pharmaceutical R&D), the market size is evaluated as excellent.
 □Although the industry’s sales growth rate is 53.69% compared to the overall industry, the target market’s CAGR of 13.54% indicates continuous growth going forward; therefore, the market growth potential is assessed as good.
 □As the target market satisfies factors such as market concentration, differentiation, cost structure, and relevant policies and regulations, its market structure and characteristics are evaluated as good.`,
-      "Product superiority": `□As the company satisfies criteria such as share of own-brand products, customer loyalty, and purchase motivation, its product awareness is evaluated as average.
+      "Product Superiority": `□As the company satisfies criteria such as share of own-brand products, customer loyalty, and purchase motivation, its product awareness is evaluated as average.
 □Since it meets evaluation elements related to sales network, competitive advantage, and buyer bargaining power, the company’s market acquisition potential is assessed as average.
 □By satisfying criteria such as quality competitiveness, convenience and design competitiveness, customers’ willingness to switch to the company’s products, and the absence of cost constraints when switching, the company’s comparative advantage over competing products is evaluated as good.`
     },
@@ -1919,53 +1919,53 @@ Therefore, the product superiority is evaluated as average.`
       ],
 
       barScores: [
-        { key: "Investment", label: "4–7-year investment stage", detail: "-step", score: 10 },
-        { key: "Investment", label: "Number of investments during years 4–7", detail: "-case", score: 10 },
-        { key: "Investment", label: "Number of VC Top 20 investments secured in year 5", detail: "$-M", score: 10 },
-        { key: "Investment", label: "Number of VC Top 20 investments during years 4–7", detail: "-case", score: 10 },
-        { key: "Investment", label: "Investment amount secured in year 5", detail: "$-M", score: 10 },
+        { key: "Investment", label: "4–7-Year Investment Stage", detail: "0", score: 10 },
+        { key: "Investment", label: "Number of Investments During Years 4–7", detail: "0", score: 10 },
+        { key: "Investment", label: "Number of VC Top 20 Investments Secured in Year 5", detail: "$0M", score: 10 },
+        { key: "Investment", label: "Number of VC Top 20 Investments During Years 4–7", detail: "0", score: 10 },
+        { key: "Investment", label: "Investment Amount Secured in Year 5", detail: "$0M", score: 10 },
 
-        { key: "Government Grants", label: "Total amount of R&D investment in year 4", detail: "$0.7M", score: 100 },
-        { key: "Government Grants", label: "Number of R&D projects executed in years 4–7", detail: "-case", score: 10 },
-        { key: "Government Grants", label: "Number of research expense card transactions during years 4–7", detail: "-case", score: 10 },
-        { key: "Government Grants", label: "Total amount of R&D investment in year 5", detail: "$-M", score: 10 },
+        { key: "Government Grants", label: "Total Amount of R&D Investment in Year 4", detail: "$0.7M", score: 100 },
+        { key: "Government Grants", label: "Number of R&D Projects Executed in Years 4–7", detail: "0", score: 10 },
+        { key: "Government Grants", label: "Number of Research Expense Card Transactions During Years 4–7", detail: "0", score: 10 },
+        { key: "Government Grants", label: "Total Amount of R&D Investment in Year 5", detail: "$0M", score: 10 },
         { key: "Government Grants", label: "-", detail: "", score: 0 },
 
-        { key: "Brand Promotion", label: "Brand-related intellectual property applications filed during years 4–7", detail: "0.5ratio", score: 100 },
-        { key: "Brand Promotion", label: "Total number of news articles found during years 4–7", detail: "12.0case", score: 100 },
-        { key: "Brand Promotion", label: "Number of trademark applications filed during years 5", detail: "-ratio", score: 10 },
-        { key: "Brand Promotion", label: "Number of trademark applications filed during years 4–7", detail: "-case", score: 10 },
-        { key: "Brand Promotion", label: "Number of trademark applications filed during years 4", detail: "-ratio", score: 10 },
+        { key: "Brand Promotion", label: "Brand-Related Intellectual Property Applications Filed During Years 4–7", detail: "0.5", score: 100 },
+        { key: "Brand Promotion", label: "Total Number of News Articles Found During Years 4–7", detail: "12.0", score: 100 },
+        { key: "Brand Promotion", label: "Number of Trademark Applications Filed During Years 5", detail: "0", score: 10 },
+        { key: "Brand Promotion", label: "Number of Trademark Applications Filed During Years 4–7", detail: "0", score: 10 },
+        { key: "Brand Promotion", label: "Number of Trademark Applications Filed During Years 4", detail: "0", score: 10 },
 
-        { key: "Partnerships", label: "Number of partnership-related news articles identified during years 4–7", detail: "1.0case", score: 100 },
+        { key: "Partnerships", label: "Number of Partnership-Related News Articles Identified During Years 4–7", detail: "1.0", score: 100 },
         { key: "Partnerships", label: "-", detail: "", score: 0 },
         { key: "Partnerships", label: "-", detail: "", score: 0 },
         { key: "Partnerships", label: "-", detail: "", score: 0 },
         { key: "Partnerships", label: "-", detail: "", score: 0 },
 
-        { key: "External Performance", label: "Employment growth rate in year 5", detail: "-%", score: 40 },
-        { key: "External Performance", label: "Number of performance-themed news articles identified during years 4-7", detail: "12.0case", score: 100 },
+        { key: "External Performance", label: "Employment Growth Rate in Year 5", detail: "0%", score: 40 },
+        { key: "External Performance", label: "Number of Performance-Themed News Articles Identified During Years 4-7", detail: "12.0", score: 100 },
         { key: "External Performance", label: "-", detail: "", score: 0 },
         { key: "External Performance", label: "-", detail: "", score: 0 },
         { key: "External Performance", label: "-", detail: "", score: 0 },
 
-        { key: "Overseas Expansion", label: "Number of articles on international market expansion identified in years 4-7", detail: "2.0case", score: 100 },
+        { key: "Overseas Expansion", label: "Number of Articles on International Market Expansion Identified in Years 4-7", detail: "2.0", score: 100 },
         { key: "Overseas Expansion", label: "-", detail: "", score: 0 },
         { key: "Overseas Expansion", label: "-", detail: "", score: 0 },
         { key: "Overseas Expansion", label: "-", detail: "", score: 0 },
         { key: "Overseas Expansion", label: "-", detail: "", score: 0 },
 
-        { key: "Talent Acquisition", label: "salary in year 4 ", detail: "$3.06K", score: 100 },
-        { key: "Talent Acquisition", label: "Hiring/Resignation ratio in year 4", detail: "1.4ratio", score: 80 },
-        { key: "Talent Acquisition", label: "Hiring/Resignation ratio in year 5", detail: "0.7ratio", score: 50 },
-        { key: "Talent Acquisition", label: "salary in year 5", detail: "$3.19K", score: 100 },
-        { key: "Talent Acquisition", label: "Employment certification status during years 4–7 ", detail: "-case", score: 10 },
+        { key: "Talent Acquisition", label: "Salary in Year 4 ", detail: "$3.06K", score: 100 },
+        { key: "Talent Acquisition", label: "Hiring/Resignation Ratio in Year 4", detail: "1.4", score: 80 },
+        { key: "Talent Acquisition", label: "Hiring/Resignation Ratio in Year 5", detail: "0.7", score: 50 },
+        { key: "Talent Acquisition", label: "Salary in Year 5", detail: "$3.19K", score: 100 },
+        { key: "Talent Acquisition", label: "Employment Certification Status During Years 4–7 ", detail: "0", score: 10 },
 
-        { key: "Technology Readiness", label: "Technology certification status during years 4–7 ", detail: "1.0case", score: 90 },
-        { key: "Technology Readiness", label: "Number of research lab accreditations during 4–7", detail: "0.3case", score: 100 },
-        { key: "Technology Readiness", label: "Number of patent registrations during years 4–7", detail: "1.0case", score: 100 },
-        { key: "Technology Readiness", label: "Patent application-to-registration ratio in year 4", detail: "3.0ratio", score: 100 },
-        { key: "Technology Readiness", label: "Number of patent applications in years 4–7", detail: "0.3case", score: 100 }
+        { key: "Technology Readiness", label: "Technology Certification Status During Years 4–7 ", detail: "1.0", score: 90 },
+        { key: "Technology Readiness", label: "Number of Research Lab Accreditations During 4–7", detail: "0.3", score: 100 },
+        { key: "Technology Readiness", label: "Number of Patent Registrations During Years 4–7", detail: "1.0", score: 100 },
+        { key: "Technology Readiness", label: "Patent Application-to-Registration Ratio in Year 4", detail: "3.0", score: 100 },
+        { key: "Technology Readiness", label: "Number of Patent Applications in Years 4–7", detail: "0.3", score: 100 }
       ]
     }
   },
@@ -2014,19 +2014,19 @@ Therefore, the product superiority is evaluated as average.`
     // 2) 기술사업 역량 (코멘트)
     // ============================
     bizComments: {
-      "CEO capabiity": `CEO Choi Sang-su has 6 years of work experience in the same industry as the company’s business, and 4 years of accumulated technical experience in the same field as the technology under evaluation, starting after graduating from high school. According to the technical knowledge level assessment criteria, this corresponds to the category of “other technical personnel.”
+      "CEO Capabiity": `CEO Choi Sang-su has 6 years of work experience in the same industry as the company’s business, and 4 years of accumulated technical experience in the same field as the technology under evaluation, starting after graduating from high school. According to the technical knowledge level assessment criteria, this corresponds to the category of “other technical personnel.”
 In addition, based on the CEO’s understanding of the evaluated technology, his commercialization capability—including planning ability, information-gathering capability, and reliability—is assessed as average.
 Therefore, the CEO’s overall competency is evaluated as insufficient.`,
-      "Management capability": `Based on a review of the company’s technical personnel management systems and regulations—such as incentive programs, retention and recruitment of key employees, and welfare and training—the company’s technical employees management capability is assessed as average.
+      "Management Capability": `Based on a review of the company’s technical personnel management systems and regulations—such as incentive programs, retention and recruitment of key employees, and welfare and training—the company’s technical employees management capability is assessed as average.
 The company has a management team consisting of one intermediate-level engineer, and none of the management members hold any equity in the company.
 Therefore, the company’s overall management capability is evaluated as insufficient.`,
-      "Technology development capability": `The company operates a corporate-affiliated research institute registered with the Korea Industrial Technology Association under the Technology Development Promotion Act. Over the past three years, its average R&D investment ratio is 210%. The company has a total of 11 personnel engaged in R&D (design planning) or production management (process technology, quality control, design execution, etc.), consisting of 1 senior engineer, 2 intermediate engineers, 6 junior engineers, and 2 other technical employees. In addition, over the past three years, the company has achieved three technology development results : Distributed logistics system using “Last Mile Box”, Vision-based cargo classification system and method, Large-scale cargo sorting and management system and method. It has also achieved one technology commercialization result : High-efficiency goods installation system using distributed fulfillment As of the evaluation date, the company holds one valid certification (Venture Business Certification), along with 2 registered patents, 7 patent applications, 5 registered designs, and 6 registered trademarks.
+      "Technology Development Capability": `The company operates a corporate-affiliated research institute registered with the Korea Industrial Technology Association under the Technology Development Promotion Act. Over the past three years, its average R&D investment ratio is 210%. The company has a total of 11 personnel engaged in R&D (design planning) or production management (process technology, quality control, design execution, etc.), consisting of 1 senior engineer, 2 intermediate engineers, 6 junior engineers, and 2 other technical employees. In addition, over the past three years, the company has achieved three technology development results : Distributed logistics system using “Last Mile Box”, Vision-based cargo classification system and method, Large-scale cargo sorting and management system and method. It has also achieved one technology commercialization result : High-efficiency goods installation system using distributed fulfillment As of the evaluation date, the company holds one valid certification (Venture Business Certification), along with 2 registered patents, 7 patent applications, 5 registered designs, and 6 registered trademarks.
 Therefore, the company’s technology development capability is evaluated as good.`,
-      "commercialization capability": `The company operates with its own facilities, and based on a comprehensive evaluation of its production infrastructure—including production facilities, production employees, ease of procuring raw and subsidiary materials, and quality management level—its overall production capability is assessed as average.
+      "Commercialization Capability": `The company operates with its own facilities, and based on a comprehensive evaluation of its production infrastructure—including production facilities, production employees, ease of procuring raw and subsidiary materials, and quality management level—its overall production capability is assessed as average.
 In terms of investment scale adequacy, the current level of investment required for commercialization is considered highly appropriate, and the feasibility of securing additional investment in the future is judged to be high.
 From the perspective of capital raising capability, the company is capable of securing the funds necessary for commercialization, though the level of funding is not deemed fully sufficient.
 Therefore, the company’s commercialization capability is evaluated as average.`,
-      "Profit outlook": `A review was conducted to determine whether the company’s overall marketing strategy—including market size analysis, competitor analysis, marketing mix, and advertising or promotional strategies—is planned reasonably and based on objective data. As a result, the company’s marketing capability is evaluated as good.
+      "Profit Outlook": `A review was conducted to determine whether the company’s overall marketing strategy—including market size analysis, competitor analysis, marketing mix, and advertising or promotional strategies—is planned reasonably and based on objective data. As a result, the company’s marketing capability is evaluated as good.
 The company has stable, long-term customers; however, some of these relationships are partially unstable, and the company is currently in the process of establishing additional sales channels.
 In addition, over the past three years, the company’s operating profit has been –181,900.78%, significantly below the industry average, indicating that its revenue-generation capability is weak.
 Therefore, the company’s profit outlook is evaluated as average.`
@@ -2063,16 +2063,16 @@ Therefore, the company’s profit outlook is evaluated as average.`
     // 4) 기술 경쟁력 (코멘트)
     // ============================
     techComments: {
-      "technology innovation": `An assessment of the differentiation of the company’s technology shows that the technology itself is innovative, and its differentiating attributes are comparable to those of existing and competing technologies. The technology is judged to be in the mature stage of its life cycle.
+      "Technology Innovation": `An assessment of the differentiation of the company’s technology shows that the technology itself is innovative, and its differentiating attributes are comparable to those of existing and competing technologies. The technology is judged to be in the mature stage of its life cycle.
 Furthermore, based on an evaluation of factors such as development cost, development duration, intellectual property registration, ease of reverse engineering, and the technology’s impact on business activities, the technology is determined to be difficult to imitate.
 
 The technology under evaluation is assessed to be in the mass-production stage in terms of technological completeness, and in terms of technological independence, it is judged to make a very high contribution to the production and operation of the technological product.
 Regarding technological scalability, the technology is currently utilized only within its specific industrial field, and its potential for expansion into new fields is considered average.
 Therefore, the technology’s technological innovativeness is evaluated as good.`,
-      "market status": `The target market size related to the company’s evaluated technology is assessed as very large. Based on a comparison of the average sales growth rate of the industry over the past three years with the overall industrial sales growth rate, the historical market growth rate is calculated to be 29.06%, and future market growth is not expected.
+      "Market Status": `The target market size related to the company’s evaluated technology is assessed as very large. Based on a comparison of the average sales growth rate of the industry over the past three years with the overall industrial sales growth rate, the historical market growth rate is calculated to be 29.06%, and future market growth is not expected.
 Additionally, a comprehensive evaluation of factors such as market concentration, differentiation, cost structure, early-market characteristics, policies and regulations, and demand characteristics indicates that the market structure and characteristics are assessed as average.
 Therefore, the overall market status is evaluated as good.`,
-      "Product superiority": `Considering factors such as customer demand characteristics, sensitivity to economic fluctuations and price changes, brand recognition, and customer loyalty within the market in which the company’s service operates, the company’s service awareness is evaluated as average.
+      "Product Superiority": `Considering factors such as customer demand characteristics, sensitivity to economic fluctuations and price changes, brand recognition, and customer loyalty within the market in which the company’s service operates, the company’s service awareness is evaluated as average.
 An assessment of the company’s ability to secure and maintain market share within the target market—based on the competitiveness of its services—indicates that its market acquisition potential is evaluated as average.
 Furthermore, after evaluating the presence of competing products, as well as relative price competitiveness, quality competitiveness, convenience and design competitiveness, and potential customer willingness to switch, the company’s comparative advantage over competing products is assessed as average.
 Therefore, the product superiority is evaluated as average.`
@@ -2125,53 +2125,53 @@ Therefore, the product superiority is evaluated as average.`
       ],
 
       barScores: [
-        { key: "Investment", label: "Number of investment-related news articles found during years 4–7", detail: "0.5case", score: 100 },
-        { key: "Investment", label: "4–7-year investment stage", detail: "-step", score: 10 },
-        { key: "Investment", label: "Number of investments during years 4–7", detail: "-case", score: 10 },
-        { key: "Investment", label: "Number of VC Top 20 investments secured in year 5", detail: "$-M", score: 10 },
-        { key: "Investment", label: "Number of VC Top 20 investments during years 4–7", detail: "-case", score: 10 },
+        { key: "Investment", label: "Number of Investment-Related News Articles Found During Years 4–7", detail: "0.5", score: 100 },
+        { key: "Investment", label: "4–7-Year Investment Stage", detail: "0", score: 10 },
+        { key: "Investment", label: "Number of Investments During Years 4–7", detail: "0", score: 10 },
+        { key: "Investment", label: "Number of VC Top 20 Investments Secured in Year 5", detail: "$0M", score: 10 },
+        { key: "Investment", label: "Number of VC Top 20 Investments During Years 4–7", detail: "0", score: 10 },
 
-        { key: "Government Grants", label: "Total amount of R&D investment in year 4", detail: "$-M", score: 10 },
-        { key: "Government Grants", label: "Number of R&D projects executed in years 4–7", detail: "-case", score: 10 },
-        { key: "Government Grants", label: "Number of research expense card transactions during years 4–7", detail: "-case", score: 10 },
-        { key: "Government Grants", label: "Total amount of R&D investment in year 5", detail: "$-M", score: 10 },
+        { key: "Government Grants", label: "Total Amount of R&D Investment in Year 4", detail: "$0M", score: 10 },
+        { key: "Government Grants", label: "Number of R&D Projects Executed in Years 4–7", detail: "0", score: 10 },
+        { key: "Government Grants", label: "Number of Research Expense Card Transactions During Years 4–7", detail: "0", score: 10 },
+        { key: "Government Grants", label: "Total Amount of R&D Investment in Year 5", detail: "$0M", score: 10 },
         { key: "Government Grants", label: "-", detail: "", score: 0 },
 
-        { key: "Brand Promotion", label: "Total number of news articles found during years 4–7", detail: "1.5case", score: 100 },
-        { key: "Brand Promotion", label: "Brand-related intellectual property applications filed during years 4–7", detail: "-ratio", score: 10 },
-        { key: "Brand Promotion", label: "Number of trademark applications filed during years 5", detail: "-ratio", score: 10 },
-        { key: "Brand Promotion", label: "Number of trademark applications filed during years 4–7", detail: "-case", score: 10 },
-        { key: "Brand Promotion", label: "Number of trademark applications filed during years 4", detail: "-ratio", score: 10 },
+        { key: "Brand Promotion", label: "Total Number of News Articles Found During Years 4–7", detail: "1.5", score: 100 },
+        { key: "Brand Promotion", label: "Brand-Related Intellectual Property Applications Filed During Years 4–7", detail: "0", score: 10 },
+        { key: "Brand Promotion", label: "Number of Trademark Applications Filed During Years 5", detail: "0", score: 10 },
+        { key: "Brand Promotion", label: "Number of Trademark Applications Filed During Years 4–7", detail: "0", score: 10 },
+        { key: "Brand Promotion", label: "Number of Trademark Applications Filed During Years 4", detail: "0", score: 10 },
 
-        { key: "Partnerships", label: "Number of partnership-related news articles identified during years 4–7", detail: "-case", score: 10 },
+        { key: "Partnerships", label: "Number of Partnership-Related News Articles Identified During Years 4–7", detail: "0", score: 10 },
         { key: "Partnerships", label: "-", detail: "", score: 0 },
         { key: "Partnerships", label: "-", detail: "", score: 0 },
         { key: "Partnerships", label: "-", detail: "", score: 0 },
         { key: "Partnerships", label: "-", detail: "", score: 0 },
 
-        { key: "External Performance", label: "Employment growth rate in year 5", detail: "0.2%", score: 80 },
-        { key: "External Performance", label: "Number of performance-themed news articles identified during years 4-7", detail: "1.5case", score: 100 },
+        { key: "External Performance", label: "Employment Growth Rate in Year 5", detail: "0.2%", score: 80 },
+        { key: "External Performance", label: "Number of Performance-Themed News Articles Identified During Years 4-7", detail: "1.5", score: 100 },
         { key: "External Performance", label: "-", detail: "", score: 0 },
         { key: "External Performance", label: "-", detail: "", score: 0 },
         { key: "External Performance", label: "-", detail: "", score: 0 },
 
-        { key: "Overseas Expansion", label: "Number of articles on international market expansion identified in years 4-7", detail: "-case", score: 10 },
+        { key: "Overseas Expansion", label: "Number of Articles on International Market Expansion Identified in Years 4-7", detail: "0", score: 10 },
         { key: "Overseas Expansion", label: "-", detail: "", score: 0 },
         { key: "Overseas Expansion", label: "-", detail: "", score: 0 },
         { key: "Overseas Expansion", label: "-", detail: "", score: 0 },
         { key: "Overseas Expansion", label: "-", detail: "", score: 0 },
 
-        { key: "Talent Acquisition", label: "salary in year 4 ", detail: "$2.58K", score: 80 },
-        { key: "Talent Acquisition", label: "Hiring/Resignation ratio in year 4", detail: "0.8ratio", score: 40 },
-        { key: "Talent Acquisition", label: "Hiring/Resignation ratio in year 5", detail: "3.2ratio", score: 100 },
-        { key: "Talent Acquisition", label: "salary in year 5", detail: "$2.51M", score: 80 },
-        { key: "Talent Acquisition", label: "Employment certification status during years 4–7 ", detail: "-case", score: 10 },
+        { key: "Talent Acquisition", label: "Salary in Year 4 ", detail: "$2.58K", score: 80 },
+        { key: "Talent Acquisition", label: "Hiring/Resignation Ratio in Year 4", detail: "0.8", score: 40 },
+        { key: "Talent Acquisition", label: "Hiring/Resignation Ratio in Year 5", detail: "3.2", score: 100 },
+        { key: "Talent Acquisition", label: "Salary in Year 5", detail: "$2.51M", score: 80 },
+        { key: "Talent Acquisition", label: "Employment Certification Status During Years 4–7 ", detail: "0", score: 10 },
 
-        { key: "Technology Readiness", label: "Technology certification status during years 4–7 ", detail: "1.0case", score: 90 },
-        { key: "Technology Readiness", label: "Number of patent registrations during years 4–7", detail: "0.5case", score: 100 },
-        { key: "Technology Readiness", label: "Patent application-to-registration ratio in year 4", detail: "0.7ratio", score: 100 },
-        { key: "Technology Readiness", label: "Number of patent applications in years 4–7", detail: "0.8case", score: 100 },
-        { key: "Technology Readiness", label: "Number of research lab accreditations during 4–7", detail: "-case", score: 10 }
+        { key: "Technology Readiness", label: "Technology Certification Status During Years 4–7 ", detail: "1.0", score: 90 },
+        { key: "Technology Readiness", label: "Number of Patent Registrations During Years 4–7", detail: "0.5", score: 100 },
+        { key: "Technology Readiness", label: "Patent Application-to-Registration Ratio in Year 4", detail: "0.7", score: 100 },
+        { key: "Technology Readiness", label: "Number of Patent Applications in Years 4–7", detail: "0.8", score: 100 },
+        { key: "Technology Readiness", label: "Number of Research Lab Accreditations During 4–7", detail: "0", score: 10 }
       ]
     }
   },
@@ -2220,28 +2220,28 @@ Therefore, the product superiority is evaluated as average.`
     // 2) 기술사업 역량 (코멘트)
     // ============================
     bizComments: {
-      "CEO capabiity": `• The key decision-maker leading the company is CEO Lim Kang-hoo, who is assessed to be managing the company as of the evaluation date. With 11 years and 9 months of experience in the same industry, his level of experience and accumulated knowledge in the field indicate that his industry experience level is evaluated as average.
+      "CEO Capabiity": `• The key decision-maker leading the company is CEO Lim Kang-hoo, who is assessed to be managing the company as of the evaluation date. With 11 years and 9 months of experience in the same industry, his level of experience and accumulated knowledge in the field indicate that his industry experience level is evaluated as average.
 • Considering the CEO’s highest level of education, alignment of his major with the technical field, duration of technical work experience, and relevant technical qualifications, he corresponds to the level of an intermediate engineer, and therefore his technical knowledge level is evaluated as average.
 • Taking into account the CEO’s reliability and social contribution, capability in business planning and technology strategy development, information-gathering ability, financial and accounting knowledge, commercialization achievements, and entrepreneurial spirit, his technology management capability is evaluated as good.
 ▶ Overall, the CEO’s competency is evaluated as average.`,
-      "Management capability": `• Taking into account the company’s incentive system, welfare and training programs, new hiring performance, goal-management system, and the capabilities and retention of key employees, the company’s technical employees management is assessed as average.
+      "Management Capability": `• Taking into account the company’s incentive system, welfare and training programs, new hiring performance, goal-management system, and the capabilities and retention of key employees, the company’s technical employees management is assessed as average.
 • The company has only one executive besides the CEO responsible for managing major operations. Considering the composition of the management team, their major career experience, level of technical knowledge, and role distribution, the executive expertise is evaluated as insufficient.
 • According to the shareholder registry, Director Hong Seung-gi holds only 2.44% equity, and therefore the executive capital participation level is assessed as insufficient.
 ▶ Overall, the company’s management capability is evaluated as insufficient.
 However, given the characteristics of an early-stage startup, the technical personnel management item is evaluated with zero weighting (no score assigned).`,
-      "Technology development capability": `•The company is operating a corporate-affiliated research institute, and therefore the operation of its R&D organization is evaluated as average.
+      "Technology Development Capability": `•The company is operating a corporate-affiliated research institute, and therefore the operation of its R&D organization is evaluated as average.
 •It has been confirmed that the company has no recent R&D investment, and thus its R&D investment ratio is evaluated as weak.
 •The company has four technical employees, and considering their academic backgrounds and industry experience, the technical employees expertise is assessed as weak.
 •The company’s technology development and award performance over the past three years is evaluated as insufficient.
 •The company’s intellectual property rights related to R&D outcomes are assessed as average.
 ▶ Overall, the company’s technology development capability is evaluated as insufficient.
 However, given the characteristics of an early-stage startup, the R&D organization and R&D investment ratio items are evaluated with zero weighting (no score assigned).`,
-      "commercialization capability": `•The company is identified as having its own service infrastructure, and based on a comprehensive evaluation of workforce availability and competency, management systems, facility standards, and quality-control capability, the company’s production capability is assessed as average.
+      "Commercialization Capability": `•The company is identified as having its own service infrastructure, and based on a comprehensive evaluation of workforce availability and competency, management systems, facility standards, and quality-control capability, the company’s production capability is assessed as average.
 •The adequacy of investment scale, evaluated based on the company’s investment planning for R&D, prototype development, facility acquisition, and marketing—as well as the appropriateness of estimated capital requirements and the feasibility of securing such funds—is assessed as average.
 •Considering past capital-raising performance, the company’s borrowing capacity from financial institutions, its record of attracting external investment, and its overall financial flexibility, the capital raising capability necessary for commercialization is assessed as weak.
 ▶ Overall, the company's commercialization ability is evaluated as average.
 However, in consideration of the characteristics of a startup, the investment-scale adequacy item is assigned zero weighting (not scored).`,
-      "Profit outlook": `•Based on an overall assessment of the specialization of the company’s dedicated marketing department and employees, the market research and environmental analysis conducted for marketing activities, and the establishment and feasibility of its marketing strategies, the company’s marketing capability is evaluated as average.
+      "Profit Outlook": `•Based on an overall assessment of the specialization of the company’s dedicated marketing department and employees, the market research and environmental analysis conducted for marketing activities, and the establishment and feasibility of its marketing strategies, the company’s marketing capability is evaluated as average.
 •Considering the number and types of sales channels, transaction duration and likelihood of continued business, the clarity and completeness of sales-channel development plans, and the stability of accounts-receivable collection, the diversity and stability of the company’s sales channels are evaluated as insufficient.
 •According to the company’s financial statements, the recent average operating profit is –1,845.1%, which is significantly below the industry average of 1.47%, indicating that the company’s profit-generation capability is weak.
 ▶ Overall, the company’s profit outlook is evaluated as insufficient.`
@@ -2278,17 +2278,17 @@ However, in consideration of the characteristics of a startup, the investment-sc
     // 4) 기술 경쟁력 (코멘트)
     // ============================
     techComments: {
-      "technology innovation": `• The core technology under evaluation is classified as a mature-stage technology in the technology life cycle and corresponds to an innovation-growth item, “Machine Learning · Deep Learning (H27001)”. Therefore, it is regarded as an innovative technology, and since its functions and characteristics are similar to those of existing technologies, its technological differentiation is evaluated as good.
+      "Technology Innovation": `• The core technology under evaluation is classified as a mature-stage technology in the technology life cycle and corresponds to an innovation-growth item, “Machine Learning · Deep Learning (H27001)”. Therefore, it is regarded as an innovative technology, and since its functions and characteristics are similar to those of existing technologies, its technological differentiation is evaluated as good.
 • Considering the development time and cost required, the ease of reverse engineering, the level of technology protection through intellectual property rights, and the presence of practical entry barriers, the difficulty of imitation is assessed as average.
 • The core technology under evaluation is currently in the sales stage, and taking into account the sales period, supplementary development performance, and version upgrades, its technological completeness is evaluated as good.
 • Considering the need for complementary technologies for commercialization, the technological independence is assessed as good.
 • Taking into account the technology’s impact across various technical and industrial fields, its technological scalability is evaluated as average.
 ▶ Overall, the company's technological innovativeness is evaluated as good.`,
-      "market status": `• According to the 2023 TDB Technology/Market Report by the Korea Credit Information Services, the process and production management technology market grew from 5,743.6 billion KRW in 2018 to 8,010.9 billion KRW in 2021, recording a CAGR of 11.73%. Accordingly, the market size of the target market to which the evaluated technology belongs is assessed as excellent.
+      "Market Status": `• According to the 2023 TDB Technology/Market Report by the Korea Credit Information Services, the process and production management technology market grew from 5,743.6 billion KRW in 2018 to 8,010.9 billion KRW in 2021, recording a CAGR of 11.73%. Accordingly, the market size of the target market to which the evaluated technology belongs is assessed as excellent.
 • Considering both the historical market growth rate and future market outlook, the market growth potential is evaluated as good.
 • The market structure and characteristics were evaluated by taking into account market regulations and policies affecting the targeted product or service, market entry feasibility, presence of monopoly or oligopoly, competition intensity, cost structure, and demand fluctuations due to economic cycles or seasonality. Based on these factors, the market structure and characteristics of the market to which the company’s evaluated core technology belongs are assessed as average.
 ▶ Overall, the market status is evaluated as good.`,
-      "Product superiority": `• Considering factors such as the proportion of own-brand products, threat of substitutes, customer loyalty, purchase motivation, brand recognition within the market, and the need for active promotion to generate demand, the product awareness of the company is evaluated as average.
+      "Product Superiority": `• Considering factors such as the proportion of own-brand products, threat of substitutes, customer loyalty, purchase motivation, brand recognition within the market, and the need for active promotion to generate demand, the product awareness of the company is evaluated as average.
 • Based on an assessment of barriers arising from economies of scale, required capital for market entry, the level of stable sales network establishment, cost and price competitiveness, and the company’s bargaining power as both a supplier and a buyer within the industry, the market acquisition potential is evaluated as average.
 • Taking into account the number of competing products, relative price and quality competitiveness, competitiveness in non-core functions such as convenience, buyers’ willingness to switch to the company’s products, and the absence or presence of constraints related to switching costs, the comparative advantage over competing products is evaluated as average.
 ▶ Overall, the product superiority is evaluated as average.
@@ -2342,53 +2342,53 @@ However, in consideration of the characteristics of an early-stage startup, the 
       ],
 
       barScores: [
-        { key: "Investment", label: "4–7-year investment stage", detail: "0.3step", score: 100 },
-        { key: "Investment", label: "Number of investments during years 4–7", detail: "0.3case", score: 100 },
-        { key: "Investment", label: "Number of investment-related news articles found during years 4–7", detail: "1.0case", score: 100 },
-        { key: "Investment", label: "Number of VC Top 20 investments secured in year 5", detail: "$-M", score: 10 },
-        { key: "Investment", label: "Number of VC Top 20 investments during years 4–7", detail: "-case", score: 10 },
+        { key: "Investment", label: "4–7-Year Investment Stage", detail: "0.3", score: 100 },
+        { key: "Investment", label: "Number of Investments During Years 4–7", detail: "0.3", score: 100 },
+        { key: "Investment", label: "Number of Investment-Related News Articles Found During Years 4–7", detail: "1.0", score: 100 },
+        { key: "Investment", label: "Number of VC Top 20 Investments Secured in Year 5", detail: "$0M", score: 10 },
+        { key: "Investment", label: "Number of VC Top 20 Investments During Years 4–7", detail: "0", score: 10 },
 
-        { key: "Government Grants", label: "Total amount of R&D investment in year 4", detail: "$47.62K", score: 100 },
-        { key: "Government Grants", label: "Number of R&D projects executed in years 4–7", detail: "0.5case", score: 100 },
-        { key: "Government Grants", label: "Number of research expense card transactions during years 4–7", detail: "-case", score: 10 },
-        { key: "Government Grants", label: "Total amount of R&D investment in year 5", detail: "$-M", score: 10 },
+        { key: "Government Grants", label: "Total Amount of R&D Investment in Year 4", detail: "$47.62K", score: 100 },
+        { key: "Government Grants", label: "Number of R&D Projects Executed in Years 4–7", detail: "0.5", score: 100 },
+        { key: "Government Grants", label: "Number of Research Expense Card Transactions During Years 4–7", detail: "0", score: 10 },
+        { key: "Government Grants", label: "Total Amount of R&D Investment in Year 5", detail: "$0M", score: 10 },
         { key: "Government Grants", label: "-", detail: "", score: 0 },
 
-        { key: "Brand Promotion", label: "Total number of news articles found during years 4–7", detail: "6.0case", score: 100 },
-        { key: "Brand Promotion", label: "Brand-related intellectual property applications filed during years 4–7", detail: "-ratio", score: 10 },
-        { key: "Brand Promotion", label: "Number of trademark applications filed during years 5", detail: "-ratio", score: 10 },
-        { key: "Brand Promotion", label: "Number of trademark applications filed during years 4–7", detail: "-case", score: 10 },
-        { key: "Brand Promotion", label: "Number of trademark applications filed during years 4", detail: "-ratio", score: 10 },
+        { key: "Brand Promotion", label: "Total Number of News Articles Found During Years 4–7", detail: "6.0", score: 100 },
+        { key: "Brand Promotion", label: "Brand-Related Intellectual Property Applications Filed During Years 4–7", detail: "0", score: 10 },
+        { key: "Brand Promotion", label: "Number of Trademark Applications Filed During Years 5", detail: "0", score: 10 },
+        { key: "Brand Promotion", label: "Number of Trademark Applications Filed During Years 4–7", detail: "0", score: 10 },
+        { key: "Brand Promotion", label: "Number of Trademark Applications Filed During Years 4", detail: "0", score: 10 },
 
-        { key: "Partnerships", label: "Number of partnership-related news articles identified during years 4–7", detail: "-case", score: 10 },
+        { key: "Partnerships", label: "Number of Partnership-Related News Articles Identified During Years 4–7", detail: "0", score: 10 },
         { key: "Partnerships", label: "-", detail: "", score: 0 },
         { key: "Partnerships", label: "-", detail: "", score: 0 },
         { key: "Partnerships", label: "-", detail: "", score: 0 },
         { key: "Partnerships", label: "-", detail: "", score: 0 },
 
-        { key: "External Performance", label: "Employment growth rate in year 5", detail: "0.3%", score: 90 },
-        { key: "External Performance", label: "Number of performance-themed news articles identified during years 4-7", detail: "6.0case", score: 100 },
+        { key: "External Performance", label: "Employment Growth Rate in Year 5", detail: "0.3%", score: 90 },
+        { key: "External Performance", label: "Number of Performance-Themed News Articles Identified During Years 4-7", detail: "6.0", score: 100 },
         { key: "External Performance", label: "-", detail: "", score: 0 },
         { key: "External Performance", label: "-", detail: "", score: 0 },
         { key: "External Performance", label: "-", detail: "", score: 0 },
 
-        { key: "Overseas Expansion", label: "Number of articles on international market expansion identified in years 4-7", detail: "0.5case", score: 100 },
+        { key: "Overseas Expansion", label: "Number of Articles on International Market Expansion Identified in Years 4-7", detail: "0.5", score: 100 },
         { key: "Overseas Expansion", label: "-", detail: "", score: 0 },
         { key: "Overseas Expansion", label: "-", detail: "", score: 0 },
         { key: "Overseas Expansion", label: "-", detail: "", score: 0 },
         { key: "Overseas Expansion", label: "-", detail: "", score: 0 },
 
-        { key: "Talent Acquisition", label: "salary in year 4 ", detail: "$1.56K", score: 20 },
-        { key: "Talent Acquisition", label: "Employment certification status during years 4–7 ", detail: "0.3case", score: 80 },
-        { key: "Talent Acquisition", label: "Hiring/Resignation ratio in year 4", detail: "0.4ratio", score:30 },
-        { key: "Talent Acquisition", label: "Hiring/Resignation ratio in year 5", detail: "1.8ratio", score: 90 },
-        { key: "Talent Acquisition", label: "salary in year 5", detail: "$1.84K", score: 30 },
+        { key: "Talent Acquisition", label: "Salary in Year 4 ", detail: "$1.56K", score: 20 },
+        { key: "Talent Acquisition", label: "Employment Certification Status During Years 4–7 ", detail: "0.3", score: 80 },
+        { key: "Talent Acquisition", label: "Hiring/Resignation Ratio in Year 4", detail: "0.4", score:30 },
+        { key: "Talent Acquisition", label: "Hiring/Resignation Ratio in Year 5", detail: "1.8", score: 90 },
+        { key: "Talent Acquisition", label: "Salary in Year 5", detail: "$1.84K", score: 30 },
 
-        { key: "Technology Readiness", label: "Technology certification status during years 4–7 ", detail: "-case", score: 10 },
-        { key: "Technology Readiness", label: "Number of research lab accreditations during 4–7", detail: "-case", score: 10 },
-        { key: "Technology Readiness", label: "Number of patent registrations during years 4–7", detail: "-case", score: 10 },
-        { key: "Technology Readiness", label: "Patent application-to-registration ratio in year 4", detail: "-ratio", score: 10 },
-        { key: "Technology Readiness", label: "Number of patent applications in years 4–7", detail: "-case", score: 10 }
+        { key: "Technology Readiness", label: "Technology Certification Status During Years 4–7 ", detail: "0", score: 10 },
+        { key: "Technology Readiness", label: "Number of Research Lab Accreditations During 4–7", detail: "0", score: 10 },
+        { key: "Technology Readiness", label: "Number of Patent Registrations During Years 4–7", detail: "0", score: 10 },
+        { key: "Technology Readiness", label: "Patent Application-to-Registration Ratio in Year 4", detail: "0", score: 10 },
+        { key: "Technology Readiness", label: "Number of Patent Applications in Years 4–7", detail: "0", score: 10 }
       ]
     }
   },
@@ -2437,27 +2437,27 @@ However, in consideration of the characteristics of an early-stage startup, the 
     // 2) 기술사업 역량 (코멘트)
     // ============================
     bizComments: {
-      "CEO capabiity": `•The company’s key decision-maker is CEO Jeong Yoon-young, who has been managing the company since 2022. With 3 years and 2 months of experience in the same industry, the CEO’s accumulated experience and knowledge are considered limited, and therefore the industry experience level is evaluated as weak.
+      "CEO Capabiity": `•The company’s key decision-maker is CEO Jeong Yoon-young, who has been managing the company since 2022. With 3 years and 2 months of experience in the same industry, the CEO’s accumulated experience and knowledge are considered limited, and therefore the industry experience level is evaluated as weak.
 •Based on the CEO’s highest educational background, alignment of major with the technical field, duration of technical work experience, and relevant technical qualifications, the CEO corresponds to the category of “other technical employee,” and thus the technical knowledge level is evaluated as weak.
 •Taking into account the CEO’s reliability and social contribution, capability in business planning and technology strategy development, information-gathering ability, financial and accounting knowledge, commercialization achievements, and entrepreneurial spirit, the technology management capability is evaluated as average.
 ▶ Overall, the CEO’s competency is evaluated as weak.`,
-      "Management capability": `•Considering the company’s operation of an incentive system, welfare and training programs, new hiring performance, goal-management system, and the capabilities and retention of key employees, the company’s technical employees management is assessed as average.
+      "Management Capability": `•Considering the company’s operation of an incentive system, welfare and training programs, new hiring performance, goal-management system, and the capabilities and retention of key employees, the company’s technical employees management is assessed as average.
 •It is identified that the company has no major manager other than the CEO, and therefore the executive expertise is evaluated as weak.
 •Likewise, since there are no executives other than the CEO, the executive capital participation level is also assessed as weak.
 ▶ Overall, the company’s management capability is evaluated as weak.
 However, in consideration of the characteristics of a startup, the technical employees management item is evaluated with zero weighting (not scored).`,
-      "Technology development capability": `•The company has been operating a certified R&D department for one year, and therefore the operation of its R&D organization is evaluated as average.
+      "Technology Development Capability": `•The company has been operating a certified R&D department for one year, and therefore the operation of its R&D organization is evaluated as average.
 •It has been confirmed that the company has no recent R&D investment, and thus its R&D investment ratio is evaluated as weak.
 •The company has two technical employees, and considering their academic backgrounds and industry experience, their technical employees expertise is evaluated as insufficient.
 •Based on an assessment of the company’s technology commercialization, technology development, product commercialization, and certification/award achievements over the past three years, its technology development and award (certification) performance is evaluated as average.
 •The company’s intellectual property rights related to R&D outcomes are assessed as excellent.
 ▶ Overall, the company’s technology development capability is evaluated as average.`,
-      "commercialization capability": `•The company is identified as having its own production (service) system, and based on a comprehensive evaluation of production workforce availability and competency, ease of procuring raw and subsidiary materials, facility standards, and quality-control capability, the company’s production capability is assessed as average.
+      "Commercialization Capability": `•The company is identified as having its own production (service) system, and based on a comprehensive evaluation of production workforce availability and competency, ease of procuring raw and subsidiary materials, facility standards, and quality-control capability, the company’s production capability is assessed as average.
 •Based on the company’s investment planning for R&D, prototype development, facility acquisition, and marketing—as well as the appropriateness of estimated required funds and the feasibility of securing such funds—the adequacy of the investment scale is evaluated as average.
 •Considering past capital-raising performance, borrowing capacity from financial institutions, external investment attraction, and overall financial flexibility, the capital raising capability required for commercialization is assessed as weak.
 ▶ Overall, the company’s commercialization capability is evaluated as average.
 However, in consideration of the characteristics of a startup, the investment-scale adequacy item is assigned zero weighting (not scored).`,
-      "Profit outlook": `•Based on an overall assessment of the specialization of the dedicated marketing department and employees, the market research and environmental analysis conducted for marketing activities, and the establishment and feasibility of the company’s marketing strategies, the company’s marketing capability is evaluated as excellent.
+      "Profit Outlook": `•Based on an overall assessment of the specialization of the dedicated marketing department and employees, the market research and environmental analysis conducted for marketing activities, and the establishment and feasibility of the company’s marketing strategies, the company’s marketing capability is evaluated as excellent.
 •Considering the number and types of sales channels, transaction duration and likelihood of continued business, the clarity and completeness of sales-channel development plans, and the stability of accounts-receivable collection, the diversity and stability of the company’s sales channels are evaluated as insufficient.
 •According to the company’s financial statements, the average operating profit over the past three years is –277.65%, which is significantly below the industry average of 5.87%, indicating that the company's revenue-generation capability is weak.
 ▶ Overall, the company’s profit outlook is evaluated as insufficient.`
@@ -2494,17 +2494,17 @@ However, in consideration of the characteristics of a startup, the investment-sc
     // 4) 기술 경쟁력 (코멘트)
     // ============================
     techComments: {
-      "technology innovation": `•The core technology under evaluation is classified as a mature-stage technology in the technology life cycle, and the technology itself is considered innovative. Since it demonstrates relatively strong differentiating attributes compared to existing technologies, its technological differentiation is evaluated as excellent.
+      "Technology Innovation": `•The core technology under evaluation is classified as a mature-stage technology in the technology life cycle, and the technology itself is considered innovative. Since it demonstrates relatively strong differentiating attributes compared to existing technologies, its technological differentiation is evaluated as excellent.
 •Considering the development time and cost required, the ease of reverse engineering, the level of technology protection through intellectual property rights, and the presence of practical entry barriers, the difficulty of imitation is assessed as good.
 •The core technology under evaluation is currently understood to be in the mass-production stage, and taking into account the duration of mass production as well as supplementary development and version updates, its technological completeness is evaluated as good.
 •Considering the degree to which complementary technologies are needed for commercialization, the technological independence is assessed as good.
 •Taking into account the technology’s influence across various technical and industrial fields, its technological scalability is evaluated as average.
 ▶ Overall, the technological innovativeness is evaluated as good.`,
-      "market status": `•According to the 2024 Mining/Manufacturing Survey (Product Edition) by Statistics Korea, the air purifier market decreased from 1,156.6 billion KRW in 2019 to 766.3 billion KRW in 2022, reflecting a CAGR of –12.82%. Accordingly, the market size of the target market to which the evaluated technology belongs is assessed as good.
+      "Market Status": `•According to the 2024 Mining/Manufacturing Survey (Product Edition) by Statistics Korea, the air purifier market decreased from 1,156.6 billion KRW in 2019 to 766.3 billion KRW in 2022, reflecting a CAGR of –12.82%. Accordingly, the market size of the target market to which the evaluated technology belongs is assessed as good.
 •Considering both the historical market growth rate and future market outlook, the market growth potential is evaluated as average.
 •The market structure and characteristics—including regulations and policies affecting the targeted product or service, market entry feasibility, presence of monopoly or oligopoly, competition intensity, cost structure, and demand fluctuations caused by economic cycles or seasonality—were comprehensively evaluated. Based on this, the market structure and characteristics of the market associated with the company’s evaluated core technology are assessed as average.
 ▶ Overall, the market status is evaluated as average.`,
-      "Product superiority": `•Considering factors such as the proportion of own-brand products, the threat of substitutes, customer loyalty, purchase motivation, brand recognition within the market, and the need for active promotion to generate demand, the product awareness of the company is evaluated as average.
+      "Product Superiority": `•Considering factors such as the proportion of own-brand products, the threat of substitutes, customer loyalty, purchase motivation, brand recognition within the market, and the need for active promotion to generate demand, the product awareness of the company is evaluated as average.
 •Based on an assessment of barriers arising from economies of scale, required capital for market entry, the level of stable sales-network establishment, cost and price competitiveness, and the company’s bargaining power as a supplier and as a buyer within the industry, the market acquisition potential is evaluated as average.
 •Taking into account the number of competing products, relative price and quality competitiveness, competitiveness in non-core functions such as convenience, buyer willingness to switch to the company’s products, and the degree of constraints related to switching costs, the comparative advantage over competing products is evaluated as good.
 ▶ Overall, the product superiority is evaluated as good.
@@ -2558,52 +2558,52 @@ However, in consideration of the unique characteristics of a startup, the produc
       ],
 
       barScores: [
-        { key: "Investment", label: "1–3 year investment stage", detail: "0.3step", score: 100 },
-        { key: "Investment", label: "Number of investments attracted during years 1–3", detail: "0.3case", score: 100 },
-        { key: "Investment", label: "Capital surplus in year 2", detail: "$0.2M", score: 100 },
-        { key: "Investment", label: "Number of investment-related news articles found during years 1–3", detail: "7.0case", score: 100 },
-        { key: "Investment", label: "Number of VC Top 20 investments secured during years 1-3", detail: "-case", score: 10 },
+        { key: "Investment", label: "1–3 Year Investment Stage", detail: "0.3", score: 100 },
+        { key: "Investment", label: "Number of Investments Attracted During Years 1–3", detail: "0.3", score: 100 },
+        { key: "Investment", label: "Capital Surplus in Year 2", detail: "$0.2M", score: 100 },
+        { key: "Investment", label: "Number of Investment-Related News Articles Found During Years 1–3", detail: "7.0", score: 100 },
+        { key: "Investment", label: "Number of VC Top 20 Investments Secured During Years 1-3", detail: "0", score: 10 },
 
-        { key: "Government Grants", label: "Total amount of R&D investment in year 2", detail: "$40.82K", score: 100 },
-        { key: "Government Grants", label: "Number of R&D projects executed in years 1–3", detail: "0.3case", score: 100 },
-        { key: "Government Grants", label: "Timing of the initial R&D implementation during years 1-3", detail: "18.0months", score: 40 },
-        { key: "Government Grants", label: "Total amount of R&D investment in year 3", detail: "$-M", score: 10 },
+        { key: "Government Grants", label: "Total Amount of R&D Investment in Year 2", detail: "$40.82K", score: 100 },
+        { key: "Government Grants", label: "Number of R&D Projects Executed in Years 1–3", detail: "0.3", score: 100 },
+        { key: "Government Grants", label: "Timing of the Initial R&D Implementation During Years 1-3", detail: "18.0", score: 40 },
+        { key: "Government Grants", label: "Total Amount of R&D Investment in Year 3", detail: "$0M", score: 10 },
         { key: "Government Grants", label: "-", detail: "", score: 0 },
 
-        { key: "External Performance", label: "Amount of capital surplus in year 2", detail: "$0.14M", score: 70 },
-        { key: "External Performance", label: "Capital size in year 2", detail: "$0.47M", score: 60 },
-        { key: "External Performance", label: "Number of employees during years 1–3", detail: "7.0people", score: 70 },
-        { key: "External Performance", label: "Number of partnership-related news articles identified during years 1–3", detail: "0.3case", score: 100 },
-        { key: "External Performance", label: "Employment growth rate in year 3", detail: "-%", score: 30 },
+        { key: "External Performance", label: "Amount of Capital Surplus in Year 2", detail: "$0.14M", score: 70 },
+        { key: "External Performance", label: "Capital Size in Year 2", detail: "$0.47M", score: 60 },
+        { key: "External Performance", label: "Number of Employees During Years 1–3", detail: "7.0", score: 70 },
+        { key: "External Performance", label: "Number of Partnership-Related News Articles Identified During Years 1–3", detail: "0.3", score: 100 },
+        { key: "External Performance", label: "Employment Growth Rate in Year 3", detail: "0%", score: 30 },
 
-        { key: "Technology Readiness", label: "Number of patent applications during years 1–3", detail: "9.0case", score: 100 },
-        { key: "Technology Readiness", label: "Number of patent registrations during years 1–3", detail: "3.0case", score: 100 },
-        { key: "Technology Readiness", label: "Timing of initial research lab accreditation during years 1–3", detail: "20.0months", score: 30 },
-        { key: "Technology Readiness", label: "Timing of the initial patent filing during years 1-3", detail: "6.0months", score: 70 },
+        { key: "Technology Readiness", label: "Number of Patent Applications During Years 1–3", detail: "9.0", score: 100 },
+        { key: "Technology Readiness", label: "Number of Patent Registrations During Years 1–3", detail: "3.0", score: 100 },
+        { key: "Technology Readiness", label: "Timing of Initial Research Lab Accreditation During Years 1–3", detail: "20.0", score: 30 },
+        { key: "Technology Readiness", label: "Timing of the Initial Patent Filing During Years 1-3", detail: "6.0", score: 70 },
         { key: "Technology Readiness", label: "-", detail: "", score: 0 },
         
-        { key: "Breakthrough Tech", label: "Number of keyword searches related to breakthrough patents identified during years 1-3", detail: "-case", score: 10 },
-        { key: "Breakthrough Tech", label: "Number of keyword searches related to R&D patents identified during years 1-3", detail: "-case", score: 10 },
+        { key: "Breakthrough Tech", label: "Number of Keyword Searches Related to Breakthrough Patents Identified During Years 1-3", detail: "0", score: 10 },
+        { key: "Breakthrough Tech", label: "Number of Keyword Searches Related to R&D Patents Identified During Years 1-3", detail: "0", score: 10 },
         { key: "Breakthrough Tech", label: "-", detail: "", score: 0 },
         { key: "Breakthrough Tech", label: "-", detail: "", score: 0 },
         { key: "Breakthrough Tech", label: "-", detail: "", score: 0 },
 
-        { key: "Brand Promotion", label: "Number of trademark applications during years 1–3", detail: "2.0case", score: 90 },
-        { key: "Brand Promotion", label: "Brand-related intellectual property applications during years 1–3", detail: "1.0case", score: 100 },
-        { key: "Brand Promotion", label: "Number of patent registrations during years 1–3", detail: "20.7case", score: 100 },
-        { key: "Brand Promotion", label: "Number of design applications during years 1–3", detail: "-case", score: 10 },
+        { key: "Brand Promotion", label: "Number of Trademark Applications During Years 1–3", detail: "2.0", score: 90 },
+        { key: "Brand Promotion", label: "Brand-Related Intellectual Property Applications During Years 1–3", detail: "1.0", score: 100 },
+        { key: "Brand Promotion", label: "Number of Patent Registrations During Years 1–3", detail: "20.7", score: 100 },
+        { key: "Brand Promotion", label: "Number of Design Applications During Years 1–3", detail: "0", score: 10 },
         { key: "Brand Promotion", label: "-", detail: "", score: 0 },
 
-        { key: "Revenue Acceleration", label: "Total profit for year 2", detail: "$-M", score: 10 },
-        { key: "Revenue Acceleration", label: "Total profit for year 1", detail: "$-M", score: 10 },
+        { key: "Revenue Acceleration", label: "Total Profit for Year 2", detail: "$0M", score: 10 },
+        { key: "Revenue Acceleration", label: "Total Profit for Year 1", detail: "$0M", score: 10 },
         { key: "Revenue Acceleration", label: "-", detail: "", score: 0 },
         { key: "Revenue Acceleration", label: "-", detail: "", score: 0 },
         { key: "Revenue Acceleration", label: "-", detail: "", score: 0 },
 
-        { key: "Talent Acquisition", label: "Hiring/Resignation ratio in year 3", detail: "0.8ratio", score:30 },
-        { key: "Talent Acquisition", label: "Officially assessed land value during years 1–3", detail: "$2.99K/m2", score: 70 },
-        { key: "Talent Acquisition", label: "Salary in year 3", detail: "$1.97K", score: 60 },
-        { key: "Talent Acquisition", label: "Salary in year 2", detail: "$1.63K", score: 40 },
+        { key: "Talent Acquisition", label: "Hiring/Resignation Ratio in Year 3", detail: "0.8", score:30 },
+        { key: "Talent Acquisition", label: "Officially Assessed Land Value During Years 1–3", detail: "$2.99K/m2", score: 70 },
+        { key: "Talent Acquisition", label: "Salary in Year 3", detail: "$1.97K", score: 60 },
+        { key: "Talent Acquisition", label: "Salary in Year 2", detail: "$1.63K", score: 40 },
         { key: "Talent Acquisition", label: "-", detail: "", score: 0 }
       ]
     }
@@ -2653,22 +2653,22 @@ However, in consideration of the unique characteristics of a startup, the produc
     // 2) 기술사업 역량 (코멘트)
     // ============================
     bizComments: {
-      "CEO capabiity": `• CEO Se-Young Lee (Bachelor’s degree in Library and Information Science) has prior work experience at KSCY and founded the Company in 2021, where she has been managing the business since then.
+      "CEO Capabiity": `• CEO Se-Young Lee (Bachelor’s degree in Library and Information Science) has prior work experience at KSCY and founded the Company in 2021, where she has been managing the business since then.
 • Considering the CEO’s industry experience of 4 years and 5 months, her experience level in the same industry is assessed as weak.
 • Based on the CEO’s academic background and accumulated technical experience, her level of technical knowledge is evaluated as favorable, corresponding to that of a high-level technical professional.
 • The CEO demonstrates strong capabilities in areas such as business planning, information-gathering ability, technology strategy, commercialization performance, and entrepreneurial competency, and therefore her technology management capability is assessed as excellent.`,
-      "Management capability": `• Considering factors such as turnover of key personnel, welfare and training, management by objectives, and dependence on key personnel, the Company’s technical human resource management capability is assessed as favorable.
+      "Management Capability": `• Considering factors such as turnover of key personnel, welfare and training, management by objectives, and dependence on key personnel, the Company’s technical human resource management capability is assessed as favorable.
 • The Company’s management team consists of four functional areas (responsible for overall management, finance, technology, and design, respectively), with technical levels classified as one “other” and three “junior-level” members, and an average tenure of approximately 3 years and 3 months. Accordingly, the professional competence of the management team is evaluated as weak.
 • The combined equity stake held by the four executives is 6.69%, and thus the level of capital participation by management is assessed as average.`,
-      "Technology development capability": `• The Company has operated its corporate-affiliated research institute for approximately 3 years and 6 months, and therefore its R&D organization is assessed as favorable.
+      "Technology Development Capability": `• The Company has operated its corporate-affiliated research institute for approximately 3 years and 6 months, and therefore its R&D organization is assessed as favorable.
 • Given that the Company’s R&D investment ratio stands at 260.49% (equivalent to 5,662.83% of the industry average), its level of R&D investment is evaluated as excellent.
 • With a total of 61 technical personnel — including 11 senior-level engineers, 3 high-level engineers, 8 intermediate-level engineers, 17 junior-level engineers, and 22 other technical staff — the Company’s technical workforce demonstrates a high level of professional competency.
 • Considering the Company’s four achievements in technology development and commercialization (1 technology development, 2 product commercializations, and 1 certification — including national R&D tasks such as developing a personalized search augmentation model and a writing-assistance system using a question-generation algorithm), the Company’s technology development and certification (award) performance is assessed as weak.
 • The Company owns a total of 18 intellectual property rights (including 2 registered patents, 10 registered designs, and 6 registered trademarks), and its intellectual property portfolio is evaluated as favorable.`,
-      "commercialization capability": `• The Company develops and provides its products and services in-house, and satisfies evaluation criteria such as the scale of development facilities, level of development equipment, availability of development personnel, and ownership of proprietary solutions; accordingly, its overall production (development) capacity is assessed as favorable.
+      "Commercialization Capability": `• The Company develops and provides its products and services in-house, and satisfies evaluation criteria such as the scale of development facilities, level of development equipment, availability of development personnel, and ownership of proprietary solutions; accordingly, its overall production (development) capacity is assessed as favorable.
 • The Company’s technological products are at the post-commercialization stage, and the scale of investment and feasibility for further commercialization are evaluated as excellent.
 • Considering the Company’s funding channels for commercialization and its asset base, its capital-raising capability is assessed as excellent.`,
-      "Profit outlook": `• The Company satisfies evaluation criteria in areas such as market research, environmental analysis, marketing strategy, feasibility, and the establishment of a dedicated marketing department, and thus its marketing capability is assessed as excellent.
+      "Profit Outlook": `• The Company satisfies evaluation criteria in areas such as market research, environmental analysis, marketing strategy, feasibility, and the establishment of a dedicated marketing department, and thus its marketing capability is assessed as excellent.
 • Given that the Company’s main customers are individual consumers and that it has established a sales channel development plan, the diversity and stability of its sales channels are nevertheless assessed as weak.
 • In view of the Company’s average operating margin of –2,207.37% (equivalent to –150,161.22% compared to the industry average), its profit-generating capability is evaluated as weak.`
     },
@@ -2704,15 +2704,15 @@ However, in consideration of the unique characteristics of a startup, the produc
     // 4) 기술 경쟁력 (코멘트)
     // ============================
     techComments: {
-      "technology innovation": `• The evaluated technology (AI support, character-generation and chat solution development technology) is considered an innovative technology with relatively strong differentiating factors and is identified as being in the early stage of its growth phase; therefore, its technological differentiation is assessed as excellent.
+      "Technology Innovation": `• The evaluated technology (AI support, character-generation and chat solution development technology) is considered an innovative technology with relatively strong differentiating factors and is identified as being in the early stage of its growth phase; therefore, its technological differentiation is assessed as excellent.
 • As the technology satisfies evaluation criteria in areas such as development cost, development period, and technology protection, the difficulty of imitation is assessed as average.
 • With four years in the sales (commercialization) stage and one instance of additional development and version upgrade, the technical maturity (level of completeness) is evaluated as favorable.
 • The degree of technological self-reliance is assessed as favorable.
 • Although the application field of the technology is currently limited, it has potential for expansion, and thus its technological scalability is evaluated as average..`,
-      "market status": `• Considering the projected 2025 sales volume of the target market (Artificial Intelligence (AI) software), which is estimated at KRW 9.17 trillion, the market size is assessed as excellent.
+      "Market Status": `• Considering the projected 2025 sales volume of the target market (Artificial Intelligence (AI) software), which is estimated at KRW 9.17 trillion, the market size is assessed as excellent.
 • Although the sales growth rate of the industry as a whole is 20.80%, the target market’s CAGR of 57.57% indicates strong expected future growth; therefore, the market growth potential is evaluated as favorable.
 • The target market satisfies evaluation criteria in areas such as market concentration, differentiation, cost structure, and relevant policies/regulations, and thus its market structure and characteristics are assessed as favorable.`,
-      "Product superiority": `• The Company satisfies evaluation criteria such as proportion of proprietary branding, threat of substitutes, customer loyalty, and purchase motivation, and therefore its product recognition is assessed as favorable.
+      "Product Superiority": `• The Company satisfies evaluation criteria such as proportion of proprietary branding, threat of substitutes, customer loyalty, and purchase motivation, and therefore its product recognition is assessed as favorable.
 • Considering factors such as capital requirements, competitive advantage, and buyer bargaining power, the market acquisition potential is assessed as average.
 • By meeting criteria related to quality competitiveness, convenience and design competitiveness, potential customer willingness to switch to the Company’s products, and the absence of cost constraints when switching, the Company’s comparative advantage over competing products is evaluated as favorable.`
     },
@@ -2764,49 +2764,49 @@ However, in consideration of the unique characteristics of a startup, the produc
       ],
 
       barScores: [
-        { key: "Investment", label: "Investment amount secured during years 4-7", detail: "$17M", score: 100 },
-        { key: "Investment", label: "4–7-year investment stage", detail: "4.0step", score: 100 },
-        { key: "Investment", label: "Number of investments attracted during years 4–7", detail: "1.0case", score: 100 },
-        { key: "Investment", label: "Number of investment-related news articles found during years 4–7", detail: "51.0case", score: 100 },
-        { key: "Investment", label: "Number of VC Top 20 investments during years 4–7", detail: "-case", score: 10 },
+        { key: "Investment", label: "Investment Amount Secured During Years 4-7", detail: "$17M", score: 100 },
+        { key: "Investment", label: "4–7-Year Investment Stage", detail: "4.0", score: 100 },
+        { key: "Investment", label: "Number of Investments Attracted During Years 4–7", detail: "1.0", score: 100 },
+        { key: "Investment", label: "Number of Investment-Related News Articles Found During Years 4–7", detail: "51.0", score: 100 },
+        { key: "Investment", label: "Number of VC Top 20 Investments During Years 4–7", detail: "0", score: 10 },
 
-        { key: "Government Grants", label: "Number of R&D projects executed in years 4–7", detail: "-case", score: 10 },
-        { key: "Government Grants", label: "Total amount of R&D investment in year 4", detail: "$-M", score: 10 },
+        { key: "Government Grants", label: "Number of R&D Projects Executed in Years 4–7", detail: "0", score: 10 },
+        { key: "Government Grants", label: "Total Amount of R&D Investment in Year 4", detail: "$0M", score: 10 },
         { key: "Government Grants", label: "-", detail: "", score: 0 },
         { key: "Government Grants", label: "-", detail: "", score: 0 },
         { key: "Government Grants", label: "-", detail: "", score: 0 },
 
-        { key: "External Performance", label: "Number of performance-themed news articles identified during years 4-7", detail: "2.0case", score: 100 },
-        { key: "External Performance", label: "Number of employees during years 4–7", detail: "92.0people", score: 100 },
-        { key: "External Performance", label: "Employment growth rate in year 4", detail: "0.2%", score: 70 },
+        { key: "External Performance", label: "Number of Performance-Themed News Articles Identified During Years 4-7", detail: "2.0", score: 100 },
+        { key: "External Performance", label: "Number of Employees During Years 4–7", detail: "92.0", score: 100 },
+        { key: "External Performance", label: "Employment Growth Rate in Year 4", detail: "0.2%", score: 70 },
         { key: "External Performance", label: "-", detail: "", score: 0 },
         { key: "External Performance", label: "-", detail: "", score: 0 },
 
-        { key: "Breakthrough Tech", label: "Number of keyword searches related to R&D patents identified during years 4-7", detail: "-case", score: 10 },
-        { key: "Breakthrough Tech", label: "Number of keyword searches related to breakthrough patents identified during years 1-3", detail: "-case", score: 10 },
+        { key: "Breakthrough Tech", label: "Number of Keyword Searches Related to R&D Patents Identified During Years 4-7", detail: "0", score: 10 },
+        { key: "Breakthrough Tech", label: "Number of Keyword Searches Related to Breakthrough Patents Identified During Years 1-3", detail: "0", score: 10 },
         { key: "Breakthrough Tech", label: "-", detail: "", score: 0 },
         { key: "Breakthrough Tech", label: "-", detail: "", score: 0 },
         { key: "Breakthrough Tech", label: "-", detail: "", score: 0 },
 
-        { key: "Brand Promotion", label: "Number of trademark applications filed during years 4–7", detail: "1.0case", score: 90 },
-        { key: "Brand Promotion", label: "Total number of news articles found during years 4–7", detail: "331.0case", score: 100 },
-        { key: "Brand Promotion", label: "Categories of brand-related intellectual property during years 4–7", detail: "2.0case", score: 100 },
-        { key: "Brand Promotion", label: "Number of design applications during years 4–7", detail: "-case", score: 10 },
+        { key: "Brand Promotion", label: "Number of Trademark Applications Filed During Years 4–7", detail: "1.0", score: 90 },
+        { key: "Brand Promotion", label: "Total Number of News Articles Found During Years 4–7", detail: "331.0", score: 100 },
+        { key: "Brand Promotion", label: "Categories of Brand-Related Intellectual Property During Years 4–7", detail: "2.0", score: 100 },
+        { key: "Brand Promotion", label: "Number of Design Applications During Years 4–7", detail: "0", score: 10 },
         { key: "Brand Promotion", label: "-", detail: "", score: 0 },
 
-        { key: "Technology Readiness", label: "Number of patent applications during years 4–7", detail: "-case", score: 10 },
+        { key: "Technology Readiness", label: "Number of Patent Applications During Years 4–7", detail: "0", score: 10 },
         { key: "Technology Readiness", label: "-", detail: "", score: 0 },
         { key: "Technology Readiness", label: "-", detail: "", score: 0 },
         { key: "Technology Readiness", label: "-", detail: "", score: 0 },
         { key: "Technology Readiness", label: "-", detail: "", score: 0 },
 
-        { key: "Overseas Expansion", label: "Number of articles on international market expansion identified in years 4-7", detail: "165.0case", score: 100 },
+        { key: "Overseas Expansion", label: "Number of Articles on International Market Expansion Identified in Years 4-7", detail: "165.0", score: 100 },
         { key: "Overseas Expansion", label: "-", detail: "", score: 0 },
         { key: "Overseas Expansion", label: "-", detail: "", score: 0 },
         { key: "Overseas Expansion", label: "-", detail: "", score: 0 },
         { key: "Overseas Expansion", label: "-", detail: "", score: 0 },
 
-        { key: "Partnerships", label: "Number of partnership-related news articles identified during years 4–7", detail: "112.0case", score:100 },
+        { key: "Partnerships", label: "Number of Partnership-Related News Articles Identified During Years 4–7", detail: "112.0", score:100 },
         { key: "Partnerships", label: "", detail: "", score: 0 },
         { key: "Partnerships", label: "", detail: "", score: 0 },
         { key: "Partnerships", label: "", detail: "", score: 0 },
