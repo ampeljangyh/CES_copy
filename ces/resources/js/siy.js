@@ -319,12 +319,12 @@ function gate03ConfigData() {
                     avgIndustry: 49.7,
                     avgSme: 45.2,
                     details: [
-                        { score: 75,   text: '환경경영 일반', textEn: 'Environmental Management' },
-                        { score: 75,   text: '온실가스 및 에너지', textEn: 'GHG & Energy' },
-                        { score: 56.3, text: '폐기물', textEn: 'Waste' },
-                        { score: 0,    text: '수자원', textEn: 'Water Resources' },
-                        { score: 62.5, text: '유해화학물질', textEn: 'Hazardous Chemicals' },
-                        { score: 58.3, text: '대기, 수질 오염물질', textEn: 'Air & Water Pollutants' }
+                        { score: 75,   text: '환경경영 일반', textEn: 'Environmental Management', industry: 48 },
+                        { score: 75,   text: '온실가스 및 에너지', textEn: 'GHG & Energy', industry: 58 },
+                        { score: 56.3, text: '폐기물', textEn: 'Waste', industry: 55 },
+                        { score: 0,    text: '수자원', textEn: 'Water Resources', industry: 50 },
+                        { score: 62.5, text: '유해화학물질', textEn: 'Hazardous Chemicals', industry: 55 },
+                        { score: 58.3, text: '대기, 수질 오염물질', textEn: 'Air & Water Pollutants', industry: 40 }
                     ]
                 },
                 s: {
@@ -333,15 +333,15 @@ function gate03ConfigData() {
                     avgIndustry: 64.9,
                     avgSme: 62.4,
                     details: [
-                        { score: 65,   text: '인권 관리', textEn:'Human Rights Mgnt' },
-                        { score: 100,  text: '근로조건', textEn:'Working Conditions' },
-                        { score: 68.7, text: '강제노동 및 아동노동', textEn:'Forced & Child Labor' },
-                        { score: 100,  text: '노사관계', textEn:'Labor Relations' },
-                        { score: 87.5, text: '안전보건', textEn:'Safety & Health' },
-                        { score: 25,   text: '지역사회 공헌', textEn:'Community Engagement' },
-                        { score: 16.7, text: '협력사 및 공급망', textEn:'Suppliers & Supply Chain' },
-                        { score: 100,  text: '제품 및 고객', textEn:'Products & Customers' },
-                        { score: 25,   text: '정보보호', textEn:'Information Security' },
+                        { score: 65,   text: '인권 관리', textEn:'Human Rights Mgnt', industry: 68 },
+                        { score: 100,  text: '근로조건', textEn:'Working Conditions', industry: 85 },
+                        { score: 68.7, text: '강제노동 및 아동노동', textEn:'Forced & Child Labor', industry: 60 },
+                        { score: 100,  text: '노사관계', textEn:'Labor Relations', industry: 72 },
+                        { score: 87.5, text: '안전보건', textEn:'Safety & Health', industry: 70 },
+                        { score: 25,   text: '지역사회 공헌', textEn:'Community Engagement', industry: 38 },
+                        { score: 16.7, text: '협력사 및 공급망', textEn:'Suppliers & Supply Chain', industry: 65 },
+                        { score: 100,  text: '제품 및 고객', textEn:'Products & Customers', industry: 100 },
+                        { score: 25,   text: '정보보호', textEn:'Information Security', industry: 55 }
                     ]
                 },
                 g: {
@@ -399,12 +399,12 @@ function gate03ConfigData() {
                     avgIndustry: 45.9,
                     avgSme: 45.2,
                     details: [
-                        { score: 43.7, text: '환경경영 일반' , textEn: 'Environmental Management'},
-                        { score: 46.4, text: '온실가스 및 에너지' , textEn: 'GHG & Energy'},
-                        { score: 50, text: '폐기물' , textEn: 'Waste'},
-                        { score: 62.5, text: '수자원' , textEn: 'Water Resources'},
-                        { score: 25, text: '유해화학물질' , textEn: 'Hazardous Chemicals'},
-                        { score: 12.5, text: '대기, 수질 오염물질', textEn: 'Air & Water Pollutants'}
+                        { score: 43.7, text: '환경경영 일반' , textEn: 'Environmental Management', industry: 35 },
+                        { score: 46.4, text: '온실가스 및 에너지' , textEn: 'GHG & Energy', industry: 60 },
+                        { score: 50, text: '폐기물' , textEn: 'Waste', industry: 40 },
+                        { score: 62.5, text: '수자원' , textEn: 'Water Resources', industry: 30 },
+                        { score: 25, text: '유해화학물질' , textEn: 'Hazardous Chemicals', industry: 45 },
+                        { score: 12.5, text: '대기, 수질 오염물질', textEn: 'Air & Water Pollutants', industry: 28 }
                     ]
                 },
                 s: {
@@ -412,15 +412,15 @@ function gate03ConfigData() {
                     point: 60.2,
                     // avgIndustry 및 avgSme 항목은 @fix 주석에 따라 삭제됨
                     details: [
-                        { score: 50,   text: '인권 관리', textEn:'Human Rights Mgnt' },
-                        { score: 100,  text: '근로조건', textEn:'Working Conditions' },
-                        { score: 50,   text: '강제노동 및 아동노동', textEn:'Forced & Child Labor' },
-                        { score: 100,  text: '노사관계', textEn:'Labor Relations' },
-                        { score: 89.3, text: '안전보건', textEn:'Safety & Health' },
-                        { score: 0,    text: '지역사회 공헌', textEn:'Community Engagement' },
-                        { score: 0,    text: '협력사 및 공급망', textEn:'Suppliers & Supply Chain' },
-                        { score: 0,    text: '제품 및 고객', textEn:'Products & Customers' },
-                        { score: 16.7, text: '정보보호', textEn:'Information Security' }
+                        { score: 50,   text: '인권 관리', textEn:'Human Rights Mgnt', industry: 68 },
+                        { score: 100,  text: '근로조건', textEn:'Working Conditions', industry: 85 },
+                        { score: 50,   text: '강제노동 및 아동노동', textEn:'Forced & Child Labor', industry: 60 },
+                        { score: 100,  text: '노사관계', textEn:'Labor Relations', industry: 72 },
+                        { score: 89.3, text: '안전보건', textEn:'Safety & Health', industry: 70 },
+                        { score: 0,    text: '지역사회 공헌', textEn:'Community Engagement', industry: 38 },
+                        { score: 0,    text: '협력사 및 공급망', textEn:'Suppliers & Supply Chain', industry: 65 },
+                        { score: 0,    text: '제품 및 고객', textEn:'Products & Customers', industry: 100 },
+                        { score: 16.7, text: '정보보호', textEn:'Information Security', industry: 55 }
                     ]
                 },
                 g: {
@@ -479,10 +479,10 @@ function gate03ConfigData() {
                     avgIndustry: 49.7,
                     avgSme: 45.2,
                     details: [
-                        { score: 16.7, text: '환경경영 일반', textEn: 'Environmental Management' },
-                        { score: 50,   text: '온실가스 및 에너지', textEn: 'GHG & Energy' },
-                        { score: 16.7, text: '폐기물', textEn: 'Waste' },
-                        { score: 62.5, text: '수자원', textEn: 'Water Resources' }
+                        { score: 16.7, text: '환경경영 일반', textEn: 'Environmental Management', industry: 48 },
+                        { score: 50,   text: '온실가스 및 에너지', textEn: 'GHG & Energy', industry: 58 },
+                        { score: 16.7, text: '폐기물', textEn: 'Waste', industry: 50 },
+                        { score: 62.5, text: '수자원', textEn: 'Water Resources', industry: 48 }
                         // 유해화학물질, 대기/수질 오염물질 항목은 삭제됨
                     ]
                 },
@@ -492,15 +492,15 @@ function gate03ConfigData() {
                     avgIndustry: 64.9,
                     avgSme: 62.4,
                     details: [
-                        { score: 65,   text: '인권 관리', textEn:'Human Rights Mgnt' },
-                        { score: 81.3, text: '근로조건', textEn:'Working Conditions' },
-                        { score: 62.5, text: '강제노동 및 아동노동', textEn:'Forced & Child Labor' },
-                        { score: 50,   text: '노사관계', textEn:'Labor Relations' },
-                        { score: 31.3, text: '안전보건', textEn:'Safety & Health' },
-                        { score: 25,   text: '지역사회', textEn:'Community' },
-                        { score: 37.5, text: '협력사 및 공급망', textEn:'Suppliers & Supply Chain' },
-                        { score: 25,   text: '제품 및 고객', textEn:'Products & Customers' },
-                        { score: 41.7, text: '정보보호', textEn:'Information Security' }
+                        { score: 65,   text: '인권 관리', textEn:'Human Rights Mgnt', industry: 68 },
+                        { score: 81.3, text: '근로조건', textEn:'Working Conditions', industry: 85 },
+                        { score: 62.5, text: '강제노동 및 아동노동', textEn:'Forced & Child Labor', industry: 60 },
+                        { score: 50,   text: '노사관계', textEn:'Labor Relations', industry: 72 },
+                        { score: 31.3, text: '안전보건', textEn:'Safety & Health', industry: 70 },
+                        { score: 25,   text: '지역사회', textEn:'Community', industry: 38 },
+                        { score: 37.5, text: '협력사 및 공급망', textEn:'Suppliers & Supply Chain', industry: 65 },
+                        { score: 25,   text: '제품 및 고객', textEn:'Products & Customers', industry: 100 },
+                        { score: 41.7, text: '정보보호', textEn:'Information Security', industry: 55 }
                     ]
                 },
                 g: {
@@ -509,10 +509,10 @@ function gate03ConfigData() {
                     avgIndustry: 49.1,
                     avgSme: 41.1,
                     details: [
-                        { score: 41.7, text: '윤리경영 및 반부패', textEn:'Ethics & Anti-Corruption' },
-                        { score: 25,   text: '이해관계자 소통', textEn:'Stakeholder Engagement' },
-                        { score: 25,   text: '지배구조 건전성', textEn:'Governance Integrity' },
-                        { score: 35,   text: '주주 및 이사회', industry: 60, textEn:'Shareholders & Board' }
+                        { score: 41.7, text: '윤리경영 및 반부패', textEn:'Ethics & Anti-Corruption', industry: 57 },
+                        { score: 25,   text: '이해관계자 소통', textEn:'Stakeholder Engagement', industry: 30 },
+                        { score: 25,   text: '지배구조 건전성', textEn:'Governance Integrity', industry: 58 },
+                        { score: 35,   text: '주주 및 이사회', industry: 60, textEn:'Shareholders & Board', industry: 60 }
                     ]
                 }
             },
