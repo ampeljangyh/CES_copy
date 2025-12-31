@@ -554,7 +554,7 @@
                                             <div class="cursor_text p01"><span class="kr_t"></span><span class="en_t"></span></div>
                                             <div class="cursor_text p02"><span class="kr_t"></span><span class="en_t"></span></div>
                                             <div class="cursor_text p03"><span class="kr_t"></span><span class="en_t"></span></div>
-                                            <div class="cursor_text p04"><span class="kr_t">적합</span><span class="en_t">Eligible</span></div>
+                                            <div class="cursor_text p04"><span class="kr_t">충족</span><span class="en_t">Eligible</span></div>
                                         </div>
                                     </div>
                                 </div>
@@ -717,7 +717,7 @@
                                         <div class="cursor_text p01"><span class="kr_t">비적합</span><span class="en_t">Ineligible</span></div>
                                         <div class="cursor_text p02"><span class="kr_t">기준 충족</span><span class="en_t">Requirement Met</span></div>
                                         <div class="cursor_text p03"><span class="kr_t">충족</span><span class="en_t">Eligible</span></div>
-                                        <div class="cursor_text p04"><span class="kr_t">적합</span><span class="en_t">Eligible</span></div>
+                                        <div class="cursor_text p04"><span class="kr_t">충족</span><span class="en_t">Eligible</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -921,7 +921,7 @@
                     <div class="info kr_t">
                         <strong class="tit">투자 여부</strong>
                         <div class="result">
-                            <span>적합</span>
+                            <span>충족</span>
                         </div>
                         <div class="sub">
                             <span>해당 영화는 IBK의 투자 기준을 충족하였습니다.</span>
@@ -956,7 +956,7 @@
                     <div class="info kr_t">
                         <strong class="tit">최종 투자 여부</strong>
                         <div class="result">
-                            <span>적합</span>
+                            <span>충족</span>
                         </div>
                         <div class="sub">
                             <span>해당 영화는 IBK의 투자 기준을 충족하였습니다.</span>
@@ -2431,7 +2431,7 @@ function runAdjBoxSequence(){
 
             // ★ adj 애니 끝나는 시점: 커서 75% 이동 + p04 노출 + 라벨 변경
             setTimeout(function(){
-                var FINAL_CURSOR = 75;  // 요청: 75%까지 이동
+                var FINAL_CURSOR = 99;  // 요청: 75%까지 이동
 
                 if (adjCursor) {
                     moveAdjCursor(FINAL_CURSOR);
@@ -2673,7 +2673,7 @@ setTimeout(function () {
             if (isLastStep) {
                 // 마지막 step: 그래프 전체 완성 후 1초 뒤 final_cursor 이동
                 animateRadarForStep(stepIndex, true, function () {
-                    var FINAL_CURSOR      = 75;
+                    var FINAL_CURSOR      = 99;
                     var HOLD_AFTER_LAST   = 2000; // final_cursor 이후 pop_02까지 대기
 
                     // 방사형 그래프 완성 후 1초 뒤 커서 + p04 노출

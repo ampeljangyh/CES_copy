@@ -211,7 +211,7 @@
                                     <div class="final_cursor">
                                         <div class="cursor_knob"></div>
                                         <div class="cursor_line"></div>
-                                        <div class="cursor_text"><span class="kr_t">적합</span><span class="en_t">Eligible</span></div>
+                                        <div class="cursor_text"><span class="kr_t">충족</span><span class="en_t">Eligible</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -2422,7 +2422,7 @@ function runAdjBoxSequence(){
 
             // ★ adj 애니 끝나는 시점: 커서 75% 이동 + p04 노출 + 라벨 변경
             setTimeout(function(){
-                var FINAL_CURSOR = 50;  // 요청: 75%까지 이동
+                var FINAL_CURSOR = 75;  // 요청: 75%까지 이동
 
                 if (adjCursor) {
                     moveAdjCursor(FINAL_CURSOR);
