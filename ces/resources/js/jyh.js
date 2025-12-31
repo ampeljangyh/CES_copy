@@ -210,7 +210,20 @@ $(function () {
   }
 
   // =========================================================
-  // ✅✅✅ search_complete 도넛 슬라이더
+  // ✅ toast 상태 체크 (dataset.active === "1" 이면 노출 중)
+  // =========================================================
+  function getToastBox() {
+    return document.querySelector('.toast_pop_box');
+  }
+  function isToastActive() {
+    const box = getToastBox();
+    return !!(box && box.dataset && box.dataset.active === '1');
+  }
+
+  // =========================================================
+  // ✅✅✅ search_complete 도넛 슬라이더 (클릭 씹힘 해결 버전)
+  // - pointerCapture: "드래그로 판정된 순간"에만 잡음
+  // - 드래그 후 발생하는 click은 캡처링으로 차단
   // =========================================================
   function initSearchCompleteDonutOnce() {
     if (document._scDonutInited) return true;
@@ -230,6 +243,13 @@ $(function () {
     let lastX = 0;
     let lastT = 0;
     let rafId = null;
+
+    // ✅ 클릭/드래그 분리
+    const DRAG_THRESHOLD = 6; // px
+    let startX = 0;
+    let startY = 0;
+    let moved = false;
+    let captured = false;
 
     list.style.position = 'relative';
     list.style.width = '100%';
@@ -312,14 +332,31 @@ $(function () {
       stopInertia();
       velocity = 0;
 
-      lastX = e.clientX;
+      startX = lastX = e.clientX;
+      startY = e.clientY;
       lastT = performance.now();
 
-      try { scene.setPointerCapture && scene.setPointerCapture(e.pointerId); } catch (err) {}
+      moved = false;
+      captured = false;
+      // ❌ 여기서 setPointerCapture 하지 않음(클릭 씹힘 원인)
     }
 
     function onMove(e) {
       if (!isDragging) return;
+
+      const dxAll = e.clientX - startX;
+      const dyAll = e.clientY - startY;
+
+      // ✅ 임계치 넘으면 "드래그"로 판정하고 그때만 capture
+      if (!captured && (Math.abs(dxAll) > DRAG_THRESHOLD || Math.abs(dyAll) > DRAG_THRESHOLD)) {
+        moved = true;
+        captured = true;
+        scene._scDonutSuppressClick = true; // 드래그 이후 click 차단용
+        try { scene.setPointerCapture && scene.setPointerCapture(e.pointerId); } catch (err) {}
+      }
+
+      // 드래그 확정 전에는 레이아웃 갱신 안 함(= 클릭 살림)
+      if (!captured) return;
 
       const now = performance.now();
       const dx = e.clientX - lastX;
@@ -338,6 +375,14 @@ $(function () {
     function onUp() {
       if (!isDragging) return;
       isDragging = false;
+
+      // ✅ 드래그가 아니면 suppressClick 해제(클릭 허용)
+      if (!moved) {
+        scene._scDonutSuppressClick = false;
+        return;
+      }
+
+      // 드래그였으면 관성
       if (Math.abs(velocity) > 0.02) startInertia();
     }
 
@@ -349,6 +394,14 @@ $(function () {
 
     if (!scene._scDonutBound) {
       scene._scDonutBound = true;
+
+      // ✅ 드래그 이후 발생하는 click(특히 anchor click)을 캡처링 단계에서 차단
+      scene.addEventListener('click', (e) => {
+        if (!scene._scDonutSuppressClick) return;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        scene._scDonutSuppressClick = false; // 다음 클릭은 정상
+      }, true);
 
       scene.addEventListener('pointerdown', onDown);
       window.addEventListener('pointermove', onMove);
@@ -492,17 +545,6 @@ $(function () {
 
   let currentLang = document.documentElement.classList.contains('lang-en') ? 'en_t' : 'kr_t';
 
-  // =========================================================
-  // ✅ toast 상태 체크 (dataset.active === "1" 이면 노출 중으로 판단)
-  // =========================================================
-  function getToastBox() {
-    return document.querySelector('.toast_pop_box');
-  }
-  function isToastActive() {
-    const box = getToastBox();
-    return !!(box && box.dataset && box.dataset.active === '1');
-  }
-
   window.setGateLang = function (lang) {
     const nextLang = (lang === 'en' || lang === 'en_t') ? 'en_t' : 'kr_t';
     if (nextLang === currentLang) return;
@@ -518,8 +560,6 @@ $(function () {
       document.querySelector('.new_gate_sec_01 .new_gate_01.step_01');
 
     if (activeStep) {
-      // ✅ 여기서 syncStepLangVideosOnce가 safePlay를 하므로,
-      //    toast 노출 + step_02 상태면 safePlay 차단하도록 아래 함수에서 처리
       syncStepLangVideosOnce(activeStep, prevLang, currentLang);
 
       const onCard = activeStep.querySelector('.gate_01_card_item.on');
@@ -731,6 +771,7 @@ $(function () {
 
         requestAnimationFrame(enforceStep2TitleTy02Lock);
 
+        // ✅ search_complete 노출 직후 도넛 적용(카드가 늦게 렌더돼도 재시도)
         ensureSearchCompleteDonut();
       });
     });
@@ -823,8 +864,10 @@ $(function () {
 
     keepNoBlendOff();
 
+    // toast 숨김 + no-blend off
     hideToastPop(0);
 
+    // search_complete 고정 노출
     const sc =
       document.querySelector('.gate_01 .search_complete') ||
       document.querySelector('.search_complete');
@@ -840,13 +883,16 @@ $(function () {
       sc.style.setProperty('z-index', '999', 'important');
     }
 
+    // ✅ 완료부팅에서도 도넛 적용
     ensureSearchCompleteDonut();
 
+    // 비디오 정지
     document.querySelectorAll('.new_gate_sec_01 .main_video video').forEach(v => {
       try { v.pause(); } catch (e) {}
     });
   }
 
+  // ✅ bfcache(back/forward) 복귀에서도 락 적용 + 도넛 재적용
   window.addEventListener('pageshow', (e) => {
     const flag = (sessionStorage.getItem(BOOT_KEY) === '1');
     const scActive = !!document.querySelector('.search_complete[data-active="1"]');
@@ -862,6 +908,7 @@ $(function () {
     }
   });
 
+  // ✅ 최초 로드 시 완료부팅이면: 애니 자체 실행 금지(return)
   if (FORCE_COMPLETE) {
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => bootGate01Complete(true), { once: true });
@@ -885,6 +932,7 @@ $(function () {
 
     installTy02ObserverOnce();
 
+    // ✅ 시작은 락 해제(토스트 뜨기 전엔 보이게)
     setStep2TitleTy02Lock(false);
 
     setupAllGateVideos();
@@ -895,8 +943,10 @@ $(function () {
 
     bindToastButtonToSearchComplete(step2);
 
+    // step_01 비디오 재생
     playStepVideosSmooth(step1);
 
+    // step_02 프라임
     setTimeout(() => {
       primeStepVideos(step2);
     }, Math.max(0, STEP_HOLD - STEP2_PRELOAD_BEFORE));
@@ -916,6 +966,7 @@ $(function () {
       runCardSequence(cards, idx);
     }
 
+    // step_01 끝 → step_02
     setTimeout(() => {
       enterStep(step2);
       leaveStep(step1);
@@ -959,6 +1010,7 @@ $(function () {
     const primary = (currentLang === 'en_t') ? en : kr;
     const second  = (currentLang === 'en_t') ? kr : en;
 
+    // ✅ step_01만 0.7
     const rate = step.classList.contains('step_01') ? 0.7 : 1;
     try { primary.playbackRate = rate; } catch (e) {}
     try { second.playbackRate  = rate; } catch (e) {}
@@ -982,7 +1034,7 @@ $(function () {
     });
   }
 
-  // ✅✅✅ [수정 핵심] toast 노출 중(step_02 on) 언어 변경 시, 영상 재생 금지
+  // ✅✅✅ toast 노출 중(step_02 on) 언어 변경 시, 영상 재생 금지
   function syncStepLangVideosOnce(step, fromLang, toLang) {
     const from = step.querySelector(`.main_video video.${fromLang}`);
     const to   = step.querySelector(`.main_video video.${toLang}`);
@@ -994,7 +1046,6 @@ $(function () {
       syncOneToAnother(to, from);
 
       if (blockPlay) {
-        // ✅ 토스트 노출 중엔 play() 호출 금지 + 혹시 모를 재생도 중지
         try { to.pause(); } catch (e) {}
         return;
       }
@@ -1019,8 +1070,17 @@ $(function () {
     return Math.min(t, Math.max(0, duration - 0.12));
   }
 
+  // ✅ 안전장치: 다른 경로에서 play()가 불려도 토스트+step_02면 차단
   function safePlay(v) {
     if (!v) return;
+
+    // toast 노출 + step_02 on + 해당 비디오가 그 안이면 재생 금지
+    const inStep2On = !!(v.closest && v.closest('.new_gate_01.step_02.on'));
+    if (inStep2On && isToastActive()) {
+      try { v.pause(); } catch (e) {}
+      return;
+    }
+
     const p = v.play && v.play();
     if (p && typeof p.catch === 'function') p.catch(() => {});
   }
@@ -1071,6 +1131,7 @@ $(function () {
     playStepVideosSmooth(el);
 
     if (el.classList.contains('step_02')) {
+      // ✅ step_02 진입 시에는 토스트 전이므로 락 해제
       setStep2TitleTy02Lock(false);
       hideToastPop(0);
 
@@ -1259,6 +1320,7 @@ $(function () {
     initGate01Sequence();
   }
 })();
+
 
 
 
