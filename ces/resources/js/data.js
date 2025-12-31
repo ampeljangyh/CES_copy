@@ -116,21 +116,21 @@ const COMPANY_DATA_KOR = {
         { key: "추가 투자금 유치", label: "4-7년차투자건수", detail: "0.3건", score: 100 },
         { key: "추가 투자금 유치", label: "4-7년차투자기사검색건수", detail: "1.5건", score: 100 },
         { key: "추가 투자금 유치", label: "4년차투자유치금액", detail: "90.0억 원", score: 100 },
-        { key: "추가 투자금 유치", label: "5년차VCTOP20투자유치금액", detail: "-억 원", score: 10 },
+        { key: "추가 투자금 유치", label: "5년차VCTOP20투자유치금액", detail: "0억 원", score: 10 },
 
         { key: "정부 출연금 확보", label: "4년차R&D금액", detail: "10.0억 원", score: 100 },
-        { key: "정부 출연금 확보", label: "4-7년차R&D수행건수", detail: "-건", score: 10 },
-        { key: "정부 출연금 확보", label: "4-7년차연구비카드사용건수", detail: "-건", score: 10 },
-        { key: "정부 출연금 확보", label: "5년차R&D금액", detail: "-억 원", score: 10 },
+        { key: "정부 출연금 확보", label: "4-7년차R&D수행건수", detail: "0건", score: 10 },
+        { key: "정부 출연금 확보", label: "4-7년차연구비카드사용건수", detail: "0건", score: 10 },
+        { key: "정부 출연금 확보", label: "5년차R&D금액", detail: "0억 원", score: 10 },
         { key: "정부 출연금 확보", label: "-", detail: "", score: 0 },
 
         { key: "브랜드 홍보 전략", label: "4-7년차브랜드지재권종류", detail: "0.5비율", score: 100 },
         { key: "브랜드 홍보 전략", label: "4-7년차상표권출원건수", detail: "0.8건", score: 100 },
         { key: "브랜드 홍보 전략", label: "4-7년차전체기사검색건수", detail: "8.0건", score: 100 },
-        { key: "브랜드 홍보 전략", label: "5년차상표권출원대비등록", detail: "-비율", score: 10 },
-        { key: "브랜드 홍보 전략", label: "4년차상표권출원대비등록", detail: "-비율", score: 10 },
+        { key: "브랜드 홍보 전략", label: "5년차상표권출원대비등록", detail: "0비율", score: 10 },
+        { key: "브랜드 홍보 전략", label: "4년차상표권출원대비등록", detail: "0비율", score: 10 },
 
-        { key: "다양한 제휴 체결", label: "4-7년차제휴기사검색건수", detail: "-건", score: 10 },
+        { key: "다양한 제휴 체결", label: "4-7년차제휴기사검색건수", detail: "0건", score: 10 },
         { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
         { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
         { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
@@ -152,13 +152,13 @@ const COMPANY_DATA_KOR = {
         { key: "우수한 인재 유치", label: "4년차퇴사대비입사율", detail: "0.8비율", score: 50 },
         { key: "우수한 인재 유치", label: "5년차퇴사대비입사율", detail: "2.0비율", score: 90 },
         { key: "우수한 인재 유치", label: "5년차임금", detail: "4.8백만 원", score: 100 },
-        { key: "우수한 인재 유치", label: "4-7년차고용관련인증종류현황", detail: "-건", score: 10 },
+        { key: "우수한 인재 유치", label: "4-7년차고용관련인증종류현황", detail: "0건", score: 10 },
 
         { key: "높은 기술 준비도", label: "4-7년차기술인증종류현황", detail: "1.0건", score: 90 },
         { key: "높은 기술 준비도", label: "4-7년차특허등록건수", detail: "0.5건", score: 100 },
         { key: "높은 기술 준비도", label: "4년차특허출원대비등록", detail: "0.5건", score: 100 },
         { key: "높은 기술 준비도", label: "4-7년차특허출원건수", detail: "0.3건", score: 100 },
-        { key: "높은 기술 준비도", label: "4-7년차연구소인증건수", detail: "-건", score: 10 }
+        { key: "높은 기술 준비도", label: "4-7년차연구소인증건수", detail: "0건", score: 10 }
       ]
     }
   },
@@ -298,11 +298,11 @@ const COMPANY_DATA_KOR = {
       ],
 
       barScores: [
-        { key: "추가 투자금 유치", label: "1-3년차투자기사검색건수", detail: "-건", score: 10 },
-        { key: "추가 투자금 유치", label: "3년차VCTOP20투자유치금액", detail: "-억 원", score: 10 },
-        { key: "추가 투자금 유치", label: "2년차VCTOP20투자유치금액", detail: "-억 원", score: 10 },
-        { key: "추가 투자금 유치", label: "2년차투자유치금액", detail: "-억 원", score: 10 },
-        { key: "추가 투자금 유치", label: "3년차투자유치금액", detail: "-억 원", score: 10 },
+        { key: "추가 투자금 유치", label: "1-3년차투자기사검색건수", detail: "0건", score: 10 },
+        { key: "추가 투자금 유치", label: "3년차VCTOP20투자유치금액", detail: "0억 원", score: 10 },
+        { key: "추가 투자금 유치", label: "2년차VCTOP20투자유치금액", detail: "0억 원", score: 10 },
+        { key: "추가 투자금 유치", label: "2년차투자유치금액", detail: "0억 원", score: 10 },
+        { key: "추가 투자금 유치", label: "3년차투자유치금액", detail: "0억 원", score: 10 },
 
         { key: "정부 출연금 확보", label: "1-3년차연구비카드사용건수", detail: "0.3건", score: 100 },
         { key: "정부 출연금 확보", label: "1-3년차최초연구비카드사용시점", detail: "13.0개월", score: 30 },
@@ -317,10 +317,10 @@ const COMPANY_DATA_KOR = {
         { key: "높은 기술 준비도", label: "3년차특허출원대비등록", detail: "1.0비율", score: 100 },
 
         { key: "브랜드 홍보 전략", label: "1-3년차전체기사검색건수", detail: "14.7건", score: 100 },
-        { key: "브랜드 홍보 전략", label: "2년차상표권출원대비등록", detail: "-비율", score: 10 },
-        { key: "브랜드 홍보 전략", label: "1-3년차상표권등록건수", detail: "-건", score: 10 },
-        { key: "브랜드 홍보 전략", label: "1-3년차상표권출원건수", detail: "-건", score: 10 },
-        { key: "브랜드 홍보 전략", label: "3년차상표권출원대비등록", detail: "-비율", score: 10 },
+        { key: "브랜드 홍보 전략", label: "2년차상표권출원대비등록", detail: "0비율", score: 10 },
+        { key: "브랜드 홍보 전략", label: "1-3년차상표권등록건수", detail: "0건", score: 10 },
+        { key: "브랜드 홍보 전략", label: "1-3년차상표권출원건수", detail: "0건", score: 10 },
+        { key: "브랜드 홍보 전략", label: "3년차상표권출원대비등록", detail: "0비율", score: 10 },
 
         { key: "외형 지표 가시화", label: "1-3년차성과제목기사검색건수", detail: "14.7건", score: 100 },
         { key: "외형 지표 가시화", label: "2년차자본", detail: "39.7억 원", score: 100 },
@@ -340,8 +340,8 @@ const COMPANY_DATA_KOR = {
         { key: "우수한 인재 유치", label: "2년차임금", detail: "5.2백만 원", score: 100 },
         { key: "우수한 인재 유치", label: "3년차임금", detail: "4.7백만 원", score: 100 },
 
-        { key: "사전적 영업 수행", label: "설립일이전허블데이터건수", detail: "-건", score: 10 },
-        { key: "사전적 영업 수행", label: "2년차매출", detail: "-억 원", score: 10 },
+        { key: "사전적 영업 수행", label: "설립일이전허블데이터건수", detail: "0건", score: 10 },
+        { key: "사전적 영업 수행", label: "2년차매출", detail: "0억 원", score: 10 },
         { key: "사전적 영업 수행", label: "-", detail: "", score: 0 },
         { key: "사전적 영업 수행", label: "-", detail: "", score: 0 },
         { key: "사전적 영업 수행", label: "-", detail: "", score: 0 }
@@ -504,23 +504,23 @@ const COMPANY_DATA_KOR = {
       ],
 
       barScores: [
-        { key: "추가 투자금 유치", label: "4-7년차투자단계", detail: "-단계", score: 10 },
-        { key: "추가 투자금 유치", label: "4-7년차투자건수", detail: "-건", score: 10 },
-        { key: "추가 투자금 유치", label: "5년차VCTOP20투자유치금액", detail: "-억 원", score: 10 },
-        { key: "추가 투자금 유치", label: "4-7년차VCTOP20투자건수", detail: "-건", score: 10 },
-        { key: "추가 투자금 유치", label: "5년차투자유치금액", detail: "-억 원", score: 10 },
+        { key: "추가 투자금 유치", label: "4-7년차투자단계", detail: "0단계", score: 10 },
+        { key: "추가 투자금 유치", label: "4-7년차투자건수", detail: "0건", score: 10 },
+        { key: "추가 투자금 유치", label: "5년차VCTOP20투자유치금액", detail: "0억 원", score: 10 },
+        { key: "추가 투자금 유치", label: "4-7년차VCTOP20투자건수", detail: "0건", score: 10 },
+        { key: "추가 투자금 유치", label: "5년차투자유치금액", detail: "0억 원", score: 10 },
 
         { key: "정부 출연금 확보", label: "4년차R&D금액", detail: "10.5억 원", score: 100 },
-        { key: "정부 출연금 확보", label: "4-7년차R&D수행건수", detail: "-건", score: 10 },
-        { key: "정부 출연금 확보", label: "4-7년차연구비카드사용건수", detail: "-건", score: 10 },
-        { key: "정부 출연금 확보", label: "5년차R&D금액", detail: "-억 원", score: 10 },
+        { key: "정부 출연금 확보", label: "4-7년차R&D수행건수", detail: "0건", score: 10 },
+        { key: "정부 출연금 확보", label: "4-7년차연구비카드사용건수", detail: "0건", score: 10 },
+        { key: "정부 출연금 확보", label: "5년차R&D금액", detail: "0억 원", score: 10 },
         { key: "정부 출연금 확보", label: "-", detail: "", score: 0 },
 
         { key: "브랜드 홍보 전략", label: "4-7년차브랜드지재권종류", detail: "0.5비율", score: 100 },
         { key: "브랜드 홍보 전략", label: "4-7년차전체기사검색건수", detail: "12.0건", score: 100 },
-        { key: "브랜드 홍보 전략", label: "5년차상표권출원대비등록", detail: "-비율", score: 10 },
-        { key: "브랜드 홍보 전략", label: "4-7년차상표권출원건수", detail: "-건", score: 10 },
-        { key: "브랜드 홍보 전략", label: "4년차상표권출원대비등록", detail: "-비율", score: 10 },
+        { key: "브랜드 홍보 전략", label: "5년차상표권출원대비등록", detail: "0비율", score: 10 },
+        { key: "브랜드 홍보 전략", label: "4-7년차상표권출원건수", detail: "0건", score: 10 },
+        { key: "브랜드 홍보 전략", label: "4년차상표권출원대비등록", detail: "0비율", score: 10 },
 
         { key: "다양한 제휴 체결", label: "4-7년차제휴기사검색건수", detail: "1.0건", score: 100 },
         { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
@@ -528,7 +528,7 @@ const COMPANY_DATA_KOR = {
         { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
         { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
 
-        { key: "외형 지표 가시화", label: "5년차고용인원증가율", detail: "-%", score: 40 },
+        { key: "외형 지표 가시화", label: "5년차고용인원증가율", detail: "0%", score: 40 },
         { key: "외형 지표 가시화", label: "4-7년차성과제목기사검색건수", detail: "12.0건", score: 100 },
         { key: "외형 지표 가시화", label: "-", detail: "", score: 0 },
         { key: "외형 지표 가시화", label: "-", detail: "", score: 0 },
@@ -544,7 +544,7 @@ const COMPANY_DATA_KOR = {
         { key: "우수한 인재 유치", label: "4년차퇴사대비입사율", detail: "1.4비율", score: 80 },
         { key: "우수한 인재 유치", label: "5년차퇴사대비입사율", detail: "0.7비율", score: 50 },
         { key: "우수한 인재 유치", label: "5년차임금", detail: "4.7백만 원", score: 100 },
-        { key: "우수한 인재 유치", label: "4-7년차고용관련인증종류현황", detail: "-건", score: 10 },
+        { key: "우수한 인재 유치", label: "4-7년차고용관련인증종류현황", detail: "0건", score: 10 },
 
         { key: "높은 기술 준비도", label: "4-7년차기술인증종류현황", detail: "1.0건", score: 90 },
         { key: "높은 기술 준비도", label: "4-7년차연구소인증건수", detail: "0.3건", score: 100 },
@@ -691,24 +691,24 @@ const COMPANY_DATA_KOR = {
 
       barScores: [
         { key: "추가 투자금 유치", label: "4-7년차투자기사검색건수", detail: "0.5건", score: 100 },
-        { key: "추가 투자금 유치", label: "4-7년차투자단계", detail: "-단계", score: 10 },
-        { key: "추가 투자금 유치", label: "4-7년차투자건수", detail: "-건", score: 10 },
-        { key: "추가 투자금 유치", label: "5년차VCTOP20투자유치금액", detail: "-억 원", score: 10 },
-        { key: "추가 투자금 유치", label: "4-7년차VCTOP20투자건수", detail: "-건", score: 10 },
+        { key: "추가 투자금 유치", label: "4-7년차투자단계", detail: "0단계", score: 10 },
+        { key: "추가 투자금 유치", label: "4-7년차투자건수", detail: "0건", score: 10 },
+        { key: "추가 투자금 유치", label: "5년차VCTOP20투자유치금액", detail: "0억 원", score: 10 },
+        { key: "추가 투자금 유치", label: "4-7년차VCTOP20투자건수", detail: "0건", score: 10 },
 
-        { key: "정부 출연금 확보", label: "4년차R&D금액", detail: "-억 원", score: 10 },
-        { key: "정부 출연금 확보", label: "4-7년차R&D수행건수", detail: "-건", score: 10 },
-        { key: "정부 출연금 확보", label: "4-7년차연구비카드사용건수", detail: "-건", score: 10 },
-        { key: "정부 출연금 확보", label: "5년차R&D금액", detail: "-억 원", score: 10 },
+        { key: "정부 출연금 확보", label: "4년차R&D금액", detail: "0억 원", score: 10 },
+        { key: "정부 출연금 확보", label: "4-7년차R&D수행건수", detail: "0건", score: 10 },
+        { key: "정부 출연금 확보", label: "4-7년차연구비카드사용건수", detail: "0건", score: 10 },
+        { key: "정부 출연금 확보", label: "5년차R&D금액", detail: "0억 원", score: 10 },
         { key: "정부 출연금 확보", label: "-", detail: "", score: 0 },
 
         { key: "브랜드 홍보 전략", label: "4-7년차전체기사검색건수", detail: "1.5건", score: 100 },
-        { key: "브랜드 홍보 전략", label: "4-7년차브랜드지재권종류", detail: "-비율", score: 10 },
-        { key: "브랜드 홍보 전략", label: "5년차상표권출원대비등록", detail: "-비율", score: 10 },
-        { key: "브랜드 홍보 전략", label: "4-7년차상표권출원건수", detail: "-건", score: 10 },
-        { key: "브랜드 홍보 전략", label: "4년차상표권출원대비등록", detail: "-비율", score: 10 },
+        { key: "브랜드 홍보 전략", label: "4-7년차브랜드지재권종류", detail: "0비율", score: 10 },
+        { key: "브랜드 홍보 전략", label: "5년차상표권출원대비등록", detail: "0비율", score: 10 },
+        { key: "브랜드 홍보 전략", label: "4-7년차상표권출원건수", detail: "0건", score: 10 },
+        { key: "브랜드 홍보 전략", label: "4년차상표권출원대비등록", detail: "0비율", score: 10 },
 
-        { key: "다양한 제휴 체결", label: "4-7년차제휴기사검색건수", detail: "-건", score: 10 },
+        { key: "다양한 제휴 체결", label: "4-7년차제휴기사검색건수", detail: "0건", score: 10 },
         { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
         { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
         { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
@@ -720,7 +720,7 @@ const COMPANY_DATA_KOR = {
         { key: "외형 지표 가시화", label: "-", detail: "", score: 0 },
         { key: "외형 지표 가시화", label: "-", detail: "", score: 0 },
 
-        { key: "해외 진출 활성화", label: "4-7년차해외진출기사검색건수", detail: "-건", score: 10 },
+        { key: "해외 진출 활성화", label: "4-7년차해외진출기사검색건수", detail: "0건", score: 10 },
         { key: "해외 진출 활성화", label: "-", detail: "", score: 0 },
         { key: "해외 진출 활성화", label: "-", detail: "", score: 0 },
         { key: "해외 진출 활성화", label: "-", detail: "", score: 0 },
@@ -730,13 +730,13 @@ const COMPANY_DATA_KOR = {
         { key: "우수한 인재 유치", label: "4년차퇴사대비입사율", detail: "0.8비율", score: 40 },
         { key: "우수한 인재 유치", label: "5년차퇴사대비입사율", detail: "3.2비율", score: 100 },
         { key: "우수한 인재 유치", label: "5년차임금", detail: "3.7백만 원", score: 80 },
-        { key: "우수한 인재 유치", label: "4-7년차고용관련인증종류현황", detail: "-건", score: 10 },
+        { key: "우수한 인재 유치", label: "4-7년차고용관련인증종류현황", detail: "0건", score: 10 },
 
         { key: "높은 기술 준비도", label: "4-7년차기술인증종류현황", detail: "1.0건", score: 90 },
         { key: "높은 기술 준비도", label: "4-7년차특허등록건수", detail: "0.5건", score: 100 },
         { key: "높은 기술 준비도", label: "4년차특허출원대비등록", detail: "0.7비율", score: 100 },
         { key: "높은 기술 준비도", label: "4-7년차특허출원건수", detail: "0.8건", score: 100 },
-        { key: "높은 기술 준비도", label: "4-7년차연구소인증건수", detail: "-건", score: 10 }
+        { key: "높은 기술 준비도", label: "4-7년차연구소인증건수", detail: "0건", score: 10 }
       ]
     }
   },
@@ -906,22 +906,22 @@ const COMPANY_DATA_KOR = {
         { key: "추가 투자금 유치", label: "4-7년차투자단계", detail: "0.3단계", score: 100 },
         { key: "추가 투자금 유치", label: "4-7년차투자건수", detail: "0.3건", score: 100 },
         { key: "추가 투자금 유치", label: "4-7년차투자기사검색건수", detail: "1.0건", score: 100 },
-        { key: "추가 투자금 유치", label: "5년차VCTOP20투자유치금액", detail: "-억 원", score: 10 },
-        { key: "추가 투자금 유치", label: "4-7년차VCTOP20투자건수", detail: "-건", score: 10 },
+        { key: "추가 투자금 유치", label: "5년차VCTOP20투자유치금액", detail: "0억 원", score: 10 },
+        { key: "추가 투자금 유치", label: "4-7년차VCTOP20투자건수", detail: "0건", score: 10 },
 
         { key: "정부 출연금 확보", label: "4년차R&D금액", detail: "0.7억 원", score: 100 },
         { key: "정부 출연금 확보", label: "4-7년차R&D수행건수", detail: "0.5건", score: 100 },
-        { key: "정부 출연금 확보", label: "4-7년차연구비카드사용건수", detail: "-건", score: 10 },
-        { key: "정부 출연금 확보", label: "5년차R&D금액", detail: "-억 원", score: 10 },
+        { key: "정부 출연금 확보", label: "4-7년차연구비카드사용건수", detail: "0건", score: 10 },
+        { key: "정부 출연금 확보", label: "5년차R&D금액", detail: "0억 원", score: 10 },
         { key: "정부 출연금 확보", label: "-", detail: "", score: 0 },
 
         { key: "브랜드 홍보 전략", label: "4-7년차전체기사검색건수", detail: "6.0건", score: 100 },
-        { key: "브랜드 홍보 전략", label: "4-7년차브랜드지재권종류", detail: "-비율", score: 10 },
-        { key: "브랜드 홍보 전략", label: "5년차상표권출원대비등록", detail: "-비율", score: 10 },
-        { key: "브랜드 홍보 전략", label: "4-7년차상표권출원건수", detail: "-건", score: 10 },
-        { key: "브랜드 홍보 전략", label: "4년차상표권출원대비등록", detail: "-비율", score: 10 },
+        { key: "브랜드 홍보 전략", label: "4-7년차브랜드지재권종류", detail: "0비율", score: 10 },
+        { key: "브랜드 홍보 전략", label: "5년차상표권출원대비등록", detail: "0비율", score: 10 },
+        { key: "브랜드 홍보 전략", label: "4-7년차상표권출원건수", detail: "0건", score: 10 },
+        { key: "브랜드 홍보 전략", label: "4년차상표권출원대비등록", detail: "0비율", score: 10 },
 
-        { key: "다양한 제휴 체결", label: "4-7년차제휴기사검색건수", detail: "-건", score: 10 },
+        { key: "다양한 제휴 체결", label: "4-7년차제휴기사검색건수", detail: "0건", score: 10 },
         { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
         { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
         { key: "다양한 제휴 체결", label: "-", detail: "", score: 0 },
@@ -945,11 +945,11 @@ const COMPANY_DATA_KOR = {
         { key: "우수한 인재 유치", label: "5년차퇴사대비입사율", detail: "1.8비율", score: 90 },
         { key: "우수한 인재 유치", label: "5년차임금", detail: "2.7백만 원", score: 30 },
 
-        { key: "높은 기술 준비도", label: "4-7년차기술인증종류현황", detail: "-건", score: 10 },
-        { key: "높은 기술 준비도", label: "4-7년차연구소인증건수", detail: "-건", score: 10 },
-        { key: "높은 기술 준비도", label: "4-7년차특허등록건수", detail: "-건", score: 10 },
-        { key: "높은 기술 준비도", label: "4년차특허출원대비등록", detail: "-비율", score: 10 },
-        { key: "높은 기술 준비도", label: "4-7년차특허출원건수", detail: "-건", score: 10 }
+        { key: "높은 기술 준비도", label: "4-7년차기술인증종류현황", detail: "0건", score: 10 },
+        { key: "높은 기술 준비도", label: "4-7년차연구소인증건수", detail: "0건", score: 10 },
+        { key: "높은 기술 준비도", label: "4-7년차특허등록건수", detail: "0건", score: 10 },
+        { key: "높은 기술 준비도", label: "4년차특허출원대비등록", detail: "0비율", score: 10 },
+        { key: "높은 기술 준비도", label: "4-7년차특허출원건수", detail: "0건", score: 10 }
       ]
     }
   },
@@ -1120,19 +1120,19 @@ const COMPANY_DATA_KOR = {
         { key: "추가 투자금 유치", label: "1-3년차투자유치개수", detail: "0.3건", score: 100 },
         { key: "추가 투자금 유치", label: "2년차자본잉여금", detail: "3.0억 원", score: 100 },
         { key: "추가 투자금 유치", label: "1-3년차투자기사검색건수", detail: "7.0건", score: 100 },
-        { key: "추가 투자금 유치", label: "1-3년차VCTOP20투자건수", detail: "-건", score: 10 },
+        { key: "추가 투자금 유치", label: "1-3년차VCTOP20투자건수", detail: "0건", score: 10 },
 
         { key: "정부 출연금 확보", label: "2년차R&D금액규모", detail: "0.6억 원", score: 100 },
         { key: "정부 출연금 확보", label: "1-3년차R&D수행건수", detail: "0.3건", score: 100 },
         { key: "정부 출연금 확보", label: "1-3년차최초R&D수행시점", detail: "18.0개월", score: 40 },
-        { key: "정부 출연금 확보", label: "3년차R&D금액규모", detail: "-억 원", score: 10 },
+        { key: "정부 출연금 확보", label: "3년차R&D금액규모", detail: "0억 원", score: 10 },
         { key: "정부 출연금 확보", label: "-", detail: "", score: 0 },
 
         { key: "외형 지표 가시화", label: "2년차자본규모", detail: "2.0억 원", score: 70 },
         { key: "외형 지표 가시화", label: "2년차자산규모", detail: "6.9억 원", score: 60 },
         { key: "외형 지표 가시화", label: "1-3년차고용인원", detail: "7.0명", score: 70 },
         { key: "외형 지표 가시화", label: "1-3년차성과기사제목검색건수", detail: "0.3건", score: 100 },
-        { key: "외형 지표 가시화", label: "3년차고용인원증가율", detail: "-%", score: 30 },
+        { key: "외형 지표 가시화", label: "3년차고용인원증가율", detail: "0%", score: 30 },
 
         { key: "높은 기술 준비도", label: "1-3년차특허출원건수규모", detail: "9.0건", score: 100 },
         { key: "높은 기술 준비도", label: "1-3년차특허등록건수규모", detail: "3.0건", score: 100 },
@@ -1140,8 +1140,8 @@ const COMPANY_DATA_KOR = {
         { key: "높은 기술 준비도", label: "1-3년차최초특허출원시점", detail: "6.0개월", score: 70 },
         { key: "높은 기술 준비도", label: "-", detail: "", score: 0 },
         
-        { key: "초격차 기술 개발", label: "1-3년차특허초격차키워드검색건수", detail: "-건", score: 10 },
-        { key: "초격차 기술 개발", label: "1-3년차R&D초격차키워드검색건수", detail: "-건", score: 10 },
+        { key: "초격차 기술 개발", label: "1-3년차특허초격차키워드검색건수", detail: "0건", score: 10 },
+        { key: "초격차 기술 개발", label: "1-3년차R&D초격차키워드검색건수", detail: "0건", score: 10 },
         { key: "초격차 기술 개발", label: "-", detail: "", score: 0 },
         { key: "초격차 기술 개발", label: "-", detail: "", score: 0 },
         { key: "초격차 기술 개발", label: "-", detail: "", score: 0 },
@@ -1149,11 +1149,11 @@ const COMPANY_DATA_KOR = {
         { key: "브랜드 홍보 전략", label: "1-3년차상표권출원건수", detail: "2.0건", score: 90 },
         { key: "브랜드 홍보 전략", label: "1-3년차브랜드지재권종류", detail: "1.0건", score: 100 },
         { key: "브랜드 홍보 전략", label: "1-3년차전체기사검색건수", detail: "20.7건", score: 100 },
-        { key: "브랜드 홍보 전략", label: "1-3년차디자인출원건수", detail: "-건", score: 10 },
+        { key: "브랜드 홍보 전략", label: "1-3년차디자인출원건수", detail: "0건", score: 10 },
         { key: "브랜드 홍보 전략", label: "-", detail: "", score: 0 },
 
-        { key: "신속한 매출 실현", label: "2년차매출규모", detail: "-억 원", score: 10 },
-        { key: "신속한 매출 실현", label: "1년차매출규모", detail: "-억 원", score: 10 },
+        { key: "신속한 매출 실현", label: "2년차매출규모", detail: "0억 원", score: 10 },
+        { key: "신속한 매출 실현", label: "1년차매출규모", detail: "0억 원", score: 10 },
         { key: "신속한 매출 실현", label: "-", detail: "", score: 0 },
         { key: "신속한 매출 실현", label: "-", detail: "", score: 0 },
         { key: "신속한 매출 실현", label: "-", detail: "", score: 0 },
@@ -1326,10 +1326,10 @@ const COMPANY_DATA_KOR = {
         { key: "추가 투자금 유치", label: "4-7년차투자단계", detail: "4.0단계", score: 100 },
         { key: "추가 투자금 유치", label: "4-7년차투자유치개수", detail: "1.0건", score: 100 },
         { key: "추가 투자금 유치", label: "4-7년차투자기사검색건수", detail: "51.0건", score: 100 },
-        { key: "추가 투자금 유치", label: "4-7년차VCTOP20투자건수", detail: "-건", score: 10 },
+        { key: "추가 투자금 유치", label: "4-7년차VCTOP20투자건수", detail: "0건", score: 10 },
 
-        { key: "정부 출연금 확보", label: "4-7년차R&D수행건수", detail: "-건", score: 10 },
-        { key: "정부 출연금 확보", label: "4년차R&D금액규모", detail: "-억 원", score: 10 },
+        { key: "정부 출연금 확보", label: "4-7년차R&D수행건수", detail: "0건", score: 10 },
+        { key: "정부 출연금 확보", label: "4년차R&D금액규모", detail: "0억 원", score: 10 },
         { key: "정부 출연금 확보", label: "-", detail: "", score: 0 },
         { key: "정부 출연금 확보", label: "-", detail: "", score: 0 },
         { key: "정부 출연금 확보", label: "-", detail: "", score: 0 },
@@ -1340,8 +1340,8 @@ const COMPANY_DATA_KOR = {
         { key: "외형 지표 가시화", label: "-", detail: "", score: 0 },
         { key: "외형 지표 가시화", label: "-", detail: "", score: 0 },
 
-        { key: "초격차 기술 개발", label: "4-7년차R&D초격차키워드검색건수", detail: "-건", score: 10 },
-        { key: "초격차 기술 개발", label: "4-7년차특허초격차키워드검색건수", detail: "-건", score: 10 },
+        { key: "초격차 기술 개발", label: "4-7년차R&D초격차키워드검색건수", detail: "0건", score: 10 },
+        { key: "초격차 기술 개발", label: "4-7년차특허초격차키워드검색건수", detail: "0건", score: 10 },
         { key: "초격차 기술 개발", label: "-", detail: "", score: 0 },
         { key: "초격차 기술 개발", label: "-", detail: "", score: 0 },
         { key: "초격차 기술 개발", label: "-", detail: "", score: 0 },
@@ -1349,10 +1349,10 @@ const COMPANY_DATA_KOR = {
         { key: "브랜드 홍보 전략", label: "4-7년차상표권출원건수", detail: "1.0건", score: 90 },
         { key: "브랜드 홍보 전략", label: "4-7년차전체기사검색건수", detail: "331.0건", score: 100 },
         { key: "브랜드 홍보 전략", label: "4-7년차브랜드관련지재권출원종류", detail: "2.0건", score: 100 },
-        { key: "브랜드 홍보 전략", label: "4-7년차디자인출원건수", detail: "-건", score: 10 },
+        { key: "브랜드 홍보 전략", label: "4-7년차디자인출원건수", detail: "0건", score: 10 },
         { key: "브랜드 홍보 전략", label: "-", detail: "", score: 0 },
 
-        { key: "높은 기술 준비도", label: "4-7년차특허출원건수규모", detail: "-건", score: 10 },
+        { key: "높은 기술 준비도", label: "4-7년차특허출원건수규모", detail: "0건", score: 10 },
         { key: "높은 기술 준비도", label: "-", detail: "", score: 0 },
         { key: "높은 기술 준비도", label: "-", detail: "", score: 0 },
         { key: "높은 기술 준비도", label: "-", detail: "", score: 0 },
