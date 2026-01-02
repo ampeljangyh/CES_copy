@@ -175,7 +175,7 @@ const BIZ_BAR_CONFIG_KOR = [
       { prop: "rndOrg", label: "연구개발조직" },
       { prop: "rndInvestment", label: "연구개발투자비율" },
       { prop: "techExpertise", label: "기술인력 전문성" },
-      { prop: "awards", label: "기술개발 및 수상(인증) 실적" },
+      { prop: "awards", label: "기술개발\n 및 수상(인증) 실적" },
       { prop: "ipStatus", label: "지식재산 보유현황" }
     ]
   },
@@ -193,7 +193,7 @@ const BIZ_BAR_CONFIG_KOR = [
     title: "수익 전망",
     fields: [
       { prop: "marketing", label: "마케팅 역량" },
-      { prop: "salesStability", label: "판매처의 다양성 및 안정성" },
+      { prop: "salesStability", label: "판매처의 다양성\n 및 안정성" },
       { prop: "revenueCreation", label: "수익창출 역량" }
     ]
   }
@@ -213,7 +213,7 @@ const BIZ_BAR_CONFIG_ENG = [
     key: "management",
     title: "Management Capability",
     fields: [
-      { prop: "techStaffManagement", label: "Technical Employees Management (Human Ressources)" },
+      { prop: "techStaffManagement", label: "Technical Employees Management\n (Human Ressources)" },
       { prop: "executiveExpertise", label: "Executive Expertise" },
       { prop: "capitalParticipation", label: "Executive Capital Participation" }
     ]

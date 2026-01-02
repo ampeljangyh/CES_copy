@@ -305,7 +305,7 @@ const COMPANY_DATA_KOR = {
         { key: "추가 투자금 유치", label: "3년차투자유치금액", detail: "0억 원", score: 10 },
 
         { key: "정부 출연금 확보", label: "1-3년차연구비카드사용건수", detail: "0.3건", score: 100 },
-        { key: "정부 출연금 확보", label: "1-3년차최초연구비카드사용시점", detail: "13.0개월", score: 30 },
+        { key: "정부 출연금 확보", label: "1-3년차최초연구비카드\n사용시점", detail: "13.0개월", score: 30 },
         { key: "정부 출연금 확보", label: "1-3년차최초R&D수행시점", detail: "13.0개월", score: 40 },
         { key: "정부 출연금 확보", label: "1-3년차R&D수행건수", detail: "0.3건", score: 100 },
         { key: "정부 출연금 확보", label: "2년차R&D금액", detail: "1.7억 원", score: 100 },
@@ -1348,7 +1348,7 @@ const COMPANY_DATA_KOR = {
 
         { key: "브랜드 홍보 전략", label: "4-7년차상표권출원건수", detail: "1.0건", score: 90 },
         { key: "브랜드 홍보 전략", label: "4-7년차전체기사검색건수", detail: "331.0건", score: 100 },
-        { key: "브랜드 홍보 전략", label: "4-7년차브랜드관련지재권출원종류", detail: "2.0건", score: 100 },
+        { key: "브랜드 홍보 전략", label: "4-7년차브랜드관련\n지재권출원종류", detail: "2.0건", score: 100 },
         { key: "브랜드 홍보 전략", label: "4-7년차디자인출원건수", detail: "0건", score: 10 },
         { key: "브랜드 홍보 전략", label: "-", detail: "", score: 0 },
 
@@ -1719,7 +1719,7 @@ Therefore, the product superiority is evaluated as average.`
 
         { key: "Government Grants", label: "Research Expense Cards (Y1–3)", detail: "0.3", score: 100 },
         { key: "Government Grants", label: "Initial Research Card Timing (Y1–3)", detail: "13.0", score: 30 },
-        { key: "Government Grants", label: "Initial R&D Timing (Y1–3)", detail: "13.0", score: 40 },
+        { key: "Government Grants", label: "Initial R&D Timing\n (Y1–3)", detail: "13.0", score: 40 },
         { key: "Government Grants", label: "R&D Projects (Y1–3)", detail: "0.3", score: 100 },
         { key: "Government Grants", label: "R&D Investment (Y2)", detail: "$0.1M", score: 100 },
 
@@ -2565,7 +2565,7 @@ However, in consideration of the unique characteristics of a startup, the produc
 
         { key: "Government Grants", label: "R&D Investment (Y2)", detail: "$40.82K", score: 100 },
         { key: "Government Grants", label: "R&D Projects (Y1–3)", detail: "0.3", score: 100 },
-        { key: "Government Grants", label: "Initial R&D Timing (Y1–3)", detail: "18.0", score: 40 },
+        { key: "Government Grants", label: "Initial R&D Timing\n (Y1–3)", detail: "18.0", score: 40 },
         { key: "Government Grants", label: "R&D Investment (Y3)", detail: "$0M", score: 10 },
         { key: "Government Grants", label: "-", detail: "", score: 0 },
 
@@ -2588,7 +2588,7 @@ However, in consideration of the unique characteristics of a startup, the produc
         { key: "Breakthrough Tech", label: "-", detail: "", score: 0 },
 
         { key: "Brand Promotion", label: "Trademark Applications (Y1–3)", detail: "2.0", score: 90 },
-        { key: "Brand Promotion", label: "Brand IP Types (Y1–3)", detail: "1.0", score: 100 },
+        { key: "Brand Promotion", label: "Brand IP Types\n (Y1–3)", detail: "1.0", score: 100 },
         { key: "Brand Promotion", label: "Patent Registrations (Y1–3)", detail: "20.7", score: 100 },
         { key: "Brand Promotion", label: "Design Applications (Y1–3)", detail: "0", score: 10 },
         { key: "Brand Promotion", label: "-", detail: "", score: 0 },
@@ -2789,7 +2789,7 @@ However, in consideration of the unique characteristics of a startup, the produc
 
         { key: "Brand Promotion", label: "Trademark Applications (Y4-7)", detail: "1.0", score: 90 },
         { key: "Brand Promotion", label: "Total News Articles (Y4–7)", detail: "331.0", score: 100 },
-        { key: "Brand Promotion", label: "Brand IP Types (Y4–7)", detail: "2.0", score: 100 },
+        { key: "Brand Promotion", label: "Brand IP Types\n (Y4–7)", detail: "2.0", score: 100 },
         { key: "Brand Promotion", label: "Design Applications (Y4–7)", detail: "0", score: 10 },
         { key: "Brand Promotion", label: "-", detail: "", score: 0 },
 
