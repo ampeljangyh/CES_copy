@@ -1926,6 +1926,7 @@ body.kcon-pop-lock{position:fixed;width:100%;overflow:hidden;}
 .tech_process_item_tit {color: #FFF;font-size: 0.936vw;font-weight: 700;letter-spacing: -0.0187vw;text-align: center;}
 .tech_process_item .step_examine_list [class^="step_examine_"] .step_num {position: relative;display: flex;width: 1.69vw;height: 1.69vw;flex-direction: column;justify-content: center;align-items: center;color: #0071FE;font-size: 0.65vw;font-weight: 700;line-height: normal;border-radius: 1.755vw;background: #FFF;box-sizing: border-box;}
 .tech_process_item .step_examine_list [class^="step_examine_"] .step_num + span {font-size: 0.8333vw;margin-top: 0.962vw;display: inline-block;color: #FFF;text-align: center;font-weight: 400;line-height: normal;letter-spacing: -0.1vw;}
+#lang_en .tech_process_item .step_examine_list [class^="step_examine_"] .step_num + span {letter-spacing: -0.02vw;}
 .tech_process_item .step_examine_list > ul {display: flex;gap: 3.056vw;justify-content: center;position: relative;}
 .tech_process_item .step_examine_list > ul > li {flex: initial;}
 .tech_process_item .step_examine_list > ul > li::before {display: none;}
