@@ -1914,8 +1914,8 @@ body.kcon-pop-lock{position:fixed;width:100%;overflow:hidden;}
 .tech_process_tit .tit {color: #FFF;font-size: 1.872vw;font-weight: 700;letter-spacing: -0.0374vw;}
 .tech_process_tit .sub {color: #FFF;font-size: 1.04vw;font-weight: 300;letter-spacing: -0.0208vw;margin-top: 0.65vw;}
 .tech_process_tit .sub_02 {color: #FFF;font-size: 0.832vw;font-weight: 300;letter-spacing: -0.0166vw;opacity: 0.47;margin-top: 0.65vw;}
-.tech_process_box {margin: 3.354vw auto 0;width: 65.294vw;height: 31.484vw;border-radius: 0.7813vw;border: 0.130vw solid transparent;box-shadow: 0 0 0.520vw 0.117vw rgba(217, 229, 254, 0.10), 0 0 1.3884vw 0 rgba(217, 229, 254, 0.10), 0 0 1.443vw 0 rgba(217, 229, 254, 0.10), 0 0 0.6266vw 0 rgba(217, 229, 254, 0.10), 0 0 0.3458vw 0 rgba(217, 229, 254, 0.10), 0 0 1.1934vw 0 rgba(217, 229, 254, 0.10);background-image: linear-gradient(#2A3755, #2A3755), linear-gradient(90deg, #D9E5FE, #2f86ff);background-origin: border-box;background-clip: padding-box, border-box;padding: 1.612vw 2.938vw 2.21vw;box-sizing: border-box;position: relative;}
-#lang_en .tech_process_box {margin: 2vw auto 0; height: 36.3vw;}
+.tech_process_box {margin: 3.354vw auto 0;width: 65.294vw;height: 31.484vw;border-radius: 0.7813vw;border: 0.130vw solid transparent;box-shadow: 0 0 0.520vw 0.117vw rgba(217, 229, 254, 0.10), 0 0 1.3884vw 0 rgba(217, 229, 254, 0.10), 0 0 1.443vw 0 rgba(217, 229, 254, 0.10), 0 0 0.6266vw 0 rgba(217, 229, 254, 0.10), 0 0 0.3458vw 0 rgba(217, 229, 254, 0.10), 0 0 1.1934vw 0 rgba(217, 229, 254, 0.10);background-image: linear-gradient(#2A3755, #2A3755), linear-gradient(90deg, #D9E5FE, #2f86ff);background-origin: border-box;background-clip: padding-box, border-box;padding: 1.612vw 2.938vw 1.21vw;box-sizing: border-box;position: relative;}
+#lang_en .tech_process_box {margin: 1.5vw auto 0; height: 35.3vw;}
 .tech_process_item {position: relative;}
 .tech_process_item .shiny_step.dot_cs {position: absolute;top: 0;right: 0;}
 .tech_process_item .shiny_step.dot_cs > ul::before {display: none;}
@@ -1926,6 +1926,7 @@ body.kcon-pop-lock{position:fixed;width:100%;overflow:hidden;}
 .tech_process_item_tit {color: #FFF;font-size: 0.936vw;font-weight: 700;letter-spacing: -0.0187vw;text-align: center;}
 .tech_process_item .step_examine_list [class^="step_examine_"] .step_num {position: relative;display: flex;width: 1.69vw;height: 1.69vw;flex-direction: column;justify-content: center;align-items: center;color: #0071FE;font-size: 0.65vw;font-weight: 700;line-height: normal;border-radius: 1.755vw;background: #FFF;box-sizing: border-box;}
 .tech_process_item .step_examine_list [class^="step_examine_"] .step_num + span {font-size: 0.8333vw;margin-top: 0.962vw;display: inline-block;color: #FFF;text-align: center;font-weight: 400;line-height: normal;letter-spacing: -0.1vw;}
+#lang_en .tech_process_item .step_examine_list [class^="step_examine_"] .step_num + span {letter-spacing: -0.02vw;}
 .tech_process_item .step_examine_list > ul {display: flex;gap: 3.056vw;justify-content: center;position: relative;}
 .tech_process_item .step_examine_list > ul > li {flex: initial;}
 .tech_process_item .step_examine_list > ul > li::before {display: none;}
