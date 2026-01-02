@@ -603,7 +603,7 @@ function getFinanceViewData(company, lang, mode) {
 
 
   // 단위 라벨은 data.js에 없으니, 필요하면 company별/언어별로 추가 정의하거나 공통 문자열로 고정
-  const unitLabel = langKey === 'kr' ? '(단위:억 원)' : '(USD, Million)';
+  const unitLabel = langKey === 'kr' ? '(단위:백만 원)' : '(USD, Million)';
 
   return { years, labels, chartValuesByYear, tableRows, unitLabel };
 }
