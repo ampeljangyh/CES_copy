@@ -1804,6 +1804,31 @@
 
 
 <script>
+// ---------------------------------------------
+// 3840x2160 디자인 기준 반응형 스케일 헬퍼
+// (Chart.js 옵션은 vw 문자열 불가 → px "숫자"로 환산해서 넣어야 함)
+// ---------------------------------------------
+const DESIGN_W = 3840;
+const DESIGN_H = 2160;
+
+function _uiScale() {
+    const scaleW = window.innerWidth / DESIGN_W;
+    const scaleH = window.innerHeight / DESIGN_H;
+    // 16:9가 아닌 화면에서도 과확대 방지
+    return Math.min(scaleW, scaleH);
+}
+
+// px -> scaled number
+function R(px, minPx = 0, maxPx = 99999) {
+    const v = px * _uiScale();
+    return Math.max(minPx, Math.min(maxPx, v));
+}
+
+// 정수형이 필요한 옵션용
+function RI(px, minPx = 0, maxPx = 99999) {
+    return Math.round(R(px, minPx, maxPx));
+}
+
 let renderedReports = {};
 let renderedTabs = {};
 let guideTransitionTimer = null;
@@ -2057,7 +2082,7 @@ function renderReportTab(reportNo, tabNo) {
                     gradientStart: "#387D82",
                     gradientEnd: "#27575A"
                 });
-                
+
                 drawEsgRadarChart('report1-tab2-chart2', 's', getLanguageCode(), {
                     theme: {
                         dataset: {
@@ -2162,7 +2187,7 @@ function drawGradeChart(
 
             ctx.save();
             ctx.fillStyle = "#ffffff";
-            ctx.font = "32px Pretendard";
+            ctx.font = `${RI(32, 14, 32)}px Pretendard`;
             ctx.textAlign = "center";
             ctx.textBaseline = "alphabetic";
 
@@ -2172,7 +2197,7 @@ function drawGradeChart(
                 const value = values[index];
                 if (value == null) return;
 
-                ctx.fillText(value + "%", bar.x, bar.y - 28);
+                ctx.fillText(value + "%", bar.x, bar.y - RI(28, 10, 28));
             });
             ctx.restore();
         }
@@ -2191,11 +2216,8 @@ function drawGradeChart(
                 let spec = null;
 
                 if (index === effectiveHighlightIndex) {
-                    if (useGradientHighlight) {
-                        spec = [gradientStart, gradientEnd];
-                    } else {
-                        return;
-                    }
+                    if (useGradientHighlight) spec = [gradientStart, gradientEnd];
+                    else return;
                 } else {
                     spec = greyGradientSpec;
                 }
@@ -2243,8 +2265,8 @@ function drawGradeChart(
                     border: { display: false },
                     ticks: {
                         color: "#ffffff",
-                        font: { size: 32, weight: "700", family: "Pretendard" },
-                        padding: 32
+                        font: { size: RI(32, 14, 32), weight: "700", family: "Pretendard" },
+                        padding: RI(32, 10, 32)
                     }
                 }
             }
@@ -2376,7 +2398,7 @@ function drawEsTrendChart(canvasId, lang = getLanguageCode()) {
                     data: totalValues,
                     backgroundColor: barColor,
                     borderRadius: 0,
-                    barThickness: 120,
+                    barThickness: RI(120, 40, 120),
                     order: 2
                 },
                 ...Object.keys(lineValues).map((key) => ({
@@ -2387,10 +2409,10 @@ function drawEsTrendChart(canvasId, lang = getLanguageCode()) {
                     borderColor: lineColors[key],
                     backgroundColor: lineColors[key],
                     tension: 0,
-                    borderWidth: 8,
-                    pointRadius: 8,
-                    pointHoverRadius: 8,
-                    pointBorderWidth: 3,
+                    borderWidth: RI(8, 2, 8),
+                    pointRadius: RI(8, 3, 8),
+                    pointHoverRadius: RI(8, 3, 8),
+                    pointBorderWidth: RI(3, 1, 3),
                     pointBackgroundColor: "#192642",
                     pointBorderColor: lineColors[key],
                     order: 1
@@ -2410,12 +2432,12 @@ function drawEsTrendChart(canvasId, lang = getLanguageCode()) {
                     onClick: null,
                     labels: {
                         color: "#ffffff",
-                        font: { size: 32, family: "Pretendard" },
+                        font: { size: RI(32, 14, 32), family: "Pretendard" },
                         usePointStyle: true,
                         pointStyle: "circle",
-                        boxWidth: 60,
-                        boxHeight: 60,
-                        padding: 40,
+                        boxWidth: RI(60, 22, 60),
+                        boxHeight: RI(60, 22, 60),
+                        padding: RI(40, 14, 40),
                         generateLabels(chart) {
                             const original = Chart.defaults.plugins.legend.labels.generateLabels(chart);
                             const lc = chart.$legendColors || {};
@@ -2435,8 +2457,8 @@ function drawEsTrendChart(canvasId, lang = getLanguageCode()) {
                 x: {
                     ticks: {
                         color: "#ffffff",
-                        font: { size: 32, family: "Pretendard" },
-                        padding: 12
+                        font: { size: RI(32, 14, 32), family: "Pretendard" },
+                        padding: RI(12, 6, 12)
                     },
                     grid: { display: false, drawBorder: false },
                     border: { display: false }
@@ -2447,13 +2469,13 @@ function drawEsTrendChart(canvasId, lang = getLanguageCode()) {
                     ticks: {
                         color: "#ffffff",
                         stepSize: 10,
-                        font: { size: 32, family: "Pretendard" },
-                        padding: 12
+                        font: { size: RI(32, 14, 32), family: "Pretendard" },
+                        padding: RI(12, 6, 12)
                     },
                     grid: {
                         display: true,
                         color: "rgba(255,255,255,0.15)",
-                        lineWidth: 1,
+                        lineWidth: RI(1, 1, 2),
                         drawBorder: false
                     },
                     border: { display: false }
@@ -2464,7 +2486,6 @@ function drawEsTrendChart(canvasId, lang = getLanguageCode()) {
     });
 
     chart.$legendColors = legendColors;
-
     return chart;
 }
 
@@ -2528,22 +2549,22 @@ function drawEsgRadarChart(canvasId, type, lang = getLanguageCode(), userOptions
     const T = I18N[lang] || I18N.lang_en;
 
     // ------------------------------------------------------------
-    // Theme (차트 테마: dataset + scale 스타일)
+    // Theme (반응형 스케일 적용)
     // ------------------------------------------------------------
     const defaultTheme = {
         dataset: {
             company: {
                 borderColor: "#4091B9",
-                borderWidth: 8,
+                borderWidth: RI(8, 2, 8),
                 backgroundColor: "rgba(64,145,185,0.3)",
-                pointRadius: 12,
+                pointRadius: RI(12, 4, 12),
                 pointBackgroundColor: "#4091B9",
                 pointBorderColor: "#4091B9",
                 pointBorderWidth: 0
             },
             industry: {
                 borderColor: "#EBEBEB",
-                borderWidth: 2,
+                borderWidth: RI(2, 1, 2),
                 backgroundColor: "rgba(235,235,235,0.3)",
                 pointRadius: 0,
                 pointHoverRadius: 0
@@ -2552,11 +2573,11 @@ function drawEsgRadarChart(canvasId, type, lang = getLanguageCode(), userOptions
         scale: {
             gridColor: "rgba(255,255,255,0.14)",
             angleLineColor: "rgba(255,255,255,0.2)",
-            angleLineWidth: 1,
+            angleLineWidth: RI(1, 1, 2),
             labelColor: "#FFFFFF",
-            labelFontSize: 32,
+            labelFontSize: RI(32, 14, 32),
             labelFontFamily: "Pretendard",
-            labelPadding: 20
+            labelPadding: RI(20, 8, 20)
         }
     };
 
@@ -2569,13 +2590,10 @@ function drawEsgRadarChart(canvasId, type, lang = getLanguageCode(), userOptions
     };
 
     // ------------------------------------------------------------
-    // Legend Options (범례 버튼: background + text만 커스텀)
+    // Legend Options
     // ------------------------------------------------------------
     const legendOpt = {
-        // 기본: 클릭 비활성(토글 금지)
         enableToggle: Boolean(userOptions?.legend?.enableToggle),
-
-        // 버튼 스타일: background + text(color)만 허용
         button: {
             company: {
                 text: userOptions?.legend?.button?.company?.text || "#FFFFFF",
@@ -2607,7 +2625,6 @@ function drawEsgRadarChart(canvasId, type, lang = getLanguageCode(), userOptions
         const v = companyValues[idx];
         if (!isFinite(v) || v <= 0) return 0;
 
-        // 동종 평균 0 ~ 30 빼기
         const diff = Math.random() * 30;
         const val = v - diff;
         return val < 0 ? 0 : parseFloat(val.toFixed(1));
@@ -2638,11 +2655,7 @@ function drawEsgRadarChart(canvasId, type, lang = getLanguageCode(), userOptions
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-                // 기본 범례가 켜지더라도 클릭 토글이 발생하지 않게 차단
-                legend: {
-                    display: false,
-                    onClick: () => {}
-                },
+                legend: { display: false, onClick: () => {} },
                 tooltip: { enabled: false }
             },
             scales: {
@@ -2662,13 +2675,10 @@ function drawEsgRadarChart(canvasId, type, lang = getLanguageCode(), userOptions
         }
     });
 
-    // 언어 업데이트에 재사용할 데이터만 저장(언어 변경용)
     chart.$i18n = { details };
 
     // ------------------------------------------------------------
     // Custom legend buttons (.btnCompany / .btnIndustry)
-    // - default: click disabled
-    // - style: background + text only
     // ------------------------------------------------------------
     const chartRoot = canvas.closest(".chart4");
     if (chartRoot) {
@@ -2681,10 +2691,9 @@ function drawEsgRadarChart(canvasId, type, lang = getLanguageCode(), userOptions
         const makeStatic = (el) => {
             const clone = el.cloneNode(true);
             el.parentNode.replaceChild(clone, el);
-
             clone.classList.add("is-static");
             clone.setAttribute("aria-disabled", "true");
-            clone.style.pointerEvents = "none"; // 클릭 완전 차단
+            clone.style.pointerEvents = "none";
             return clone;
         };
 
@@ -2701,12 +2710,10 @@ function drawEsgRadarChart(canvasId, type, lang = getLanguageCode(), userOptions
             applyBtnStyle(btnIndustry, legendOpt.button.industry);
         }
 
-        // 기본: 둘 다 항상 표시
         chart.data.datasets[0].hidden = false;
         chart.data.datasets[1].hidden = false;
         chart.update("none");
 
-        // enableToggle=true일 때만 토글 동작 부여(선택)
         if (legendOpt.enableToggle) {
             if (btnCompany) {
                 btnCompany.classList.add("active");
@@ -2716,7 +2723,6 @@ function drawEsgRadarChart(canvasId, type, lang = getLanguageCode(), userOptions
                     chart.update("none");
                 };
             }
-
             if (btnIndustry) {
                 btnIndustry.classList.add("active");
                 btnIndustry.onclick = () => {
@@ -2731,7 +2737,6 @@ function drawEsgRadarChart(canvasId, type, lang = getLanguageCode(), userOptions
         }
     }
 
-    // 언어 변경 이벤트 바인딩(중복 방지: namespace off/on)
     if (window.jQuery) {
         const ns = `app:langchange.esgRadar.${canvasId}`;
         $(document).off(ns).on(ns, function (e, payload) {
@@ -2822,31 +2827,14 @@ function updateQuadrantScatterChartLanguage(canvasId, lang = getLanguageCode(), 
 function drawQuadrantScatterChart(
     canvasId,
     points = [
-        // ----------------------------
-        // 단기 (좌상단: x < 50, y >= 50)
-        // ----------------------------
         { x: 30, y: 85, label: "6",  type: "G" },
-        // { x: 42, y: 58, label: "10", type: "S" },
-        // { x: 40, y: 65, label: "11", type: "S" },
-
-        // ----------------------------
-        // Quick Win (우상단: x >= 50, y >= 50)
-        // ----------------------------
         { x: 80, y: 85, label: "1", type: "E" },
         { x: 75, y: 90, label: "2", type: "S" },
         { x: 78, y: 88, label: "3", type: "S" },
         { x: 70, y: 82, label: "4", type: "E" },
         { x: 62, y: 80, label: "5", type: "G" },
-        // { x: 60, y: 78, label: "5", type: "E" },
-        // { x: 72, y: 70, label: "7", type: "E" },
-        // { x: 68, y: 88, label: "8", type: "S" },
-
-        // ----------------------------
-        // 중장기 (우하단: x >= 50, y < 50)
-        // ----------------------------
         { x: 90, y: 44, label: "7", type: "E" },
         { x: 78, y: 40, label: "8", type: "S" }
-        // { x: 60, y: 42, label: "14", type: "E" }
     ],
     lang = getLanguageCode()
 ) {
@@ -2872,11 +2860,11 @@ function drawQuadrantScatterChart(
     };
     const T = I18N[lang] || I18N.lang_en;
 
-    const getPadding = (lc) => ({
-        left: 80,
-        right: 80,
-        top: 50,
-        bottom: 170
+    const getPadding = () => ({
+        left: RI(80, 24, 80),
+        right: RI(80, 24, 80),
+        top: RI(50, 18, 50),
+        bottom: RI(170, 60, 170)
     });
 
     const canvas = document.getElementById(canvasId);
@@ -2901,7 +2889,7 @@ function drawQuadrantScatterChart(
             const { ctx } = chart;
 
             ctx.save();
-            ctx.font = "32px Pretendard";
+            ctx.font = `${RI(32, 14, 32)}px Pretendard`;
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
             ctx.fillStyle = "#FFFFFF";
@@ -2946,7 +2934,7 @@ function drawQuadrantScatterChart(
             ctx.fillRect(midX, midY, chartArea.right - midX, chartArea.bottom - midY);
 
             ctx.strokeStyle = "#66ADFF";
-            ctx.lineWidth = 3;
+            ctx.lineWidth = RI(3, 1, 3);
 
             ctx.beginPath();
             ctx.moveTo(midX, chartArea.top);
@@ -2971,18 +2959,18 @@ function drawQuadrantScatterChart(
             const t = chart.$t || T;
             const currentLang = chart.$lang || lang;
 
-            const x = chartArea.left - 50;
+            const x = chartArea.left - RI(50, 18, 50);
             const midY = (chartArea.top + chartArea.bottom) / 2;
 
             ctx.save();
             ctx.fillStyle = "#FFFFFF";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
-            ctx.font = "40px Pretendard";
+            ctx.font = `${RI(40, 16, 40)}px Pretendard`;
 
             if (currentLang === "lang_kr") {
                 const text = t.yLabel || "";
-                const lineH = 45;
+                const lineH = RI(45, 18, 45);
                 const startY = midY - ((text.length - 1) * lineH) / 2;
 
                 [...text].forEach((ch, i) => {
@@ -3005,7 +2993,6 @@ function drawQuadrantScatterChart(
             if (!chartArea) return;
 
             const t = chart.$t || T;
-            const currentLang = chart.$lang || lang;
 
             const items = [
                 { label: t.legend.E, color: COLORS.E },
@@ -3015,22 +3002,21 @@ function drawQuadrantScatterChart(
 
             ctx.save();
 
-            const fontSize = 40;
+            const fontSize = RI(40, 16, 40);
             ctx.font = `${fontSize}px Pretendard`;
             ctx.textAlign = "left";
             ctx.textBaseline = "middle";
 
-            const dotR = 16;
-            const gap = 18;
+            const dotR = RI(16, 6, 16);
+            const gap = RI(18, 8, 18);
 
             const dotYOffset = 0;
-            const textYOffset = 2;
+            const textYOffset = RI(2, 0, 2);
 
-            const rowY = chartArea.bottom + 140;
+            const rowY = chartArea.bottom + RI(140, 60, 140);
 
-            // 각 아이템의 너비 측정 (dot + gap + text)
             const widths = items.map((it) => (dotR * 2) + gap + ctx.measureText(it.label).width);
-            const itemGap = 60;
+            const itemGap = RI(60, 20, 60);
             const totalW = widths.reduce((a, b) => a + b, 0) + itemGap * (items.length - 1);
 
             const areaW = chartArea.right - chartArea.left;
@@ -3043,7 +3029,6 @@ function drawQuadrantScatterChart(
                 const yDot = rowY + dotYOffset;
                 const yText = rowY + textYOffset;
 
-                // dot 중심
                 const dotCx = x + dotR;
 
                 ctx.fillStyle = item.color;
@@ -3077,7 +3062,7 @@ function drawQuadrantScatterChart(
             const BR = { x: (midX + chartArea.right) / 2, y: (midY + chartArea.bottom) / 2 };
 
             ctx.save();
-            ctx.font = "72px Pretendard";
+            ctx.font = `${RI(72, 24, 72)}px Pretendard`;
             ctx.fillStyle = "rgba(255,255,255,0.6)";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
@@ -3097,12 +3082,12 @@ function drawQuadrantScatterChart(
                 {
                     label: "분포도",
                     data: points,
-                    pointRadius: 28,
+                    pointRadius: RI(28, 10, 28),
                     pointHoverRadius: 0,
                     hoverRadius: 0,
                     backgroundColor: (p) => COLORS[p.raw.type],
                     borderColor: (p) => COLORS[p.raw.type],
-                    borderWidth: 4
+                    borderWidth: RI(4, 1, 4)
                 }
             ]
         },
@@ -3115,7 +3100,7 @@ function drawQuadrantScatterChart(
             animations: { colors: false, numbers: false },
             transitions: { active: { animation: { duration: 0 } } },
 
-            layout: { padding: getPadding(lang) },
+            layout: { padding: getPadding() },
 
             plugins: {
                 tooltip: { enabled: false },
@@ -3132,8 +3117,8 @@ function drawQuadrantScatterChart(
                         display: true,
                         text: T.xTitle,
                         color: "#FFFFFF",
-                        font: { size: 40, family: "Pretendard" },
-                        padding: 30
+                        font: { size: RI(40, 16, 40), family: "Pretendard" },
+                        padding: RI(30, 12, 30)
                     }
                 },
                 y: {

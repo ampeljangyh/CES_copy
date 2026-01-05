@@ -385,6 +385,24 @@
 
 
 <script>
+const DESIGN_W = 3840;
+const DESIGN_H = 2160;
+
+function _uiScale() {
+    const scaleW = window.innerWidth / DESIGN_W;
+    const scaleH = window.innerHeight / DESIGN_H;
+    return Math.min(scaleW, scaleH);
+}
+
+function R(px, minPx = 0, maxPx = 99999) {
+    const v = px * _uiScale();
+    return Math.max(minPx, Math.min(maxPx, v));
+}
+
+function RI(px, minPx = 0, maxPx = 99999) {
+    return Math.round(R(px, minPx, maxPx));
+}
+
 // ------------------------------------------------------------
 // gate0305 모듈: 상태 + Swiper + 메시지 박스 제어
 // ------------------------------------------------------------
@@ -422,7 +440,7 @@ const gate0305 = {
             preventClicks: false,
             preventClicksPropagation: false,
             slidesPerView: 4,
-            spaceBetween: 60,
+            spaceBetween: RI(60), // 기존 60 -> 반응형
 
             on: {
                 slideChangeTransitionStart: () => {
@@ -433,14 +451,8 @@ const gate0305 = {
                 },
 
                 slideChangeTransitionEnd: (swiper) => {
-                    // 실제 activeIndex 기반 스타일(원하면)
-                    // this.applySelectedSlide(swiper.activeIndex);
-
-                    // 현재 로직은 "클릭한 인덱스"를 기준으로 메시지를 맞추는 구조라서
-                    // activeMsgIndex(=사용자 선택 인덱스)를 기준으로 스타일 주는 게 일관됩니다.
                     const idx = (this.activeMsgIndex >= 0) ? this.activeMsgIndex : swiper.activeIndex;
                     this.applySelectedSlide(idx);
-
                     this.updateArrowAndMsg(idx);
                 },
 
@@ -448,7 +460,6 @@ const gate0305 = {
                     const clickedIndex = swiper.clickedIndex;
                     if (clickedIndex === undefined || clickedIndex === null) return;
 
-                    // 선택 스타일은 즉시 반영
                     this.activeMsgIndex = clickedIndex;
                     this.applySelectedSlide(clickedIndex);
 
@@ -476,15 +487,16 @@ const gate0305 = {
 
         // msgBox가 display:none이면 최초 진입용 세팅
         if (getComputedStyle(this.msgBox).display === 'none') {
-            gsap.set(this.msgBox, { display: 'block', opacity: 0, y: 50 });
+            gsap.set(this.msgBox, { display: 'block', opacity: 0, y: RI(50) }); // 기존 50 -> 반응형
         }
 
         const boxRect = this.msgBox.getBoundingClientRect();
         const slideRect = targetSlide.getBoundingClientRect();
         const slideCenterX = slideRect.left + (slideRect.width / 2);
 
-        // 화살표 위치 (고정값 25px 오프셋 유지)
-        const arrowX = slideCenterX - boxRect.left - 25;
+        // 화살표 위치 (고정값 25px 오프셋 -> 반응형)
+        const arrowOffset = RI(25);
+        const arrowX = slideCenterX - boxRect.left - arrowOffset;
 
         // 메시지 교체
         let targetMsg = null;
@@ -493,24 +505,17 @@ const gate0305 = {
                 m.style.display = 'none';
                 m.style.opacity = '0';
                 const idx = m.getAttribute('data-slideIndex');
-                if (idx !== null && Number(idx) === slideIndex) {
-                    targetMsg = m;
-                }
+                if (idx !== null && Number(idx) === slideIndex) targetMsg = m;
             });
         }
 
-        if (targetMsg) {
-            targetMsg.style.display = 'block';
-        }
+        if (targetMsg) targetMsg.style.display = 'block';
 
         // 최초 등장
         if (!this.isBoxVisible) {
-            if (this.arrow) {
-                gsap.set(this.arrow, { x: arrowX, opacity: 1 });
-            }
-            if (targetMsg) {
-                gsap.set(targetMsg, { opacity: 1 });
-            }
+            if (this.arrow) gsap.set(this.arrow, { x: arrowX, opacity: 1 });
+            if (targetMsg) gsap.set(targetMsg, { opacity: 1 });
+
             gsap.to(this.msgBox, {
                 y: 0,
                 opacity: 1,
@@ -521,25 +526,24 @@ const gate0305 = {
             gsap.fromTo(this.btns, {
                 display: '',
                 autoAlpha: 0,
-                y:4
+                y: RI(4) // 기존 4 -> 반응형
             },{
                 autoAlpha: 1,
                 y: 0,
                 duration: 1,
                 ease: "power2.out"
             });
+
             this.isBoxVisible = true;
         } else {
-            // 이미 떠 있는 상태에서 위치/텍스트만 업데이트
             if (this.arrow) {
                 gsap.set(this.arrow, { x: arrowX });
                 gsap.to(this.arrow, { opacity: 1, duration: 0.3 });
             }
-            if (targetMsg) {
-                gsap.to(targetMsg, { opacity: 1, duration: 0.4 });
-            }
+            if (targetMsg) gsap.to(targetMsg, { opacity: 1, duration: 0.4 });
         }
     }
+
 };
 
 // ------------------------------------------------------------
@@ -733,10 +737,11 @@ function runStepTransition(prevTl) {
     let tl = prevTl || gsap.timeline();
 
     tl.to({}, { duration: 2 });
+
     tl
         // STEP1 사라짐
         .to('.step1', {
-            y: -20,
+            y: -RI(20),                // -20px -> 반응형
             opacity: 0,
             duration: 0.8,
             ease: "power3.out",
@@ -744,7 +749,7 @@ function runStepTransition(prevTl) {
                 gsap.set('.step1', { display: 'none' });
                 gsap.set('.step2', {
                     display: '',
-                    y: 20,
+                    y: RI(20),          // 20px -> 반응형
                     opacity: 0
                 });
 
@@ -752,12 +757,12 @@ function runStepTransition(prevTl) {
                     display: 'block'
                 });
 
-                gsap.set('.pro_slide', { y: 20, opacity: 0 });
+                gsap.set('.pro_slide', { y: RI(20), opacity: 0 }); // 20px -> 반응형
             }
         })
 
         .to('.esg_cont.step06 .esg_cont_inner', {
-            paddingTop: 120,
+            paddingTop: RI(120),       // 120px -> 반응형
             duration: 1.4,
             ease: "power3.out"
         })
@@ -771,7 +776,7 @@ function runStepTransition(prevTl) {
         }, '<')
 
         .to('.flex_cont', {
-            paddingLeft: 762,
+            paddingLeft: RI(762),      // 762px -> 반응형
             ease: "power3.out",
             duration: 1
         })
@@ -788,17 +793,14 @@ function runStepTransition(prevTl) {
             duration: 0.8,
             ease: "power2.in",
             onComplete: () => {
-                // (선택) 처음 진입 시 상태 리셋이 필요하면
                 gate0305.isBoxVisible = false;
                 gate0305.activeMsgIndex = -1;
 
                 if (gate0305.swiper) {
-                    // 0번으로 고정 + 레이아웃 재계산
                     gate0305.swiper.slideTo(0, 0, false);
                     gate0305.swiper.update();
                 }
 
-                // 레이아웃/Swiper 반영 후 0번 메시지 출력
                 requestAnimationFrame(() => {
                     requestAnimationFrame(() => {
                         gate0305.applySelectedSlide(0);
